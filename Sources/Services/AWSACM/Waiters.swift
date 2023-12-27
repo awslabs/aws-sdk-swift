@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension ACMClientProtocol {
 
-    static func certificateValidatedWaiterConfig() throws -> WaiterConfiguration<DescribeCertificateInput, DescribeCertificateOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeCertificateInput, DescribeCertificateOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeCertificateInput, result: Result<DescribeCertificateOutputResponse, Error>) -> Bool in
+    static func certificateValidatedWaiterConfig() throws -> WaiterConfiguration<DescribeCertificateInput, DescribeCertificateOutput> {
+        let acceptors: [WaiterConfiguration<DescribeCertificateInput, DescribeCertificateOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeCertificateInput, result: Result<DescribeCertificateOutput, Error>) -> Bool in
                 // JMESPath expression: "Certificate.DomainValidationOptions[].ValidationStatus"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "SUCCESS"
@@ -19,7 +19,7 @@ extension ACMClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "SUCCESS") } ?? false)
             }),
-            .init(state: .retry, matcher: { (input: DescribeCertificateInput, result: Result<DescribeCertificateOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeCertificateInput, result: Result<DescribeCertificateOutput, Error>) -> Bool in
                 // JMESPath expression: "Certificate.DomainValidationOptions[].ValidationStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "PENDING_VALIDATION"
@@ -32,7 +32,7 @@ extension ACMClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "PENDING_VALIDATION") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeCertificateInput, result: Result<DescribeCertificateOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeCertificateInput, result: Result<DescribeCertificateOutput, Error>) -> Bool in
                 // JMESPath expression: "Certificate.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "FAILED"
@@ -41,12 +41,12 @@ extension ACMClientProtocol {
                 let status = certificate?.status
                 return JMESUtils.compare(status, ==, "FAILED")
             }),
-            .init(state: .failure, matcher: { (input: DescribeCertificateInput, result: Result<DescribeCertificateOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeCertificateInput, result: Result<DescribeCertificateOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
-        return try WaiterConfiguration<DescribeCertificateInput, DescribeCertificateOutputResponse>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeCertificateInput, DescribeCertificateOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the CertificateValidated event on the describeCertificate operation.
@@ -60,7 +60,7 @@ extension ACMClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilCertificateValidated(options: WaiterOptions, input: DescribeCertificateInput) async throws -> WaiterOutcome<DescribeCertificateOutputResponse> {
+    public func waitUntilCertificateValidated(options: WaiterOptions, input: DescribeCertificateInput) async throws -> WaiterOutcome<DescribeCertificateOutput> {
         let waiter = Waiter(config: try Self.certificateValidatedWaiterConfig(), operation: self.describeCertificate(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

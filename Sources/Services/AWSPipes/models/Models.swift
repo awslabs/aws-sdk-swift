@@ -121,14 +121,14 @@ extension PipesClientTypes.BatchArrayProperties: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if size != 0 {
+        if let size = self.size {
             try encodeContainer.encode(size, forKey: .size)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size) ?? 0
+        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size)
         size = sizeDecoded
     }
 }
@@ -137,10 +137,10 @@ extension PipesClientTypes {
     /// The array properties for the submitted job, such as the size of the array. The array size can be between 2 and 10,000. If you specify array properties for a job, it becomes an array job. This parameter is used only if the target is an Batch job.
     public struct BatchArrayProperties: Swift.Equatable {
         /// The size of the array, if this is an array batch job.
-        public var size: Swift.Int
+        public var size: Swift.Int?
 
         public init(
-            size: Swift.Int = 0
+            size: Swift.Int? = nil
         )
         {
             self.size = size
@@ -461,14 +461,14 @@ extension PipesClientTypes.BatchRetryStrategy: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if attempts != 0 {
+        if let attempts = self.attempts {
             try encodeContainer.encode(attempts, forKey: .attempts)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let attemptsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .attempts) ?? 0
+        let attemptsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .attempts)
         attempts = attemptsDecoded
     }
 }
@@ -477,10 +477,10 @@ extension PipesClientTypes {
     /// The retry strategy that's associated with a job. For more information, see [ Automated job retries](https://docs.aws.amazon.com/batch/latest/userguide/job_retries.html) in the Batch User Guide.
     public struct BatchRetryStrategy: Swift.Equatable {
         /// The number of times to move a job to the RUNNABLE status. If the value of attempts is greater than one, the job is retried on failure the same number of attempts as the value.
-        public var attempts: Swift.Int
+        public var attempts: Swift.Int?
 
         public init(
-            attempts: Swift.Int = 0
+            attempts: Swift.Int? = nil
         )
         {
             self.attempts = attempts
@@ -545,6 +545,77 @@ extension PipesClientTypes {
             self.base = base
             self.capacityProvider = capacityProvider
             self.weight = weight
+        }
+    }
+
+}
+
+extension PipesClientTypes.CloudwatchLogsLogDestination: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case logGroupArn = "LogGroupArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let logGroupArn = self.logGroupArn {
+            try encodeContainer.encode(logGroupArn, forKey: .logGroupArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let logGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupArn)
+        logGroupArn = logGroupArnDecoded
+    }
+}
+
+extension PipesClientTypes {
+    /// The Amazon CloudWatch Logs logging configuration settings for the pipe.
+    public struct CloudwatchLogsLogDestination: Swift.Equatable {
+        /// The Amazon Web Services Resource Name (ARN) for the CloudWatch log group to which EventBridge sends the log records.
+        public var logGroupArn: Swift.String?
+
+        public init(
+            logGroupArn: Swift.String? = nil
+        )
+        {
+            self.logGroupArn = logGroupArn
+        }
+    }
+
+}
+
+extension PipesClientTypes.CloudwatchLogsLogDestinationParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case logGroupArn = "LogGroupArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let logGroupArn = self.logGroupArn {
+            try encodeContainer.encode(logGroupArn, forKey: .logGroupArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let logGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupArn)
+        logGroupArn = logGroupArnDecoded
+    }
+}
+
+extension PipesClientTypes {
+    /// The Amazon CloudWatch Logs logging configuration settings for the pipe.
+    public struct CloudwatchLogsLogDestinationParameters: Swift.Equatable {
+        /// The Amazon Web Services Resource Name (ARN) for the CloudWatch log group to which EventBridge sends the log records.
+        /// This member is required.
+        public var logGroupArn: Swift.String?
+
+        public init(
+            logGroupArn: Swift.String? = nil
+        )
+        {
+            self.logGroupArn = logGroupArn
         }
     }
 
@@ -630,7 +701,7 @@ extension ConflictExceptionBody: Swift.Decodable {
 
 extension CreatePipeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreatePipeInput(desiredState: \(Swift.String(describing: desiredState)), enrichment: \(Swift.String(describing: enrichment)), enrichmentParameters: \(Swift.String(describing: enrichmentParameters)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), source: \(Swift.String(describing: source)), sourceParameters: \(Swift.String(describing: sourceParameters)), tags: \(Swift.String(describing: tags)), target: \(Swift.String(describing: target)), targetParameters: \(Swift.String(describing: targetParameters)), description: \"CONTENT_REDACTED\")"}
+        "CreatePipeInput(desiredState: \(Swift.String(describing: desiredState)), enrichment: \(Swift.String(describing: enrichment)), enrichmentParameters: \(Swift.String(describing: enrichmentParameters)), logConfiguration: \(Swift.String(describing: logConfiguration)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), source: \(Swift.String(describing: source)), sourceParameters: \(Swift.String(describing: sourceParameters)), tags: \(Swift.String(describing: tags)), target: \(Swift.String(describing: target)), targetParameters: \(Swift.String(describing: targetParameters)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension CreatePipeInput: Swift.Encodable {
@@ -639,6 +710,7 @@ extension CreatePipeInput: Swift.Encodable {
         case desiredState = "DesiredState"
         case enrichment = "Enrichment"
         case enrichmentParameters = "EnrichmentParameters"
+        case logConfiguration = "LogConfiguration"
         case roleArn = "RoleArn"
         case source = "Source"
         case sourceParameters = "SourceParameters"
@@ -660,6 +732,9 @@ extension CreatePipeInput: Swift.Encodable {
         }
         if let enrichmentParameters = self.enrichmentParameters {
             try encodeContainer.encode(enrichmentParameters, forKey: .enrichmentParameters)
+        }
+        if let logConfiguration = self.logConfiguration {
+            try encodeContainer.encode(logConfiguration, forKey: .logConfiguration)
         }
         if let roleArn = self.roleArn {
             try encodeContainer.encode(roleArn, forKey: .roleArn)
@@ -703,6 +778,8 @@ public struct CreatePipeInput: Swift.Equatable {
     public var enrichment: Swift.String?
     /// The parameters required to set up enrichment on your pipe.
     public var enrichmentParameters: PipesClientTypes.PipeEnrichmentParameters?
+    /// The logging configuration settings for the pipe.
+    public var logConfiguration: PipesClientTypes.PipeLogConfigurationParameters?
     /// The name of the pipe.
     /// This member is required.
     public var name: Swift.String?
@@ -719,7 +796,7 @@ public struct CreatePipeInput: Swift.Equatable {
     /// The ARN of the target resource.
     /// This member is required.
     public var target: Swift.String?
-    /// The parameters required to set up a target for your pipe.
+    /// The parameters required to set up a target for your pipe. For more information about pipe target parameters, including how to use dynamic path parameters, see [Target parameters](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-event-target.html) in the Amazon EventBridge User Guide.
     public var targetParameters: PipesClientTypes.PipeTargetParameters?
 
     public init(
@@ -727,6 +804,7 @@ public struct CreatePipeInput: Swift.Equatable {
         desiredState: PipesClientTypes.RequestedPipeState? = nil,
         enrichment: Swift.String? = nil,
         enrichmentParameters: PipesClientTypes.PipeEnrichmentParameters? = nil,
+        logConfiguration: PipesClientTypes.PipeLogConfigurationParameters? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         source: Swift.String? = nil,
@@ -740,6 +818,7 @@ public struct CreatePipeInput: Swift.Equatable {
         self.desiredState = desiredState
         self.enrichment = enrichment
         self.enrichmentParameters = enrichmentParameters
+        self.logConfiguration = logConfiguration
         self.name = name
         self.roleArn = roleArn
         self.source = source
@@ -761,6 +840,7 @@ struct CreatePipeInputBody: Swift.Equatable {
     let targetParameters: PipesClientTypes.PipeTargetParameters?
     let roleArn: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let logConfiguration: PipesClientTypes.PipeLogConfigurationParameters?
 }
 
 extension CreatePipeInputBody: Swift.Decodable {
@@ -769,6 +849,7 @@ extension CreatePipeInputBody: Swift.Decodable {
         case desiredState = "DesiredState"
         case enrichment = "Enrichment"
         case enrichmentParameters = "EnrichmentParameters"
+        case logConfiguration = "LogConfiguration"
         case roleArn = "RoleArn"
         case source = "Source"
         case sourceParameters = "SourceParameters"
@@ -808,30 +889,16 @@ extension CreatePipeInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let logConfigurationDecoded = try containerValues.decodeIfPresent(PipesClientTypes.PipeLogConfigurationParameters.self, forKey: .logConfiguration)
+        logConfiguration = logConfigurationDecoded
     }
 }
 
-public enum CreatePipeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreatePipeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreatePipeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreatePipeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreatePipeOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.currentState = output.currentState
@@ -849,7 +916,7 @@ extension CreatePipeOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePipeOutputResponse: Swift.Equatable {
+public struct CreatePipeOutput: Swift.Equatable {
     /// The ARN of the pipe.
     public var arn: Swift.String?
     /// The time the pipe was created.
@@ -881,7 +948,7 @@ public struct CreatePipeOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreatePipeOutputResponseBody: Swift.Equatable {
+struct CreatePipeOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let desiredState: PipesClientTypes.RequestedPipeState?
@@ -890,7 +957,7 @@ struct CreatePipeOutputResponseBody: Swift.Equatable {
     let lastModifiedTime: ClientRuntime.Date?
 }
 
-extension CreatePipeOutputResponseBody: Swift.Decodable {
+extension CreatePipeOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case creationTime = "CreationTime"
@@ -917,6 +984,22 @@ extension CreatePipeOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum CreatePipeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension PipesClientTypes.DeadLetterConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
@@ -939,7 +1022,7 @@ extension PipesClientTypes.DeadLetterConfig: Swift.Codable {
 extension PipesClientTypes {
     /// A DeadLetterConfig object that contains information about a dead-letter queue configuration.
     public struct DeadLetterConfig: Swift.Equatable {
-        /// The ARN of the Amazon SQS queue specified as the target for the dead-letter queue.
+        /// The ARN of the specified target for the dead-letter queue. For Amazon Kinesis stream and Amazon DynamoDB stream sources, specify either an Amazon SNS topic or Amazon SQS queue ARN.
         public var arn: Swift.String?
 
         public init(
@@ -983,26 +1066,11 @@ extension DeletePipeInputBody: Swift.Decodable {
     }
 }
 
-public enum DeletePipeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeletePipeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeletePipeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeletePipeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeletePipeOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.currentState = output.currentState
@@ -1020,7 +1088,7 @@ extension DeletePipeOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePipeOutputResponse: Swift.Equatable {
+public struct DeletePipeOutput: Swift.Equatable {
     /// The ARN of the pipe.
     public var arn: Swift.String?
     /// The time the pipe was created.
@@ -1052,7 +1120,7 @@ public struct DeletePipeOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeletePipeOutputResponseBody: Swift.Equatable {
+struct DeletePipeOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let desiredState: PipesClientTypes.RequestedPipeStateDescribeResponse?
@@ -1061,7 +1129,7 @@ struct DeletePipeOutputResponseBody: Swift.Equatable {
     let lastModifiedTime: ClientRuntime.Date?
 }
 
-extension DeletePipeOutputResponseBody: Swift.Decodable {
+extension DeletePipeOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case creationTime = "CreationTime"
@@ -1085,6 +1153,21 @@ extension DeletePipeOutputResponseBody: Swift.Decodable {
         creationTime = creationTimeDecoded
         let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
         lastModifiedTime = lastModifiedTimeDecoded
+    }
+}
+
+enum DeletePipeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1119,30 +1202,16 @@ extension DescribePipeInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribePipeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribePipeOutputResponse: Swift.CustomDebugStringConvertible {
+extension DescribePipeOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DescribePipeOutputResponse(arn: \(Swift.String(describing: arn)), creationTime: \(Swift.String(describing: creationTime)), currentState: \(Swift.String(describing: currentState)), desiredState: \(Swift.String(describing: desiredState)), enrichment: \(Swift.String(describing: enrichment)), enrichmentParameters: \(Swift.String(describing: enrichmentParameters)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), source: \(Swift.String(describing: source)), sourceParameters: \(Swift.String(describing: sourceParameters)), stateReason: \(Swift.String(describing: stateReason)), tags: \(Swift.String(describing: tags)), target: \(Swift.String(describing: target)), targetParameters: \(Swift.String(describing: targetParameters)), description: \"CONTENT_REDACTED\")"}
+        "DescribePipeOutput(arn: \(Swift.String(describing: arn)), creationTime: \(Swift.String(describing: creationTime)), currentState: \(Swift.String(describing: currentState)), desiredState: \(Swift.String(describing: desiredState)), enrichment: \(Swift.String(describing: enrichment)), enrichmentParameters: \(Swift.String(describing: enrichmentParameters)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), logConfiguration: \(Swift.String(describing: logConfiguration)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), source: \(Swift.String(describing: source)), sourceParameters: \(Swift.String(describing: sourceParameters)), stateReason: \(Swift.String(describing: stateReason)), tags: \(Swift.String(describing: tags)), target: \(Swift.String(describing: target)), targetParameters: \(Swift.String(describing: targetParameters)), description: \"CONTENT_REDACTED\")"}
 }
 
-extension DescribePipeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribePipeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribePipeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribePipeOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.currentState = output.currentState
@@ -1151,6 +1220,7 @@ extension DescribePipeOutputResponse: ClientRuntime.HttpResponseBinding {
             self.enrichment = output.enrichment
             self.enrichmentParameters = output.enrichmentParameters
             self.lastModifiedTime = output.lastModifiedTime
+            self.logConfiguration = output.logConfiguration
             self.name = output.name
             self.roleArn = output.roleArn
             self.source = output.source
@@ -1168,6 +1238,7 @@ extension DescribePipeOutputResponse: ClientRuntime.HttpResponseBinding {
             self.enrichment = nil
             self.enrichmentParameters = nil
             self.lastModifiedTime = nil
+            self.logConfiguration = nil
             self.name = nil
             self.roleArn = nil
             self.source = nil
@@ -1180,7 +1251,7 @@ extension DescribePipeOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePipeOutputResponse: Swift.Equatable {
+public struct DescribePipeOutput: Swift.Equatable {
     /// The ARN of the pipe.
     public var arn: Swift.String?
     /// The time the pipe was created.
@@ -1197,6 +1268,8 @@ public struct DescribePipeOutputResponse: Swift.Equatable {
     public var enrichmentParameters: PipesClientTypes.PipeEnrichmentParameters?
     /// When the pipe was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
     public var lastModifiedTime: ClientRuntime.Date?
+    /// The logging configuration settings for the pipe.
+    public var logConfiguration: PipesClientTypes.PipeLogConfiguration?
     /// The name of the pipe.
     public var name: Swift.String?
     /// The ARN of the role that allows the pipe to send data to the target.
@@ -1211,7 +1284,7 @@ public struct DescribePipeOutputResponse: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
     /// The ARN of the target resource.
     public var target: Swift.String?
-    /// The parameters required to set up a target for your pipe.
+    /// The parameters required to set up a target for your pipe. For more information about pipe target parameters, including how to use dynamic path parameters, see [Target parameters](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-event-target.html) in the Amazon EventBridge User Guide.
     public var targetParameters: PipesClientTypes.PipeTargetParameters?
 
     public init(
@@ -1223,6 +1296,7 @@ public struct DescribePipeOutputResponse: Swift.Equatable {
         enrichment: Swift.String? = nil,
         enrichmentParameters: PipesClientTypes.PipeEnrichmentParameters? = nil,
         lastModifiedTime: ClientRuntime.Date? = nil,
+        logConfiguration: PipesClientTypes.PipeLogConfiguration? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         source: Swift.String? = nil,
@@ -1241,6 +1315,7 @@ public struct DescribePipeOutputResponse: Swift.Equatable {
         self.enrichment = enrichment
         self.enrichmentParameters = enrichmentParameters
         self.lastModifiedTime = lastModifiedTime
+        self.logConfiguration = logConfiguration
         self.name = name
         self.roleArn = roleArn
         self.source = source
@@ -1252,7 +1327,7 @@ public struct DescribePipeOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribePipeOutputResponseBody: Swift.Equatable {
+struct DescribePipeOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -1269,9 +1344,10 @@ struct DescribePipeOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let creationTime: ClientRuntime.Date?
     let lastModifiedTime: ClientRuntime.Date?
+    let logConfiguration: PipesClientTypes.PipeLogConfiguration?
 }
 
-extension DescribePipeOutputResponseBody: Swift.Decodable {
+extension DescribePipeOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case creationTime = "CreationTime"
@@ -1281,6 +1357,7 @@ extension DescribePipeOutputResponseBody: Swift.Decodable {
         case enrichment = "Enrichment"
         case enrichmentParameters = "EnrichmentParameters"
         case lastModifiedTime = "LastModifiedTime"
+        case logConfiguration = "LogConfiguration"
         case name = "Name"
         case roleArn = "RoleArn"
         case source = "Source"
@@ -1334,6 +1411,22 @@ extension DescribePipeOutputResponseBody: Swift.Decodable {
         creationTime = creationTimeDecoded
         let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
         lastModifiedTime = lastModifiedTimeDecoded
+        let logConfigurationDecoded = try containerValues.decodeIfPresent(PipesClientTypes.PipeLogConfiguration.self, forKey: .logConfiguration)
+        logConfiguration = logConfigurationDecoded
+    }
+}
+
+enum DescribePipeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1654,14 +1747,14 @@ extension PipesClientTypes.EcsEphemeralStorage: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if sizeInGiB != 0 {
+        if let sizeInGiB = self.sizeInGiB {
             try encodeContainer.encode(sizeInGiB, forKey: .sizeInGiB)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sizeInGiBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sizeInGiB) ?? 0
+        let sizeInGiBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sizeInGiB)
         sizeInGiB = sizeInGiBDecoded
     }
 }
@@ -1671,10 +1764,10 @@ extension PipesClientTypes {
     public struct EcsEphemeralStorage: Swift.Equatable {
         /// The total amount, in GiB, of ephemeral storage to set for the task. The minimum supported value is 21 GiB and the maximum supported value is 200 GiB.
         /// This member is required.
-        public var sizeInGiB: Swift.Int
+        public var sizeInGiB: Swift.Int?
 
         public init(
-            sizeInGiB: Swift.Int = 0
+            sizeInGiB: Swift.Int? = nil
         )
         {
             self.sizeInGiB = sizeInGiB
@@ -2002,7 +2095,7 @@ extension PipesClientTypes.FilterCriteria: Swift.Codable {
 }
 
 extension PipesClientTypes {
-    /// The collection of event patterns used to filter events. For more information, see [Events and Event Patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html) in the Amazon EventBridge User Guide.
+    /// The collection of event patterns used to filter events. To remove a filter, specify a FilterCriteria object with an empty array of Filter objects. For more information, see [Events and Event Patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html) in the Amazon EventBridge User Guide.
     public struct FilterCriteria: Swift.Equatable {
         /// The event patterns.
         public var filters: [PipesClientTypes.Filter]?
@@ -2015,6 +2108,106 @@ extension PipesClientTypes {
         }
     }
 
+}
+
+extension PipesClientTypes.FirehoseLogDestination: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deliveryStreamArn = "DeliveryStreamArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deliveryStreamArn = self.deliveryStreamArn {
+            try encodeContainer.encode(deliveryStreamArn, forKey: .deliveryStreamArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deliveryStreamArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryStreamArn)
+        deliveryStreamArn = deliveryStreamArnDecoded
+    }
+}
+
+extension PipesClientTypes {
+    /// The Amazon Kinesis Data Firehose logging configuration settings for the pipe.
+    public struct FirehoseLogDestination: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the Kinesis Data Firehose delivery stream to which EventBridge delivers the pipe log records.
+        public var deliveryStreamArn: Swift.String?
+
+        public init(
+            deliveryStreamArn: Swift.String? = nil
+        )
+        {
+            self.deliveryStreamArn = deliveryStreamArn
+        }
+    }
+
+}
+
+extension PipesClientTypes.FirehoseLogDestinationParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deliveryStreamArn = "DeliveryStreamArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deliveryStreamArn = self.deliveryStreamArn {
+            try encodeContainer.encode(deliveryStreamArn, forKey: .deliveryStreamArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deliveryStreamArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryStreamArn)
+        deliveryStreamArn = deliveryStreamArnDecoded
+    }
+}
+
+extension PipesClientTypes {
+    /// The Amazon Kinesis Data Firehose logging configuration settings for the pipe.
+    public struct FirehoseLogDestinationParameters: Swift.Equatable {
+        /// Specifies the Amazon Resource Name (ARN) of the Kinesis Data Firehose delivery stream to which EventBridge delivers the pipe log records.
+        /// This member is required.
+        public var deliveryStreamArn: Swift.String?
+
+        public init(
+            deliveryStreamArn: Swift.String? = nil
+        )
+        {
+            self.deliveryStreamArn = deliveryStreamArn
+        }
+    }
+
+}
+
+extension PipesClientTypes {
+    public enum IncludeExecutionDataOption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case all
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IncludeExecutionDataOption] {
+            return [
+                .all,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = IncludeExecutionDataOption(rawValue: rawValue) ?? IncludeExecutionDataOption.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension InternalException {
@@ -2245,29 +2438,16 @@ extension ListPipesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPipesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListPipesOutputResponse: Swift.CustomDebugStringConvertible {
+extension ListPipesOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ListPipesOutputResponse(pipes: \(Swift.String(describing: pipes)), nextToken: \"CONTENT_REDACTED\")"}
+        "ListPipesOutput(pipes: \(Swift.String(describing: pipes)), nextToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ListPipesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPipesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPipesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPipesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.pipes = output.pipes
         } else {
@@ -2277,7 +2457,7 @@ extension ListPipesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPipesOutputResponse: Swift.Equatable {
+public struct ListPipesOutput: Swift.Equatable {
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
     /// The pipes returned by the call.
@@ -2293,12 +2473,12 @@ public struct ListPipesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPipesOutputResponseBody: Swift.Equatable {
+struct ListPipesOutputBody: Swift.Equatable {
     let pipes: [PipesClientTypes.Pipe]?
     let nextToken: Swift.String?
 }
 
-extension ListPipesOutputResponseBody: Swift.Decodable {
+extension ListPipesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case pipes = "Pipes"
@@ -2319,6 +2499,19 @@ extension ListPipesOutputResponseBody: Swift.Decodable {
         pipes = pipesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListPipesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2353,24 +2546,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -2378,7 +2558,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// The list of key-value pairs to associate with the pipe.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2390,11 +2570,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags
     }
@@ -2412,6 +2592,57 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension PipesClientTypes {
+    public enum LogLevel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case error
+        case info
+        case off
+        case trace
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LogLevel] {
+            return [
+                .error,
+                .info,
+                .off,
+                .trace,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .error: return "ERROR"
+            case .info: return "INFO"
+            case .off: return "OFF"
+            case .trace: return "TRACE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LogLevel(rawValue: rawValue) ?? LogLevel.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -2901,7 +3132,7 @@ extension PipesClientTypes {
     public struct PipeEnrichmentParameters: Swift.Equatable {
         /// Contains the HTTP parameters to use when the target is a API Gateway REST endpoint or EventBridge ApiDestination. If you specify an API Gateway REST API or EventBridge ApiDestination as a target, you can use this parameter to specify headers, path parameters, and query string keys/values as part of your target invoking request. If you're using ApiDestinations, the corresponding Connection can also have these values configured. In case of any conflicting keys, values from the Connection take precedence.
         public var httpParameters: PipesClientTypes.PipeEnrichmentHttpParameters?
-        /// Valid JSON text passed to the enrichment. In this case, nothing from the event itself is passed to the enrichment. For more information, see [The JavaScript Object Notation (JSON) Data Interchange Format](http://www.rfc-editor.org/rfc/rfc7159.txt).
+        /// Valid JSON text passed to the enrichment. In this case, nothing from the event itself is passed to the enrichment. For more information, see [The JavaScript Object Notation (JSON) Data Interchange Format](http://www.rfc-editor.org/rfc/rfc7159.txt). To remove an input template, specify an empty string.
         public var inputTemplate: Swift.String?
 
         public init(
@@ -2911,6 +3142,181 @@ extension PipesClientTypes {
         {
             self.httpParameters = httpParameters
             self.inputTemplate = inputTemplate
+        }
+    }
+
+}
+
+extension PipesClientTypes.PipeLogConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cloudwatchLogsLogDestination = "CloudwatchLogsLogDestination"
+        case firehoseLogDestination = "FirehoseLogDestination"
+        case includeExecutionData = "IncludeExecutionData"
+        case level = "Level"
+        case s3LogDestination = "S3LogDestination"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cloudwatchLogsLogDestination = self.cloudwatchLogsLogDestination {
+            try encodeContainer.encode(cloudwatchLogsLogDestination, forKey: .cloudwatchLogsLogDestination)
+        }
+        if let firehoseLogDestination = self.firehoseLogDestination {
+            try encodeContainer.encode(firehoseLogDestination, forKey: .firehoseLogDestination)
+        }
+        if let includeExecutionData = includeExecutionData {
+            var includeExecutionDataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includeExecutionData)
+            for includeexecutiondataoption0 in includeExecutionData {
+                try includeExecutionDataContainer.encode(includeexecutiondataoption0.rawValue)
+            }
+        }
+        if let level = self.level {
+            try encodeContainer.encode(level.rawValue, forKey: .level)
+        }
+        if let s3LogDestination = self.s3LogDestination {
+            try encodeContainer.encode(s3LogDestination, forKey: .s3LogDestination)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3LogDestinationDecoded = try containerValues.decodeIfPresent(PipesClientTypes.S3LogDestination.self, forKey: .s3LogDestination)
+        s3LogDestination = s3LogDestinationDecoded
+        let firehoseLogDestinationDecoded = try containerValues.decodeIfPresent(PipesClientTypes.FirehoseLogDestination.self, forKey: .firehoseLogDestination)
+        firehoseLogDestination = firehoseLogDestinationDecoded
+        let cloudwatchLogsLogDestinationDecoded = try containerValues.decodeIfPresent(PipesClientTypes.CloudwatchLogsLogDestination.self, forKey: .cloudwatchLogsLogDestination)
+        cloudwatchLogsLogDestination = cloudwatchLogsLogDestinationDecoded
+        let levelDecoded = try containerValues.decodeIfPresent(PipesClientTypes.LogLevel.self, forKey: .level)
+        level = levelDecoded
+        let includeExecutionDataContainer = try containerValues.decodeIfPresent([PipesClientTypes.IncludeExecutionDataOption?].self, forKey: .includeExecutionData)
+        var includeExecutionDataDecoded0:[PipesClientTypes.IncludeExecutionDataOption]? = nil
+        if let includeExecutionDataContainer = includeExecutionDataContainer {
+            includeExecutionDataDecoded0 = [PipesClientTypes.IncludeExecutionDataOption]()
+            for string0 in includeExecutionDataContainer {
+                if let string0 = string0 {
+                    includeExecutionDataDecoded0?.append(string0)
+                }
+            }
+        }
+        includeExecutionData = includeExecutionDataDecoded0
+    }
+}
+
+extension PipesClientTypes {
+    /// The logging configuration settings for the pipe.
+    public struct PipeLogConfiguration: Swift.Equatable {
+        /// The Amazon CloudWatch Logs logging configuration settings for the pipe.
+        public var cloudwatchLogsLogDestination: PipesClientTypes.CloudwatchLogsLogDestination?
+        /// The Amazon Kinesis Data Firehose logging configuration settings for the pipe.
+        public var firehoseLogDestination: PipesClientTypes.FirehoseLogDestination?
+        /// Whether the execution data (specifically, the payload, awsRequest, and awsResponse fields) is included in the log messages for this pipe. This applies to all log destinations for the pipe. For more information, see [Including execution data in logs](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-logs.html#eb-pipes-logs-execution-data) in the Amazon EventBridge User Guide.
+        public var includeExecutionData: [PipesClientTypes.IncludeExecutionDataOption]?
+        /// The level of logging detail to include. This applies to all log destinations for the pipe.
+        public var level: PipesClientTypes.LogLevel?
+        /// The Amazon S3 logging configuration settings for the pipe.
+        public var s3LogDestination: PipesClientTypes.S3LogDestination?
+
+        public init(
+            cloudwatchLogsLogDestination: PipesClientTypes.CloudwatchLogsLogDestination? = nil,
+            firehoseLogDestination: PipesClientTypes.FirehoseLogDestination? = nil,
+            includeExecutionData: [PipesClientTypes.IncludeExecutionDataOption]? = nil,
+            level: PipesClientTypes.LogLevel? = nil,
+            s3LogDestination: PipesClientTypes.S3LogDestination? = nil
+        )
+        {
+            self.cloudwatchLogsLogDestination = cloudwatchLogsLogDestination
+            self.firehoseLogDestination = firehoseLogDestination
+            self.includeExecutionData = includeExecutionData
+            self.level = level
+            self.s3LogDestination = s3LogDestination
+        }
+    }
+
+}
+
+extension PipesClientTypes.PipeLogConfigurationParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cloudwatchLogsLogDestination = "CloudwatchLogsLogDestination"
+        case firehoseLogDestination = "FirehoseLogDestination"
+        case includeExecutionData = "IncludeExecutionData"
+        case level = "Level"
+        case s3LogDestination = "S3LogDestination"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cloudwatchLogsLogDestination = self.cloudwatchLogsLogDestination {
+            try encodeContainer.encode(cloudwatchLogsLogDestination, forKey: .cloudwatchLogsLogDestination)
+        }
+        if let firehoseLogDestination = self.firehoseLogDestination {
+            try encodeContainer.encode(firehoseLogDestination, forKey: .firehoseLogDestination)
+        }
+        if let includeExecutionData = includeExecutionData {
+            var includeExecutionDataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includeExecutionData)
+            for includeexecutiondataoption0 in includeExecutionData {
+                try includeExecutionDataContainer.encode(includeexecutiondataoption0.rawValue)
+            }
+        }
+        if let level = self.level {
+            try encodeContainer.encode(level.rawValue, forKey: .level)
+        }
+        if let s3LogDestination = self.s3LogDestination {
+            try encodeContainer.encode(s3LogDestination, forKey: .s3LogDestination)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3LogDestinationDecoded = try containerValues.decodeIfPresent(PipesClientTypes.S3LogDestinationParameters.self, forKey: .s3LogDestination)
+        s3LogDestination = s3LogDestinationDecoded
+        let firehoseLogDestinationDecoded = try containerValues.decodeIfPresent(PipesClientTypes.FirehoseLogDestinationParameters.self, forKey: .firehoseLogDestination)
+        firehoseLogDestination = firehoseLogDestinationDecoded
+        let cloudwatchLogsLogDestinationDecoded = try containerValues.decodeIfPresent(PipesClientTypes.CloudwatchLogsLogDestinationParameters.self, forKey: .cloudwatchLogsLogDestination)
+        cloudwatchLogsLogDestination = cloudwatchLogsLogDestinationDecoded
+        let levelDecoded = try containerValues.decodeIfPresent(PipesClientTypes.LogLevel.self, forKey: .level)
+        level = levelDecoded
+        let includeExecutionDataContainer = try containerValues.decodeIfPresent([PipesClientTypes.IncludeExecutionDataOption?].self, forKey: .includeExecutionData)
+        var includeExecutionDataDecoded0:[PipesClientTypes.IncludeExecutionDataOption]? = nil
+        if let includeExecutionDataContainer = includeExecutionDataContainer {
+            includeExecutionDataDecoded0 = [PipesClientTypes.IncludeExecutionDataOption]()
+            for string0 in includeExecutionDataContainer {
+                if let string0 = string0 {
+                    includeExecutionDataDecoded0?.append(string0)
+                }
+            }
+        }
+        includeExecutionData = includeExecutionDataDecoded0
+    }
+}
+
+extension PipesClientTypes {
+    /// Specifies the logging configuration settings for the pipe. When you call UpdatePipe, EventBridge updates the fields in the PipeLogConfigurationParameters object atomically as one and overrides existing values. This is by design. If you don't specify an optional field in any of the Amazon Web Services service parameters objects (CloudwatchLogsLogDestinationParameters, FirehoseLogDestinationParameters, or S3LogDestinationParameters), EventBridge sets that field to its system-default value during the update. For example, suppose when you created the pipe you specified a Kinesis Data Firehose stream log destination. You then update the pipe to add an Amazon S3 log destination. In addition to specifying the S3LogDestinationParameters for the new log destination, you must also specify the fields in the FirehoseLogDestinationParameters object in order to retain the Kinesis Data Firehose stream log destination. For more information on generating pipe log records, see [Log EventBridge Pipes] in the Amazon EventBridge User Guide.
+    public struct PipeLogConfigurationParameters: Swift.Equatable {
+        /// The Amazon CloudWatch Logs logging configuration settings for the pipe.
+        public var cloudwatchLogsLogDestination: PipesClientTypes.CloudwatchLogsLogDestinationParameters?
+        /// The Amazon Kinesis Data Firehose logging configuration settings for the pipe.
+        public var firehoseLogDestination: PipesClientTypes.FirehoseLogDestinationParameters?
+        /// Specify ON to include the execution data (specifically, the payload and awsRequest fields) in the log messages for this pipe. This applies to all log destinations for the pipe. For more information, see [Including execution data in logs](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-logs.html#eb-pipes-logs-execution-data) in the Amazon EventBridge User Guide. The default is OFF.
+        public var includeExecutionData: [PipesClientTypes.IncludeExecutionDataOption]?
+        /// The level of logging detail to include. This applies to all log destinations for the pipe. For more information, see [Specifying EventBridge Pipes log level](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-logs.html#eb-pipes-logs-level) in the Amazon EventBridge User Guide.
+        /// This member is required.
+        public var level: PipesClientTypes.LogLevel?
+        /// The Amazon S3 logging configuration settings for the pipe.
+        public var s3LogDestination: PipesClientTypes.S3LogDestinationParameters?
+
+        public init(
+            cloudwatchLogsLogDestination: PipesClientTypes.CloudwatchLogsLogDestinationParameters? = nil,
+            firehoseLogDestination: PipesClientTypes.FirehoseLogDestinationParameters? = nil,
+            includeExecutionData: [PipesClientTypes.IncludeExecutionDataOption]? = nil,
+            level: PipesClientTypes.LogLevel? = nil,
+            s3LogDestination: PipesClientTypes.S3LogDestinationParameters? = nil
+        )
+        {
+            self.cloudwatchLogsLogDestination = cloudwatchLogsLogDestination
+            self.firehoseLogDestination = firehoseLogDestination
+            self.includeExecutionData = includeExecutionData
+            self.level = level
+            self.s3LogDestination = s3LogDestination
         }
     }
 
@@ -3369,7 +3775,7 @@ extension PipesClientTypes {
         public var activeMQBrokerParameters: PipesClientTypes.PipeSourceActiveMQBrokerParameters?
         /// The parameters for using a DynamoDB stream as a source.
         public var dynamoDBStreamParameters: PipesClientTypes.PipeSourceDynamoDBStreamParameters?
-        /// The collection of event patterns used to filter events. For more information, see [Events and Event Patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html) in the Amazon EventBridge User Guide.
+        /// The collection of event patterns used to filter events. To remove a filter, specify a FilterCriteria object with an empty array of Filter objects. For more information, see [Events and Event Patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html) in the Amazon EventBridge User Guide.
         public var filterCriteria: PipesClientTypes.FilterCriteria?
         /// The parameters for using a Kinesis stream as a source.
         public var kinesisStreamParameters: PipesClientTypes.PipeSourceKinesisStreamParameters?
@@ -3669,7 +4075,10 @@ extension PipesClientTypes {
 extension PipesClientTypes {
     public enum PipeState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case createFailed
+        case createRollbackFailed
         case creating
+        case deleteFailed
+        case deleteRollbackFailed
         case deleting
         case running
         case starting
@@ -3678,13 +4087,17 @@ extension PipesClientTypes {
         case stopping
         case stopFailed
         case updateFailed
+        case updateRollbackFailed
         case updating
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PipeState] {
             return [
                 .createFailed,
+                .createRollbackFailed,
                 .creating,
+                .deleteFailed,
+                .deleteRollbackFailed,
                 .deleting,
                 .running,
                 .starting,
@@ -3693,6 +4106,7 @@ extension PipesClientTypes {
                 .stopping,
                 .stopFailed,
                 .updateFailed,
+                .updateRollbackFailed,
                 .updating,
                 .sdkUnknown("")
             ]
@@ -3704,7 +4118,10 @@ extension PipesClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .createFailed: return "CREATE_FAILED"
+            case .createRollbackFailed: return "CREATE_ROLLBACK_FAILED"
             case .creating: return "CREATING"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleteRollbackFailed: return "DELETE_ROLLBACK_FAILED"
             case .deleting: return "DELETING"
             case .running: return "RUNNING"
             case .starting: return "STARTING"
@@ -3713,6 +4130,7 @@ extension PipesClientTypes {
             case .stopping: return "STOPPING"
             case .stopFailed: return "STOP_FAILED"
             case .updateFailed: return "UPDATE_FAILED"
+            case .updateRollbackFailed: return "UPDATE_ROLLBACK_FAILED"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
@@ -4185,7 +4603,7 @@ extension PipesClientTypes {
     public struct PipeTargetEventBridgeEventBusParameters: Swift.Equatable {
         /// A free-form string, with a maximum of 128 characters, used to decide what fields to expect in the event detail.
         public var detailType: Swift.String?
-        /// The URL subdomain of the endpoint. For example, if the URL for Endpoint is https://abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is abcde.veo. When using Java, you must include auth-crt on the class path.
+        /// The URL subdomain of the endpoint. For example, if the URL for Endpoint is https://abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is abcde.veo.
         public var endpointId: Swift.String?
         /// Amazon Web Services resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present.
         public var resources: [Swift.String]?
@@ -4360,7 +4778,7 @@ extension PipesClientTypes.PipeTargetKinesisStreamParameters: Swift.CustomDebugS
 }
 
 extension PipesClientTypes {
-    /// The parameters for using a Kinesis stream as a source.
+    /// The parameters for using a Kinesis stream as a target.
     public struct PipeTargetKinesisStreamParameters: Swift.Equatable {
         /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis Data Streams uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream.
         /// This member is required.
@@ -4398,13 +4816,14 @@ extension PipesClientTypes.PipeTargetLambdaFunctionParameters: Swift.Codable {
 extension PipesClientTypes {
     /// The parameters for using a Lambda function as a target.
     public struct PipeTargetLambdaFunctionParameters: Swift.Equatable {
-        /// Choose from the following options.
+        /// Specify whether to invoke the function synchronously or asynchronously.
         ///
-        /// * RequestResponse (default) - Invoke the function synchronously. Keep the connection open until the function returns a response or times out. The API response includes the function response and additional data.
+        /// * REQUEST_RESPONSE (default) - Invoke synchronously. This corresponds to the RequestResponse option in the InvocationType parameter for the Lambda [Invoke](https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_RequestSyntax) API.
         ///
-        /// * Event - Invoke the function asynchronously. Send events that fail multiple times to the function's dead-letter queue (if it's configured). The API response only includes a status code.
+        /// * FIRE_AND_FORGET - Invoke asynchronously. This corresponds to the Event option in the InvocationType parameter for the Lambda [Invoke](https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_RequestSyntax) API.
         ///
-        /// * DryRun - Validate parameter values and verify that the user or role has permission to invoke the function.
+        ///
+        /// For more information, see [Invocation types](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html#pipes-invocation) in the Amazon EventBridge User Guide.
         public var invocationType: PipesClientTypes.PipeTargetInvocationType?
 
         public init(
@@ -4508,7 +4927,7 @@ extension PipesClientTypes.PipeTargetParameters: Swift.CustomDebugStringConverti
 }
 
 extension PipesClientTypes {
-    /// The parameters required to set up a target for your pipe.
+    /// The parameters required to set up a target for your pipe. For more information about pipe target parameters, including how to use dynamic path parameters, see [Target parameters](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-event-target.html) in the Amazon EventBridge User Guide.
     public struct PipeTargetParameters: Swift.Equatable {
         /// The parameters for using an Batch job as a target.
         public var batchJobParameters: PipesClientTypes.PipeTargetBatchJobParameters?
@@ -4520,17 +4939,17 @@ extension PipesClientTypes {
         public var eventBridgeEventBusParameters: PipesClientTypes.PipeTargetEventBridgeEventBusParameters?
         /// These are custom parameter to be used when the target is an API Gateway REST APIs or EventBridge ApiDestinations.
         public var httpParameters: PipesClientTypes.PipeTargetHttpParameters?
-        /// Valid JSON text passed to the target. In this case, nothing from the event itself is passed to the target. For more information, see [The JavaScript Object Notation (JSON) Data Interchange Format](http://www.rfc-editor.org/rfc/rfc7159.txt).
+        /// Valid JSON text passed to the target. In this case, nothing from the event itself is passed to the target. For more information, see [The JavaScript Object Notation (JSON) Data Interchange Format](http://www.rfc-editor.org/rfc/rfc7159.txt). To remove an input template, specify an empty string.
         public var inputTemplate: Swift.String?
-        /// The parameters for using a Kinesis stream as a source.
+        /// The parameters for using a Kinesis stream as a target.
         public var kinesisStreamParameters: PipesClientTypes.PipeTargetKinesisStreamParameters?
         /// The parameters for using a Lambda function as a target.
         public var lambdaFunctionParameters: PipesClientTypes.PipeTargetLambdaFunctionParameters?
-        /// These are custom parameters to be used when the target is a Amazon Redshift cluster to invoke the Amazon Redshift Data API ExecuteStatement.
+        /// These are custom parameters to be used when the target is a Amazon Redshift cluster to invoke the Amazon Redshift Data API BatchExecuteStatement.
         public var redshiftDataParameters: PipesClientTypes.PipeTargetRedshiftDataParameters?
         /// The parameters for using a SageMaker pipeline as a target.
         public var sageMakerPipelineParameters: PipesClientTypes.PipeTargetSageMakerPipelineParameters?
-        /// The parameters for using a Amazon SQS stream as a source.
+        /// The parameters for using a Amazon SQS stream as a target.
         public var sqsQueueParameters: PipesClientTypes.PipeTargetSqsQueueParameters?
         /// The parameters for using a Step Functions state machine as a target.
         public var stepFunctionStateMachineParameters: PipesClientTypes.PipeTargetStateMachineParameters?
@@ -4634,14 +5053,14 @@ extension PipesClientTypes.PipeTargetRedshiftDataParameters: Swift.CustomDebugSt
 }
 
 extension PipesClientTypes {
-    /// These are custom parameters to be used when the target is a Amazon Redshift cluster to invoke the Amazon Redshift Data API ExecuteStatement.
+    /// These are custom parameters to be used when the target is a Amazon Redshift cluster to invoke the Amazon Redshift Data API BatchExecuteStatement.
     public struct PipeTargetRedshiftDataParameters: Swift.Equatable {
         /// The name of the database. Required when authenticating using temporary credentials.
         /// This member is required.
         public var database: Swift.String?
         /// The database user name. Required when authenticating using temporary credentials.
         public var dbUser: Swift.String?
-        /// The name or ARN of the secret that enables access to the database. Required when authenticating using SageMaker.
+        /// The name or ARN of the secret that enables access to the database. Required when authenticating using Secrets Manager.
         public var secretManagerArn: Swift.String?
         /// The SQL statement text to run.
         /// This member is required.
@@ -4749,7 +5168,7 @@ extension PipesClientTypes.PipeTargetSqsQueueParameters: Swift.CustomDebugString
 }
 
 extension PipesClientTypes {
-    /// The parameters for using a Amazon SQS stream as a source.
+    /// The parameters for using a Amazon SQS stream as a target.
     public struct PipeTargetSqsQueueParameters: Swift.Equatable {
         /// This parameter applies only to FIFO (first-in-first-out) queues. The token used for deduplication of sent messages.
         public var messageDeduplicationId: Swift.String?
@@ -4790,7 +5209,14 @@ extension PipesClientTypes.PipeTargetStateMachineParameters: Swift.Codable {
 extension PipesClientTypes {
     /// The parameters for using a Step Functions state machine as a target.
     public struct PipeTargetStateMachineParameters: Swift.Equatable {
-        /// Specify whether to wait for the state machine to finish or not.
+        /// Specify whether to invoke the Step Functions state machine synchronously or asynchronously.
+        ///
+        /// * REQUEST_RESPONSE (default) - Invoke synchronously. For more information, see [StartSyncExecution](https://docs.aws.amazon.com/step-functions/latest/apireference/API_StartSyncExecution.html) in the Step Functions API Reference. REQUEST_RESPONSE is not supported for STANDARD state machine workflows.
+        ///
+        /// * FIRE_AND_FORGET - Invoke asynchronously. For more information, see [StartExecution](https://docs.aws.amazon.com/step-functions/latest/apireference/API_StartExecution.html) in the Step Functions API Reference.
+        ///
+        ///
+        /// For more information, see [Invocation types](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html#pipes-invocation) in the Amazon EventBridge User Guide.
         public var invocationType: PipesClientTypes.PipeTargetInvocationType?
 
         public init(
@@ -5062,6 +5488,185 @@ extension PipesClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = RequestedPipeStateDescribeResponse(rawValue: rawValue) ?? RequestedPipeStateDescribeResponse.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PipesClientTypes.S3LogDestination: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucketName = "BucketName"
+        case bucketOwner = "BucketOwner"
+        case outputFormat = "OutputFormat"
+        case `prefix` = "Prefix"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bucketName = self.bucketName {
+            try encodeContainer.encode(bucketName, forKey: .bucketName)
+        }
+        if let bucketOwner = self.bucketOwner {
+            try encodeContainer.encode(bucketOwner, forKey: .bucketOwner)
+        }
+        if let outputFormat = self.outputFormat {
+            try encodeContainer.encode(outputFormat.rawValue, forKey: .outputFormat)
+        }
+        if let `prefix` = self.`prefix` {
+            try encodeContainer.encode(`prefix`, forKey: .`prefix`)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
+        bucketName = bucketNameDecoded
+        let prefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prefix)
+        `prefix` = prefixDecoded
+        let bucketOwnerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketOwner)
+        bucketOwner = bucketOwnerDecoded
+        let outputFormatDecoded = try containerValues.decodeIfPresent(PipesClientTypes.S3OutputFormat.self, forKey: .outputFormat)
+        outputFormat = outputFormatDecoded
+    }
+}
+
+extension PipesClientTypes {
+    /// The Amazon S3 logging configuration settings for the pipe.
+    public struct S3LogDestination: Swift.Equatable {
+        /// The name of the Amazon S3 bucket to which EventBridge delivers the log records for the pipe.
+        public var bucketName: Swift.String?
+        /// The Amazon Web Services account that owns the Amazon S3 bucket to which EventBridge delivers the log records for the pipe.
+        public var bucketOwner: Swift.String?
+        /// The format EventBridge uses for the log records.
+        ///
+        /// * json: JSON
+        ///
+        /// * plain: Plain text
+        ///
+        /// * w3c: [W3C extended logging file format](https://www.w3.org/TR/WD-logfile)
+        public var outputFormat: PipesClientTypes.S3OutputFormat?
+        /// The prefix text with which to begin Amazon S3 log object names. For more information, see [Organizing objects using prefixes](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html) in the Amazon Simple Storage Service User Guide.
+        public var `prefix`: Swift.String?
+
+        public init(
+            bucketName: Swift.String? = nil,
+            bucketOwner: Swift.String? = nil,
+            outputFormat: PipesClientTypes.S3OutputFormat? = nil,
+            `prefix`: Swift.String? = nil
+        )
+        {
+            self.bucketName = bucketName
+            self.bucketOwner = bucketOwner
+            self.outputFormat = outputFormat
+            self.`prefix` = `prefix`
+        }
+    }
+
+}
+
+extension PipesClientTypes.S3LogDestinationParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucketName = "BucketName"
+        case bucketOwner = "BucketOwner"
+        case outputFormat = "OutputFormat"
+        case `prefix` = "Prefix"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bucketName = self.bucketName {
+            try encodeContainer.encode(bucketName, forKey: .bucketName)
+        }
+        if let bucketOwner = self.bucketOwner {
+            try encodeContainer.encode(bucketOwner, forKey: .bucketOwner)
+        }
+        if let outputFormat = self.outputFormat {
+            try encodeContainer.encode(outputFormat.rawValue, forKey: .outputFormat)
+        }
+        if let `prefix` = self.`prefix` {
+            try encodeContainer.encode(`prefix`, forKey: .`prefix`)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
+        bucketName = bucketNameDecoded
+        let bucketOwnerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketOwner)
+        bucketOwner = bucketOwnerDecoded
+        let outputFormatDecoded = try containerValues.decodeIfPresent(PipesClientTypes.S3OutputFormat.self, forKey: .outputFormat)
+        outputFormat = outputFormatDecoded
+        let prefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prefix)
+        `prefix` = prefixDecoded
+    }
+}
+
+extension PipesClientTypes {
+    /// The Amazon S3 logging configuration settings for the pipe.
+    public struct S3LogDestinationParameters: Swift.Equatable {
+        /// Specifies the name of the Amazon S3 bucket to which EventBridge delivers the log records for the pipe.
+        /// This member is required.
+        public var bucketName: Swift.String?
+        /// Specifies the Amazon Web Services account that owns the Amazon S3 bucket to which EventBridge delivers the log records for the pipe.
+        /// This member is required.
+        public var bucketOwner: Swift.String?
+        /// How EventBridge should format the log records.
+        ///
+        /// * json: JSON
+        ///
+        /// * plain: Plain text
+        ///
+        /// * w3c: [W3C extended logging file format](https://www.w3.org/TR/WD-logfile)
+        public var outputFormat: PipesClientTypes.S3OutputFormat?
+        /// Specifies any prefix text with which to begin Amazon S3 log object names. You can use prefixes to organize the data that you store in Amazon S3 buckets. A prefix is a string of characters at the beginning of the object key name. A prefix can be any length, subject to the maximum length of the object key name (1,024 bytes). For more information, see [Organizing objects using prefixes](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html) in the Amazon Simple Storage Service User Guide.
+        public var `prefix`: Swift.String?
+
+        public init(
+            bucketName: Swift.String? = nil,
+            bucketOwner: Swift.String? = nil,
+            outputFormat: PipesClientTypes.S3OutputFormat? = nil,
+            `prefix`: Swift.String? = nil
+        )
+        {
+            self.bucketName = bucketName
+            self.bucketOwner = bucketOwner
+            self.outputFormat = outputFormat
+            self.`prefix` = `prefix`
+        }
+    }
+
+}
+
+extension PipesClientTypes {
+    public enum S3OutputFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case json
+        case plain
+        case w3c
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [S3OutputFormat] {
+            return [
+                .json,
+                .plain,
+                .w3c,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .json: return "json"
+            case .plain: return "plain"
+            case .w3c: return "w3c"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = S3OutputFormat(rawValue: rawValue) ?? S3OutputFormat.sdkUnknown(rawValue)
         }
     }
 }
@@ -5417,26 +6022,11 @@ extension StartPipeInputBody: Swift.Decodable {
     }
 }
 
-public enum StartPipeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartPipeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartPipeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartPipeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartPipeOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.currentState = output.currentState
@@ -5454,7 +6044,7 @@ extension StartPipeOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartPipeOutputResponse: Swift.Equatable {
+public struct StartPipeOutput: Swift.Equatable {
     /// The ARN of the pipe.
     public var arn: Swift.String?
     /// The time the pipe was created.
@@ -5486,7 +6076,7 @@ public struct StartPipeOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartPipeOutputResponseBody: Swift.Equatable {
+struct StartPipeOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let desiredState: PipesClientTypes.RequestedPipeState?
@@ -5495,7 +6085,7 @@ struct StartPipeOutputResponseBody: Swift.Equatable {
     let lastModifiedTime: ClientRuntime.Date?
 }
 
-extension StartPipeOutputResponseBody: Swift.Decodable {
+extension StartPipeOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case creationTime = "CreationTime"
@@ -5519,6 +6109,21 @@ extension StartPipeOutputResponseBody: Swift.Decodable {
         creationTime = creationTimeDecoded
         let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
         lastModifiedTime = lastModifiedTimeDecoded
+    }
+}
+
+enum StartPipeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5553,26 +6158,11 @@ extension StopPipeInputBody: Swift.Decodable {
     }
 }
 
-public enum StopPipeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StopPipeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StopPipeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StopPipeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StopPipeOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.currentState = output.currentState
@@ -5590,7 +6180,7 @@ extension StopPipeOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopPipeOutputResponse: Swift.Equatable {
+public struct StopPipeOutput: Swift.Equatable {
     /// The ARN of the pipe.
     public var arn: Swift.String?
     /// The time the pipe was created.
@@ -5622,7 +6212,7 @@ public struct StopPipeOutputResponse: Swift.Equatable {
     }
 }
 
-struct StopPipeOutputResponseBody: Swift.Equatable {
+struct StopPipeOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let desiredState: PipesClientTypes.RequestedPipeState?
@@ -5631,7 +6221,7 @@ struct StopPipeOutputResponseBody: Swift.Equatable {
     let lastModifiedTime: ClientRuntime.Date?
 }
 
-extension StopPipeOutputResponseBody: Swift.Decodable {
+extension StopPipeOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case creationTime = "CreationTime"
@@ -5655,6 +6245,21 @@ extension StopPipeOutputResponseBody: Swift.Decodable {
         creationTime = creationTimeDecoded
         let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
         lastModifiedTime = lastModifiedTimeDecoded
+    }
+}
+
+enum StopPipeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5778,8 +6383,18 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5789,16 +6404,6 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ThrottlingException {
@@ -5939,8 +6544,18 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5952,19 +6567,9 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
 extension UpdatePipeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdatePipeInput(desiredState: \(Swift.String(describing: desiredState)), enrichment: \(Swift.String(describing: enrichment)), enrichmentParameters: \(Swift.String(describing: enrichmentParameters)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), sourceParameters: \(Swift.String(describing: sourceParameters)), target: \(Swift.String(describing: target)), targetParameters: \(Swift.String(describing: targetParameters)), description: \"CONTENT_REDACTED\")"}
+        "UpdatePipeInput(desiredState: \(Swift.String(describing: desiredState)), enrichment: \(Swift.String(describing: enrichment)), enrichmentParameters: \(Swift.String(describing: enrichmentParameters)), logConfiguration: \(Swift.String(describing: logConfiguration)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), sourceParameters: \(Swift.String(describing: sourceParameters)), target: \(Swift.String(describing: target)), targetParameters: \(Swift.String(describing: targetParameters)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdatePipeInput: Swift.Encodable {
@@ -5973,6 +6578,7 @@ extension UpdatePipeInput: Swift.Encodable {
         case desiredState = "DesiredState"
         case enrichment = "Enrichment"
         case enrichmentParameters = "EnrichmentParameters"
+        case logConfiguration = "LogConfiguration"
         case roleArn = "RoleArn"
         case sourceParameters = "SourceParameters"
         case target = "Target"
@@ -5992,6 +6598,9 @@ extension UpdatePipeInput: Swift.Encodable {
         }
         if let enrichmentParameters = self.enrichmentParameters {
             try encodeContainer.encode(enrichmentParameters, forKey: .enrichmentParameters)
+        }
+        if let logConfiguration = self.logConfiguration {
+            try encodeContainer.encode(logConfiguration, forKey: .logConfiguration)
         }
         if let roleArn = self.roleArn {
             try encodeContainer.encode(roleArn, forKey: .roleArn)
@@ -6026,6 +6635,8 @@ public struct UpdatePipeInput: Swift.Equatable {
     public var enrichment: Swift.String?
     /// The parameters required to set up enrichment on your pipe.
     public var enrichmentParameters: PipesClientTypes.PipeEnrichmentParameters?
+    /// The logging configuration settings for the pipe.
+    public var logConfiguration: PipesClientTypes.PipeLogConfigurationParameters?
     /// The name of the pipe.
     /// This member is required.
     public var name: Swift.String?
@@ -6036,7 +6647,7 @@ public struct UpdatePipeInput: Swift.Equatable {
     public var sourceParameters: PipesClientTypes.UpdatePipeSourceParameters?
     /// The ARN of the target resource.
     public var target: Swift.String?
-    /// The parameters required to set up a target for your pipe.
+    /// The parameters required to set up a target for your pipe. For more information about pipe target parameters, including how to use dynamic path parameters, see [Target parameters](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-event-target.html) in the Amazon EventBridge User Guide.
     public var targetParameters: PipesClientTypes.PipeTargetParameters?
 
     public init(
@@ -6044,6 +6655,7 @@ public struct UpdatePipeInput: Swift.Equatable {
         desiredState: PipesClientTypes.RequestedPipeState? = nil,
         enrichment: Swift.String? = nil,
         enrichmentParameters: PipesClientTypes.PipeEnrichmentParameters? = nil,
+        logConfiguration: PipesClientTypes.PipeLogConfigurationParameters? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         sourceParameters: PipesClientTypes.UpdatePipeSourceParameters? = nil,
@@ -6055,6 +6667,7 @@ public struct UpdatePipeInput: Swift.Equatable {
         self.desiredState = desiredState
         self.enrichment = enrichment
         self.enrichmentParameters = enrichmentParameters
+        self.logConfiguration = logConfiguration
         self.name = name
         self.roleArn = roleArn
         self.sourceParameters = sourceParameters
@@ -6072,6 +6685,7 @@ struct UpdatePipeInputBody: Swift.Equatable {
     let target: Swift.String?
     let targetParameters: PipesClientTypes.PipeTargetParameters?
     let roleArn: Swift.String?
+    let logConfiguration: PipesClientTypes.PipeLogConfigurationParameters?
 }
 
 extension UpdatePipeInputBody: Swift.Decodable {
@@ -6080,6 +6694,7 @@ extension UpdatePipeInputBody: Swift.Decodable {
         case desiredState = "DesiredState"
         case enrichment = "Enrichment"
         case enrichmentParameters = "EnrichmentParameters"
+        case logConfiguration = "LogConfiguration"
         case roleArn = "RoleArn"
         case sourceParameters = "SourceParameters"
         case target = "Target"
@@ -6104,29 +6719,16 @@ extension UpdatePipeInputBody: Swift.Decodable {
         targetParameters = targetParametersDecoded
         let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
         roleArn = roleArnDecoded
+        let logConfigurationDecoded = try containerValues.decodeIfPresent(PipesClientTypes.PipeLogConfigurationParameters.self, forKey: .logConfiguration)
+        logConfiguration = logConfigurationDecoded
     }
 }
 
-public enum UpdatePipeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdatePipeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdatePipeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdatePipeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdatePipeOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.currentState = output.currentState
@@ -6144,7 +6746,7 @@ extension UpdatePipeOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePipeOutputResponse: Swift.Equatable {
+public struct UpdatePipeOutput: Swift.Equatable {
     /// The ARN of the pipe.
     public var arn: Swift.String?
     /// The time the pipe was created.
@@ -6176,7 +6778,7 @@ public struct UpdatePipeOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdatePipeOutputResponseBody: Swift.Equatable {
+struct UpdatePipeOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let desiredState: PipesClientTypes.RequestedPipeState?
@@ -6185,7 +6787,7 @@ struct UpdatePipeOutputResponseBody: Swift.Equatable {
     let lastModifiedTime: ClientRuntime.Date?
 }
 
-extension UpdatePipeOutputResponseBody: Swift.Decodable {
+extension UpdatePipeOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case creationTime = "CreationTime"
@@ -6209,6 +6811,21 @@ extension UpdatePipeOutputResponseBody: Swift.Decodable {
         creationTime = creationTimeDecoded
         let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
         lastModifiedTime = lastModifiedTimeDecoded
+    }
+}
+
+enum UpdatePipeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6581,7 +7198,7 @@ extension PipesClientTypes {
         public var activeMQBrokerParameters: PipesClientTypes.UpdatePipeSourceActiveMQBrokerParameters?
         /// The parameters for using a DynamoDB stream as a source.
         public var dynamoDBStreamParameters: PipesClientTypes.UpdatePipeSourceDynamoDBStreamParameters?
-        /// The collection of event patterns used to filter events. For more information, see [Events and Event Patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html) in the Amazon EventBridge User Guide.
+        /// The collection of event patterns used to filter events. To remove a filter, specify a FilterCriteria object with an empty array of Filter objects. For more information, see [Events and Event Patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html) in the Amazon EventBridge User Guide.
         public var filterCriteria: PipesClientTypes.FilterCriteria?
         /// The parameters for using a Kinesis stream as a source.
         public var kinesisStreamParameters: PipesClientTypes.UpdatePipeSourceKinesisStreamParameters?

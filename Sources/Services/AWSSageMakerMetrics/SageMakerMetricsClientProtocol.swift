@@ -6,8 +6,14 @@ import ClientRuntime
 ///
 /// * [BatchPutMetrics](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_metrics_BatchPutMetrics.html)
 public protocol SageMakerMetricsClientProtocol {
+    /// Performs the `BatchPutMetrics` operation on the `SageMakerMetricsService` service.
+    ///
     /// Used to ingest training metrics into SageMaker. These metrics can be visualized in SageMaker Studio and retrieved with the GetMetrics API.
-    func batchPutMetrics(input: BatchPutMetricsInput) async throws -> BatchPutMetricsOutputResponse
+    ///
+    /// - Parameter BatchPutMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchPutMetricsOutput` : [no documentation found]
+    func batchPutMetrics(input: BatchPutMetricsInput) async throws -> BatchPutMetricsOutput
 }
 
 public enum SageMakerMetricsClientTypes {}

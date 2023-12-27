@@ -207,6 +207,11 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
+extension CreateChatTokenInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateChatTokenInput(capabilities: \(Swift.String(describing: capabilities)), roomIdentifier: \(Swift.String(describing: roomIdentifier)), sessionDurationInMinutes: \(Swift.String(describing: sessionDurationInMinutes)), attributes: \"CONTENT_REDACTED\", userId: \"CONTENT_REDACTED\")"}
+}
+
 extension CreateChatTokenInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attributes
@@ -233,7 +238,7 @@ extension CreateChatTokenInput: Swift.Encodable {
         if let roomIdentifier = self.roomIdentifier {
             try encodeContainer.encode(roomIdentifier, forKey: .roomIdentifier)
         }
-        if sessionDurationInMinutes != 0 {
+        if let sessionDurationInMinutes = self.sessionDurationInMinutes {
             try encodeContainer.encode(sessionDurationInMinutes, forKey: .sessionDurationInMinutes)
         }
         if let userId = self.userId {
@@ -257,7 +262,7 @@ public struct CreateChatTokenInput: Swift.Equatable {
     /// This member is required.
     public var roomIdentifier: Swift.String?
     /// Session duration (in minutes), after which the session expires. Default: 60 (1 hour).
-    public var sessionDurationInMinutes: Swift.Int
+    public var sessionDurationInMinutes: Swift.Int?
     /// Application-provided ID that uniquely identifies the user associated with this token. This can be any UTF-8 encoded text.
     /// This member is required.
     public var userId: Swift.String?
@@ -266,7 +271,7 @@ public struct CreateChatTokenInput: Swift.Equatable {
         attributes: [Swift.String:Swift.String]? = nil,
         capabilities: [IvschatClientTypes.ChatTokenCapability]? = nil,
         roomIdentifier: Swift.String? = nil,
-        sessionDurationInMinutes: Swift.Int = 0,
+        sessionDurationInMinutes: Swift.Int? = nil,
         userId: Swift.String? = nil
     )
     {
@@ -282,7 +287,7 @@ struct CreateChatTokenInputBody: Swift.Equatable {
     let roomIdentifier: Swift.String?
     let userId: Swift.String?
     let capabilities: [IvschatClientTypes.ChatTokenCapability]?
-    let sessionDurationInMinutes: Swift.Int
+    let sessionDurationInMinutes: Swift.Int?
     let attributes: [Swift.String:Swift.String]?
 }
 
@@ -312,7 +317,7 @@ extension CreateChatTokenInputBody: Swift.Decodable {
             }
         }
         capabilities = capabilitiesDecoded0
-        let sessionDurationInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sessionDurationInMinutes) ?? 0
+        let sessionDurationInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sessionDurationInMinutes)
         sessionDurationInMinutes = sessionDurationInMinutesDecoded
         let attributesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .attributes)
         var attributesDecoded0: [Swift.String:Swift.String]? = nil
@@ -328,25 +333,16 @@ extension CreateChatTokenInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateChatTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
+extension CreateChatTokenOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateChatTokenOutput(sessionExpirationTime: \(Swift.String(describing: sessionExpirationTime)), tokenExpirationTime: \(Swift.String(describing: tokenExpirationTime)), token: \"CONTENT_REDACTED\")"}
 }
 
-extension CreateChatTokenOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateChatTokenOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateChatTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateChatTokenOutputBody = try responseDecoder.decode(responseBody: data)
             self.sessionExpirationTime = output.sessionExpirationTime
             self.token = output.token
             self.tokenExpirationTime = output.tokenExpirationTime
@@ -358,7 +354,7 @@ extension CreateChatTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateChatTokenOutputResponse: Swift.Equatable {
+public struct CreateChatTokenOutput: Swift.Equatable {
     /// Time after which an end user's session is no longer valid. This is an ISO 8601 timestamp; note that this is returned as a string.
     public var sessionExpirationTime: ClientRuntime.Date?
     /// The issued client token, encrypted.
@@ -378,13 +374,13 @@ public struct CreateChatTokenOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateChatTokenOutputResponseBody: Swift.Equatable {
+struct CreateChatTokenOutputBody: Swift.Equatable {
     let token: Swift.String?
     let tokenExpirationTime: ClientRuntime.Date?
     let sessionExpirationTime: ClientRuntime.Date?
 }
 
-extension CreateChatTokenOutputResponseBody: Swift.Decodable {
+extension CreateChatTokenOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case sessionExpirationTime
         case token
@@ -399,6 +395,20 @@ extension CreateChatTokenOutputResponseBody: Swift.Decodable {
         tokenExpirationTime = tokenExpirationTimeDecoded
         let sessionExpirationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .sessionExpirationTime)
         sessionExpirationTime = sessionExpirationTimeDecoded
+    }
+}
+
+enum CreateChatTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -486,27 +496,11 @@ extension CreateLoggingConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateLoggingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateLoggingConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createTime = output.createTime
             self.destinationConfiguration = output.destinationConfiguration
@@ -528,7 +522,7 @@ extension CreateLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct CreateLoggingConfigurationOutputResponse: Swift.Equatable {
+public struct CreateLoggingConfigurationOutput: Swift.Equatable {
     /// Logging-configuration ARN, assigned by the system.
     public var arn: Swift.String?
     /// Time when the logging configuration was created. This is an ISO 8601 timestamp; note that this is returned as a string.
@@ -568,7 +562,7 @@ public struct CreateLoggingConfigurationOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateLoggingConfigurationOutputResponseBody: Swift.Equatable {
+struct CreateLoggingConfigurationOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let id: Swift.String?
     let createTime: ClientRuntime.Date?
@@ -579,7 +573,7 @@ struct CreateLoggingConfigurationOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension CreateLoggingConfigurationOutputResponseBody: Swift.Decodable {
+extension CreateLoggingConfigurationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case createTime
@@ -618,6 +612,22 @@ extension CreateLoggingConfigurationOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum CreateLoggingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -668,10 +678,10 @@ extension CreateRoomInput: Swift.Encodable {
                 try loggingConfigurationIdentifiersContainer.encode(loggingconfigurationidentifier0)
             }
         }
-        if maximumMessageLength != 0 {
+        if let maximumMessageLength = self.maximumMessageLength {
             try encodeContainer.encode(maximumMessageLength, forKey: .maximumMessageLength)
         }
-        if maximumMessageRatePerSecond != 0 {
+        if let maximumMessageRatePerSecond = self.maximumMessageRatePerSecond {
             try encodeContainer.encode(maximumMessageRatePerSecond, forKey: .maximumMessageRatePerSecond)
         }
         if let messageReviewHandler = self.messageReviewHandler {
@@ -699,9 +709,9 @@ public struct CreateRoomInput: Swift.Equatable {
     /// Array of logging-configuration identifiers attached to the room.
     public var loggingConfigurationIdentifiers: [Swift.String]?
     /// Maximum number of characters in a single message. Messages are expected to be UTF-8 encoded and this limit applies specifically to rune/code-point count, not number of bytes. Default: 500.
-    public var maximumMessageLength: Swift.Int
+    public var maximumMessageLength: Swift.Int?
     /// Maximum number of messages per second that can be sent to the room (by all clients). Default: 10.
-    public var maximumMessageRatePerSecond: Swift.Int
+    public var maximumMessageRatePerSecond: Swift.Int?
     /// Configuration information for optional review of messages.
     public var messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     /// Room name. The value does not need to be unique.
@@ -711,8 +721,8 @@ public struct CreateRoomInput: Swift.Equatable {
 
     public init(
         loggingConfigurationIdentifiers: [Swift.String]? = nil,
-        maximumMessageLength: Swift.Int = 0,
-        maximumMessageRatePerSecond: Swift.Int = 0,
+        maximumMessageLength: Swift.Int? = nil,
+        maximumMessageRatePerSecond: Swift.Int? = nil,
         messageReviewHandler: IvschatClientTypes.MessageReviewHandler? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -729,8 +739,8 @@ public struct CreateRoomInput: Swift.Equatable {
 
 struct CreateRoomInputBody: Swift.Equatable {
     let name: Swift.String?
-    let maximumMessageRatePerSecond: Swift.Int
-    let maximumMessageLength: Swift.Int
+    let maximumMessageRatePerSecond: Swift.Int?
+    let maximumMessageLength: Swift.Int?
     let messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     let tags: [Swift.String:Swift.String]?
     let loggingConfigurationIdentifiers: [Swift.String]?
@@ -750,9 +760,9 @@ extension CreateRoomInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
-        let maximumMessageRatePerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageRatePerSecond) ?? 0
+        let maximumMessageRatePerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageRatePerSecond)
         maximumMessageRatePerSecond = maximumMessageRatePerSecondDecoded
-        let maximumMessageLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageLength) ?? 0
+        let maximumMessageLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageLength)
         maximumMessageLength = maximumMessageLengthDecoded
         let messageReviewHandlerDecoded = try containerValues.decodeIfPresent(IvschatClientTypes.MessageReviewHandler.self, forKey: .messageReviewHandler)
         messageReviewHandler = messageReviewHandlerDecoded
@@ -781,27 +791,11 @@ extension CreateRoomInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateRoomOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateRoomOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateRoomOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateRoomOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateRoomOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createTime = output.createTime
             self.id = output.id
@@ -817,8 +811,8 @@ extension CreateRoomOutputResponse: ClientRuntime.HttpResponseBinding {
             self.createTime = nil
             self.id = nil
             self.loggingConfigurationIdentifiers = nil
-            self.maximumMessageLength = 0
-            self.maximumMessageRatePerSecond = 0
+            self.maximumMessageLength = nil
+            self.maximumMessageRatePerSecond = nil
             self.messageReviewHandler = nil
             self.name = nil
             self.tags = nil
@@ -827,7 +821,7 @@ extension CreateRoomOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRoomOutputResponse: Swift.Equatable {
+public struct CreateRoomOutput: Swift.Equatable {
     /// Room ARN, assigned by the system.
     public var arn: Swift.String?
     /// Time when the room was created. This is an ISO 8601 timestamp; note that this is returned as a string.
@@ -837,9 +831,9 @@ public struct CreateRoomOutputResponse: Swift.Equatable {
     /// Array of logging configurations attached to the room, from the request (if specified).
     public var loggingConfigurationIdentifiers: [Swift.String]?
     /// Maximum number of characters in a single message, from the request (if specified).
-    public var maximumMessageLength: Swift.Int
+    public var maximumMessageLength: Swift.Int?
     /// Maximum number of messages per second that can be sent to the room (by all clients), from the request (if specified).
-    public var maximumMessageRatePerSecond: Swift.Int
+    public var maximumMessageRatePerSecond: Swift.Int?
     /// Configuration information for optional review of messages.
     public var messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     /// Room name, from the request (if specified).
@@ -854,8 +848,8 @@ public struct CreateRoomOutputResponse: Swift.Equatable {
         createTime: ClientRuntime.Date? = nil,
         id: Swift.String? = nil,
         loggingConfigurationIdentifiers: [Swift.String]? = nil,
-        maximumMessageLength: Swift.Int = 0,
-        maximumMessageRatePerSecond: Swift.Int = 0,
+        maximumMessageLength: Swift.Int? = nil,
+        maximumMessageRatePerSecond: Swift.Int? = nil,
         messageReviewHandler: IvschatClientTypes.MessageReviewHandler? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
@@ -875,20 +869,20 @@ public struct CreateRoomOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateRoomOutputResponseBody: Swift.Equatable {
+struct CreateRoomOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
     let createTime: ClientRuntime.Date?
     let updateTime: ClientRuntime.Date?
-    let maximumMessageRatePerSecond: Swift.Int
-    let maximumMessageLength: Swift.Int
+    let maximumMessageRatePerSecond: Swift.Int?
+    let maximumMessageLength: Swift.Int?
     let messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     let tags: [Swift.String:Swift.String]?
     let loggingConfigurationIdentifiers: [Swift.String]?
 }
 
-extension CreateRoomOutputResponseBody: Swift.Decodable {
+extension CreateRoomOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case createTime
@@ -914,9 +908,9 @@ extension CreateRoomOutputResponseBody: Swift.Decodable {
         createTime = createTimeDecoded
         let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updateTime)
         updateTime = updateTimeDecoded
-        let maximumMessageRatePerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageRatePerSecond) ?? 0
+        let maximumMessageRatePerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageRatePerSecond)
         maximumMessageRatePerSecond = maximumMessageRatePerSecondDecoded
-        let maximumMessageLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageLength) ?? 0
+        let maximumMessageLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageLength)
         maximumMessageLength = maximumMessageLengthDecoded
         let messageReviewHandlerDecoded = try containerValues.decodeIfPresent(IvschatClientTypes.MessageReviewHandler.self, forKey: .messageReviewHandler)
         messageReviewHandler = messageReviewHandlerDecoded
@@ -942,6 +936,22 @@ extension CreateRoomOutputResponseBody: Swift.Decodable {
             }
         }
         loggingConfigurationIdentifiers = loggingConfigurationIdentifiersDecoded0
+    }
+}
+
+enum CreateRoomOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -993,8 +1003,18 @@ extension DeleteLoggingConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteLoggingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteLoggingConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteLoggingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1006,16 +1026,6 @@ public enum DeleteLoggingConfigurationOutputError: ClientRuntime.HttpResponseErr
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteLoggingConfigurationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteMessageInput: Swift.Encodable {
@@ -1091,26 +1101,11 @@ extension DeleteMessageInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteMessageOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteMessageOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteMessageOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteMessageOutputBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
         } else {
             self.id = nil
@@ -1118,7 +1113,7 @@ extension DeleteMessageOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMessageOutputResponse: Swift.Equatable {
+public struct DeleteMessageOutput: Swift.Equatable {
     /// Operation identifier, generated by Amazon IVS Chat.
     public var id: Swift.String?
 
@@ -1130,11 +1125,11 @@ public struct DeleteMessageOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteMessageOutputResponseBody: Swift.Equatable {
+struct DeleteMessageOutputBody: Swift.Equatable {
     let id: Swift.String?
 }
 
-extension DeleteMessageOutputResponseBody: Swift.Decodable {
+extension DeleteMessageOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case id
     }
@@ -1143,6 +1138,21 @@ extension DeleteMessageOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
+    }
+}
+
+enum DeleteMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1194,8 +1204,18 @@ extension DeleteRoomInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteRoomOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteRoomOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteRoomOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteRoomOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1206,16 +1226,6 @@ public enum DeleteRoomOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteRoomOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteRoomOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension IvschatClientTypes.DestinationConfiguration: Swift.Codable {
@@ -1273,6 +1283,11 @@ extension IvschatClientTypes {
         case sdkUnknown(Swift.String)
     }
 
+}
+
+extension DisconnectUserInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DisconnectUserInput(reason: \(Swift.String(describing: reason)), roomIdentifier: \(Swift.String(describing: roomIdentifier)), userId: \"CONTENT_REDACTED\")"}
 }
 
 extension DisconnectUserInput: Swift.Encodable {
@@ -1348,8 +1363,18 @@ extension DisconnectUserInputBody: Swift.Decodable {
     }
 }
 
-public enum DisconnectUserOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DisconnectUserOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DisconnectUserOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DisconnectUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1361,16 +1386,6 @@ public enum DisconnectUserOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DisconnectUserOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DisconnectUserOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension IvschatClientTypes {
@@ -1489,24 +1504,11 @@ extension GetLoggingConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum GetLoggingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetLoggingConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createTime = output.createTime
             self.destinationConfiguration = output.destinationConfiguration
@@ -1528,7 +1530,7 @@ extension GetLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetLoggingConfigurationOutputResponse: Swift.Equatable {
+public struct GetLoggingConfigurationOutput: Swift.Equatable {
     /// Logging-configuration ARN, from the request (if identifier was an ARN).
     public var arn: Swift.String?
     /// Time when the logging configuration was created. This is an ISO 8601 timestamp; note that this is returned as a string.
@@ -1568,7 +1570,7 @@ public struct GetLoggingConfigurationOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetLoggingConfigurationOutputResponseBody: Swift.Equatable {
+struct GetLoggingConfigurationOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let id: Swift.String?
     let createTime: ClientRuntime.Date?
@@ -1579,7 +1581,7 @@ struct GetLoggingConfigurationOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension GetLoggingConfigurationOutputResponseBody: Swift.Decodable {
+extension GetLoggingConfigurationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case createTime
@@ -1618,6 +1620,19 @@ extension GetLoggingConfigurationOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum GetLoggingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1669,24 +1684,11 @@ extension GetRoomInputBody: Swift.Decodable {
     }
 }
 
-public enum GetRoomOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetRoomOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRoomOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRoomOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRoomOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createTime = output.createTime
             self.id = output.id
@@ -1702,8 +1704,8 @@ extension GetRoomOutputResponse: ClientRuntime.HttpResponseBinding {
             self.createTime = nil
             self.id = nil
             self.loggingConfigurationIdentifiers = nil
-            self.maximumMessageLength = 0
-            self.maximumMessageRatePerSecond = 0
+            self.maximumMessageLength = nil
+            self.maximumMessageRatePerSecond = nil
             self.messageReviewHandler = nil
             self.name = nil
             self.tags = nil
@@ -1712,7 +1714,7 @@ extension GetRoomOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRoomOutputResponse: Swift.Equatable {
+public struct GetRoomOutput: Swift.Equatable {
     /// Room ARN, from the request (if identifier was an ARN).
     public var arn: Swift.String?
     /// Time when the room was created. This is an ISO 8601 timestamp; note that this is returned as a string.
@@ -1722,9 +1724,9 @@ public struct GetRoomOutputResponse: Swift.Equatable {
     /// Array of logging configurations attached to the room.
     public var loggingConfigurationIdentifiers: [Swift.String]?
     /// Maximum number of characters in a single message. Messages are expected to be UTF-8 encoded and this limit applies specifically to rune/code-point count, not number of bytes. Default: 500.
-    public var maximumMessageLength: Swift.Int
+    public var maximumMessageLength: Swift.Int?
     /// Maximum number of messages per second that can be sent to the room (by all clients). Default: 10.
-    public var maximumMessageRatePerSecond: Swift.Int
+    public var maximumMessageRatePerSecond: Swift.Int?
     /// Configuration information for optional review of messages.
     public var messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     /// Room name. The value does not need to be unique.
@@ -1739,8 +1741,8 @@ public struct GetRoomOutputResponse: Swift.Equatable {
         createTime: ClientRuntime.Date? = nil,
         id: Swift.String? = nil,
         loggingConfigurationIdentifiers: [Swift.String]? = nil,
-        maximumMessageLength: Swift.Int = 0,
-        maximumMessageRatePerSecond: Swift.Int = 0,
+        maximumMessageLength: Swift.Int? = nil,
+        maximumMessageRatePerSecond: Swift.Int? = nil,
         messageReviewHandler: IvschatClientTypes.MessageReviewHandler? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
@@ -1760,20 +1762,20 @@ public struct GetRoomOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRoomOutputResponseBody: Swift.Equatable {
+struct GetRoomOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
     let createTime: ClientRuntime.Date?
     let updateTime: ClientRuntime.Date?
-    let maximumMessageRatePerSecond: Swift.Int
-    let maximumMessageLength: Swift.Int
+    let maximumMessageRatePerSecond: Swift.Int?
+    let maximumMessageLength: Swift.Int?
     let messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     let tags: [Swift.String:Swift.String]?
     let loggingConfigurationIdentifiers: [Swift.String]?
 }
 
-extension GetRoomOutputResponseBody: Swift.Decodable {
+extension GetRoomOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case createTime
@@ -1799,9 +1801,9 @@ extension GetRoomOutputResponseBody: Swift.Decodable {
         createTime = createTimeDecoded
         let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updateTime)
         updateTime = updateTimeDecoded
-        let maximumMessageRatePerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageRatePerSecond) ?? 0
+        let maximumMessageRatePerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageRatePerSecond)
         maximumMessageRatePerSecond = maximumMessageRatePerSecondDecoded
-        let maximumMessageLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageLength) ?? 0
+        let maximumMessageLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageLength)
         maximumMessageLength = maximumMessageLengthDecoded
         let messageReviewHandlerDecoded = try containerValues.decodeIfPresent(IvschatClientTypes.MessageReviewHandler.self, forKey: .messageReviewHandler)
         messageReviewHandler = messageReviewHandlerDecoded
@@ -1827,6 +1829,19 @@ extension GetRoomOutputResponseBody: Swift.Decodable {
             }
         }
         loggingConfigurationIdentifiers = loggingConfigurationIdentifiersDecoded0
+    }
+}
+
+enum GetRoomOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1894,7 +1909,7 @@ extension ListLoggingConfigurationsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -1911,12 +1926,12 @@ extension ListLoggingConfigurationsInput: ClientRuntime.URLPathProvider {
 
 public struct ListLoggingConfigurationsInput: Swift.Equatable {
     /// Maximum number of logging configurations to return. Default: 50.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The first logging configurations to retrieve. This is used for pagination; see the nextToken response field.
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -1927,7 +1942,7 @@ public struct ListLoggingConfigurationsInput: Swift.Equatable {
 
 struct ListLoggingConfigurationsInputBody: Swift.Equatable {
     let nextToken: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
 }
 
 extension ListLoggingConfigurationsInputBody: Swift.Decodable {
@@ -1940,28 +1955,16 @@ extension ListLoggingConfigurationsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
     }
 }
 
-public enum ListLoggingConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListLoggingConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListLoggingConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListLoggingConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListLoggingConfigurationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.loggingConfigurations = output.loggingConfigurations
             self.nextToken = output.nextToken
         } else {
@@ -1971,7 +1974,7 @@ extension ListLoggingConfigurationsOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct ListLoggingConfigurationsOutputResponse: Swift.Equatable {
+public struct ListLoggingConfigurationsOutput: Swift.Equatable {
     /// List of the matching logging configurations (summary information only). There is only one type of destination (cloudWatchLogs, firehose, or s3) in a destinationConfiguration.
     /// This member is required.
     public var loggingConfigurations: [IvschatClientTypes.LoggingConfigurationSummary]?
@@ -1988,12 +1991,12 @@ public struct ListLoggingConfigurationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListLoggingConfigurationsOutputResponseBody: Swift.Equatable {
+struct ListLoggingConfigurationsOutputBody: Swift.Equatable {
     let loggingConfigurations: [IvschatClientTypes.LoggingConfigurationSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListLoggingConfigurationsOutputResponseBody: Swift.Decodable {
+extension ListLoggingConfigurationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case loggingConfigurations
         case nextToken
@@ -2017,6 +2020,18 @@ extension ListLoggingConfigurationsOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListLoggingConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListRoomsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case loggingConfigurationIdentifier
@@ -2031,7 +2046,7 @@ extension ListRoomsInput: Swift.Encodable {
         if let loggingConfigurationIdentifier = self.loggingConfigurationIdentifier {
             try encodeContainer.encode(loggingConfigurationIdentifier, forKey: .loggingConfigurationIdentifier)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let messageReviewHandlerUri = self.messageReviewHandlerUri {
@@ -2056,7 +2071,7 @@ public struct ListRoomsInput: Swift.Equatable {
     /// Logging-configuration identifier.
     public var loggingConfigurationIdentifier: Swift.String?
     /// Maximum number of rooms to return. Default: 50.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Filters the list to match the specified message review handler URI.
     public var messageReviewHandlerUri: Swift.String?
     /// Filters the list to match the specified room name.
@@ -2066,7 +2081,7 @@ public struct ListRoomsInput: Swift.Equatable {
 
     public init(
         loggingConfigurationIdentifier: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         messageReviewHandlerUri: Swift.String? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
@@ -2083,7 +2098,7 @@ public struct ListRoomsInput: Swift.Equatable {
 struct ListRoomsInputBody: Swift.Equatable {
     let name: Swift.String?
     let nextToken: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let messageReviewHandlerUri: Swift.String?
     let loggingConfigurationIdentifier: Swift.String?
 }
@@ -2103,7 +2118,7 @@ extension ListRoomsInputBody: Swift.Decodable {
         name = nameDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let messageReviewHandlerUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageReviewHandlerUri)
         messageReviewHandlerUri = messageReviewHandlerUriDecoded
@@ -2112,24 +2127,11 @@ extension ListRoomsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListRoomsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRoomsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRoomsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRoomsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRoomsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.rooms = output.rooms
         } else {
@@ -2139,7 +2141,7 @@ extension ListRoomsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRoomsOutputResponse: Swift.Equatable {
+public struct ListRoomsOutput: Swift.Equatable {
     /// If there are more rooms than maxResults, use nextToken in the request to get the next set.
     public var nextToken: Swift.String?
     /// List of the matching rooms (summary information only).
@@ -2156,12 +2158,12 @@ public struct ListRoomsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRoomsOutputResponseBody: Swift.Equatable {
+struct ListRoomsOutputBody: Swift.Equatable {
     let rooms: [IvschatClientTypes.RoomSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListRoomsOutputResponseBody: Swift.Decodable {
+extension ListRoomsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case rooms
@@ -2182,6 +2184,19 @@ extension ListRoomsOutputResponseBody: Swift.Decodable {
         rooms = roomsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListRoomsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2216,24 +2231,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -2241,7 +2243,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// Tags attached to the resource. Array of maps, each of the form string:string (key:value).
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
@@ -2254,11 +2256,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags
     }
@@ -2276,6 +2278,19 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2901,26 +2916,11 @@ extension SendEventInputBody: Swift.Decodable {
     }
 }
 
-public enum SendEventOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension SendEventOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SendEventOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SendEventOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SendEventOutputBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
         } else {
             self.id = nil
@@ -2928,7 +2928,7 @@ extension SendEventOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendEventOutputResponse: Swift.Equatable {
+public struct SendEventOutput: Swift.Equatable {
     /// An identifier generated by Amazon IVS Chat. This identifier must be used in subsequent operations for this message, such as DeleteMessage.
     public var id: Swift.String?
 
@@ -2940,11 +2940,11 @@ public struct SendEventOutputResponse: Swift.Equatable {
     }
 }
 
-struct SendEventOutputResponseBody: Swift.Equatable {
+struct SendEventOutputBody: Swift.Equatable {
     let id: Swift.String?
 }
 
-extension SendEventOutputResponseBody: Swift.Decodable {
+extension SendEventOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case id
     }
@@ -2953,6 +2953,21 @@ extension SendEventOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
+    }
+}
+
+enum SendEventOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3113,8 +3128,18 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3124,16 +3149,6 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ThrottlingException {
@@ -3278,8 +3293,18 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3289,16 +3314,6 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateLoggingConfigurationInput: Swift.Encodable {
@@ -3373,26 +3388,11 @@ extension UpdateLoggingConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateLoggingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateLoggingConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createTime = output.createTime
             self.destinationConfiguration = output.destinationConfiguration
@@ -3414,7 +3414,7 @@ extension UpdateLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct UpdateLoggingConfigurationOutputResponse: Swift.Equatable {
+public struct UpdateLoggingConfigurationOutput: Swift.Equatable {
     /// Logging-configuration ARN, from the request (if identifier was an ARN).
     public var arn: Swift.String?
     /// Time when the logging configuration was created. This is an ISO 8601 timestamp; note that this is returned as a string.
@@ -3454,7 +3454,7 @@ public struct UpdateLoggingConfigurationOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateLoggingConfigurationOutputResponseBody: Swift.Equatable {
+struct UpdateLoggingConfigurationOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let id: Swift.String?
     let createTime: ClientRuntime.Date?
@@ -3465,7 +3465,7 @@ struct UpdateLoggingConfigurationOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension UpdateLoggingConfigurationOutputResponseBody: Swift.Decodable {
+extension UpdateLoggingConfigurationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case createTime
@@ -3504,6 +3504,21 @@ extension UpdateLoggingConfigurationOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum UpdateLoggingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3557,10 +3572,10 @@ extension UpdateRoomInput: Swift.Encodable {
                 try loggingConfigurationIdentifiersContainer.encode(loggingconfigurationidentifier0)
             }
         }
-        if maximumMessageLength != 0 {
+        if let maximumMessageLength = self.maximumMessageLength {
             try encodeContainer.encode(maximumMessageLength, forKey: .maximumMessageLength)
         }
-        if maximumMessageRatePerSecond != 0 {
+        if let maximumMessageRatePerSecond = self.maximumMessageRatePerSecond {
             try encodeContainer.encode(maximumMessageRatePerSecond, forKey: .maximumMessageRatePerSecond)
         }
         if let messageReviewHandler = self.messageReviewHandler {
@@ -3585,9 +3600,9 @@ public struct UpdateRoomInput: Swift.Equatable {
     /// Array of logging-configuration identifiers attached to the room.
     public var loggingConfigurationIdentifiers: [Swift.String]?
     /// The maximum number of characters in a single message. Messages are expected to be UTF-8 encoded and this limit applies specifically to rune/code-point count, not number of bytes. Default: 500.
-    public var maximumMessageLength: Swift.Int
+    public var maximumMessageLength: Swift.Int?
     /// Maximum number of messages per second that can be sent to the room (by all clients). Default: 10.
-    public var maximumMessageRatePerSecond: Swift.Int
+    public var maximumMessageRatePerSecond: Swift.Int?
     /// Configuration information for optional review of messages. Specify an empty uri string to disassociate a message review handler from the specified room.
     public var messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     /// Room name. The value does not need to be unique.
@@ -3596,8 +3611,8 @@ public struct UpdateRoomInput: Swift.Equatable {
     public init(
         identifier: Swift.String? = nil,
         loggingConfigurationIdentifiers: [Swift.String]? = nil,
-        maximumMessageLength: Swift.Int = 0,
-        maximumMessageRatePerSecond: Swift.Int = 0,
+        maximumMessageLength: Swift.Int? = nil,
+        maximumMessageRatePerSecond: Swift.Int? = nil,
         messageReviewHandler: IvschatClientTypes.MessageReviewHandler? = nil,
         name: Swift.String? = nil
     )
@@ -3614,8 +3629,8 @@ public struct UpdateRoomInput: Swift.Equatable {
 struct UpdateRoomInputBody: Swift.Equatable {
     let identifier: Swift.String?
     let name: Swift.String?
-    let maximumMessageRatePerSecond: Swift.Int
-    let maximumMessageLength: Swift.Int
+    let maximumMessageRatePerSecond: Swift.Int?
+    let maximumMessageLength: Swift.Int?
     let messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     let loggingConfigurationIdentifiers: [Swift.String]?
 }
@@ -3636,9 +3651,9 @@ extension UpdateRoomInputBody: Swift.Decodable {
         identifier = identifierDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
-        let maximumMessageRatePerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageRatePerSecond) ?? 0
+        let maximumMessageRatePerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageRatePerSecond)
         maximumMessageRatePerSecond = maximumMessageRatePerSecondDecoded
-        let maximumMessageLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageLength) ?? 0
+        let maximumMessageLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageLength)
         maximumMessageLength = maximumMessageLengthDecoded
         let messageReviewHandlerDecoded = try containerValues.decodeIfPresent(IvschatClientTypes.MessageReviewHandler.self, forKey: .messageReviewHandler)
         messageReviewHandler = messageReviewHandlerDecoded
@@ -3656,25 +3671,11 @@ extension UpdateRoomInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateRoomOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateRoomOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateRoomOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateRoomOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateRoomOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createTime = output.createTime
             self.id = output.id
@@ -3690,8 +3691,8 @@ extension UpdateRoomOutputResponse: ClientRuntime.HttpResponseBinding {
             self.createTime = nil
             self.id = nil
             self.loggingConfigurationIdentifiers = nil
-            self.maximumMessageLength = 0
-            self.maximumMessageRatePerSecond = 0
+            self.maximumMessageLength = nil
+            self.maximumMessageRatePerSecond = nil
             self.messageReviewHandler = nil
             self.name = nil
             self.tags = nil
@@ -3700,7 +3701,7 @@ extension UpdateRoomOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRoomOutputResponse: Swift.Equatable {
+public struct UpdateRoomOutput: Swift.Equatable {
     /// Room ARN, from the request (if identifier was an ARN).
     public var arn: Swift.String?
     /// Time when the room was created. This is an ISO 8601 timestamp; note that this is returned as a string.
@@ -3710,9 +3711,9 @@ public struct UpdateRoomOutputResponse: Swift.Equatable {
     /// Array of logging configurations attached to the room, from the request (if specified).
     public var loggingConfigurationIdentifiers: [Swift.String]?
     /// Maximum number of characters in a single message, from the request (if specified).
-    public var maximumMessageLength: Swift.Int
+    public var maximumMessageLength: Swift.Int?
     /// Maximum number of messages per second that can be sent to the room (by all clients), from the request (if specified).
-    public var maximumMessageRatePerSecond: Swift.Int
+    public var maximumMessageRatePerSecond: Swift.Int?
     /// Configuration information for optional review of messages.
     public var messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     /// Room name, from the request (if specified).
@@ -3727,8 +3728,8 @@ public struct UpdateRoomOutputResponse: Swift.Equatable {
         createTime: ClientRuntime.Date? = nil,
         id: Swift.String? = nil,
         loggingConfigurationIdentifiers: [Swift.String]? = nil,
-        maximumMessageLength: Swift.Int = 0,
-        maximumMessageRatePerSecond: Swift.Int = 0,
+        maximumMessageLength: Swift.Int? = nil,
+        maximumMessageRatePerSecond: Swift.Int? = nil,
         messageReviewHandler: IvschatClientTypes.MessageReviewHandler? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
@@ -3748,20 +3749,20 @@ public struct UpdateRoomOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateRoomOutputResponseBody: Swift.Equatable {
+struct UpdateRoomOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
     let createTime: ClientRuntime.Date?
     let updateTime: ClientRuntime.Date?
-    let maximumMessageRatePerSecond: Swift.Int
-    let maximumMessageLength: Swift.Int
+    let maximumMessageRatePerSecond: Swift.Int?
+    let maximumMessageLength: Swift.Int?
     let messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     let tags: [Swift.String:Swift.String]?
     let loggingConfigurationIdentifiers: [Swift.String]?
 }
 
-extension UpdateRoomOutputResponseBody: Swift.Decodable {
+extension UpdateRoomOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case createTime
@@ -3787,9 +3788,9 @@ extension UpdateRoomOutputResponseBody: Swift.Decodable {
         createTime = createTimeDecoded
         let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updateTime)
         updateTime = updateTimeDecoded
-        let maximumMessageRatePerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageRatePerSecond) ?? 0
+        let maximumMessageRatePerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageRatePerSecond)
         maximumMessageRatePerSecond = maximumMessageRatePerSecondDecoded
-        let maximumMessageLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageLength) ?? 0
+        let maximumMessageLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageLength)
         maximumMessageLength = maximumMessageLengthDecoded
         let messageReviewHandlerDecoded = try containerValues.decodeIfPresent(IvschatClientTypes.MessageReviewHandler.self, forKey: .messageReviewHandler)
         messageReviewHandler = messageReviewHandlerDecoded
@@ -3815,6 +3816,20 @@ extension UpdateRoomOutputResponseBody: Swift.Decodable {
             }
         }
         loggingConfigurationIdentifiers = loggingConfigurationIdentifiersDecoded0
+    }
+}
+
+enum UpdateRoomOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

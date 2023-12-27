@@ -3,77 +3,16 @@
 import ClientRuntime
 
 extension PaymentCryptographyClient {
-    /// Paginate over `[ListAliasesOutputResponse]` results.
-    ///
-    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
-    /// - Parameters:
-    ///     - input: A `[ListAliasesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAliasesOutputResponse`
-    public func listAliasesPaginated(input: ListAliasesInput) -> ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutputResponse>(input: input, inputKey: \ListAliasesInput.nextToken, outputKey: \ListAliasesOutputResponse.nextToken, paginationFunction: self.listAliases(input:))
-    }
-}
-
-extension ListAliasesInput: ClientRuntime.PaginateToken {
-    public func usingPaginationToken(_ token: Swift.String) -> ListAliasesInput {
-        return ListAliasesInput(
-            maxResults: self.maxResults,
-            nextToken: token
-        )}
-}
-
-extension PaginatorSequence where Input == ListAliasesInput, Output == ListAliasesOutputResponse {
-    /// This paginator transforms the `AsyncSequence` returned by `listAliasesPaginated`
-    /// to access the nested member `[PaymentCryptographyClientTypes.Alias]`
-    /// - Returns: `[PaymentCryptographyClientTypes.Alias]`
-    public func aliases() async throws -> [PaymentCryptographyClientTypes.Alias] {
-        return try await self.asyncCompactMap { item in item.aliases }
-    }
-}
-extension PaymentCryptographyClient {
-    /// Paginate over `[ListKeysOutputResponse]` results.
-    ///
-    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
-    /// - Parameters:
-    ///     - input: A `[ListKeysInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListKeysOutputResponse`
-    public func listKeysPaginated(input: ListKeysInput) -> ClientRuntime.PaginatorSequence<ListKeysInput, ListKeysOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListKeysInput, ListKeysOutputResponse>(input: input, inputKey: \ListKeysInput.nextToken, outputKey: \ListKeysOutputResponse.nextToken, paginationFunction: self.listKeys(input:))
-    }
-}
-
-extension ListKeysInput: ClientRuntime.PaginateToken {
-    public func usingPaginationToken(_ token: Swift.String) -> ListKeysInput {
-        return ListKeysInput(
-            keyState: self.keyState,
-            maxResults: self.maxResults,
-            nextToken: token
-        )}
-}
-
-extension PaginatorSequence where Input == ListKeysInput, Output == ListKeysOutputResponse {
-    /// This paginator transforms the `AsyncSequence` returned by `listKeysPaginated`
-    /// to access the nested member `[PaymentCryptographyClientTypes.KeySummary]`
-    /// - Returns: `[PaymentCryptographyClientTypes.KeySummary]`
-    public func keys() async throws -> [PaymentCryptographyClientTypes.KeySummary] {
-        return try await self.asyncCompactMap { item in item.keys }
-    }
-}
-extension PaymentCryptographyClient {
-    /// Paginate over `[ListTagsForResourceOutputResponse]` results.
+    /// Paginate over `[ListTagsForResourceOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
-    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutputResponse.nextToken, paginationFunction: self.listTagsForResource(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
+    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
 }
 
@@ -86,7 +25,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutputResponse {
+extension PaginatorSequence where OperationStackInput == ListTagsForResourceInput, OperationStackOutput == ListTagsForResourceOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[PaymentCryptographyClientTypes.Tag]`
     /// - Returns: `[PaymentCryptographyClientTypes.Tag]`

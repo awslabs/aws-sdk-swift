@@ -2,6 +2,21 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension AccessDeniedException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
 /// You don't have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -24,6 +39,22 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     )
     {
         self.properties.message = message
+    }
+}
+
+struct AccessDeniedExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension AccessDeniedExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -52,8 +83,13 @@ extension VerifiedPermissionsClientTypes.ActionIdentifier: Swift.Codable {
     }
 }
 
+extension VerifiedPermissionsClientTypes.ActionIdentifier: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ActionIdentifier(actionId: \"CONTENT_REDACTED\", actionType: \"CONTENT_REDACTED\")"}
+}
+
 extension VerifiedPermissionsClientTypes {
-    /// Contains information about an action for a request for which an authorization decision is made. This data type is used as an request parameter to the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html) and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations. Example: { "actionId": "<action name>", "actionType": "Action" }
+    /// Contains information about an action for a request for which an authorization decision is made. This data type is used as a request parameter to the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html), [BatchIsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html), and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations. Example: { "actionId": "<action name>", "actionType": "Action" }
     public struct ActionIdentifier: Swift.Equatable {
         /// The ID of an action.
         /// This member is required.
@@ -166,21 +202,327 @@ extension VerifiedPermissionsClientTypes.AttributeValue: Swift.Codable {
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// The value of an attribute. Contains information about the runtime context for a request for which an authorization decision is made. This data type is used as a member of the [ContextDefinition](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ContextDefinition.html) structure which is uses as a request parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html) and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations.
-    public enum AttributeValue: Swift.Equatable {
-        /// An attribute value of [Boolean](https://docs.cedarpolicy.com/syntax-datatypes.html#boolean) type. Example: {"boolean": true}
+    /// The value of an attribute. Contains information about the runtime context for a request for which an authorization decision is made. This data type is used as a member of the [ContextDefinition](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ContextDefinition.html) structure which is uses as a request parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html), [BatchIsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html), and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations.
+    public indirect enum AttributeValue: Swift.Equatable {
+        /// An attribute value of [Boolean](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#boolean) type. Example: {"boolean": true}
         case boolean(Swift.Bool)
         /// An attribute value of type [EntityIdentifier](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EntityIdentifier.html). Example: "entityIdentifier": { "entityId": "<id>", "entityType": "<entity type>"}
         case entityidentifier(VerifiedPermissionsClientTypes.EntityIdentifier)
-        /// An attribute value of [Long](https://docs.cedarpolicy.com/syntax-datatypes.html#long) type. Example: {"long": 0}
+        /// An attribute value of [Long](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#long) type. Example: {"long": 0}
         case long(Swift.Int)
-        /// An attribute value of [String](https://docs.cedarpolicy.com/syntax-datatypes.html#string) type. Example: {"string": "abc"}
+        /// An attribute value of [String](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#string) type. Example: {"string": "abc"}
         case string(Swift.String)
-        /// An attribute value of [Set](https://docs.cedarpolicy.com/syntax-datatypes.html#set) type. Example: {"set": [ {} ] }
+        /// An attribute value of [Set](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#set) type. Example: {"set": [ {} ] }
         case `set`([VerifiedPermissionsClientTypes.AttributeValue])
-        /// An attribute value of [Record](https://docs.cedarpolicy.com/syntax-datatypes.html#record) type. Example: {"record": { "keyName": {} } }
+        /// An attribute value of [Record](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#record) type. Example: {"record": { "keyName": {} } }
         case record([Swift.String:VerifiedPermissionsClientTypes.AttributeValue])
         case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension BatchIsAuthorizedInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case entities
+        case policyStoreId
+        case requests
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let entities = self.entities {
+            try encodeContainer.encode(entities, forKey: .entities)
+        }
+        if let policyStoreId = self.policyStoreId {
+            try encodeContainer.encode(policyStoreId, forKey: .policyStoreId)
+        }
+        if let requests = requests {
+            var requestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requests)
+            for batchisauthorizedinputitem0 in requests {
+                try requestsContainer.encode(batchisauthorizedinputitem0)
+            }
+        }
+    }
+}
+
+extension BatchIsAuthorizedInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct BatchIsAuthorizedInput: Swift.Equatable {
+    /// Specifies the list of resources and principals and their associated attributes that Verified Permissions can examine when evaluating the policies. You can include only principal and resource entities in this parameter; you can't include actions. You must specify actions in the schema.
+    public var entities: VerifiedPermissionsClientTypes.EntitiesDefinition?
+    /// Specifies the ID of the policy store. Policies in this policy store will be used to make the authorization decisions for the input.
+    /// This member is required.
+    public var policyStoreId: Swift.String?
+    /// An array of up to 30 requests that you want Verified Permissions to evaluate.
+    /// This member is required.
+    public var requests: [VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem]?
+
+    public init(
+        entities: VerifiedPermissionsClientTypes.EntitiesDefinition? = nil,
+        policyStoreId: Swift.String? = nil,
+        requests: [VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem]? = nil
+    )
+    {
+        self.entities = entities
+        self.policyStoreId = policyStoreId
+        self.requests = requests
+    }
+}
+
+struct BatchIsAuthorizedInputBody: Swift.Equatable {
+    let policyStoreId: Swift.String?
+    let entities: VerifiedPermissionsClientTypes.EntitiesDefinition?
+    let requests: [VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem]?
+}
+
+extension BatchIsAuthorizedInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case entities
+        case policyStoreId
+        case requests
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyStoreIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyStoreId)
+        policyStoreId = policyStoreIdDecoded
+        let entitiesDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.EntitiesDefinition.self, forKey: .entities)
+        entities = entitiesDecoded
+        let requestsContainer = try containerValues.decodeIfPresent([VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem?].self, forKey: .requests)
+        var requestsDecoded0:[VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem]? = nil
+        if let requestsContainer = requestsContainer {
+            requestsDecoded0 = [VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem]()
+            for structure0 in requestsContainer {
+                if let structure0 = structure0 {
+                    requestsDecoded0?.append(structure0)
+                }
+            }
+        }
+        requests = requestsDecoded0
+    }
+}
+
+extension VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action
+        case context
+        case principal
+        case resource
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let action = self.action {
+            try encodeContainer.encode(action, forKey: .action)
+        }
+        if let context = self.context {
+            try encodeContainer.encode(context, forKey: .context)
+        }
+        if let principal = self.principal {
+            try encodeContainer.encode(principal, forKey: .principal)
+        }
+        if let resource = self.resource {
+            try encodeContainer.encode(resource, forKey: .resource)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let principalDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.EntityIdentifier.self, forKey: .principal)
+        principal = principalDecoded
+        let actionDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.ActionIdentifier.self, forKey: .action)
+        action = actionDecoded
+        let resourceDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.EntityIdentifier.self, forKey: .resource)
+        resource = resourceDecoded
+        let contextDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.ContextDefinition.self, forKey: .context)
+        context = contextDecoded
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// An authorization request that you include in a BatchIsAuthorized API request.
+    public struct BatchIsAuthorizedInputItem: Swift.Equatable {
+        /// Specifies the requested action to be authorized. For example, is the principal authorized to perform this action on the resource?
+        public var action: VerifiedPermissionsClientTypes.ActionIdentifier?
+        /// Specifies additional context that can be used to make more granular authorization decisions.
+        public var context: VerifiedPermissionsClientTypes.ContextDefinition?
+        /// Specifies the principal for which the authorization decision is to be made.
+        public var principal: VerifiedPermissionsClientTypes.EntityIdentifier?
+        /// Specifies the resource for which the authorization decision is to be made.
+        public var resource: VerifiedPermissionsClientTypes.EntityIdentifier?
+
+        public init(
+            action: VerifiedPermissionsClientTypes.ActionIdentifier? = nil,
+            context: VerifiedPermissionsClientTypes.ContextDefinition? = nil,
+            principal: VerifiedPermissionsClientTypes.EntityIdentifier? = nil,
+            resource: VerifiedPermissionsClientTypes.EntityIdentifier? = nil
+        )
+        {
+            self.action = action
+            self.context = context
+            self.principal = principal
+            self.resource = resource
+        }
+    }
+
+}
+
+extension BatchIsAuthorizedOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchIsAuthorizedOutputBody = try responseDecoder.decode(responseBody: data)
+            self.results = output.results
+        } else {
+            self.results = nil
+        }
+    }
+}
+
+public struct BatchIsAuthorizedOutput: Swift.Equatable {
+    /// A series of Allow or Deny decisions for each request, and the policies that produced them.
+    /// This member is required.
+    public var results: [VerifiedPermissionsClientTypes.BatchIsAuthorizedOutputItem]?
+
+    public init(
+        results: [VerifiedPermissionsClientTypes.BatchIsAuthorizedOutputItem]? = nil
+    )
+    {
+        self.results = results
+    }
+}
+
+struct BatchIsAuthorizedOutputBody: Swift.Equatable {
+    let results: [VerifiedPermissionsClientTypes.BatchIsAuthorizedOutputItem]?
+}
+
+extension BatchIsAuthorizedOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case results
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultsContainer = try containerValues.decodeIfPresent([VerifiedPermissionsClientTypes.BatchIsAuthorizedOutputItem?].self, forKey: .results)
+        var resultsDecoded0:[VerifiedPermissionsClientTypes.BatchIsAuthorizedOutputItem]? = nil
+        if let resultsContainer = resultsContainer {
+            resultsDecoded0 = [VerifiedPermissionsClientTypes.BatchIsAuthorizedOutputItem]()
+            for structure0 in resultsContainer {
+                if let structure0 = structure0 {
+                    resultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        results = resultsDecoded0
+    }
+}
+
+enum BatchIsAuthorizedOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension VerifiedPermissionsClientTypes.BatchIsAuthorizedOutputItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case decision
+        case determiningPolicies
+        case errors
+        case request
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let decision = self.decision {
+            try encodeContainer.encode(decision.rawValue, forKey: .decision)
+        }
+        if let determiningPolicies = determiningPolicies {
+            var determiningPoliciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .determiningPolicies)
+            for determiningpolicyitem0 in determiningPolicies {
+                try determiningPoliciesContainer.encode(determiningpolicyitem0)
+            }
+        }
+        if let errors = errors {
+            var errorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .errors)
+            for evaluationerroritem0 in errors {
+                try errorsContainer.encode(evaluationerroritem0)
+            }
+        }
+        if let request = self.request {
+            try encodeContainer.encode(request, forKey: .request)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem.self, forKey: .request)
+        request = requestDecoded
+        let decisionDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.Decision.self, forKey: .decision)
+        decision = decisionDecoded
+        let determiningPoliciesContainer = try containerValues.decodeIfPresent([VerifiedPermissionsClientTypes.DeterminingPolicyItem?].self, forKey: .determiningPolicies)
+        var determiningPoliciesDecoded0:[VerifiedPermissionsClientTypes.DeterminingPolicyItem]? = nil
+        if let determiningPoliciesContainer = determiningPoliciesContainer {
+            determiningPoliciesDecoded0 = [VerifiedPermissionsClientTypes.DeterminingPolicyItem]()
+            for structure0 in determiningPoliciesContainer {
+                if let structure0 = structure0 {
+                    determiningPoliciesDecoded0?.append(structure0)
+                }
+            }
+        }
+        determiningPolicies = determiningPoliciesDecoded0
+        let errorsContainer = try containerValues.decodeIfPresent([VerifiedPermissionsClientTypes.EvaluationErrorItem?].self, forKey: .errors)
+        var errorsDecoded0:[VerifiedPermissionsClientTypes.EvaluationErrorItem]? = nil
+        if let errorsContainer = errorsContainer {
+            errorsDecoded0 = [VerifiedPermissionsClientTypes.EvaluationErrorItem]()
+            for structure0 in errorsContainer {
+                if let structure0 = structure0 {
+                    errorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errors = errorsDecoded0
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// The decision, based on policy evaluation, from an individual authorization request in a BatchIsAuthorized API request.
+    public struct BatchIsAuthorizedOutputItem: Swift.Equatable {
+        /// An authorization decision that indicates if the authorization request should be allowed or denied.
+        /// This member is required.
+        public var decision: VerifiedPermissionsClientTypes.Decision?
+        /// The list of determining policies used to make the authorization decision. For example, if there are two matching policies, where one is a forbid and the other is a permit, then the forbid policy will be the determining policy. In the case of multiple matching permit policies then there would be multiple determining policies. In the case that no policies match, and hence the response is DENY, there would be no determining policies.
+        /// This member is required.
+        public var determiningPolicies: [VerifiedPermissionsClientTypes.DeterminingPolicyItem]?
+        /// Errors that occurred while making an authorization decision, for example, a policy references an Entity or entity Attribute that does not exist in the slice.
+        /// This member is required.
+        public var errors: [VerifiedPermissionsClientTypes.EvaluationErrorItem]?
+        /// The authorization request that initiated the decision.
+        /// This member is required.
+        public var request: VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem?
+
+        public init(
+            decision: VerifiedPermissionsClientTypes.Decision? = nil,
+            determiningPolicies: [VerifiedPermissionsClientTypes.DeterminingPolicyItem]? = nil,
+            errors: [VerifiedPermissionsClientTypes.EvaluationErrorItem]? = nil,
+            request: VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem? = nil
+        )
+        {
+            self.decision = decision
+            self.determiningPolicies = determiningPolicies
+            self.errors = errors
+            self.request = request
+        }
     }
 
 }
@@ -396,13 +738,18 @@ extension VerifiedPermissionsClientTypes.ContextDefinition: Swift.Codable {
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// Contains additional details about the context of the request. Verified Permissions evaluates this information in an authorization request as part of the when and unless clauses in a policy. This data type is used as a request parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html) and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations. Example: "context":{"Context":{"<KeyName1>":{"boolean":true},"<KeyName2>":{"long":1234}}}
-    public enum ContextDefinition: Swift.Equatable {
-        /// An list of attributes that are needed to successfully evaluate an authorization request. Each attribute in this array must include a map of a data type and its value. Example: "Context":{"<KeyName1>":{"boolean":true},"<KeyName2>":{"long":1234}}
+    /// Contains additional details about the context of the request. Verified Permissions evaluates this information in an authorization request as part of the when and unless clauses in a policy. This data type is used as a request parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html), [BatchIsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html), and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations. Example: "context":{"contextMap":{"<KeyName1>":{"boolean":true},"<KeyName2>":{"long":1234}}}
+    public indirect enum ContextDefinition: Swift.Equatable {
+        /// An list of attributes that are needed to successfully evaluate an authorization request. Each attribute in this array must include a map of a data type and its value. Example: "contextMap":{"<KeyName1>":{"boolean":true},"<KeyName2>":{"long":1234}}
         case contextmap([Swift.String:VerifiedPermissionsClientTypes.AttributeValue])
         case sdkUnknown(Swift.String)
     }
 
+}
+
+extension CreateIdentitySourceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateIdentitySourceInput(clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), policyStoreId: \(Swift.String(describing: policyStoreId)), principalEntityType: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateIdentitySourceInput: Swift.Encodable {
@@ -490,23 +837,11 @@ extension CreateIdentitySourceInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateIdentitySourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateIdentitySourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateIdentitySourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateIdentitySourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateIdentitySourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdDate = output.createdDate
             self.identitySourceId = output.identitySourceId
             self.lastUpdatedDate = output.lastUpdatedDate
@@ -520,7 +855,7 @@ extension CreateIdentitySourceOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct CreateIdentitySourceOutputResponse: Swift.Equatable {
+public struct CreateIdentitySourceOutput: Swift.Equatable {
     /// The date and time the identity source was originally created.
     /// This member is required.
     public var createdDate: ClientRuntime.Date?
@@ -548,14 +883,14 @@ public struct CreateIdentitySourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateIdentitySourceOutputResponseBody: Swift.Equatable {
+struct CreateIdentitySourceOutputBody: Swift.Equatable {
     let createdDate: ClientRuntime.Date?
     let identitySourceId: Swift.String?
     let lastUpdatedDate: ClientRuntime.Date?
     let policyStoreId: Swift.String?
 }
 
-extension CreateIdentitySourceOutputResponseBody: Swift.Decodable {
+extension CreateIdentitySourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdDate
         case identitySourceId
@@ -573,6 +908,21 @@ extension CreateIdentitySourceOutputResponseBody: Swift.Decodable {
         lastUpdatedDate = lastUpdatedDateDecoded
         let policyStoreIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyStoreId)
         policyStoreId = policyStoreIdDecoded
+    }
+}
+
+enum CreateIdentitySourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -649,23 +999,11 @@ extension CreatePolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum CreatePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreatePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreatePolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreatePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreatePolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdDate = output.createdDate
             self.lastUpdatedDate = output.lastUpdatedDate
             self.policyId = output.policyId
@@ -685,7 +1023,7 @@ extension CreatePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePolicyOutputResponse: Swift.Equatable {
+public struct CreatePolicyOutput: Swift.Equatable {
     /// The date and time the policy was originally created.
     /// This member is required.
     public var createdDate: ClientRuntime.Date?
@@ -726,7 +1064,7 @@ public struct CreatePolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreatePolicyOutputResponseBody: Swift.Equatable {
+struct CreatePolicyOutputBody: Swift.Equatable {
     let policyStoreId: Swift.String?
     let policyId: Swift.String?
     let policyType: VerifiedPermissionsClientTypes.PolicyType?
@@ -736,7 +1074,7 @@ struct CreatePolicyOutputResponseBody: Swift.Equatable {
     let lastUpdatedDate: ClientRuntime.Date?
 }
 
-extension CreatePolicyOutputResponseBody: Swift.Decodable {
+extension CreatePolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdDate
         case lastUpdatedDate
@@ -766,9 +1104,30 @@ extension CreatePolicyOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum CreatePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreatePolicyStoreInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreatePolicyStoreInput(clientToken: \(Swift.String(describing: clientToken)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
+}
+
 extension CreatePolicyStoreInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
+        case description
         case validationSettings
     }
 
@@ -776,6 +1135,9 @@ extension CreatePolicyStoreInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
         }
         if let validationSettings = self.validationSettings {
             try encodeContainer.encode(validationSettings, forKey: .validationSettings)
@@ -792,16 +1154,20 @@ extension CreatePolicyStoreInput: ClientRuntime.URLPathProvider {
 public struct CreatePolicyStoreInput: Swift.Equatable {
     /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
+    /// Descriptive text that you can provide to help with identification of the current policy store.
+    public var description: Swift.String?
     /// Specifies the validation setting for this policy store. Currently, the only valid and required value is Mode. We recommend that you turn on STRICT mode only after you define a schema. If a schema doesn't exist, then STRICT mode causes any policy to fail validation, and Verified Permissions rejects the policy. You can turn off validation by using the [UpdatePolicyStore](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyStore). Then, when you have a schema defined, use [UpdatePolicyStore](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyStore) again to turn validation back on.
     /// This member is required.
     public var validationSettings: VerifiedPermissionsClientTypes.ValidationSettings?
 
     public init(
         clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
         validationSettings: VerifiedPermissionsClientTypes.ValidationSettings? = nil
     )
     {
         self.clientToken = clientToken
+        self.description = description
         self.validationSettings = validationSettings
     }
 }
@@ -809,11 +1175,13 @@ public struct CreatePolicyStoreInput: Swift.Equatable {
 struct CreatePolicyStoreInputBody: Swift.Equatable {
     let clientToken: Swift.String?
     let validationSettings: VerifiedPermissionsClientTypes.ValidationSettings?
+    let description: Swift.String?
 }
 
 extension CreatePolicyStoreInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
+        case description
         case validationSettings
     }
 
@@ -823,25 +1191,16 @@ extension CreatePolicyStoreInputBody: Swift.Decodable {
         clientToken = clientTokenDecoded
         let validationSettingsDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.ValidationSettings.self, forKey: .validationSettings)
         validationSettings = validationSettingsDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
     }
 }
 
-public enum CreatePolicyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreatePolicyStoreOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreatePolicyStoreOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreatePolicyStoreOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreatePolicyStoreOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdDate = output.createdDate
             self.lastUpdatedDate = output.lastUpdatedDate
@@ -855,7 +1214,7 @@ extension CreatePolicyStoreOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePolicyStoreOutputResponse: Swift.Equatable {
+public struct CreatePolicyStoreOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the new policy store.
     /// This member is required.
     public var arn: Swift.String?
@@ -883,14 +1242,14 @@ public struct CreatePolicyStoreOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreatePolicyStoreOutputResponseBody: Swift.Equatable {
+struct CreatePolicyStoreOutputBody: Swift.Equatable {
     let policyStoreId: Swift.String?
     let arn: Swift.String?
     let createdDate: ClientRuntime.Date?
     let lastUpdatedDate: ClientRuntime.Date?
 }
 
-extension CreatePolicyStoreOutputResponseBody: Swift.Decodable {
+extension CreatePolicyStoreOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case createdDate
@@ -909,6 +1268,25 @@ extension CreatePolicyStoreOutputResponseBody: Swift.Decodable {
         let lastUpdatedDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdatedDate)
         lastUpdatedDate = lastUpdatedDateDecoded
     }
+}
+
+enum CreatePolicyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreatePolicyTemplateInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreatePolicyTemplateInput(clientToken: \(Swift.String(describing: clientToken)), policyStoreId: \(Swift.String(describing: policyStoreId)), description: \"CONTENT_REDACTED\", statement: \"CONTENT_REDACTED\")"}
 }
 
 extension CreatePolicyTemplateInput: Swift.Encodable {
@@ -996,23 +1374,11 @@ extension CreatePolicyTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum CreatePolicyTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreatePolicyTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreatePolicyTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreatePolicyTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreatePolicyTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdDate = output.createdDate
             self.lastUpdatedDate = output.lastUpdatedDate
             self.policyStoreId = output.policyStoreId
@@ -1026,7 +1392,7 @@ extension CreatePolicyTemplateOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct CreatePolicyTemplateOutputResponse: Swift.Equatable {
+public struct CreatePolicyTemplateOutput: Swift.Equatable {
     /// The date and time the policy template was originally created.
     /// This member is required.
     public var createdDate: ClientRuntime.Date?
@@ -1054,14 +1420,14 @@ public struct CreatePolicyTemplateOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreatePolicyTemplateOutputResponseBody: Swift.Equatable {
+struct CreatePolicyTemplateOutputBody: Swift.Equatable {
     let policyStoreId: Swift.String?
     let policyTemplateId: Swift.String?
     let createdDate: ClientRuntime.Date?
     let lastUpdatedDate: ClientRuntime.Date?
 }
 
-extension CreatePolicyTemplateOutputResponseBody: Swift.Decodable {
+extension CreatePolicyTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdDate
         case lastUpdatedDate
@@ -1079,6 +1445,21 @@ extension CreatePolicyTemplateOutputResponseBody: Swift.Decodable {
         createdDate = createdDateDecoded
         let lastUpdatedDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdatedDate)
         lastUpdatedDate = lastUpdatedDateDecoded
+    }
+}
+
+enum CreatePolicyTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1175,26 +1556,28 @@ extension DeleteIdentitySourceInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteIdentitySourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteIdentitySourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteIdentitySourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteIdentitySourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteIdentitySourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteIdentitySourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeletePolicyInput: Swift.Encodable {
@@ -1258,26 +1641,28 @@ extension DeletePolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum DeletePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeletePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeletePolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeletePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeletePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeletePolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeletePolicyStoreInput: Swift.Encodable {
@@ -1328,24 +1713,26 @@ extension DeletePolicyStoreInputBody: Swift.Decodable {
     }
 }
 
-public enum DeletePolicyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeletePolicyStoreOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeletePolicyStoreOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
-public struct DeletePolicyStoreOutputResponse: Swift.Equatable {
+public struct DeletePolicyStoreOutput: Swift.Equatable {
 
     public init() { }
+}
+
+enum DeletePolicyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension DeletePolicyTemplateInput: Swift.Encodable {
@@ -1409,26 +1796,28 @@ extension DeletePolicyTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum DeletePolicyTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeletePolicyTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeletePolicyTemplateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeletePolicyTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeletePolicyTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeletePolicyTemplateOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension VerifiedPermissionsClientTypes.DeterminingPolicyItem: Swift.Codable {
@@ -1451,7 +1840,7 @@ extension VerifiedPermissionsClientTypes.DeterminingPolicyItem: Swift.Codable {
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// Contains information about one of the policies that determined an authorization decision. This data type is used as an element in a response parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html) and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations. Example: "determiningPolicies":[{"policyId":"SPEXAMPLEabcdefg111111"}]
+    /// Contains information about one of the policies that determined an authorization decision. This data type is used as an element in a response parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html), [BatchIsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html), and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations. Example: "determiningPolicies":[{"policyId":"SPEXAMPLEabcdefg111111"}]
     public struct DeterminingPolicyItem: Swift.Equatable {
         /// The Id of a policy that determined to an authorization decision. Example: "policyId":"SPEXAMPLEabcdefg111111"
         /// This member is required.
@@ -1508,7 +1897,7 @@ extension VerifiedPermissionsClientTypes.EntitiesDefinition: Swift.Codable {
 
 extension VerifiedPermissionsClientTypes {
     /// Contains the list of entities to be considered during an authorization request. This includes all principals, resources, and actions required to successfully evaluate the request. This data type is used as a field in the response parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html) and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations.
-    public enum EntitiesDefinition: Swift.Equatable {
+    public indirect enum EntitiesDefinition: Swift.Equatable {
         /// An array of entities that are needed to successfully evaluate an authorization request. Each entity in this array must include an identifier for the entity, the attributes of the entity, and a list of any parent entities.
         case entitylist([VerifiedPermissionsClientTypes.EntityItem])
         case sdkUnknown(Swift.String)
@@ -1539,6 +1928,11 @@ extension VerifiedPermissionsClientTypes.EntityIdentifier: Swift.Codable {
         let entityIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entityId)
         entityId = entityIdDecoded
     }
+}
+
+extension VerifiedPermissionsClientTypes.EntityIdentifier: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EntityIdentifier(entityId: \"CONTENT_REDACTED\", entityType: \"CONTENT_REDACTED\")"}
 }
 
 extension VerifiedPermissionsClientTypes {
@@ -1619,7 +2013,7 @@ extension VerifiedPermissionsClientTypes.EntityItem: Swift.Codable {
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// Contains information about an entity that can be referenced in a Cedar policy. This data type is used as one of the fields in the [EntitiesDefinition](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EntitiesDefinition.html) structure. { "id": { "entityType": "Photo", "entityId": "VacationPhoto94.jpg" }, "Attributes": {}, "Parents": [ { "entityType": "Album", "entityId": "alice_folder" } ] }
+    /// Contains information about an entity that can be referenced in a Cedar policy. This data type is used as one of the fields in the [EntitiesDefinition](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EntitiesDefinition.html) structure. { "identifier": { "entityType": "Photo", "entityId": "VacationPhoto94.jpg" }, "attributes": {}, "parents": [ { "entityType": "Album", "entityId": "alice_folder" } ] }
     public struct EntityItem: Swift.Equatable {
         /// A list of attributes for the entity.
         public var attributes: [Swift.String:VerifiedPermissionsClientTypes.AttributeValue]?
@@ -1709,8 +2103,14 @@ extension VerifiedPermissionsClientTypes.EvaluationErrorItem: Swift.Codable {
     }
 }
 
+extension VerifiedPermissionsClientTypes.EvaluationErrorItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension VerifiedPermissionsClientTypes {
-    /// Contains a description of an evaluation error. This data type is used as a request parameter in the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html) and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations.
+    /// Contains a description of an evaluation error. This data type is a response parameter of the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html), [BatchIsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html), and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations.
     public struct EvaluationErrorItem: Swift.Equatable {
         /// The error description.
         /// This member is required.
@@ -1787,22 +2187,16 @@ extension GetIdentitySourceInputBody: Swift.Decodable {
     }
 }
 
-public enum GetIdentitySourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
+extension GetIdentitySourceOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetIdentitySourceOutput(createdDate: \(Swift.String(describing: createdDate)), details: \(Swift.String(describing: details)), identitySourceId: \(Swift.String(describing: identitySourceId)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), principalEntityType: \"CONTENT_REDACTED\")"}
 }
 
-extension GetIdentitySourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetIdentitySourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetIdentitySourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetIdentitySourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdDate = output.createdDate
             self.details = output.details
             self.identitySourceId = output.identitySourceId
@@ -1820,7 +2214,7 @@ extension GetIdentitySourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetIdentitySourceOutputResponse: Swift.Equatable {
+public struct GetIdentitySourceOutput: Swift.Equatable {
     /// The date and time that the identity source was originally created.
     /// This member is required.
     public var createdDate: ClientRuntime.Date?
@@ -1858,7 +2252,7 @@ public struct GetIdentitySourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetIdentitySourceOutputResponseBody: Swift.Equatable {
+struct GetIdentitySourceOutputBody: Swift.Equatable {
     let createdDate: ClientRuntime.Date?
     let details: VerifiedPermissionsClientTypes.IdentitySourceDetails?
     let identitySourceId: Swift.String?
@@ -1867,7 +2261,7 @@ struct GetIdentitySourceOutputResponseBody: Swift.Equatable {
     let principalEntityType: Swift.String?
 }
 
-extension GetIdentitySourceOutputResponseBody: Swift.Decodable {
+extension GetIdentitySourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdDate
         case details
@@ -1891,6 +2285,19 @@ extension GetIdentitySourceOutputResponseBody: Swift.Decodable {
         policyStoreId = policyStoreIdDecoded
         let principalEntityTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .principalEntityType)
         principalEntityType = principalEntityTypeDecoded
+    }
+}
+
+enum GetIdentitySourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1955,22 +2362,11 @@ extension GetPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum GetPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdDate = output.createdDate
             self.definition = output.definition
             self.lastUpdatedDate = output.lastUpdatedDate
@@ -1992,7 +2388,7 @@ extension GetPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPolicyOutputResponse: Swift.Equatable {
+public struct GetPolicyOutput: Swift.Equatable {
     /// The date and time that the policy was originally created.
     /// This member is required.
     public var createdDate: ClientRuntime.Date?
@@ -2038,7 +2434,7 @@ public struct GetPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPolicyOutputResponseBody: Swift.Equatable {
+struct GetPolicyOutputBody: Swift.Equatable {
     let policyStoreId: Swift.String?
     let policyId: Swift.String?
     let policyType: VerifiedPermissionsClientTypes.PolicyType?
@@ -2049,7 +2445,7 @@ struct GetPolicyOutputResponseBody: Swift.Equatable {
     let lastUpdatedDate: ClientRuntime.Date?
 }
 
-extension GetPolicyOutputResponseBody: Swift.Decodable {
+extension GetPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdDate
         case definition
@@ -2079,6 +2475,19 @@ extension GetPolicyOutputResponseBody: Swift.Decodable {
         createdDate = createdDateDecoded
         let lastUpdatedDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdatedDate)
         lastUpdatedDate = lastUpdatedDateDecoded
+    }
+}
+
+enum GetPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2130,30 +2539,26 @@ extension GetPolicyStoreInputBody: Swift.Decodable {
     }
 }
 
-public enum GetPolicyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
+extension GetPolicyStoreOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetPolicyStoreOutput(arn: \(Swift.String(describing: arn)), createdDate: \(Swift.String(describing: createdDate)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
 }
 
-extension GetPolicyStoreOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPolicyStoreOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetPolicyStoreOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetPolicyStoreOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdDate = output.createdDate
+            self.description = output.description
             self.lastUpdatedDate = output.lastUpdatedDate
             self.policyStoreId = output.policyStoreId
             self.validationSettings = output.validationSettings
         } else {
             self.arn = nil
             self.createdDate = nil
+            self.description = nil
             self.lastUpdatedDate = nil
             self.policyStoreId = nil
             self.validationSettings = nil
@@ -2161,13 +2566,15 @@ extension GetPolicyStoreOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPolicyStoreOutputResponse: Swift.Equatable {
+public struct GetPolicyStoreOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the policy store.
     /// This member is required.
     public var arn: Swift.String?
     /// The date and time that the policy store was originally created.
     /// This member is required.
     public var createdDate: ClientRuntime.Date?
+    /// Descriptive text that you can provide to help with identification of the current policy store.
+    public var description: Swift.String?
     /// The date and time that the policy store was last updated.
     /// This member is required.
     public var lastUpdatedDate: ClientRuntime.Date?
@@ -2181,6 +2588,7 @@ public struct GetPolicyStoreOutputResponse: Swift.Equatable {
     public init(
         arn: Swift.String? = nil,
         createdDate: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
         lastUpdatedDate: ClientRuntime.Date? = nil,
         policyStoreId: Swift.String? = nil,
         validationSettings: VerifiedPermissionsClientTypes.ValidationSettings? = nil
@@ -2188,24 +2596,27 @@ public struct GetPolicyStoreOutputResponse: Swift.Equatable {
     {
         self.arn = arn
         self.createdDate = createdDate
+        self.description = description
         self.lastUpdatedDate = lastUpdatedDate
         self.policyStoreId = policyStoreId
         self.validationSettings = validationSettings
     }
 }
 
-struct GetPolicyStoreOutputResponseBody: Swift.Equatable {
+struct GetPolicyStoreOutputBody: Swift.Equatable {
     let policyStoreId: Swift.String?
     let arn: Swift.String?
     let validationSettings: VerifiedPermissionsClientTypes.ValidationSettings?
     let createdDate: ClientRuntime.Date?
     let lastUpdatedDate: ClientRuntime.Date?
+    let description: Swift.String?
 }
 
-extension GetPolicyStoreOutputResponseBody: Swift.Decodable {
+extension GetPolicyStoreOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case createdDate
+        case description
         case lastUpdatedDate
         case policyStoreId
         case validationSettings
@@ -2223,6 +2634,21 @@ extension GetPolicyStoreOutputResponseBody: Swift.Decodable {
         createdDate = createdDateDecoded
         let lastUpdatedDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdatedDate)
         lastUpdatedDate = lastUpdatedDateDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+enum GetPolicyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2287,22 +2713,16 @@ extension GetPolicyTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum GetPolicyTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
+extension GetPolicyTemplateOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetPolicyTemplateOutput(createdDate: \(Swift.String(describing: createdDate)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), policyTemplateId: \(Swift.String(describing: policyTemplateId)), description: \"CONTENT_REDACTED\", statement: \"CONTENT_REDACTED\")"}
 }
 
-extension GetPolicyTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPolicyTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetPolicyTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetPolicyTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdDate = output.createdDate
             self.description = output.description
             self.lastUpdatedDate = output.lastUpdatedDate
@@ -2320,7 +2740,7 @@ extension GetPolicyTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPolicyTemplateOutputResponse: Swift.Equatable {
+public struct GetPolicyTemplateOutput: Swift.Equatable {
     /// The date and time that the policy template was originally created.
     /// This member is required.
     public var createdDate: ClientRuntime.Date?
@@ -2357,7 +2777,7 @@ public struct GetPolicyTemplateOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPolicyTemplateOutputResponseBody: Swift.Equatable {
+struct GetPolicyTemplateOutputBody: Swift.Equatable {
     let policyStoreId: Swift.String?
     let policyTemplateId: Swift.String?
     let description: Swift.String?
@@ -2366,7 +2786,7 @@ struct GetPolicyTemplateOutputResponseBody: Swift.Equatable {
     let lastUpdatedDate: ClientRuntime.Date?
 }
 
-extension GetPolicyTemplateOutputResponseBody: Swift.Decodable {
+extension GetPolicyTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdDate
         case description
@@ -2390,6 +2810,19 @@ extension GetPolicyTemplateOutputResponseBody: Swift.Decodable {
         createdDate = createdDateDecoded
         let lastUpdatedDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdatedDate)
         lastUpdatedDate = lastUpdatedDateDecoded
+    }
+}
+
+enum GetPolicyTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2441,42 +2874,40 @@ extension GetSchemaInputBody: Swift.Decodable {
     }
 }
 
-public enum GetSchemaOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
+extension GetSchemaOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetSchemaOutput(createdDate: \(Swift.String(describing: createdDate)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), namespaces: \(Swift.String(describing: namespaces)), policyStoreId: \(Swift.String(describing: policyStoreId)), schema: \"CONTENT_REDACTED\")"}
 }
 
-extension GetSchemaOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSchemaOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSchemaOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSchemaOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdDate = output.createdDate
             self.lastUpdatedDate = output.lastUpdatedDate
+            self.namespaces = output.namespaces
             self.policyStoreId = output.policyStoreId
             self.schema = output.schema
         } else {
             self.createdDate = nil
             self.lastUpdatedDate = nil
+            self.namespaces = nil
             self.policyStoreId = nil
             self.schema = nil
         }
     }
 }
 
-public struct GetSchemaOutputResponse: Swift.Equatable {
+public struct GetSchemaOutput: Swift.Equatable {
     /// The date and time that the schema was originally created.
     /// This member is required.
     public var createdDate: ClientRuntime.Date?
     /// The date and time that the schema was most recently updated.
     /// This member is required.
     public var lastUpdatedDate: ClientRuntime.Date?
+    /// The namespaces of the entities referenced by this schema.
+    public var namespaces: [Swift.String]?
     /// The ID of the policy store that contains the schema.
     /// This member is required.
     public var policyStoreId: Swift.String?
@@ -2487,28 +2918,32 @@ public struct GetSchemaOutputResponse: Swift.Equatable {
     public init(
         createdDate: ClientRuntime.Date? = nil,
         lastUpdatedDate: ClientRuntime.Date? = nil,
+        namespaces: [Swift.String]? = nil,
         policyStoreId: Swift.String? = nil,
         schema: Swift.String? = nil
     )
     {
         self.createdDate = createdDate
         self.lastUpdatedDate = lastUpdatedDate
+        self.namespaces = namespaces
         self.policyStoreId = policyStoreId
         self.schema = schema
     }
 }
 
-struct GetSchemaOutputResponseBody: Swift.Equatable {
+struct GetSchemaOutputBody: Swift.Equatable {
     let policyStoreId: Swift.String?
     let schema: Swift.String?
     let createdDate: ClientRuntime.Date?
     let lastUpdatedDate: ClientRuntime.Date?
+    let namespaces: [Swift.String]?
 }
 
-extension GetSchemaOutputResponseBody: Swift.Decodable {
+extension GetSchemaOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdDate
         case lastUpdatedDate
+        case namespaces
         case policyStoreId
         case schema
     }
@@ -2523,6 +2958,30 @@ extension GetSchemaOutputResponseBody: Swift.Decodable {
         createdDate = createdDateDecoded
         let lastUpdatedDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdatedDate)
         lastUpdatedDate = lastUpdatedDateDecoded
+        let namespacesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .namespaces)
+        var namespacesDecoded0:[Swift.String]? = nil
+        if let namespacesContainer = namespacesContainer {
+            namespacesDecoded0 = [Swift.String]()
+            for string0 in namespacesContainer {
+                if let string0 = string0 {
+                    namespacesDecoded0?.append(string0)
+                }
+            }
+        }
+        namespaces = namespacesDecoded0
+    }
+}
+
+enum GetSchemaOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2622,6 +3081,11 @@ extension VerifiedPermissionsClientTypes.IdentitySourceFilter: Swift.Codable {
     }
 }
 
+extension VerifiedPermissionsClientTypes.IdentitySourceFilter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IdentitySourceFilter(principalEntityType: \"CONTENT_REDACTED\")"}
+}
+
 extension VerifiedPermissionsClientTypes {
     /// A structure that defines characteristics of an identity source that you can use to filter. This data type is used as a request parameter for the [ListIdentityStores](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentityStores.html) operation.
     public struct IdentitySourceFilter: Swift.Equatable {
@@ -2685,6 +3149,11 @@ extension VerifiedPermissionsClientTypes.IdentitySourceItem: Swift.Codable {
         let principalEntityTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .principalEntityType)
         principalEntityType = principalEntityTypeDecoded
     }
+}
+
+extension VerifiedPermissionsClientTypes.IdentitySourceItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IdentitySourceItem(createdDate: \(Swift.String(describing: createdDate)), details: \(Swift.String(describing: details)), identitySourceId: \(Swift.String(describing: identitySourceId)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), principalEntityType: \"CONTENT_REDACTED\")"}
 }
 
 extension VerifiedPermissionsClientTypes {
@@ -2806,6 +3275,21 @@ extension VerifiedPermissionsClientTypes {
 
 }
 
+extension InternalServerException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
 /// The request failed because of an internal error. Try your request again later
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -2828,6 +3312,22 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     )
     {
         self.properties.message = message
+    }
+}
+
+struct InternalServerExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InternalServerExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -2939,22 +3439,11 @@ extension IsAuthorizedInputBody: Swift.Decodable {
     }
 }
 
-public enum IsAuthorizedOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension IsAuthorizedOutputResponse: ClientRuntime.HttpResponseBinding {
+extension IsAuthorizedOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: IsAuthorizedOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: IsAuthorizedOutputBody = try responseDecoder.decode(responseBody: data)
             self.decision = output.decision
             self.determiningPolicies = output.determiningPolicies
             self.errors = output.errors
@@ -2966,7 +3455,7 @@ extension IsAuthorizedOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct IsAuthorizedOutputResponse: Swift.Equatable {
+public struct IsAuthorizedOutput: Swift.Equatable {
     /// An authorization decision that indicates if the authorization request should be allowed or denied.
     /// This member is required.
     public var decision: VerifiedPermissionsClientTypes.Decision?
@@ -2989,13 +3478,13 @@ public struct IsAuthorizedOutputResponse: Swift.Equatable {
     }
 }
 
-struct IsAuthorizedOutputResponseBody: Swift.Equatable {
+struct IsAuthorizedOutputBody: Swift.Equatable {
     let decision: VerifiedPermissionsClientTypes.Decision?
     let determiningPolicies: [VerifiedPermissionsClientTypes.DeterminingPolicyItem]?
     let errors: [VerifiedPermissionsClientTypes.EvaluationErrorItem]?
 }
 
-extension IsAuthorizedOutputResponseBody: Swift.Decodable {
+extension IsAuthorizedOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case decision
         case determiningPolicies
@@ -3029,6 +3518,24 @@ extension IsAuthorizedOutputResponseBody: Swift.Decodable {
         }
         errors = errorsDecoded0
     }
+}
+
+enum IsAuthorizedOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension IsAuthorizedWithTokenInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IsAuthorizedWithTokenInput(action: \(Swift.String(describing: action)), context: \(Swift.String(describing: context)), entities: \(Swift.String(describing: entities)), policyStoreId: \(Swift.String(describing: policyStoreId)), resource: \(Swift.String(describing: resource)), accessToken: \"CONTENT_REDACTED\", identityToken: \"CONTENT_REDACTED\")"}
 }
 
 extension IsAuthorizedWithTokenInput: Swift.Encodable {
@@ -3075,15 +3582,19 @@ extension IsAuthorizedWithTokenInput: ClientRuntime.URLPathProvider {
 }
 
 public struct IsAuthorizedWithTokenInput: Swift.Equatable {
-    /// Specifies an access token for the principal to be authorized. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an AccessToken or an IdentityToken, but not both.
+    /// Specifies an access token for the principal to be authorized. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an AccessToken, or an IdentityToken, or both.
     public var accessToken: Swift.String?
     /// Specifies the requested action to be authorized. Is the specified principal authorized to perform this action on the specified resource.
     public var action: VerifiedPermissionsClientTypes.ActionIdentifier?
     /// Specifies additional context that can be used to make more granular authorization decisions.
     public var context: VerifiedPermissionsClientTypes.ContextDefinition?
-    /// Specifies the list of resources and principals and their associated attributes that Verified Permissions can examine when evaluating the policies. You can include only principal and resource entities in this parameter; you can't include actions. You must specify actions in the schema.
+    /// Specifies the list of resources and their associated attributes that Verified Permissions can examine when evaluating the policies. You can include only resource and action entities in this parameter; you can't include principals.
+    ///
+    /// * The IsAuthorizedWithToken operation takes principal attributes from only the identityToken or accessToken passed to the operation.
+    ///
+    /// * For action entities, you can include only their Identifier and EntityType.
     public var entities: VerifiedPermissionsClientTypes.EntitiesDefinition?
-    /// Specifies an identity token for the principal to be authorized. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an AccessToken or an IdentityToken, but not both.
+    /// Specifies an identity token for the principal to be authorized. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an AccessToken or an IdentityToken, or both.
     public var identityToken: Swift.String?
     /// Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input.
     /// This member is required.
@@ -3151,22 +3662,11 @@ extension IsAuthorizedWithTokenInputBody: Swift.Decodable {
     }
 }
 
-public enum IsAuthorizedWithTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension IsAuthorizedWithTokenOutputResponse: ClientRuntime.HttpResponseBinding {
+extension IsAuthorizedWithTokenOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: IsAuthorizedWithTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: IsAuthorizedWithTokenOutputBody = try responseDecoder.decode(responseBody: data)
             self.decision = output.decision
             self.determiningPolicies = output.determiningPolicies
             self.errors = output.errors
@@ -3178,7 +3678,7 @@ extension IsAuthorizedWithTokenOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct IsAuthorizedWithTokenOutputResponse: Swift.Equatable {
+public struct IsAuthorizedWithTokenOutput: Swift.Equatable {
     /// An authorization decision that indicates if the authorization request should be allowed or denied.
     /// This member is required.
     public var decision: VerifiedPermissionsClientTypes.Decision?
@@ -3201,13 +3701,13 @@ public struct IsAuthorizedWithTokenOutputResponse: Swift.Equatable {
     }
 }
 
-struct IsAuthorizedWithTokenOutputResponseBody: Swift.Equatable {
+struct IsAuthorizedWithTokenOutputBody: Swift.Equatable {
     let decision: VerifiedPermissionsClientTypes.Decision?
     let determiningPolicies: [VerifiedPermissionsClientTypes.DeterminingPolicyItem]?
     let errors: [VerifiedPermissionsClientTypes.EvaluationErrorItem]?
 }
 
-extension IsAuthorizedWithTokenOutputResponseBody: Swift.Decodable {
+extension IsAuthorizedWithTokenOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case decision
         case determiningPolicies
@@ -3240,6 +3740,19 @@ extension IsAuthorizedWithTokenOutputResponseBody: Swift.Decodable {
             }
         }
         errors = errorsDecoded0
+    }
+}
+
+enum IsAuthorizedWithTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3280,7 +3793,7 @@ extension ListIdentitySourcesInput: ClientRuntime.URLPathProvider {
 public struct ListIdentitySourcesInput: Swift.Equatable {
     /// Specifies characteristics of an identity source that you can use to limit the output to matching identity sources.
     public var filters: [VerifiedPermissionsClientTypes.IdentitySourceFilter]?
-    /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 identity sources per response. You can specify a maximum of 200 identity sources per response.
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     public var nextToken: Swift.String?
@@ -3339,22 +3852,11 @@ extension ListIdentitySourcesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListIdentitySourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListIdentitySourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListIdentitySourcesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListIdentitySourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListIdentitySourcesOutputBody = try responseDecoder.decode(responseBody: data)
             self.identitySources = output.identitySources
             self.nextToken = output.nextToken
         } else {
@@ -3364,7 +3866,7 @@ extension ListIdentitySourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIdentitySourcesOutputResponse: Swift.Equatable {
+public struct ListIdentitySourcesOutput: Swift.Equatable {
     /// The list of identity sources stored in the specified policy store.
     /// This member is required.
     public var identitySources: [VerifiedPermissionsClientTypes.IdentitySourceItem]?
@@ -3381,12 +3883,12 @@ public struct ListIdentitySourcesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListIdentitySourcesOutputResponseBody: Swift.Equatable {
+struct ListIdentitySourcesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let identitySources: [VerifiedPermissionsClientTypes.IdentitySourceItem]?
 }
 
-extension ListIdentitySourcesOutputResponseBody: Swift.Decodable {
+extension ListIdentitySourcesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case identitySources
         case nextToken
@@ -3407,6 +3909,19 @@ extension ListIdentitySourcesOutputResponseBody: Swift.Decodable {
             }
         }
         identitySources = identitySourcesDecoded0
+    }
+}
+
+enum ListIdentitySourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3444,7 +3959,7 @@ extension ListPoliciesInput: ClientRuntime.URLPathProvider {
 public struct ListPoliciesInput: Swift.Equatable {
     /// Specifies a filter that limits the response to only policies that match the specified criteria. For example, you list only the policies that reference a specified principal.
     public var filter: VerifiedPermissionsClientTypes.PolicyFilter?
-    /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policies per response. You can specify a maximum of 50 policies per response.
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     public var nextToken: Swift.String?
@@ -3494,22 +4009,11 @@ extension ListPoliciesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPoliciesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPoliciesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.policies = output.policies
         } else {
@@ -3519,7 +4023,7 @@ extension ListPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPoliciesOutputResponse: Swift.Equatable {
+public struct ListPoliciesOutput: Swift.Equatable {
     /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
     public var nextToken: Swift.String?
     /// Lists all policies that are available in the specified policy store.
@@ -3536,12 +4040,12 @@ public struct ListPoliciesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPoliciesOutputResponseBody: Swift.Equatable {
+struct ListPoliciesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let policies: [VerifiedPermissionsClientTypes.PolicyItem]?
 }
 
-extension ListPoliciesOutputResponseBody: Swift.Decodable {
+extension ListPoliciesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case policies
@@ -3562,6 +4066,19 @@ extension ListPoliciesOutputResponseBody: Swift.Decodable {
             }
         }
         policies = policiesDecoded0
+    }
+}
+
+enum ListPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3589,7 +4106,7 @@ extension ListPolicyStoresInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListPolicyStoresInput: Swift.Equatable {
-    /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policy stores per response. You can specify a maximum of 50 policy stores per response.
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     public var nextToken: Swift.String?
@@ -3624,21 +4141,11 @@ extension ListPolicyStoresInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPolicyStoresOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListPolicyStoresOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPolicyStoresOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPolicyStoresOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPolicyStoresOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.policyStores = output.policyStores
         } else {
@@ -3648,7 +4155,7 @@ extension ListPolicyStoresOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPolicyStoresOutputResponse: Swift.Equatable {
+public struct ListPolicyStoresOutput: Swift.Equatable {
     /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
     public var nextToken: Swift.String?
     /// The list of policy stores in the account.
@@ -3665,12 +4172,12 @@ public struct ListPolicyStoresOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPolicyStoresOutputResponseBody: Swift.Equatable {
+struct ListPolicyStoresOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let policyStores: [VerifiedPermissionsClientTypes.PolicyStoreItem]?
 }
 
-extension ListPolicyStoresOutputResponseBody: Swift.Decodable {
+extension ListPolicyStoresOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case policyStores
@@ -3691,6 +4198,18 @@ extension ListPolicyStoresOutputResponseBody: Swift.Decodable {
             }
         }
         policyStores = policyStoresDecoded0
+    }
+}
+
+enum ListPolicyStoresOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3722,7 +4241,7 @@ extension ListPolicyTemplatesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListPolicyTemplatesInput: Swift.Equatable {
-    /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policy templates per response. You can specify a maximum of 50 policy templates per response.
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     public var nextToken: Swift.String?
@@ -3766,22 +4285,11 @@ extension ListPolicyTemplatesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPolicyTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListPolicyTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPolicyTemplatesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPolicyTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPolicyTemplatesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.policyTemplates = output.policyTemplates
         } else {
@@ -3791,7 +4299,7 @@ extension ListPolicyTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPolicyTemplatesOutputResponse: Swift.Equatable {
+public struct ListPolicyTemplatesOutput: Swift.Equatable {
     /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
     public var nextToken: Swift.String?
     /// The list of the policy templates in the specified policy store.
@@ -3808,12 +4316,12 @@ public struct ListPolicyTemplatesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPolicyTemplatesOutputResponseBody: Swift.Equatable {
+struct ListPolicyTemplatesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let policyTemplates: [VerifiedPermissionsClientTypes.PolicyTemplateItem]?
 }
 
-extension ListPolicyTemplatesOutputResponseBody: Swift.Decodable {
+extension ListPolicyTemplatesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case policyTemplates
@@ -3834,6 +4342,19 @@ extension ListPolicyTemplatesOutputResponseBody: Swift.Decodable {
             }
         }
         policyTemplates = policyTemplatesDecoded0
+    }
+}
+
+enum ListPolicyTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4191,6 +4712,8 @@ extension VerifiedPermissionsClientTypes.PolicyStoreItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case createdDate
+        case description
+        case lastUpdatedDate
         case policyStoreId
     }
 
@@ -4201,6 +4724,12 @@ extension VerifiedPermissionsClientTypes.PolicyStoreItem: Swift.Codable {
         }
         if let createdDate = self.createdDate {
             try encodeContainer.encodeTimestamp(createdDate, format: .dateTime, forKey: .createdDate)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let lastUpdatedDate = self.lastUpdatedDate {
+            try encodeContainer.encodeTimestamp(lastUpdatedDate, format: .dateTime, forKey: .lastUpdatedDate)
         }
         if let policyStoreId = self.policyStoreId {
             try encodeContainer.encode(policyStoreId, forKey: .policyStoreId)
@@ -4215,7 +4744,16 @@ extension VerifiedPermissionsClientTypes.PolicyStoreItem: Swift.Codable {
         arn = arnDecoded
         let createdDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdDate)
         createdDate = createdDateDecoded
+        let lastUpdatedDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdatedDate)
+        lastUpdatedDate = lastUpdatedDateDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
     }
+}
+
+extension VerifiedPermissionsClientTypes.PolicyStoreItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PolicyStoreItem(arn: \(Swift.String(describing: arn)), createdDate: \(Swift.String(describing: createdDate)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension VerifiedPermissionsClientTypes {
@@ -4227,6 +4765,10 @@ extension VerifiedPermissionsClientTypes {
         /// The date and time the policy was created.
         /// This member is required.
         public var createdDate: ClientRuntime.Date?
+        /// Descriptive text that you can provide to help with identification of the current policy store.
+        public var description: Swift.String?
+        /// The date and time the policy store was most recently updated.
+        public var lastUpdatedDate: ClientRuntime.Date?
         /// The unique identifier of the policy store.
         /// This member is required.
         public var policyStoreId: Swift.String?
@@ -4234,11 +4776,15 @@ extension VerifiedPermissionsClientTypes {
         public init(
             arn: Swift.String? = nil,
             createdDate: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            lastUpdatedDate: ClientRuntime.Date? = nil,
             policyStoreId: Swift.String? = nil
         )
         {
             self.arn = arn
             self.createdDate = createdDate
+            self.description = description
+            self.lastUpdatedDate = lastUpdatedDate
             self.policyStoreId = policyStoreId
         }
     }
@@ -4286,6 +4832,11 @@ extension VerifiedPermissionsClientTypes.PolicyTemplateItem: Swift.Codable {
         let lastUpdatedDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdatedDate)
         lastUpdatedDate = lastUpdatedDateDecoded
     }
+}
+
+extension VerifiedPermissionsClientTypes.PolicyTemplateItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PolicyTemplateItem(createdDate: \(Swift.String(describing: createdDate)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), policyTemplateId: \(Swift.String(describing: policyTemplateId)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension VerifiedPermissionsClientTypes {
@@ -4417,24 +4968,11 @@ extension PutSchemaInputBody: Swift.Decodable {
     }
 }
 
-public enum PutSchemaOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension PutSchemaOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PutSchemaOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PutSchemaOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PutSchemaOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdDate = output.createdDate
             self.lastUpdatedDate = output.lastUpdatedDate
             self.namespaces = output.namespaces
@@ -4448,7 +4986,7 @@ extension PutSchemaOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutSchemaOutputResponse: Swift.Equatable {
+public struct PutSchemaOutput: Swift.Equatable {
     /// The date and time that the schema was originally created.
     /// This member is required.
     public var createdDate: ClientRuntime.Date?
@@ -4476,14 +5014,14 @@ public struct PutSchemaOutputResponse: Swift.Equatable {
     }
 }
 
-struct PutSchemaOutputResponseBody: Swift.Equatable {
+struct PutSchemaOutputBody: Swift.Equatable {
     let policyStoreId: Swift.String?
     let namespaces: [Swift.String]?
     let createdDate: ClientRuntime.Date?
     let lastUpdatedDate: ClientRuntime.Date?
 }
 
-extension PutSchemaOutputResponseBody: Swift.Decodable {
+extension PutSchemaOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdDate
         case lastUpdatedDate
@@ -4510,6 +5048,21 @@ extension PutSchemaOutputResponseBody: Swift.Decodable {
         createdDate = createdDateDecoded
         let lastUpdatedDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdatedDate)
         lastUpdatedDate = lastUpdatedDateDecoded
+    }
+}
+
+enum PutSchemaOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4838,6 +5391,11 @@ extension VerifiedPermissionsClientTypes.StaticPolicyDefinition: Swift.Codable {
     }
 }
 
+extension VerifiedPermissionsClientTypes.StaticPolicyDefinition: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StaticPolicyDefinition(description: \"CONTENT_REDACTED\", statement: \"CONTENT_REDACTED\")"}
+}
+
 extension VerifiedPermissionsClientTypes {
     /// Contains information about a static policy. This data type is used as a field that is part of the [PolicyDefinitionDetail](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_PolicyDefinitionDetail.html) type.
     public struct StaticPolicyDefinition: Swift.Equatable {
@@ -4884,6 +5442,11 @@ extension VerifiedPermissionsClientTypes.StaticPolicyDefinitionDetail: Swift.Cod
     }
 }
 
+extension VerifiedPermissionsClientTypes.StaticPolicyDefinitionDetail: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StaticPolicyDefinitionDetail(description: \"CONTENT_REDACTED\", statement: \"CONTENT_REDACTED\")"}
+}
+
 extension VerifiedPermissionsClientTypes {
     /// A structure that contains details about a static policy. It includes the description and policy body. This data type is used within a [PolicyDefinition](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_PolicyDefinition.html) structure as part of a request parameter for the [CreatePolicy](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreatePolicy.html) operation.
     public struct StaticPolicyDefinitionDetail: Swift.Equatable {
@@ -4922,6 +5485,11 @@ extension VerifiedPermissionsClientTypes.StaticPolicyDefinitionItem: Swift.Codab
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
     }
+}
+
+extension VerifiedPermissionsClientTypes.StaticPolicyDefinitionItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StaticPolicyDefinitionItem(description: \"CONTENT_REDACTED\")"}
 }
 
 extension VerifiedPermissionsClientTypes {
@@ -5108,6 +5676,25 @@ extension VerifiedPermissionsClientTypes {
 
 }
 
+extension ThrottlingException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+            self.properties.quotaCode = output.quotaCode
+            self.properties.serviceCode = output.serviceCode
+        } else {
+            self.properties.message = nil
+            self.properties.quotaCode = nil
+            self.properties.serviceCode = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
 /// The request failed because it exceeded a throttling quota.
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -5138,6 +5725,30 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.serviceCode = serviceCode
+    }
+}
+
+struct ThrottlingExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+    let serviceCode: Swift.String?
+    let quotaCode: Swift.String?
+}
+
+extension ThrottlingExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+        case quotaCode
+        case serviceCode
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let serviceCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceCode)
+        serviceCode = serviceCodeDecoded
+        let quotaCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .quotaCode)
+        quotaCode = quotaCodeDecoded
     }
 }
 
@@ -5236,6 +5847,11 @@ extension VerifiedPermissionsClientTypes {
 
 }
 
+extension UpdateIdentitySourceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateIdentitySourceInput(identitySourceId: \(Swift.String(describing: identitySourceId)), policyStoreId: \(Swift.String(describing: policyStoreId)), updateConfiguration: \(Swift.String(describing: updateConfiguration)), principalEntityType: \"CONTENT_REDACTED\")"}
+}
+
 extension UpdateIdentitySourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case identitySourceId
@@ -5322,23 +5938,11 @@ extension UpdateIdentitySourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateIdentitySourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateIdentitySourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateIdentitySourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateIdentitySourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateIdentitySourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdDate = output.createdDate
             self.identitySourceId = output.identitySourceId
             self.lastUpdatedDate = output.lastUpdatedDate
@@ -5352,7 +5956,7 @@ extension UpdateIdentitySourceOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct UpdateIdentitySourceOutputResponse: Swift.Equatable {
+public struct UpdateIdentitySourceOutput: Swift.Equatable {
     /// The date and time that the updated identity source was originally created.
     /// This member is required.
     public var createdDate: ClientRuntime.Date?
@@ -5380,14 +5984,14 @@ public struct UpdateIdentitySourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateIdentitySourceOutputResponseBody: Swift.Equatable {
+struct UpdateIdentitySourceOutputBody: Swift.Equatable {
     let createdDate: ClientRuntime.Date?
     let identitySourceId: Swift.String?
     let lastUpdatedDate: ClientRuntime.Date?
     let policyStoreId: Swift.String?
 }
 
-extension UpdateIdentitySourceOutputResponseBody: Swift.Decodable {
+extension UpdateIdentitySourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdDate
         case identitySourceId
@@ -5405,6 +6009,20 @@ extension UpdateIdentitySourceOutputResponseBody: Swift.Decodable {
         lastUpdatedDate = lastUpdatedDateDecoded
         let policyStoreIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyStoreId)
         policyStoreId = policyStoreIdDecoded
+    }
+}
+
+enum UpdateIdentitySourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5534,24 +6152,11 @@ extension UpdatePolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdatePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdatePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdatePolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdatePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdatePolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdDate = output.createdDate
             self.lastUpdatedDate = output.lastUpdatedDate
             self.policyId = output.policyId
@@ -5571,7 +6176,7 @@ extension UpdatePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePolicyOutputResponse: Swift.Equatable {
+public struct UpdatePolicyOutput: Swift.Equatable {
     /// The date and time that the policy was originally created.
     /// This member is required.
     public var createdDate: ClientRuntime.Date?
@@ -5612,7 +6217,7 @@ public struct UpdatePolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdatePolicyOutputResponseBody: Swift.Equatable {
+struct UpdatePolicyOutputBody: Swift.Equatable {
     let policyStoreId: Swift.String?
     let policyId: Swift.String?
     let policyType: VerifiedPermissionsClientTypes.PolicyType?
@@ -5622,7 +6227,7 @@ struct UpdatePolicyOutputResponseBody: Swift.Equatable {
     let lastUpdatedDate: ClientRuntime.Date?
 }
 
-extension UpdatePolicyOutputResponseBody: Swift.Decodable {
+extension UpdatePolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdDate
         case lastUpdatedDate
@@ -5652,14 +6257,38 @@ extension UpdatePolicyOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum UpdatePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdatePolicyStoreInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdatePolicyStoreInput(policyStoreId: \(Swift.String(describing: policyStoreId)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
+}
+
 extension UpdatePolicyStoreInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
         case policyStoreId
         case validationSettings
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
         if let policyStoreId = self.policyStoreId {
             try encodeContainer.encode(policyStoreId, forKey: .policyStoreId)
         }
@@ -5676,6 +6305,8 @@ extension UpdatePolicyStoreInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdatePolicyStoreInput: Swift.Equatable {
+    /// Descriptive text that you can provide to help with identification of the current policy store.
+    public var description: Swift.String?
     /// Specifies the ID of the policy store that you want to update
     /// This member is required.
     public var policyStoreId: Swift.String?
@@ -5684,10 +6315,12 @@ public struct UpdatePolicyStoreInput: Swift.Equatable {
     public var validationSettings: VerifiedPermissionsClientTypes.ValidationSettings?
 
     public init(
+        description: Swift.String? = nil,
         policyStoreId: Swift.String? = nil,
         validationSettings: VerifiedPermissionsClientTypes.ValidationSettings? = nil
     )
     {
+        self.description = description
         self.policyStoreId = policyStoreId
         self.validationSettings = validationSettings
     }
@@ -5696,10 +6329,12 @@ public struct UpdatePolicyStoreInput: Swift.Equatable {
 struct UpdatePolicyStoreInputBody: Swift.Equatable {
     let policyStoreId: Swift.String?
     let validationSettings: VerifiedPermissionsClientTypes.ValidationSettings?
+    let description: Swift.String?
 }
 
 extension UpdatePolicyStoreInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
         case policyStoreId
         case validationSettings
     }
@@ -5710,26 +6345,16 @@ extension UpdatePolicyStoreInputBody: Swift.Decodable {
         policyStoreId = policyStoreIdDecoded
         let validationSettingsDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.ValidationSettings.self, forKey: .validationSettings)
         validationSettings = validationSettingsDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
     }
 }
 
-public enum UpdatePolicyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdatePolicyStoreOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdatePolicyStoreOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdatePolicyStoreOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdatePolicyStoreOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdDate = output.createdDate
             self.lastUpdatedDate = output.lastUpdatedDate
@@ -5743,7 +6368,7 @@ extension UpdatePolicyStoreOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePolicyStoreOutputResponse: Swift.Equatable {
+public struct UpdatePolicyStoreOutput: Swift.Equatable {
     /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the updated policy store.
     /// This member is required.
     public var arn: Swift.String?
@@ -5771,14 +6396,14 @@ public struct UpdatePolicyStoreOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdatePolicyStoreOutputResponseBody: Swift.Equatable {
+struct UpdatePolicyStoreOutputBody: Swift.Equatable {
     let policyStoreId: Swift.String?
     let arn: Swift.String?
     let createdDate: ClientRuntime.Date?
     let lastUpdatedDate: ClientRuntime.Date?
 }
 
-extension UpdatePolicyStoreOutputResponseBody: Swift.Decodable {
+extension UpdatePolicyStoreOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case createdDate
@@ -5797,6 +6422,25 @@ extension UpdatePolicyStoreOutputResponseBody: Swift.Decodable {
         let lastUpdatedDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdatedDate)
         lastUpdatedDate = lastUpdatedDateDecoded
     }
+}
+
+enum UpdatePolicyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdatePolicyTemplateInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdatePolicyTemplateInput(policyStoreId: \(Swift.String(describing: policyStoreId)), policyTemplateId: \(Swift.String(describing: policyTemplateId)), description: \"CONTENT_REDACTED\", statement: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdatePolicyTemplateInput: Swift.Encodable {
@@ -5898,23 +6542,11 @@ extension UpdatePolicyTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdatePolicyTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdatePolicyTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdatePolicyTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdatePolicyTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdatePolicyTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdDate = output.createdDate
             self.lastUpdatedDate = output.lastUpdatedDate
             self.policyStoreId = output.policyStoreId
@@ -5928,7 +6560,7 @@ extension UpdatePolicyTemplateOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct UpdatePolicyTemplateOutputResponse: Swift.Equatable {
+public struct UpdatePolicyTemplateOutput: Swift.Equatable {
     /// The date and time that the policy template was originally created.
     /// This member is required.
     public var createdDate: ClientRuntime.Date?
@@ -5956,14 +6588,14 @@ public struct UpdatePolicyTemplateOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdatePolicyTemplateOutputResponseBody: Swift.Equatable {
+struct UpdatePolicyTemplateOutputBody: Swift.Equatable {
     let policyStoreId: Swift.String?
     let policyTemplateId: Swift.String?
     let createdDate: ClientRuntime.Date?
     let lastUpdatedDate: ClientRuntime.Date?
 }
 
-extension UpdatePolicyTemplateOutputResponseBody: Swift.Decodable {
+extension UpdatePolicyTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdDate
         case lastUpdatedDate
@@ -5981,6 +6613,20 @@ extension UpdatePolicyTemplateOutputResponseBody: Swift.Decodable {
         createdDate = createdDateDecoded
         let lastUpdatedDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdatedDate)
         lastUpdatedDate = lastUpdatedDateDecoded
+    }
+}
+
+enum UpdatePolicyTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6007,6 +6653,11 @@ extension VerifiedPermissionsClientTypes.UpdateStaticPolicyDefinition: Swift.Cod
         let statementDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statement)
         statement = statementDecoded
     }
+}
+
+extension VerifiedPermissionsClientTypes.UpdateStaticPolicyDefinition: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateStaticPolicyDefinition(description: \"CONTENT_REDACTED\", statement: \"CONTENT_REDACTED\")"}
 }
 
 extension VerifiedPermissionsClientTypes {
@@ -6045,6 +6696,23 @@ extension VerifiedPermissionsClientTypes {
 
 }
 
+extension ValidationException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.fieldList = output.fieldList
+            self.properties.message = output.message
+        } else {
+            self.properties.fieldList = nil
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
 /// The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
 ///
 /// * UnrecognizedEntityType The policy includes an entity type that isn't found in the schema.
@@ -6057,9 +6725,9 @@ extension VerifiedPermissionsClientTypes {
 ///
 /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
 ///
-/// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+/// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
 ///
-/// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+/// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
 ///
 /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
 ///
@@ -6091,6 +6759,60 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     {
         self.properties.fieldList = fieldList
         self.properties.message = message
+    }
+}
+
+struct ValidationExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+    let fieldList: [VerifiedPermissionsClientTypes.ValidationExceptionField]?
+}
+
+extension ValidationExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fieldList
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let fieldListContainer = try containerValues.decodeIfPresent([VerifiedPermissionsClientTypes.ValidationExceptionField?].self, forKey: .fieldList)
+        var fieldListDecoded0:[VerifiedPermissionsClientTypes.ValidationExceptionField]? = nil
+        if let fieldListContainer = fieldListContainer {
+            fieldListDecoded0 = [VerifiedPermissionsClientTypes.ValidationExceptionField]()
+            for structure0 in fieldListContainer {
+                if let structure0 = structure0 {
+                    fieldListDecoded0?.append(structure0)
+                }
+            }
+        }
+        fieldList = fieldListDecoded0
+    }
+}
+
+extension VerifiedPermissionsClientTypes.ValidationExceptionField: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+        case path
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let path = self.path {
+            try encodeContainer.encode(path, forKey: .path)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .path)
+        path = pathDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -6189,4 +6911,16 @@ extension VerifiedPermissionsClientTypes {
         }
     }
 
+}
+
+extension VerifiedPermissionsClientTypes {
+    static func makeServiceError(_ httpResponse: ClientRuntime.HttpResponse, _ decoder: ClientRuntime.ResponseDecoder? = nil, _ error: AWSClientRuntime.RestJSONError, _ id: String?) async throws -> Swift.Error? {
+        switch error.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: error.errorMessage, requestID: id)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: error.errorMessage, requestID: id)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: error.errorMessage, requestID: id)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: error.errorMessage, requestID: id)
+            default: return nil
+        }
+    }
 }

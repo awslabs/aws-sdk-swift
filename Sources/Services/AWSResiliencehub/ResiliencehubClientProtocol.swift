@@ -4,14 +4,81 @@ import ClientRuntime
 
 /// Resilience Hub helps you proactively prepare and protect your Amazon Web Services applications from disruptions. It offers continual resiliency assessment and validation that integrates into your software development lifecycle. This enables you to uncover resiliency weaknesses, ensure recovery time objective (RTO) and recovery point objective (RPO) targets for your applications are met, and resolve issues before they are released into production.
 public protocol ResiliencehubClientProtocol {
-    /// Adds the resource mapping for the draft application version. You can also update an existing resource mapping to a new physical resource.
-    func addDraftAppVersionResourceMappings(input: AddDraftAppVersionResourceMappingsInput) async throws -> AddDraftAppVersionResourceMappingsOutputResponse
+    /// Performs the `AddDraftAppVersionResourceMappings` operation on the `AwsResilienceHub` service.
+    ///
+    /// Adds the source of resource-maps to the draft version of an application. During assessment, Resilience Hub will use these resource-maps to resolve the latest physical ID for each resource in the application template. For more information about different types of resources suported by Resilience Hub and how to add them in your application, see [Step 2: How is your application managed?](https://docs.aws.amazon.com/resilience-hub/latest/userguide/how-app-manage.html) in the Resilience Hub User Guide.
+    ///
+    /// - Parameter AddDraftAppVersionResourceMappingsInput : [no documentation found]
+    ///
+    /// - Returns: `AddDraftAppVersionResourceMappingsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func addDraftAppVersionResourceMappings(input: AddDraftAppVersionResourceMappingsInput) async throws -> AddDraftAppVersionResourceMappingsOutput
+    /// Performs the `BatchUpdateRecommendationStatus` operation on the `AwsResilienceHub` service.
+    ///
     /// Enables you to include or exclude one or more operational recommendations.
-    func batchUpdateRecommendationStatus(input: BatchUpdateRecommendationStatusInput) async throws -> BatchUpdateRecommendationStatusOutputResponse
+    ///
+    /// - Parameter BatchUpdateRecommendationStatusInput : [no documentation found]
+    ///
+    /// - Returns: `BatchUpdateRecommendationStatusOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func batchUpdateRecommendationStatus(input: BatchUpdateRecommendationStatusInput) async throws -> BatchUpdateRecommendationStatusOutput
+    /// Performs the `CreateApp` operation on the `AwsResilienceHub` service.
+    ///
     /// Creates an Resilience Hub application. An Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a Resilience Hub application, you provide an application name, resources from one or more CloudFormation stacks, Resource Groups, Terraform state files, AppRegistry applications, and an appropriate resiliency policy. In addition, you can also add resources that are located on Amazon Elastic Kubernetes Service (Amazon EKS) clusters as optional resources. For more information about the number of resources supported per application, see [Service quotas](https://docs.aws.amazon.com/general/latest/gr/resiliencehub.html#limits_resiliencehub). After you create an Resilience Hub application, you publish it so that you can run a resiliency assessment on it. You can then use recommendations from the assessment to improve resiliency by running another assessment, comparing results, and then iterating the process until you achieve your goals for recovery time objective (RTO) and recovery point objective (RPO).
-    func createApp(input: CreateAppInput) async throws -> CreateAppOutputResponse
+    ///
+    /// - Parameter CreateAppInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAppOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ServiceQuotaExceededException` : This exception occurs when you have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func createApp(input: CreateAppInput) async throws -> CreateAppOutput
+    /// Performs the `CreateAppVersionAppComponent` operation on the `AwsResilienceHub` service.
+    ///
     /// Creates a new Application Component in the Resilience Hub application. This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
-    func createAppVersionAppComponent(input: CreateAppVersionAppComponentInput) async throws -> CreateAppVersionAppComponentOutputResponse
+    ///
+    /// - Parameter CreateAppVersionAppComponentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAppVersionAppComponentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ServiceQuotaExceededException` : This exception occurs when you have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func createAppVersionAppComponent(input: CreateAppVersionAppComponentInput) async throws -> CreateAppVersionAppComponentOutput
+    /// Performs the `CreateAppVersionResource` operation on the `AwsResilienceHub` service.
+    ///
     /// Adds a resource to the Resilience Hub application and assigns it to the specified Application Components. If you specify a new Application Component, Resilience Hub will automatically create the Application Component.
     ///
     /// * This action has no effect outside Resilience Hub.
@@ -19,23 +86,136 @@ public protocol ResiliencehubClientProtocol {
     /// * This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     ///
     /// * To update application version with new physicalResourceID, you must call ResolveAppVersionResources API.
-    func createAppVersionResource(input: CreateAppVersionResourceInput) async throws -> CreateAppVersionResourceOutputResponse
+    ///
+    /// - Parameter CreateAppVersionResourceInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAppVersionResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ServiceQuotaExceededException` : This exception occurs when you have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func createAppVersionResource(input: CreateAppVersionResourceInput) async throws -> CreateAppVersionResourceOutput
+    /// Performs the `CreateRecommendationTemplate` operation on the `AwsResilienceHub` service.
+    ///
     /// Creates a new recommendation template for the Resilience Hub application.
-    func createRecommendationTemplate(input: CreateRecommendationTemplateInput) async throws -> CreateRecommendationTemplateOutputResponse
-    /// Creates a resiliency policy for an application.
-    func createResiliencyPolicy(input: CreateResiliencyPolicyInput) async throws -> CreateResiliencyPolicyOutputResponse
+    ///
+    /// - Parameter CreateRecommendationTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRecommendationTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ServiceQuotaExceededException` : This exception occurs when you have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func createRecommendationTemplate(input: CreateRecommendationTemplateInput) async throws -> CreateRecommendationTemplateOutput
+    /// Performs the `CreateResiliencyPolicy` operation on the `AwsResilienceHub` service.
+    ///
+    /// Creates a resiliency policy for an application. Resilience Hub allows you to provide a value of zero for rtoInSecs and rpoInSecs of your resiliency policy. But, while assessing your application, the lowest possible assessment result is near zero. Hence, if you provide value zero for rtoInSecs and rpoInSecs, the estimated workload RTO and estimated workload RPO result will be near zero and the Compliance status for your application will be set to Policy breached.
+    ///
+    /// - Parameter CreateResiliencyPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `CreateResiliencyPolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ServiceQuotaExceededException` : This exception occurs when you have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func createResiliencyPolicy(input: CreateResiliencyPolicyInput) async throws -> CreateResiliencyPolicyOutput
+    /// Performs the `DeleteApp` operation on the `AwsResilienceHub` service.
+    ///
     /// Deletes an Resilience Hub application. This is a destructive action that can't be undone.
-    func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutputResponse
+    ///
+    /// - Parameter DeleteAppInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAppOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutput
+    /// Performs the `DeleteAppAssessment` operation on the `AwsResilienceHub` service.
+    ///
     /// Deletes an Resilience Hub application assessment. This is a destructive action that can't be undone.
-    func deleteAppAssessment(input: DeleteAppAssessmentInput) async throws -> DeleteAppAssessmentOutputResponse
+    ///
+    /// - Parameter DeleteAppAssessmentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAppAssessmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func deleteAppAssessment(input: DeleteAppAssessmentInput) async throws -> DeleteAppAssessmentOutput
+    /// Performs the `DeleteAppInputSource` operation on the `AwsResilienceHub` service.
+    ///
     /// Deletes the input source and all of its imported resources from the Resilience Hub application.
-    func deleteAppInputSource(input: DeleteAppInputSourceInput) async throws -> DeleteAppInputSourceOutputResponse
+    ///
+    /// - Parameter DeleteAppInputSourceInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAppInputSourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func deleteAppInputSource(input: DeleteAppInputSourceInput) async throws -> DeleteAppInputSourceOutput
+    /// Performs the `DeleteAppVersionAppComponent` operation on the `AwsResilienceHub` service.
+    ///
     /// Deletes an Application Component from the Resilience Hub application.
     ///
     /// * This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     ///
     /// * You will not be able to delete an Application Component if it has resources associated with it.
-    func deleteAppVersionAppComponent(input: DeleteAppVersionAppComponentInput) async throws -> DeleteAppVersionAppComponentOutputResponse
+    ///
+    /// - Parameter DeleteAppVersionAppComponentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAppVersionAppComponentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func deleteAppVersionAppComponent(input: DeleteAppVersionAppComponentInput) async throws -> DeleteAppVersionAppComponentOutput
+    /// Performs the `DeleteAppVersionResource` operation on the `AwsResilienceHub` service.
+    ///
     /// Deletes a resource from the Resilience Hub application.
     ///
     /// * You can only delete a manually added resource. To exclude non-manually added resources, use the UpdateAppVersionResource API.
@@ -43,19 +223,127 @@ public protocol ResiliencehubClientProtocol {
     /// * This action has no effect outside Resilience Hub.
     ///
     /// * This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
-    func deleteAppVersionResource(input: DeleteAppVersionResourceInput) async throws -> DeleteAppVersionResourceOutputResponse
+    ///
+    /// - Parameter DeleteAppVersionResourceInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAppVersionResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func deleteAppVersionResource(input: DeleteAppVersionResourceInput) async throws -> DeleteAppVersionResourceOutput
+    /// Performs the `DeleteRecommendationTemplate` operation on the `AwsResilienceHub` service.
+    ///
     /// Deletes a recommendation template. This is a destructive action that can't be undone.
-    func deleteRecommendationTemplate(input: DeleteRecommendationTemplateInput) async throws -> DeleteRecommendationTemplateOutputResponse
+    ///
+    /// - Parameter DeleteRecommendationTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRecommendationTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func deleteRecommendationTemplate(input: DeleteRecommendationTemplateInput) async throws -> DeleteRecommendationTemplateOutput
+    /// Performs the `DeleteResiliencyPolicy` operation on the `AwsResilienceHub` service.
+    ///
     /// Deletes a resiliency policy. This is a destructive action that can't be undone.
-    func deleteResiliencyPolicy(input: DeleteResiliencyPolicyInput) async throws -> DeleteResiliencyPolicyOutputResponse
+    ///
+    /// - Parameter DeleteResiliencyPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResiliencyPolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func deleteResiliencyPolicy(input: DeleteResiliencyPolicyInput) async throws -> DeleteResiliencyPolicyOutput
+    /// Performs the `DescribeApp` operation on the `AwsResilienceHub` service.
+    ///
     /// Describes an Resilience Hub application.
-    func describeApp(input: DescribeAppInput) async throws -> DescribeAppOutputResponse
+    ///
+    /// - Parameter DescribeAppInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAppOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func describeApp(input: DescribeAppInput) async throws -> DescribeAppOutput
+    /// Performs the `DescribeAppAssessment` operation on the `AwsResilienceHub` service.
+    ///
     /// Describes an assessment for an Resilience Hub application.
-    func describeAppAssessment(input: DescribeAppAssessmentInput) async throws -> DescribeAppAssessmentOutputResponse
+    ///
+    /// - Parameter DescribeAppAssessmentInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAppAssessmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func describeAppAssessment(input: DescribeAppAssessmentInput) async throws -> DescribeAppAssessmentOutput
+    /// Performs the `DescribeAppVersion` operation on the `AwsResilienceHub` service.
+    ///
     /// Describes the Resilience Hub application version.
-    func describeAppVersion(input: DescribeAppVersionInput) async throws -> DescribeAppVersionOutputResponse
+    ///
+    /// - Parameter DescribeAppVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAppVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func describeAppVersion(input: DescribeAppVersionInput) async throws -> DescribeAppVersionOutput
+    /// Performs the `DescribeAppVersionAppComponent` operation on the `AwsResilienceHub` service.
+    ///
     /// Describes an Application Component in the Resilience Hub application.
-    func describeAppVersionAppComponent(input: DescribeAppVersionAppComponentInput) async throws -> DescribeAppVersionAppComponentOutputResponse
+    ///
+    /// - Parameter DescribeAppVersionAppComponentInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAppVersionAppComponentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func describeAppVersionAppComponent(input: DescribeAppVersionAppComponentInput) async throws -> DescribeAppVersionAppComponentOutput
+    /// Performs the `DescribeAppVersionResource` operation on the `AwsResilienceHub` service.
+    ///
     /// Describes a resource of the Resilience Hub application. This API accepts only one of the following parameters to descibe the resource:
     ///
     /// * resourceName
@@ -63,73 +351,596 @@ public protocol ResiliencehubClientProtocol {
     /// * logicalResourceId
     ///
     /// * physicalResourceId (Along with physicalResourceId, you can also provide awsAccountId, and awsRegion)
-    func describeAppVersionResource(input: DescribeAppVersionResourceInput) async throws -> DescribeAppVersionResourceOutputResponse
+    ///
+    /// - Parameter DescribeAppVersionResourceInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAppVersionResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func describeAppVersionResource(input: DescribeAppVersionResourceInput) async throws -> DescribeAppVersionResourceOutput
+    /// Performs the `DescribeAppVersionResourcesResolutionStatus` operation on the `AwsResilienceHub` service.
+    ///
     /// Returns the resolution status for the specified resolution identifier for an application version. If resolutionId is not specified, the current resolution status is returned.
-    func describeAppVersionResourcesResolutionStatus(input: DescribeAppVersionResourcesResolutionStatusInput) async throws -> DescribeAppVersionResourcesResolutionStatusOutputResponse
+    ///
+    /// - Parameter DescribeAppVersionResourcesResolutionStatusInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAppVersionResourcesResolutionStatusOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func describeAppVersionResourcesResolutionStatus(input: DescribeAppVersionResourcesResolutionStatusInput) async throws -> DescribeAppVersionResourcesResolutionStatusOutput
+    /// Performs the `DescribeAppVersionTemplate` operation on the `AwsResilienceHub` service.
+    ///
     /// Describes details about an Resilience Hub application.
-    func describeAppVersionTemplate(input: DescribeAppVersionTemplateInput) async throws -> DescribeAppVersionTemplateOutputResponse
+    ///
+    /// - Parameter DescribeAppVersionTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAppVersionTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func describeAppVersionTemplate(input: DescribeAppVersionTemplateInput) async throws -> DescribeAppVersionTemplateOutput
+    /// Performs the `DescribeDraftAppVersionResourcesImportStatus` operation on the `AwsResilienceHub` service.
+    ///
     /// Describes the status of importing resources to an application version. If you get a 404 error with ResourceImportStatusNotFoundAppMetadataException, you must call importResourcesToDraftAppVersion after creating the application and before calling describeDraftAppVersionResourcesImportStatus to obtain the status.
-    func describeDraftAppVersionResourcesImportStatus(input: DescribeDraftAppVersionResourcesImportStatusInput) async throws -> DescribeDraftAppVersionResourcesImportStatusOutputResponse
+    ///
+    /// - Parameter DescribeDraftAppVersionResourcesImportStatusInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDraftAppVersionResourcesImportStatusOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func describeDraftAppVersionResourcesImportStatus(input: DescribeDraftAppVersionResourcesImportStatusInput) async throws -> DescribeDraftAppVersionResourcesImportStatusOutput
+    /// Performs the `DescribeResiliencyPolicy` operation on the `AwsResilienceHub` service.
+    ///
     /// Describes a specified resiliency policy for an Resilience Hub application. The returned policy object includes creation time, data location constraints, the Amazon Resource Name (ARN) for the policy, tags, tier, and more.
-    func describeResiliencyPolicy(input: DescribeResiliencyPolicyInput) async throws -> DescribeResiliencyPolicyOutputResponse
+    ///
+    /// - Parameter DescribeResiliencyPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeResiliencyPolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func describeResiliencyPolicy(input: DescribeResiliencyPolicyInput) async throws -> DescribeResiliencyPolicyOutput
+    /// Performs the `ImportResourcesToDraftAppVersion` operation on the `AwsResilienceHub` service.
+    ///
     /// Imports resources to Resilience Hub application draft version from different input sources. For more information about the input sources supported by Resilience Hub, see [Discover the structure and describe your Resilience Hub application](https://docs.aws.amazon.com/resilience-hub/latest/userguide/discover-structure.html).
-    func importResourcesToDraftAppVersion(input: ImportResourcesToDraftAppVersionInput) async throws -> ImportResourcesToDraftAppVersionOutputResponse
+    ///
+    /// - Parameter ImportResourcesToDraftAppVersionInput : [no documentation found]
+    ///
+    /// - Returns: `ImportResourcesToDraftAppVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ServiceQuotaExceededException` : This exception occurs when you have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func importResourcesToDraftAppVersion(input: ImportResourcesToDraftAppVersionInput) async throws -> ImportResourcesToDraftAppVersionOutput
+    /// Performs the `ListAlarmRecommendations` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the alarm recommendations for an Resilience Hub application.
-    func listAlarmRecommendations(input: ListAlarmRecommendationsInput) async throws -> ListAlarmRecommendationsOutputResponse
+    ///
+    /// - Parameter ListAlarmRecommendationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAlarmRecommendationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func listAlarmRecommendations(input: ListAlarmRecommendationsInput) async throws -> ListAlarmRecommendationsOutput
+    /// Performs the `ListAppAssessmentComplianceDrifts` operation on the `AwsResilienceHub` service.
+    ///
     /// List of compliance drifts that were detected while running an assessment.
-    func listAppAssessmentComplianceDrifts(input: ListAppAssessmentComplianceDriftsInput) async throws -> ListAppAssessmentComplianceDriftsOutputResponse
+    ///
+    /// - Parameter ListAppAssessmentComplianceDriftsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAppAssessmentComplianceDriftsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func listAppAssessmentComplianceDrifts(input: ListAppAssessmentComplianceDriftsInput) async throws -> ListAppAssessmentComplianceDriftsOutput
+    /// Performs the `ListAppAssessments` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the assessments for an Resilience Hub application. You can use request parameters to refine the results for the response object.
-    func listAppAssessments(input: ListAppAssessmentsInput) async throws -> ListAppAssessmentsOutputResponse
+    ///
+    /// - Parameter ListAppAssessmentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAppAssessmentsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func listAppAssessments(input: ListAppAssessmentsInput) async throws -> ListAppAssessmentsOutput
+    /// Performs the `ListAppComponentCompliances` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the compliances for an Resilience Hub Application Component.
-    func listAppComponentCompliances(input: ListAppComponentCompliancesInput) async throws -> ListAppComponentCompliancesOutputResponse
+    ///
+    /// - Parameter ListAppComponentCompliancesInput : [no documentation found]
+    ///
+    /// - Returns: `ListAppComponentCompliancesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func listAppComponentCompliances(input: ListAppComponentCompliancesInput) async throws -> ListAppComponentCompliancesOutput
+    /// Performs the `ListAppComponentRecommendations` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the recommendations for an Resilience Hub Application Component.
-    func listAppComponentRecommendations(input: ListAppComponentRecommendationsInput) async throws -> ListAppComponentRecommendationsOutputResponse
+    ///
+    /// - Parameter ListAppComponentRecommendationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAppComponentRecommendationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func listAppComponentRecommendations(input: ListAppComponentRecommendationsInput) async throws -> ListAppComponentRecommendationsOutput
+    /// Performs the `ListAppInputSources` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists all the input sources of the Resilience Hub application. For more information about the input sources supported by Resilience Hub, see [Discover the structure and describe your Resilience Hub application](https://docs.aws.amazon.com/resilience-hub/latest/userguide/discover-structure.html).
-    func listAppInputSources(input: ListAppInputSourcesInput) async throws -> ListAppInputSourcesOutputResponse
+    ///
+    /// - Parameter ListAppInputSourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListAppInputSourcesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func listAppInputSources(input: ListAppInputSourcesInput) async throws -> ListAppInputSourcesOutput
+    /// Performs the `ListApps` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists your Resilience Hub applications. You can filter applications using only one filter at a time or without using any filter. If you try to filter applications using multiple filters, you will get the following error: An error occurred (ValidationException) when calling the ListApps operation: Only one filter is supported for this operation.
-    func listApps(input: ListAppsInput) async throws -> ListAppsOutputResponse
+    ///
+    /// - Parameter ListAppsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAppsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func listApps(input: ListAppsInput) async throws -> ListAppsOutput
+    /// Performs the `ListAppVersionAppComponents` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists all the Application Components in the Resilience Hub application.
-    func listAppVersionAppComponents(input: ListAppVersionAppComponentsInput) async throws -> ListAppVersionAppComponentsOutputResponse
+    ///
+    /// - Parameter ListAppVersionAppComponentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAppVersionAppComponentsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func listAppVersionAppComponents(input: ListAppVersionAppComponentsInput) async throws -> ListAppVersionAppComponentsOutput
+    /// Performs the `ListAppVersionResourceMappings` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists how the resources in an application version are mapped/sourced from. Mappings can be physical resource identifiers, CloudFormation stacks, resource-groups, or an application registry app.
-    func listAppVersionResourceMappings(input: ListAppVersionResourceMappingsInput) async throws -> ListAppVersionResourceMappingsOutputResponse
+    ///
+    /// - Parameter ListAppVersionResourceMappingsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAppVersionResourceMappingsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func listAppVersionResourceMappings(input: ListAppVersionResourceMappingsInput) async throws -> ListAppVersionResourceMappingsOutput
+    /// Performs the `ListAppVersionResources` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists all the resources in an Resilience Hub application.
-    func listAppVersionResources(input: ListAppVersionResourcesInput) async throws -> ListAppVersionResourcesOutputResponse
+    ///
+    /// - Parameter ListAppVersionResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListAppVersionResourcesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func listAppVersionResources(input: ListAppVersionResourcesInput) async throws -> ListAppVersionResourcesOutput
+    /// Performs the `ListAppVersions` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the different versions for the Resilience Hub applications.
-    func listAppVersions(input: ListAppVersionsInput) async throws -> ListAppVersionsOutputResponse
+    ///
+    /// - Parameter ListAppVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAppVersionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func listAppVersions(input: ListAppVersionsInput) async throws -> ListAppVersionsOutput
+    /// Performs the `ListRecommendationTemplates` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the recommendation templates for the Resilience Hub applications.
-    func listRecommendationTemplates(input: ListRecommendationTemplatesInput) async throws -> ListRecommendationTemplatesOutputResponse
+    ///
+    /// - Parameter ListRecommendationTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListRecommendationTemplatesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func listRecommendationTemplates(input: ListRecommendationTemplatesInput) async throws -> ListRecommendationTemplatesOutput
+    /// Performs the `ListResiliencyPolicies` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the resiliency policies for the Resilience Hub applications.
-    func listResiliencyPolicies(input: ListResiliencyPoliciesInput) async throws -> ListResiliencyPoliciesOutputResponse
+    ///
+    /// - Parameter ListResiliencyPoliciesInput : [no documentation found]
+    ///
+    /// - Returns: `ListResiliencyPoliciesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func listResiliencyPolicies(input: ListResiliencyPoliciesInput) async throws -> ListResiliencyPoliciesOutput
+    /// Performs the `ListSopRecommendations` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the standard operating procedure (SOP) recommendations for the Resilience Hub applications.
-    func listSopRecommendations(input: ListSopRecommendationsInput) async throws -> ListSopRecommendationsOutputResponse
+    ///
+    /// - Parameter ListSopRecommendationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSopRecommendationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func listSopRecommendations(input: ListSopRecommendationsInput) async throws -> ListSopRecommendationsOutput
+    /// Performs the `ListSuggestedResiliencyPolicies` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the suggested resiliency policies for the Resilience Hub applications.
-    func listSuggestedResiliencyPolicies(input: ListSuggestedResiliencyPoliciesInput) async throws -> ListSuggestedResiliencyPoliciesOutputResponse
+    ///
+    /// - Parameter ListSuggestedResiliencyPoliciesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSuggestedResiliencyPoliciesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func listSuggestedResiliencyPolicies(input: ListSuggestedResiliencyPoliciesInput) async throws -> ListSuggestedResiliencyPoliciesOutput
+    /// Performs the `ListTagsForResource` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the tags for your resources in your Resilience Hub applications.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `ListTestRecommendations` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the test recommendations for the Resilience Hub application.
-    func listTestRecommendations(input: ListTestRecommendationsInput) async throws -> ListTestRecommendationsOutputResponse
+    ///
+    /// - Parameter ListTestRecommendationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTestRecommendationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func listTestRecommendations(input: ListTestRecommendationsInput) async throws -> ListTestRecommendationsOutput
+    /// Performs the `ListUnsupportedAppVersionResources` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the resources that are not currently supported in Resilience Hub. An unsupported resource is a resource that exists in the object that was used to create an app, but is not supported by Resilience Hub.
-    func listUnsupportedAppVersionResources(input: ListUnsupportedAppVersionResourcesInput) async throws -> ListUnsupportedAppVersionResourcesOutputResponse
+    ///
+    /// - Parameter ListUnsupportedAppVersionResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListUnsupportedAppVersionResourcesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func listUnsupportedAppVersionResources(input: ListUnsupportedAppVersionResourcesInput) async throws -> ListUnsupportedAppVersionResourcesOutput
+    /// Performs the `PublishAppVersion` operation on the `AwsResilienceHub` service.
+    ///
     /// Publishes a new version of a specific Resilience Hub application.
-    func publishAppVersion(input: PublishAppVersionInput) async throws -> PublishAppVersionOutputResponse
+    ///
+    /// - Parameter PublishAppVersionInput : [no documentation found]
+    ///
+    /// - Returns: `PublishAppVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func publishAppVersion(input: PublishAppVersionInput) async throws -> PublishAppVersionOutput
+    /// Performs the `PutDraftAppVersionTemplate` operation on the `AwsResilienceHub` service.
+    ///
     /// Adds or updates the app template for an Resilience Hub application draft version.
-    func putDraftAppVersionTemplate(input: PutDraftAppVersionTemplateInput) async throws -> PutDraftAppVersionTemplateOutputResponse
+    ///
+    /// - Parameter PutDraftAppVersionTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `PutDraftAppVersionTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func putDraftAppVersionTemplate(input: PutDraftAppVersionTemplateInput) async throws -> PutDraftAppVersionTemplateOutput
+    /// Performs the `RemoveDraftAppVersionResourceMappings` operation on the `AwsResilienceHub` service.
+    ///
     /// Removes resource mappings from a draft application version.
-    func removeDraftAppVersionResourceMappings(input: RemoveDraftAppVersionResourceMappingsInput) async throws -> RemoveDraftAppVersionResourceMappingsOutputResponse
+    ///
+    /// - Parameter RemoveDraftAppVersionResourceMappingsInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveDraftAppVersionResourceMappingsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func removeDraftAppVersionResourceMappings(input: RemoveDraftAppVersionResourceMappingsInput) async throws -> RemoveDraftAppVersionResourceMappingsOutput
+    /// Performs the `ResolveAppVersionResources` operation on the `AwsResilienceHub` service.
+    ///
     /// Resolves the resources for an application version.
-    func resolveAppVersionResources(input: ResolveAppVersionResourcesInput) async throws -> ResolveAppVersionResourcesOutputResponse
+    ///
+    /// - Parameter ResolveAppVersionResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ResolveAppVersionResourcesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func resolveAppVersionResources(input: ResolveAppVersionResourcesInput) async throws -> ResolveAppVersionResourcesOutput
+    /// Performs the `StartAppAssessment` operation on the `AwsResilienceHub` service.
+    ///
     /// Creates a new application assessment for an application.
-    func startAppAssessment(input: StartAppAssessmentInput) async throws -> StartAppAssessmentOutputResponse
+    ///
+    /// - Parameter StartAppAssessmentInput : [no documentation found]
+    ///
+    /// - Returns: `StartAppAssessmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ServiceQuotaExceededException` : This exception occurs when you have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func startAppAssessment(input: StartAppAssessmentInput) async throws -> StartAppAssessmentOutput
+    /// Performs the `TagResource` operation on the `AwsResilienceHub` service.
+    ///
     /// Applies one or more tags to a resource.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `AwsResilienceHub` service.
+    ///
     /// Removes one or more tags from a resource.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateApp` operation on the `AwsResilienceHub` service.
+    ///
     /// Updates an application.
-    func updateApp(input: UpdateAppInput) async throws -> UpdateAppOutputResponse
+    ///
+    /// - Parameter UpdateAppInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAppOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func updateApp(input: UpdateAppInput) async throws -> UpdateAppOutput
+    /// Performs the `UpdateAppVersion` operation on the `AwsResilienceHub` service.
+    ///
     /// Updates the Resilience Hub application version. This API updates the Resilience Hub application draft version. To use this information for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
-    func updateAppVersion(input: UpdateAppVersionInput) async throws -> UpdateAppVersionOutputResponse
+    ///
+    /// - Parameter UpdateAppVersionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAppVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func updateAppVersion(input: UpdateAppVersionInput) async throws -> UpdateAppVersionOutput
+    /// Performs the `UpdateAppVersionAppComponent` operation on the `AwsResilienceHub` service.
+    ///
     /// Updates an existing Application Component in the Resilience Hub application. This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
-    func updateAppVersionAppComponent(input: UpdateAppVersionAppComponentInput) async throws -> UpdateAppVersionAppComponentOutputResponse
+    ///
+    /// - Parameter UpdateAppVersionAppComponentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAppVersionAppComponentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func updateAppVersionAppComponent(input: UpdateAppVersionAppComponentInput) async throws -> UpdateAppVersionAppComponentOutput
+    /// Performs the `UpdateAppVersionResource` operation on the `AwsResilienceHub` service.
+    ///
     /// Updates the resource details in the Resilience Hub application.
     ///
     /// * This action has no effect outside Resilience Hub.
@@ -137,9 +948,40 @@ public protocol ResiliencehubClientProtocol {
     /// * This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     ///
     /// * To update application version with new physicalResourceID, you must call ResolveAppVersionResources API.
-    func updateAppVersionResource(input: UpdateAppVersionResourceInput) async throws -> UpdateAppVersionResourceOutputResponse
-    /// Updates a resiliency policy.
-    func updateResiliencyPolicy(input: UpdateResiliencyPolicyInput) async throws -> UpdateResiliencyPolicyOutputResponse
+    ///
+    /// - Parameter UpdateAppVersionResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAppVersionResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ServiceQuotaExceededException` : This exception occurs when you have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func updateAppVersionResource(input: UpdateAppVersionResourceInput) async throws -> UpdateAppVersionResourceOutput
+    /// Performs the `UpdateResiliencyPolicy` operation on the `AwsResilienceHub` service.
+    ///
+    /// Updates a resiliency policy. Resilience Hub allows you to provide a value of zero for rtoInSecs and rpoInSecs of your resiliency policy. But, while assessing your application, the lowest possible assessment result is near zero. Hence, if you provide value zero for rtoInSecs and rpoInSecs, the estimated workload RTO and estimated workload RPO result will be near zero and the Compliance status for your application will be set to Policy breached.
+    ///
+    /// - Parameter UpdateResiliencyPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateResiliencyPolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `ConflictException` : This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    func updateResiliencyPolicy(input: UpdateResiliencyPolicyInput) async throws -> UpdateResiliencyPolicyOutput
 }
 
 public enum ResiliencehubClientTypes {}

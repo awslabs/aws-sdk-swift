@@ -101,23 +101,11 @@ extension AddInstanceFleetInputBody: Swift.Decodable {
     }
 }
 
-public enum AddInstanceFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension AddInstanceFleetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension AddInstanceFleetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: AddInstanceFleetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: AddInstanceFleetOutputBody = try responseDecoder.decode(responseBody: data)
             self.clusterArn = output.clusterArn
             self.clusterId = output.clusterId
             self.instanceFleetId = output.instanceFleetId
@@ -129,7 +117,7 @@ extension AddInstanceFleetOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AddInstanceFleetOutputResponse: Swift.Equatable {
+public struct AddInstanceFleetOutput: Swift.Equatable {
     /// The Amazon Resource Name of the cluster.
     public var clusterArn: Swift.String?
     /// The unique identifier of the cluster.
@@ -149,13 +137,13 @@ public struct AddInstanceFleetOutputResponse: Swift.Equatable {
     }
 }
 
-struct AddInstanceFleetOutputResponseBody: Swift.Equatable {
+struct AddInstanceFleetOutputBody: Swift.Equatable {
     let clusterId: Swift.String?
     let instanceFleetId: Swift.String?
     let clusterArn: Swift.String?
 }
 
-extension AddInstanceFleetOutputResponseBody: Swift.Decodable {
+extension AddInstanceFleetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clusterArn = "ClusterArn"
         case clusterId = "ClusterId"
@@ -170,6 +158,18 @@ extension AddInstanceFleetOutputResponseBody: Swift.Decodable {
         instanceFleetId = instanceFleetIdDecoded
         let clusterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterArn)
         clusterArn = clusterArnDecoded
+    }
+}
+
+enum AddInstanceFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -247,22 +247,11 @@ extension AddInstanceGroupsInputBody: Swift.Decodable {
     }
 }
 
-public enum AddInstanceGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalFailure": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension AddInstanceGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension AddInstanceGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: AddInstanceGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: AddInstanceGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.clusterArn = output.clusterArn
             self.instanceGroupIds = output.instanceGroupIds
             self.jobFlowId = output.jobFlowId
@@ -275,7 +264,7 @@ extension AddInstanceGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output from an AddInstanceGroups call.
-public struct AddInstanceGroupsOutputResponse: Swift.Equatable {
+public struct AddInstanceGroupsOutput: Swift.Equatable {
     /// The Amazon Resource Name of the cluster.
     public var clusterArn: Swift.String?
     /// Instance group IDs of the newly created instance groups.
@@ -295,13 +284,13 @@ public struct AddInstanceGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct AddInstanceGroupsOutputResponseBody: Swift.Equatable {
+struct AddInstanceGroupsOutputBody: Swift.Equatable {
     let jobFlowId: Swift.String?
     let instanceGroupIds: [Swift.String]?
     let clusterArn: Swift.String?
 }
 
-extension AddInstanceGroupsOutputResponseBody: Swift.Decodable {
+extension AddInstanceGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clusterArn = "ClusterArn"
         case instanceGroupIds = "InstanceGroupIds"
@@ -325,6 +314,17 @@ extension AddInstanceGroupsOutputResponseBody: Swift.Decodable {
         instanceGroupIds = instanceGroupIdsDecoded0
         let clusterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterArn)
         clusterArn = clusterArnDecoded
+    }
+}
+
+enum AddInstanceGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailure": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -414,22 +414,11 @@ extension AddJobFlowStepsInputBody: Swift.Decodable {
     }
 }
 
-public enum AddJobFlowStepsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalFailure": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension AddJobFlowStepsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension AddJobFlowStepsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: AddJobFlowStepsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: AddJobFlowStepsOutputBody = try responseDecoder.decode(responseBody: data)
             self.stepIds = output.stepIds
         } else {
             self.stepIds = nil
@@ -438,7 +427,7 @@ extension AddJobFlowStepsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output for the [AddJobFlowSteps] operation.
-public struct AddJobFlowStepsOutputResponse: Swift.Equatable {
+public struct AddJobFlowStepsOutput: Swift.Equatable {
     /// The identifiers of the list of steps added to the job flow.
     public var stepIds: [Swift.String]?
 
@@ -450,11 +439,11 @@ public struct AddJobFlowStepsOutputResponse: Swift.Equatable {
     }
 }
 
-struct AddJobFlowStepsOutputResponseBody: Swift.Equatable {
+struct AddJobFlowStepsOutputBody: Swift.Equatable {
     let stepIds: [Swift.String]?
 }
 
-extension AddJobFlowStepsOutputResponseBody: Swift.Decodable {
+extension AddJobFlowStepsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case stepIds = "StepIds"
     }
@@ -472,6 +461,17 @@ extension AddJobFlowStepsOutputResponseBody: Swift.Decodable {
             }
         }
         stepIds = stepIdsDecoded0
+    }
+}
+
+enum AddJobFlowStepsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailure": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -549,8 +549,19 @@ extension AddTagsInputBody: Swift.Decodable {
     }
 }
 
-public enum AddTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension AddTagsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// This output indicates the result of adding tags to a resource.
+public struct AddTagsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum AddTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -559,17 +570,6 @@ public enum AddTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension AddTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// This output indicates the result of adding tags to a resource.
-public struct AddTagsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension EMRClientTypes {
@@ -1030,14 +1030,14 @@ extension EMRClientTypes.AutoTerminationPolicy: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if idleTimeout != 0 {
+        if let idleTimeout = self.idleTimeout {
             try encodeContainer.encode(idleTimeout, forKey: .idleTimeout)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let idleTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .idleTimeout) ?? 0
+        let idleTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .idleTimeout)
         idleTimeout = idleTimeoutDecoded
     }
 }
@@ -1046,10 +1046,10 @@ extension EMRClientTypes {
     /// An auto-termination policy for an Amazon EMR cluster. An auto-termination policy defines the amount of idle time in seconds after which a cluster automatically terminates. For alternative cluster termination options, see [Control cluster termination](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-termination.html).
     public struct AutoTerminationPolicy: Swift.Equatable {
         /// Specifies the amount of idle time in seconds after which the cluster automatically terminates. You can specify a minimum of 60 seconds and a maximum of 604800 seconds (seven days).
-        public var idleTimeout: Swift.Int
+        public var idleTimeout: Swift.Int?
 
         public init(
-            idleTimeout: Swift.Int = 0
+            idleTimeout: Swift.Int? = nil
         )
         {
             self.idleTimeout = idleTimeout
@@ -1069,7 +1069,7 @@ extension EMRClientTypes.BlockPublicAccessConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if blockPublicSecurityGroupRules != false {
+        if let blockPublicSecurityGroupRules = self.blockPublicSecurityGroupRules {
             try encodeContainer.encode(blockPublicSecurityGroupRules, forKey: .blockPublicSecurityGroupRules)
         }
         if let classification = self.classification {
@@ -1097,7 +1097,7 @@ extension EMRClientTypes.BlockPublicAccessConfiguration: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let blockPublicSecurityGroupRulesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blockPublicSecurityGroupRules) ?? false
+        let blockPublicSecurityGroupRulesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blockPublicSecurityGroupRules)
         blockPublicSecurityGroupRules = blockPublicSecurityGroupRulesDecoded
         let permittedPublicSecurityGroupRuleRangesContainer = try containerValues.decodeIfPresent([EMRClientTypes.PortRange?].self, forKey: .permittedPublicSecurityGroupRuleRanges)
         var permittedPublicSecurityGroupRuleRangesDecoded0:[EMRClientTypes.PortRange]? = nil
@@ -1142,7 +1142,7 @@ extension EMRClientTypes {
     public struct BlockPublicAccessConfiguration: Swift.Equatable {
         /// Indicates whether Amazon EMR block public access is enabled (true) or disabled (false). By default, the value is false for accounts that have created Amazon EMR clusters before July 2019. For accounts created after this, the default is true.
         /// This member is required.
-        public var blockPublicSecurityGroupRules: Swift.Bool
+        public var blockPublicSecurityGroupRules: Swift.Bool?
         /// The classification within a configuration.
         public var classification: Swift.String?
         /// A list of additional configurations to apply within a configuration object.
@@ -1153,7 +1153,7 @@ extension EMRClientTypes {
         public var properties: [Swift.String:Swift.String]?
 
         public init(
-            blockPublicSecurityGroupRules: Swift.Bool = false,
+            blockPublicSecurityGroupRules: Swift.Bool? = nil,
             classification: Swift.String? = nil,
             configurations: [EMRClientTypes.Configuration]? = nil,
             permittedPublicSecurityGroupRuleRanges: [EMRClientTypes.PortRange]? = nil,
@@ -1440,23 +1440,11 @@ extension CancelStepsInputBody: Swift.Decodable {
     }
 }
 
-public enum CancelStepsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalFailure": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CancelStepsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CancelStepsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CancelStepsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CancelStepsOutputBody = try responseDecoder.decode(responseBody: data)
             self.cancelStepsInfoList = output.cancelStepsInfoList
         } else {
             self.cancelStepsInfoList = nil
@@ -1465,7 +1453,7 @@ extension CancelStepsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output for the [CancelSteps] operation.
-public struct CancelStepsOutputResponse: Swift.Equatable {
+public struct CancelStepsOutput: Swift.Equatable {
     /// A list of [CancelStepsInfo], which shows the status of specified cancel requests for each StepID specified.
     public var cancelStepsInfoList: [EMRClientTypes.CancelStepsInfo]?
 
@@ -1477,11 +1465,11 @@ public struct CancelStepsOutputResponse: Swift.Equatable {
     }
 }
 
-struct CancelStepsOutputResponseBody: Swift.Equatable {
+struct CancelStepsOutputBody: Swift.Equatable {
     let cancelStepsInfoList: [EMRClientTypes.CancelStepsInfo]?
 }
 
-extension CancelStepsOutputResponseBody: Swift.Decodable {
+extension CancelStepsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cancelStepsInfoList = "CancelStepsInfoList"
     }
@@ -1499,6 +1487,18 @@ extension CancelStepsOutputResponseBody: Swift.Decodable {
             }
         }
         cancelStepsInfoList = cancelStepsInfoListDecoded0
+    }
+}
+
+enum CancelStepsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailure": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1673,7 +1673,9 @@ extension EMRClientTypes.Cluster: Swift.Codable {
         case clusterArn = "ClusterArn"
         case configurations = "Configurations"
         case customAmiId = "CustomAmiId"
+        case ebsRootVolumeIops = "EbsRootVolumeIops"
         case ebsRootVolumeSize = "EbsRootVolumeSize"
+        case ebsRootVolumeThroughput = "EbsRootVolumeThroughput"
         case ec2InstanceAttributes = "Ec2InstanceAttributes"
         case id = "Id"
         case instanceCollectionType = "InstanceCollectionType"
@@ -1711,7 +1713,7 @@ extension EMRClientTypes.Cluster: Swift.Codable {
         if let autoScalingRole = self.autoScalingRole {
             try encodeContainer.encode(autoScalingRole, forKey: .autoScalingRole)
         }
-        if autoTerminate != false {
+        if let autoTerminate = self.autoTerminate {
             try encodeContainer.encode(autoTerminate, forKey: .autoTerminate)
         }
         if let clusterArn = self.clusterArn {
@@ -1726,8 +1728,14 @@ extension EMRClientTypes.Cluster: Swift.Codable {
         if let customAmiId = self.customAmiId {
             try encodeContainer.encode(customAmiId, forKey: .customAmiId)
         }
+        if let ebsRootVolumeIops = self.ebsRootVolumeIops {
+            try encodeContainer.encode(ebsRootVolumeIops, forKey: .ebsRootVolumeIops)
+        }
         if let ebsRootVolumeSize = self.ebsRootVolumeSize {
             try encodeContainer.encode(ebsRootVolumeSize, forKey: .ebsRootVolumeSize)
+        }
+        if let ebsRootVolumeThroughput = self.ebsRootVolumeThroughput {
+            try encodeContainer.encode(ebsRootVolumeThroughput, forKey: .ebsRootVolumeThroughput)
         }
         if let ec2InstanceAttributes = self.ec2InstanceAttributes {
             try encodeContainer.encode(ec2InstanceAttributes, forKey: .ec2InstanceAttributes)
@@ -1801,10 +1809,10 @@ extension EMRClientTypes.Cluster: Swift.Codable {
                 try tagsContainer.encode(tag0)
             }
         }
-        if terminationProtected != false {
+        if let terminationProtected = self.terminationProtected {
             try encodeContainer.encode(terminationProtected, forKey: .terminationProtected)
         }
-        if visibleToAllUsers != false {
+        if let visibleToAllUsers = self.visibleToAllUsers {
             try encodeContainer.encode(visibleToAllUsers, forKey: .visibleToAllUsers)
         }
     }
@@ -1831,11 +1839,11 @@ extension EMRClientTypes.Cluster: Swift.Codable {
         runningAmiVersion = runningAmiVersionDecoded
         let releaseLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .releaseLabel)
         releaseLabel = releaseLabelDecoded
-        let autoTerminateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoTerminate) ?? false
+        let autoTerminateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoTerminate)
         autoTerminate = autoTerminateDecoded
-        let terminationProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtected) ?? false
+        let terminationProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtected)
         terminationProtected = terminationProtectedDecoded
-        let visibleToAllUsersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .visibleToAllUsers) ?? false
+        let visibleToAllUsersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .visibleToAllUsers)
         visibleToAllUsers = visibleToAllUsersDecoded
         let applicationsContainer = try containerValues.decodeIfPresent([EMRClientTypes.Application?].self, forKey: .applications)
         var applicationsDecoded0:[EMRClientTypes.Application]? = nil
@@ -1909,6 +1917,10 @@ extension EMRClientTypes.Cluster: Swift.Codable {
         placementGroups = placementGroupsDecoded0
         let osReleaseLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .osReleaseLabel)
         osReleaseLabel = osReleaseLabelDecoded
+        let ebsRootVolumeIopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ebsRootVolumeIops)
+        ebsRootVolumeIops = ebsRootVolumeIopsDecoded
+        let ebsRootVolumeThroughputDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ebsRootVolumeThroughput)
+        ebsRootVolumeThroughput = ebsRootVolumeThroughputDecoded
     }
 }
 
@@ -1920,15 +1932,19 @@ extension EMRClientTypes {
         /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling feature requires to launch and terminate Amazon EC2 instances in an instance group.
         public var autoScalingRole: Swift.String?
         /// Specifies whether the cluster should terminate after completing all steps.
-        public var autoTerminate: Swift.Bool
+        public var autoTerminate: Swift.Bool?
         /// The Amazon Resource Name of the cluster.
         public var clusterArn: Swift.String?
         /// Applies only to Amazon EMR releases 4.x and later. The list of configurations that are supplied to the Amazon EMR cluster.
         public var configurations: [EMRClientTypes.Configuration]?
         /// Available only in Amazon EMR releases 5.7.0 and later. The ID of a custom Amazon EBS-backed Linux AMI if the cluster uses a custom AMI.
         public var customAmiId: Swift.String?
+        /// The IOPS, of the Amazon EBS root device volume of the Linux AMI that is used for each Amazon EC2 instance. Available in Amazon EMR releases 6.15.0 and later.
+        public var ebsRootVolumeIops: Swift.Int?
         /// The size, in GiB, of the Amazon EBS root device volume of the Linux AMI that is used for each Amazon EC2 instance. Available in Amazon EMR releases 4.x and later.
         public var ebsRootVolumeSize: Swift.Int?
+        /// The throughput, in MiB/s, of the Amazon EBS root device volume of the Linux AMI that is used for each Amazon EC2 instance. Available in Amazon EMR releases 6.15.0 and later.
+        public var ebsRootVolumeThroughput: Swift.Int?
         /// Provides information about the Amazon EC2 instances in a cluster grouped by category. For example, key name, subnet ID, IAM instance profile, and so on.
         public var ec2InstanceAttributes: EMRClientTypes.Ec2InstanceAttributes?
         /// The unique identifier for the cluster.
@@ -1974,18 +1990,20 @@ extension EMRClientTypes {
         /// A list of tags associated with a cluster.
         public var tags: [EMRClientTypes.Tag]?
         /// Indicates whether Amazon EMR will lock the cluster to prevent the Amazon EC2 instances from being terminated by an API call or user intervention, or in the event of a cluster error.
-        public var terminationProtected: Swift.Bool
+        public var terminationProtected: Swift.Bool?
         /// Indicates whether the cluster is visible to IAM principals in the Amazon Web Services account associated with the cluster. When true, IAM principals in the Amazon Web Services account can perform Amazon EMR cluster actions on the cluster that their IAM policies allow. When false, only the IAM principal that created the cluster and the Amazon Web Services account root user can perform Amazon EMR actions, regardless of IAM permissions policies attached to other IAM principals. The default value is true if a value is not provided when creating a cluster using the Amazon EMR API [RunJobFlow] command, the CLI [create-cluster](https://docs.aws.amazon.com/cli/latest/reference/emr/create-cluster.html) command, or the Amazon Web Services Management Console.
-        public var visibleToAllUsers: Swift.Bool
+        public var visibleToAllUsers: Swift.Bool?
 
         public init(
             applications: [EMRClientTypes.Application]? = nil,
             autoScalingRole: Swift.String? = nil,
-            autoTerminate: Swift.Bool = false,
+            autoTerminate: Swift.Bool? = nil,
             clusterArn: Swift.String? = nil,
             configurations: [EMRClientTypes.Configuration]? = nil,
             customAmiId: Swift.String? = nil,
+            ebsRootVolumeIops: Swift.Int? = nil,
             ebsRootVolumeSize: Swift.Int? = nil,
+            ebsRootVolumeThroughput: Swift.Int? = nil,
             ec2InstanceAttributes: EMRClientTypes.Ec2InstanceAttributes? = nil,
             id: Swift.String? = nil,
             instanceCollectionType: EMRClientTypes.InstanceCollectionType? = nil,
@@ -2008,8 +2026,8 @@ extension EMRClientTypes {
             status: EMRClientTypes.ClusterStatus? = nil,
             stepConcurrencyLevel: Swift.Int? = nil,
             tags: [EMRClientTypes.Tag]? = nil,
-            terminationProtected: Swift.Bool = false,
-            visibleToAllUsers: Swift.Bool = false
+            terminationProtected: Swift.Bool? = nil,
+            visibleToAllUsers: Swift.Bool? = nil
         )
         {
             self.applications = applications
@@ -2018,7 +2036,9 @@ extension EMRClientTypes {
             self.clusterArn = clusterArn
             self.configurations = configurations
             self.customAmiId = customAmiId
+            self.ebsRootVolumeIops = ebsRootVolumeIops
             self.ebsRootVolumeSize = ebsRootVolumeSize
+            self.ebsRootVolumeThroughput = ebsRootVolumeThroughput
             self.ec2InstanceAttributes = ec2InstanceAttributes
             self.id = id
             self.instanceCollectionType = instanceCollectionType
@@ -2765,23 +2785,11 @@ extension CreateSecurityConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateSecurityConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateSecurityConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateSecurityConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateSecurityConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateSecurityConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
             self.creationDateTime = output.creationDateTime
             self.name = output.name
         } else {
@@ -2791,7 +2799,7 @@ extension CreateSecurityConfigurationOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct CreateSecurityConfigurationOutputResponse: Swift.Equatable {
+public struct CreateSecurityConfigurationOutput: Swift.Equatable {
     /// The date and time the security configuration was created.
     /// This member is required.
     public var creationDateTime: ClientRuntime.Date?
@@ -2809,12 +2817,12 @@ public struct CreateSecurityConfigurationOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateSecurityConfigurationOutputResponseBody: Swift.Equatable {
+struct CreateSecurityConfigurationOutputBody: Swift.Equatable {
     let name: Swift.String?
     let creationDateTime: ClientRuntime.Date?
 }
 
-extension CreateSecurityConfigurationOutputResponseBody: Swift.Decodable {
+extension CreateSecurityConfigurationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creationDateTime = "CreationDateTime"
         case name = "Name"
@@ -2829,18 +2837,34 @@ extension CreateSecurityConfigurationOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum CreateSecurityConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension CreateStudioInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authMode = "AuthMode"
         case defaultS3Location = "DefaultS3Location"
         case description = "Description"
+        case encryptionKeyArn = "EncryptionKeyArn"
         case engineSecurityGroupId = "EngineSecurityGroupId"
+        case idcInstanceArn = "IdcInstanceArn"
+        case idcUserAssignment = "IdcUserAssignment"
         case idpAuthUrl = "IdpAuthUrl"
         case idpRelayStateParameterName = "IdpRelayStateParameterName"
         case name = "Name"
         case serviceRole = "ServiceRole"
         case subnetIds = "SubnetIds"
         case tags = "Tags"
+        case trustedIdentityPropagationEnabled = "TrustedIdentityPropagationEnabled"
         case userRole = "UserRole"
         case vpcId = "VpcId"
         case workspaceSecurityGroupId = "WorkspaceSecurityGroupId"
@@ -2857,8 +2881,17 @@ extension CreateStudioInput: Swift.Encodable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
+        if let encryptionKeyArn = self.encryptionKeyArn {
+            try encodeContainer.encode(encryptionKeyArn, forKey: .encryptionKeyArn)
+        }
         if let engineSecurityGroupId = self.engineSecurityGroupId {
             try encodeContainer.encode(engineSecurityGroupId, forKey: .engineSecurityGroupId)
+        }
+        if let idcInstanceArn = self.idcInstanceArn {
+            try encodeContainer.encode(idcInstanceArn, forKey: .idcInstanceArn)
+        }
+        if let idcUserAssignment = self.idcUserAssignment {
+            try encodeContainer.encode(idcUserAssignment.rawValue, forKey: .idcUserAssignment)
         }
         if let idpAuthUrl = self.idpAuthUrl {
             try encodeContainer.encode(idpAuthUrl, forKey: .idpAuthUrl)
@@ -2883,6 +2916,9 @@ extension CreateStudioInput: Swift.Encodable {
             for tag0 in tags {
                 try tagsContainer.encode(tag0)
             }
+        }
+        if let trustedIdentityPropagationEnabled = self.trustedIdentityPropagationEnabled {
+            try encodeContainer.encode(trustedIdentityPropagationEnabled, forKey: .trustedIdentityPropagationEnabled)
         }
         if let userRole = self.userRole {
             try encodeContainer.encode(userRole, forKey: .userRole)
@@ -2911,9 +2947,15 @@ public struct CreateStudioInput: Swift.Equatable {
     public var defaultS3Location: Swift.String?
     /// A detailed description of the Amazon EMR Studio.
     public var description: Swift.String?
+    /// The KMS key identifier (ARN) used to encrypt Amazon EMR Studio workspace and notebook files when backed up to Amazon S3.
+    public var encryptionKeyArn: Swift.String?
     /// The ID of the Amazon EMR Studio Engine security group. The Engine security group allows inbound network traffic from the Workspace security group, and it must be in the same VPC specified by VpcId.
     /// This member is required.
     public var engineSecurityGroupId: Swift.String?
+    /// The ARN of the IAM Identity Center instance to create the Studio application.
+    public var idcInstanceArn: Swift.String?
+    /// Specifies whether IAM Identity Center user assignment is REQUIRED or OPTIONAL. If the value is set to REQUIRED, users must be explicitly assigned to the Studio application to access the Studio.
+    public var idcUserAssignment: EMRClientTypes.IdcUserAssignment?
     /// The authentication endpoint of your identity provider (IdP). Specify this value when you use IAM authentication and want to let federated users log in to a Studio with the Studio URL and credentials from your IdP. Amazon EMR Studio redirects users to this endpoint to enter credentials.
     public var idpAuthUrl: Swift.String?
     /// The name that your identity provider (IdP) uses for its RelayState parameter. For example, RelayState or TargetSource. Specify this value when you use IAM authentication and want to let federated users log in to a Studio using the Studio URL. The RelayState parameter differs by IdP.
@@ -2929,6 +2971,8 @@ public struct CreateStudioInput: Swift.Equatable {
     public var subnetIds: [Swift.String]?
     /// A list of tags to associate with the Amazon EMR Studio. Tags are user-defined key-value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
     public var tags: [EMRClientTypes.Tag]?
+    /// A Boolean indicating whether to enable Trusted identity propagation for the Studio. The default value is false.
+    public var trustedIdentityPropagationEnabled: Swift.Bool?
     /// The IAM user role that users and groups assume when logged in to an Amazon EMR Studio. Only specify a UserRole when you use IAM Identity Center authentication. The permissions attached to the UserRole can be scoped down for each user or group using session policies.
     public var userRole: Swift.String?
     /// The ID of the Amazon Virtual Private Cloud (Amazon VPC) to associate with the Studio.
@@ -2942,13 +2986,17 @@ public struct CreateStudioInput: Swift.Equatable {
         authMode: EMRClientTypes.AuthMode? = nil,
         defaultS3Location: Swift.String? = nil,
         description: Swift.String? = nil,
+        encryptionKeyArn: Swift.String? = nil,
         engineSecurityGroupId: Swift.String? = nil,
+        idcInstanceArn: Swift.String? = nil,
+        idcUserAssignment: EMRClientTypes.IdcUserAssignment? = nil,
         idpAuthUrl: Swift.String? = nil,
         idpRelayStateParameterName: Swift.String? = nil,
         name: Swift.String? = nil,
         serviceRole: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil,
         tags: [EMRClientTypes.Tag]? = nil,
+        trustedIdentityPropagationEnabled: Swift.Bool? = nil,
         userRole: Swift.String? = nil,
         vpcId: Swift.String? = nil,
         workspaceSecurityGroupId: Swift.String? = nil
@@ -2957,13 +3005,17 @@ public struct CreateStudioInput: Swift.Equatable {
         self.authMode = authMode
         self.defaultS3Location = defaultS3Location
         self.description = description
+        self.encryptionKeyArn = encryptionKeyArn
         self.engineSecurityGroupId = engineSecurityGroupId
+        self.idcInstanceArn = idcInstanceArn
+        self.idcUserAssignment = idcUserAssignment
         self.idpAuthUrl = idpAuthUrl
         self.idpRelayStateParameterName = idpRelayStateParameterName
         self.name = name
         self.serviceRole = serviceRole
         self.subnetIds = subnetIds
         self.tags = tags
+        self.trustedIdentityPropagationEnabled = trustedIdentityPropagationEnabled
         self.userRole = userRole
         self.vpcId = vpcId
         self.workspaceSecurityGroupId = workspaceSecurityGroupId
@@ -2984,6 +3036,10 @@ struct CreateStudioInputBody: Swift.Equatable {
     let idpAuthUrl: Swift.String?
     let idpRelayStateParameterName: Swift.String?
     let tags: [EMRClientTypes.Tag]?
+    let trustedIdentityPropagationEnabled: Swift.Bool?
+    let idcUserAssignment: EMRClientTypes.IdcUserAssignment?
+    let idcInstanceArn: Swift.String?
+    let encryptionKeyArn: Swift.String?
 }
 
 extension CreateStudioInputBody: Swift.Decodable {
@@ -2991,13 +3047,17 @@ extension CreateStudioInputBody: Swift.Decodable {
         case authMode = "AuthMode"
         case defaultS3Location = "DefaultS3Location"
         case description = "Description"
+        case encryptionKeyArn = "EncryptionKeyArn"
         case engineSecurityGroupId = "EngineSecurityGroupId"
+        case idcInstanceArn = "IdcInstanceArn"
+        case idcUserAssignment = "IdcUserAssignment"
         case idpAuthUrl = "IdpAuthUrl"
         case idpRelayStateParameterName = "IdpRelayStateParameterName"
         case name = "Name"
         case serviceRole = "ServiceRole"
         case subnetIds = "SubnetIds"
         case tags = "Tags"
+        case trustedIdentityPropagationEnabled = "TrustedIdentityPropagationEnabled"
         case userRole = "UserRole"
         case vpcId = "VpcId"
         case workspaceSecurityGroupId = "WorkspaceSecurityGroupId"
@@ -3049,26 +3109,22 @@ extension CreateStudioInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let trustedIdentityPropagationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .trustedIdentityPropagationEnabled)
+        trustedIdentityPropagationEnabled = trustedIdentityPropagationEnabledDecoded
+        let idcUserAssignmentDecoded = try containerValues.decodeIfPresent(EMRClientTypes.IdcUserAssignment.self, forKey: .idcUserAssignment)
+        idcUserAssignment = idcUserAssignmentDecoded
+        let idcInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idcInstanceArn)
+        idcInstanceArn = idcInstanceArnDecoded
+        let encryptionKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encryptionKeyArn)
+        encryptionKeyArn = encryptionKeyArnDecoded
     }
 }
 
-public enum CreateStudioOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateStudioOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateStudioOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateStudioOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateStudioOutputBody = try responseDecoder.decode(responseBody: data)
             self.studioId = output.studioId
             self.url = output.url
         } else {
@@ -3078,7 +3134,7 @@ extension CreateStudioOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateStudioOutputResponse: Swift.Equatable {
+public struct CreateStudioOutput: Swift.Equatable {
     /// The ID of the Amazon EMR Studio.
     public var studioId: Swift.String?
     /// The unique Studio access URL.
@@ -3094,12 +3150,12 @@ public struct CreateStudioOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateStudioOutputResponseBody: Swift.Equatable {
+struct CreateStudioOutputBody: Swift.Equatable {
     let studioId: Swift.String?
     let url: Swift.String?
 }
 
-extension CreateStudioOutputResponseBody: Swift.Decodable {
+extension CreateStudioOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case studioId = "StudioId"
         case url = "Url"
@@ -3111,6 +3167,18 @@ extension CreateStudioOutputResponseBody: Swift.Decodable {
         studioId = studioIdDecoded
         let urlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .url)
         url = urlDecoded
+    }
+}
+
+enum CreateStudioOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3212,8 +3280,18 @@ extension CreateStudioSessionMappingInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateStudioSessionMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateStudioSessionMappingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CreateStudioSessionMappingOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CreateStudioSessionMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3222,16 +3300,6 @@ public enum CreateStudioSessionMappingOutputError: ClientRuntime.HttpResponseErr
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension CreateStudioSessionMappingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CreateStudioSessionMappingOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension EMRClientTypes.Credentials: Swift.Codable {
@@ -3319,8 +3387,18 @@ extension DeleteSecurityConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteSecurityConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteSecurityConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteSecurityConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteSecurityConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3329,16 +3407,6 @@ public enum DeleteSecurityConfigurationOutputError: ClientRuntime.HttpResponseEr
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteSecurityConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteSecurityConfigurationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteStudioInput: Swift.Encodable {
@@ -3389,8 +3457,18 @@ extension DeleteStudioInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteStudioOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteStudioOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteStudioOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteStudioOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3399,16 +3477,6 @@ public enum DeleteStudioOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteStudioOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteStudioOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteStudioSessionMappingInput: Swift.Encodable {
@@ -3496,8 +3564,18 @@ extension DeleteStudioSessionMappingInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteStudioSessionMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteStudioSessionMappingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteStudioSessionMappingOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteStudioSessionMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3506,16 +3584,6 @@ public enum DeleteStudioSessionMappingOutputError: ClientRuntime.HttpResponseErr
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteStudioSessionMappingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteStudioSessionMappingOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DescribeClusterInput: Swift.Encodable {
@@ -3567,23 +3635,11 @@ extension DescribeClusterInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeClusterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeClusterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeClusterOutputBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
             self.cluster = nil
@@ -3592,7 +3648,7 @@ extension DescribeClusterOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// This output contains the description of the cluster.
-public struct DescribeClusterOutputResponse: Swift.Equatable {
+public struct DescribeClusterOutput: Swift.Equatable {
     /// This output contains the details for the requested cluster.
     public var cluster: EMRClientTypes.Cluster?
 
@@ -3604,11 +3660,11 @@ public struct DescribeClusterOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeClusterOutputResponseBody: Swift.Equatable {
+struct DescribeClusterOutputBody: Swift.Equatable {
     let cluster: EMRClientTypes.Cluster?
 }
 
-extension DescribeClusterOutputResponseBody: Swift.Decodable {
+extension DescribeClusterOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cluster = "Cluster"
     }
@@ -3617,6 +3673,18 @@ extension DescribeClusterOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clusterDecoded = try containerValues.decodeIfPresent(EMRClientTypes.Cluster.self, forKey: .cluster)
         cluster = clusterDecoded
+    }
+}
+
+enum DescribeClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3728,22 +3796,11 @@ extension DescribeJobFlowsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeJobFlowsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalFailure": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeJobFlowsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeJobFlowsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeJobFlowsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeJobFlowsOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobFlows = output.jobFlows
         } else {
             self.jobFlows = nil
@@ -3752,7 +3809,7 @@ extension DescribeJobFlowsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output for the [DescribeJobFlows] operation.
-public struct DescribeJobFlowsOutputResponse: Swift.Equatable {
+public struct DescribeJobFlowsOutput: Swift.Equatable {
     /// A list of job flows matching the parameters supplied.
     public var jobFlows: [EMRClientTypes.JobFlowDetail]?
 
@@ -3764,11 +3821,11 @@ public struct DescribeJobFlowsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeJobFlowsOutputResponseBody: Swift.Equatable {
+struct DescribeJobFlowsOutputBody: Swift.Equatable {
     let jobFlows: [EMRClientTypes.JobFlowDetail]?
 }
 
-extension DescribeJobFlowsOutputResponseBody: Swift.Decodable {
+extension DescribeJobFlowsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobFlows = "JobFlows"
     }
@@ -3786,6 +3843,17 @@ extension DescribeJobFlowsOutputResponseBody: Swift.Decodable {
             }
         }
         jobFlows = jobFlowsDecoded0
+    }
+}
+
+enum DescribeJobFlowsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailure": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3837,23 +3905,11 @@ extension DescribeNotebookExecutionInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeNotebookExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalFailure": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeNotebookExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeNotebookExecutionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeNotebookExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeNotebookExecutionOutputBody = try responseDecoder.decode(responseBody: data)
             self.notebookExecution = output.notebookExecution
         } else {
             self.notebookExecution = nil
@@ -3861,7 +3917,7 @@ extension DescribeNotebookExecutionOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribeNotebookExecutionOutputResponse: Swift.Equatable {
+public struct DescribeNotebookExecutionOutput: Swift.Equatable {
     /// Properties of the notebook execution.
     public var notebookExecution: EMRClientTypes.NotebookExecution?
 
@@ -3873,11 +3929,11 @@ public struct DescribeNotebookExecutionOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeNotebookExecutionOutputResponseBody: Swift.Equatable {
+struct DescribeNotebookExecutionOutputBody: Swift.Equatable {
     let notebookExecution: EMRClientTypes.NotebookExecution?
 }
 
-extension DescribeNotebookExecutionOutputResponseBody: Swift.Decodable {
+extension DescribeNotebookExecutionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case notebookExecution = "NotebookExecution"
     }
@@ -3886,6 +3942,18 @@ extension DescribeNotebookExecutionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let notebookExecutionDecoded = try containerValues.decodeIfPresent(EMRClientTypes.NotebookExecution.self, forKey: .notebookExecution)
         notebookExecution = notebookExecutionDecoded
+    }
+}
+
+enum DescribeNotebookExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailure": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3960,23 +4028,11 @@ extension DescribeReleaseLabelInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeReleaseLabelOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeReleaseLabelOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeReleaseLabelOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeReleaseLabelOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeReleaseLabelOutputBody = try responseDecoder.decode(responseBody: data)
             self.applications = output.applications
             self.availableOSReleases = output.availableOSReleases
             self.nextToken = output.nextToken
@@ -3990,7 +4046,7 @@ extension DescribeReleaseLabelOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeReleaseLabelOutputResponse: Swift.Equatable {
+public struct DescribeReleaseLabelOutput: Swift.Equatable {
     /// The list of applications available for the target release label. Name is the name of the application. Version is the concise version of the application.
     public var applications: [EMRClientTypes.SimplifiedApplication]?
     /// The list of available Amazon Linux release versions for an Amazon EMR release. Contains a Label field that is formatted as shown in [ Amazon Linux 2 Release Notes ](https://docs.aws.amazon.com/AL2/latest/relnotes/relnotes-al2.html). For example, [2.0.20220218.1](https://docs.aws.amazon.com/AL2/latest/relnotes/relnotes-20220218.html).
@@ -4014,14 +4070,14 @@ public struct DescribeReleaseLabelOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeReleaseLabelOutputResponseBody: Swift.Equatable {
+struct DescribeReleaseLabelOutputBody: Swift.Equatable {
     let releaseLabel: Swift.String?
     let applications: [EMRClientTypes.SimplifiedApplication]?
     let nextToken: Swift.String?
     let availableOSReleases: [EMRClientTypes.OSRelease]?
 }
 
-extension DescribeReleaseLabelOutputResponseBody: Swift.Decodable {
+extension DescribeReleaseLabelOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applications = "Applications"
         case availableOSReleases = "AvailableOSReleases"
@@ -4057,6 +4113,18 @@ extension DescribeReleaseLabelOutputResponseBody: Swift.Decodable {
             }
         }
         availableOSReleases = availableOSReleasesDecoded0
+    }
+}
+
+enum DescribeReleaseLabelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4108,23 +4176,11 @@ extension DescribeSecurityConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeSecurityConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeSecurityConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeSecurityConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeSecurityConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeSecurityConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
             self.creationDateTime = output.creationDateTime
             self.name = output.name
             self.securityConfiguration = output.securityConfiguration
@@ -4136,7 +4192,7 @@ extension DescribeSecurityConfigurationOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct DescribeSecurityConfigurationOutputResponse: Swift.Equatable {
+public struct DescribeSecurityConfigurationOutput: Swift.Equatable {
     /// The date and time the security configuration was created
     public var creationDateTime: ClientRuntime.Date?
     /// The name of the security configuration.
@@ -4156,13 +4212,13 @@ public struct DescribeSecurityConfigurationOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeSecurityConfigurationOutputResponseBody: Swift.Equatable {
+struct DescribeSecurityConfigurationOutputBody: Swift.Equatable {
     let name: Swift.String?
     let securityConfiguration: Swift.String?
     let creationDateTime: ClientRuntime.Date?
 }
 
-extension DescribeSecurityConfigurationOutputResponseBody: Swift.Decodable {
+extension DescribeSecurityConfigurationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creationDateTime = "CreationDateTime"
         case name = "Name"
@@ -4177,6 +4233,18 @@ extension DescribeSecurityConfigurationOutputResponseBody: Swift.Decodable {
         securityConfiguration = securityConfigurationDecoded
         let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
         creationDateTime = creationDateTimeDecoded
+    }
+}
+
+enum DescribeSecurityConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4242,23 +4310,11 @@ extension DescribeStepInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeStepOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeStepOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeStepOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeStepOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeStepOutputBody = try responseDecoder.decode(responseBody: data)
             self.step = output.step
         } else {
             self.step = nil
@@ -4267,7 +4323,7 @@ extension DescribeStepOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// This output contains the description of the cluster step.
-public struct DescribeStepOutputResponse: Swift.Equatable {
+public struct DescribeStepOutput: Swift.Equatable {
     /// The step details for the requested step identifier.
     public var step: EMRClientTypes.Step?
 
@@ -4279,11 +4335,11 @@ public struct DescribeStepOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeStepOutputResponseBody: Swift.Equatable {
+struct DescribeStepOutputBody: Swift.Equatable {
     let step: EMRClientTypes.Step?
 }
 
-extension DescribeStepOutputResponseBody: Swift.Decodable {
+extension DescribeStepOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case step = "Step"
     }
@@ -4292,6 +4348,18 @@ extension DescribeStepOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stepDecoded = try containerValues.decodeIfPresent(EMRClientTypes.Step.self, forKey: .step)
         step = stepDecoded
+    }
+}
+
+enum DescribeStepOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4343,23 +4411,11 @@ extension DescribeStudioInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeStudioOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeStudioOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeStudioOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeStudioOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeStudioOutputBody = try responseDecoder.decode(responseBody: data)
             self.studio = output.studio
         } else {
             self.studio = nil
@@ -4367,7 +4423,7 @@ extension DescribeStudioOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeStudioOutputResponse: Swift.Equatable {
+public struct DescribeStudioOutput: Swift.Equatable {
     /// The Amazon EMR Studio details.
     public var studio: EMRClientTypes.Studio?
 
@@ -4379,11 +4435,11 @@ public struct DescribeStudioOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeStudioOutputResponseBody: Swift.Equatable {
+struct DescribeStudioOutputBody: Swift.Equatable {
     let studio: EMRClientTypes.Studio?
 }
 
-extension DescribeStudioOutputResponseBody: Swift.Decodable {
+extension DescribeStudioOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case studio = "Studio"
     }
@@ -4392,6 +4448,18 @@ extension DescribeStudioOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let studioDecoded = try containerValues.decodeIfPresent(EMRClientTypes.Studio.self, forKey: .studio)
         studio = studioDecoded
+    }
+}
+
+enum DescribeStudioOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5048,21 +5116,11 @@ extension GetAutoTerminationPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum GetAutoTerminationPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetAutoTerminationPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetAutoTerminationPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetAutoTerminationPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetAutoTerminationPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.autoTerminationPolicy = output.autoTerminationPolicy
         } else {
             self.autoTerminationPolicy = nil
@@ -5070,7 +5128,7 @@ extension GetAutoTerminationPolicyOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct GetAutoTerminationPolicyOutputResponse: Swift.Equatable {
+public struct GetAutoTerminationPolicyOutput: Swift.Equatable {
     /// Specifies the auto-termination policy that is attached to an Amazon EMR cluster.
     public var autoTerminationPolicy: EMRClientTypes.AutoTerminationPolicy?
 
@@ -5082,11 +5140,11 @@ public struct GetAutoTerminationPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetAutoTerminationPolicyOutputResponseBody: Swift.Equatable {
+struct GetAutoTerminationPolicyOutputBody: Swift.Equatable {
     let autoTerminationPolicy: EMRClientTypes.AutoTerminationPolicy?
 }
 
-extension GetAutoTerminationPolicyOutputResponseBody: Swift.Decodable {
+extension GetAutoTerminationPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoTerminationPolicy = "AutoTerminationPolicy"
     }
@@ -5095,6 +5153,16 @@ extension GetAutoTerminationPolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoTerminationPolicyDecoded = try containerValues.decodeIfPresent(EMRClientTypes.AutoTerminationPolicy.self, forKey: .autoTerminationPolicy)
         autoTerminationPolicy = autoTerminationPolicyDecoded
+    }
+}
+
+enum GetAutoTerminationPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5126,23 +5194,11 @@ extension GetBlockPublicAccessConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum GetBlockPublicAccessConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetBlockPublicAccessConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetBlockPublicAccessConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetBlockPublicAccessConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetBlockPublicAccessConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
             self.blockPublicAccessConfiguration = output.blockPublicAccessConfiguration
             self.blockPublicAccessConfigurationMetadata = output.blockPublicAccessConfigurationMetadata
         } else {
@@ -5152,7 +5208,7 @@ extension GetBlockPublicAccessConfigurationOutputResponse: ClientRuntime.HttpRes
     }
 }
 
-public struct GetBlockPublicAccessConfigurationOutputResponse: Swift.Equatable {
+public struct GetBlockPublicAccessConfigurationOutput: Swift.Equatable {
     /// A configuration for Amazon EMR block public access. The configuration applies to all clusters created in your account for the current Region. The configuration specifies whether block public access is enabled. If block public access is enabled, security groups associated with the cluster cannot have rules that allow inbound traffic from 0.0.0.0/0 or ::/0 on a port, unless the port is specified as an exception using PermittedPublicSecurityGroupRuleRanges in the BlockPublicAccessConfiguration. By default, Port 22 (SSH) is an exception, and public access is allowed on this port. You can change this by updating the block public access configuration to remove the exception. For accounts that created clusters in a Region before November 25, 2019, block public access is disabled by default in that Region. To use this feature, you must manually enable and configure it. For accounts that did not create an Amazon EMR cluster in a Region before this date, block public access is enabled by default in that Region.
     /// This member is required.
     public var blockPublicAccessConfiguration: EMRClientTypes.BlockPublicAccessConfiguration?
@@ -5170,12 +5226,12 @@ public struct GetBlockPublicAccessConfigurationOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetBlockPublicAccessConfigurationOutputResponseBody: Swift.Equatable {
+struct GetBlockPublicAccessConfigurationOutputBody: Swift.Equatable {
     let blockPublicAccessConfiguration: EMRClientTypes.BlockPublicAccessConfiguration?
     let blockPublicAccessConfigurationMetadata: EMRClientTypes.BlockPublicAccessConfigurationMetadata?
 }
 
-extension GetBlockPublicAccessConfigurationOutputResponseBody: Swift.Decodable {
+extension GetBlockPublicAccessConfigurationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case blockPublicAccessConfiguration = "BlockPublicAccessConfiguration"
         case blockPublicAccessConfigurationMetadata = "BlockPublicAccessConfigurationMetadata"
@@ -5187,6 +5243,18 @@ extension GetBlockPublicAccessConfigurationOutputResponseBody: Swift.Decodable {
         blockPublicAccessConfiguration = blockPublicAccessConfigurationDecoded
         let blockPublicAccessConfigurationMetadataDecoded = try containerValues.decodeIfPresent(EMRClientTypes.BlockPublicAccessConfigurationMetadata.self, forKey: .blockPublicAccessConfigurationMetadata)
         blockPublicAccessConfigurationMetadata = blockPublicAccessConfigurationMetadataDecoded
+    }
+}
+
+enum GetBlockPublicAccessConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5218,7 +5286,6 @@ public struct GetClusterSessionCredentialsInput: Swift.Equatable {
     /// This member is required.
     public var clusterId: Swift.String?
     /// The Amazon Resource Name (ARN) of the runtime role for interactive workload submission on the cluster. The runtime role can be a cross-account IAM role. The runtime role ARN is a combination of account ID, role name, and role type using the following format: arn:partition:service:region:account:resource.
-    /// This member is required.
     public var executionRoleArn: Swift.String?
 
     public init(
@@ -5251,23 +5318,11 @@ extension GetClusterSessionCredentialsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetClusterSessionCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalFailure": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetClusterSessionCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetClusterSessionCredentialsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetClusterSessionCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetClusterSessionCredentialsOutputBody = try responseDecoder.decode(responseBody: data)
             self.credentials = output.credentials
             self.expiresAt = output.expiresAt
         } else {
@@ -5277,7 +5332,7 @@ extension GetClusterSessionCredentialsOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct GetClusterSessionCredentialsOutputResponse: Swift.Equatable {
+public struct GetClusterSessionCredentialsOutput: Swift.Equatable {
     /// The credentials that you can use to connect to cluster endpoints that support username and password authentication.
     public var credentials: EMRClientTypes.Credentials?
     /// The time when the credentials that are returned by the GetClusterSessionCredentials API expire.
@@ -5293,12 +5348,12 @@ public struct GetClusterSessionCredentialsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetClusterSessionCredentialsOutputResponseBody: Swift.Equatable {
+struct GetClusterSessionCredentialsOutputBody: Swift.Equatable {
     let credentials: EMRClientTypes.Credentials?
     let expiresAt: ClientRuntime.Date?
 }
 
-extension GetClusterSessionCredentialsOutputResponseBody: Swift.Decodable {
+extension GetClusterSessionCredentialsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case credentials = "Credentials"
         case expiresAt = "ExpiresAt"
@@ -5310,6 +5365,18 @@ extension GetClusterSessionCredentialsOutputResponseBody: Swift.Decodable {
         credentials = credentialsDecoded
         let expiresAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .expiresAt)
         expiresAt = expiresAtDecoded
+    }
+}
+
+enum GetClusterSessionCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailure": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5361,21 +5428,11 @@ extension GetManagedScalingPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum GetManagedScalingPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetManagedScalingPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetManagedScalingPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetManagedScalingPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetManagedScalingPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.managedScalingPolicy = output.managedScalingPolicy
         } else {
             self.managedScalingPolicy = nil
@@ -5383,7 +5440,7 @@ extension GetManagedScalingPolicyOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetManagedScalingPolicyOutputResponse: Swift.Equatable {
+public struct GetManagedScalingPolicyOutput: Swift.Equatable {
     /// Specifies the managed scaling policy that is attached to an Amazon EMR cluster.
     public var managedScalingPolicy: EMRClientTypes.ManagedScalingPolicy?
 
@@ -5395,11 +5452,11 @@ public struct GetManagedScalingPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetManagedScalingPolicyOutputResponseBody: Swift.Equatable {
+struct GetManagedScalingPolicyOutputBody: Swift.Equatable {
     let managedScalingPolicy: EMRClientTypes.ManagedScalingPolicy?
 }
 
-extension GetManagedScalingPolicyOutputResponseBody: Swift.Decodable {
+extension GetManagedScalingPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case managedScalingPolicy = "ManagedScalingPolicy"
     }
@@ -5408,6 +5465,16 @@ extension GetManagedScalingPolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let managedScalingPolicyDecoded = try containerValues.decodeIfPresent(EMRClientTypes.ManagedScalingPolicy.self, forKey: .managedScalingPolicy)
         managedScalingPolicy = managedScalingPolicyDecoded
+    }
+}
+
+enum GetManagedScalingPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5496,23 +5563,11 @@ extension GetStudioSessionMappingInputBody: Swift.Decodable {
     }
 }
 
-public enum GetStudioSessionMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalFailure": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetStudioSessionMappingOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetStudioSessionMappingOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetStudioSessionMappingOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetStudioSessionMappingOutputBody = try responseDecoder.decode(responseBody: data)
             self.sessionMapping = output.sessionMapping
         } else {
             self.sessionMapping = nil
@@ -5520,7 +5575,7 @@ extension GetStudioSessionMappingOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetStudioSessionMappingOutputResponse: Swift.Equatable {
+public struct GetStudioSessionMappingOutput: Swift.Equatable {
     /// The session mapping details for the specified Amazon EMR Studio and identity, including session policy ARN and creation time.
     public var sessionMapping: EMRClientTypes.SessionMappingDetail?
 
@@ -5532,11 +5587,11 @@ public struct GetStudioSessionMappingOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetStudioSessionMappingOutputResponseBody: Swift.Equatable {
+struct GetStudioSessionMappingOutputBody: Swift.Equatable {
     let sessionMapping: EMRClientTypes.SessionMappingDetail?
 }
 
-extension GetStudioSessionMappingOutputResponseBody: Swift.Decodable {
+extension GetStudioSessionMappingOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case sessionMapping = "SessionMapping"
     }
@@ -5545,6 +5600,18 @@ extension GetStudioSessionMappingOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sessionMappingDecoded = try containerValues.decodeIfPresent(EMRClientTypes.SessionMappingDetail.self, forKey: .sessionMapping)
         sessionMapping = sessionMappingDecoded
+    }
+}
+
+enum GetStudioSessionMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailure": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5725,6 +5792,38 @@ extension EMRClientTypes {
         }
     }
 
+}
+
+extension EMRClientTypes {
+    public enum IdcUserAssignment: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `optional`
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IdcUserAssignment] {
+            return [
+                .optional,
+                .required,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .optional: return "OPTIONAL"
+            case .required: return "REQUIRED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = IdcUserAssignment(rawValue: rawValue) ?? IdcUserAssignment.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension EMRClientTypes {
@@ -6684,7 +6783,7 @@ extension EMRClientTypes.InstanceGroup: Swift.Codable {
                 try configurationsContainer.encode(configuration0)
             }
         }
-        if configurationsVersion != 0 {
+        if let configurationsVersion = self.configurationsVersion {
             try encodeContainer.encode(configurationsVersion, forKey: .configurationsVersion)
         }
         if let customAmiId = self.customAmiId {
@@ -6714,7 +6813,7 @@ extension EMRClientTypes.InstanceGroup: Swift.Codable {
                 try lastSuccessfullyAppliedConfigurationsContainer.encode(configuration0)
             }
         }
-        if lastSuccessfullyAppliedConfigurationsVersion != 0 {
+        if let lastSuccessfullyAppliedConfigurationsVersion = self.lastSuccessfullyAppliedConfigurationsVersion {
             try encodeContainer.encode(lastSuccessfullyAppliedConfigurationsVersion, forKey: .lastSuccessfullyAppliedConfigurationsVersion)
         }
         if let market = self.market {
@@ -6768,7 +6867,7 @@ extension EMRClientTypes.InstanceGroup: Swift.Codable {
             }
         }
         configurations = configurationsDecoded0
-        let configurationsVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .configurationsVersion) ?? 0
+        let configurationsVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .configurationsVersion)
         configurationsVersion = configurationsVersionDecoded
         let lastSuccessfullyAppliedConfigurationsContainer = try containerValues.decodeIfPresent([EMRClientTypes.Configuration?].self, forKey: .lastSuccessfullyAppliedConfigurations)
         var lastSuccessfullyAppliedConfigurationsDecoded0:[EMRClientTypes.Configuration]? = nil
@@ -6781,7 +6880,7 @@ extension EMRClientTypes.InstanceGroup: Swift.Codable {
             }
         }
         lastSuccessfullyAppliedConfigurations = lastSuccessfullyAppliedConfigurationsDecoded0
-        let lastSuccessfullyAppliedConfigurationsVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lastSuccessfullyAppliedConfigurationsVersion) ?? 0
+        let lastSuccessfullyAppliedConfigurationsVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lastSuccessfullyAppliedConfigurationsVersion)
         lastSuccessfullyAppliedConfigurationsVersion = lastSuccessfullyAppliedConfigurationsVersionDecoded
         let ebsBlockDevicesContainer = try containerValues.decodeIfPresent([EMRClientTypes.EbsBlockDevice?].self, forKey: .ebsBlockDevices)
         var ebsBlockDevicesDecoded0:[EMRClientTypes.EbsBlockDevice]? = nil
@@ -6815,7 +6914,7 @@ extension EMRClientTypes {
         /// Amazon EMR releases 4.x or later. The list of configurations supplied for an Amazon EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
         public var configurations: [EMRClientTypes.Configuration]?
         /// The version number of the requested configuration specification for this instance group.
-        public var configurationsVersion: Swift.Int
+        public var configurationsVersion: Swift.Int?
         /// The custom AMI ID to use for the provisioned instance group.
         public var customAmiId: Swift.String?
         /// The EBS block devices that are mapped to this instance group.
@@ -6831,7 +6930,7 @@ extension EMRClientTypes {
         /// A list of configurations that were successfully applied for an instance group last time.
         public var lastSuccessfullyAppliedConfigurations: [EMRClientTypes.Configuration]?
         /// The version number of a configuration specification that was successfully applied for an instance group last time.
-        public var lastSuccessfullyAppliedConfigurationsVersion: Swift.Int
+        public var lastSuccessfullyAppliedConfigurationsVersion: Swift.Int?
         /// The marketplace to provision instances for this group. Valid values are ON_DEMAND or SPOT.
         public var market: EMRClientTypes.MarketType?
         /// The name of the instance group.
@@ -6849,7 +6948,7 @@ extension EMRClientTypes {
             autoScalingPolicy: EMRClientTypes.AutoScalingPolicyDescription? = nil,
             bidPrice: Swift.String? = nil,
             configurations: [EMRClientTypes.Configuration]? = nil,
-            configurationsVersion: Swift.Int = 0,
+            configurationsVersion: Swift.Int? = nil,
             customAmiId: Swift.String? = nil,
             ebsBlockDevices: [EMRClientTypes.EbsBlockDevice]? = nil,
             ebsOptimized: Swift.Bool? = nil,
@@ -6857,7 +6956,7 @@ extension EMRClientTypes {
             instanceGroupType: EMRClientTypes.InstanceGroupType? = nil,
             instanceType: Swift.String? = nil,
             lastSuccessfullyAppliedConfigurations: [EMRClientTypes.Configuration]? = nil,
-            lastSuccessfullyAppliedConfigurationsVersion: Swift.Int = 0,
+            lastSuccessfullyAppliedConfigurationsVersion: Swift.Int? = nil,
             market: EMRClientTypes.MarketType? = nil,
             name: Swift.String? = nil,
             requestedInstanceCount: Swift.Int? = nil,
@@ -8411,7 +8510,7 @@ extension EMRClientTypes.JobFlowDetail: Swift.Codable {
                 try supportedProductsContainer.encode(xmlstringmaxlen2560)
             }
         }
-        if visibleToAllUsers != false {
+        if let visibleToAllUsers = self.visibleToAllUsers {
             try encodeContainer.encode(visibleToAllUsers, forKey: .visibleToAllUsers)
         }
     }
@@ -8465,7 +8564,7 @@ extension EMRClientTypes.JobFlowDetail: Swift.Codable {
             }
         }
         supportedProducts = supportedProductsDecoded0
-        let visibleToAllUsersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .visibleToAllUsers) ?? false
+        let visibleToAllUsersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .visibleToAllUsers)
         visibleToAllUsers = visibleToAllUsersDecoded
         let jobFlowRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobFlowRole)
         jobFlowRole = jobFlowRoleDecoded
@@ -8514,7 +8613,7 @@ extension EMRClientTypes {
         /// A list of strings set by third-party software when the job flow is launched. If you are not using third-party software to manage the job flow, this value is empty.
         public var supportedProducts: [Swift.String]?
         /// Indicates whether the cluster is visible to IAM principals in the Amazon Web Services account associated with the cluster. When true, IAM principals in the Amazon Web Services account can perform Amazon EMR cluster actions that their IAM policies allow. When false, only the IAM principal that created the cluster and the Amazon Web Services account root user can perform Amazon EMR actions, regardless of IAM permissions policies attached to other IAM principals. The default value is true if a value is not provided when creating a cluster using the Amazon EMR API [RunJobFlow] command, the CLI [create-cluster](https://docs.aws.amazon.com/cli/latest/reference/emr/create-cluster.html) command, or the Amazon Web Services Management Console.
-        public var visibleToAllUsers: Swift.Bool
+        public var visibleToAllUsers: Swift.Bool?
 
         public init(
             amiVersion: Swift.String? = nil,
@@ -8531,7 +8630,7 @@ extension EMRClientTypes {
             serviceRole: Swift.String? = nil,
             steps: [EMRClientTypes.StepDetail]? = nil,
             supportedProducts: [Swift.String]? = nil,
-            visibleToAllUsers: Swift.Bool = false
+            visibleToAllUsers: Swift.Bool? = nil
         )
         {
             self.amiVersion = amiVersion
@@ -8763,7 +8862,7 @@ extension EMRClientTypes.JobFlowInstancesConfig: Swift.Codable {
                 try instanceGroupsContainer.encode(instancegroupconfig0)
             }
         }
-        if keepJobFlowAliveWhenNoSteps != false {
+        if let keepJobFlowAliveWhenNoSteps = self.keepJobFlowAliveWhenNoSteps {
             try encodeContainer.encode(keepJobFlowAliveWhenNoSteps, forKey: .keepJobFlowAliveWhenNoSteps)
         }
         if let masterInstanceType = self.masterInstanceType {
@@ -8778,7 +8877,7 @@ extension EMRClientTypes.JobFlowInstancesConfig: Swift.Codable {
         if let slaveInstanceType = self.slaveInstanceType {
             try encodeContainer.encode(slaveInstanceType, forKey: .slaveInstanceType)
         }
-        if terminationProtected != false {
+        if let terminationProtected = self.terminationProtected {
             try encodeContainer.encode(terminationProtected, forKey: .terminationProtected)
         }
     }
@@ -8817,9 +8916,9 @@ extension EMRClientTypes.JobFlowInstancesConfig: Swift.Codable {
         ec2KeyName = ec2KeyNameDecoded
         let placementDecoded = try containerValues.decodeIfPresent(EMRClientTypes.PlacementType.self, forKey: .placement)
         placement = placementDecoded
-        let keepJobFlowAliveWhenNoStepsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepJobFlowAliveWhenNoSteps) ?? false
+        let keepJobFlowAliveWhenNoStepsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepJobFlowAliveWhenNoSteps)
         keepJobFlowAliveWhenNoSteps = keepJobFlowAliveWhenNoStepsDecoded
-        let terminationProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtected) ?? false
+        let terminationProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtected)
         terminationProtected = terminationProtectedDecoded
         let hadoopVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hadoopVersion)
         hadoopVersion = hadoopVersionDecoded
@@ -8893,7 +8992,7 @@ extension EMRClientTypes {
         /// Configuration for the instance groups in a cluster.
         public var instanceGroups: [EMRClientTypes.InstanceGroupConfig]?
         /// Specifies whether the cluster should remain available after completing all steps. Defaults to true. For more information about configuring cluster termination, see [Control Cluster Termination](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-termination.html) in the EMR Management Guide.
-        public var keepJobFlowAliveWhenNoSteps: Swift.Bool
+        public var keepJobFlowAliveWhenNoSteps: Swift.Bool?
         /// The Amazon EC2 instance type of the master node.
         public var masterInstanceType: Swift.String?
         /// The Availability Zone in which the cluster runs.
@@ -8903,7 +9002,7 @@ extension EMRClientTypes {
         /// The Amazon EC2 instance type of the core and task nodes.
         public var slaveInstanceType: Swift.String?
         /// Specifies whether to lock the cluster to prevent the Amazon EC2 instances from being terminated by API call, user intervention, or in the event of a job-flow error.
-        public var terminationProtected: Swift.Bool
+        public var terminationProtected: Swift.Bool?
 
         public init(
             additionalMasterSecurityGroups: [Swift.String]? = nil,
@@ -8917,12 +9016,12 @@ extension EMRClientTypes {
             instanceCount: Swift.Int? = nil,
             instanceFleets: [EMRClientTypes.InstanceFleetConfig]? = nil,
             instanceGroups: [EMRClientTypes.InstanceGroupConfig]? = nil,
-            keepJobFlowAliveWhenNoSteps: Swift.Bool = false,
+            keepJobFlowAliveWhenNoSteps: Swift.Bool? = nil,
             masterInstanceType: Swift.String? = nil,
             placement: EMRClientTypes.PlacementType? = nil,
             serviceAccessSecurityGroup: Swift.String? = nil,
             slaveInstanceType: Swift.String? = nil,
-            terminationProtected: Swift.Bool = false
+            terminationProtected: Swift.Bool? = nil
         )
         {
             self.additionalMasterSecurityGroups = additionalMasterSecurityGroups
@@ -8984,7 +9083,7 @@ extension EMRClientTypes.JobFlowInstancesDetail: Swift.Codable {
                 try instanceGroupsContainer.encode(instancegroupdetail0)
             }
         }
-        if keepJobFlowAliveWhenNoSteps != false {
+        if let keepJobFlowAliveWhenNoSteps = self.keepJobFlowAliveWhenNoSteps {
             try encodeContainer.encode(keepJobFlowAliveWhenNoSteps, forKey: .keepJobFlowAliveWhenNoSteps)
         }
         if let masterInstanceId = self.masterInstanceId {
@@ -9005,7 +9104,7 @@ extension EMRClientTypes.JobFlowInstancesDetail: Swift.Codable {
         if let slaveInstanceType = self.slaveInstanceType {
             try encodeContainer.encode(slaveInstanceType, forKey: .slaveInstanceType)
         }
-        if terminationProtected != false {
+        if let terminationProtected = self.terminationProtected {
             try encodeContainer.encode(terminationProtected, forKey: .terminationProtected)
         }
     }
@@ -9041,9 +9140,9 @@ extension EMRClientTypes.JobFlowInstancesDetail: Swift.Codable {
         ec2SubnetId = ec2SubnetIdDecoded
         let placementDecoded = try containerValues.decodeIfPresent(EMRClientTypes.PlacementType.self, forKey: .placement)
         placement = placementDecoded
-        let keepJobFlowAliveWhenNoStepsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepJobFlowAliveWhenNoSteps) ?? false
+        let keepJobFlowAliveWhenNoStepsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepJobFlowAliveWhenNoSteps)
         keepJobFlowAliveWhenNoSteps = keepJobFlowAliveWhenNoStepsDecoded
-        let terminationProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtected) ?? false
+        let terminationProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtected)
         terminationProtected = terminationProtectedDecoded
         let hadoopVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hadoopVersion)
         hadoopVersion = hadoopVersionDecoded
@@ -9065,7 +9164,7 @@ extension EMRClientTypes {
         /// Details about the instance groups in a cluster.
         public var instanceGroups: [EMRClientTypes.InstanceGroupDetail]?
         /// Specifies whether the cluster should remain available after completing all steps.
-        public var keepJobFlowAliveWhenNoSteps: Swift.Bool
+        public var keepJobFlowAliveWhenNoSteps: Swift.Bool?
         /// The Amazon EC2 instance identifier of the master node.
         public var masterInstanceId: Swift.String?
         /// The Amazon EC2 master node instance type.
@@ -9081,7 +9180,7 @@ extension EMRClientTypes {
         /// This member is required.
         public var slaveInstanceType: Swift.String?
         /// Specifies whether the Amazon EC2 instances in the cluster are protected from termination by API calls, user intervention, or in the event of a job-flow error.
-        public var terminationProtected: Swift.Bool
+        public var terminationProtected: Swift.Bool?
 
         public init(
             ec2KeyName: Swift.String? = nil,
@@ -9089,14 +9188,14 @@ extension EMRClientTypes {
             hadoopVersion: Swift.String? = nil,
             instanceCount: Swift.Int? = nil,
             instanceGroups: [EMRClientTypes.InstanceGroupDetail]? = nil,
-            keepJobFlowAliveWhenNoSteps: Swift.Bool = false,
+            keepJobFlowAliveWhenNoSteps: Swift.Bool? = nil,
             masterInstanceId: Swift.String? = nil,
             masterInstanceType: Swift.String? = nil,
             masterPublicDnsName: Swift.String? = nil,
             normalizedInstanceHours: Swift.Int? = nil,
             placement: EMRClientTypes.PlacementType? = nil,
             slaveInstanceType: Swift.String? = nil,
-            terminationProtected: Swift.Bool = false
+            terminationProtected: Swift.Bool? = nil
         )
         {
             self.ec2KeyName = ec2KeyName
@@ -9300,23 +9399,11 @@ extension ListBootstrapActionsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListBootstrapActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListBootstrapActionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListBootstrapActionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListBootstrapActionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListBootstrapActionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.bootstrapActions = output.bootstrapActions
             self.marker = output.marker
         } else {
@@ -9327,7 +9414,7 @@ extension ListBootstrapActionsOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 /// This output contains the bootstrap actions detail.
-public struct ListBootstrapActionsOutputResponse: Swift.Equatable {
+public struct ListBootstrapActionsOutput: Swift.Equatable {
     /// The bootstrap actions associated with the cluster.
     public var bootstrapActions: [EMRClientTypes.Command]?
     /// The pagination token that indicates the next set of results to retrieve.
@@ -9343,12 +9430,12 @@ public struct ListBootstrapActionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListBootstrapActionsOutputResponseBody: Swift.Equatable {
+struct ListBootstrapActionsOutputBody: Swift.Equatable {
     let bootstrapActions: [EMRClientTypes.Command]?
     let marker: Swift.String?
 }
 
-extension ListBootstrapActionsOutputResponseBody: Swift.Decodable {
+extension ListBootstrapActionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bootstrapActions = "BootstrapActions"
         case marker = "Marker"
@@ -9369,6 +9456,18 @@ extension ListBootstrapActionsOutputResponseBody: Swift.Decodable {
         bootstrapActions = bootstrapActionsDecoded0
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListBootstrapActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9468,23 +9567,11 @@ extension ListClustersInputBody: Swift.Decodable {
     }
 }
 
-public enum ListClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListClustersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListClustersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListClustersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListClustersOutputBody = try responseDecoder.decode(responseBody: data)
             self.clusters = output.clusters
             self.marker = output.marker
         } else {
@@ -9495,7 +9582,7 @@ extension ListClustersOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// This contains a ClusterSummaryList with the cluster details; for example, the cluster IDs, names, and status.
-public struct ListClustersOutputResponse: Swift.Equatable {
+public struct ListClustersOutput: Swift.Equatable {
     /// The list of clusters for the account based on the given filters.
     public var clusters: [EMRClientTypes.ClusterSummary]?
     /// The pagination token that indicates the next set of results to retrieve.
@@ -9511,12 +9598,12 @@ public struct ListClustersOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListClustersOutputResponseBody: Swift.Equatable {
+struct ListClustersOutputBody: Swift.Equatable {
     let clusters: [EMRClientTypes.ClusterSummary]?
     let marker: Swift.String?
 }
 
-extension ListClustersOutputResponseBody: Swift.Decodable {
+extension ListClustersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clusters = "Clusters"
         case marker = "Marker"
@@ -9537,6 +9624,18 @@ extension ListClustersOutputResponseBody: Swift.Decodable {
         clusters = clustersDecoded0
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9600,23 +9699,11 @@ extension ListInstanceFleetsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListInstanceFleetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListInstanceFleetsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListInstanceFleetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListInstanceFleetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListInstanceFleetsOutputBody = try responseDecoder.decode(responseBody: data)
             self.instanceFleets = output.instanceFleets
             self.marker = output.marker
         } else {
@@ -9626,7 +9713,7 @@ extension ListInstanceFleetsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListInstanceFleetsOutputResponse: Swift.Equatable {
+public struct ListInstanceFleetsOutput: Swift.Equatable {
     /// The list of instance fleets for the cluster and given filters.
     public var instanceFleets: [EMRClientTypes.InstanceFleet]?
     /// The pagination token that indicates the next set of results to retrieve.
@@ -9642,12 +9729,12 @@ public struct ListInstanceFleetsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListInstanceFleetsOutputResponseBody: Swift.Equatable {
+struct ListInstanceFleetsOutputBody: Swift.Equatable {
     let instanceFleets: [EMRClientTypes.InstanceFleet]?
     let marker: Swift.String?
 }
 
-extension ListInstanceFleetsOutputResponseBody: Swift.Decodable {
+extension ListInstanceFleetsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceFleets = "InstanceFleets"
         case marker = "Marker"
@@ -9668,6 +9755,18 @@ extension ListInstanceFleetsOutputResponseBody: Swift.Decodable {
         instanceFleets = instanceFleetsDecoded0
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListInstanceFleetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9732,23 +9831,11 @@ extension ListInstanceGroupsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListInstanceGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListInstanceGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListInstanceGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListInstanceGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListInstanceGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.instanceGroups = output.instanceGroups
             self.marker = output.marker
         } else {
@@ -9759,7 +9846,7 @@ extension ListInstanceGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// This input determines which instance groups to retrieve.
-public struct ListInstanceGroupsOutputResponse: Swift.Equatable {
+public struct ListInstanceGroupsOutput: Swift.Equatable {
     /// The list of instance groups for the cluster and given filters.
     public var instanceGroups: [EMRClientTypes.InstanceGroup]?
     /// The pagination token that indicates the next set of results to retrieve.
@@ -9775,12 +9862,12 @@ public struct ListInstanceGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListInstanceGroupsOutputResponseBody: Swift.Equatable {
+struct ListInstanceGroupsOutputBody: Swift.Equatable {
     let instanceGroups: [EMRClientTypes.InstanceGroup]?
     let marker: Swift.String?
 }
 
-extension ListInstanceGroupsOutputResponseBody: Swift.Decodable {
+extension ListInstanceGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceGroups = "InstanceGroups"
         case marker = "Marker"
@@ -9801,6 +9888,18 @@ extension ListInstanceGroupsOutputResponseBody: Swift.Decodable {
         instanceGroups = instanceGroupsDecoded0
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListInstanceGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9949,23 +10048,11 @@ extension ListInstancesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListInstancesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListInstancesOutputBody = try responseDecoder.decode(responseBody: data)
             self.instances = output.instances
             self.marker = output.marker
         } else {
@@ -9976,7 +10063,7 @@ extension ListInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// This output contains the list of instances.
-public struct ListInstancesOutputResponse: Swift.Equatable {
+public struct ListInstancesOutput: Swift.Equatable {
     /// The list of instances for the cluster and given filters.
     public var instances: [EMRClientTypes.Instance]?
     /// The pagination token that indicates the next set of results to retrieve.
@@ -9992,12 +10079,12 @@ public struct ListInstancesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListInstancesOutputResponseBody: Swift.Equatable {
+struct ListInstancesOutputBody: Swift.Equatable {
     let instances: [EMRClientTypes.Instance]?
     let marker: Swift.String?
 }
 
-extension ListInstancesOutputResponseBody: Swift.Decodable {
+extension ListInstancesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instances = "Instances"
         case marker = "Marker"
@@ -10018,6 +10105,18 @@ extension ListInstancesOutputResponseBody: Swift.Decodable {
         instances = instancesDecoded0
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10148,23 +10247,11 @@ extension ListNotebookExecutionsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListNotebookExecutionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalFailure": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListNotebookExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListNotebookExecutionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListNotebookExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListNotebookExecutionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.notebookExecutions = output.notebookExecutions
         } else {
@@ -10174,7 +10261,7 @@ extension ListNotebookExecutionsOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListNotebookExecutionsOutputResponse: Swift.Equatable {
+public struct ListNotebookExecutionsOutput: Swift.Equatable {
     /// A pagination token that a subsequent ListNotebookExecutions can use to determine the next set of results to retrieve.
     public var marker: Swift.String?
     /// A list of notebook executions.
@@ -10190,12 +10277,12 @@ public struct ListNotebookExecutionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListNotebookExecutionsOutputResponseBody: Swift.Equatable {
+struct ListNotebookExecutionsOutputBody: Swift.Equatable {
     let notebookExecutions: [EMRClientTypes.NotebookExecutionSummary]?
     let marker: Swift.String?
 }
 
-extension ListNotebookExecutionsOutputResponseBody: Swift.Decodable {
+extension ListNotebookExecutionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case marker = "Marker"
         case notebookExecutions = "NotebookExecutions"
@@ -10216,6 +10303,18 @@ extension ListNotebookExecutionsOutputResponseBody: Swift.Decodable {
         notebookExecutions = notebookExecutionsDecoded0
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListNotebookExecutionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailure": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10290,23 +10389,11 @@ extension ListReleaseLabelsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListReleaseLabelsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListReleaseLabelsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListReleaseLabelsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListReleaseLabelsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListReleaseLabelsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.releaseLabels = output.releaseLabels
         } else {
@@ -10316,7 +10403,7 @@ extension ListReleaseLabelsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListReleaseLabelsOutputResponse: Swift.Equatable {
+public struct ListReleaseLabelsOutput: Swift.Equatable {
     /// Used to paginate the next page of results if specified in the next ListReleaseLabels request.
     public var nextToken: Swift.String?
     /// The returned release labels.
@@ -10332,12 +10419,12 @@ public struct ListReleaseLabelsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListReleaseLabelsOutputResponseBody: Swift.Equatable {
+struct ListReleaseLabelsOutputBody: Swift.Equatable {
     let releaseLabels: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension ListReleaseLabelsOutputResponseBody: Swift.Decodable {
+extension ListReleaseLabelsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case releaseLabels = "ReleaseLabels"
@@ -10358,6 +10445,18 @@ extension ListReleaseLabelsOutputResponseBody: Swift.Decodable {
         releaseLabels = releaseLabelsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListReleaseLabelsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10408,23 +10507,11 @@ extension ListSecurityConfigurationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListSecurityConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSecurityConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSecurityConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSecurityConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSecurityConfigurationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.securityConfigurations = output.securityConfigurations
         } else {
@@ -10434,7 +10521,7 @@ extension ListSecurityConfigurationsOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct ListSecurityConfigurationsOutputResponse: Swift.Equatable {
+public struct ListSecurityConfigurationsOutput: Swift.Equatable {
     /// A pagination token that indicates the next set of results to retrieve. Include the marker in the next ListSecurityConfiguration call to retrieve the next page of results, if required.
     public var marker: Swift.String?
     /// The creation date and time, and name, of each security configuration.
@@ -10450,12 +10537,12 @@ public struct ListSecurityConfigurationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSecurityConfigurationsOutputResponseBody: Swift.Equatable {
+struct ListSecurityConfigurationsOutputBody: Swift.Equatable {
     let securityConfigurations: [EMRClientTypes.SecurityConfigurationSummary]?
     let marker: Swift.String?
 }
 
-extension ListSecurityConfigurationsOutputResponseBody: Swift.Decodable {
+extension ListSecurityConfigurationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case marker = "Marker"
         case securityConfigurations = "SecurityConfigurations"
@@ -10476,6 +10563,18 @@ extension ListSecurityConfigurationsOutputResponseBody: Swift.Decodable {
         securityConfigurations = securityConfigurationsDecoded0
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListSecurityConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10588,23 +10687,11 @@ extension ListStepsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListStepsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListStepsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListStepsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListStepsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListStepsOutputBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.steps = output.steps
         } else {
@@ -10615,7 +10702,7 @@ extension ListStepsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// This output contains the list of steps returned in reverse order. This means that the last step is the first element in the list.
-public struct ListStepsOutputResponse: Swift.Equatable {
+public struct ListStepsOutput: Swift.Equatable {
     /// The maximum number of steps that a single ListSteps action returns is 50. To return a longer list of steps, use multiple ListSteps actions along with the Marker parameter, which is a pagination token that indicates the next set of results to retrieve.
     public var marker: Swift.String?
     /// The filtered list of steps for the cluster.
@@ -10631,12 +10718,12 @@ public struct ListStepsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListStepsOutputResponseBody: Swift.Equatable {
+struct ListStepsOutputBody: Swift.Equatable {
     let steps: [EMRClientTypes.StepSummary]?
     let marker: Swift.String?
 }
 
-extension ListStepsOutputResponseBody: Swift.Decodable {
+extension ListStepsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case marker = "Marker"
         case steps = "Steps"
@@ -10657,6 +10744,18 @@ extension ListStepsOutputResponseBody: Swift.Decodable {
         steps = stepsDecoded0
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListStepsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10731,23 +10830,11 @@ extension ListStudioSessionMappingsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListStudioSessionMappingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalFailure": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListStudioSessionMappingsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListStudioSessionMappingsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListStudioSessionMappingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListStudioSessionMappingsOutputBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.sessionMappings = output.sessionMappings
         } else {
@@ -10757,7 +10844,7 @@ extension ListStudioSessionMappingsOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct ListStudioSessionMappingsOutputResponse: Swift.Equatable {
+public struct ListStudioSessionMappingsOutput: Swift.Equatable {
     /// The pagination token that indicates the next set of results to retrieve.
     public var marker: Swift.String?
     /// A list of session mapping summary objects. Each object includes session mapping details such as creation time, identity type (user or group), and Amazon EMR Studio ID.
@@ -10773,12 +10860,12 @@ public struct ListStudioSessionMappingsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListStudioSessionMappingsOutputResponseBody: Swift.Equatable {
+struct ListStudioSessionMappingsOutputBody: Swift.Equatable {
     let sessionMappings: [EMRClientTypes.SessionMappingSummary]?
     let marker: Swift.String?
 }
 
-extension ListStudioSessionMappingsOutputResponseBody: Swift.Decodable {
+extension ListStudioSessionMappingsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case marker = "Marker"
         case sessionMappings = "SessionMappings"
@@ -10799,6 +10886,18 @@ extension ListStudioSessionMappingsOutputResponseBody: Swift.Decodable {
         sessionMappings = sessionMappingsDecoded0
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListStudioSessionMappingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailure": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10849,23 +10948,11 @@ extension ListStudiosInputBody: Swift.Decodable {
     }
 }
 
-public enum ListStudiosOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListStudiosOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListStudiosOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListStudiosOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListStudiosOutputBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.studios = output.studios
         } else {
@@ -10875,7 +10962,7 @@ extension ListStudiosOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListStudiosOutputResponse: Swift.Equatable {
+public struct ListStudiosOutput: Swift.Equatable {
     /// The pagination token that indicates the next set of results to retrieve.
     public var marker: Swift.String?
     /// The list of Studio summary objects.
@@ -10891,12 +10978,12 @@ public struct ListStudiosOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListStudiosOutputResponseBody: Swift.Equatable {
+struct ListStudiosOutputBody: Swift.Equatable {
     let studios: [EMRClientTypes.StudioSummary]?
     let marker: Swift.String?
 }
 
-extension ListStudiosOutputResponseBody: Swift.Decodable {
+extension ListStudiosOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case marker = "Marker"
         case studios = "Studios"
@@ -10917,6 +11004,18 @@ extension ListStudiosOutputResponseBody: Swift.Decodable {
         studios = studiosDecoded0
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListStudiosOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10980,23 +11079,11 @@ extension ListSupportedInstanceTypesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListSupportedInstanceTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSupportedInstanceTypesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSupportedInstanceTypesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSupportedInstanceTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSupportedInstanceTypesOutputBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.supportedInstanceTypes = output.supportedInstanceTypes
         } else {
@@ -11006,7 +11093,7 @@ extension ListSupportedInstanceTypesOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct ListSupportedInstanceTypesOutputResponse: Swift.Equatable {
+public struct ListSupportedInstanceTypesOutput: Swift.Equatable {
     /// The pagination token that marks the next set of results to retrieve.
     public var marker: Swift.String?
     /// The list of instance types that the release specified in ListSupportedInstanceTypesInput$ReleaseLabel supports, filtered by Amazon Web Services Region.
@@ -11022,12 +11109,12 @@ public struct ListSupportedInstanceTypesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSupportedInstanceTypesOutputResponseBody: Swift.Equatable {
+struct ListSupportedInstanceTypesOutputBody: Swift.Equatable {
     let supportedInstanceTypes: [EMRClientTypes.SupportedInstanceType]?
     let marker: Swift.String?
 }
 
-extension ListSupportedInstanceTypesOutputResponseBody: Swift.Decodable {
+extension ListSupportedInstanceTypesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case marker = "Marker"
         case supportedInstanceTypes = "SupportedInstanceTypes"
@@ -11048,6 +11135,18 @@ extension ListSupportedInstanceTypesOutputResponseBody: Swift.Decodable {
         supportedInstanceTypes = supportedInstanceTypesDecoded0
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListSupportedInstanceTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11223,23 +11322,11 @@ extension ModifyClusterInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalFailure": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ModifyClusterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ModifyClusterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ModifyClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ModifyClusterOutputBody = try responseDecoder.decode(responseBody: data)
             self.stepConcurrencyLevel = output.stepConcurrencyLevel
         } else {
             self.stepConcurrencyLevel = nil
@@ -11247,7 +11334,7 @@ extension ModifyClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ModifyClusterOutputResponse: Swift.Equatable {
+public struct ModifyClusterOutput: Swift.Equatable {
     /// The number of steps that can be executed concurrently.
     public var stepConcurrencyLevel: Swift.Int?
 
@@ -11259,11 +11346,11 @@ public struct ModifyClusterOutputResponse: Swift.Equatable {
     }
 }
 
-struct ModifyClusterOutputResponseBody: Swift.Equatable {
+struct ModifyClusterOutputBody: Swift.Equatable {
     let stepConcurrencyLevel: Swift.Int?
 }
 
-extension ModifyClusterOutputResponseBody: Swift.Decodable {
+extension ModifyClusterOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case stepConcurrencyLevel = "StepConcurrencyLevel"
     }
@@ -11272,6 +11359,18 @@ extension ModifyClusterOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stepConcurrencyLevelDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .stepConcurrencyLevel)
         stepConcurrencyLevel = stepConcurrencyLevelDecoded
+    }
+}
+
+enum ModifyClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailure": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11336,8 +11435,18 @@ extension ModifyInstanceFleetInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyInstanceFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension ModifyInstanceFleetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct ModifyInstanceFleetOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum ModifyInstanceFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -11346,16 +11455,6 @@ public enum ModifyInstanceFleetOutputError: ClientRuntime.HttpResponseErrorBindi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension ModifyInstanceFleetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct ModifyInstanceFleetOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ModifyInstanceGroupsInput: Swift.Encodable {
@@ -11430,8 +11529,18 @@ extension ModifyInstanceGroupsInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyInstanceGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension ModifyInstanceGroupsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct ModifyInstanceGroupsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum ModifyInstanceGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -11439,16 +11548,6 @@ public enum ModifyInstanceGroupsOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension ModifyInstanceGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct ModifyInstanceGroupsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension EMRClientTypes.NotebookExecution: Swift.Codable {
@@ -12607,21 +12706,11 @@ extension PutAutoScalingPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum PutAutoScalingPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension PutAutoScalingPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PutAutoScalingPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PutAutoScalingPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PutAutoScalingPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.autoScalingPolicy = output.autoScalingPolicy
             self.clusterArn = output.clusterArn
             self.clusterId = output.clusterId
@@ -12635,7 +12724,7 @@ extension PutAutoScalingPolicyOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct PutAutoScalingPolicyOutputResponse: Swift.Equatable {
+public struct PutAutoScalingPolicyOutput: Swift.Equatable {
     /// The automatic scaling policy definition.
     public var autoScalingPolicy: EMRClientTypes.AutoScalingPolicyDescription?
     /// The Amazon Resource Name (ARN) of the cluster.
@@ -12659,14 +12748,14 @@ public struct PutAutoScalingPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct PutAutoScalingPolicyOutputResponseBody: Swift.Equatable {
+struct PutAutoScalingPolicyOutputBody: Swift.Equatable {
     let clusterId: Swift.String?
     let instanceGroupId: Swift.String?
     let autoScalingPolicy: EMRClientTypes.AutoScalingPolicyDescription?
     let clusterArn: Swift.String?
 }
 
-extension PutAutoScalingPolicyOutputResponseBody: Swift.Decodable {
+extension PutAutoScalingPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoScalingPolicy = "AutoScalingPolicy"
         case clusterArn = "ClusterArn"
@@ -12684,6 +12773,16 @@ extension PutAutoScalingPolicyOutputResponseBody: Swift.Decodable {
         autoScalingPolicy = autoScalingPolicyDecoded
         let clusterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterArn)
         clusterArn = clusterArnDecoded
+    }
+}
+
+enum PutAutoScalingPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -12747,24 +12846,24 @@ extension PutAutoTerminationPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum PutAutoTerminationPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension PutAutoTerminationPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutAutoTerminationPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutAutoTerminationPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension PutAutoTerminationPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutAutoTerminationPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension PutBlockPublicAccessConfigurationInput: Swift.Encodable {
@@ -12815,8 +12914,18 @@ extension PutBlockPublicAccessConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum PutBlockPublicAccessConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension PutBlockPublicAccessConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutBlockPublicAccessConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutBlockPublicAccessConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -12825,16 +12934,6 @@ public enum PutBlockPublicAccessConfigurationOutputError: ClientRuntime.HttpResp
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension PutBlockPublicAccessConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutBlockPublicAccessConfigurationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension PutManagedScalingPolicyInput: Swift.Encodable {
@@ -12898,24 +12997,24 @@ extension PutManagedScalingPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum PutManagedScalingPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension PutManagedScalingPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutManagedScalingPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutManagedScalingPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension PutManagedScalingPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutManagedScalingPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension EMRClientTypes {
@@ -13056,24 +13155,24 @@ extension RemoveAutoScalingPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum RemoveAutoScalingPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension RemoveAutoScalingPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RemoveAutoScalingPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum RemoveAutoScalingPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension RemoveAutoScalingPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct RemoveAutoScalingPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension RemoveAutoTerminationPolicyInput: Swift.Encodable {
@@ -13124,24 +13223,24 @@ extension RemoveAutoTerminationPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum RemoveAutoTerminationPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension RemoveAutoTerminationPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RemoveAutoTerminationPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum RemoveAutoTerminationPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension RemoveAutoTerminationPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct RemoveAutoTerminationPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension RemoveManagedScalingPolicyInput: Swift.Encodable {
@@ -13192,24 +13291,24 @@ extension RemoveManagedScalingPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum RemoveManagedScalingPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension RemoveManagedScalingPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RemoveManagedScalingPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum RemoveManagedScalingPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension RemoveManagedScalingPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct RemoveManagedScalingPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension RemoveTagsInput: Swift.Encodable {
@@ -13286,8 +13385,19 @@ extension RemoveTagsInputBody: Swift.Decodable {
     }
 }
 
-public enum RemoveTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension RemoveTagsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// This output indicates the result of removing tags from the resource.
+public struct RemoveTagsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum RemoveTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -13296,17 +13406,6 @@ public enum RemoveTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension RemoveTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// This output indicates the result of removing tags from the resource.
-public struct RemoveTagsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension EMRClientTypes {
@@ -13351,7 +13450,9 @@ extension RunJobFlowInput: Swift.Encodable {
         case bootstrapActions = "BootstrapActions"
         case configurations = "Configurations"
         case customAmiId = "CustomAmiId"
+        case ebsRootVolumeIops = "EbsRootVolumeIops"
         case ebsRootVolumeSize = "EbsRootVolumeSize"
+        case ebsRootVolumeThroughput = "EbsRootVolumeThroughput"
         case instances = "Instances"
         case jobFlowRole = "JobFlowRole"
         case kerberosAttributes = "KerberosAttributes"
@@ -13409,8 +13510,14 @@ extension RunJobFlowInput: Swift.Encodable {
         if let customAmiId = self.customAmiId {
             try encodeContainer.encode(customAmiId, forKey: .customAmiId)
         }
+        if let ebsRootVolumeIops = self.ebsRootVolumeIops {
+            try encodeContainer.encode(ebsRootVolumeIops, forKey: .ebsRootVolumeIops)
+        }
         if let ebsRootVolumeSize = self.ebsRootVolumeSize {
             try encodeContainer.encode(ebsRootVolumeSize, forKey: .ebsRootVolumeSize)
+        }
+        if let ebsRootVolumeThroughput = self.ebsRootVolumeThroughput {
+            try encodeContainer.encode(ebsRootVolumeThroughput, forKey: .ebsRootVolumeThroughput)
         }
         if let instances = self.instances {
             try encodeContainer.encode(instances, forKey: .instances)
@@ -13514,8 +13621,12 @@ public struct RunJobFlowInput: Swift.Equatable {
     public var configurations: [EMRClientTypes.Configuration]?
     /// Available only in Amazon EMR releases 5.7.0 and later. The ID of a custom Amazon EBS-backed Linux AMI. If specified, Amazon EMR uses this AMI when it launches cluster Amazon EC2 instances. For more information about custom AMIs in Amazon EMR, see [Using a Custom AMI](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-custom-ami.html) in the Amazon EMR Management Guide. If omitted, the cluster uses the base Linux AMI for the ReleaseLabel specified. For Amazon EMR releases 2.x and 3.x, use AmiVersion instead. For information about creating a custom AMI, see [Creating an Amazon EBS-Backed Linux AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html) in the Amazon Elastic Compute Cloud User Guide for Linux Instances. For information about finding an AMI ID, see [Finding a Linux AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html).
     public var customAmiId: Swift.String?
+    /// The IOPS, of the Amazon EBS root device volume of the Linux AMI that is used for each Amazon EC2 instance. Available in Amazon EMR releases 6.15.0 and later.
+    public var ebsRootVolumeIops: Swift.Int?
     /// The size, in GiB, of the Amazon EBS root device volume of the Linux AMI that is used for each Amazon EC2 instance. Available in Amazon EMR releases 4.x and later.
     public var ebsRootVolumeSize: Swift.Int?
+    /// The throughput, in MiB/s, of the Amazon EBS root device volume of the Linux AMI that is used for each Amazon EC2 instance. Available in Amazon EMR releases 6.15.0 and later.
+    public var ebsRootVolumeThroughput: Swift.Int?
     /// A specification of the number and type of Amazon EC2 instances.
     /// This member is required.
     public var instances: EMRClientTypes.JobFlowInstancesConfig?
@@ -13588,7 +13699,9 @@ public struct RunJobFlowInput: Swift.Equatable {
         bootstrapActions: [EMRClientTypes.BootstrapActionConfig]? = nil,
         configurations: [EMRClientTypes.Configuration]? = nil,
         customAmiId: Swift.String? = nil,
+        ebsRootVolumeIops: Swift.Int? = nil,
         ebsRootVolumeSize: Swift.Int? = nil,
+        ebsRootVolumeThroughput: Swift.Int? = nil,
         instances: EMRClientTypes.JobFlowInstancesConfig? = nil,
         jobFlowRole: Swift.String? = nil,
         kerberosAttributes: EMRClientTypes.KerberosAttributes? = nil,
@@ -13619,7 +13732,9 @@ public struct RunJobFlowInput: Swift.Equatable {
         self.bootstrapActions = bootstrapActions
         self.configurations = configurations
         self.customAmiId = customAmiId
+        self.ebsRootVolumeIops = ebsRootVolumeIops
         self.ebsRootVolumeSize = ebsRootVolumeSize
+        self.ebsRootVolumeThroughput = ebsRootVolumeThroughput
         self.instances = instances
         self.jobFlowRole = jobFlowRole
         self.kerberosAttributes = kerberosAttributes
@@ -13673,6 +13788,8 @@ struct RunJobFlowInputBody: Swift.Equatable {
     let placementGroupConfigs: [EMRClientTypes.PlacementGroupConfig]?
     let autoTerminationPolicy: EMRClientTypes.AutoTerminationPolicy?
     let osReleaseLabel: Swift.String?
+    let ebsRootVolumeIops: Swift.Int?
+    let ebsRootVolumeThroughput: Swift.Int?
 }
 
 extension RunJobFlowInputBody: Swift.Decodable {
@@ -13685,7 +13802,9 @@ extension RunJobFlowInputBody: Swift.Decodable {
         case bootstrapActions = "BootstrapActions"
         case configurations = "Configurations"
         case customAmiId = "CustomAmiId"
+        case ebsRootVolumeIops = "EbsRootVolumeIops"
         case ebsRootVolumeSize = "EbsRootVolumeSize"
+        case ebsRootVolumeThroughput = "EbsRootVolumeThroughput"
         case instances = "Instances"
         case jobFlowRole = "JobFlowRole"
         case kerberosAttributes = "KerberosAttributes"
@@ -13840,25 +13959,18 @@ extension RunJobFlowInputBody: Swift.Decodable {
         autoTerminationPolicy = autoTerminationPolicyDecoded
         let osReleaseLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .osReleaseLabel)
         osReleaseLabel = osReleaseLabelDecoded
+        let ebsRootVolumeIopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ebsRootVolumeIops)
+        ebsRootVolumeIops = ebsRootVolumeIopsDecoded
+        let ebsRootVolumeThroughputDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ebsRootVolumeThroughput)
+        ebsRootVolumeThroughput = ebsRootVolumeThroughputDecoded
     }
 }
 
-public enum RunJobFlowOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalFailure": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension RunJobFlowOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RunJobFlowOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RunJobFlowOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RunJobFlowOutputBody = try responseDecoder.decode(responseBody: data)
             self.clusterArn = output.clusterArn
             self.jobFlowId = output.jobFlowId
         } else {
@@ -13869,7 +13981,7 @@ extension RunJobFlowOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result of the [RunJobFlow] operation.
-public struct RunJobFlowOutputResponse: Swift.Equatable {
+public struct RunJobFlowOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the cluster.
     public var clusterArn: Swift.String?
     /// A unique identifier for the job flow.
@@ -13885,12 +13997,12 @@ public struct RunJobFlowOutputResponse: Swift.Equatable {
     }
 }
 
-struct RunJobFlowOutputResponseBody: Swift.Equatable {
+struct RunJobFlowOutputBody: Swift.Equatable {
     let jobFlowId: Swift.String?
     let clusterArn: Swift.String?
 }
 
-extension RunJobFlowOutputResponseBody: Swift.Decodable {
+extension RunJobFlowOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clusterArn = "ClusterArn"
         case jobFlowId = "JobFlowId"
@@ -13902,6 +14014,17 @@ extension RunJobFlowOutputResponseBody: Swift.Decodable {
         jobFlowId = jobFlowIdDecoded
         let clusterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterArn)
         clusterArn = clusterArnDecoded
+    }
+}
+
+enum RunJobFlowOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailure": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -14491,8 +14614,18 @@ extension SetTerminationProtectionInputBody: Swift.Decodable {
     }
 }
 
-public enum SetTerminationProtectionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension SetTerminationProtectionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct SetTerminationProtectionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum SetTerminationProtectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -14500,16 +14633,6 @@ public enum SetTerminationProtectionOutputError: ClientRuntime.HttpResponseError
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension SetTerminationProtectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct SetTerminationProtectionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension SetVisibleToAllUsersInput: Swift.Encodable {
@@ -14586,8 +14709,18 @@ extension SetVisibleToAllUsersInputBody: Swift.Decodable {
     }
 }
 
-public enum SetVisibleToAllUsersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension SetVisibleToAllUsersOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct SetVisibleToAllUsersOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum SetVisibleToAllUsersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -14595,16 +14728,6 @@ public enum SetVisibleToAllUsersOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension SetVisibleToAllUsersOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct SetVisibleToAllUsersOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension EMRClientTypes.ShrinkPolicy: Swift.Codable {
@@ -14831,7 +14954,7 @@ extension EMRClientTypes.SpotProvisioningSpecification: Swift.Codable {
 extension EMRClientTypes {
     /// The launch specification for Spot Instances in the instance fleet, which determines the defined duration, provisioning timeout behavior, and allocation strategy. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. Spot Instance allocation strategy is available in Amazon EMR releases 5.12.1 and later. Spot Instances with a defined duration (also known as Spot blocks) are no longer available to new customers from July 1, 2021. For customers who have previously used the feature, we will continue to support Spot Instances with a defined duration until December 31, 2022.
     public struct SpotProvisioningSpecification: Swift.Equatable {
-        /// Specifies the strategy to use in launching Spot Instance fleets. Currently, the only option is capacity-optimized (the default), which launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching.
+        /// Specifies one of the following strategies to launch Spot Instance fleets: price-capacity-optimized, capacity-optimized, lowest-price, or diversified. For more information on the provisioning strategies, see [Allocation strategies for Spot Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-allocation-strategy.html) in the Amazon EC2 User Guide for Linux Instances. When you launch a Spot Instance fleet with the old console, it automatically launches with the capacity-optimized strategy. You can't change the allocation strategy from the old console.
         public var allocationStrategy: EMRClientTypes.SpotProvisioningAllocationStrategy?
         /// The defined duration for Spot Instances (also known as Spot blocks) in minutes. When specified, the Spot Instance does not terminate before the defined duration expires, and defined duration pricing for Spot Instances applies. Valid values are 60, 120, 180, 240, 300, or 360. The duration period starts as soon as a Spot Instance receives its instance ID. At the end of the duration, Amazon EC2 marks the Spot Instance for termination and provides a Spot Instance termination notice, which gives the instance a two-minute warning before it terminates. Spot Instances with a defined duration (also known as Spot blocks) are no longer available to new customers from July 1, 2021. For customers who have previously used the feature, we will continue to support Spot Instances with a defined duration until December 31, 2022.
         public var blockDurationMinutes: Swift.Int?
@@ -15131,23 +15254,11 @@ extension StartNotebookExecutionInputBody: Swift.Decodable {
     }
 }
 
-public enum StartNotebookExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartNotebookExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartNotebookExecutionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartNotebookExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartNotebookExecutionOutputBody = try responseDecoder.decode(responseBody: data)
             self.notebookExecutionId = output.notebookExecutionId
         } else {
             self.notebookExecutionId = nil
@@ -15155,7 +15266,7 @@ extension StartNotebookExecutionOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct StartNotebookExecutionOutputResponse: Swift.Equatable {
+public struct StartNotebookExecutionOutput: Swift.Equatable {
     /// The unique identifier of the notebook execution.
     public var notebookExecutionId: Swift.String?
 
@@ -15167,11 +15278,11 @@ public struct StartNotebookExecutionOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartNotebookExecutionOutputResponseBody: Swift.Equatable {
+struct StartNotebookExecutionOutputBody: Swift.Equatable {
     let notebookExecutionId: Swift.String?
 }
 
-extension StartNotebookExecutionOutputResponseBody: Swift.Decodable {
+extension StartNotebookExecutionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case notebookExecutionId = "NotebookExecutionId"
     }
@@ -15180,6 +15291,18 @@ extension StartNotebookExecutionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let notebookExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notebookExecutionId)
         notebookExecutionId = notebookExecutionIdDecoded
+    }
+}
+
+enum StartNotebookExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -15944,8 +16067,18 @@ extension StopNotebookExecutionInputBody: Swift.Decodable {
     }
 }
 
-public enum StopNotebookExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension StopNotebookExecutionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StopNotebookExecutionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum StopNotebookExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -15956,23 +16089,16 @@ public enum StopNotebookExecutionOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension StopNotebookExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct StopNotebookExecutionOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
 extension EMRClientTypes.Studio: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authMode = "AuthMode"
         case creationTime = "CreationTime"
         case defaultS3Location = "DefaultS3Location"
         case description = "Description"
+        case encryptionKeyArn = "EncryptionKeyArn"
         case engineSecurityGroupId = "EngineSecurityGroupId"
+        case idcInstanceArn = "IdcInstanceArn"
+        case idcUserAssignment = "IdcUserAssignment"
         case idpAuthUrl = "IdpAuthUrl"
         case idpRelayStateParameterName = "IdpRelayStateParameterName"
         case name = "Name"
@@ -15981,6 +16107,7 @@ extension EMRClientTypes.Studio: Swift.Codable {
         case studioId = "StudioId"
         case subnetIds = "SubnetIds"
         case tags = "Tags"
+        case trustedIdentityPropagationEnabled = "TrustedIdentityPropagationEnabled"
         case url = "Url"
         case userRole = "UserRole"
         case vpcId = "VpcId"
@@ -16001,8 +16128,17 @@ extension EMRClientTypes.Studio: Swift.Codable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
+        if let encryptionKeyArn = self.encryptionKeyArn {
+            try encodeContainer.encode(encryptionKeyArn, forKey: .encryptionKeyArn)
+        }
         if let engineSecurityGroupId = self.engineSecurityGroupId {
             try encodeContainer.encode(engineSecurityGroupId, forKey: .engineSecurityGroupId)
+        }
+        if let idcInstanceArn = self.idcInstanceArn {
+            try encodeContainer.encode(idcInstanceArn, forKey: .idcInstanceArn)
+        }
+        if let idcUserAssignment = self.idcUserAssignment {
+            try encodeContainer.encode(idcUserAssignment.rawValue, forKey: .idcUserAssignment)
         }
         if let idpAuthUrl = self.idpAuthUrl {
             try encodeContainer.encode(idpAuthUrl, forKey: .idpAuthUrl)
@@ -16033,6 +16169,9 @@ extension EMRClientTypes.Studio: Swift.Codable {
             for tag0 in tags {
                 try tagsContainer.encode(tag0)
             }
+        }
+        if let trustedIdentityPropagationEnabled = self.trustedIdentityPropagationEnabled {
+            try encodeContainer.encode(trustedIdentityPropagationEnabled, forKey: .trustedIdentityPropagationEnabled)
         }
         if let url = self.url {
             try encodeContainer.encode(url, forKey: .url)
@@ -16102,6 +16241,14 @@ extension EMRClientTypes.Studio: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let idcInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idcInstanceArn)
+        idcInstanceArn = idcInstanceArnDecoded
+        let trustedIdentityPropagationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .trustedIdentityPropagationEnabled)
+        trustedIdentityPropagationEnabled = trustedIdentityPropagationEnabledDecoded
+        let idcUserAssignmentDecoded = try containerValues.decodeIfPresent(EMRClientTypes.IdcUserAssignment.self, forKey: .idcUserAssignment)
+        idcUserAssignment = idcUserAssignmentDecoded
+        let encryptionKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encryptionKeyArn)
+        encryptionKeyArn = encryptionKeyArnDecoded
     }
 }
 
@@ -16116,8 +16263,14 @@ extension EMRClientTypes {
         public var defaultS3Location: Swift.String?
         /// The detailed description of the Amazon EMR Studio.
         public var description: Swift.String?
+        /// The KMS key identifier (ARN) used to encrypt Amazon EMR Studio workspace and notebook files when backed up to Amazon S3.
+        public var encryptionKeyArn: Swift.String?
         /// The ID of the Engine security group associated with the Amazon EMR Studio. The Engine security group allows inbound network traffic from resources in the Workspace security group.
         public var engineSecurityGroupId: Swift.String?
+        /// The ARN of the IAM Identity Center instance the Studio application belongs to.
+        public var idcInstanceArn: Swift.String?
+        /// Indicates whether the Studio has REQUIRED or OPTIONAL IAM Identity Center user assignment. If the value is set to REQUIRED, users must be explicitly assigned to the Studio application to access the Studio.
+        public var idcUserAssignment: EMRClientTypes.IdcUserAssignment?
         /// Your identity provider's authentication endpoint. Amazon EMR Studio redirects federated users to this endpoint for authentication when logging in to a Studio with the Studio URL.
         public var idpAuthUrl: Swift.String?
         /// The name of your identity provider's RelayState parameter.
@@ -16134,6 +16287,8 @@ extension EMRClientTypes {
         public var subnetIds: [Swift.String]?
         /// A list of tags associated with the Amazon EMR Studio.
         public var tags: [EMRClientTypes.Tag]?
+        /// Indicates whether the Studio has Trusted identity propagation enabled. The default value is false.
+        public var trustedIdentityPropagationEnabled: Swift.Bool?
         /// The unique access URL of the Amazon EMR Studio.
         public var url: Swift.String?
         /// The name of the IAM role assumed by users logged in to the Amazon EMR Studio. A Studio only requires a UserRole when you use IAM authentication.
@@ -16148,7 +16303,10 @@ extension EMRClientTypes {
             creationTime: ClientRuntime.Date? = nil,
             defaultS3Location: Swift.String? = nil,
             description: Swift.String? = nil,
+            encryptionKeyArn: Swift.String? = nil,
             engineSecurityGroupId: Swift.String? = nil,
+            idcInstanceArn: Swift.String? = nil,
+            idcUserAssignment: EMRClientTypes.IdcUserAssignment? = nil,
             idpAuthUrl: Swift.String? = nil,
             idpRelayStateParameterName: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -16157,6 +16315,7 @@ extension EMRClientTypes {
             studioId: Swift.String? = nil,
             subnetIds: [Swift.String]? = nil,
             tags: [EMRClientTypes.Tag]? = nil,
+            trustedIdentityPropagationEnabled: Swift.Bool? = nil,
             url: Swift.String? = nil,
             userRole: Swift.String? = nil,
             vpcId: Swift.String? = nil,
@@ -16167,7 +16326,10 @@ extension EMRClientTypes {
             self.creationTime = creationTime
             self.defaultS3Location = defaultS3Location
             self.description = description
+            self.encryptionKeyArn = encryptionKeyArn
             self.engineSecurityGroupId = engineSecurityGroupId
+            self.idcInstanceArn = idcInstanceArn
+            self.idcUserAssignment = idcUserAssignment
             self.idpAuthUrl = idpAuthUrl
             self.idpRelayStateParameterName = idpRelayStateParameterName
             self.name = name
@@ -16176,6 +16338,7 @@ extension EMRClientTypes {
             self.studioId = studioId
             self.subnetIds = subnetIds
             self.tags = tags
+            self.trustedIdentityPropagationEnabled = trustedIdentityPropagationEnabled
             self.url = url
             self.userRole = userRole
             self.vpcId = vpcId
@@ -16241,7 +16404,7 @@ extension EMRClientTypes.StudioSummary: Swift.Codable {
 }
 
 extension EMRClientTypes {
-    /// Details for an Amazon EMR Studio, including ID, Name, VPC, and Description. The details do not include subnets, IAM roles, security groups, or tags associated with the Studio.
+    /// Details for an Amazon EMR Studio, including ID, Name, VPC, and Description. To fetch additional details such as subnets, IAM roles, security groups, and tags for the Studio, use the [DescribeStudio] API.
     public struct StudioSummary: Swift.Equatable {
         /// Specifies whether the Studio authenticates users using IAM or IAM Identity Center.
         public var authMode: EMRClientTypes.AuthMode?
@@ -16300,22 +16463,22 @@ extension EMRClientTypes.SupportedInstanceType: Swift.Codable {
         if let architecture = self.architecture {
             try encodeContainer.encode(architecture, forKey: .architecture)
         }
-        if ebsOptimizedAvailable != false {
+        if let ebsOptimizedAvailable = self.ebsOptimizedAvailable {
             try encodeContainer.encode(ebsOptimizedAvailable, forKey: .ebsOptimizedAvailable)
         }
-        if ebsOptimizedByDefault != false {
+        if let ebsOptimizedByDefault = self.ebsOptimizedByDefault {
             try encodeContainer.encode(ebsOptimizedByDefault, forKey: .ebsOptimizedByDefault)
         }
-        if ebsStorageOnly != false {
+        if let ebsStorageOnly = self.ebsStorageOnly {
             try encodeContainer.encode(ebsStorageOnly, forKey: .ebsStorageOnly)
         }
         if let instanceFamilyId = self.instanceFamilyId {
             try encodeContainer.encode(instanceFamilyId, forKey: .instanceFamilyId)
         }
-        if is64BitsOnly != false {
+        if let is64BitsOnly = self.is64BitsOnly {
             try encodeContainer.encode(is64BitsOnly, forKey: .is64BitsOnly)
         }
-        if memoryGB != 0.0 {
+        if let memoryGB = self.memoryGB {
             try encodeContainer.encode(memoryGB, forKey: .memoryGB)
         }
         if let numberOfDisks = self.numberOfDisks {
@@ -16336,23 +16499,23 @@ extension EMRClientTypes.SupportedInstanceType: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
         type = typeDecoded
-        let memoryGBDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .memoryGB) ?? 0.0
+        let memoryGBDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .memoryGB)
         memoryGB = memoryGBDecoded
         let storageGBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .storageGB)
         storageGB = storageGBDecoded
         let vcpuDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .vcpu)
         vcpu = vcpuDecoded
-        let is64BitsOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .is64BitsOnly) ?? false
+        let is64BitsOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .is64BitsOnly)
         is64BitsOnly = is64BitsOnlyDecoded
         let instanceFamilyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceFamilyId)
         instanceFamilyId = instanceFamilyIdDecoded
-        let ebsOptimizedAvailableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsOptimizedAvailable) ?? false
+        let ebsOptimizedAvailableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsOptimizedAvailable)
         ebsOptimizedAvailable = ebsOptimizedAvailableDecoded
-        let ebsOptimizedByDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsOptimizedByDefault) ?? false
+        let ebsOptimizedByDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsOptimizedByDefault)
         ebsOptimizedByDefault = ebsOptimizedByDefaultDecoded
         let numberOfDisksDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfDisks)
         numberOfDisks = numberOfDisksDecoded
-        let ebsStorageOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsStorageOnly) ?? false
+        let ebsStorageOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsStorageOnly)
         ebsStorageOnly = ebsStorageOnlyDecoded
         let architectureDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .architecture)
         architecture = architectureDecoded
@@ -16365,17 +16528,17 @@ extension EMRClientTypes {
         /// The CPU architecture, for example X86_64 or AARCH64.
         public var architecture: Swift.String?
         /// Indicates whether the SupportedInstanceType supports Amazon EBS optimization.
-        public var ebsOptimizedAvailable: Swift.Bool
+        public var ebsOptimizedAvailable: Swift.Bool?
         /// Indicates whether the SupportedInstanceType uses Amazon EBS optimization by default.
-        public var ebsOptimizedByDefault: Swift.Bool
+        public var ebsOptimizedByDefault: Swift.Bool?
         /// Indicates whether the SupportedInstanceType only supports Amazon EBS.
-        public var ebsStorageOnly: Swift.Bool
+        public var ebsStorageOnly: Swift.Bool?
         /// The Amazon EC2 family and generation for the SupportedInstanceType.
         public var instanceFamilyId: Swift.String?
         /// Indicates whether the SupportedInstanceType only supports 64-bit architecture.
-        public var is64BitsOnly: Swift.Bool
+        public var is64BitsOnly: Swift.Bool?
         /// The amount of memory that is available to Amazon EMR from the SupportedInstanceType. The kernel and hypervisor software consume some memory, so this value might be lower than the overall memory for the instance type.
-        public var memoryGB: Swift.Float
+        public var memoryGB: Swift.Float?
         /// Number of disks for the SupportedInstanceType. This value is 0 for Amazon EBS-only instance types.
         public var numberOfDisks: Swift.Int?
         /// StorageGB represents the storage capacity of the SupportedInstanceType. This value is 0 for Amazon EBS-only instance types.
@@ -16387,12 +16550,12 @@ extension EMRClientTypes {
 
         public init(
             architecture: Swift.String? = nil,
-            ebsOptimizedAvailable: Swift.Bool = false,
-            ebsOptimizedByDefault: Swift.Bool = false,
-            ebsStorageOnly: Swift.Bool = false,
+            ebsOptimizedAvailable: Swift.Bool? = nil,
+            ebsOptimizedByDefault: Swift.Bool? = nil,
+            ebsStorageOnly: Swift.Bool? = nil,
             instanceFamilyId: Swift.String? = nil,
-            is64BitsOnly: Swift.Bool = false,
-            memoryGB: Swift.Float = 0.0,
+            is64BitsOnly: Swift.Bool? = nil,
+            memoryGB: Swift.Float? = nil,
             numberOfDisks: Swift.Int? = nil,
             storageGB: Swift.Int? = nil,
             type: Swift.String? = nil,
@@ -16578,8 +16741,18 @@ extension TerminateJobFlowsInputBody: Swift.Decodable {
     }
 }
 
-public enum TerminateJobFlowsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension TerminateJobFlowsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TerminateJobFlowsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TerminateJobFlowsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -16587,16 +16760,6 @@ public enum TerminateJobFlowsOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TerminateJobFlowsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TerminateJobFlowsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension EMRClientTypes {
@@ -16710,6 +16873,7 @@ extension UpdateStudioInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case defaultS3Location = "DefaultS3Location"
         case description = "Description"
+        case encryptionKeyArn = "EncryptionKeyArn"
         case name = "Name"
         case studioId = "StudioId"
         case subnetIds = "SubnetIds"
@@ -16722,6 +16886,9 @@ extension UpdateStudioInput: Swift.Encodable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let encryptionKeyArn = self.encryptionKeyArn {
+            try encodeContainer.encode(encryptionKeyArn, forKey: .encryptionKeyArn)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -16749,6 +16916,8 @@ public struct UpdateStudioInput: Swift.Equatable {
     public var defaultS3Location: Swift.String?
     /// A detailed description to assign to the Amazon EMR Studio.
     public var description: Swift.String?
+    /// The KMS key identifier (ARN) used to encrypt Amazon EMR Studio workspace and notebook files when backed up to Amazon S3.
+    public var encryptionKeyArn: Swift.String?
     /// A descriptive name for the Amazon EMR Studio.
     public var name: Swift.String?
     /// The ID of the Amazon EMR Studio to update.
@@ -16760,6 +16929,7 @@ public struct UpdateStudioInput: Swift.Equatable {
     public init(
         defaultS3Location: Swift.String? = nil,
         description: Swift.String? = nil,
+        encryptionKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         studioId: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil
@@ -16767,6 +16937,7 @@ public struct UpdateStudioInput: Swift.Equatable {
     {
         self.defaultS3Location = defaultS3Location
         self.description = description
+        self.encryptionKeyArn = encryptionKeyArn
         self.name = name
         self.studioId = studioId
         self.subnetIds = subnetIds
@@ -16779,12 +16950,14 @@ struct UpdateStudioInputBody: Swift.Equatable {
     let description: Swift.String?
     let subnetIds: [Swift.String]?
     let defaultS3Location: Swift.String?
+    let encryptionKeyArn: Swift.String?
 }
 
 extension UpdateStudioInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case defaultS3Location = "DefaultS3Location"
         case description = "Description"
+        case encryptionKeyArn = "EncryptionKeyArn"
         case name = "Name"
         case studioId = "StudioId"
         case subnetIds = "SubnetIds"
@@ -16811,11 +16984,23 @@ extension UpdateStudioInputBody: Swift.Decodable {
         subnetIds = subnetIdsDecoded0
         let defaultS3LocationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .defaultS3Location)
         defaultS3Location = defaultS3LocationDecoded
+        let encryptionKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encryptionKeyArn)
+        encryptionKeyArn = encryptionKeyArnDecoded
     }
 }
 
-public enum UpdateStudioOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateStudioOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateStudioOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateStudioOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -16824,16 +17009,6 @@ public enum UpdateStudioOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateStudioOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateStudioOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateStudioSessionMappingInput: Swift.Encodable {
@@ -16934,8 +17109,18 @@ extension UpdateStudioSessionMappingInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateStudioSessionMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateStudioSessionMappingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateStudioSessionMappingOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateStudioSessionMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -16944,16 +17129,6 @@ public enum UpdateStudioSessionMappingOutputError: ClientRuntime.HttpResponseErr
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateStudioSessionMappingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateStudioSessionMappingOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension EMRClientTypes.UsernamePassword: Swift.Codable {

@@ -41,10 +41,44 @@ import ClientRuntime
 ///
 /// * DeleteService
 public protocol ProtonClientProtocol {
+    /// Performs the `AcceptEnvironmentAccountConnection` operation on the `AwsProton20200720` service.
+    ///
     /// In a management account, an environment account connection request is accepted. When the environment account connection request is accepted, Proton can use the associated IAM role to provision environment infrastructure resources in the associated environment account. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
-    func acceptEnvironmentAccountConnection(input: AcceptEnvironmentAccountConnectionInput) async throws -> AcceptEnvironmentAccountConnectionOutputResponse
+    ///
+    /// - Parameter AcceptEnvironmentAccountConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `AcceptEnvironmentAccountConnectionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func acceptEnvironmentAccountConnection(input: AcceptEnvironmentAccountConnectionInput) async throws -> AcceptEnvironmentAccountConnectionOutput
+    /// Performs the `CancelComponentDeployment` operation on the `AwsProton20200720` service.
+    ///
     /// Attempts to cancel a component deployment (for a component that is in the IN_PROGRESS deployment status). For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
-    func cancelComponentDeployment(input: CancelComponentDeploymentInput) async throws -> CancelComponentDeploymentOutputResponse
+    ///
+    /// - Parameter CancelComponentDeploymentInput : [no documentation found]
+    ///
+    /// - Returns: `CancelComponentDeploymentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func cancelComponentDeployment(input: CancelComponentDeploymentInput) async throws -> CancelComponentDeploymentOutput
+    /// Performs the `CancelEnvironmentDeployment` operation on the `AwsProton20200720` service.
+    ///
     /// Attempts to cancel an environment deployment on an [UpdateEnvironment] action, if the deployment is IN_PROGRESS. For more information, see [Update an environment](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-update.html) in the Proton User guide. The following list includes potential cancellation scenarios.
     ///
     /// * If the cancellation attempt succeeds, the resulting deployment state is CANCELLED.
@@ -52,7 +86,23 @@ public protocol ProtonClientProtocol {
     /// * If the cancellation attempt fails, the resulting deployment state is FAILED.
     ///
     /// * If the current [UpdateEnvironment] action succeeds before the cancellation attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt has no effect.
-    func cancelEnvironmentDeployment(input: CancelEnvironmentDeploymentInput) async throws -> CancelEnvironmentDeploymentOutputResponse
+    ///
+    /// - Parameter CancelEnvironmentDeploymentInput : [no documentation found]
+    ///
+    /// - Returns: `CancelEnvironmentDeploymentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func cancelEnvironmentDeployment(input: CancelEnvironmentDeploymentInput) async throws -> CancelEnvironmentDeploymentOutput
+    /// Performs the `CancelServiceInstanceDeployment` operation on the `AwsProton20200720` service.
+    ///
     /// Attempts to cancel a service instance deployment on an [UpdateServiceInstance] action, if the deployment is IN_PROGRESS. For more information, see [Update a service instance](https://docs.aws.amazon.com/proton/latest/userguide/ag-svc-instance-update.html) in the Proton User guide. The following list includes potential cancellation scenarios.
     ///
     /// * If the cancellation attempt succeeds, the resulting deployment state is CANCELLED.
@@ -60,7 +110,23 @@ public protocol ProtonClientProtocol {
     /// * If the cancellation attempt fails, the resulting deployment state is FAILED.
     ///
     /// * If the current [UpdateServiceInstance] action succeeds before the cancellation attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt has no effect.
-    func cancelServiceInstanceDeployment(input: CancelServiceInstanceDeploymentInput) async throws -> CancelServiceInstanceDeploymentOutputResponse
+    ///
+    /// - Parameter CancelServiceInstanceDeploymentInput : [no documentation found]
+    ///
+    /// - Returns: `CancelServiceInstanceDeploymentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func cancelServiceInstanceDeployment(input: CancelServiceInstanceDeploymentInput) async throws -> CancelServiceInstanceDeploymentOutput
+    /// Performs the `CancelServicePipelineDeployment` operation on the `AwsProton20200720` service.
+    ///
     /// Attempts to cancel a service pipeline deployment on an [UpdateServicePipeline] action, if the deployment is IN_PROGRESS. For more information, see [Update a service pipeline](https://docs.aws.amazon.com/proton/latest/userguide/ag-svc-pipeline-update.html) in the Proton User guide. The following list includes potential cancellation scenarios.
     ///
     /// * If the cancellation attempt succeeds, the resulting deployment state is CANCELLED.
@@ -68,9 +134,42 @@ public protocol ProtonClientProtocol {
     /// * If the cancellation attempt fails, the resulting deployment state is FAILED.
     ///
     /// * If the current [UpdateServicePipeline] action succeeds before the cancellation attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt has no effect.
-    func cancelServicePipelineDeployment(input: CancelServicePipelineDeploymentInput) async throws -> CancelServicePipelineDeploymentOutputResponse
+    ///
+    /// - Parameter CancelServicePipelineDeploymentInput : [no documentation found]
+    ///
+    /// - Returns: `CancelServicePipelineDeploymentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func cancelServicePipelineDeployment(input: CancelServicePipelineDeploymentInput) async throws -> CancelServicePipelineDeploymentOutput
+    /// Performs the `CreateComponent` operation on the `AwsProton20200720` service.
+    ///
     /// Create an Proton component. A component is an infrastructure extension for a service instance. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
-    func createComponent(input: CreateComponentInput) async throws -> CreateComponentOutputResponse
+    ///
+    /// - Parameter CreateComponentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateComponentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func createComponent(input: CreateComponentInput) async throws -> CreateComponentOutput
+    /// Performs the `CreateEnvironment` operation on the `AwsProton20200720` service.
+    ///
     /// Deploy a new environment. An Proton environment is created from an environment template that defines infrastructure and resources that can be shared across services. You can provision environments using the following methods:
     ///
     /// * Amazon Web Services-managed provisioning: Proton makes direct calls to provision your resources.
@@ -79,171 +178,1423 @@ public protocol ProtonClientProtocol {
     ///
     ///
     /// For more information, see [Environments](https://docs.aws.amazon.com/proton/latest/userguide/ag-environments.html) and [Provisioning methods](https://docs.aws.amazon.com/proton/latest/userguide/ag-works-prov-methods.html) in the Proton User Guide.
-    func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutputResponse
+    ///
+    /// - Parameter CreateEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEnvironmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput
+    /// Performs the `CreateEnvironmentAccountConnection` operation on the `AwsProton20200720` service.
+    ///
     /// Create an environment account connection in an environment account so that environment infrastructure resources can be provisioned in the environment account from a management account. An environment account connection is a secure bi-directional connection between a management account and an environment account that maintains authorization and permissions. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
-    func createEnvironmentAccountConnection(input: CreateEnvironmentAccountConnectionInput) async throws -> CreateEnvironmentAccountConnectionOutputResponse
+    ///
+    /// - Parameter CreateEnvironmentAccountConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEnvironmentAccountConnectionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func createEnvironmentAccountConnection(input: CreateEnvironmentAccountConnectionInput) async throws -> CreateEnvironmentAccountConnectionOutput
+    /// Performs the `CreateEnvironmentTemplate` operation on the `AwsProton20200720` service.
+    ///
     /// Create an environment template for Proton. For more information, see [Environment Templates](https://docs.aws.amazon.com/proton/latest/userguide/ag-templates.html) in the Proton User Guide. You can create an environment template in one of the two following ways:
     ///
     /// * Register and publish a standard environment template that instructs Proton to deploy and manage environment infrastructure.
     ///
     /// * Register and publish a customer managed environment template that connects Proton to your existing provisioned infrastructure that you manage. Proton doesn't manage your existing provisioned infrastructure. To create an environment template for customer provisioned and managed infrastructure, include the provisioning parameter and set the value to CUSTOMER_MANAGED. For more information, see [Register and publish an environment template](https://docs.aws.amazon.com/proton/latest/userguide/template-create.html) in the Proton User Guide.
-    func createEnvironmentTemplate(input: CreateEnvironmentTemplateInput) async throws -> CreateEnvironmentTemplateOutputResponse
+    ///
+    /// - Parameter CreateEnvironmentTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEnvironmentTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func createEnvironmentTemplate(input: CreateEnvironmentTemplateInput) async throws -> CreateEnvironmentTemplateOutput
+    /// Performs the `CreateEnvironmentTemplateVersion` operation on the `AwsProton20200720` service.
+    ///
     /// Create a new major or minor version of an environment template. A major version of an environment template is a version that isn't backwards compatible. A minor version of an environment template is a version that's backwards compatible within its major version.
-    func createEnvironmentTemplateVersion(input: CreateEnvironmentTemplateVersionInput) async throws -> CreateEnvironmentTemplateVersionOutputResponse
+    ///
+    /// - Parameter CreateEnvironmentTemplateVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEnvironmentTemplateVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func createEnvironmentTemplateVersion(input: CreateEnvironmentTemplateVersionInput) async throws -> CreateEnvironmentTemplateVersionOutput
+    /// Performs the `CreateRepository` operation on the `AwsProton20200720` service.
+    ///
     /// Create and register a link to a repository. Proton uses the link to repeatedly access the repository, to either push to it (self-managed provisioning) or pull from it (template sync). You can share a linked repository across multiple resources (like environments using self-managed provisioning, or synced templates). When you create a repository link, Proton creates a [service-linked role](https://docs.aws.amazon.com/proton/latest/userguide/using-service-linked-roles.html) for you. For more information, see [Self-managed provisioning](https://docs.aws.amazon.com/proton/latest/userguide/ag-works-prov-methods.html#ag-works-prov-methods-self), [Template bundles](https://docs.aws.amazon.com/proton/latest/userguide/ag-template-authoring.html#ag-template-bundles), and [Template sync configurations](https://docs.aws.amazon.com/proton/latest/userguide/ag-template-sync-configs.html) in the Proton User Guide.
-    func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutputResponse
+    ///
+    /// - Parameter CreateRepositoryInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRepositoryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutput
+    /// Performs the `CreateService` operation on the `AwsProton20200720` service.
+    ///
     /// Create an Proton service. An Proton service is an instantiation of a service template and often includes several service instances and pipeline. For more information, see [Services](https://docs.aws.amazon.com/proton/latest/userguide/ag-services.html) in the Proton User Guide.
-    func createService(input: CreateServiceInput) async throws -> CreateServiceOutputResponse
+    ///
+    /// - Parameter CreateServiceInput : [no documentation found]
+    ///
+    /// - Returns: `CreateServiceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func createService(input: CreateServiceInput) async throws -> CreateServiceOutput
+    /// Performs the `CreateServiceInstance` operation on the `AwsProton20200720` service.
+    ///
     /// Create a service instance.
-    func createServiceInstance(input: CreateServiceInstanceInput) async throws -> CreateServiceInstanceOutputResponse
+    ///
+    /// - Parameter CreateServiceInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `CreateServiceInstanceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func createServiceInstance(input: CreateServiceInstanceInput) async throws -> CreateServiceInstanceOutput
+    /// Performs the `CreateServiceSyncConfig` operation on the `AwsProton20200720` service.
+    ///
     /// Create the Proton Ops configuration file.
-    func createServiceSyncConfig(input: CreateServiceSyncConfigInput) async throws -> CreateServiceSyncConfigOutputResponse
+    ///
+    /// - Parameter CreateServiceSyncConfigInput : [no documentation found]
+    ///
+    /// - Returns: `CreateServiceSyncConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func createServiceSyncConfig(input: CreateServiceSyncConfigInput) async throws -> CreateServiceSyncConfigOutput
+    /// Performs the `CreateServiceTemplate` operation on the `AwsProton20200720` service.
+    ///
     /// Create a service template. The administrator creates a service template to define standardized infrastructure and an optional CI/CD service pipeline. Developers, in turn, select the service template from Proton. If the selected service template includes a service pipeline definition, they provide a link to their source code repository. Proton then deploys and manages the infrastructure defined by the selected service template. For more information, see [Proton templates](https://docs.aws.amazon.com/proton/latest/userguide/ag-templates.html) in the Proton User Guide.
-    func createServiceTemplate(input: CreateServiceTemplateInput) async throws -> CreateServiceTemplateOutputResponse
+    ///
+    /// - Parameter CreateServiceTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateServiceTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func createServiceTemplate(input: CreateServiceTemplateInput) async throws -> CreateServiceTemplateOutput
+    /// Performs the `CreateServiceTemplateVersion` operation on the `AwsProton20200720` service.
+    ///
     /// Create a new major or minor version of a service template. A major version of a service template is a version that isn't backward compatible. A minor version of a service template is a version that's backward compatible within its major version.
-    func createServiceTemplateVersion(input: CreateServiceTemplateVersionInput) async throws -> CreateServiceTemplateVersionOutputResponse
+    ///
+    /// - Parameter CreateServiceTemplateVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateServiceTemplateVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func createServiceTemplateVersion(input: CreateServiceTemplateVersionInput) async throws -> CreateServiceTemplateVersionOutput
+    /// Performs the `CreateTemplateSyncConfig` operation on the `AwsProton20200720` service.
+    ///
     /// Set up a template to create new template versions automatically by tracking a linked repository. A linked repository is a repository that has been registered with Proton. For more information, see [CreateRepository]. When a commit is pushed to your linked repository, Proton checks for changes to your repository template bundles. If it detects a template bundle change, a new major or minor version of its template is created, if the version doesn’t already exist. For more information, see [Template sync configurations](https://docs.aws.amazon.com/proton/latest/userguide/ag-template-sync-configs.html) in the Proton User Guide.
-    func createTemplateSyncConfig(input: CreateTemplateSyncConfigInput) async throws -> CreateTemplateSyncConfigOutputResponse
+    ///
+    /// - Parameter CreateTemplateSyncConfigInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTemplateSyncConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func createTemplateSyncConfig(input: CreateTemplateSyncConfigInput) async throws -> CreateTemplateSyncConfigOutput
+    /// Performs the `DeleteComponent` operation on the `AwsProton20200720` service.
+    ///
     /// Delete an Proton component resource. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
-    func deleteComponent(input: DeleteComponentInput) async throws -> DeleteComponentOutputResponse
+    ///
+    /// - Parameter DeleteComponentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteComponentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func deleteComponent(input: DeleteComponentInput) async throws -> DeleteComponentOutput
+    /// Performs the `DeleteDeployment` operation on the `AwsProton20200720` service.
+    ///
     /// Delete the deployment.
-    func deleteDeployment(input: DeleteDeploymentInput) async throws -> DeleteDeploymentOutputResponse
+    ///
+    /// - Parameter DeleteDeploymentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDeploymentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func deleteDeployment(input: DeleteDeploymentInput) async throws -> DeleteDeploymentOutput
+    /// Performs the `DeleteEnvironment` operation on the `AwsProton20200720` service.
+    ///
     /// Delete an environment.
-    func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutputResponse
+    ///
+    /// - Parameter DeleteEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEnvironmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput
+    /// Performs the `DeleteEnvironmentAccountConnection` operation on the `AwsProton20200720` service.
+    ///
     /// In an environment account, delete an environment account connection. After you delete an environment account connection that’s in use by an Proton environment, Proton can’t manage the environment infrastructure resources until a new environment account connection is accepted for the environment account and associated environment. You're responsible for cleaning up provisioned resources that remain without an environment connection. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
-    func deleteEnvironmentAccountConnection(input: DeleteEnvironmentAccountConnectionInput) async throws -> DeleteEnvironmentAccountConnectionOutputResponse
+    ///
+    /// - Parameter DeleteEnvironmentAccountConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEnvironmentAccountConnectionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func deleteEnvironmentAccountConnection(input: DeleteEnvironmentAccountConnectionInput) async throws -> DeleteEnvironmentAccountConnectionOutput
+    /// Performs the `DeleteEnvironmentTemplate` operation on the `AwsProton20200720` service.
+    ///
     /// If no other major or minor versions of an environment template exist, delete the environment template.
-    func deleteEnvironmentTemplate(input: DeleteEnvironmentTemplateInput) async throws -> DeleteEnvironmentTemplateOutputResponse
+    ///
+    /// - Parameter DeleteEnvironmentTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEnvironmentTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func deleteEnvironmentTemplate(input: DeleteEnvironmentTemplateInput) async throws -> DeleteEnvironmentTemplateOutput
+    /// Performs the `DeleteEnvironmentTemplateVersion` operation on the `AwsProton20200720` service.
+    ///
     /// If no other minor versions of an environment template exist, delete a major version of the environment template if it's not the Recommended version. Delete the Recommended version of the environment template if no other major versions or minor versions of the environment template exist. A major version of an environment template is a version that's not backward compatible. Delete a minor version of an environment template if it isn't the Recommended version. Delete a Recommended minor version of the environment template if no other minor versions of the environment template exist. A minor version of an environment template is a version that's backward compatible.
-    func deleteEnvironmentTemplateVersion(input: DeleteEnvironmentTemplateVersionInput) async throws -> DeleteEnvironmentTemplateVersionOutputResponse
+    ///
+    /// - Parameter DeleteEnvironmentTemplateVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEnvironmentTemplateVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func deleteEnvironmentTemplateVersion(input: DeleteEnvironmentTemplateVersionInput) async throws -> DeleteEnvironmentTemplateVersionOutput
+    /// Performs the `DeleteRepository` operation on the `AwsProton20200720` service.
+    ///
     /// De-register and unlink your repository.
-    func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutputResponse
+    ///
+    /// - Parameter DeleteRepositoryInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRepositoryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutput
+    /// Performs the `DeleteService` operation on the `AwsProton20200720` service.
+    ///
     /// Delete a service, with its instances and pipeline. You can't delete a service if it has any service instances that have components attached to them. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
-    func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutputResponse
+    ///
+    /// - Parameter DeleteServiceInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteServiceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutput
+    /// Performs the `DeleteServiceSyncConfig` operation on the `AwsProton20200720` service.
+    ///
     /// Delete the Proton Ops file.
-    func deleteServiceSyncConfig(input: DeleteServiceSyncConfigInput) async throws -> DeleteServiceSyncConfigOutputResponse
+    ///
+    /// - Parameter DeleteServiceSyncConfigInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteServiceSyncConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func deleteServiceSyncConfig(input: DeleteServiceSyncConfigInput) async throws -> DeleteServiceSyncConfigOutput
+    /// Performs the `DeleteServiceTemplate` operation on the `AwsProton20200720` service.
+    ///
     /// If no other major or minor versions of the service template exist, delete the service template.
-    func deleteServiceTemplate(input: DeleteServiceTemplateInput) async throws -> DeleteServiceTemplateOutputResponse
+    ///
+    /// - Parameter DeleteServiceTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteServiceTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func deleteServiceTemplate(input: DeleteServiceTemplateInput) async throws -> DeleteServiceTemplateOutput
+    /// Performs the `DeleteServiceTemplateVersion` operation on the `AwsProton20200720` service.
+    ///
     /// If no other minor versions of a service template exist, delete a major version of the service template if it's not the Recommended version. Delete the Recommended version of the service template if no other major versions or minor versions of the service template exist. A major version of a service template is a version that isn't backwards compatible. Delete a minor version of a service template if it's not the Recommended version. Delete a Recommended minor version of the service template if no other minor versions of the service template exist. A minor version of a service template is a version that's backwards compatible.
-    func deleteServiceTemplateVersion(input: DeleteServiceTemplateVersionInput) async throws -> DeleteServiceTemplateVersionOutputResponse
+    ///
+    /// - Parameter DeleteServiceTemplateVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteServiceTemplateVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func deleteServiceTemplateVersion(input: DeleteServiceTemplateVersionInput) async throws -> DeleteServiceTemplateVersionOutput
+    /// Performs the `DeleteTemplateSyncConfig` operation on the `AwsProton20200720` service.
+    ///
     /// Delete a template sync configuration.
-    func deleteTemplateSyncConfig(input: DeleteTemplateSyncConfigInput) async throws -> DeleteTemplateSyncConfigOutputResponse
+    ///
+    /// - Parameter DeleteTemplateSyncConfigInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTemplateSyncConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func deleteTemplateSyncConfig(input: DeleteTemplateSyncConfigInput) async throws -> DeleteTemplateSyncConfigOutput
+    /// Performs the `GetAccountSettings` operation on the `AwsProton20200720` service.
+    ///
     /// Get detail data for Proton account-wide settings.
-    func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutputResponse
+    ///
+    /// - Parameter GetAccountSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetAccountSettingsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutput
+    /// Performs the `GetComponent` operation on the `AwsProton20200720` service.
+    ///
     /// Get detailed data for a component. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
-    func getComponent(input: GetComponentInput) async throws -> GetComponentOutputResponse
+    ///
+    /// - Parameter GetComponentInput : [no documentation found]
+    ///
+    /// - Returns: `GetComponentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func getComponent(input: GetComponentInput) async throws -> GetComponentOutput
+    /// Performs the `GetDeployment` operation on the `AwsProton20200720` service.
+    ///
     /// Get detailed data for a deployment.
-    func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutputResponse
+    ///
+    /// - Parameter GetDeploymentInput : [no documentation found]
+    ///
+    /// - Returns: `GetDeploymentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput
+    /// Performs the `GetEnvironment` operation on the `AwsProton20200720` service.
+    ///
     /// Get detailed data for an environment.
-    func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutputResponse
+    ///
+    /// - Parameter GetEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `GetEnvironmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutput
+    /// Performs the `GetEnvironmentAccountConnection` operation on the `AwsProton20200720` service.
+    ///
     /// In an environment account, get the detailed data for an environment account connection. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
-    func getEnvironmentAccountConnection(input: GetEnvironmentAccountConnectionInput) async throws -> GetEnvironmentAccountConnectionOutputResponse
+    ///
+    /// - Parameter GetEnvironmentAccountConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `GetEnvironmentAccountConnectionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func getEnvironmentAccountConnection(input: GetEnvironmentAccountConnectionInput) async throws -> GetEnvironmentAccountConnectionOutput
+    /// Performs the `GetEnvironmentTemplate` operation on the `AwsProton20200720` service.
+    ///
     /// Get detailed data for an environment template.
-    func getEnvironmentTemplate(input: GetEnvironmentTemplateInput) async throws -> GetEnvironmentTemplateOutputResponse
+    ///
+    /// - Parameter GetEnvironmentTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetEnvironmentTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func getEnvironmentTemplate(input: GetEnvironmentTemplateInput) async throws -> GetEnvironmentTemplateOutput
+    /// Performs the `GetEnvironmentTemplateVersion` operation on the `AwsProton20200720` service.
+    ///
     /// Get detailed data for a major or minor version of an environment template.
-    func getEnvironmentTemplateVersion(input: GetEnvironmentTemplateVersionInput) async throws -> GetEnvironmentTemplateVersionOutputResponse
+    ///
+    /// - Parameter GetEnvironmentTemplateVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetEnvironmentTemplateVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func getEnvironmentTemplateVersion(input: GetEnvironmentTemplateVersionInput) async throws -> GetEnvironmentTemplateVersionOutput
+    /// Performs the `GetRepository` operation on the `AwsProton20200720` service.
+    ///
     /// Get detail data for a linked repository.
-    func getRepository(input: GetRepositoryInput) async throws -> GetRepositoryOutputResponse
+    ///
+    /// - Parameter GetRepositoryInput : [no documentation found]
+    ///
+    /// - Returns: `GetRepositoryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func getRepository(input: GetRepositoryInput) async throws -> GetRepositoryOutput
+    /// Performs the `GetRepositorySyncStatus` operation on the `AwsProton20200720` service.
+    ///
     /// Get the sync status of a repository used for Proton template sync. For more information about template sync, see . A repository sync status isn't tied to the Proton Repository resource (or any other Proton resource). Therefore, tags on an Proton Repository resource have no effect on this action. Specifically, you can't use these tags to control access to this action using Attribute-based access control (ABAC). For more information about ABAC, see [ABAC](https://docs.aws.amazon.com/proton/latest/userguide/security_iam_service-with-iam.html#security_iam_service-with-iam-tags) in the Proton User Guide.
-    func getRepositorySyncStatus(input: GetRepositorySyncStatusInput) async throws -> GetRepositorySyncStatusOutputResponse
+    ///
+    /// - Parameter GetRepositorySyncStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetRepositorySyncStatusOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func getRepositorySyncStatus(input: GetRepositorySyncStatusInput) async throws -> GetRepositorySyncStatusOutput
+    /// Performs the `GetResourcesSummary` operation on the `AwsProton20200720` service.
+    ///
     /// Get counts of Proton resources. For infrastructure-provisioning resources (environments, services, service instances, pipelines), the action returns staleness counts. A resource is stale when it's behind the recommended version of the Proton template that it uses and it needs an update to become current. The action returns staleness counts (counts of resources that are up-to-date, behind a template major version, or behind a template minor version), the total number of resources, and the number of resources that are in a failed state, grouped by resource type. Components, environments, and service templates return less information - see the components, environments, and serviceTemplates field descriptions. For context, the action also returns the total number of each type of Proton template in the Amazon Web Services account. For more information, see [Proton dashboard](https://docs.aws.amazon.com/proton/latest/userguide/monitoring-dashboard.html) in the Proton User Guide.
-    func getResourcesSummary(input: GetResourcesSummaryInput) async throws -> GetResourcesSummaryOutputResponse
+    ///
+    /// - Parameter GetResourcesSummaryInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourcesSummaryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func getResourcesSummary(input: GetResourcesSummaryInput) async throws -> GetResourcesSummaryOutput
+    /// Performs the `GetService` operation on the `AwsProton20200720` service.
+    ///
     /// Get detailed data for a service.
-    func getService(input: GetServiceInput) async throws -> GetServiceOutputResponse
+    ///
+    /// - Parameter GetServiceInput : [no documentation found]
+    ///
+    /// - Returns: `GetServiceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func getService(input: GetServiceInput) async throws -> GetServiceOutput
+    /// Performs the `GetServiceInstance` operation on the `AwsProton20200720` service.
+    ///
     /// Get detailed data for a service instance. A service instance is an instantiation of service template and it runs in a specific environment.
-    func getServiceInstance(input: GetServiceInstanceInput) async throws -> GetServiceInstanceOutputResponse
+    ///
+    /// - Parameter GetServiceInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `GetServiceInstanceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func getServiceInstance(input: GetServiceInstanceInput) async throws -> GetServiceInstanceOutput
+    /// Performs the `GetServiceInstanceSyncStatus` operation on the `AwsProton20200720` service.
+    ///
     /// Get the status of the synced service instance.
-    func getServiceInstanceSyncStatus(input: GetServiceInstanceSyncStatusInput) async throws -> GetServiceInstanceSyncStatusOutputResponse
+    ///
+    /// - Parameter GetServiceInstanceSyncStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetServiceInstanceSyncStatusOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func getServiceInstanceSyncStatus(input: GetServiceInstanceSyncStatusInput) async throws -> GetServiceInstanceSyncStatusOutput
+    /// Performs the `GetServiceSyncBlockerSummary` operation on the `AwsProton20200720` service.
+    ///
     /// Get detailed data for the service sync blocker summary.
-    func getServiceSyncBlockerSummary(input: GetServiceSyncBlockerSummaryInput) async throws -> GetServiceSyncBlockerSummaryOutputResponse
+    ///
+    /// - Parameter GetServiceSyncBlockerSummaryInput : [no documentation found]
+    ///
+    /// - Returns: `GetServiceSyncBlockerSummaryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func getServiceSyncBlockerSummary(input: GetServiceSyncBlockerSummaryInput) async throws -> GetServiceSyncBlockerSummaryOutput
+    /// Performs the `GetServiceSyncConfig` operation on the `AwsProton20200720` service.
+    ///
     /// Get detailed information for the service sync configuration.
-    func getServiceSyncConfig(input: GetServiceSyncConfigInput) async throws -> GetServiceSyncConfigOutputResponse
+    ///
+    /// - Parameter GetServiceSyncConfigInput : [no documentation found]
+    ///
+    /// - Returns: `GetServiceSyncConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func getServiceSyncConfig(input: GetServiceSyncConfigInput) async throws -> GetServiceSyncConfigOutput
+    /// Performs the `GetServiceTemplate` operation on the `AwsProton20200720` service.
+    ///
     /// Get detailed data for a service template.
-    func getServiceTemplate(input: GetServiceTemplateInput) async throws -> GetServiceTemplateOutputResponse
+    ///
+    /// - Parameter GetServiceTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetServiceTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func getServiceTemplate(input: GetServiceTemplateInput) async throws -> GetServiceTemplateOutput
+    /// Performs the `GetServiceTemplateVersion` operation on the `AwsProton20200720` service.
+    ///
     /// Get detailed data for a major or minor version of a service template.
-    func getServiceTemplateVersion(input: GetServiceTemplateVersionInput) async throws -> GetServiceTemplateVersionOutputResponse
+    ///
+    /// - Parameter GetServiceTemplateVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetServiceTemplateVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func getServiceTemplateVersion(input: GetServiceTemplateVersionInput) async throws -> GetServiceTemplateVersionOutput
+    /// Performs the `GetTemplateSyncConfig` operation on the `AwsProton20200720` service.
+    ///
     /// Get detail data for a template sync configuration.
-    func getTemplateSyncConfig(input: GetTemplateSyncConfigInput) async throws -> GetTemplateSyncConfigOutputResponse
+    ///
+    /// - Parameter GetTemplateSyncConfigInput : [no documentation found]
+    ///
+    /// - Returns: `GetTemplateSyncConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func getTemplateSyncConfig(input: GetTemplateSyncConfigInput) async throws -> GetTemplateSyncConfigOutput
+    /// Performs the `GetTemplateSyncStatus` operation on the `AwsProton20200720` service.
+    ///
     /// Get the status of a template sync.
-    func getTemplateSyncStatus(input: GetTemplateSyncStatusInput) async throws -> GetTemplateSyncStatusOutputResponse
+    ///
+    /// - Parameter GetTemplateSyncStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetTemplateSyncStatusOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func getTemplateSyncStatus(input: GetTemplateSyncStatusInput) async throws -> GetTemplateSyncStatusOutput
+    /// Performs the `ListComponentOutputs` operation on the `AwsProton20200720` service.
+    ///
     /// Get a list of component Infrastructure as Code (IaC) outputs. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
-    func listComponentOutputs(input: ListComponentOutputsInput) async throws -> ListComponentOutputsOutputResponse
+    ///
+    /// - Parameter ListComponentOutputsInput : [no documentation found]
+    ///
+    /// - Returns: `ListComponentOutputsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func listComponentOutputs(input: ListComponentOutputsInput) async throws -> ListComponentOutputsOutput
+    /// Performs the `ListComponentProvisionedResources` operation on the `AwsProton20200720` service.
+    ///
     /// List provisioned resources for a component with details. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
-    func listComponentProvisionedResources(input: ListComponentProvisionedResourcesInput) async throws -> ListComponentProvisionedResourcesOutputResponse
+    ///
+    /// - Parameter ListComponentProvisionedResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListComponentProvisionedResourcesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func listComponentProvisionedResources(input: ListComponentProvisionedResourcesInput) async throws -> ListComponentProvisionedResourcesOutput
+    /// Performs the `ListComponents` operation on the `AwsProton20200720` service.
+    ///
     /// List components with summary data. You can filter the result list by environment, service, or a single service instance. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
-    func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutputResponse
+    ///
+    /// - Parameter ListComponentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListComponentsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput
+    /// Performs the `ListDeployments` operation on the `AwsProton20200720` service.
+    ///
     /// List deployments. You can filter the result list by environment, service, or a single service instance.
-    func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutputResponse
+    ///
+    /// - Parameter ListDeploymentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDeploymentsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutput
+    /// Performs the `ListEnvironmentAccountConnections` operation on the `AwsProton20200720` service.
+    ///
     /// View a list of environment account connections. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
-    func listEnvironmentAccountConnections(input: ListEnvironmentAccountConnectionsInput) async throws -> ListEnvironmentAccountConnectionsOutputResponse
+    ///
+    /// - Parameter ListEnvironmentAccountConnectionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEnvironmentAccountConnectionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func listEnvironmentAccountConnections(input: ListEnvironmentAccountConnectionsInput) async throws -> ListEnvironmentAccountConnectionsOutput
+    /// Performs the `ListEnvironmentOutputs` operation on the `AwsProton20200720` service.
+    ///
     /// List the infrastructure as code outputs for your environment.
-    func listEnvironmentOutputs(input: ListEnvironmentOutputsInput) async throws -> ListEnvironmentOutputsOutputResponse
+    ///
+    /// - Parameter ListEnvironmentOutputsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEnvironmentOutputsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func listEnvironmentOutputs(input: ListEnvironmentOutputsInput) async throws -> ListEnvironmentOutputsOutput
+    /// Performs the `ListEnvironmentProvisionedResources` operation on the `AwsProton20200720` service.
+    ///
     /// List the provisioned resources for your environment.
-    func listEnvironmentProvisionedResources(input: ListEnvironmentProvisionedResourcesInput) async throws -> ListEnvironmentProvisionedResourcesOutputResponse
+    ///
+    /// - Parameter ListEnvironmentProvisionedResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListEnvironmentProvisionedResourcesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func listEnvironmentProvisionedResources(input: ListEnvironmentProvisionedResourcesInput) async throws -> ListEnvironmentProvisionedResourcesOutput
+    /// Performs the `ListEnvironments` operation on the `AwsProton20200720` service.
+    ///
     /// List environments with detail data summaries.
-    func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutputResponse
+    ///
+    /// - Parameter ListEnvironmentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEnvironmentsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutput
+    /// Performs the `ListEnvironmentTemplates` operation on the `AwsProton20200720` service.
+    ///
     /// List environment templates.
-    func listEnvironmentTemplates(input: ListEnvironmentTemplatesInput) async throws -> ListEnvironmentTemplatesOutputResponse
+    ///
+    /// - Parameter ListEnvironmentTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListEnvironmentTemplatesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func listEnvironmentTemplates(input: ListEnvironmentTemplatesInput) async throws -> ListEnvironmentTemplatesOutput
+    /// Performs the `ListEnvironmentTemplateVersions` operation on the `AwsProton20200720` service.
+    ///
     /// List major or minor versions of an environment template with detail data.
-    func listEnvironmentTemplateVersions(input: ListEnvironmentTemplateVersionsInput) async throws -> ListEnvironmentTemplateVersionsOutputResponse
+    ///
+    /// - Parameter ListEnvironmentTemplateVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEnvironmentTemplateVersionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func listEnvironmentTemplateVersions(input: ListEnvironmentTemplateVersionsInput) async throws -> ListEnvironmentTemplateVersionsOutput
+    /// Performs the `ListRepositories` operation on the `AwsProton20200720` service.
+    ///
     /// List linked repositories with detail data.
-    func listRepositories(input: ListRepositoriesInput) async throws -> ListRepositoriesOutputResponse
+    ///
+    /// - Parameter ListRepositoriesInput : [no documentation found]
+    ///
+    /// - Returns: `ListRepositoriesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func listRepositories(input: ListRepositoriesInput) async throws -> ListRepositoriesOutput
+    /// Performs the `ListRepositorySyncDefinitions` operation on the `AwsProton20200720` service.
+    ///
     /// List repository sync definitions with detail data.
-    func listRepositorySyncDefinitions(input: ListRepositorySyncDefinitionsInput) async throws -> ListRepositorySyncDefinitionsOutputResponse
+    ///
+    /// - Parameter ListRepositorySyncDefinitionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRepositorySyncDefinitionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func listRepositorySyncDefinitions(input: ListRepositorySyncDefinitionsInput) async throws -> ListRepositorySyncDefinitionsOutput
+    /// Performs the `ListServiceInstanceOutputs` operation on the `AwsProton20200720` service.
+    ///
     /// Get a list service of instance Infrastructure as Code (IaC) outputs.
-    func listServiceInstanceOutputs(input: ListServiceInstanceOutputsInput) async throws -> ListServiceInstanceOutputsOutputResponse
+    ///
+    /// - Parameter ListServiceInstanceOutputsInput : [no documentation found]
+    ///
+    /// - Returns: `ListServiceInstanceOutputsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func listServiceInstanceOutputs(input: ListServiceInstanceOutputsInput) async throws -> ListServiceInstanceOutputsOutput
+    /// Performs the `ListServiceInstanceProvisionedResources` operation on the `AwsProton20200720` service.
+    ///
     /// List provisioned resources for a service instance with details.
-    func listServiceInstanceProvisionedResources(input: ListServiceInstanceProvisionedResourcesInput) async throws -> ListServiceInstanceProvisionedResourcesOutputResponse
+    ///
+    /// - Parameter ListServiceInstanceProvisionedResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListServiceInstanceProvisionedResourcesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func listServiceInstanceProvisionedResources(input: ListServiceInstanceProvisionedResourcesInput) async throws -> ListServiceInstanceProvisionedResourcesOutput
+    /// Performs the `ListServiceInstances` operation on the `AwsProton20200720` service.
+    ///
     /// List service instances with summary data. This action lists service instances of all services in the Amazon Web Services account.
-    func listServiceInstances(input: ListServiceInstancesInput) async throws -> ListServiceInstancesOutputResponse
+    ///
+    /// - Parameter ListServiceInstancesInput : [no documentation found]
+    ///
+    /// - Returns: `ListServiceInstancesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func listServiceInstances(input: ListServiceInstancesInput) async throws -> ListServiceInstancesOutput
+    /// Performs the `ListServicePipelineOutputs` operation on the `AwsProton20200720` service.
+    ///
     /// Get a list of service pipeline Infrastructure as Code (IaC) outputs.
-    func listServicePipelineOutputs(input: ListServicePipelineOutputsInput) async throws -> ListServicePipelineOutputsOutputResponse
+    ///
+    /// - Parameter ListServicePipelineOutputsInput : [no documentation found]
+    ///
+    /// - Returns: `ListServicePipelineOutputsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func listServicePipelineOutputs(input: ListServicePipelineOutputsInput) async throws -> ListServicePipelineOutputsOutput
+    /// Performs the `ListServicePipelineProvisionedResources` operation on the `AwsProton20200720` service.
+    ///
     /// List provisioned resources for a service and pipeline with details.
-    func listServicePipelineProvisionedResources(input: ListServicePipelineProvisionedResourcesInput) async throws -> ListServicePipelineProvisionedResourcesOutputResponse
+    ///
+    /// - Parameter ListServicePipelineProvisionedResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListServicePipelineProvisionedResourcesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func listServicePipelineProvisionedResources(input: ListServicePipelineProvisionedResourcesInput) async throws -> ListServicePipelineProvisionedResourcesOutput
+    /// Performs the `ListServices` operation on the `AwsProton20200720` service.
+    ///
     /// List services with summaries of detail data.
-    func listServices(input: ListServicesInput) async throws -> ListServicesOutputResponse
+    ///
+    /// - Parameter ListServicesInput : [no documentation found]
+    ///
+    /// - Returns: `ListServicesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func listServices(input: ListServicesInput) async throws -> ListServicesOutput
+    /// Performs the `ListServiceTemplates` operation on the `AwsProton20200720` service.
+    ///
     /// List service templates with detail data.
-    func listServiceTemplates(input: ListServiceTemplatesInput) async throws -> ListServiceTemplatesOutputResponse
+    ///
+    /// - Parameter ListServiceTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListServiceTemplatesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func listServiceTemplates(input: ListServiceTemplatesInput) async throws -> ListServiceTemplatesOutput
+    /// Performs the `ListServiceTemplateVersions` operation on the `AwsProton20200720` service.
+    ///
     /// List major or minor versions of a service template with detail data.
-    func listServiceTemplateVersions(input: ListServiceTemplateVersionsInput) async throws -> ListServiceTemplateVersionsOutputResponse
+    ///
+    /// - Parameter ListServiceTemplateVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListServiceTemplateVersionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func listServiceTemplateVersions(input: ListServiceTemplateVersionsInput) async throws -> ListServiceTemplateVersionsOutput
+    /// Performs the `ListTagsForResource` operation on the `AwsProton20200720` service.
+    ///
     /// List tags for a resource. For more information, see [Proton resources and tagging](https://docs.aws.amazon.com/proton/latest/userguide/resources.html) in the Proton User Guide.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `NotifyResourceDeploymentStatusChange` operation on the `AwsProton20200720` service.
+    ///
     /// Notify Proton of status changes to a provisioned resource when you use self-managed provisioning. For more information, see [Self-managed provisioning](https://docs.aws.amazon.com/proton/latest/userguide/ag-works-prov-methods.html#ag-works-prov-methods-self) in the Proton User Guide.
-    func notifyResourceDeploymentStatusChange(input: NotifyResourceDeploymentStatusChangeInput) async throws -> NotifyResourceDeploymentStatusChangeOutputResponse
+    ///
+    /// - Parameter NotifyResourceDeploymentStatusChangeInput : [no documentation found]
+    ///
+    /// - Returns: `NotifyResourceDeploymentStatusChangeOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func notifyResourceDeploymentStatusChange(input: NotifyResourceDeploymentStatusChangeInput) async throws -> NotifyResourceDeploymentStatusChangeOutput
+    /// Performs the `RejectEnvironmentAccountConnection` operation on the `AwsProton20200720` service.
+    ///
     /// In a management account, reject an environment account connection from another environment account. After you reject an environment account connection request, you can't accept or use the rejected environment account connection. You can’t reject an environment account connection that's connected to an environment. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
-    func rejectEnvironmentAccountConnection(input: RejectEnvironmentAccountConnectionInput) async throws -> RejectEnvironmentAccountConnectionOutputResponse
+    ///
+    /// - Parameter RejectEnvironmentAccountConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `RejectEnvironmentAccountConnectionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func rejectEnvironmentAccountConnection(input: RejectEnvironmentAccountConnectionInput) async throws -> RejectEnvironmentAccountConnectionOutput
+    /// Performs the `TagResource` operation on the `AwsProton20200720` service.
+    ///
     /// Tag a resource. A tag is a key-value pair of metadata that you associate with an Proton resource. For more information, see [Proton resources and tagging](https://docs.aws.amazon.com/proton/latest/userguide/resources.html) in the Proton User Guide.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `AwsProton20200720` service.
+    ///
     /// Remove a customer tag from a resource. A tag is a key-value pair of metadata associated with an Proton resource. For more information, see [Proton resources and tagging](https://docs.aws.amazon.com/proton/latest/userguide/resources.html) in the Proton User Guide.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateAccountSettings` operation on the `AwsProton20200720` service.
+    ///
     /// Update Proton settings that are used for multiple services in the Amazon Web Services account.
-    func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutputResponse
+    ///
+    /// - Parameter UpdateAccountSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAccountSettingsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutput
+    /// Performs the `UpdateComponent` operation on the `AwsProton20200720` service.
+    ///
     /// Update a component. There are a few modes for updating a component. The deploymentType field defines the mode. You can't update a component while its deployment status, or the deployment status of a service instance attached to it, is IN_PROGRESS. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
-    func updateComponent(input: UpdateComponentInput) async throws -> UpdateComponentOutputResponse
+    ///
+    /// - Parameter UpdateComponentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateComponentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func updateComponent(input: UpdateComponentInput) async throws -> UpdateComponentOutput
+    /// Performs the `UpdateEnvironment` operation on the `AwsProton20200720` service.
+    ///
     /// Update an environment. If the environment is associated with an environment account connection, don't update or include the protonServiceRoleArn and provisioningRepository parameter to update or connect to an environment account connection. You can only update to a new environment account connection if that connection was created in the same environment account that the current environment account connection was created in. The account connection must also be associated with the current environment. If the environment isn't associated with an environment account connection, don't update or include the environmentAccountConnectionId parameter. You can't update or connect the environment to an environment account connection if it isn't already associated with an environment connection. You can update either the environmentAccountConnectionId or protonServiceRoleArn parameter and value. You can’t update both. If the environment was configured for Amazon Web Services-managed provisioning, omit the provisioningRepository parameter. If the environment was configured for self-managed provisioning, specify the provisioningRepository parameter and omit the protonServiceRoleArn and environmentAccountConnectionId parameters. For more information, see [Environments](https://docs.aws.amazon.com/proton/latest/userguide/ag-environments.html) and [Provisioning methods](https://docs.aws.amazon.com/proton/latest/userguide/ag-works-prov-methods.html) in the Proton User Guide. There are four modes for updating an environment. The deploymentType field defines the mode. NONE In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated. CURRENT_VERSION In this mode, the environment is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include minor or major version parameters when you use this deployment-type. MINOR_VERSION In this mode, the environment is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use. MAJOR_VERSION In this mode, the environment is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can also specify a different major version that's higher than the major version in use and a minor version.
-    func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutputResponse
+    ///
+    /// - Parameter UpdateEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEnvironmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput
+    /// Performs the `UpdateEnvironmentAccountConnection` operation on the `AwsProton20200720` service.
+    ///
     /// In an environment account, update an environment account connection to use a new IAM role. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
-    func updateEnvironmentAccountConnection(input: UpdateEnvironmentAccountConnectionInput) async throws -> UpdateEnvironmentAccountConnectionOutputResponse
+    ///
+    /// - Parameter UpdateEnvironmentAccountConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEnvironmentAccountConnectionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func updateEnvironmentAccountConnection(input: UpdateEnvironmentAccountConnectionInput) async throws -> UpdateEnvironmentAccountConnectionOutput
+    /// Performs the `UpdateEnvironmentTemplate` operation on the `AwsProton20200720` service.
+    ///
     /// Update an environment template.
-    func updateEnvironmentTemplate(input: UpdateEnvironmentTemplateInput) async throws -> UpdateEnvironmentTemplateOutputResponse
+    ///
+    /// - Parameter UpdateEnvironmentTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEnvironmentTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func updateEnvironmentTemplate(input: UpdateEnvironmentTemplateInput) async throws -> UpdateEnvironmentTemplateOutput
+    /// Performs the `UpdateEnvironmentTemplateVersion` operation on the `AwsProton20200720` service.
+    ///
     /// Update a major or minor version of an environment template.
-    func updateEnvironmentTemplateVersion(input: UpdateEnvironmentTemplateVersionInput) async throws -> UpdateEnvironmentTemplateVersionOutputResponse
+    ///
+    /// - Parameter UpdateEnvironmentTemplateVersionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEnvironmentTemplateVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func updateEnvironmentTemplateVersion(input: UpdateEnvironmentTemplateVersionInput) async throws -> UpdateEnvironmentTemplateVersionOutput
+    /// Performs the `UpdateService` operation on the `AwsProton20200720` service.
+    ///
     /// Edit a service description or use a spec to add and delete service instances. Existing service instances and the service pipeline can't be edited using this API. They can only be deleted. Use the description parameter to modify the description. Edit the spec parameter to add or delete instances. You can't delete a service instance (remove it from the spec) if it has an attached component. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
-    func updateService(input: UpdateServiceInput) async throws -> UpdateServiceOutputResponse
+    ///
+    /// - Parameter UpdateServiceInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateServiceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func updateService(input: UpdateServiceInput) async throws -> UpdateServiceOutput
+    /// Performs the `UpdateServiceInstance` operation on the `AwsProton20200720` service.
+    ///
     /// Update a service instance. There are a few modes for updating a service instance. The deploymentType field defines the mode. You can't update a service instance while its deployment status, or the deployment status of a component attached to it, is IN_PROGRESS. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
-    func updateServiceInstance(input: UpdateServiceInstanceInput) async throws -> UpdateServiceInstanceOutputResponse
+    ///
+    /// - Parameter UpdateServiceInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateServiceInstanceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func updateServiceInstance(input: UpdateServiceInstanceInput) async throws -> UpdateServiceInstanceOutput
+    /// Performs the `UpdateServicePipeline` operation on the `AwsProton20200720` service.
+    ///
     /// Update the service pipeline. There are four modes for updating a service pipeline. The deploymentType field defines the mode. NONE In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated. CURRENT_VERSION In this mode, the service pipeline is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include major or minor version parameters when you use this deployment-type. MINOR_VERSION In this mode, the service pipeline is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can specify a different minor version of the current major version in use. MAJOR_VERSION In this mode, the service pipeline is deployed and updated with the published, recommended (latest) major and minor version of the current template by default. You can specify a different major version that's higher than the major version in use and a minor version.
-    func updateServicePipeline(input: UpdateServicePipelineInput) async throws -> UpdateServicePipelineOutputResponse
+    ///
+    /// - Parameter UpdateServicePipelineInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateServicePipelineOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func updateServicePipeline(input: UpdateServicePipelineInput) async throws -> UpdateServicePipelineOutput
+    /// Performs the `UpdateServiceSyncBlocker` operation on the `AwsProton20200720` service.
+    ///
     /// Update the service sync blocker by resolving it.
-    func updateServiceSyncBlocker(input: UpdateServiceSyncBlockerInput) async throws -> UpdateServiceSyncBlockerOutputResponse
+    ///
+    /// - Parameter UpdateServiceSyncBlockerInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateServiceSyncBlockerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func updateServiceSyncBlocker(input: UpdateServiceSyncBlockerInput) async throws -> UpdateServiceSyncBlockerOutput
+    /// Performs the `UpdateServiceSyncConfig` operation on the `AwsProton20200720` service.
+    ///
     /// Update the Proton Ops config file.
-    func updateServiceSyncConfig(input: UpdateServiceSyncConfigInput) async throws -> UpdateServiceSyncConfigOutputResponse
+    ///
+    /// - Parameter UpdateServiceSyncConfigInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateServiceSyncConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func updateServiceSyncConfig(input: UpdateServiceSyncConfigInput) async throws -> UpdateServiceSyncConfigOutput
+    /// Performs the `UpdateServiceTemplate` operation on the `AwsProton20200720` service.
+    ///
     /// Update a service template.
-    func updateServiceTemplate(input: UpdateServiceTemplateInput) async throws -> UpdateServiceTemplateOutputResponse
+    ///
+    /// - Parameter UpdateServiceTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateServiceTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func updateServiceTemplate(input: UpdateServiceTemplateInput) async throws -> UpdateServiceTemplateOutput
+    /// Performs the `UpdateServiceTemplateVersion` operation on the `AwsProton20200720` service.
+    ///
     /// Update a major or minor version of a service template.
-    func updateServiceTemplateVersion(input: UpdateServiceTemplateVersionInput) async throws -> UpdateServiceTemplateVersionOutputResponse
+    ///
+    /// - Parameter UpdateServiceTemplateVersionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateServiceTemplateVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func updateServiceTemplateVersion(input: UpdateServiceTemplateVersionInput) async throws -> UpdateServiceTemplateVersionOutput
+    /// Performs the `UpdateTemplateSyncConfig` operation on the `AwsProton20200720` service.
+    ///
     /// Update template sync configuration parameters, except for the templateName and templateType. Repository details (branch, name, and provider) should be of a linked repository. A linked repository is a repository that has been registered with Proton. For more information, see [CreateRepository].
-    func updateTemplateSyncConfig(input: UpdateTemplateSyncConfigInput) async throws -> UpdateTemplateSyncConfigOutputResponse
+    ///
+    /// - Parameter UpdateTemplateSyncConfigInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTemplateSyncConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : There isn't sufficient access for performing this action.
+    /// - `ConflictException` : The request couldn't be made due to a conflicting operation or resource.
+    /// - `InternalServerException` : The request failed to register with the service.
+    /// - `ResourceNotFoundException` : The requested resource wasn't found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
+    func updateTemplateSyncConfig(input: UpdateTemplateSyncConfigInput) async throws -> UpdateTemplateSyncConfigOutput
 }
 
 public enum ProtonClientTypes {}

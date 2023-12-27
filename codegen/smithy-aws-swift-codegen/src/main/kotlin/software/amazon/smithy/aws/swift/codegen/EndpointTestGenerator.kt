@@ -8,7 +8,13 @@ package software.amazon.smithy.aws.swift.codegen
 import software.amazon.smithy.codegen.core.CodegenException
 import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.rulesengine.language.EndpointRuleSet
-import software.amazon.smithy.rulesengine.language.eval.Value
+import software.amazon.smithy.rulesengine.language.evaluation.value.ArrayValue
+import software.amazon.smithy.rulesengine.language.evaluation.value.BooleanValue
+import software.amazon.smithy.rulesengine.language.evaluation.value.EmptyValue
+import software.amazon.smithy.rulesengine.language.evaluation.value.IntegerValue
+import software.amazon.smithy.rulesengine.language.evaluation.value.RecordValue
+import software.amazon.smithy.rulesengine.language.evaluation.value.StringValue
+import software.amazon.smithy.rulesengine.language.evaluation.value.Value
 import software.amazon.smithy.rulesengine.traits.EndpointTestsTrait
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
@@ -136,23 +142,23 @@ class EndpointTestGenerator(
      */
     private fun generateValue(writer: SwiftWriter, value: Value, delimeter: String) {
         when (value) {
-            is Value.String -> {
-                writer.write("\$S$delimeter", value.value())
+            is StringValue -> {
+                writer.write("\$S$delimeter", value.toString())
             }
 
-            is Value.Integer -> {
+            is IntegerValue -> {
                 writer.write("\$L$delimeter", value.toString())
             }
 
-            is Value.Bool -> {
+            is BooleanValue -> {
                 writer.write("\$L$delimeter", value.toString())
             }
 
-            is Value.None -> {
+            is EmptyValue -> {
                 writer.write("nil$delimeter")
             }
 
-            is Value.Array -> {
+            is ArrayValue -> {
                 writer.openBlock("[", "] as [AnyHashable]$delimeter") {
                     value.values.forEachIndexed { idx, item ->
                         writer.call {
@@ -162,7 +168,7 @@ class EndpointTestGenerator(
                 }
             }
 
-            is Value.Record -> {
+            is RecordValue -> {
                 if (value.value.isEmpty()) {
                     writer.writeInline("[:]")
                 } else {

@@ -4,10 +4,41 @@ import ClientRuntime
 
 /// Amazon Lex provides both build and runtime endpoints. Each endpoint provides a set of operations (API). Your conversational bot uses the runtime API to understand user utterances (user input text or voice). For example, suppose a user says "I want pizza", your bot sends this input to Amazon Lex using the runtime API. Amazon Lex recognizes that the user request is for the OrderPizza intent (one of the intents defined in the bot). Then Amazon Lex engages in user conversation on behalf of the bot to elicit required information (slot values, such as pizza size and crust type), and then performs fulfillment activity (that you configured when you created the bot). You use the build-time API to create and manage your Amazon Lex bot. For a list of build-time operations, see the build-time API, .
 public protocol LexRuntimeClientProtocol {
+    /// Performs the `DeleteSession` operation on the `AWSDeepSenseRunTimeService` service.
+    ///
     /// Removes session information for a specified bot, alias, and user ID.
-    func deleteSession(input: DeleteSessionInput) async throws -> DeleteSessionOutputResponse
+    ///
+    /// - Parameter DeleteSessionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSessionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Request validation failed, there is no usable message in the context, or the bot build failed, is still in progress, or contains unbuilt changes.
+    /// - `ConflictException` : Two clients are using the same AWS account, Amazon Lex bot, and user ID.
+    /// - `InternalFailureException` : Internal service error. Retry the call.
+    /// - `LimitExceededException` : Exceeded a limit.
+    /// - `NotFoundException` : The resource (such as the Amazon Lex bot or an alias) that is referred to is not found.
+    func deleteSession(input: DeleteSessionInput) async throws -> DeleteSessionOutput
+    /// Performs the `GetSession` operation on the `AWSDeepSenseRunTimeService` service.
+    ///
     /// Returns session information for a specified bot, alias, and user ID.
-    func getSession(input: GetSessionInput) async throws -> GetSessionOutputResponse
+    ///
+    /// - Parameter GetSessionInput : [no documentation found]
+    ///
+    /// - Returns: `GetSessionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Request validation failed, there is no usable message in the context, or the bot build failed, is still in progress, or contains unbuilt changes.
+    /// - `InternalFailureException` : Internal service error. Retry the call.
+    /// - `LimitExceededException` : Exceeded a limit.
+    /// - `NotFoundException` : The resource (such as the Amazon Lex bot or an alias) that is referred to is not found.
+    func getSession(input: GetSessionInput) async throws -> GetSessionOutput
+    /// Performs the `PostContent` operation on the `AWSDeepSenseRunTimeService` service.
+    ///
     /// Sends user input (text or speech) to Amazon Lex. Clients use this API to send text and audio requests to Amazon Lex at runtime. Amazon Lex interprets the user input using the machine learning model that it built for the bot. The PostContent operation supports audio input at 8kHz and 16kHz. You can use 8kHz audio to achieve higher speech recognition accuracy in telephone audio applications. In response, Amazon Lex returns the next message to convey to the user. Consider the following example messages:
     ///
     /// * For a user input "I would like a pizza," Amazon Lex might return a response with a message eliciting slot data (for example, PizzaSize): "What size pizza would you like?".
@@ -38,7 +69,34 @@ public protocol LexRuntimeClientProtocol {
     ///
     ///
     /// In addition, Amazon Lex also returns your application-specific sessionAttributes. For more information, see [Managing Conversation Context](https://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html).
-    func postContent(input: PostContentInput) async throws -> PostContentOutputResponse
+    ///
+    /// - Parameter PostContentInput : [no documentation found]
+    ///
+    /// - Returns: `PostContentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Either the Amazon Lex bot is still building, or one of the dependent services (Amazon Polly, AWS Lambda) failed with an internal service error.
+    /// - `BadRequestException` : Request validation failed, there is no usable message in the context, or the bot build failed, is still in progress, or contains unbuilt changes.
+    /// - `ConflictException` : Two clients are using the same AWS account, Amazon Lex bot, and user ID.
+    /// - `DependencyFailedException` : One of the dependencies, such as AWS Lambda or Amazon Polly, threw an exception. For example,
+    ///
+    /// * If Amazon Lex does not have sufficient permissions to call a Lambda function.
+    ///
+    /// * If a Lambda function takes longer than 30 seconds to execute.
+    ///
+    /// * If a fulfillment Lambda function returns a Delegate dialog action without removing any slot values.
+    /// - `InternalFailureException` : Internal service error. Retry the call.
+    /// - `LimitExceededException` : Exceeded a limit.
+    /// - `LoopDetectedException` : This exception is not used.
+    /// - `NotAcceptableException` : The accept header in the request does not have a valid value.
+    /// - `NotFoundException` : The resource (such as the Amazon Lex bot or an alias) that is referred to is not found.
+    /// - `RequestTimeoutException` : The input speech is too long.
+    /// - `UnsupportedMediaTypeException` : The Content-Type header (PostContent API) has an invalid value.
+    func postContent(input: PostContentInput) async throws -> PostContentOutput
+    /// Performs the `PostText` operation on the `AWSDeepSenseRunTimeService` service.
+    ///
     /// Sends user input to Amazon Lex. Client applications can use this API to send requests to Amazon Lex at runtime. Amazon Lex then interprets the user input using the machine learning model it built for the bot. In response, Amazon Lex returns the next message to convey to the user an optional responseCard to display. Consider the following example messages:
     ///
     /// * For a user input "I would like a pizza", Amazon Lex might return a response with a message eliciting slot data (for example, PizzaSize): "What size pizza would you like?"
@@ -69,9 +127,55 @@ public protocol LexRuntimeClientProtocol {
     ///
     ///
     /// In addition, Amazon Lex also returns your application-specific sessionAttributes. For more information, see [Managing Conversation Context](https://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html).
-    func postText(input: PostTextInput) async throws -> PostTextOutputResponse
+    ///
+    /// - Parameter PostTextInput : [no documentation found]
+    ///
+    /// - Returns: `PostTextOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Either the Amazon Lex bot is still building, or one of the dependent services (Amazon Polly, AWS Lambda) failed with an internal service error.
+    /// - `BadRequestException` : Request validation failed, there is no usable message in the context, or the bot build failed, is still in progress, or contains unbuilt changes.
+    /// - `ConflictException` : Two clients are using the same AWS account, Amazon Lex bot, and user ID.
+    /// - `DependencyFailedException` : One of the dependencies, such as AWS Lambda or Amazon Polly, threw an exception. For example,
+    ///
+    /// * If Amazon Lex does not have sufficient permissions to call a Lambda function.
+    ///
+    /// * If a Lambda function takes longer than 30 seconds to execute.
+    ///
+    /// * If a fulfillment Lambda function returns a Delegate dialog action without removing any slot values.
+    /// - `InternalFailureException` : Internal service error. Retry the call.
+    /// - `LimitExceededException` : Exceeded a limit.
+    /// - `LoopDetectedException` : This exception is not used.
+    /// - `NotFoundException` : The resource (such as the Amazon Lex bot or an alias) that is referred to is not found.
+    func postText(input: PostTextInput) async throws -> PostTextOutput
+    /// Performs the `PutSession` operation on the `AWSDeepSenseRunTimeService` service.
+    ///
     /// Creates a new session or modifies an existing session with an Amazon Lex bot. Use this operation to enable your application to set the state of the bot. For more information, see [Managing Sessions](https://docs.aws.amazon.com/lex/latest/dg/how-session-api.html).
-    func putSession(input: PutSessionInput) async throws -> PutSessionOutputResponse
+    ///
+    /// - Parameter PutSessionInput : [no documentation found]
+    ///
+    /// - Returns: `PutSessionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Either the Amazon Lex bot is still building, or one of the dependent services (Amazon Polly, AWS Lambda) failed with an internal service error.
+    /// - `BadRequestException` : Request validation failed, there is no usable message in the context, or the bot build failed, is still in progress, or contains unbuilt changes.
+    /// - `ConflictException` : Two clients are using the same AWS account, Amazon Lex bot, and user ID.
+    /// - `DependencyFailedException` : One of the dependencies, such as AWS Lambda or Amazon Polly, threw an exception. For example,
+    ///
+    /// * If Amazon Lex does not have sufficient permissions to call a Lambda function.
+    ///
+    /// * If a Lambda function takes longer than 30 seconds to execute.
+    ///
+    /// * If a fulfillment Lambda function returns a Delegate dialog action without removing any slot values.
+    /// - `InternalFailureException` : Internal service error. Retry the call.
+    /// - `LimitExceededException` : Exceeded a limit.
+    /// - `NotAcceptableException` : The accept header in the request does not have a valid value.
+    /// - `NotFoundException` : The resource (such as the Amazon Lex bot or an alias) that is referred to is not found.
+    func putSession(input: PutSessionInput) async throws -> PutSessionOutput
 }
 
 public enum LexRuntimeClientTypes {}

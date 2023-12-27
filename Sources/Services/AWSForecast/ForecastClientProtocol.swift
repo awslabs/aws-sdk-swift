@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Provides APIs for creating and managing Amazon Forecast resources.
 public protocol ForecastClientProtocol {
+    /// Performs the `CreateAutoPredictor` operation on the `AmazonForecast` service.
+    ///
     /// Creates an Amazon Forecast predictor. Amazon Forecast creates predictors with AutoPredictor, which involves applying the optimal combination of algorithms to each time series in your datasets. You can use [CreateAutoPredictor] to create new predictors or upgrade/retrain existing predictors. Creating new predictors The following parameters are required when creating a new predictor:
     ///
     /// * PredictorName - A unique name for the predictor.
@@ -23,7 +25,22 @@ public protocol ForecastClientProtocol {
     ///
     ///
     /// When upgrading or retraining a predictor, only specify values for the ReferencePredictorArn and PredictorName.
-    func createAutoPredictor(input: CreateAutoPredictorInput) async throws -> CreateAutoPredictorOutputResponse
+    ///
+    /// - Parameter CreateAutoPredictorInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAutoPredictorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `LimitExceededException` : The limit on the number of resources per account has been exceeded.
+    /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func createAutoPredictor(input: CreateAutoPredictorInput) async throws -> CreateAutoPredictorOutput
+    /// Performs the `CreateDataset` operation on the `AmazonForecast` service.
+    ///
     /// Creates an Amazon Forecast dataset. The information about the dataset that you provide helps Forecast understand how to consume the data for model training. This includes the following:
     ///
     /// * DataFrequency - How frequently your historical time-series data is collected.
@@ -34,11 +51,54 @@ public protocol ForecastClientProtocol {
     ///
     ///
     /// After creating a dataset, you import your training data into it and add the dataset to a dataset group. You use the dataset group to create a predictor. For more information, see [Importing datasets](https://docs.aws.amazon.com/forecast/latest/dg/howitworks-datasets-groups.html). To get a list of all your datasets, use the [ListDatasets](https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasets.html) operation. For example Forecast datasets, see the [Amazon Forecast Sample GitHub repository](https://github.com/aws-samples/amazon-forecast-samples). The Status of a dataset must be ACTIVE before you can import training data. Use the [DescribeDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDataset.html) operation to get the status.
-    func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutputResponse
+    ///
+    /// - Parameter CreateDatasetInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDatasetOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `LimitExceededException` : The limit on the number of resources per account has been exceeded.
+    /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
+    func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput
+    /// Performs the `CreateDatasetGroup` operation on the `AmazonForecast` service.
+    ///
     /// Creates a dataset group, which holds a collection of related datasets. You can add datasets to the dataset group when you create the dataset group, or later by using the [UpdateDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_UpdateDatasetGroup.html) operation. After creating a dataset group and adding datasets, you use the dataset group when you create a predictor. For more information, see [Dataset groups](https://docs.aws.amazon.com/forecast/latest/dg/howitworks-datasets-groups.html). To get a list of all your datasets groups, use the [ListDatasetGroups](https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasetGroups.html) operation. The Status of a dataset group must be ACTIVE before you can use the dataset group to create a predictor. To get the status, use the [DescribeDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html) operation.
-    func createDatasetGroup(input: CreateDatasetGroupInput) async throws -> CreateDatasetGroupOutputResponse
+    ///
+    /// - Parameter CreateDatasetGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDatasetGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `LimitExceededException` : The limit on the number of resources per account has been exceeded.
+    /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func createDatasetGroup(input: CreateDatasetGroupInput) async throws -> CreateDatasetGroupOutput
+    /// Performs the `CreateDatasetImportJob` operation on the `AmazonForecast` service.
+    ///
     /// Imports your training data to an Amazon Forecast dataset. You provide the location of your training data in an Amazon Simple Storage Service (Amazon S3) bucket and the Amazon Resource Name (ARN) of the dataset that you want to import the data to. You must specify a [DataSource](https://docs.aws.amazon.com/forecast/latest/dg/API_DataSource.html) object that includes an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data, as Amazon Forecast makes a copy of your data and processes it in an internal Amazon Web Services system. For more information, see [Set up permissions](https://docs.aws.amazon.com/forecast/latest/dg/aws-forecast-iam-roles.html). The training data must be in CSV or Parquet format. The delimiter must be a comma (,). You can specify the path to a specific file, the S3 bucket, or to a folder in the S3 bucket. For the latter two cases, Amazon Forecast imports all files up to the limit of 10,000 files. Because dataset imports are not aggregated, your most recent dataset import is the one that is used when training a predictor or generating a forecast. Make sure that your most recent dataset import contains all of the data you want to model off of, and not just the new data collected since the previous import. To get a list of all your dataset import jobs, filtered by specified criteria, use the [ListDatasetImportJobs](https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasetImportJobs.html) operation.
-    func createDatasetImportJob(input: CreateDatasetImportJobInput) async throws -> CreateDatasetImportJobOutputResponse
+    ///
+    /// - Parameter CreateDatasetImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDatasetImportJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `LimitExceededException` : The limit on the number of resources per account has been exceeded.
+    /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func createDatasetImportJob(input: CreateDatasetImportJobInput) async throws -> CreateDatasetImportJobOutput
+    /// Performs the `CreateExplainability` operation on the `AmazonForecast` service.
+    ///
     /// Explainability is only available for Forecasts and Predictors generated from an AutoPredictor ([CreateAutoPredictor]) Creates an Amazon Forecast Explainability. Explainability helps you better understand how the attributes in your datasets impact forecast. Amazon Forecast uses a metric called Impact scores to quantify the relative impact of each attribute and determine whether they increase or decrease forecast values. To enable Forecast Explainability, your predictor must include at least one of the following: related time series, item metadata, or additional datasets like Holidays and the Weather Index. CreateExplainability accepts either a Predictor ARN or Forecast ARN. To receive aggregated Impact scores for all time series and time points in your datasets, provide a Predictor ARN. To receive Impact scores for specific time series and time points, provide a Forecast ARN. CreateExplainability with a Predictor ARN You can only have one Explainability resource per predictor. If you already enabled ExplainPredictor in [CreateAutoPredictor], that predictor already has an Explainability resource. The following parameters are required when providing a Predictor ARN:
     ///
     /// * ExplainabilityName - A unique name for the Explainability.
@@ -84,15 +144,90 @@ public protocol ForecastClientProtocol {
     /// * StartDateTime - The first timestamp in the range of time points.
     ///
     /// * EndDateTime - The last timestamp in the range of time points.
-    func createExplainability(input: CreateExplainabilityInput) async throws -> CreateExplainabilityOutputResponse
+    ///
+    /// - Parameter CreateExplainabilityInput : [no documentation found]
+    ///
+    /// - Returns: `CreateExplainabilityOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `LimitExceededException` : The limit on the number of resources per account has been exceeded.
+    /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func createExplainability(input: CreateExplainabilityInput) async throws -> CreateExplainabilityOutput
+    /// Performs the `CreateExplainabilityExport` operation on the `AmazonForecast` service.
+    ///
     /// Exports an Explainability resource created by the [CreateExplainability] operation. Exported files are exported to an Amazon Simple Storage Service (Amazon S3) bucket. You must specify a [DataDestination] object that includes an Amazon S3 bucket and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more information, see [aws-forecast-iam-roles]. The Status of the export job must be ACTIVE before you can access the export in your Amazon S3 bucket. To get the status, use the [DescribeExplainabilityExport] operation.
-    func createExplainabilityExport(input: CreateExplainabilityExportInput) async throws -> CreateExplainabilityExportOutputResponse
+    ///
+    /// - Parameter CreateExplainabilityExportInput : [no documentation found]
+    ///
+    /// - Returns: `CreateExplainabilityExportOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `LimitExceededException` : The limit on the number of resources per account has been exceeded.
+    /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func createExplainabilityExport(input: CreateExplainabilityExportInput) async throws -> CreateExplainabilityExportOutput
+    /// Performs the `CreateForecast` operation on the `AmazonForecast` service.
+    ///
     /// Creates a forecast for each item in the TARGET_TIME_SERIES dataset that was used to train the predictor. This is known as inference. To retrieve the forecast for a single item at low latency, use the operation. To export the complete forecast into your Amazon Simple Storage Service (Amazon S3) bucket, use the [CreateForecastExportJob] operation. The range of the forecast is determined by the ForecastHorizon value, which you specify in the [CreatePredictor] request. When you query a forecast, you can request a specific date range within the forecast. To get a list of all your forecasts, use the [ListForecasts] operation. The forecasts generated by Amazon Forecast are in the same time zone as the dataset that was used to create the predictor. For more information, see [howitworks-forecast]. The Status of the forecast must be ACTIVE before you can query or export the forecast. Use the [DescribeForecast] operation to get the status. By default, a forecast includes predictions for every item (item_id) in the dataset group that was used to train the predictor. However, you can use the TimeSeriesSelector object to generate a forecast on a subset of time series. Forecast creation is skipped for any time series that you specify that are not in the input dataset. The forecast export file will not contain these time series or their forecasted values.
-    func createForecast(input: CreateForecastInput) async throws -> CreateForecastOutputResponse
+    ///
+    /// - Parameter CreateForecastInput : [no documentation found]
+    ///
+    /// - Returns: `CreateForecastOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `LimitExceededException` : The limit on the number of resources per account has been exceeded.
+    /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func createForecast(input: CreateForecastInput) async throws -> CreateForecastOutput
+    /// Performs the `CreateForecastExportJob` operation on the `AmazonForecast` service.
+    ///
     /// Exports a forecast created by the [CreateForecast] operation to your Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following conventions: __ where the component is in Java SimpleDateFormat (yyyy-MM-ddTHH-mm-ssZ). You must specify a [DataDestination] object that includes an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more information, see [aws-forecast-iam-roles]. For more information, see [howitworks-forecast]. To get a list of all your forecast export jobs, use the [ListForecastExportJobs] operation. The Status of the forecast export job must be ACTIVE before you can access the forecast in your Amazon S3 bucket. To get the status, use the [DescribeForecastExportJob] operation.
-    func createForecastExportJob(input: CreateForecastExportJobInput) async throws -> CreateForecastExportJobOutputResponse
+    ///
+    /// - Parameter CreateForecastExportJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateForecastExportJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `LimitExceededException` : The limit on the number of resources per account has been exceeded.
+    /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func createForecastExportJob(input: CreateForecastExportJobInput) async throws -> CreateForecastExportJobOutput
+    /// Performs the `CreateMonitor` operation on the `AmazonForecast` service.
+    ///
     /// Creates a predictor monitor resource for an existing auto predictor. Predictor monitoring allows you to see how your predictor's performance changes over time. For more information, see [Predictor Monitoring](https://docs.aws.amazon.com/forecast/latest/dg/predictor-monitoring.html).
-    func createMonitor(input: CreateMonitorInput) async throws -> CreateMonitorOutputResponse
+    ///
+    /// - Parameter CreateMonitorInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMonitorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `LimitExceededException` : The limit on the number of resources per account has been exceeded.
+    /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func createMonitor(input: CreateMonitorInput) async throws -> CreateMonitorOutput
+    /// Performs the `CreatePredictor` operation on the `AmazonForecast` service.
+    ///
     /// This operation creates a legacy predictor that does not include all the predictor functionalities provided by Amazon Forecast. To create a predictor that is compatible with all aspects of Forecast, use [CreateAutoPredictor]. Creates an Amazon Forecast predictor. In the request, provide a dataset group and either specify an algorithm or let Amazon Forecast choose an algorithm for you using AutoML. If you specify an algorithm, you also can override algorithm-specific hyperparameters. Amazon Forecast uses the algorithm to train a predictor using the latest version of the datasets in the specified dataset group. You can then generate a forecast using the [CreateForecast] operation. To see the evaluation metrics, use the [GetAccuracyMetrics] operation. You can specify a featurization configuration to fill and aggregate the data fields in the TARGET_TIME_SERIES dataset to improve model training. For more information, see [FeaturizationConfig]. For RELATED_TIME_SERIES datasets, CreatePredictor verifies that the DataFrequency specified when the dataset was created matches the ForecastFrequency. TARGET_TIME_SERIES datasets don't have this restriction. Amazon Forecast also verifies the delimiter and timestamp format. For more information, see [howitworks-datasets-groups]. By default, predictors are trained and evaluated at the 0.1 (P10), 0.5 (P50), and 0.9 (P90) quantiles. You can choose custom forecast types to train and evaluate your predictor by setting the ForecastTypes. AutoML If you want Amazon Forecast to evaluate each algorithm and choose the one that minimizes the objective function, set PerformAutoML to true. The objective function is defined as the mean of the weighted losses over the forecast types. By default, these are the p10, p50, and p90 quantile losses. For more information, see [EvaluationResult]. When AutoML is enabled, the following properties are disallowed:
     ///
     /// * AlgorithmArn
@@ -105,35 +240,240 @@ public protocol ForecastClientProtocol {
     ///
     ///
     /// To get a list of all of your predictors, use the [ListPredictors] operation. Before you can use the predictor to create a forecast, the Status of the predictor must be ACTIVE, signifying that training has completed. To get the status, use the [DescribePredictor] operation.
-    func createPredictor(input: CreatePredictorInput) async throws -> CreatePredictorOutputResponse
+    ///
+    /// - Parameter CreatePredictorInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePredictorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `LimitExceededException` : The limit on the number of resources per account has been exceeded.
+    /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func createPredictor(input: CreatePredictorInput) async throws -> CreatePredictorOutput
+    /// Performs the `CreatePredictorBacktestExportJob` operation on the `AmazonForecast` service.
+    ///
     /// Exports backtest forecasts and accuracy metrics generated by the [CreateAutoPredictor] or [CreatePredictor] operations. Two folders containing CSV or Parquet files are exported to your specified S3 bucket. The export file names will match the following conventions: __.csv The component is in Java SimpleDate format (yyyy-MM-ddTHH-mm-ssZ). You must specify a [DataDestination] object that includes an Amazon S3 bucket and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more information, see [aws-forecast-iam-roles]. The Status of the export job must be ACTIVE before you can access the export in your Amazon S3 bucket. To get the status, use the [DescribePredictorBacktestExportJob] operation.
-    func createPredictorBacktestExportJob(input: CreatePredictorBacktestExportJobInput) async throws -> CreatePredictorBacktestExportJobOutputResponse
+    ///
+    /// - Parameter CreatePredictorBacktestExportJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePredictorBacktestExportJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `LimitExceededException` : The limit on the number of resources per account has been exceeded.
+    /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func createPredictorBacktestExportJob(input: CreatePredictorBacktestExportJobInput) async throws -> CreatePredictorBacktestExportJobOutput
+    /// Performs the `CreateWhatIfAnalysis` operation on the `AmazonForecast` service.
+    ///
     /// What-if analysis is a scenario modeling technique where you make a hypothetical change to a time series and compare the forecasts generated by these changes against the baseline, unchanged time series. It is important to remember that the purpose of a what-if analysis is to understand how a forecast can change given different modifications to the baseline time series. For example, imagine you are a clothing retailer who is considering an end of season sale to clear space for new styles. After creating a baseline forecast, you can use a what-if analysis to investigate how different sales tactics might affect your goals. You could create a scenario where everything is given a 25% markdown, and another where everything is given a fixed dollar markdown. You could create a scenario where the sale lasts for one week and another where the sale lasts for one month. With a what-if analysis, you can compare many different scenarios against each other. Note that a what-if analysis is meant to display what the forecasting model has learned and how it will behave in the scenarios that you are evaluating. Do not blindly use the results of the what-if analysis to make business decisions. For instance, forecasts might not be accurate for novel scenarios where there is no reference available to determine whether a forecast is good. The [TimeSeriesSelector] object defines the items that you want in the what-if analysis.
-    func createWhatIfAnalysis(input: CreateWhatIfAnalysisInput) async throws -> CreateWhatIfAnalysisOutputResponse
+    ///
+    /// - Parameter CreateWhatIfAnalysisInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWhatIfAnalysisOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `LimitExceededException` : The limit on the number of resources per account has been exceeded.
+    /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func createWhatIfAnalysis(input: CreateWhatIfAnalysisInput) async throws -> CreateWhatIfAnalysisOutput
+    /// Performs the `CreateWhatIfForecast` operation on the `AmazonForecast` service.
+    ///
     /// A what-if forecast is a forecast that is created from a modified version of the baseline forecast. Each what-if forecast incorporates either a replacement dataset or a set of transformations to the original dataset.
-    func createWhatIfForecast(input: CreateWhatIfForecastInput) async throws -> CreateWhatIfForecastOutputResponse
+    ///
+    /// - Parameter CreateWhatIfForecastInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWhatIfForecastOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `LimitExceededException` : The limit on the number of resources per account has been exceeded.
+    /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func createWhatIfForecast(input: CreateWhatIfForecastInput) async throws -> CreateWhatIfForecastOutput
+    /// Performs the `CreateWhatIfForecastExport` operation on the `AmazonForecast` service.
+    ///
     /// Exports a forecast created by the [CreateWhatIfForecast] operation to your Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following conventions: ≈__ The component is in Java SimpleDateFormat (yyyy-MM-ddTHH-mm-ssZ). You must specify a [DataDestination] object that includes an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more information, see [aws-forecast-iam-roles]. For more information, see [howitworks-forecast]. To get a list of all your what-if forecast export jobs, use the [ListWhatIfForecastExports] operation. The Status of the forecast export job must be ACTIVE before you can access the forecast in your Amazon S3 bucket. To get the status, use the [DescribeWhatIfForecastExport] operation.
-    func createWhatIfForecastExport(input: CreateWhatIfForecastExportInput) async throws -> CreateWhatIfForecastExportOutputResponse
+    ///
+    /// - Parameter CreateWhatIfForecastExportInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWhatIfForecastExportOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `LimitExceededException` : The limit on the number of resources per account has been exceeded.
+    /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func createWhatIfForecastExport(input: CreateWhatIfForecastExportInput) async throws -> CreateWhatIfForecastExportOutput
+    /// Performs the `DeleteDataset` operation on the `AmazonForecast` service.
+    ///
     /// Deletes an Amazon Forecast dataset that was created using the [CreateDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDataset.html) operation. You can only delete datasets that have a status of ACTIVE or CREATE_FAILED. To get the status use the [DescribeDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDataset.html) operation. Forecast does not automatically update any dataset groups that contain the deleted dataset. In order to update the dataset group, use the [UpdateDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_UpdateDatasetGroup.html) operation, omitting the deleted dataset's ARN.
-    func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutputResponse
+    ///
+    /// - Parameter DeleteDatasetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDatasetOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput
+    /// Performs the `DeleteDatasetGroup` operation on the `AmazonForecast` service.
+    ///
     /// Deletes a dataset group created using the [CreateDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetGroup.html) operation. You can only delete dataset groups that have a status of ACTIVE, CREATE_FAILED, or UPDATE_FAILED. To get the status, use the [DescribeDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html) operation. This operation deletes only the dataset group, not the datasets in the group.
-    func deleteDatasetGroup(input: DeleteDatasetGroupInput) async throws -> DeleteDatasetGroupOutputResponse
+    ///
+    /// - Parameter DeleteDatasetGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDatasetGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func deleteDatasetGroup(input: DeleteDatasetGroupInput) async throws -> DeleteDatasetGroupOutput
+    /// Performs the `DeleteDatasetImportJob` operation on the `AmazonForecast` service.
+    ///
     /// Deletes a dataset import job created using the [CreateDatasetImportJob](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html) operation. You can delete only dataset import jobs that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeDatasetImportJob](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetImportJob.html) operation.
-    func deleteDatasetImportJob(input: DeleteDatasetImportJobInput) async throws -> DeleteDatasetImportJobOutputResponse
+    ///
+    /// - Parameter DeleteDatasetImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDatasetImportJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func deleteDatasetImportJob(input: DeleteDatasetImportJobInput) async throws -> DeleteDatasetImportJobOutput
+    /// Performs the `DeleteExplainability` operation on the `AmazonForecast` service.
+    ///
     /// Deletes an Explainability resource. You can delete only predictor that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeExplainability] operation.
-    func deleteExplainability(input: DeleteExplainabilityInput) async throws -> DeleteExplainabilityOutputResponse
+    ///
+    /// - Parameter DeleteExplainabilityInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteExplainabilityOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func deleteExplainability(input: DeleteExplainabilityInput) async throws -> DeleteExplainabilityOutput
+    /// Performs the `DeleteExplainabilityExport` operation on the `AmazonForecast` service.
+    ///
     /// Deletes an Explainability export.
-    func deleteExplainabilityExport(input: DeleteExplainabilityExportInput) async throws -> DeleteExplainabilityExportOutputResponse
+    ///
+    /// - Parameter DeleteExplainabilityExportInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteExplainabilityExportOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func deleteExplainabilityExport(input: DeleteExplainabilityExportInput) async throws -> DeleteExplainabilityExportOutput
+    /// Performs the `DeleteForecast` operation on the `AmazonForecast` service.
+    ///
     /// Deletes a forecast created using the [CreateForecast] operation. You can delete only forecasts that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeForecast] operation. You can't delete a forecast while it is being exported. After a forecast is deleted, you can no longer query the forecast.
-    func deleteForecast(input: DeleteForecastInput) async throws -> DeleteForecastOutputResponse
+    ///
+    /// - Parameter DeleteForecastInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteForecastOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func deleteForecast(input: DeleteForecastInput) async throws -> DeleteForecastOutput
+    /// Performs the `DeleteForecastExportJob` operation on the `AmazonForecast` service.
+    ///
     /// Deletes a forecast export job created using the [CreateForecastExportJob] operation. You can delete only export jobs that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeForecastExportJob] operation.
-    func deleteForecastExportJob(input: DeleteForecastExportJobInput) async throws -> DeleteForecastExportJobOutputResponse
+    ///
+    /// - Parameter DeleteForecastExportJobInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteForecastExportJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func deleteForecastExportJob(input: DeleteForecastExportJobInput) async throws -> DeleteForecastExportJobOutput
+    /// Performs the `DeleteMonitor` operation on the `AmazonForecast` service.
+    ///
     /// Deletes a monitor resource. You can only delete a monitor resource with a status of ACTIVE, ACTIVE_STOPPED, CREATE_FAILED, or CREATE_STOPPED.
-    func deleteMonitor(input: DeleteMonitorInput) async throws -> DeleteMonitorOutputResponse
+    ///
+    /// - Parameter DeleteMonitorInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMonitorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func deleteMonitor(input: DeleteMonitorInput) async throws -> DeleteMonitorOutput
+    /// Performs the `DeletePredictor` operation on the `AmazonForecast` service.
+    ///
     /// Deletes a predictor created using the [DescribePredictor] or [CreatePredictor] operations. You can delete only predictor that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribePredictor] operation.
-    func deletePredictor(input: DeletePredictorInput) async throws -> DeletePredictorOutputResponse
+    ///
+    /// - Parameter DeletePredictorInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePredictorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func deletePredictor(input: DeletePredictorInput) async throws -> DeletePredictorOutput
+    /// Performs the `DeletePredictorBacktestExportJob` operation on the `AmazonForecast` service.
+    ///
     /// Deletes a predictor backtest export job.
-    func deletePredictorBacktestExportJob(input: DeletePredictorBacktestExportJobInput) async throws -> DeletePredictorBacktestExportJobOutputResponse
+    ///
+    /// - Parameter DeletePredictorBacktestExportJobInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePredictorBacktestExportJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func deletePredictorBacktestExportJob(input: DeletePredictorBacktestExportJobInput) async throws -> DeletePredictorBacktestExportJobOutput
+    /// Performs the `DeleteResourceTree` operation on the `AmazonForecast` service.
+    ///
     /// Deletes an entire resource tree. This operation will delete the parent resource and its child resources. Child resources are resources that were created from another resource. For example, when a forecast is generated from a predictor, the forecast is the child resource and the predictor is the parent resource. Amazon Forecast resources possess the following parent-child resource hierarchies:
     ///
     /// * Dataset: dataset import jobs
@@ -146,15 +486,79 @@ public protocol ForecastClientProtocol {
     ///
     ///
     /// DeleteResourceTree will only delete Amazon Forecast resources, and will not delete datasets or exported files stored in Amazon S3.
-    func deleteResourceTree(input: DeleteResourceTreeInput) async throws -> DeleteResourceTreeOutputResponse
+    ///
+    /// - Parameter DeleteResourceTreeInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResourceTreeOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func deleteResourceTree(input: DeleteResourceTreeInput) async throws -> DeleteResourceTreeOutput
+    /// Performs the `DeleteWhatIfAnalysis` operation on the `AmazonForecast` service.
+    ///
     /// Deletes a what-if analysis created using the [CreateWhatIfAnalysis] operation. You can delete only what-if analyses that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeWhatIfAnalysis] operation. You can't delete a what-if analysis while any of its forecasts are being exported.
-    func deleteWhatIfAnalysis(input: DeleteWhatIfAnalysisInput) async throws -> DeleteWhatIfAnalysisOutputResponse
+    ///
+    /// - Parameter DeleteWhatIfAnalysisInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWhatIfAnalysisOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func deleteWhatIfAnalysis(input: DeleteWhatIfAnalysisInput) async throws -> DeleteWhatIfAnalysisOutput
+    /// Performs the `DeleteWhatIfForecast` operation on the `AmazonForecast` service.
+    ///
     /// Deletes a what-if forecast created using the [CreateWhatIfForecast] operation. You can delete only what-if forecasts that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeWhatIfForecast] operation. You can't delete a what-if forecast while it is being exported. After a what-if forecast is deleted, you can no longer query the what-if analysis.
-    func deleteWhatIfForecast(input: DeleteWhatIfForecastInput) async throws -> DeleteWhatIfForecastOutputResponse
+    ///
+    /// - Parameter DeleteWhatIfForecastInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWhatIfForecastOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func deleteWhatIfForecast(input: DeleteWhatIfForecastInput) async throws -> DeleteWhatIfForecastOutput
+    /// Performs the `DeleteWhatIfForecastExport` operation on the `AmazonForecast` service.
+    ///
     /// Deletes a what-if forecast export created using the [CreateWhatIfForecastExport] operation. You can delete only what-if forecast exports that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeWhatIfForecastExport] operation.
-    func deleteWhatIfForecastExport(input: DeleteWhatIfForecastExportInput) async throws -> DeleteWhatIfForecastExportOutputResponse
+    ///
+    /// - Parameter DeleteWhatIfForecastExportInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWhatIfForecastExportOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func deleteWhatIfForecastExport(input: DeleteWhatIfForecastExportInput) async throws -> DeleteWhatIfForecastExportOutput
+    /// Performs the `DescribeAutoPredictor` operation on the `AmazonForecast` service.
+    ///
     /// Describes a predictor created using the CreateAutoPredictor operation.
-    func describeAutoPredictor(input: DescribeAutoPredictorInput) async throws -> DescribeAutoPredictorOutputResponse
+    ///
+    /// - Parameter DescribeAutoPredictorInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAutoPredictorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func describeAutoPredictor(input: DescribeAutoPredictorInput) async throws -> DescribeAutoPredictorOutput
+    /// Performs the `DescribeDataset` operation on the `AmazonForecast` service.
+    ///
     /// Describes an Amazon Forecast dataset created using the [CreateDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDataset.html) operation. In addition to listing the parameters specified in the CreateDataset request, this operation includes the following dataset properties:
     ///
     /// * CreationTime
@@ -162,7 +566,19 @@ public protocol ForecastClientProtocol {
     /// * LastModificationTime
     ///
     /// * Status
-    func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutputResponse
+    ///
+    /// - Parameter DescribeDatasetInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDatasetOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput
+    /// Performs the `DescribeDatasetGroup` operation on the `AmazonForecast` service.
+    ///
     /// Describes a dataset group created using the [CreateDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetGroup.html) operation. In addition to listing the parameters provided in the CreateDatasetGroup request, this operation includes the following properties:
     ///
     /// * DatasetArns - The datasets belonging to the group.
@@ -172,7 +588,19 @@ public protocol ForecastClientProtocol {
     /// * LastModificationTime
     ///
     /// * Status
-    func describeDatasetGroup(input: DescribeDatasetGroupInput) async throws -> DescribeDatasetGroupOutputResponse
+    ///
+    /// - Parameter DescribeDatasetGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDatasetGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func describeDatasetGroup(input: DescribeDatasetGroupInput) async throws -> DescribeDatasetGroupOutput
+    /// Performs the `DescribeDatasetImportJob` operation on the `AmazonForecast` service.
+    ///
     /// Describes a dataset import job created using the [CreateDatasetImportJob](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html) operation. In addition to listing the parameters provided in the CreateDatasetImportJob request, this operation includes the following properties:
     ///
     /// * CreationTime
@@ -186,11 +614,47 @@ public protocol ForecastClientProtocol {
     /// * Status
     ///
     /// * Message - If an error occurred, information about the error.
-    func describeDatasetImportJob(input: DescribeDatasetImportJobInput) async throws -> DescribeDatasetImportJobOutputResponse
+    ///
+    /// - Parameter DescribeDatasetImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDatasetImportJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func describeDatasetImportJob(input: DescribeDatasetImportJobInput) async throws -> DescribeDatasetImportJobOutput
+    /// Performs the `DescribeExplainability` operation on the `AmazonForecast` service.
+    ///
     /// Describes an Explainability resource created using the [CreateExplainability] operation.
-    func describeExplainability(input: DescribeExplainabilityInput) async throws -> DescribeExplainabilityOutputResponse
+    ///
+    /// - Parameter DescribeExplainabilityInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeExplainabilityOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func describeExplainability(input: DescribeExplainabilityInput) async throws -> DescribeExplainabilityOutput
+    /// Performs the `DescribeExplainabilityExport` operation on the `AmazonForecast` service.
+    ///
     /// Describes an Explainability export created using the [CreateExplainabilityExport] operation.
-    func describeExplainabilityExport(input: DescribeExplainabilityExportInput) async throws -> DescribeExplainabilityExportOutputResponse
+    ///
+    /// - Parameter DescribeExplainabilityExportInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeExplainabilityExportOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func describeExplainabilityExport(input: DescribeExplainabilityExportInput) async throws -> DescribeExplainabilityExportOutput
+    /// Performs the `DescribeForecast` operation on the `AmazonForecast` service.
+    ///
     /// Describes a forecast created using the [CreateForecast] operation. In addition to listing the properties provided in the CreateForecast request, this operation lists the following properties:
     ///
     /// * DatasetGroupArn - The dataset group that provided the training data.
@@ -202,7 +666,19 @@ public protocol ForecastClientProtocol {
     /// * Status
     ///
     /// * Message - If an error occurred, information about the error.
-    func describeForecast(input: DescribeForecastInput) async throws -> DescribeForecastOutputResponse
+    ///
+    /// - Parameter DescribeForecastInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeForecastOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func describeForecast(input: DescribeForecastInput) async throws -> DescribeForecastOutput
+    /// Performs the `DescribeForecastExportJob` operation on the `AmazonForecast` service.
+    ///
     /// Describes a forecast export job created using the [CreateForecastExportJob] operation. In addition to listing the properties provided by the user in the CreateForecastExportJob request, this operation lists the following properties:
     ///
     /// * CreationTime
@@ -212,7 +688,19 @@ public protocol ForecastClientProtocol {
     /// * Status
     ///
     /// * Message - If an error occurred, information about the error.
-    func describeForecastExportJob(input: DescribeForecastExportJobInput) async throws -> DescribeForecastExportJobOutputResponse
+    ///
+    /// - Parameter DescribeForecastExportJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeForecastExportJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func describeForecastExportJob(input: DescribeForecastExportJobInput) async throws -> DescribeForecastExportJobOutput
+    /// Performs the `DescribeMonitor` operation on the `AmazonForecast` service.
+    ///
     /// Describes a monitor resource. In addition to listing the properties provided in the [CreateMonitor] request, this operation lists the following properties:
     ///
     /// * Baseline
@@ -228,7 +716,19 @@ public protocol ForecastClientProtocol {
     /// * Message
     ///
     /// * Status
-    func describeMonitor(input: DescribeMonitorInput) async throws -> DescribeMonitorOutputResponse
+    ///
+    /// - Parameter DescribeMonitorInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeMonitorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func describeMonitor(input: DescribeMonitorInput) async throws -> DescribeMonitorOutput
+    /// Performs the `DescribePredictor` operation on the `AmazonForecast` service.
+    ///
     /// This operation is only valid for legacy predictors created with CreatePredictor. If you are not using a legacy predictor, use [DescribeAutoPredictor]. Describes a predictor created using the [CreatePredictor] operation. In addition to listing the properties provided in the CreatePredictor request, this operation lists the following properties:
     ///
     /// * DatasetImportJobArns - The dataset import jobs used to import training data.
@@ -242,7 +742,19 @@ public protocol ForecastClientProtocol {
     /// * Status
     ///
     /// * Message - If an error occurred, information about the error.
-    func describePredictor(input: DescribePredictorInput) async throws -> DescribePredictorOutputResponse
+    ///
+    /// - Parameter DescribePredictorInput : [no documentation found]
+    ///
+    /// - Returns: `DescribePredictorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func describePredictor(input: DescribePredictorInput) async throws -> DescribePredictorOutput
+    /// Performs the `DescribePredictorBacktestExportJob` operation on the `AmazonForecast` service.
+    ///
     /// Describes a predictor backtest export job created using the [CreatePredictorBacktestExportJob] operation. In addition to listing the properties provided by the user in the CreatePredictorBacktestExportJob request, this operation lists the following properties:
     ///
     /// * CreationTime
@@ -252,7 +764,19 @@ public protocol ForecastClientProtocol {
     /// * Status
     ///
     /// * Message (if an error occurred)
-    func describePredictorBacktestExportJob(input: DescribePredictorBacktestExportJobInput) async throws -> DescribePredictorBacktestExportJobOutputResponse
+    ///
+    /// - Parameter DescribePredictorBacktestExportJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribePredictorBacktestExportJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func describePredictorBacktestExportJob(input: DescribePredictorBacktestExportJobInput) async throws -> DescribePredictorBacktestExportJobOutput
+    /// Performs the `DescribeWhatIfAnalysis` operation on the `AmazonForecast` service.
+    ///
     /// Describes the what-if analysis created using the [CreateWhatIfAnalysis] operation. In addition to listing the properties provided in the CreateWhatIfAnalysis request, this operation lists the following properties:
     ///
     /// * CreationTime
@@ -262,7 +786,19 @@ public protocol ForecastClientProtocol {
     /// * Message - If an error occurred, information about the error.
     ///
     /// * Status
-    func describeWhatIfAnalysis(input: DescribeWhatIfAnalysisInput) async throws -> DescribeWhatIfAnalysisOutputResponse
+    ///
+    /// - Parameter DescribeWhatIfAnalysisInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeWhatIfAnalysisOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func describeWhatIfAnalysis(input: DescribeWhatIfAnalysisInput) async throws -> DescribeWhatIfAnalysisOutput
+    /// Performs the `DescribeWhatIfForecast` operation on the `AmazonForecast` service.
+    ///
     /// Describes the what-if forecast created using the [CreateWhatIfForecast] operation. In addition to listing the properties provided in the CreateWhatIfForecast request, this operation lists the following properties:
     ///
     /// * CreationTime
@@ -272,7 +808,19 @@ public protocol ForecastClientProtocol {
     /// * Message - If an error occurred, information about the error.
     ///
     /// * Status
-    func describeWhatIfForecast(input: DescribeWhatIfForecastInput) async throws -> DescribeWhatIfForecastOutputResponse
+    ///
+    /// - Parameter DescribeWhatIfForecastInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeWhatIfForecastOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func describeWhatIfForecast(input: DescribeWhatIfForecastInput) async throws -> DescribeWhatIfForecastOutput
+    /// Performs the `DescribeWhatIfForecastExport` operation on the `AmazonForecast` service.
+    ///
     /// Describes the what-if forecast export created using the [CreateWhatIfForecastExport] operation. In addition to listing the properties provided in the CreateWhatIfForecastExport request, this operation lists the following properties:
     ///
     /// * CreationTime
@@ -282,41 +830,259 @@ public protocol ForecastClientProtocol {
     /// * Message - If an error occurred, information about the error.
     ///
     /// * Status
-    func describeWhatIfForecastExport(input: DescribeWhatIfForecastExportInput) async throws -> DescribeWhatIfForecastExportOutputResponse
+    ///
+    /// - Parameter DescribeWhatIfForecastExportInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeWhatIfForecastExportOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func describeWhatIfForecastExport(input: DescribeWhatIfForecastExportInput) async throws -> DescribeWhatIfForecastExportOutput
+    /// Performs the `GetAccuracyMetrics` operation on the `AmazonForecast` service.
+    ///
     /// Provides metrics on the accuracy of the models that were trained by the [CreatePredictor] operation. Use metrics to see how well the model performed and to decide whether to use the predictor to generate a forecast. For more information, see [Predictor Metrics](https://docs.aws.amazon.com/forecast/latest/dg/metrics.html). This operation generates metrics for each backtest window that was evaluated. The number of backtest windows (NumberOfBacktestWindows) is specified using the [EvaluationParameters] object, which is optionally included in the CreatePredictor request. If NumberOfBacktestWindows isn't specified, the number defaults to one. The parameters of the filling method determine which items contribute to the metrics. If you want all items to contribute, specify zero. If you want only those items that have complete data in the range being evaluated to contribute, specify nan. For more information, see [FeaturizationMethod]. Before you can get accuracy metrics, the Status of the predictor must be ACTIVE, signifying that training has completed. To get the status, use the [DescribePredictor] operation.
-    func getAccuracyMetrics(input: GetAccuracyMetricsInput) async throws -> GetAccuracyMetricsOutputResponse
+    ///
+    /// - Parameter GetAccuracyMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `GetAccuracyMetricsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func getAccuracyMetrics(input: GetAccuracyMetricsInput) async throws -> GetAccuracyMetricsOutput
+    /// Performs the `ListDatasetGroups` operation on the `AmazonForecast` service.
+    ///
     /// Returns a list of dataset groups created using the [CreateDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetGroup.html) operation. For each dataset group, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the dataset group ARN with the [DescribeDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html) operation.
-    func listDatasetGroups(input: ListDatasetGroupsInput) async throws -> ListDatasetGroupsOutputResponse
+    ///
+    /// - Parameter ListDatasetGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDatasetGroupsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
+    func listDatasetGroups(input: ListDatasetGroupsInput) async throws -> ListDatasetGroupsOutput
+    /// Performs the `ListDatasetImportJobs` operation on the `AmazonForecast` service.
+    ///
     /// Returns a list of dataset import jobs created using the [CreateDatasetImportJob](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html) operation. For each import job, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the ARN with the [DescribeDatasetImportJob](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetImportJob.html) operation. You can filter the list by providing an array of [Filter](https://docs.aws.amazon.com/forecast/latest/dg/API_Filter.html) objects.
-    func listDatasetImportJobs(input: ListDatasetImportJobsInput) async throws -> ListDatasetImportJobsOutputResponse
+    ///
+    /// - Parameter ListDatasetImportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDatasetImportJobsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
+    func listDatasetImportJobs(input: ListDatasetImportJobsInput) async throws -> ListDatasetImportJobsOutput
+    /// Performs the `ListDatasets` operation on the `AmazonForecast` service.
+    ///
     /// Returns a list of datasets created using the [CreateDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDataset.html) operation. For each dataset, a summary of its properties, including its Amazon Resource Name (ARN), is returned. To retrieve the complete set of properties, use the ARN with the [DescribeDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDataset.html) operation.
-    func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutputResponse
+    ///
+    /// - Parameter ListDatasetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDatasetsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
+    func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput
+    /// Performs the `ListExplainabilities` operation on the `AmazonForecast` service.
+    ///
     /// Returns a list of Explainability resources created using the [CreateExplainability] operation. This operation returns a summary for each Explainability. You can filter the list using an array of [Filter] objects. To retrieve the complete set of properties for a particular Explainability resource, use the ARN with the [DescribeExplainability] operation.
-    func listExplainabilities(input: ListExplainabilitiesInput) async throws -> ListExplainabilitiesOutputResponse
+    ///
+    /// - Parameter ListExplainabilitiesInput : [no documentation found]
+    ///
+    /// - Returns: `ListExplainabilitiesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
+    func listExplainabilities(input: ListExplainabilitiesInput) async throws -> ListExplainabilitiesOutput
+    /// Performs the `ListExplainabilityExports` operation on the `AmazonForecast` service.
+    ///
     /// Returns a list of Explainability exports created using the [CreateExplainabilityExport] operation. This operation returns a summary for each Explainability export. You can filter the list using an array of [Filter] objects. To retrieve the complete set of properties for a particular Explainability export, use the ARN with the [DescribeExplainability] operation.
-    func listExplainabilityExports(input: ListExplainabilityExportsInput) async throws -> ListExplainabilityExportsOutputResponse
+    ///
+    /// - Parameter ListExplainabilityExportsInput : [no documentation found]
+    ///
+    /// - Returns: `ListExplainabilityExportsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
+    func listExplainabilityExports(input: ListExplainabilityExportsInput) async throws -> ListExplainabilityExportsOutput
+    /// Performs the `ListForecastExportJobs` operation on the `AmazonForecast` service.
+    ///
     /// Returns a list of forecast export jobs created using the [CreateForecastExportJob] operation. For each forecast export job, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). To retrieve the complete set of properties, use the ARN with the [DescribeForecastExportJob] operation. You can filter the list using an array of [Filter] objects.
-    func listForecastExportJobs(input: ListForecastExportJobsInput) async throws -> ListForecastExportJobsOutputResponse
+    ///
+    /// - Parameter ListForecastExportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListForecastExportJobsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
+    func listForecastExportJobs(input: ListForecastExportJobsInput) async throws -> ListForecastExportJobsOutput
+    /// Performs the `ListForecasts` operation on the `AmazonForecast` service.
+    ///
     /// Returns a list of forecasts created using the [CreateForecast] operation. For each forecast, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). To retrieve the complete set of properties, specify the ARN with the [DescribeForecast] operation. You can filter the list using an array of [Filter] objects.
-    func listForecasts(input: ListForecastsInput) async throws -> ListForecastsOutputResponse
+    ///
+    /// - Parameter ListForecastsInput : [no documentation found]
+    ///
+    /// - Returns: `ListForecastsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
+    func listForecasts(input: ListForecastsInput) async throws -> ListForecastsOutput
+    /// Performs the `ListMonitorEvaluations` operation on the `AmazonForecast` service.
+    ///
     /// Returns a list of the monitoring evaluation results and predictor events collected by the monitor resource during different windows of time. For information about monitoring see [predictor-monitoring]. For more information about retrieving monitoring results see [Viewing Monitoring Results](https://docs.aws.amazon.com/forecast/latest/dg/predictor-monitoring-results.html).
-    func listMonitorEvaluations(input: ListMonitorEvaluationsInput) async throws -> ListMonitorEvaluationsOutputResponse
+    ///
+    /// - Parameter ListMonitorEvaluationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMonitorEvaluationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func listMonitorEvaluations(input: ListMonitorEvaluationsInput) async throws -> ListMonitorEvaluationsOutput
+    /// Performs the `ListMonitors` operation on the `AmazonForecast` service.
+    ///
     /// Returns a list of monitors created with the [CreateMonitor] operation and [CreateAutoPredictor] operation. For each monitor resource, this operation returns of a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve a complete set of properties of a monitor resource by specify the monitor's ARN in the [DescribeMonitor] operation.
-    func listMonitors(input: ListMonitorsInput) async throws -> ListMonitorsOutputResponse
+    ///
+    /// - Parameter ListMonitorsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMonitorsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
+    func listMonitors(input: ListMonitorsInput) async throws -> ListMonitorsOutput
+    /// Performs the `ListPredictorBacktestExportJobs` operation on the `AmazonForecast` service.
+    ///
     /// Returns a list of predictor backtest export jobs created using the [CreatePredictorBacktestExportJob] operation. This operation returns a summary for each backtest export job. You can filter the list using an array of [Filter] objects. To retrieve the complete set of properties for a particular backtest export job, use the ARN with the [DescribePredictorBacktestExportJob] operation.
-    func listPredictorBacktestExportJobs(input: ListPredictorBacktestExportJobsInput) async throws -> ListPredictorBacktestExportJobsOutputResponse
+    ///
+    /// - Parameter ListPredictorBacktestExportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPredictorBacktestExportJobsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
+    func listPredictorBacktestExportJobs(input: ListPredictorBacktestExportJobsInput) async throws -> ListPredictorBacktestExportJobsOutput
+    /// Performs the `ListPredictors` operation on the `AmazonForecast` service.
+    ///
     /// Returns a list of predictors created using the [CreateAutoPredictor] or [CreatePredictor] operations. For each predictor, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the ARN with the [DescribeAutoPredictor] and [DescribePredictor] operations. You can filter the list using an array of [Filter] objects.
-    func listPredictors(input: ListPredictorsInput) async throws -> ListPredictorsOutputResponse
+    ///
+    /// - Parameter ListPredictorsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPredictorsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
+    func listPredictors(input: ListPredictorsInput) async throws -> ListPredictorsOutput
+    /// Performs the `ListTagsForResource` operation on the `AmazonForecast` service.
+    ///
     /// Lists the tags for an Amazon Forecast resource.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `ListWhatIfAnalyses` operation on the `AmazonForecast` service.
+    ///
     /// Returns a list of what-if analyses created using the [CreateWhatIfAnalysis] operation. For each what-if analysis, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if analysis ARN with the [DescribeWhatIfAnalysis] operation.
-    func listWhatIfAnalyses(input: ListWhatIfAnalysesInput) async throws -> ListWhatIfAnalysesOutputResponse
+    ///
+    /// - Parameter ListWhatIfAnalysesInput : [no documentation found]
+    ///
+    /// - Returns: `ListWhatIfAnalysesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
+    func listWhatIfAnalyses(input: ListWhatIfAnalysesInput) async throws -> ListWhatIfAnalysesOutput
+    /// Performs the `ListWhatIfForecastExports` operation on the `AmazonForecast` service.
+    ///
     /// Returns a list of what-if forecast exports created using the [CreateWhatIfForecastExport] operation. For each what-if forecast export, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if forecast export ARN with the [DescribeWhatIfForecastExport] operation.
-    func listWhatIfForecastExports(input: ListWhatIfForecastExportsInput) async throws -> ListWhatIfForecastExportsOutputResponse
+    ///
+    /// - Parameter ListWhatIfForecastExportsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWhatIfForecastExportsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
+    func listWhatIfForecastExports(input: ListWhatIfForecastExportsInput) async throws -> ListWhatIfForecastExportsOutput
+    /// Performs the `ListWhatIfForecasts` operation on the `AmazonForecast` service.
+    ///
     /// Returns a list of what-if forecasts created using the [CreateWhatIfForecast] operation. For each what-if forecast, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if forecast ARN with the [DescribeWhatIfForecast] operation.
-    func listWhatIfForecasts(input: ListWhatIfForecastsInput) async throws -> ListWhatIfForecastsOutputResponse
+    ///
+    /// - Parameter ListWhatIfForecastsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWhatIfForecastsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
+    func listWhatIfForecasts(input: ListWhatIfForecastsInput) async throws -> ListWhatIfForecastsOutput
+    /// Performs the `ResumeResource` operation on the `AmazonForecast` service.
+    ///
     /// Resumes a stopped monitor resource.
-    func resumeResource(input: ResumeResourceInput) async throws -> ResumeResourceOutputResponse
+    ///
+    /// - Parameter ResumeResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ResumeResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `LimitExceededException` : The limit on the number of resources per account has been exceeded.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func resumeResource(input: ResumeResourceInput) async throws -> ResumeResourceOutput
+    /// Performs the `StopResource` operation on the `AmazonForecast` service.
+    ///
     /// Stops a resource. The resource undergoes the following states: CREATE_STOPPING and CREATE_STOPPED. You cannot resume a resource once it has been stopped. This operation can be applied to the following resources (and their corresponding child resources):
     ///
     /// * Dataset Import Job
@@ -332,13 +1098,62 @@ public protocol ForecastClientProtocol {
     /// * Explainability Job
     ///
     /// * Explainability Export Job
-    func stopResource(input: StopResourceInput) async throws -> StopResourceOutputResponse
+    ///
+    /// - Parameter StopResourceInput : [no documentation found]
+    ///
+    /// - Returns: `StopResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `LimitExceededException` : The limit on the number of resources per account has been exceeded.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func stopResource(input: StopResourceInput) async throws -> StopResourceOutput
+    /// Performs the `TagResource` operation on the `AmazonForecast` service.
+    ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `LimitExceededException` : The limit on the number of resources per account has been exceeded.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `AmazonForecast` service.
+    ///
     /// Deletes the specified tags from a resource.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateDatasetGroup` operation on the `AmazonForecast` service.
+    ///
     /// Replaces the datasets in a dataset group with the specified datasets. The Status of the dataset group must be ACTIVE before you can use the dataset group to create a predictor. Use the [DescribeDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html) operation to get the status.
-    func updateDatasetGroup(input: UpdateDatasetGroupInput) async throws -> UpdateDatasetGroupOutputResponse
+    ///
+    /// - Parameter UpdateDatasetGroupInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDatasetGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    func updateDatasetGroup(input: UpdateDatasetGroupInput) async throws -> UpdateDatasetGroupOutput
 }
 
 public enum ForecastClientTypes {}

@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension CodeStarconnectionsClient {
-    /// Paginate over `[ListConnectionsOutputResponse]` results.
+    /// Paginate over `[ListConnectionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListConnectionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListConnectionsOutputResponse`
-    public func listConnectionsPaginated(input: ListConnectionsInput) -> ClientRuntime.PaginatorSequence<ListConnectionsInput, ListConnectionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListConnectionsInput, ListConnectionsOutputResponse>(input: input, inputKey: \ListConnectionsInput.nextToken, outputKey: \ListConnectionsOutputResponse.nextToken, paginationFunction: self.listConnections(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListConnectionsOutput`
+    public func listConnectionsPaginated(input: ListConnectionsInput) -> ClientRuntime.PaginatorSequence<ListConnectionsInput, ListConnectionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListConnectionsInput, ListConnectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConnections(input:))
     }
 }
 
@@ -26,16 +26,16 @@ extension ListConnectionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CodeStarconnectionsClient {
-    /// Paginate over `[ListHostsOutputResponse]` results.
+    /// Paginate over `[ListHostsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListHostsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListHostsOutputResponse`
-    public func listHostsPaginated(input: ListHostsInput) -> ClientRuntime.PaginatorSequence<ListHostsInput, ListHostsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListHostsInput, ListHostsOutputResponse>(input: input, inputKey: \ListHostsInput.nextToken, outputKey: \ListHostsOutputResponse.nextToken, paginationFunction: self.listHosts(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListHostsOutput`
+    public func listHostsPaginated(input: ListHostsInput) -> ClientRuntime.PaginatorSequence<ListHostsInput, ListHostsOutput> {
+        return ClientRuntime.PaginatorSequence<ListHostsInput, ListHostsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listHosts(input:))
     }
 }
 
@@ -44,5 +44,49 @@ extension ListHostsInput: ClientRuntime.PaginateToken {
         return ListHostsInput(
             maxResults: self.maxResults,
             nextToken: token
+        )}
+}
+extension CodeStarconnectionsClient {
+    /// Paginate over `[ListRepositoryLinksOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRepositoryLinksInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRepositoryLinksOutput`
+    public func listRepositoryLinksPaginated(input: ListRepositoryLinksInput) -> ClientRuntime.PaginatorSequence<ListRepositoryLinksInput, ListRepositoryLinksOutput> {
+        return ClientRuntime.PaginatorSequence<ListRepositoryLinksInput, ListRepositoryLinksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRepositoryLinks(input:))
+    }
+}
+
+extension ListRepositoryLinksInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRepositoryLinksInput {
+        return ListRepositoryLinksInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+extension CodeStarconnectionsClient {
+    /// Paginate over `[ListSyncConfigurationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSyncConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSyncConfigurationsOutput`
+    public func listSyncConfigurationsPaginated(input: ListSyncConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListSyncConfigurationsInput, ListSyncConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSyncConfigurationsInput, ListSyncConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSyncConfigurations(input:))
+    }
+}
+
+extension ListSyncConfigurationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSyncConfigurationsInput {
+        return ListSyncConfigurationsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            repositoryLinkId: self.repositoryLinkId,
+            syncType: self.syncType
         )}
 }

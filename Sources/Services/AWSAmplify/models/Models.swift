@@ -250,9 +250,9 @@ extension AmplifyClientTypes {
         /// Enables the auto-building of branches for the Amplify app.
         /// This member is required.
         public var enableBranchAutoBuild: Swift.Bool?
-        /// Automatically disconnect a branch in the Amplify Console when you delete a branch from your Git repository.
+        /// Automatically disconnect a branch in the Amplify console when you delete a branch from your Git repository.
         public var enableBranchAutoDeletion: Swift.Bool?
-        /// The environment variables for the Amplify app.
+        /// The environment variables for the Amplify app. For a list of the environment variables that are accessible to Amplify by default, see [Amplify Environment variables](https://docs.aws.amazon.com/amplify/latest/userguide/amplify-console-environment-variables.html) in the Amplify Hosting User Guide.
         /// This member is required.
         public var environmentVariables: [Swift.String:Swift.String]?
         /// The AWS Identity and Access Management (IAM) service role for the Amazon Resource Name (ARN) of the Amplify app.
@@ -521,6 +521,41 @@ extension AmplifyClientTypes {
 
 }
 
+extension AmplifyClientTypes.Backend: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case stackArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let stackArn = self.stackArn {
+            try encodeContainer.encode(stackArn, forKey: .stackArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stackArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackArn)
+        stackArn = stackArnDecoded
+    }
+}
+
+extension AmplifyClientTypes {
+    /// Describes the backend properties associated with an Amplify Branch.
+    public struct Backend: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) for the CloudFormation stack.
+        public var stackArn: Swift.String?
+
+        public init(
+            stackArn: Swift.String? = nil
+        )
+        {
+            self.stackArn = stackArn
+        }
+    }
+
+}
+
 extension AmplifyClientTypes.BackendEnvironment: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backendEnvironmentArn
@@ -669,6 +704,7 @@ extension AmplifyClientTypes.Branch: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case activeJobId
         case associatedResources
+        case backend
         case backendEnvironmentArn
         case basicAuthCredentials
         case branchArn
@@ -706,6 +742,9 @@ extension AmplifyClientTypes.Branch: Swift.Codable {
             for associatedresource0 in associatedResources {
                 try associatedResourcesContainer.encode(associatedresource0)
             }
+        }
+        if let backend = self.backend {
+            try encodeContainer.encode(backend, forKey: .backend)
         }
         if let backendEnvironmentArn = self.backendEnvironmentArn {
             try encodeContainer.encode(backendEnvironmentArn, forKey: .backendEnvironmentArn)
@@ -885,12 +924,14 @@ extension AmplifyClientTypes.Branch: Swift.Codable {
         sourceBranch = sourceBranchDecoded
         let backendEnvironmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backendEnvironmentArn)
         backendEnvironmentArn = backendEnvironmentArnDecoded
+        let backendDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.Backend.self, forKey: .backend)
+        backend = backendDecoded
     }
 }
 
 extension AmplifyClientTypes.Branch: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Branch(activeJobId: \(Swift.String(describing: activeJobId)), associatedResources: \(Swift.String(describing: associatedResources)), backendEnvironmentArn: \(Swift.String(describing: backendEnvironmentArn)), branchArn: \(Swift.String(describing: branchArn)), branchName: \(Swift.String(describing: branchName)), createTime: \(Swift.String(describing: createTime)), customDomains: \(Swift.String(describing: customDomains)), description: \(Swift.String(describing: description)), destinationBranch: \(Swift.String(describing: destinationBranch)), displayName: \(Swift.String(describing: displayName)), enableAutoBuild: \(Swift.String(describing: enableAutoBuild)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableNotification: \(Swift.String(describing: enableNotification)), enablePerformanceMode: \(Swift.String(describing: enablePerformanceMode)), enablePullRequestPreview: \(Swift.String(describing: enablePullRequestPreview)), environmentVariables: \(Swift.String(describing: environmentVariables)), framework: \(Swift.String(describing: framework)), pullRequestEnvironmentName: \(Swift.String(describing: pullRequestEnvironmentName)), sourceBranch: \(Swift.String(describing: sourceBranch)), stage: \(Swift.String(describing: stage)), tags: \(Swift.String(describing: tags)), thumbnailUrl: \(Swift.String(describing: thumbnailUrl)), totalNumberOfJobs: \(Swift.String(describing: totalNumberOfJobs)), ttl: \(Swift.String(describing: ttl)), updateTime: \(Swift.String(describing: updateTime)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
+        "Branch(activeJobId: \(Swift.String(describing: activeJobId)), associatedResources: \(Swift.String(describing: associatedResources)), backend: \(Swift.String(describing: backend)), backendEnvironmentArn: \(Swift.String(describing: backendEnvironmentArn)), branchArn: \(Swift.String(describing: branchArn)), branchName: \(Swift.String(describing: branchName)), createTime: \(Swift.String(describing: createTime)), customDomains: \(Swift.String(describing: customDomains)), description: \(Swift.String(describing: description)), destinationBranch: \(Swift.String(describing: destinationBranch)), displayName: \(Swift.String(describing: displayName)), enableAutoBuild: \(Swift.String(describing: enableAutoBuild)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableNotification: \(Swift.String(describing: enableNotification)), enablePerformanceMode: \(Swift.String(describing: enablePerformanceMode)), enablePullRequestPreview: \(Swift.String(describing: enablePullRequestPreview)), environmentVariables: \(Swift.String(describing: environmentVariables)), framework: \(Swift.String(describing: framework)), pullRequestEnvironmentName: \(Swift.String(describing: pullRequestEnvironmentName)), sourceBranch: \(Swift.String(describing: sourceBranch)), stage: \(Swift.String(describing: stage)), tags: \(Swift.String(describing: tags)), thumbnailUrl: \(Swift.String(describing: thumbnailUrl)), totalNumberOfJobs: \(Swift.String(describing: totalNumberOfJobs)), ttl: \(Swift.String(describing: ttl)), updateTime: \(Swift.String(describing: updateTime)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
 }
 
 extension AmplifyClientTypes {
@@ -901,6 +942,8 @@ extension AmplifyClientTypes {
         public var activeJobId: Swift.String?
         /// A list of custom resources that are linked to this branch.
         public var associatedResources: [Swift.String]?
+        /// Describes the backend properties associated with an Amplify Branch.
+        public var backend: AmplifyClientTypes.Backend?
         /// The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app.
         public var backendEnvironmentArn: Swift.String?
         /// The basic authorization credentials for a branch of an Amplify app. You must base64-encode the authorization credentials and provide them in the format user:password.
@@ -971,6 +1014,7 @@ extension AmplifyClientTypes {
         public init(
             activeJobId: Swift.String? = nil,
             associatedResources: [Swift.String]? = nil,
+            backend: AmplifyClientTypes.Backend? = nil,
             backendEnvironmentArn: Swift.String? = nil,
             basicAuthCredentials: Swift.String? = nil,
             branchArn: Swift.String? = nil,
@@ -1000,6 +1044,7 @@ extension AmplifyClientTypes {
         {
             self.activeJobId = activeJobId
             self.associatedResources = associatedResources
+            self.backend = backend
             self.backendEnvironmentArn = backendEnvironmentArn
             self.basicAuthCredentials = basicAuthCredentials
             self.branchArn = branchArn
@@ -1140,7 +1185,7 @@ extension CreateAppInput: ClientRuntime.URLPathProvider {
 
 /// The request structure used to create apps in Amplify.
 public struct CreateAppInput: Swift.Equatable {
-    /// The personal access token for a GitHub repository for an Amplify app. The personal access token is used to authorize access to a GitHub repository using the Amplify GitHub App. The token is not stored. Use accessToken for GitHub repositories only. To authorize access to a repository provider such as Bitbucket or CodeCommit, use oauthToken. You must specify either accessToken or oauthToken when you create a new app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/UserGuide/setting-up-GitHub-access.html#migrating-to-github-app-auth) in the Amplify User Guide .
+    /// The personal access token for a GitHub repository for an Amplify app. The personal access token is used to authorize access to a GitHub repository using the Amplify GitHub App. The token is not stored. Use accessToken for GitHub repositories only. To authorize access to a repository provider such as Bitbucket or CodeCommit, use oauthToken. You must specify either accessToken or oauthToken when you create a new app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth) in the Amplify User Guide .
     public var accessToken: Swift.String?
     /// The automated branch creation configuration for an Amplify app.
     public var autoBranchCreationConfig: AmplifyClientTypes.AutoBranchCreationConfig?
@@ -1154,7 +1199,7 @@ public struct CreateAppInput: Swift.Equatable {
     public var customHeaders: Swift.String?
     /// The custom rewrite and redirect rules for an Amplify app.
     public var customRules: [AmplifyClientTypes.CustomRule]?
-    /// The description for an Amplify app.
+    /// The description of the Amplify app.
     public var description: Swift.String?
     /// Enables automated branch creation for an Amplify app.
     public var enableAutoBranchCreation: Swift.Bool?
@@ -1162,20 +1207,20 @@ public struct CreateAppInput: Swift.Equatable {
     public var enableBasicAuth: Swift.Bool?
     /// Enables the auto building of branches for an Amplify app.
     public var enableBranchAutoBuild: Swift.Bool?
-    /// Automatically disconnects a branch in the Amplify Console when you delete a branch from your Git repository.
+    /// Automatically disconnects a branch in the Amplify console when you delete a branch from your Git repository.
     public var enableBranchAutoDeletion: Swift.Bool?
-    /// The environment variables map for an Amplify app.
+    /// The environment variables map for an Amplify app. For a list of the environment variables that are accessible to Amplify by default, see [Amplify Environment variables](https://docs.aws.amazon.com/amplify/latest/userguide/amplify-console-environment-variables.html) in the Amplify Hosting User Guide.
     public var environmentVariables: [Swift.String:Swift.String]?
     /// The AWS Identity and Access Management (IAM) service role for an Amplify app.
     public var iamServiceRoleArn: Swift.String?
-    /// The name for an Amplify app.
+    /// The name of the Amplify app.
     /// This member is required.
     public var name: Swift.String?
-    /// The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you create a new app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/UserGuide/setting-up-GitHub-access.html#migrating-to-github-app-auth) in the Amplify User Guide .
+    /// The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you create a new app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth) in the Amplify User Guide .
     public var oauthToken: Swift.String?
     /// The platform for the Amplify app. For a static app, set the platform type to WEB. For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE. For an app requiring Amplify Hosting's original SSR support only, set the platform type to WEB_DYNAMIC.
     public var platform: AmplifyClientTypes.Platform?
-    /// The repository for an Amplify app.
+    /// The Git repository for the Amplify app.
     public var repository: Swift.String?
     /// The tag for an Amplify app.
     public var tags: [Swift.String:Swift.String]?
@@ -1348,26 +1393,11 @@ extension CreateAppInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateAppOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DependentServiceFailureException": return try await DependentServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateAppOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateAppOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateAppOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateAppOutputBody = try responseDecoder.decode(responseBody: data)
             self.app = output.app
         } else {
             self.app = nil
@@ -1375,7 +1405,7 @@ extension CreateAppOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAppOutputResponse: Swift.Equatable {
+public struct CreateAppOutput: Swift.Equatable {
     /// Represents the different branches of a repository for building, deploying, and hosting an Amplify app.
     /// This member is required.
     public var app: AmplifyClientTypes.App?
@@ -1388,11 +1418,11 @@ public struct CreateAppOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateAppOutputResponseBody: Swift.Equatable {
+struct CreateAppOutputBody: Swift.Equatable {
     let app: AmplifyClientTypes.App?
 }
 
-extension CreateAppOutputResponseBody: Swift.Decodable {
+extension CreateAppOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case app
     }
@@ -1401,6 +1431,21 @@ extension CreateAppOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.App.self, forKey: .app)
         app = appDecoded
+    }
+}
+
+enum CreateAppOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependentServiceFailureException": return try await DependentServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1485,8 +1530,50 @@ extension CreateBackendEnvironmentInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateBackendEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateBackendEnvironmentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateBackendEnvironmentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.backendEnvironment = output.backendEnvironment
+        } else {
+            self.backendEnvironment = nil
+        }
+    }
+}
+
+/// The result structure for the create backend environment request.
+public struct CreateBackendEnvironmentOutput: Swift.Equatable {
+    /// Describes the backend environment for an Amplify app.
+    /// This member is required.
+    public var backendEnvironment: AmplifyClientTypes.BackendEnvironment?
+
+    public init(
+        backendEnvironment: AmplifyClientTypes.BackendEnvironment? = nil
+    )
+    {
+        self.backendEnvironment = backendEnvironment
+    }
+}
+
+struct CreateBackendEnvironmentOutputBody: Swift.Equatable {
+    let backendEnvironment: AmplifyClientTypes.BackendEnvironment?
+}
+
+extension CreateBackendEnvironmentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backendEnvironment
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let backendEnvironmentDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.BackendEnvironment.self, forKey: .backendEnvironment)
+        backendEnvironment = backendEnvironmentDecoded
+    }
+}
+
+enum CreateBackendEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1500,55 +1587,14 @@ public enum CreateBackendEnvironmentOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension CreateBackendEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateBackendEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.backendEnvironment = output.backendEnvironment
-        } else {
-            self.backendEnvironment = nil
-        }
-    }
-}
-
-/// The result structure for the create backend environment request.
-public struct CreateBackendEnvironmentOutputResponse: Swift.Equatable {
-    /// Describes the backend environment for an Amplify app.
-    /// This member is required.
-    public var backendEnvironment: AmplifyClientTypes.BackendEnvironment?
-
-    public init(
-        backendEnvironment: AmplifyClientTypes.BackendEnvironment? = nil
-    )
-    {
-        self.backendEnvironment = backendEnvironment
-    }
-}
-
-struct CreateBackendEnvironmentOutputResponseBody: Swift.Equatable {
-    let backendEnvironment: AmplifyClientTypes.BackendEnvironment?
-}
-
-extension CreateBackendEnvironmentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case backendEnvironment
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let backendEnvironmentDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.BackendEnvironment.self, forKey: .backendEnvironment)
-        backendEnvironment = backendEnvironmentDecoded
-    }
-}
-
 extension CreateBranchInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateBranchInput(appId: \(Swift.String(describing: appId)), backendEnvironmentArn: \(Swift.String(describing: backendEnvironmentArn)), branchName: \(Swift.String(describing: branchName)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), enableAutoBuild: \(Swift.String(describing: enableAutoBuild)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableNotification: \(Swift.String(describing: enableNotification)), enablePerformanceMode: \(Swift.String(describing: enablePerformanceMode)), enablePullRequestPreview: \(Swift.String(describing: enablePullRequestPreview)), environmentVariables: \(Swift.String(describing: environmentVariables)), framework: \(Swift.String(describing: framework)), pullRequestEnvironmentName: \(Swift.String(describing: pullRequestEnvironmentName)), stage: \(Swift.String(describing: stage)), tags: \(Swift.String(describing: tags)), ttl: \(Swift.String(describing: ttl)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
+        "CreateBranchInput(appId: \(Swift.String(describing: appId)), backend: \(Swift.String(describing: backend)), backendEnvironmentArn: \(Swift.String(describing: backendEnvironmentArn)), branchName: \(Swift.String(describing: branchName)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), enableAutoBuild: \(Swift.String(describing: enableAutoBuild)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableNotification: \(Swift.String(describing: enableNotification)), enablePerformanceMode: \(Swift.String(describing: enablePerformanceMode)), enablePullRequestPreview: \(Swift.String(describing: enablePullRequestPreview)), environmentVariables: \(Swift.String(describing: environmentVariables)), framework: \(Swift.String(describing: framework)), pullRequestEnvironmentName: \(Swift.String(describing: pullRequestEnvironmentName)), stage: \(Swift.String(describing: stage)), tags: \(Swift.String(describing: tags)), ttl: \(Swift.String(describing: ttl)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateBranchInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backend
         case backendEnvironmentArn
         case basicAuthCredentials
         case branchName
@@ -1570,6 +1616,9 @@ extension CreateBranchInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let backend = self.backend {
+            try encodeContainer.encode(backend, forKey: .backend)
+        }
         if let backendEnvironmentArn = self.backendEnvironmentArn {
             try encodeContainer.encode(backendEnvironmentArn, forKey: .backendEnvironmentArn)
         }
@@ -1644,6 +1693,8 @@ public struct CreateBranchInput: Swift.Equatable {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
+    /// The backend for a Branch of an Amplify app. Use for a backend created from an CloudFormation stack.
+    public var backend: AmplifyClientTypes.Backend?
     /// The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app.
     public var backendEnvironmentArn: Swift.String?
     /// The basic authorization credentials for the branch. You must base64-encode the authorization credentials and provide them in the format user:password.
@@ -1682,6 +1733,7 @@ public struct CreateBranchInput: Swift.Equatable {
 
     public init(
         appId: Swift.String? = nil,
+        backend: AmplifyClientTypes.Backend? = nil,
         backendEnvironmentArn: Swift.String? = nil,
         basicAuthCredentials: Swift.String? = nil,
         branchName: Swift.String? = nil,
@@ -1702,6 +1754,7 @@ public struct CreateBranchInput: Swift.Equatable {
     )
     {
         self.appId = appId
+        self.backend = backend
         self.backendEnvironmentArn = backendEnvironmentArn
         self.basicAuthCredentials = basicAuthCredentials
         self.branchName = branchName
@@ -1740,10 +1793,12 @@ struct CreateBranchInputBody: Swift.Equatable {
     let enablePullRequestPreview: Swift.Bool?
     let pullRequestEnvironmentName: Swift.String?
     let backendEnvironmentArn: Swift.String?
+    let backend: AmplifyClientTypes.Backend?
 }
 
 extension CreateBranchInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backend
         case backendEnvironmentArn
         case basicAuthCredentials
         case branchName
@@ -1817,30 +1872,16 @@ extension CreateBranchInputBody: Swift.Decodable {
         pullRequestEnvironmentName = pullRequestEnvironmentNameDecoded
         let backendEnvironmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backendEnvironmentArn)
         backendEnvironmentArn = backendEnvironmentArnDecoded
+        let backendDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.Backend.self, forKey: .backend)
+        backend = backendDecoded
     }
 }
 
-public enum CreateBranchOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DependentServiceFailureException": return try await DependentServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateBranchOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateBranchOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateBranchOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateBranchOutputBody = try responseDecoder.decode(responseBody: data)
             self.branch = output.branch
         } else {
             self.branch = nil
@@ -1849,7 +1890,7 @@ extension CreateBranchOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for create branch request.
-public struct CreateBranchOutputResponse: Swift.Equatable {
+public struct CreateBranchOutput: Swift.Equatable {
     /// Describes the branch for an Amplify app, which maps to a third-party repository branch.
     /// This member is required.
     public var branch: AmplifyClientTypes.Branch?
@@ -1862,11 +1903,11 @@ public struct CreateBranchOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateBranchOutputResponseBody: Swift.Equatable {
+struct CreateBranchOutputBody: Swift.Equatable {
     let branch: AmplifyClientTypes.Branch?
 }
 
-extension CreateBranchOutputResponseBody: Swift.Decodable {
+extension CreateBranchOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case branch
     }
@@ -1875,6 +1916,22 @@ extension CreateBranchOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let branchDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.Branch.self, forKey: .branch)
         branch = branchDecoded
+    }
+}
+
+enum CreateBranchOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependentServiceFailureException": return try await DependentServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1911,7 +1968,7 @@ public struct CreateDeploymentInput: Swift.Equatable {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
-    /// The name for the branch, for the job.
+    /// The name of the branch to use for the job.
     /// This member is required.
     public var branchName: Swift.String?
     /// An optional file map that contains the file name as the key and the file content md5 hash as the value. If this argument is provided, the service will generate a unique upload URL per file. Otherwise, the service will only generate a single upload URL for the zipped files.
@@ -1954,25 +2011,11 @@ extension CreateDeploymentInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateDeploymentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateDeploymentOutputBody = try responseDecoder.decode(responseBody: data)
             self.fileUploadUrls = output.fileUploadUrls
             self.jobId = output.jobId
             self.zipUploadUrl = output.zipUploadUrl
@@ -1985,7 +2028,7 @@ extension CreateDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the create a new deployment request.
-public struct CreateDeploymentOutputResponse: Swift.Equatable {
+public struct CreateDeploymentOutput: Swift.Equatable {
     /// When the fileMap argument is provided in the request, fileUploadUrls will contain a map of file names to upload URLs.
     /// This member is required.
     public var fileUploadUrls: [Swift.String:Swift.String]?
@@ -2007,13 +2050,13 @@ public struct CreateDeploymentOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateDeploymentOutputResponseBody: Swift.Equatable {
+struct CreateDeploymentOutputBody: Swift.Equatable {
     let jobId: Swift.String?
     let fileUploadUrls: [Swift.String:Swift.String]?
     let zipUploadUrl: Swift.String?
 }
 
-extension CreateDeploymentOutputResponseBody: Swift.Decodable {
+extension CreateDeploymentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fileUploadUrls
         case jobId
@@ -2037,6 +2080,20 @@ extension CreateDeploymentOutputResponseBody: Swift.Decodable {
         fileUploadUrls = fileUploadUrlsDecoded0
         let zipUploadUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .zipUploadUrl)
         zipUploadUrl = zipUploadUrlDecoded
+    }
+}
+
+enum CreateDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2170,27 +2227,11 @@ extension CreateDomainAssociationInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DependentServiceFailureException": return try await DependentServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateDomainAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateDomainAssociationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateDomainAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateDomainAssociationOutputBody = try responseDecoder.decode(responseBody: data)
             self.domainAssociation = output.domainAssociation
         } else {
             self.domainAssociation = nil
@@ -2199,7 +2240,7 @@ extension CreateDomainAssociationOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 /// The result structure for the create domain association request.
-public struct CreateDomainAssociationOutputResponse: Swift.Equatable {
+public struct CreateDomainAssociationOutput: Swift.Equatable {
     /// Describes the structure of a domain association, which associates a custom domain with an Amplify app.
     /// This member is required.
     public var domainAssociation: AmplifyClientTypes.DomainAssociation?
@@ -2212,11 +2253,11 @@ public struct CreateDomainAssociationOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateDomainAssociationOutputResponseBody: Swift.Equatable {
+struct CreateDomainAssociationOutputBody: Swift.Equatable {
     let domainAssociation: AmplifyClientTypes.DomainAssociation?
 }
 
-extension CreateDomainAssociationOutputResponseBody: Swift.Decodable {
+extension CreateDomainAssociationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case domainAssociation
     }
@@ -2225,6 +2266,22 @@ extension CreateDomainAssociationOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainAssociationDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.DomainAssociation.self, forKey: .domainAssociation)
         domainAssociation = domainAssociationDecoded
+    }
+}
+
+enum CreateDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependentServiceFailureException": return try await DependentServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2297,27 +2354,11 @@ extension CreateWebhookInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateWebhookOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DependentServiceFailureException": return try await DependentServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateWebhookOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateWebhookOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateWebhookOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateWebhookOutputBody = try responseDecoder.decode(responseBody: data)
             self.webhook = output.webhook
         } else {
             self.webhook = nil
@@ -2326,7 +2367,7 @@ extension CreateWebhookOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the create webhook request.
-public struct CreateWebhookOutputResponse: Swift.Equatable {
+public struct CreateWebhookOutput: Swift.Equatable {
     /// Describes a webhook that connects repository events to an Amplify app.
     /// This member is required.
     public var webhook: AmplifyClientTypes.Webhook?
@@ -2339,11 +2380,11 @@ public struct CreateWebhookOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateWebhookOutputResponseBody: Swift.Equatable {
+struct CreateWebhookOutputBody: Swift.Equatable {
     let webhook: AmplifyClientTypes.Webhook?
 }
 
-extension CreateWebhookOutputResponseBody: Swift.Decodable {
+extension CreateWebhookOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case webhook
     }
@@ -2352,6 +2393,22 @@ extension CreateWebhookOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let webhookDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.Webhook.self, forKey: .webhook)
         webhook = webhookDecoded
+    }
+}
+
+enum CreateWebhookOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependentServiceFailureException": return try await DependentServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2454,26 +2511,11 @@ extension DeleteAppInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteAppOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DependentServiceFailureException": return try await DependentServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteAppOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteAppOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteAppOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteAppOutputBody = try responseDecoder.decode(responseBody: data)
             self.app = output.app
         } else {
             self.app = nil
@@ -2482,7 +2524,7 @@ extension DeleteAppOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the delete app request.
-public struct DeleteAppOutputResponse: Swift.Equatable {
+public struct DeleteAppOutput: Swift.Equatable {
     /// Represents the different branches of a repository for building, deploying, and hosting an Amplify app.
     /// This member is required.
     public var app: AmplifyClientTypes.App?
@@ -2495,11 +2537,11 @@ public struct DeleteAppOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteAppOutputResponseBody: Swift.Equatable {
+struct DeleteAppOutputBody: Swift.Equatable {
     let app: AmplifyClientTypes.App?
 }
 
-extension DeleteAppOutputResponseBody: Swift.Decodable {
+extension DeleteAppOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case app
     }
@@ -2508,6 +2550,21 @@ extension DeleteAppOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.App.self, forKey: .app)
         app = appDecoded
+    }
+}
+
+enum DeleteAppOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependentServiceFailureException": return try await DependentServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2551,26 +2608,11 @@ extension DeleteBackendEnvironmentInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteBackendEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DependentServiceFailureException": return try await DependentServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteBackendEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteBackendEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteBackendEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteBackendEnvironmentOutputBody = try responseDecoder.decode(responseBody: data)
             self.backendEnvironment = output.backendEnvironment
         } else {
             self.backendEnvironment = nil
@@ -2579,7 +2621,7 @@ extension DeleteBackendEnvironmentOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 /// The result structure of the delete backend environment result.
-public struct DeleteBackendEnvironmentOutputResponse: Swift.Equatable {
+public struct DeleteBackendEnvironmentOutput: Swift.Equatable {
     /// Describes the backend environment for an Amplify app.
     /// This member is required.
     public var backendEnvironment: AmplifyClientTypes.BackendEnvironment?
@@ -2592,11 +2634,11 @@ public struct DeleteBackendEnvironmentOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteBackendEnvironmentOutputResponseBody: Swift.Equatable {
+struct DeleteBackendEnvironmentOutputBody: Swift.Equatable {
     let backendEnvironment: AmplifyClientTypes.BackendEnvironment?
 }
 
-extension DeleteBackendEnvironmentOutputResponseBody: Swift.Decodable {
+extension DeleteBackendEnvironmentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backendEnvironment
     }
@@ -2605,6 +2647,21 @@ extension DeleteBackendEnvironmentOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let backendEnvironmentDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.BackendEnvironment.self, forKey: .backendEnvironment)
         backendEnvironment = backendEnvironmentDecoded
+    }
+}
+
+enum DeleteBackendEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependentServiceFailureException": return try await DependentServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2625,7 +2682,7 @@ public struct DeleteBranchInput: Swift.Equatable {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
-    /// The name for the branch.
+    /// The name of the branch.
     /// This member is required.
     public var branchName: Swift.String?
 
@@ -2648,26 +2705,11 @@ extension DeleteBranchInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteBranchOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DependentServiceFailureException": return try await DependentServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteBranchOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteBranchOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteBranchOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteBranchOutputBody = try responseDecoder.decode(responseBody: data)
             self.branch = output.branch
         } else {
             self.branch = nil
@@ -2676,7 +2718,7 @@ extension DeleteBranchOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the delete branch request.
-public struct DeleteBranchOutputResponse: Swift.Equatable {
+public struct DeleteBranchOutput: Swift.Equatable {
     /// The branch for an Amplify app, which maps to a third-party repository branch.
     /// This member is required.
     public var branch: AmplifyClientTypes.Branch?
@@ -2689,11 +2731,11 @@ public struct DeleteBranchOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteBranchOutputResponseBody: Swift.Equatable {
+struct DeleteBranchOutputBody: Swift.Equatable {
     let branch: AmplifyClientTypes.Branch?
 }
 
-extension DeleteBranchOutputResponseBody: Swift.Decodable {
+extension DeleteBranchOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case branch
     }
@@ -2702,6 +2744,21 @@ extension DeleteBranchOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let branchDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.Branch.self, forKey: .branch)
         branch = branchDecoded
+    }
+}
+
+enum DeleteBranchOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependentServiceFailureException": return try await DependentServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2745,26 +2802,11 @@ extension DeleteDomainAssociationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DependentServiceFailureException": return try await DependentServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteDomainAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteDomainAssociationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteDomainAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteDomainAssociationOutputBody = try responseDecoder.decode(responseBody: data)
             self.domainAssociation = output.domainAssociation
         } else {
             self.domainAssociation = nil
@@ -2772,7 +2814,7 @@ extension DeleteDomainAssociationOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DeleteDomainAssociationOutputResponse: Swift.Equatable {
+public struct DeleteDomainAssociationOutput: Swift.Equatable {
     /// Describes a domain association that associates a custom domain with an Amplify app.
     /// This member is required.
     public var domainAssociation: AmplifyClientTypes.DomainAssociation?
@@ -2785,11 +2827,11 @@ public struct DeleteDomainAssociationOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteDomainAssociationOutputResponseBody: Swift.Equatable {
+struct DeleteDomainAssociationOutputBody: Swift.Equatable {
     let domainAssociation: AmplifyClientTypes.DomainAssociation?
 }
 
-extension DeleteDomainAssociationOutputResponseBody: Swift.Decodable {
+extension DeleteDomainAssociationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case domainAssociation
     }
@@ -2798,6 +2840,21 @@ extension DeleteDomainAssociationOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainAssociationDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.DomainAssociation.self, forKey: .domainAssociation)
         domainAssociation = domainAssociationDecoded
+    }
+}
+
+enum DeleteDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependentServiceFailureException": return try await DependentServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2821,7 +2878,7 @@ public struct DeleteJobInput: Swift.Equatable {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
-    /// The name for the branch, for the job.
+    /// The name of the branch to use for the job.
     /// This member is required.
     public var branchName: Swift.String?
     /// The unique ID for the job.
@@ -2849,26 +2906,11 @@ extension DeleteJobInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobSummary = output.jobSummary
         } else {
             self.jobSummary = nil
@@ -2877,7 +2919,7 @@ extension DeleteJobOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the delete job request.
-public struct DeleteJobOutputResponse: Swift.Equatable {
+public struct DeleteJobOutput: Swift.Equatable {
     /// Describes the summary for an execution job for an Amplify app.
     /// This member is required.
     public var jobSummary: AmplifyClientTypes.JobSummary?
@@ -2890,11 +2932,11 @@ public struct DeleteJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteJobOutputResponseBody: Swift.Equatable {
+struct DeleteJobOutputBody: Swift.Equatable {
     let jobSummary: AmplifyClientTypes.JobSummary?
 }
 
-extension DeleteJobOutputResponseBody: Swift.Decodable {
+extension DeleteJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobSummary
     }
@@ -2903,6 +2945,21 @@ extension DeleteJobOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobSummaryDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.JobSummary.self, forKey: .jobSummary)
         jobSummary = jobSummaryDecoded
+    }
+}
+
+enum DeleteJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2938,26 +2995,11 @@ extension DeleteWebhookInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteWebhookOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteWebhookOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteWebhookOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteWebhookOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteWebhookOutputBody = try responseDecoder.decode(responseBody: data)
             self.webhook = output.webhook
         } else {
             self.webhook = nil
@@ -2966,7 +3008,7 @@ extension DeleteWebhookOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the delete webhook request.
-public struct DeleteWebhookOutputResponse: Swift.Equatable {
+public struct DeleteWebhookOutput: Swift.Equatable {
     /// Describes a webhook that connects repository events to an Amplify app.
     /// This member is required.
     public var webhook: AmplifyClientTypes.Webhook?
@@ -2979,11 +3021,11 @@ public struct DeleteWebhookOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteWebhookOutputResponseBody: Swift.Equatable {
+struct DeleteWebhookOutputBody: Swift.Equatable {
     let webhook: AmplifyClientTypes.Webhook?
 }
 
-extension DeleteWebhookOutputResponseBody: Swift.Decodable {
+extension DeleteWebhookOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case webhook
     }
@@ -2992,6 +3034,21 @@ extension DeleteWebhookOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let webhookDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.Webhook.self, forKey: .webhook)
         webhook = webhookDecoded
+    }
+}
+
+enum DeleteWebhookOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3326,25 +3383,11 @@ extension GenerateAccessLogsInputBody: Swift.Decodable {
     }
 }
 
-public enum GenerateAccessLogsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GenerateAccessLogsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GenerateAccessLogsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GenerateAccessLogsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GenerateAccessLogsOutputBody = try responseDecoder.decode(responseBody: data)
             self.logUrl = output.logUrl
         } else {
             self.logUrl = nil
@@ -3353,7 +3396,7 @@ extension GenerateAccessLogsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the generate access logs request.
-public struct GenerateAccessLogsOutputResponse: Swift.Equatable {
+public struct GenerateAccessLogsOutput: Swift.Equatable {
     /// The pre-signed URL for the requested access logs.
     public var logUrl: Swift.String?
 
@@ -3365,11 +3408,11 @@ public struct GenerateAccessLogsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GenerateAccessLogsOutputResponseBody: Swift.Equatable {
+struct GenerateAccessLogsOutputBody: Swift.Equatable {
     let logUrl: Swift.String?
 }
 
-extension GenerateAccessLogsOutputResponseBody: Swift.Decodable {
+extension GenerateAccessLogsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case logUrl
     }
@@ -3378,6 +3421,20 @@ extension GenerateAccessLogsOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let logUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logUrl)
         logUrl = logUrlDecoded
+    }
+}
+
+enum GenerateAccessLogsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3413,25 +3470,11 @@ extension GetAppInputBody: Swift.Decodable {
     }
 }
 
-public enum GetAppOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetAppOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetAppOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetAppOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetAppOutputBody = try responseDecoder.decode(responseBody: data)
             self.app = output.app
         } else {
             self.app = nil
@@ -3439,7 +3482,7 @@ extension GetAppOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAppOutputResponse: Swift.Equatable {
+public struct GetAppOutput: Swift.Equatable {
     /// Represents the different branches of a repository for building, deploying, and hosting an Amplify app.
     /// This member is required.
     public var app: AmplifyClientTypes.App?
@@ -3452,11 +3495,11 @@ public struct GetAppOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetAppOutputResponseBody: Swift.Equatable {
+struct GetAppOutputBody: Swift.Equatable {
     let app: AmplifyClientTypes.App?
 }
 
-extension GetAppOutputResponseBody: Swift.Decodable {
+extension GetAppOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case app
     }
@@ -3465,6 +3508,20 @@ extension GetAppOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.App.self, forKey: .app)
         app = appDecoded
+    }
+}
+
+enum GetAppOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3500,26 +3557,11 @@ extension GetArtifactUrlInputBody: Swift.Decodable {
     }
 }
 
-public enum GetArtifactUrlOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetArtifactUrlOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetArtifactUrlOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetArtifactUrlOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetArtifactUrlOutputBody = try responseDecoder.decode(responseBody: data)
             self.artifactId = output.artifactId
             self.artifactUrl = output.artifactUrl
         } else {
@@ -3530,7 +3572,7 @@ extension GetArtifactUrlOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returns the result structure for the get artifact request.
-public struct GetArtifactUrlOutputResponse: Swift.Equatable {
+public struct GetArtifactUrlOutput: Swift.Equatable {
     /// The unique ID for an artifact.
     /// This member is required.
     public var artifactId: Swift.String?
@@ -3548,12 +3590,12 @@ public struct GetArtifactUrlOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetArtifactUrlOutputResponseBody: Swift.Equatable {
+struct GetArtifactUrlOutputBody: Swift.Equatable {
     let artifactId: Swift.String?
     let artifactUrl: Swift.String?
 }
 
-extension GetArtifactUrlOutputResponseBody: Swift.Decodable {
+extension GetArtifactUrlOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case artifactId
         case artifactUrl
@@ -3565,6 +3607,21 @@ extension GetArtifactUrlOutputResponseBody: Swift.Decodable {
         artifactId = artifactIdDecoded
         let artifactUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .artifactUrl)
         artifactUrl = artifactUrlDecoded
+    }
+}
+
+enum GetArtifactUrlOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3608,25 +3665,11 @@ extension GetBackendEnvironmentInputBody: Swift.Decodable {
     }
 }
 
-public enum GetBackendEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetBackendEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetBackendEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetBackendEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetBackendEnvironmentOutputBody = try responseDecoder.decode(responseBody: data)
             self.backendEnvironment = output.backendEnvironment
         } else {
             self.backendEnvironment = nil
@@ -3635,7 +3678,7 @@ extension GetBackendEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 /// The result structure for the get backend environment result.
-public struct GetBackendEnvironmentOutputResponse: Swift.Equatable {
+public struct GetBackendEnvironmentOutput: Swift.Equatable {
     /// Describes the backend environment for an Amplify app.
     /// This member is required.
     public var backendEnvironment: AmplifyClientTypes.BackendEnvironment?
@@ -3648,11 +3691,11 @@ public struct GetBackendEnvironmentOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetBackendEnvironmentOutputResponseBody: Swift.Equatable {
+struct GetBackendEnvironmentOutputBody: Swift.Equatable {
     let backendEnvironment: AmplifyClientTypes.BackendEnvironment?
 }
 
-extension GetBackendEnvironmentOutputResponseBody: Swift.Decodable {
+extension GetBackendEnvironmentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backendEnvironment
     }
@@ -3661,6 +3704,20 @@ extension GetBackendEnvironmentOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let backendEnvironmentDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.BackendEnvironment.self, forKey: .backendEnvironment)
         backendEnvironment = backendEnvironmentDecoded
+    }
+}
+
+enum GetBackendEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3681,7 +3738,7 @@ public struct GetBranchInput: Swift.Equatable {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
-    /// The name for the branch.
+    /// The name of the branch.
     /// This member is required.
     public var branchName: Swift.String?
 
@@ -3704,25 +3761,11 @@ extension GetBranchInputBody: Swift.Decodable {
     }
 }
 
-public enum GetBranchOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetBranchOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetBranchOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetBranchOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetBranchOutputBody = try responseDecoder.decode(responseBody: data)
             self.branch = output.branch
         } else {
             self.branch = nil
@@ -3730,7 +3773,7 @@ extension GetBranchOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBranchOutputResponse: Swift.Equatable {
+public struct GetBranchOutput: Swift.Equatable {
     /// The branch for an Amplify app, which maps to a third-party repository branch.
     /// This member is required.
     public var branch: AmplifyClientTypes.Branch?
@@ -3743,11 +3786,11 @@ public struct GetBranchOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetBranchOutputResponseBody: Swift.Equatable {
+struct GetBranchOutputBody: Swift.Equatable {
     let branch: AmplifyClientTypes.Branch?
 }
 
-extension GetBranchOutputResponseBody: Swift.Decodable {
+extension GetBranchOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case branch
     }
@@ -3756,6 +3799,20 @@ extension GetBranchOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let branchDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.Branch.self, forKey: .branch)
         branch = branchDecoded
+    }
+}
+
+enum GetBranchOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3799,25 +3856,11 @@ extension GetDomainAssociationInputBody: Swift.Decodable {
     }
 }
 
-public enum GetDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetDomainAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetDomainAssociationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetDomainAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetDomainAssociationOutputBody = try responseDecoder.decode(responseBody: data)
             self.domainAssociation = output.domainAssociation
         } else {
             self.domainAssociation = nil
@@ -3826,7 +3869,7 @@ extension GetDomainAssociationOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 /// The result structure for the get domain association request.
-public struct GetDomainAssociationOutputResponse: Swift.Equatable {
+public struct GetDomainAssociationOutput: Swift.Equatable {
     /// Describes the structure of a domain association, which associates a custom domain with an Amplify app.
     /// This member is required.
     public var domainAssociation: AmplifyClientTypes.DomainAssociation?
@@ -3839,11 +3882,11 @@ public struct GetDomainAssociationOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetDomainAssociationOutputResponseBody: Swift.Equatable {
+struct GetDomainAssociationOutputBody: Swift.Equatable {
     let domainAssociation: AmplifyClientTypes.DomainAssociation?
 }
 
-extension GetDomainAssociationOutputResponseBody: Swift.Decodable {
+extension GetDomainAssociationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case domainAssociation
     }
@@ -3852,6 +3895,20 @@ extension GetDomainAssociationOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainAssociationDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.DomainAssociation.self, forKey: .domainAssociation)
         domainAssociation = domainAssociationDecoded
+    }
+}
+
+enum GetDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3875,7 +3932,7 @@ public struct GetJobInput: Swift.Equatable {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
-    /// The branch name for the job.
+    /// The name of the branch to use for the job.
     /// This member is required.
     public var branchName: Swift.String?
     /// The unique ID for the job.
@@ -3903,26 +3960,11 @@ extension GetJobInputBody: Swift.Decodable {
     }
 }
 
-public enum GetJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.job = output.job
         } else {
             self.job = nil
@@ -3930,7 +3972,7 @@ extension GetJobOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetJobOutputResponse: Swift.Equatable {
+public struct GetJobOutput: Swift.Equatable {
     /// Describes an execution job for an Amplify app.
     /// This member is required.
     public var job: AmplifyClientTypes.Job?
@@ -3943,11 +3985,11 @@ public struct GetJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetJobOutputResponseBody: Swift.Equatable {
+struct GetJobOutputBody: Swift.Equatable {
     let job: AmplifyClientTypes.Job?
 }
 
-extension GetJobOutputResponseBody: Swift.Decodable {
+extension GetJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case job
     }
@@ -3956,6 +3998,21 @@ extension GetJobOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.Job.self, forKey: .job)
         job = jobDecoded
+    }
+}
+
+enum GetJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3991,26 +4048,11 @@ extension GetWebhookInputBody: Swift.Decodable {
     }
 }
 
-public enum GetWebhookOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetWebhookOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetWebhookOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetWebhookOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetWebhookOutputBody = try responseDecoder.decode(responseBody: data)
             self.webhook = output.webhook
         } else {
             self.webhook = nil
@@ -4019,7 +4061,7 @@ extension GetWebhookOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the get webhook request.
-public struct GetWebhookOutputResponse: Swift.Equatable {
+public struct GetWebhookOutput: Swift.Equatable {
     /// Describes the structure of a webhook.
     /// This member is required.
     public var webhook: AmplifyClientTypes.Webhook?
@@ -4032,11 +4074,11 @@ public struct GetWebhookOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetWebhookOutputResponseBody: Swift.Equatable {
+struct GetWebhookOutputBody: Swift.Equatable {
     let webhook: AmplifyClientTypes.Webhook?
 }
 
-extension GetWebhookOutputResponseBody: Swift.Decodable {
+extension GetWebhookOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case webhook
     }
@@ -4045,6 +4087,21 @@ extension GetWebhookOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let webhookDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.Webhook.self, forKey: .webhook)
         webhook = webhookDecoded
+    }
+}
+
+enum GetWebhookOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4433,7 +4490,7 @@ extension ListAppsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -4451,12 +4508,12 @@ extension ListAppsInput: ClientRuntime.URLPathProvider {
 /// The request structure for the list apps request.
 public struct ListAppsInput: Swift.Equatable {
     /// The maximum number of records to list in a single response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A pagination token. If non-null, the pagination token is returned in a result. Pass its value in another request to retrieve more entries.
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -4474,24 +4531,11 @@ extension ListAppsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListAppsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAppsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAppsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAppsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAppsOutputBody = try responseDecoder.decode(responseBody: data)
             self.apps = output.apps
             self.nextToken = output.nextToken
         } else {
@@ -4502,7 +4546,7 @@ extension ListAppsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for an Amplify app list request.
-public struct ListAppsOutputResponse: Swift.Equatable {
+public struct ListAppsOutput: Swift.Equatable {
     /// A list of Amplify apps.
     /// This member is required.
     public var apps: [AmplifyClientTypes.App]?
@@ -4519,12 +4563,12 @@ public struct ListAppsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAppsOutputResponseBody: Swift.Equatable {
+struct ListAppsOutputBody: Swift.Equatable {
     let apps: [AmplifyClientTypes.App]?
     let nextToken: Swift.String?
 }
 
-extension ListAppsOutputResponseBody: Swift.Decodable {
+extension ListAppsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case apps
         case nextToken
@@ -4548,6 +4592,19 @@ extension ListAppsOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListAppsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListArtifactsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -4556,7 +4613,7 @@ extension ListArtifactsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -4592,7 +4649,7 @@ public struct ListArtifactsInput: Swift.Equatable {
     /// This member is required.
     public var jobId: Swift.String?
     /// The maximum number of records to list in a single response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A pagination token. Set to null to start listing artifacts from start. If a non-null pagination token is returned in a result, pass its value in here to list more artifacts.
     public var nextToken: Swift.String?
 
@@ -4600,7 +4657,7 @@ public struct ListArtifactsInput: Swift.Equatable {
         appId: Swift.String? = nil,
         branchName: Swift.String? = nil,
         jobId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -4621,25 +4678,11 @@ extension ListArtifactsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListArtifactsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListArtifactsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListArtifactsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListArtifactsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListArtifactsOutputBody = try responseDecoder.decode(responseBody: data)
             self.artifacts = output.artifacts
             self.nextToken = output.nextToken
         } else {
@@ -4650,7 +4693,7 @@ extension ListArtifactsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the list artifacts request.
-public struct ListArtifactsOutputResponse: Swift.Equatable {
+public struct ListArtifactsOutput: Swift.Equatable {
     /// A list of artifacts.
     /// This member is required.
     public var artifacts: [AmplifyClientTypes.Artifact]?
@@ -4667,12 +4710,12 @@ public struct ListArtifactsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListArtifactsOutputResponseBody: Swift.Equatable {
+struct ListArtifactsOutputBody: Swift.Equatable {
     let artifacts: [AmplifyClientTypes.Artifact]?
     let nextToken: Swift.String?
 }
 
-extension ListArtifactsOutputResponseBody: Swift.Decodable {
+extension ListArtifactsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case artifacts
         case nextToken
@@ -4696,6 +4739,20 @@ extension ListArtifactsOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListArtifactsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListBackendEnvironmentsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -4708,7 +4765,7 @@ extension ListBackendEnvironmentsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -4734,14 +4791,14 @@ public struct ListBackendEnvironmentsInput: Swift.Equatable {
     /// The name of the backend environment
     public var environmentName: Swift.String?
     /// The maximum number of records to list in a single response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A pagination token. Set to null to start listing backend environments from the start. If a non-null pagination token is returned in a result, pass its value in here to list more backend environments.
     public var nextToken: Swift.String?
 
     public init(
         appId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -4761,24 +4818,11 @@ extension ListBackendEnvironmentsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListBackendEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListBackendEnvironmentsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListBackendEnvironmentsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListBackendEnvironmentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListBackendEnvironmentsOutputBody = try responseDecoder.decode(responseBody: data)
             self.backendEnvironments = output.backendEnvironments
             self.nextToken = output.nextToken
         } else {
@@ -4789,7 +4833,7 @@ extension ListBackendEnvironmentsOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 /// The result structure for the list backend environments result.
-public struct ListBackendEnvironmentsOutputResponse: Swift.Equatable {
+public struct ListBackendEnvironmentsOutput: Swift.Equatable {
     /// The list of backend environments for an Amplify app.
     /// This member is required.
     public var backendEnvironments: [AmplifyClientTypes.BackendEnvironment]?
@@ -4806,12 +4850,12 @@ public struct ListBackendEnvironmentsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListBackendEnvironmentsOutputResponseBody: Swift.Equatable {
+struct ListBackendEnvironmentsOutputBody: Swift.Equatable {
     let backendEnvironments: [AmplifyClientTypes.BackendEnvironment]?
     let nextToken: Swift.String?
 }
 
-extension ListBackendEnvironmentsOutputResponseBody: Swift.Decodable {
+extension ListBackendEnvironmentsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backendEnvironments
         case nextToken
@@ -4835,6 +4879,19 @@ extension ListBackendEnvironmentsOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListBackendEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListBranchesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -4843,7 +4900,7 @@ extension ListBranchesInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -4867,13 +4924,13 @@ public struct ListBranchesInput: Swift.Equatable {
     /// This member is required.
     public var appId: Swift.String?
     /// The maximum number of records to list in a single response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A pagination token. Set to null to start listing branches from the start. If a non-null pagination token is returned in a result, pass its value in here to list more branches.
     public var nextToken: Swift.String?
 
     public init(
         appId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -4892,24 +4949,11 @@ extension ListBranchesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListBranchesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListBranchesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListBranchesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListBranchesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListBranchesOutputBody = try responseDecoder.decode(responseBody: data)
             self.branches = output.branches
             self.nextToken = output.nextToken
         } else {
@@ -4920,7 +4964,7 @@ extension ListBranchesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the list branches request.
-public struct ListBranchesOutputResponse: Swift.Equatable {
+public struct ListBranchesOutput: Swift.Equatable {
     /// A list of branches for an Amplify app.
     /// This member is required.
     public var branches: [AmplifyClientTypes.Branch]?
@@ -4937,12 +4981,12 @@ public struct ListBranchesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListBranchesOutputResponseBody: Swift.Equatable {
+struct ListBranchesOutputBody: Swift.Equatable {
     let branches: [AmplifyClientTypes.Branch]?
     let nextToken: Swift.String?
 }
 
-extension ListBranchesOutputResponseBody: Swift.Decodable {
+extension ListBranchesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case branches
         case nextToken
@@ -4966,6 +5010,19 @@ extension ListBranchesOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListBranchesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListDomainAssociationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -4974,7 +5031,7 @@ extension ListDomainAssociationsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -4998,13 +5055,13 @@ public struct ListDomainAssociationsInput: Swift.Equatable {
     /// This member is required.
     public var appId: Swift.String?
     /// The maximum number of records to list in a single response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A pagination token. Set to null to start listing apps from the start. If non-null, a pagination token is returned in a result. Pass its value in here to list more projects.
     public var nextToken: Swift.String?
 
     public init(
         appId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -5023,24 +5080,11 @@ extension ListDomainAssociationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListDomainAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListDomainAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListDomainAssociationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListDomainAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListDomainAssociationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.domainAssociations = output.domainAssociations
             self.nextToken = output.nextToken
         } else {
@@ -5051,7 +5095,7 @@ extension ListDomainAssociationsOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 /// The result structure for the list domain association request.
-public struct ListDomainAssociationsOutputResponse: Swift.Equatable {
+public struct ListDomainAssociationsOutput: Swift.Equatable {
     /// A list of domain associations.
     /// This member is required.
     public var domainAssociations: [AmplifyClientTypes.DomainAssociation]?
@@ -5068,12 +5112,12 @@ public struct ListDomainAssociationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListDomainAssociationsOutputResponseBody: Swift.Equatable {
+struct ListDomainAssociationsOutputBody: Swift.Equatable {
     let domainAssociations: [AmplifyClientTypes.DomainAssociation]?
     let nextToken: Swift.String?
 }
 
-extension ListDomainAssociationsOutputResponseBody: Swift.Decodable {
+extension ListDomainAssociationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case domainAssociations
         case nextToken
@@ -5097,6 +5141,19 @@ extension ListDomainAssociationsOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListDomainAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -5105,7 +5162,7 @@ extension ListJobsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -5131,18 +5188,18 @@ public struct ListJobsInput: Swift.Equatable {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
-    /// The name for a branch.
+    /// The name of the branch to use for the request.
     /// This member is required.
     public var branchName: Swift.String?
     /// The maximum number of records to list in a single response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A pagination token. Set to null to start listing steps from the start. If a non-null pagination token is returned in a result, pass its value in here to list more steps.
     public var nextToken: Swift.String?
 
     public init(
         appId: Swift.String? = nil,
         branchName: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -5162,25 +5219,11 @@ extension ListJobsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListJobsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListJobsOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobSummaries = output.jobSummaries
             self.nextToken = output.nextToken
         } else {
@@ -5191,7 +5234,7 @@ extension ListJobsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The maximum number of records to list in a single response.
-public struct ListJobsOutputResponse: Swift.Equatable {
+public struct ListJobsOutput: Swift.Equatable {
     /// The result structure for the list job result request.
     /// This member is required.
     public var jobSummaries: [AmplifyClientTypes.JobSummary]?
@@ -5208,12 +5251,12 @@ public struct ListJobsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListJobsOutputResponseBody: Swift.Equatable {
+struct ListJobsOutputBody: Swift.Equatable {
     let jobSummaries: [AmplifyClientTypes.JobSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListJobsOutputResponseBody: Swift.Decodable {
+extension ListJobsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobSummaries
         case nextToken
@@ -5234,6 +5277,20 @@ extension ListJobsOutputResponseBody: Swift.Decodable {
         jobSummaries = jobSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5269,24 +5326,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -5295,7 +5339,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response for the list tags for resource request.
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// A list of tags for the specified The Amazon Resource Name (ARN).
     public var tags: [Swift.String:Swift.String]?
 
@@ -5307,11 +5351,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags
     }
@@ -5332,6 +5376,19 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListWebhooksInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -5340,7 +5397,7 @@ extension ListWebhooksInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -5364,13 +5421,13 @@ public struct ListWebhooksInput: Swift.Equatable {
     /// This member is required.
     public var appId: Swift.String?
     /// The maximum number of records to list in a single response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A pagination token. Set to null to start listing webhooks from the start. If non-null,the pagination token is returned in a result. Pass its value in here to list more webhooks.
     public var nextToken: Swift.String?
 
     public init(
         appId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -5389,25 +5446,11 @@ extension ListWebhooksInputBody: Swift.Decodable {
     }
 }
 
-public enum ListWebhooksOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListWebhooksOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListWebhooksOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListWebhooksOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListWebhooksOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.webhooks = output.webhooks
         } else {
@@ -5418,7 +5461,7 @@ extension ListWebhooksOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the list webhooks request.
-public struct ListWebhooksOutputResponse: Swift.Equatable {
+public struct ListWebhooksOutput: Swift.Equatable {
     /// A pagination token. If non-null, the pagination token is returned in a result. Pass its value in another request to retrieve more entries.
     public var nextToken: Swift.String?
     /// A list of webhooks.
@@ -5435,12 +5478,12 @@ public struct ListWebhooksOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListWebhooksOutputResponseBody: Swift.Equatable {
+struct ListWebhooksOutputBody: Swift.Equatable {
     let webhooks: [AmplifyClientTypes.Webhook]?
     let nextToken: Swift.String?
 }
 
-extension ListWebhooksOutputResponseBody: Swift.Decodable {
+extension ListWebhooksOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case webhooks
@@ -5461,6 +5504,20 @@ extension ListWebhooksOutputResponseBody: Swift.Decodable {
         webhooks = webhooksDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListWebhooksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5795,7 +5852,7 @@ public struct StartDeploymentInput: Swift.Equatable {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
-    /// The name for the branch, for the job.
+    /// The name of the branch to use for the job.
     /// This member is required.
     public var branchName: Swift.String?
     /// The job ID for this deployment, generated by the create deployment request.
@@ -5837,26 +5894,11 @@ extension StartDeploymentInputBody: Swift.Decodable {
     }
 }
 
-public enum StartDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartDeploymentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartDeploymentOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobSummary = output.jobSummary
         } else {
             self.jobSummary = nil
@@ -5865,7 +5907,7 @@ extension StartDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the start a deployment request.
-public struct StartDeploymentOutputResponse: Swift.Equatable {
+public struct StartDeploymentOutput: Swift.Equatable {
     /// The summary for the job.
     /// This member is required.
     public var jobSummary: AmplifyClientTypes.JobSummary?
@@ -5878,11 +5920,11 @@ public struct StartDeploymentOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartDeploymentOutputResponseBody: Swift.Equatable {
+struct StartDeploymentOutputBody: Swift.Equatable {
     let jobSummary: AmplifyClientTypes.JobSummary?
 }
 
-extension StartDeploymentOutputResponseBody: Swift.Decodable {
+extension StartDeploymentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobSummary
     }
@@ -5891,6 +5933,21 @@ extension StartDeploymentOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobSummaryDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.JobSummary.self, forKey: .jobSummary)
         jobSummary = jobSummaryDecoded
+    }
+}
+
+enum StartDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5944,7 +6001,7 @@ public struct StartJobInput: Swift.Equatable {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
-    /// The branch name for the job.
+    /// The name of the branch to use for the job.
     /// This member is required.
     public var branchName: Swift.String?
     /// The commit ID from a third-party repository provider for the job.
@@ -5955,7 +6012,7 @@ public struct StartJobInput: Swift.Equatable {
     public var commitTime: ClientRuntime.Date?
     /// The unique ID for an existing job. This is required if the value of jobType is RETRY.
     public var jobId: Swift.String?
-    /// A descriptive reason for starting this job.
+    /// A descriptive reason for starting the job.
     public var jobReason: Swift.String?
     /// Describes the type for the job. The job type RELEASE starts a new job with the latest change from the specified branch. This value is available only for apps that are connected to a repository. The job type RETRY retries an existing job. If the job type value is RETRY, the jobId is also required.
     /// This member is required.
@@ -6019,26 +6076,11 @@ extension StartJobInputBody: Swift.Decodable {
     }
 }
 
-public enum StartJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobSummary = output.jobSummary
         } else {
             self.jobSummary = nil
@@ -6047,7 +6089,7 @@ extension StartJobOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the run job request.
-public struct StartJobOutputResponse: Swift.Equatable {
+public struct StartJobOutput: Swift.Equatable {
     /// The summary for the job.
     /// This member is required.
     public var jobSummary: AmplifyClientTypes.JobSummary?
@@ -6060,11 +6102,11 @@ public struct StartJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartJobOutputResponseBody: Swift.Equatable {
+struct StartJobOutputBody: Swift.Equatable {
     let jobSummary: AmplifyClientTypes.JobSummary?
 }
 
-extension StartJobOutputResponseBody: Swift.Decodable {
+extension StartJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobSummary
     }
@@ -6073,6 +6115,21 @@ extension StartJobOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobSummaryDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.JobSummary.self, forKey: .jobSummary)
         jobSummary = jobSummaryDecoded
+    }
+}
+
+enum StartJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6247,7 +6304,7 @@ public struct StopJobInput: Swift.Equatable {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
-    /// The name for the branch, for the job.
+    /// The name of the branch to use for the stop job request.
     /// This member is required.
     public var branchName: Swift.String?
     /// The unique id for the job.
@@ -6275,26 +6332,11 @@ extension StopJobInputBody: Swift.Decodable {
     }
 }
 
-public enum StopJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StopJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StopJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StopJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StopJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobSummary = output.jobSummary
         } else {
             self.jobSummary = nil
@@ -6303,7 +6345,7 @@ extension StopJobOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the stop job request.
-public struct StopJobOutputResponse: Swift.Equatable {
+public struct StopJobOutput: Swift.Equatable {
     /// The summary for the job.
     /// This member is required.
     public var jobSummary: AmplifyClientTypes.JobSummary?
@@ -6316,11 +6358,11 @@ public struct StopJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct StopJobOutputResponseBody: Swift.Equatable {
+struct StopJobOutputBody: Swift.Equatable {
     let jobSummary: AmplifyClientTypes.JobSummary?
 }
 
-extension StopJobOutputResponseBody: Swift.Decodable {
+extension StopJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobSummary
     }
@@ -6329,6 +6371,21 @@ extension StopJobOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobSummaryDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.JobSummary.self, forKey: .jobSummary)
         jobSummary = jobSummaryDecoded
+    }
+}
+
+enum StopJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6506,8 +6563,19 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// The response for the tag resource request.
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6517,17 +6585,6 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// The response for the tag resource request.
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UnauthorizedException {
@@ -6639,8 +6696,19 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// The response for the untag resource request.
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6650,17 +6718,6 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// The response for the untag resource request.
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateAppInput: Swift.CustomDebugStringConvertible {
@@ -6769,7 +6826,7 @@ extension UpdateAppInput: ClientRuntime.URLPathProvider {
 
 /// The request structure for the update app request.
 public struct UpdateAppInput: Swift.Equatable {
-    /// The personal access token for a GitHub repository for an Amplify app. The personal access token is used to authorize access to a GitHub repository using the Amplify GitHub App. The token is not stored. Use accessToken for GitHub repositories only. To authorize access to a repository provider such as Bitbucket or CodeCommit, use oauthToken. You must specify either accessToken or oauthToken when you update an app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/UserGuide/setting-up-GitHub-access.html#migrating-to-github-app-auth) in the Amplify User Guide .
+    /// The personal access token for a GitHub repository for an Amplify app. The personal access token is used to authorize access to a GitHub repository using the Amplify GitHub App. The token is not stored. Use accessToken for GitHub repositories only. To authorize access to a repository provider such as Bitbucket or CodeCommit, use oauthToken. You must specify either accessToken or oauthToken when you update an app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth) in the Amplify User Guide .
     public var accessToken: Swift.String?
     /// The unique ID for an Amplify app.
     /// This member is required.
@@ -6794,7 +6851,7 @@ public struct UpdateAppInput: Swift.Equatable {
     public var enableBasicAuth: Swift.Bool?
     /// Enables branch auto-building for an Amplify app.
     public var enableBranchAutoBuild: Swift.Bool?
-    /// Automatically disconnects a branch in the Amplify Console when you delete a branch from your Git repository.
+    /// Automatically disconnects a branch in the Amplify console when you delete a branch from your Git repository.
     public var enableBranchAutoDeletion: Swift.Bool?
     /// The environment variables for an Amplify app.
     public var environmentVariables: [Swift.String:Swift.String]?
@@ -6802,11 +6859,11 @@ public struct UpdateAppInput: Swift.Equatable {
     public var iamServiceRoleArn: Swift.String?
     /// The name for an Amplify app.
     public var name: Swift.String?
-    /// The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you update an app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/UserGuide/setting-up-GitHub-access.html#migrating-to-github-app-auth) in the Amplify User Guide .
+    /// The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you update an app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth) in the Amplify User Guide .
     public var oauthToken: Swift.String?
     /// The platform for the Amplify app. For a static app, set the platform type to WEB. For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE. For an app requiring Amplify Hosting's original SSR support only, set the platform type to WEB_DYNAMIC.
     public var platform: AmplifyClientTypes.Platform?
-    /// The name of the repository for an Amplify app
+    /// The name of the Git repository for an Amplify app.
     public var repository: Swift.String?
 
     public init(
@@ -6964,25 +7021,11 @@ extension UpdateAppInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateAppOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateAppOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateAppOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateAppOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateAppOutputBody = try responseDecoder.decode(responseBody: data)
             self.app = output.app
         } else {
             self.app = nil
@@ -6991,7 +7034,7 @@ extension UpdateAppOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for an Amplify app update request.
-public struct UpdateAppOutputResponse: Swift.Equatable {
+public struct UpdateAppOutput: Swift.Equatable {
     /// Represents the updated Amplify app.
     /// This member is required.
     public var app: AmplifyClientTypes.App?
@@ -7004,11 +7047,11 @@ public struct UpdateAppOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateAppOutputResponseBody: Swift.Equatable {
+struct UpdateAppOutputBody: Swift.Equatable {
     let app: AmplifyClientTypes.App?
 }
 
-extension UpdateAppOutputResponseBody: Swift.Decodable {
+extension UpdateAppOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case app
     }
@@ -7020,13 +7063,28 @@ extension UpdateAppOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum UpdateAppOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension UpdateBranchInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateBranchInput(appId: \(Swift.String(describing: appId)), backendEnvironmentArn: \(Swift.String(describing: backendEnvironmentArn)), branchName: \(Swift.String(describing: branchName)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), enableAutoBuild: \(Swift.String(describing: enableAutoBuild)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableNotification: \(Swift.String(describing: enableNotification)), enablePerformanceMode: \(Swift.String(describing: enablePerformanceMode)), enablePullRequestPreview: \(Swift.String(describing: enablePullRequestPreview)), environmentVariables: \(Swift.String(describing: environmentVariables)), framework: \(Swift.String(describing: framework)), pullRequestEnvironmentName: \(Swift.String(describing: pullRequestEnvironmentName)), stage: \(Swift.String(describing: stage)), ttl: \(Swift.String(describing: ttl)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
+        "UpdateBranchInput(appId: \(Swift.String(describing: appId)), backend: \(Swift.String(describing: backend)), backendEnvironmentArn: \(Swift.String(describing: backendEnvironmentArn)), branchName: \(Swift.String(describing: branchName)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), enableAutoBuild: \(Swift.String(describing: enableAutoBuild)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableNotification: \(Swift.String(describing: enableNotification)), enablePerformanceMode: \(Swift.String(describing: enablePerformanceMode)), enablePullRequestPreview: \(Swift.String(describing: enablePullRequestPreview)), environmentVariables: \(Swift.String(describing: environmentVariables)), framework: \(Swift.String(describing: framework)), pullRequestEnvironmentName: \(Swift.String(describing: pullRequestEnvironmentName)), stage: \(Swift.String(describing: stage)), ttl: \(Swift.String(describing: ttl)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateBranchInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backend
         case backendEnvironmentArn
         case basicAuthCredentials
         case buildSpec
@@ -7046,6 +7104,9 @@ extension UpdateBranchInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let backend = self.backend {
+            try encodeContainer.encode(backend, forKey: .backend)
+        }
         if let backendEnvironmentArn = self.backendEnvironmentArn {
             try encodeContainer.encode(backendEnvironmentArn, forKey: .backendEnvironmentArn)
         }
@@ -7114,11 +7175,13 @@ public struct UpdateBranchInput: Swift.Equatable {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
+    /// The backend for a Branch of an Amplify app. Use for a backend created from an CloudFormation stack.
+    public var backend: AmplifyClientTypes.Backend?
     /// The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app.
     public var backendEnvironmentArn: Swift.String?
     /// The basic authorization credentials for the branch. You must base64-encode the authorization credentials and provide them in the format user:password.
     public var basicAuthCredentials: Swift.String?
-    /// The name for the branch.
+    /// The name of the branch.
     /// This member is required.
     public var branchName: Swift.String?
     /// The build specification (build spec) for the branch.
@@ -7150,6 +7213,7 @@ public struct UpdateBranchInput: Swift.Equatable {
 
     public init(
         appId: Swift.String? = nil,
+        backend: AmplifyClientTypes.Backend? = nil,
         backendEnvironmentArn: Swift.String? = nil,
         basicAuthCredentials: Swift.String? = nil,
         branchName: Swift.String? = nil,
@@ -7169,6 +7233,7 @@ public struct UpdateBranchInput: Swift.Equatable {
     )
     {
         self.appId = appId
+        self.backend = backend
         self.backendEnvironmentArn = backendEnvironmentArn
         self.basicAuthCredentials = basicAuthCredentials
         self.branchName = branchName
@@ -7204,10 +7269,12 @@ struct UpdateBranchInputBody: Swift.Equatable {
     let enablePullRequestPreview: Swift.Bool?
     let pullRequestEnvironmentName: Swift.String?
     let backendEnvironmentArn: Swift.String?
+    let backend: AmplifyClientTypes.Backend?
 }
 
 extension UpdateBranchInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backend
         case backendEnvironmentArn
         case basicAuthCredentials
         case buildSpec
@@ -7266,29 +7333,16 @@ extension UpdateBranchInputBody: Swift.Decodable {
         pullRequestEnvironmentName = pullRequestEnvironmentNameDecoded
         let backendEnvironmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backendEnvironmentArn)
         backendEnvironmentArn = backendEnvironmentArnDecoded
+        let backendDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.Backend.self, forKey: .backend)
+        backend = backendDecoded
     }
 }
 
-public enum UpdateBranchOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DependentServiceFailureException": return try await DependentServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateBranchOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateBranchOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateBranchOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateBranchOutputBody = try responseDecoder.decode(responseBody: data)
             self.branch = output.branch
         } else {
             self.branch = nil
@@ -7297,7 +7351,7 @@ extension UpdateBranchOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the update branch request.
-public struct UpdateBranchOutputResponse: Swift.Equatable {
+public struct UpdateBranchOutput: Swift.Equatable {
     /// The branch for an Amplify app, which maps to a third-party repository branch.
     /// This member is required.
     public var branch: AmplifyClientTypes.Branch?
@@ -7310,11 +7364,11 @@ public struct UpdateBranchOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateBranchOutputResponseBody: Swift.Equatable {
+struct UpdateBranchOutputBody: Swift.Equatable {
     let branch: AmplifyClientTypes.Branch?
 }
 
-extension UpdateBranchOutputResponseBody: Swift.Decodable {
+extension UpdateBranchOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case branch
     }
@@ -7323,6 +7377,21 @@ extension UpdateBranchOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let branchDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.Branch.self, forKey: .branch)
         branch = branchDecoded
+    }
+}
+
+enum UpdateBranchOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependentServiceFailureException": return try await DependentServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7450,26 +7519,11 @@ extension UpdateDomainAssociationInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DependentServiceFailureException": return try await DependentServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateDomainAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateDomainAssociationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateDomainAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateDomainAssociationOutputBody = try responseDecoder.decode(responseBody: data)
             self.domainAssociation = output.domainAssociation
         } else {
             self.domainAssociation = nil
@@ -7478,7 +7532,7 @@ extension UpdateDomainAssociationOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 /// The result structure for the update domain association request.
-public struct UpdateDomainAssociationOutputResponse: Swift.Equatable {
+public struct UpdateDomainAssociationOutput: Swift.Equatable {
     /// Describes a domain association, which associates a custom domain with an Amplify app.
     /// This member is required.
     public var domainAssociation: AmplifyClientTypes.DomainAssociation?
@@ -7491,11 +7545,11 @@ public struct UpdateDomainAssociationOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateDomainAssociationOutputResponseBody: Swift.Equatable {
+struct UpdateDomainAssociationOutputBody: Swift.Equatable {
     let domainAssociation: AmplifyClientTypes.DomainAssociation?
 }
 
-extension UpdateDomainAssociationOutputResponseBody: Swift.Decodable {
+extension UpdateDomainAssociationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case domainAssociation
     }
@@ -7504,6 +7558,21 @@ extension UpdateDomainAssociationOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainAssociationDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.DomainAssociation.self, forKey: .domainAssociation)
         domainAssociation = domainAssociationDecoded
+    }
+}
+
+enum UpdateDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependentServiceFailureException": return try await DependentServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7575,26 +7644,11 @@ extension UpdateWebhookInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateWebhookOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DependentServiceFailureException": return try await DependentServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateWebhookOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateWebhookOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateWebhookOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateWebhookOutputBody = try responseDecoder.decode(responseBody: data)
             self.webhook = output.webhook
         } else {
             self.webhook = nil
@@ -7603,7 +7657,7 @@ extension UpdateWebhookOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the update webhook request.
-public struct UpdateWebhookOutputResponse: Swift.Equatable {
+public struct UpdateWebhookOutput: Swift.Equatable {
     /// Describes a webhook that connects repository events to an Amplify app.
     /// This member is required.
     public var webhook: AmplifyClientTypes.Webhook?
@@ -7616,11 +7670,11 @@ public struct UpdateWebhookOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateWebhookOutputResponseBody: Swift.Equatable {
+struct UpdateWebhookOutputBody: Swift.Equatable {
     let webhook: AmplifyClientTypes.Webhook?
 }
 
-extension UpdateWebhookOutputResponseBody: Swift.Decodable {
+extension UpdateWebhookOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case webhook
     }
@@ -7629,6 +7683,21 @@ extension UpdateWebhookOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let webhookDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.Webhook.self, forKey: .webhook)
         webhook = webhookDecoded
+    }
+}
+
+enum UpdateWebhookOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependentServiceFailureException": return try await DependentServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

@@ -387,26 +387,11 @@ extension QueryForecastInputBody: Swift.Decodable {
     }
 }
 
-public enum QueryForecastOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension QueryForecastOutputResponse: ClientRuntime.HttpResponseBinding {
+extension QueryForecastOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: QueryForecastOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: QueryForecastOutputBody = try responseDecoder.decode(responseBody: data)
             self.forecast = output.forecast
         } else {
             self.forecast = nil
@@ -414,7 +399,7 @@ extension QueryForecastOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct QueryForecastOutputResponse: Swift.Equatable {
+public struct QueryForecastOutput: Swift.Equatable {
     /// The forecast.
     public var forecast: ForecastqueryClientTypes.Forecast?
 
@@ -426,11 +411,11 @@ public struct QueryForecastOutputResponse: Swift.Equatable {
     }
 }
 
-struct QueryForecastOutputResponseBody: Swift.Equatable {
+struct QueryForecastOutputBody: Swift.Equatable {
     let forecast: ForecastqueryClientTypes.Forecast?
 }
 
-extension QueryForecastOutputResponseBody: Swift.Decodable {
+extension QueryForecastOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case forecast = "Forecast"
     }
@@ -439,6 +424,21 @@ extension QueryForecastOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let forecastDecoded = try containerValues.decodeIfPresent(ForecastqueryClientTypes.Forecast.self, forKey: .forecast)
         forecast = forecastDecoded
+    }
+}
+
+enum QueryForecastOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -551,26 +551,11 @@ extension QueryWhatIfForecastInputBody: Swift.Decodable {
     }
 }
 
-public enum QueryWhatIfForecastOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension QueryWhatIfForecastOutputResponse: ClientRuntime.HttpResponseBinding {
+extension QueryWhatIfForecastOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: QueryWhatIfForecastOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: QueryWhatIfForecastOutputBody = try responseDecoder.decode(responseBody: data)
             self.forecast = output.forecast
         } else {
             self.forecast = nil
@@ -578,7 +563,7 @@ extension QueryWhatIfForecastOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct QueryWhatIfForecastOutputResponse: Swift.Equatable {
+public struct QueryWhatIfForecastOutput: Swift.Equatable {
     /// Provides information about a forecast. Returned as part of the [QueryForecast] response.
     public var forecast: ForecastqueryClientTypes.Forecast?
 
@@ -590,11 +575,11 @@ public struct QueryWhatIfForecastOutputResponse: Swift.Equatable {
     }
 }
 
-struct QueryWhatIfForecastOutputResponseBody: Swift.Equatable {
+struct QueryWhatIfForecastOutputBody: Swift.Equatable {
     let forecast: ForecastqueryClientTypes.Forecast?
 }
 
-extension QueryWhatIfForecastOutputResponseBody: Swift.Decodable {
+extension QueryWhatIfForecastOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case forecast = "Forecast"
     }
@@ -603,6 +588,21 @@ extension QueryWhatIfForecastOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let forecastDecoded = try containerValues.decodeIfPresent(ForecastqueryClientTypes.Forecast.self, forKey: .forecast)
         forecast = forecastDecoded
+    }
+}
+
+enum QueryWhatIfForecastOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

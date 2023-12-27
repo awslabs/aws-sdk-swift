@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension ECSClientProtocol {
 
-    static func servicesInactiveWaiterConfig() throws -> WaiterConfiguration<DescribeServicesInput, DescribeServicesOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeServicesInput, DescribeServicesOutputResponse>.Acceptor] = [
-            .init(state: .failure, matcher: { (input: DescribeServicesInput, result: Result<DescribeServicesOutputResponse, Error>) -> Bool in
+    static func servicesInactiveWaiterConfig() throws -> WaiterConfiguration<DescribeServicesInput, DescribeServicesOutput> {
+        let acceptors: [WaiterConfiguration<DescribeServicesInput, DescribeServicesOutput>.Acceptor] = [
+            .init(state: .failure, matcher: { (input: DescribeServicesInput, result: Result<DescribeServicesOutput, Error>) -> Bool in
                 // JMESPath expression: "failures[].reason"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "MISSING"
@@ -18,7 +18,7 @@ extension ECSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "MISSING") }) ?? false
             }),
-            .init(state: .success, matcher: { (input: DescribeServicesInput, result: Result<DescribeServicesOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeServicesInput, result: Result<DescribeServicesOutput, Error>) -> Bool in
                 // JMESPath expression: "services[].status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "INACTIVE"
@@ -31,7 +31,7 @@ extension ECSClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "INACTIVE") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeServicesInput, DescribeServicesOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeServicesInput, DescribeServicesOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ServicesInactive event on the describeServices operation.
@@ -45,14 +45,14 @@ extension ECSClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilServicesInactive(options: WaiterOptions, input: DescribeServicesInput) async throws -> WaiterOutcome<DescribeServicesOutputResponse> {
+    public func waitUntilServicesInactive(options: WaiterOptions, input: DescribeServicesInput) async throws -> WaiterOutcome<DescribeServicesOutput> {
         let waiter = Waiter(config: try Self.servicesInactiveWaiterConfig(), operation: self.describeServices(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func servicesStableWaiterConfig() throws -> WaiterConfiguration<DescribeServicesInput, DescribeServicesOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeServicesInput, DescribeServicesOutputResponse>.Acceptor] = [
-            .init(state: .failure, matcher: { (input: DescribeServicesInput, result: Result<DescribeServicesOutputResponse, Error>) -> Bool in
+    static func servicesStableWaiterConfig() throws -> WaiterConfiguration<DescribeServicesInput, DescribeServicesOutput> {
+        let acceptors: [WaiterConfiguration<DescribeServicesInput, DescribeServicesOutput>.Acceptor] = [
+            .init(state: .failure, matcher: { (input: DescribeServicesInput, result: Result<DescribeServicesOutput, Error>) -> Bool in
                 // JMESPath expression: "failures[].reason"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "MISSING"
@@ -64,7 +64,7 @@ extension ECSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "MISSING") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeServicesInput, result: Result<DescribeServicesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeServicesInput, result: Result<DescribeServicesOutput, Error>) -> Bool in
                 // JMESPath expression: "services[].status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "DRAINING"
@@ -76,7 +76,7 @@ extension ECSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "DRAINING") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeServicesInput, result: Result<DescribeServicesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeServicesInput, result: Result<DescribeServicesOutput, Error>) -> Bool in
                 // JMESPath expression: "services[].status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "INACTIVE"
@@ -88,7 +88,7 @@ extension ECSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "INACTIVE") }) ?? false
             }),
-            .init(state: .success, matcher: { (input: DescribeServicesInput, result: Result<DescribeServicesOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeServicesInput, result: Result<DescribeServicesOutput, Error>) -> Bool in
                 // JMESPath expression: "length(services[?!(length(deployments) == `1` && runningCount == desiredCount)]) == `0`"
                 // JMESPath comparator: "booleanEquals"
                 // JMESPath expected value: "true"
@@ -112,7 +112,7 @@ extension ECSClientProtocol {
                 return JMESUtils.compare(comparison, ==, true)
             }),
         ]
-        return try WaiterConfiguration<DescribeServicesInput, DescribeServicesOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeServicesInput, DescribeServicesOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ServicesStable event on the describeServices operation.
@@ -126,14 +126,14 @@ extension ECSClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilServicesStable(options: WaiterOptions, input: DescribeServicesInput) async throws -> WaiterOutcome<DescribeServicesOutputResponse> {
+    public func waitUntilServicesStable(options: WaiterOptions, input: DescribeServicesInput) async throws -> WaiterOutcome<DescribeServicesOutput> {
         let waiter = Waiter(config: try Self.servicesStableWaiterConfig(), operation: self.describeServices(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func tasksRunningWaiterConfig() throws -> WaiterConfiguration<DescribeTasksInput, DescribeTasksOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeTasksInput, DescribeTasksOutputResponse>.Acceptor] = [
-            .init(state: .failure, matcher: { (input: DescribeTasksInput, result: Result<DescribeTasksOutputResponse, Error>) -> Bool in
+    static func tasksRunningWaiterConfig() throws -> WaiterConfiguration<DescribeTasksInput, DescribeTasksOutput> {
+        let acceptors: [WaiterConfiguration<DescribeTasksInput, DescribeTasksOutput>.Acceptor] = [
+            .init(state: .failure, matcher: { (input: DescribeTasksInput, result: Result<DescribeTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "tasks[].lastStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "STOPPED"
@@ -145,7 +145,7 @@ extension ECSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "STOPPED") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeTasksInput, result: Result<DescribeTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeTasksInput, result: Result<DescribeTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "failures[].reason"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "MISSING"
@@ -157,7 +157,7 @@ extension ECSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "MISSING") }) ?? false
             }),
-            .init(state: .success, matcher: { (input: DescribeTasksInput, result: Result<DescribeTasksOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeTasksInput, result: Result<DescribeTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "tasks[].lastStatus"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "RUNNING"
@@ -170,7 +170,7 @@ extension ECSClientProtocol {
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "RUNNING") } ?? false)
             }),
         ]
-        return try WaiterConfiguration<DescribeTasksInput, DescribeTasksOutputResponse>(acceptors: acceptors, minDelay: 6.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeTasksInput, DescribeTasksOutput>(acceptors: acceptors, minDelay: 6.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the TasksRunning event on the describeTasks operation.
@@ -184,14 +184,14 @@ extension ECSClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilTasksRunning(options: WaiterOptions, input: DescribeTasksInput) async throws -> WaiterOutcome<DescribeTasksOutputResponse> {
+    public func waitUntilTasksRunning(options: WaiterOptions, input: DescribeTasksInput) async throws -> WaiterOutcome<DescribeTasksOutput> {
         let waiter = Waiter(config: try Self.tasksRunningWaiterConfig(), operation: self.describeTasks(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func tasksStoppedWaiterConfig() throws -> WaiterConfiguration<DescribeTasksInput, DescribeTasksOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeTasksInput, DescribeTasksOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeTasksInput, result: Result<DescribeTasksOutputResponse, Error>) -> Bool in
+    static func tasksStoppedWaiterConfig() throws -> WaiterConfiguration<DescribeTasksInput, DescribeTasksOutput> {
+        let acceptors: [WaiterConfiguration<DescribeTasksInput, DescribeTasksOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeTasksInput, result: Result<DescribeTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "tasks[].lastStatus"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "STOPPED"
@@ -204,7 +204,7 @@ extension ECSClientProtocol {
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "STOPPED") } ?? false)
             }),
         ]
-        return try WaiterConfiguration<DescribeTasksInput, DescribeTasksOutputResponse>(acceptors: acceptors, minDelay: 6.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeTasksInput, DescribeTasksOutput>(acceptors: acceptors, minDelay: 6.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the TasksStopped event on the describeTasks operation.
@@ -218,7 +218,7 @@ extension ECSClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilTasksStopped(options: WaiterOptions, input: DescribeTasksInput) async throws -> WaiterOutcome<DescribeTasksOutputResponse> {
+    public func waitUntilTasksStopped(options: WaiterOptions, input: DescribeTasksInput) async throws -> WaiterOutcome<DescribeTasksOutput> {
         let waiter = Waiter(config: try Self.tasksStoppedWaiterConfig(), operation: self.describeTasks(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

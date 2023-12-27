@@ -2,13 +2,9 @@
 
 set -e
 
-# Delete all generated services & their tests
-rm -rf Sources/Services/*
-rm -rf Tests/Services/*
-
-# Regenerate the SDK Package.swift without the services and with protocol tests
+# Regenerate the SDK Package.swift to run only protocol tests and runtime unit tests
 cd AWSSDKSwiftCLI
-swift run AWSSDKSwiftCLI generate-package-manifest --include-protocol-tests ..
+swift run AWSSDKSwiftCLI generate-package-manifest --include-protocol-tests --exclude-aws-services ..
 cd ..
 
 # Dump the Package.swift contents to the logs

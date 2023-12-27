@@ -229,24 +229,11 @@ extension CreateRuleInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateRuleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateRuleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateRuleOutputBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.identifier = output.identifier
             self.lockConfiguration = output.lockConfiguration
@@ -254,6 +241,7 @@ extension CreateRuleOutputResponse: ClientRuntime.HttpResponseBinding {
             self.resourceTags = output.resourceTags
             self.resourceType = output.resourceType
             self.retentionPeriod = output.retentionPeriod
+            self.ruleArn = output.ruleArn
             self.status = output.status
             self.tags = output.tags
         } else {
@@ -264,13 +252,14 @@ extension CreateRuleOutputResponse: ClientRuntime.HttpResponseBinding {
             self.resourceTags = nil
             self.resourceType = nil
             self.retentionPeriod = nil
+            self.ruleArn = nil
             self.status = nil
             self.tags = nil
         }
     }
 }
 
-public struct CreateRuleOutputResponse: Swift.Equatable {
+public struct CreateRuleOutput: Swift.Equatable {
     /// The retention rule description.
     public var description: Swift.String?
     /// The unique ID of the retention rule.
@@ -293,6 +282,8 @@ public struct CreateRuleOutputResponse: Swift.Equatable {
     public var resourceType: RbinClientTypes.ResourceType?
     /// Information about the retention period for which the retention rule is to retain resources.
     public var retentionPeriod: RbinClientTypes.RetentionPeriod?
+    /// The Amazon Resource Name (ARN) of the retention rule.
+    public var ruleArn: Swift.String?
     /// The state of the retention rule. Only retention rules that are in the available state retain resources.
     public var status: RbinClientTypes.RuleStatus?
     /// Information about the tags assigned to the retention rule.
@@ -306,6 +297,7 @@ public struct CreateRuleOutputResponse: Swift.Equatable {
         resourceTags: [RbinClientTypes.ResourceTag]? = nil,
         resourceType: RbinClientTypes.ResourceType? = nil,
         retentionPeriod: RbinClientTypes.RetentionPeriod? = nil,
+        ruleArn: Swift.String? = nil,
         status: RbinClientTypes.RuleStatus? = nil,
         tags: [RbinClientTypes.Tag]? = nil
     )
@@ -317,12 +309,13 @@ public struct CreateRuleOutputResponse: Swift.Equatable {
         self.resourceTags = resourceTags
         self.resourceType = resourceType
         self.retentionPeriod = retentionPeriod
+        self.ruleArn = ruleArn
         self.status = status
         self.tags = tags
     }
 }
 
-struct CreateRuleOutputResponseBody: Swift.Equatable {
+struct CreateRuleOutputBody: Swift.Equatable {
     let identifier: Swift.String?
     let retentionPeriod: RbinClientTypes.RetentionPeriod?
     let description: Swift.String?
@@ -332,9 +325,10 @@ struct CreateRuleOutputResponseBody: Swift.Equatable {
     let status: RbinClientTypes.RuleStatus?
     let lockConfiguration: RbinClientTypes.LockConfiguration?
     let lockState: RbinClientTypes.LockState?
+    let ruleArn: Swift.String?
 }
 
-extension CreateRuleOutputResponseBody: Swift.Decodable {
+extension CreateRuleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
         case identifier = "Identifier"
@@ -343,6 +337,7 @@ extension CreateRuleOutputResponseBody: Swift.Decodable {
         case resourceTags = "ResourceTags"
         case resourceType = "ResourceType"
         case retentionPeriod = "RetentionPeriod"
+        case ruleArn = "RuleArn"
         case status = "Status"
         case tags = "Tags"
     }
@@ -385,6 +380,21 @@ extension CreateRuleOutputResponseBody: Swift.Decodable {
         lockConfiguration = lockConfigurationDecoded
         let lockStateDecoded = try containerValues.decodeIfPresent(RbinClientTypes.LockState.self, forKey: .lockState)
         lockState = lockStateDecoded
+        let ruleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleArn)
+        ruleArn = ruleArnDecoded
+    }
+}
+
+enum CreateRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -419,8 +429,18 @@ extension DeleteRuleInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteRuleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteRuleOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -431,16 +451,6 @@ public enum DeleteRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteRuleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteRuleOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension GetRuleInput: ClientRuntime.URLPathProvider {
@@ -474,24 +484,11 @@ extension GetRuleInputBody: Swift.Decodable {
     }
 }
 
-public enum GetRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetRuleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRuleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRuleOutputBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.identifier = output.identifier
             self.lockConfiguration = output.lockConfiguration
@@ -500,6 +497,7 @@ extension GetRuleOutputResponse: ClientRuntime.HttpResponseBinding {
             self.resourceTags = output.resourceTags
             self.resourceType = output.resourceType
             self.retentionPeriod = output.retentionPeriod
+            self.ruleArn = output.ruleArn
             self.status = output.status
         } else {
             self.description = nil
@@ -510,12 +508,13 @@ extension GetRuleOutputResponse: ClientRuntime.HttpResponseBinding {
             self.resourceTags = nil
             self.resourceType = nil
             self.retentionPeriod = nil
+            self.ruleArn = nil
             self.status = nil
         }
     }
 }
 
-public struct GetRuleOutputResponse: Swift.Equatable {
+public struct GetRuleOutput: Swift.Equatable {
     /// The retention rule description.
     public var description: Swift.String?
     /// The unique ID of the retention rule.
@@ -540,6 +539,8 @@ public struct GetRuleOutputResponse: Swift.Equatable {
     public var resourceType: RbinClientTypes.ResourceType?
     /// Information about the retention period for which the retention rule is to retain resources.
     public var retentionPeriod: RbinClientTypes.RetentionPeriod?
+    /// The Amazon Resource Name (ARN) of the retention rule.
+    public var ruleArn: Swift.String?
     /// The state of the retention rule. Only retention rules that are in the available state retain resources.
     public var status: RbinClientTypes.RuleStatus?
 
@@ -552,6 +553,7 @@ public struct GetRuleOutputResponse: Swift.Equatable {
         resourceTags: [RbinClientTypes.ResourceTag]? = nil,
         resourceType: RbinClientTypes.ResourceType? = nil,
         retentionPeriod: RbinClientTypes.RetentionPeriod? = nil,
+        ruleArn: Swift.String? = nil,
         status: RbinClientTypes.RuleStatus? = nil
     )
     {
@@ -563,11 +565,12 @@ public struct GetRuleOutputResponse: Swift.Equatable {
         self.resourceTags = resourceTags
         self.resourceType = resourceType
         self.retentionPeriod = retentionPeriod
+        self.ruleArn = ruleArn
         self.status = status
     }
 }
 
-struct GetRuleOutputResponseBody: Swift.Equatable {
+struct GetRuleOutputBody: Swift.Equatable {
     let identifier: Swift.String?
     let description: Swift.String?
     let resourceType: RbinClientTypes.ResourceType?
@@ -577,9 +580,10 @@ struct GetRuleOutputResponseBody: Swift.Equatable {
     let lockConfiguration: RbinClientTypes.LockConfiguration?
     let lockState: RbinClientTypes.LockState?
     let lockEndTime: ClientRuntime.Date?
+    let ruleArn: Swift.String?
 }
 
-extension GetRuleOutputResponseBody: Swift.Decodable {
+extension GetRuleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
         case identifier = "Identifier"
@@ -589,6 +593,7 @@ extension GetRuleOutputResponseBody: Swift.Decodable {
         case resourceTags = "ResourceTags"
         case resourceType = "ResourceType"
         case retentionPeriod = "RetentionPeriod"
+        case ruleArn = "RuleArn"
         case status = "Status"
     }
 
@@ -621,6 +626,21 @@ extension GetRuleOutputResponseBody: Swift.Decodable {
         lockState = lockStateDecoded
         let lockEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lockEndTime)
         lockEndTime = lockEndTimeDecoded
+        let ruleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleArn)
+        ruleArn = ruleArnDecoded
+    }
+}
+
+enum GetRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -787,23 +807,11 @@ extension ListRulesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRulesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRulesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRulesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.rules = output.rules
         } else {
@@ -813,7 +821,7 @@ extension ListRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRulesOutputResponse: Swift.Equatable {
+public struct ListRulesOutput: Swift.Equatable {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// Information about the retention rules.
@@ -829,12 +837,12 @@ public struct ListRulesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRulesOutputResponseBody: Swift.Equatable {
+struct ListRulesOutputBody: Swift.Equatable {
     let rules: [RbinClientTypes.RuleSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListRulesOutputResponseBody: Swift.Decodable {
+extension ListRulesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case rules = "Rules"
@@ -855,6 +863,18 @@ extension ListRulesOutputResponseBody: Swift.Decodable {
         rules = rulesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -889,24 +909,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -914,7 +921,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// Information about the tags assigned to the retention rule.
     public var tags: [RbinClientTypes.Tag]?
 
@@ -926,11 +933,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [RbinClientTypes.Tag]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
     }
@@ -948,6 +955,19 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1043,25 +1063,11 @@ extension LockRuleInputBody: Swift.Decodable {
     }
 }
 
-public enum LockRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension LockRuleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension LockRuleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: LockRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: LockRuleOutputBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.identifier = output.identifier
             self.lockConfiguration = output.lockConfiguration
@@ -1069,6 +1075,7 @@ extension LockRuleOutputResponse: ClientRuntime.HttpResponseBinding {
             self.resourceTags = output.resourceTags
             self.resourceType = output.resourceType
             self.retentionPeriod = output.retentionPeriod
+            self.ruleArn = output.ruleArn
             self.status = output.status
         } else {
             self.description = nil
@@ -1078,12 +1085,13 @@ extension LockRuleOutputResponse: ClientRuntime.HttpResponseBinding {
             self.resourceTags = nil
             self.resourceType = nil
             self.retentionPeriod = nil
+            self.ruleArn = nil
             self.status = nil
         }
     }
 }
 
-public struct LockRuleOutputResponse: Swift.Equatable {
+public struct LockRuleOutput: Swift.Equatable {
     /// The retention rule description.
     public var description: Swift.String?
     /// The unique ID of the retention rule.
@@ -1106,6 +1114,8 @@ public struct LockRuleOutputResponse: Swift.Equatable {
     public var resourceType: RbinClientTypes.ResourceType?
     /// Information about the retention period for which the retention rule is to retain resources.
     public var retentionPeriod: RbinClientTypes.RetentionPeriod?
+    /// The Amazon Resource Name (ARN) of the retention rule.
+    public var ruleArn: Swift.String?
     /// The state of the retention rule. Only retention rules that are in the available state retain resources.
     public var status: RbinClientTypes.RuleStatus?
 
@@ -1117,6 +1127,7 @@ public struct LockRuleOutputResponse: Swift.Equatable {
         resourceTags: [RbinClientTypes.ResourceTag]? = nil,
         resourceType: RbinClientTypes.ResourceType? = nil,
         retentionPeriod: RbinClientTypes.RetentionPeriod? = nil,
+        ruleArn: Swift.String? = nil,
         status: RbinClientTypes.RuleStatus? = nil
     )
     {
@@ -1127,11 +1138,12 @@ public struct LockRuleOutputResponse: Swift.Equatable {
         self.resourceTags = resourceTags
         self.resourceType = resourceType
         self.retentionPeriod = retentionPeriod
+        self.ruleArn = ruleArn
         self.status = status
     }
 }
 
-struct LockRuleOutputResponseBody: Swift.Equatable {
+struct LockRuleOutputBody: Swift.Equatable {
     let identifier: Swift.String?
     let description: Swift.String?
     let resourceType: RbinClientTypes.ResourceType?
@@ -1140,9 +1152,10 @@ struct LockRuleOutputResponseBody: Swift.Equatable {
     let status: RbinClientTypes.RuleStatus?
     let lockConfiguration: RbinClientTypes.LockConfiguration?
     let lockState: RbinClientTypes.LockState?
+    let ruleArn: Swift.String?
 }
 
-extension LockRuleOutputResponseBody: Swift.Decodable {
+extension LockRuleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
         case identifier = "Identifier"
@@ -1151,6 +1164,7 @@ extension LockRuleOutputResponseBody: Swift.Decodable {
         case resourceTags = "ResourceTags"
         case resourceType = "ResourceType"
         case retentionPeriod = "RetentionPeriod"
+        case ruleArn = "RuleArn"
         case status = "Status"
     }
 
@@ -1181,6 +1195,22 @@ extension LockRuleOutputResponseBody: Swift.Decodable {
         lockConfiguration = lockConfigurationDecoded
         let lockStateDecoded = try containerValues.decodeIfPresent(RbinClientTypes.LockState.self, forKey: .lockState)
         lockState = lockStateDecoded
+        let ruleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleArn)
+        ruleArn = ruleArnDecoded
+    }
+}
+
+enum LockRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1505,6 +1535,7 @@ extension RbinClientTypes.RuleSummary: Swift.Codable {
         case identifier = "Identifier"
         case lockState = "LockState"
         case retentionPeriod = "RetentionPeriod"
+        case ruleArn = "RuleArn"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1521,6 +1552,9 @@ extension RbinClientTypes.RuleSummary: Swift.Codable {
         if let retentionPeriod = self.retentionPeriod {
             try encodeContainer.encode(retentionPeriod, forKey: .retentionPeriod)
         }
+        if let ruleArn = self.ruleArn {
+            try encodeContainer.encode(ruleArn, forKey: .ruleArn)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1533,6 +1567,8 @@ extension RbinClientTypes.RuleSummary: Swift.Codable {
         retentionPeriod = retentionPeriodDecoded
         let lockStateDecoded = try containerValues.decodeIfPresent(RbinClientTypes.LockState.self, forKey: .lockState)
         lockState = lockStateDecoded
+        let ruleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleArn)
+        ruleArn = ruleArnDecoded
     }
 }
 
@@ -1555,18 +1591,22 @@ extension RbinClientTypes {
         public var lockState: RbinClientTypes.LockState?
         /// Information about the retention period for which the retention rule is to retain resources.
         public var retentionPeriod: RbinClientTypes.RetentionPeriod?
+        /// The Amazon Resource Name (ARN) of the retention rule.
+        public var ruleArn: Swift.String?
 
         public init(
             description: Swift.String? = nil,
             identifier: Swift.String? = nil,
             lockState: RbinClientTypes.LockState? = nil,
-            retentionPeriod: RbinClientTypes.RetentionPeriod? = nil
+            retentionPeriod: RbinClientTypes.RetentionPeriod? = nil,
+            ruleArn: Swift.String? = nil
         )
         {
             self.description = description
             self.identifier = identifier
             self.lockState = lockState
             self.retentionPeriod = retentionPeriod
+            self.ruleArn = ruleArn
         }
     }
 
@@ -1781,8 +1821,18 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1793,16 +1843,6 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension RbinClientTypes.UnlockDelay: Swift.Codable {
@@ -1912,25 +1952,11 @@ extension UnlockRuleInputBody: Swift.Decodable {
     }
 }
 
-public enum UnlockRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UnlockRuleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UnlockRuleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UnlockRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UnlockRuleOutputBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.identifier = output.identifier
             self.lockConfiguration = output.lockConfiguration
@@ -1939,6 +1965,7 @@ extension UnlockRuleOutputResponse: ClientRuntime.HttpResponseBinding {
             self.resourceTags = output.resourceTags
             self.resourceType = output.resourceType
             self.retentionPeriod = output.retentionPeriod
+            self.ruleArn = output.ruleArn
             self.status = output.status
         } else {
             self.description = nil
@@ -1949,12 +1976,13 @@ extension UnlockRuleOutputResponse: ClientRuntime.HttpResponseBinding {
             self.resourceTags = nil
             self.resourceType = nil
             self.retentionPeriod = nil
+            self.ruleArn = nil
             self.status = nil
         }
     }
 }
 
-public struct UnlockRuleOutputResponse: Swift.Equatable {
+public struct UnlockRuleOutput: Swift.Equatable {
     /// The retention rule description.
     public var description: Swift.String?
     /// The unique ID of the retention rule.
@@ -1979,6 +2007,8 @@ public struct UnlockRuleOutputResponse: Swift.Equatable {
     public var resourceType: RbinClientTypes.ResourceType?
     /// Information about the retention period for which the retention rule is to retain resources.
     public var retentionPeriod: RbinClientTypes.RetentionPeriod?
+    /// The Amazon Resource Name (ARN) of the retention rule.
+    public var ruleArn: Swift.String?
     /// The state of the retention rule. Only retention rules that are in the available state retain resources.
     public var status: RbinClientTypes.RuleStatus?
 
@@ -1991,6 +2021,7 @@ public struct UnlockRuleOutputResponse: Swift.Equatable {
         resourceTags: [RbinClientTypes.ResourceTag]? = nil,
         resourceType: RbinClientTypes.ResourceType? = nil,
         retentionPeriod: RbinClientTypes.RetentionPeriod? = nil,
+        ruleArn: Swift.String? = nil,
         status: RbinClientTypes.RuleStatus? = nil
     )
     {
@@ -2002,11 +2033,12 @@ public struct UnlockRuleOutputResponse: Swift.Equatable {
         self.resourceTags = resourceTags
         self.resourceType = resourceType
         self.retentionPeriod = retentionPeriod
+        self.ruleArn = ruleArn
         self.status = status
     }
 }
 
-struct UnlockRuleOutputResponseBody: Swift.Equatable {
+struct UnlockRuleOutputBody: Swift.Equatable {
     let identifier: Swift.String?
     let description: Swift.String?
     let resourceType: RbinClientTypes.ResourceType?
@@ -2016,9 +2048,10 @@ struct UnlockRuleOutputResponseBody: Swift.Equatable {
     let lockConfiguration: RbinClientTypes.LockConfiguration?
     let lockState: RbinClientTypes.LockState?
     let lockEndTime: ClientRuntime.Date?
+    let ruleArn: Swift.String?
 }
 
-extension UnlockRuleOutputResponseBody: Swift.Decodable {
+extension UnlockRuleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
         case identifier = "Identifier"
@@ -2028,6 +2061,7 @@ extension UnlockRuleOutputResponseBody: Swift.Decodable {
         case resourceTags = "ResourceTags"
         case resourceType = "ResourceType"
         case retentionPeriod = "RetentionPeriod"
+        case ruleArn = "RuleArn"
         case status = "Status"
     }
 
@@ -2060,6 +2094,22 @@ extension UnlockRuleOutputResponseBody: Swift.Decodable {
         lockState = lockStateDecoded
         let lockEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lockEndTime)
         lockEndTime = lockEndTimeDecoded
+        let ruleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleArn)
+        ruleArn = ruleArnDecoded
+    }
+}
+
+enum UnlockRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2116,8 +2166,18 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2127,16 +2187,6 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateRuleInput: Swift.Encodable {
@@ -2242,25 +2292,11 @@ extension UpdateRuleInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateRuleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateRuleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateRuleOutputBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.identifier = output.identifier
             self.lockEndTime = output.lockEndTime
@@ -2268,6 +2304,7 @@ extension UpdateRuleOutputResponse: ClientRuntime.HttpResponseBinding {
             self.resourceTags = output.resourceTags
             self.resourceType = output.resourceType
             self.retentionPeriod = output.retentionPeriod
+            self.ruleArn = output.ruleArn
             self.status = output.status
         } else {
             self.description = nil
@@ -2277,12 +2314,13 @@ extension UpdateRuleOutputResponse: ClientRuntime.HttpResponseBinding {
             self.resourceTags = nil
             self.resourceType = nil
             self.retentionPeriod = nil
+            self.ruleArn = nil
             self.status = nil
         }
     }
 }
 
-public struct UpdateRuleOutputResponse: Swift.Equatable {
+public struct UpdateRuleOutput: Swift.Equatable {
     /// The retention rule description.
     public var description: Swift.String?
     /// The unique ID of the retention rule.
@@ -2305,6 +2343,8 @@ public struct UpdateRuleOutputResponse: Swift.Equatable {
     public var resourceType: RbinClientTypes.ResourceType?
     /// Information about the retention period for which the retention rule is to retain resources.
     public var retentionPeriod: RbinClientTypes.RetentionPeriod?
+    /// The Amazon Resource Name (ARN) of the retention rule.
+    public var ruleArn: Swift.String?
     /// The state of the retention rule. Only retention rules that are in the available state retain resources.
     public var status: RbinClientTypes.RuleStatus?
 
@@ -2316,6 +2356,7 @@ public struct UpdateRuleOutputResponse: Swift.Equatable {
         resourceTags: [RbinClientTypes.ResourceTag]? = nil,
         resourceType: RbinClientTypes.ResourceType? = nil,
         retentionPeriod: RbinClientTypes.RetentionPeriod? = nil,
+        ruleArn: Swift.String? = nil,
         status: RbinClientTypes.RuleStatus? = nil
     )
     {
@@ -2326,11 +2367,12 @@ public struct UpdateRuleOutputResponse: Swift.Equatable {
         self.resourceTags = resourceTags
         self.resourceType = resourceType
         self.retentionPeriod = retentionPeriod
+        self.ruleArn = ruleArn
         self.status = status
     }
 }
 
-struct UpdateRuleOutputResponseBody: Swift.Equatable {
+struct UpdateRuleOutputBody: Swift.Equatable {
     let identifier: Swift.String?
     let retentionPeriod: RbinClientTypes.RetentionPeriod?
     let description: Swift.String?
@@ -2339,9 +2381,10 @@ struct UpdateRuleOutputResponseBody: Swift.Equatable {
     let status: RbinClientTypes.RuleStatus?
     let lockState: RbinClientTypes.LockState?
     let lockEndTime: ClientRuntime.Date?
+    let ruleArn: Swift.String?
 }
 
-extension UpdateRuleOutputResponseBody: Swift.Decodable {
+extension UpdateRuleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
         case identifier = "Identifier"
@@ -2350,6 +2393,7 @@ extension UpdateRuleOutputResponseBody: Swift.Decodable {
         case resourceTags = "ResourceTags"
         case resourceType = "ResourceType"
         case retentionPeriod = "RetentionPeriod"
+        case ruleArn = "RuleArn"
         case status = "Status"
     }
 
@@ -2380,6 +2424,23 @@ extension UpdateRuleOutputResponseBody: Swift.Decodable {
         lockState = lockStateDecoded
         let lockEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lockEndTime)
         lockEndTime = lockEndTimeDecoded
+        let ruleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleArn)
+        ruleArn = ruleArnDecoded
+    }
+}
+
+enum UpdateRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

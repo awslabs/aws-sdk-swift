@@ -59,6 +59,35 @@ extension TranslateClientTypes {
 
 }
 
+extension TranslateClientTypes {
+    public enum Brevity: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case on
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Brevity] {
+            return [
+                .on,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .on: return "ON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Brevity(rawValue: rawValue) ?? Brevity.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ConcurrentModificationException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -291,29 +320,11 @@ extension CreateParallelDataInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateParallelDataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateParallelDataOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateParallelDataOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateParallelDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateParallelDataOutputBody = try responseDecoder.decode(responseBody: data)
             self.name = output.name
             self.status = output.status
         } else {
@@ -323,7 +334,7 @@ extension CreateParallelDataOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateParallelDataOutputResponse: Swift.Equatable {
+public struct CreateParallelDataOutput: Swift.Equatable {
     /// The custom name that you assigned to the parallel data resource.
     public var name: Swift.String?
     /// The status of the parallel data resource. When the resource is ready for you to use, the status is ACTIVE.
@@ -339,12 +350,12 @@ public struct CreateParallelDataOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateParallelDataOutputResponseBody: Swift.Equatable {
+struct CreateParallelDataOutputBody: Swift.Equatable {
     let name: Swift.String?
     let status: TranslateClientTypes.ParallelDataStatus?
 }
 
-extension CreateParallelDataOutputResponseBody: Swift.Decodable {
+extension CreateParallelDataOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
         case status = "Status"
@@ -356,6 +367,24 @@ extension CreateParallelDataOutputResponseBody: Swift.Decodable {
         name = nameDecoded
         let statusDecoded = try containerValues.decodeIfPresent(TranslateClientTypes.ParallelDataStatus.self, forKey: .status)
         status = statusDecoded
+    }
+}
+
+enum CreateParallelDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -407,25 +436,11 @@ extension DeleteParallelDataInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteParallelDataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteParallelDataOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteParallelDataOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteParallelDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteParallelDataOutputBody = try responseDecoder.decode(responseBody: data)
             self.name = output.name
             self.status = output.status
         } else {
@@ -435,7 +450,7 @@ extension DeleteParallelDataOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteParallelDataOutputResponse: Swift.Equatable {
+public struct DeleteParallelDataOutput: Swift.Equatable {
     /// The name of the parallel data resource that is being deleted.
     public var name: Swift.String?
     /// The status of the parallel data deletion.
@@ -451,12 +466,12 @@ public struct DeleteParallelDataOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteParallelDataOutputResponseBody: Swift.Equatable {
+struct DeleteParallelDataOutputBody: Swift.Equatable {
     let name: Swift.String?
     let status: TranslateClientTypes.ParallelDataStatus?
 }
 
-extension DeleteParallelDataOutputResponseBody: Swift.Decodable {
+extension DeleteParallelDataOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
         case status = "Status"
@@ -468,6 +483,20 @@ extension DeleteParallelDataOutputResponseBody: Swift.Decodable {
         name = nameDecoded
         let statusDecoded = try containerValues.decodeIfPresent(TranslateClientTypes.ParallelDataStatus.self, forKey: .status)
         status = statusDecoded
+    }
+}
+
+enum DeleteParallelDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -519,8 +548,18 @@ extension DeleteTerminologyInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteTerminologyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteTerminologyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteTerminologyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteTerminologyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -531,16 +570,6 @@ public enum DeleteTerminologyOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteTerminologyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteTerminologyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DescribeTextTranslationJobInput: Swift.Encodable {
@@ -591,24 +620,11 @@ extension DescribeTextTranslationJobInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeTextTranslationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeTextTranslationJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeTextTranslationJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeTextTranslationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeTextTranslationJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.textTranslationJobProperties = output.textTranslationJobProperties
         } else {
             self.textTranslationJobProperties = nil
@@ -616,7 +632,7 @@ extension DescribeTextTranslationJobOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DescribeTextTranslationJobOutputResponse: Swift.Equatable {
+public struct DescribeTextTranslationJobOutput: Swift.Equatable {
     /// An object that contains the properties associated with an asynchronous batch translation job.
     public var textTranslationJobProperties: TranslateClientTypes.TextTranslationJobProperties?
 
@@ -628,11 +644,11 @@ public struct DescribeTextTranslationJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeTextTranslationJobOutputResponseBody: Swift.Equatable {
+struct DescribeTextTranslationJobOutputBody: Swift.Equatable {
     let textTranslationJobProperties: TranslateClientTypes.TextTranslationJobProperties?
 }
 
-extension DescribeTextTranslationJobOutputResponseBody: Swift.Decodable {
+extension DescribeTextTranslationJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case textTranslationJobProperties = "TextTranslationJobProperties"
     }
@@ -641,6 +657,19 @@ extension DescribeTextTranslationJobOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let textTranslationJobPropertiesDecoded = try containerValues.decodeIfPresent(TranslateClientTypes.TextTranslationJobProperties.self, forKey: .textTranslationJobProperties)
         textTranslationJobProperties = textTranslationJobPropertiesDecoded
+    }
+}
+
+enum DescribeTextTranslationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1011,25 +1040,11 @@ extension GetParallelDataInputBody: Swift.Decodable {
     }
 }
 
-public enum GetParallelDataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetParallelDataOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetParallelDataOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetParallelDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetParallelDataOutputBody = try responseDecoder.decode(responseBody: data)
             self.auxiliaryDataLocation = output.auxiliaryDataLocation
             self.dataLocation = output.dataLocation
             self.latestUpdateAttemptAuxiliaryDataLocation = output.latestUpdateAttemptAuxiliaryDataLocation
@@ -1043,7 +1058,7 @@ extension GetParallelDataOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetParallelDataOutputResponse: Swift.Equatable {
+public struct GetParallelDataOutput: Swift.Equatable {
     /// The Amazon S3 location of a file that provides any errors or warnings that were produced by your input file. This file was created when Amazon Translate attempted to create a parallel data resource. The location is returned as a presigned URL to that has a 30-minute expiration.
     public var auxiliaryDataLocation: TranslateClientTypes.ParallelDataDataLocation?
     /// The Amazon S3 location of the most recent parallel data input file that was successfully imported into Amazon Translate. The location is returned as a presigned URL that has a 30-minute expiration. Amazon Translate doesn't scan all input files for the risk of CSV injection attacks. CSV injection occurs when a .csv or .tsv file is altered so that a record contains malicious code. The record begins with a special character, such as =, +, -, or @. When the file is opened in a spreadsheet program, the program might interpret the record as a formula and run the code within it. Before you download an input file from Amazon S3, ensure that you recognize the file and trust its creator.
@@ -1067,14 +1082,14 @@ public struct GetParallelDataOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetParallelDataOutputResponseBody: Swift.Equatable {
+struct GetParallelDataOutputBody: Swift.Equatable {
     let parallelDataProperties: TranslateClientTypes.ParallelDataProperties?
     let dataLocation: TranslateClientTypes.ParallelDataDataLocation?
     let auxiliaryDataLocation: TranslateClientTypes.ParallelDataDataLocation?
     let latestUpdateAttemptAuxiliaryDataLocation: TranslateClientTypes.ParallelDataDataLocation?
 }
 
-extension GetParallelDataOutputResponseBody: Swift.Decodable {
+extension GetParallelDataOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case auxiliaryDataLocation = "AuxiliaryDataLocation"
         case dataLocation = "DataLocation"
@@ -1092,6 +1107,20 @@ extension GetParallelDataOutputResponseBody: Swift.Decodable {
         auxiliaryDataLocation = auxiliaryDataLocationDecoded
         let latestUpdateAttemptAuxiliaryDataLocationDecoded = try containerValues.decodeIfPresent(TranslateClientTypes.ParallelDataDataLocation.self, forKey: .latestUpdateAttemptAuxiliaryDataLocation)
         latestUpdateAttemptAuxiliaryDataLocation = latestUpdateAttemptAuxiliaryDataLocationDecoded
+    }
+}
+
+enum GetParallelDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1155,25 +1184,11 @@ extension GetTerminologyInputBody: Swift.Decodable {
     }
 }
 
-public enum GetTerminologyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetTerminologyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetTerminologyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetTerminologyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetTerminologyOutputBody = try responseDecoder.decode(responseBody: data)
             self.auxiliaryDataLocation = output.auxiliaryDataLocation
             self.terminologyDataLocation = output.terminologyDataLocation
             self.terminologyProperties = output.terminologyProperties
@@ -1185,7 +1200,7 @@ extension GetTerminologyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTerminologyOutputResponse: Swift.Equatable {
+public struct GetTerminologyOutput: Swift.Equatable {
     /// The Amazon S3 location of a file that provides any errors or warnings that were produced by your input file. This file was created when Amazon Translate attempted to create a terminology resource. The location is returned as a presigned URL to that has a 30-minute expiration.
     public var auxiliaryDataLocation: TranslateClientTypes.TerminologyDataLocation?
     /// The Amazon S3 location of the most recent custom terminology input file that was successfully imported into Amazon Translate. The location is returned as a presigned URL that has a 30-minute expiration. Amazon Translate doesn't scan all input files for the risk of CSV injection attacks. CSV injection occurs when a .csv or .tsv file is altered so that a record contains malicious code. The record begins with a special character, such as =, +, -, or @. When the file is opened in a spreadsheet program, the program might interpret the record as a formula and run the code within it. Before you download an input file from Amazon S3, ensure that you recognize the file and trust its creator.
@@ -1205,13 +1220,13 @@ public struct GetTerminologyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetTerminologyOutputResponseBody: Swift.Equatable {
+struct GetTerminologyOutputBody: Swift.Equatable {
     let terminologyProperties: TranslateClientTypes.TerminologyProperties?
     let terminologyDataLocation: TranslateClientTypes.TerminologyDataLocation?
     let auxiliaryDataLocation: TranslateClientTypes.TerminologyDataLocation?
 }
 
-extension GetTerminologyOutputResponseBody: Swift.Decodable {
+extension GetTerminologyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case auxiliaryDataLocation = "AuxiliaryDataLocation"
         case terminologyDataLocation = "TerminologyDataLocation"
@@ -1226,6 +1241,20 @@ extension GetTerminologyOutputResponseBody: Swift.Decodable {
         terminologyDataLocation = terminologyDataLocationDecoded
         let auxiliaryDataLocationDecoded = try containerValues.decodeIfPresent(TranslateClientTypes.TerminologyDataLocation.self, forKey: .auxiliaryDataLocation)
         auxiliaryDataLocation = auxiliaryDataLocationDecoded
+    }
+}
+
+enum GetTerminologyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1351,27 +1380,11 @@ extension ImportTerminologyInputBody: Swift.Decodable {
     }
 }
 
-public enum ImportTerminologyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ImportTerminologyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ImportTerminologyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ImportTerminologyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ImportTerminologyOutputBody = try responseDecoder.decode(responseBody: data)
             self.auxiliaryDataLocation = output.auxiliaryDataLocation
             self.terminologyProperties = output.terminologyProperties
         } else {
@@ -1381,7 +1394,7 @@ extension ImportTerminologyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportTerminologyOutputResponse: Swift.Equatable {
+public struct ImportTerminologyOutput: Swift.Equatable {
     /// The Amazon S3 location of a file that provides any errors or warnings that were produced by your input file. This file was created when Amazon Translate attempted to create a terminology resource. The location is returned as a presigned URL to that has a 30 minute expiration.
     public var auxiliaryDataLocation: TranslateClientTypes.TerminologyDataLocation?
     /// The properties of the custom terminology being imported.
@@ -1397,12 +1410,12 @@ public struct ImportTerminologyOutputResponse: Swift.Equatable {
     }
 }
 
-struct ImportTerminologyOutputResponseBody: Swift.Equatable {
+struct ImportTerminologyOutputBody: Swift.Equatable {
     let terminologyProperties: TranslateClientTypes.TerminologyProperties?
     let auxiliaryDataLocation: TranslateClientTypes.TerminologyDataLocation?
 }
 
-extension ImportTerminologyOutputResponseBody: Swift.Decodable {
+extension ImportTerminologyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case auxiliaryDataLocation = "AuxiliaryDataLocation"
         case terminologyProperties = "TerminologyProperties"
@@ -1414,6 +1427,22 @@ extension ImportTerminologyOutputResponseBody: Swift.Decodable {
         terminologyProperties = terminologyPropertiesDecoded
         let auxiliaryDataLocationDecoded = try containerValues.decodeIfPresent(TranslateClientTypes.TerminologyDataLocation.self, forKey: .auxiliaryDataLocation)
         auxiliaryDataLocation = auxiliaryDataLocationDecoded
+    }
+}
+
+enum ImportTerminologyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1974,25 +2003,11 @@ extension ListLanguagesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListLanguagesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedDisplayLanguageCodeException": return try await UnsupportedDisplayLanguageCodeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListLanguagesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListLanguagesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListLanguagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListLanguagesOutputBody = try responseDecoder.decode(responseBody: data)
             self.displayLanguageCode = output.displayLanguageCode
             self.languages = output.languages
             self.nextToken = output.nextToken
@@ -2004,7 +2019,7 @@ extension ListLanguagesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLanguagesOutputResponse: Swift.Equatable {
+public struct ListLanguagesOutput: Swift.Equatable {
     /// The language code passed in with the request.
     public var displayLanguageCode: TranslateClientTypes.DisplayLanguageCode?
     /// The list of supported languages.
@@ -2024,13 +2039,13 @@ public struct ListLanguagesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListLanguagesOutputResponseBody: Swift.Equatable {
+struct ListLanguagesOutputBody: Swift.Equatable {
     let languages: [TranslateClientTypes.Language]?
     let displayLanguageCode: TranslateClientTypes.DisplayLanguageCode?
     let nextToken: Swift.String?
 }
 
-extension ListLanguagesOutputResponseBody: Swift.Decodable {
+extension ListLanguagesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case displayLanguageCode = "DisplayLanguageCode"
         case languages = "Languages"
@@ -2054,6 +2069,20 @@ extension ListLanguagesOutputResponseBody: Swift.Decodable {
         displayLanguageCode = displayLanguageCodeDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListLanguagesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedDisplayLanguageCodeException": return try await UnsupportedDisplayLanguageCodeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2116,24 +2145,11 @@ extension ListParallelDataInputBody: Swift.Decodable {
     }
 }
 
-public enum ListParallelDataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListParallelDataOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListParallelDataOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListParallelDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListParallelDataOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.parallelDataPropertiesList = output.parallelDataPropertiesList
         } else {
@@ -2143,7 +2159,7 @@ extension ListParallelDataOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListParallelDataOutputResponse: Swift.Equatable {
+public struct ListParallelDataOutput: Swift.Equatable {
     /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
     public var nextToken: Swift.String?
     /// The properties of the parallel data resources returned by this request.
@@ -2159,12 +2175,12 @@ public struct ListParallelDataOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListParallelDataOutputResponseBody: Swift.Equatable {
+struct ListParallelDataOutputBody: Swift.Equatable {
     let parallelDataPropertiesList: [TranslateClientTypes.ParallelDataProperties]?
     let nextToken: Swift.String?
 }
 
-extension ListParallelDataOutputResponseBody: Swift.Decodable {
+extension ListParallelDataOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case parallelDataPropertiesList = "ParallelDataPropertiesList"
@@ -2185,6 +2201,19 @@ extension ListParallelDataOutputResponseBody: Swift.Decodable {
         parallelDataPropertiesList = parallelDataPropertiesListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListParallelDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2236,24 +2265,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -2261,7 +2277,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// Tags associated with the Amazon Translate resource being queried. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Translate. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     public var tags: [TranslateClientTypes.Tag]?
 
@@ -2273,11 +2289,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [TranslateClientTypes.Tag]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
     }
@@ -2295,6 +2311,19 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2357,24 +2386,11 @@ extension ListTerminologiesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTerminologiesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTerminologiesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTerminologiesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTerminologiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTerminologiesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.terminologyPropertiesList = output.terminologyPropertiesList
         } else {
@@ -2384,7 +2400,7 @@ extension ListTerminologiesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTerminologiesOutputResponse: Swift.Equatable {
+public struct ListTerminologiesOutput: Swift.Equatable {
     /// If the response to the ListTerminologies was truncated, the NextToken fetches the next group of custom terminologies.
     public var nextToken: Swift.String?
     /// The properties list of the custom terminologies returned on the list request.
@@ -2400,12 +2416,12 @@ public struct ListTerminologiesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTerminologiesOutputResponseBody: Swift.Equatable {
+struct ListTerminologiesOutputBody: Swift.Equatable {
     let terminologyPropertiesList: [TranslateClientTypes.TerminologyProperties]?
     let nextToken: Swift.String?
 }
 
-extension ListTerminologiesOutputResponseBody: Swift.Decodable {
+extension ListTerminologiesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case terminologyPropertiesList = "TerminologyPropertiesList"
@@ -2426,6 +2442,19 @@ extension ListTerminologiesOutputResponseBody: Swift.Decodable {
         terminologyPropertiesList = terminologyPropertiesListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListTerminologiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2500,25 +2529,11 @@ extension ListTextTranslationJobsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTextTranslationJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidFilterException": return try await InvalidFilterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTextTranslationJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTextTranslationJobsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTextTranslationJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTextTranslationJobsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.textTranslationJobPropertiesList = output.textTranslationJobPropertiesList
         } else {
@@ -2528,7 +2543,7 @@ extension ListTextTranslationJobsOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListTextTranslationJobsOutputResponse: Swift.Equatable {
+public struct ListTextTranslationJobsOutput: Swift.Equatable {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// A list containing the properties of each job that is returned.
@@ -2544,12 +2559,12 @@ public struct ListTextTranslationJobsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTextTranslationJobsOutputResponseBody: Swift.Equatable {
+struct ListTextTranslationJobsOutputBody: Swift.Equatable {
     let textTranslationJobPropertiesList: [TranslateClientTypes.TextTranslationJobProperties]?
     let nextToken: Swift.String?
 }
 
-extension ListTextTranslationJobsOutputResponseBody: Swift.Decodable {
+extension ListTextTranslationJobsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case textTranslationJobPropertiesList = "TextTranslationJobPropertiesList"
@@ -2570,6 +2585,20 @@ extension ListTextTranslationJobsOutputResponseBody: Swift.Decodable {
         textTranslationJobPropertiesList = textTranslationJobPropertiesListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListTextTranslationJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidFilterException": return try await InvalidFilterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2677,10 +2706,8 @@ extension TranslateClientTypes {
     /// Specifies the format and S3 location of the parallel data input file.
     public struct ParallelDataConfig: Swift.Equatable {
         /// The format of the parallel data input file.
-        /// This member is required.
         public var format: TranslateClientTypes.ParallelDataFormat?
         /// The URI of the Amazon S3 folder that contains the parallel data input file. The folder must be in the same Region as the API endpoint you are calling.
-        /// This member is required.
         public var s3Uri: Swift.String?
 
         public init(
@@ -3245,7 +3272,13 @@ public struct StartTextTranslationJobInput: Swift.Equatable {
     public var outputDataConfig: TranslateClientTypes.OutputDataConfig?
     /// The name of a parallel data resource to add to the translation job. This resource consists of examples that show how you want segments of text to be translated. If you specify multiple target languages for the job, the parallel data file must include translations for all the target languages. When you add parallel data to a translation job, you create an Active Custom Translation job. This parameter accepts only one parallel data resource. Active Custom Translation jobs are priced at a higher rate than other jobs that don't use parallel data. For more information, see [Amazon Translate pricing](http://aws.amazon.com/translate/pricing/). For a list of available parallel data resources, use the [ListParallelData] operation. For more information, see [ Customizing your translations with parallel data](https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-parallel-data.html).
     public var parallelDataNames: [Swift.String]?
-    /// Settings to configure your translation output, including the option to set the formality level of the output text and the option to mask profane words and phrases.
+    /// Settings to configure your translation output. You can configure the following options:
+    ///
+    /// * Brevity: not supported.
+    ///
+    /// * Formality: sets the formality level of the output text.
+    ///
+    /// * Profanity: masks profane words and phrases in your translation output.
     public var settings: TranslateClientTypes.TranslationSettings?
     /// The language code of the input language. Specify the language if all input documents share the same language. If you don't know the language of the source files, or your input documents contains different source languages, select auto. Amazon Translate auto detects the source language for each input document. For a list of supported language codes, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
     /// This member is required.
@@ -3361,27 +3394,11 @@ extension StartTextTranslationJobInputBody: Swift.Decodable {
     }
 }
 
-public enum StartTextTranslationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedLanguagePairException": return try await UnsupportedLanguagePairException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartTextTranslationJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartTextTranslationJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartTextTranslationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartTextTranslationJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.jobStatus = output.jobStatus
         } else {
@@ -3391,7 +3408,7 @@ extension StartTextTranslationJobOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct StartTextTranslationJobOutputResponse: Swift.Equatable {
+public struct StartTextTranslationJobOutput: Swift.Equatable {
     /// The identifier generated for the job. To get the status of a job, use this ID with the [DescribeTextTranslationJob] operation.
     public var jobId: Swift.String?
     /// The status of the job. Possible values include:
@@ -3421,12 +3438,12 @@ public struct StartTextTranslationJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartTextTranslationJobOutputResponseBody: Swift.Equatable {
+struct StartTextTranslationJobOutputBody: Swift.Equatable {
     let jobId: Swift.String?
     let jobStatus: TranslateClientTypes.JobStatus?
 }
 
-extension StartTextTranslationJobOutputResponseBody: Swift.Decodable {
+extension StartTextTranslationJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId = "JobId"
         case jobStatus = "JobStatus"
@@ -3438,6 +3455,22 @@ extension StartTextTranslationJobOutputResponseBody: Swift.Decodable {
         jobId = jobIdDecoded
         let jobStatusDecoded = try containerValues.decodeIfPresent(TranslateClientTypes.JobStatus.self, forKey: .jobStatus)
         jobStatus = jobStatusDecoded
+    }
+}
+
+enum StartTextTranslationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedLanguagePairException": return try await UnsupportedLanguagePairException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3489,24 +3522,11 @@ extension StopTextTranslationJobInputBody: Swift.Decodable {
     }
 }
 
-public enum StopTextTranslationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StopTextTranslationJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StopTextTranslationJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StopTextTranslationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StopTextTranslationJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.jobStatus = output.jobStatus
         } else {
@@ -3516,7 +3536,7 @@ extension StopTextTranslationJobOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct StopTextTranslationJobOutputResponse: Swift.Equatable {
+public struct StopTextTranslationJobOutput: Swift.Equatable {
     /// The job ID of the stopped batch translation job.
     public var jobId: Swift.String?
     /// The status of the designated job. Upon successful completion, the job's status will be STOPPED.
@@ -3532,12 +3552,12 @@ public struct StopTextTranslationJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct StopTextTranslationJobOutputResponseBody: Swift.Equatable {
+struct StopTextTranslationJobOutputBody: Swift.Equatable {
     let jobId: Swift.String?
     let jobStatus: TranslateClientTypes.JobStatus?
 }
 
-extension StopTextTranslationJobOutputResponseBody: Swift.Decodable {
+extension StopTextTranslationJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId = "JobId"
         case jobStatus = "JobStatus"
@@ -3549,6 +3569,19 @@ extension StopTextTranslationJobOutputResponseBody: Swift.Decodable {
         jobId = jobIdDecoded
         let jobStatusDecoded = try containerValues.decodeIfPresent(TranslateClientTypes.JobStatus.self, forKey: .jobStatus)
         jobStatus = jobStatusDecoded
+    }
+}
+
+enum StopTextTranslationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3672,8 +3705,18 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3685,16 +3728,6 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension TranslateClientTypes.Term: Swift.Codable {
@@ -4555,9 +4588,15 @@ public struct TranslateDocumentInput: Swift.Equatable {
     /// The content and content type for the document to be translated. The document size must not exceed 100 KB.
     /// This member is required.
     public var document: TranslateClientTypes.Document?
-    /// Settings to configure your translation output, including the option to set the formality level of the output text and the option to mask profane words and phrases.
+    /// Settings to configure your translation output. You can configure the following options:
+    ///
+    /// * Brevity: not supported.
+    ///
+    /// * Formality: sets the formality level of the output text.
+    ///
+    /// * Profanity: masks profane words and phrases in your translation output.
     public var settings: TranslateClientTypes.TranslationSettings?
-    /// The language code for the language of the source text. Do not use auto, because TranslateDocument does not support language auto-detection. For a list of supported language codes, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
+    /// The language code for the language of the source text. For a list of supported language codes, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html). To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate will call [Amazon Comprehend](https://docs.aws.amazon.com/comprehend/latest/dg/comprehend-general.html) to determine the source language. If you specify auto, you must send the TranslateDocument request in a region that supports Amazon Comprehend. Otherwise, the request returns an error indicating that autodetect is not supported.
     /// This member is required.
     public var sourceLanguageCode: Swift.String?
     /// The language code requested for the translated document. For a list of supported language codes, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
@@ -4623,28 +4662,11 @@ extension TranslateDocumentInputBody: Swift.Decodable {
     }
 }
 
-public enum TranslateDocumentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedLanguagePairException": return try await UnsupportedLanguagePairException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension TranslateDocumentOutputResponse: ClientRuntime.HttpResponseBinding {
+extension TranslateDocumentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: TranslateDocumentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: TranslateDocumentOutputBody = try responseDecoder.decode(responseBody: data)
             self.appliedSettings = output.appliedSettings
             self.appliedTerminologies = output.appliedTerminologies
             self.sourceLanguageCode = output.sourceLanguageCode
@@ -4660,8 +4682,14 @@ extension TranslateDocumentOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TranslateDocumentOutputResponse: Swift.Equatable {
-    /// Settings to configure your translation output, including the option to set the formality level of the output text and the option to mask profane words and phrases.
+public struct TranslateDocumentOutput: Swift.Equatable {
+    /// Settings to configure your translation output. You can configure the following options:
+    ///
+    /// * Brevity: reduces the length of the translation output for most translations. Available for TranslateText only.
+    ///
+    /// * Formality: sets the formality level of the translation output.
+    ///
+    /// * Profanity: masks profane words and phrases in the translation output.
     public var appliedSettings: TranslateClientTypes.TranslationSettings?
     /// The names of the custom terminologies applied to the input text by Amazon Translate to produce the translated text document.
     public var appliedTerminologies: [TranslateClientTypes.AppliedTerminology]?
@@ -4691,7 +4719,7 @@ public struct TranslateDocumentOutputResponse: Swift.Equatable {
     }
 }
 
-struct TranslateDocumentOutputResponseBody: Swift.Equatable {
+struct TranslateDocumentOutputBody: Swift.Equatable {
     let translatedDocument: TranslateClientTypes.TranslatedDocument?
     let sourceLanguageCode: Swift.String?
     let targetLanguageCode: Swift.String?
@@ -4699,7 +4727,7 @@ struct TranslateDocumentOutputResponseBody: Swift.Equatable {
     let appliedSettings: TranslateClientTypes.TranslationSettings?
 }
 
-extension TranslateDocumentOutputResponseBody: Swift.Decodable {
+extension TranslateDocumentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appliedSettings = "AppliedSettings"
         case appliedTerminologies = "AppliedTerminologies"
@@ -4729,6 +4757,23 @@ extension TranslateDocumentOutputResponseBody: Swift.Decodable {
         appliedTerminologies = appliedTerminologiesDecoded0
         let appliedSettingsDecoded = try containerValues.decodeIfPresent(TranslateClientTypes.TranslationSettings.self, forKey: .appliedSettings)
         appliedSettings = appliedSettingsDecoded
+    }
+}
+
+enum TranslateDocumentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedLanguagePairException": return try await UnsupportedLanguagePairException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4771,7 +4816,13 @@ extension TranslateTextInput: ClientRuntime.URLPathProvider {
 }
 
 public struct TranslateTextInput: Swift.Equatable {
-    /// Settings to configure your translation output, including the option to set the formality level of the output text and the option to mask profane words and phrases.
+    /// Settings to configure your translation output. You can configure the following options:
+    ///
+    /// * Brevity: reduces the length of the translated output for most translations.
+    ///
+    /// * Formality: sets the formality level of the output text.
+    ///
+    /// * Profanity: masks profane words and phrases in your translation output.
     public var settings: TranslateClientTypes.TranslationSettings?
     /// The language code for the language of the source text. For a list of language codes, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html). To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate will call [Amazon Comprehend](https://docs.aws.amazon.com/comprehend/latest/dg/comprehend-general.html) to determine the source language. If you specify auto, you must send the TranslateText request in a region that supports Amazon Comprehend. Otherwise, the request returns an error indicating that autodetect is not supported.
     /// This member is required.
@@ -4842,29 +4893,11 @@ extension TranslateTextInputBody: Swift.Decodable {
     }
 }
 
-public enum TranslateTextOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DetectedLanguageLowConfidenceException": return try await DetectedLanguageLowConfidenceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TextSizeLimitExceededException": return try await TextSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedLanguagePairException": return try await UnsupportedLanguagePairException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension TranslateTextOutputResponse: ClientRuntime.HttpResponseBinding {
+extension TranslateTextOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: TranslateTextOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: TranslateTextOutputBody = try responseDecoder.decode(responseBody: data)
             self.appliedSettings = output.appliedSettings
             self.appliedTerminologies = output.appliedTerminologies
             self.sourceLanguageCode = output.sourceLanguageCode
@@ -4880,7 +4913,7 @@ extension TranslateTextOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TranslateTextOutputResponse: Swift.Equatable {
+public struct TranslateTextOutput: Swift.Equatable {
     /// Optional settings that modify the translation output.
     public var appliedSettings: TranslateClientTypes.TranslationSettings?
     /// The names of the custom terminologies applied to the input text by Amazon Translate for the translated text response.
@@ -4911,7 +4944,7 @@ public struct TranslateTextOutputResponse: Swift.Equatable {
     }
 }
 
-struct TranslateTextOutputResponseBody: Swift.Equatable {
+struct TranslateTextOutputBody: Swift.Equatable {
     let translatedText: Swift.String?
     let sourceLanguageCode: Swift.String?
     let targetLanguageCode: Swift.String?
@@ -4919,7 +4952,7 @@ struct TranslateTextOutputResponseBody: Swift.Equatable {
     let appliedSettings: TranslateClientTypes.TranslationSettings?
 }
 
-extension TranslateTextOutputResponseBody: Swift.Decodable {
+extension TranslateTextOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appliedSettings = "AppliedSettings"
         case appliedTerminologies = "AppliedTerminologies"
@@ -4949,6 +4982,24 @@ extension TranslateTextOutputResponseBody: Swift.Decodable {
         appliedTerminologies = appliedTerminologiesDecoded0
         let appliedSettingsDecoded = try containerValues.decodeIfPresent(TranslateClientTypes.TranslationSettings.self, forKey: .appliedSettings)
         appliedSettings = appliedSettingsDecoded
+    }
+}
+
+enum TranslateTextOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DetectedLanguageLowConfidenceException": return try await DetectedLanguageLowConfidenceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TextSizeLimitExceededException": return try await TextSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedLanguagePairException": return try await UnsupportedLanguagePairException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4995,12 +5046,16 @@ extension TranslateClientTypes {
 
 extension TranslateClientTypes.TranslationSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case brevity = "Brevity"
         case formality = "Formality"
         case profanity = "Profanity"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let brevity = self.brevity {
+            try encodeContainer.encode(brevity.rawValue, forKey: .brevity)
+        }
         if let formality = self.formality {
             try encodeContainer.encode(formality.rawValue, forKey: .formality)
         }
@@ -5015,22 +5070,34 @@ extension TranslateClientTypes.TranslationSettings: Swift.Codable {
         formality = formalityDecoded
         let profanityDecoded = try containerValues.decodeIfPresent(TranslateClientTypes.Profanity.self, forKey: .profanity)
         profanity = profanityDecoded
+        let brevityDecoded = try containerValues.decodeIfPresent(TranslateClientTypes.Brevity.self, forKey: .brevity)
+        brevity = brevityDecoded
     }
 }
 
 extension TranslateClientTypes {
-    /// Settings to configure your translation output, including the option to set the formality level of the output text and the option to mask profane words and phrases.
+    /// Settings to configure your translation output. You can configure the following options:
+    ///
+    /// * Brevity: reduces the length of the translation output for most translations. Available for TranslateText only.
+    ///
+    /// * Formality: sets the formality level of the translation output.
+    ///
+    /// * Profanity: masks profane words and phrases in the translation output.
     public struct TranslationSettings: Swift.Equatable {
-        /// You can optionally specify the desired level of formality for translations to supported target languages. The formality setting controls the level of formal language usage (also known as [register](https://en.wikipedia.org/wiki/Register_(sociolinguistics))) in the translation output. You can set the value to informal or formal. If you don't specify a value for formality, or if the target language doesn't support formality, the translation will ignore the formality setting. If you specify multiple target languages for the job, translate ignores the formality setting for any unsupported target language. For a list of target languages that support formality, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-formality.html#customizing-translations-formality-languages) in the Amazon Translate Developer Guide.
+        /// When you turn on brevity, Amazon Translate reduces the length of the translation output for most translations (when compared with the same translation with brevity turned off). By default, brevity is turned off. If you turn on brevity for a translation request with an unsupported language pair, the translation proceeds with the brevity setting turned off. For the language pairs that brevity supports, see [Using brevity](https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-brevity) in the Amazon Translate Developer Guide.
+        public var brevity: TranslateClientTypes.Brevity?
+        /// You can specify the desired level of formality for translations to supported target languages. The formality setting controls the level of formal language usage (also known as [register](https://en.wikipedia.org/wiki/Register_(sociolinguistics))) in the translation output. You can set the value to informal or formal. If you don't specify a value for formality, or if the target language doesn't support formality, the translation will ignore the formality setting. If you specify multiple target languages for the job, translate ignores the formality setting for any unsupported target language. For a list of target languages that support formality, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-formality.html#customizing-translations-formality-languages) in the Amazon Translate Developer Guide.
         public var formality: TranslateClientTypes.Formality?
-        /// Enable the profanity setting if you want Amazon Translate to mask profane words and phrases in your translation output. To mask profane words and phrases, Amazon Translate replaces them with the grawlix string “?$#@$“. This 5-character sequence is used for each profane word or phrase, regardless of the length or number of words. Amazon Translate doesn't detect profanity in all of its supported languages. For languages that don't support profanity detection, see [Unsupported languages](https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-profanity.html#customizing-translations-profanity-languages) in the Amazon Translate Developer Guide. If you specify multiple target languages for the job, all the target languages must support profanity masking. If any of the target languages don't support profanity masking, the translation job won't mask profanity for any target language.
+        /// You can enable the profanity setting if you want to mask profane words and phrases in your translation output. To mask profane words and phrases, Amazon Translate replaces them with the grawlix string “?$#@$“. This 5-character sequence is used for each profane word or phrase, regardless of the length or number of words. Amazon Translate doesn't detect profanity in all of its supported languages. For languages that don't support profanity detection, see [Unsupported languages](https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-profanity.html#customizing-translations-profanity-languages) in the Amazon Translate Developer Guide. If you specify multiple target languages for the job, all the target languages must support profanity masking. If any of the target languages don't support profanity masking, the translation job won't mask profanity for any target language.
         public var profanity: TranslateClientTypes.Profanity?
 
         public init(
+            brevity: TranslateClientTypes.Brevity? = nil,
             formality: TranslateClientTypes.Formality? = nil,
             profanity: TranslateClientTypes.Profanity? = nil
         )
         {
+            self.brevity = brevity
             self.formality = formality
             self.profanity = profanity
         }
@@ -5251,8 +5318,18 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5263,16 +5340,6 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateParallelDataInput: Swift.Encodable {
@@ -5361,29 +5428,11 @@ extension UpdateParallelDataInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateParallelDataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateParallelDataOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateParallelDataOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateParallelDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateParallelDataOutputBody = try responseDecoder.decode(responseBody: data)
             self.latestUpdateAttemptAt = output.latestUpdateAttemptAt
             self.latestUpdateAttemptStatus = output.latestUpdateAttemptStatus
             self.name = output.name
@@ -5397,7 +5446,7 @@ extension UpdateParallelDataOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateParallelDataOutputResponse: Swift.Equatable {
+public struct UpdateParallelDataOutput: Swift.Equatable {
     /// The time that the most recent update was attempted.
     public var latestUpdateAttemptAt: ClientRuntime.Date?
     /// The status of the parallel data update attempt. When the updated parallel data resource is ready for you to use, the status is ACTIVE.
@@ -5421,14 +5470,14 @@ public struct UpdateParallelDataOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateParallelDataOutputResponseBody: Swift.Equatable {
+struct UpdateParallelDataOutputBody: Swift.Equatable {
     let name: Swift.String?
     let status: TranslateClientTypes.ParallelDataStatus?
     let latestUpdateAttemptStatus: TranslateClientTypes.ParallelDataStatus?
     let latestUpdateAttemptAt: ClientRuntime.Date?
 }
 
-extension UpdateParallelDataOutputResponseBody: Swift.Decodable {
+extension UpdateParallelDataOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case latestUpdateAttemptAt = "LatestUpdateAttemptAt"
         case latestUpdateAttemptStatus = "LatestUpdateAttemptStatus"
@@ -5446,5 +5495,23 @@ extension UpdateParallelDataOutputResponseBody: Swift.Decodable {
         latestUpdateAttemptStatus = latestUpdateAttemptStatusDecoded
         let latestUpdateAttemptAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .latestUpdateAttemptAt)
         latestUpdateAttemptAt = latestUpdateAttemptAtDecoded
+    }
+}
+
+enum UpdateParallelDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }

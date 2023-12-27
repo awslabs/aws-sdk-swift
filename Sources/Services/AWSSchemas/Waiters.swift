@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension SchemasClientProtocol {
 
-    static func codeBindingExistsWaiterConfig() throws -> WaiterConfiguration<DescribeCodeBindingInput, DescribeCodeBindingOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeCodeBindingInput, DescribeCodeBindingOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeCodeBindingInput, result: Result<DescribeCodeBindingOutputResponse, Error>) -> Bool in
+    static func codeBindingExistsWaiterConfig() throws -> WaiterConfiguration<DescribeCodeBindingInput, DescribeCodeBindingOutput> {
+        let acceptors: [WaiterConfiguration<DescribeCodeBindingInput, DescribeCodeBindingOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeCodeBindingInput, result: Result<DescribeCodeBindingOutput, Error>) -> Bool in
                 // JMESPath expression: "Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "CREATE_COMPLETE"
@@ -14,7 +14,7 @@ extension SchemasClientProtocol {
                 let status = output.status
                 return JMESUtils.compare(status, ==, "CREATE_COMPLETE")
             }),
-            .init(state: .retry, matcher: { (input: DescribeCodeBindingInput, result: Result<DescribeCodeBindingOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeCodeBindingInput, result: Result<DescribeCodeBindingOutput, Error>) -> Bool in
                 // JMESPath expression: "Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "CREATE_IN_PROGRESS"
@@ -22,7 +22,7 @@ extension SchemasClientProtocol {
                 let status = output.status
                 return JMESUtils.compare(status, ==, "CREATE_IN_PROGRESS")
             }),
-            .init(state: .failure, matcher: { (input: DescribeCodeBindingInput, result: Result<DescribeCodeBindingOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeCodeBindingInput, result: Result<DescribeCodeBindingOutput, Error>) -> Bool in
                 // JMESPath expression: "Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "CREATE_FAILED"
@@ -30,12 +30,12 @@ extension SchemasClientProtocol {
                 let status = output.status
                 return JMESUtils.compare(status, ==, "CREATE_FAILED")
             }),
-            .init(state: .failure, matcher: { (input: DescribeCodeBindingInput, result: Result<DescribeCodeBindingOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeCodeBindingInput, result: Result<DescribeCodeBindingOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "NotFoundException"
             }),
         ]
-        return try WaiterConfiguration<DescribeCodeBindingInput, DescribeCodeBindingOutputResponse>(acceptors: acceptors, minDelay: 2.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeCodeBindingInput, DescribeCodeBindingOutput>(acceptors: acceptors, minDelay: 2.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the CodeBindingExists event on the describeCodeBinding operation.
@@ -49,7 +49,7 @@ extension SchemasClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilCodeBindingExists(options: WaiterOptions, input: DescribeCodeBindingInput) async throws -> WaiterOutcome<DescribeCodeBindingOutputResponse> {
+    public func waitUntilCodeBindingExists(options: WaiterOptions, input: DescribeCodeBindingInput) async throws -> WaiterOutcome<DescribeCodeBindingOutput> {
         let waiter = Waiter(config: try Self.codeBindingExistsWaiterConfig(), operation: self.describeCodeBinding(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

@@ -18,21 +18,21 @@ class OutputMatcherTests: XCTestCase {
     // JMESPath expected value: payload property contents
 
     func test_outputStringProperty_acceptorMatchesOnPropertyMatch() async throws {
-        let output = GetWidgetOutputResponse(stringProperty: "payload property contents")
+        let output = GetWidgetOutput(stringProperty: "payload property contents")
         let subject = try WaitersClient.outputStringPropertyMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertEqual(match, .success(.success(output)))
     }
 
     func test_outputStringProperty_acceptorFailsToMatchOnPropertyMismatch() async throws {
-        let output = GetWidgetOutputResponse(stringProperty: "not the payload property contents")
+        let output = GetWidgetOutput(stringProperty: "not the payload property contents")
         let subject = try WaitersClient.outputStringPropertyMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertNil(match)
     }
 
     func test_outputStringProperty_acceptorFailsToMatchOnNullProperty() async throws {
-        let output = GetWidgetOutputResponse(stringProperty: nil)
+        let output = GetWidgetOutput(stringProperty: nil)
         let subject = try WaitersClient.outputStringPropertyMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertNil(match)
@@ -45,21 +45,21 @@ class OutputMatcherTests: XCTestCase {
     // JMESPath expected value: false
 
     func test_outputBooleanProperty_acceptorMatchesOnPropertyMatch() async throws {
-        let output = GetWidgetOutputResponse(booleanProperty: false)
+        let output = GetWidgetOutput(booleanProperty: false)
         let subject = try WaitersClient.outputBooleanPropertyMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertEqual(match, .success(.success(output)))
     }
 
     func test_outputBooleanProperty_acceptorFailsToMatchOnPropertyMismatch() async throws {
-        let output = GetWidgetOutputResponse(booleanProperty: true)
+        let output = GetWidgetOutput(booleanProperty: true)
         let subject = try WaitersClient.outputBooleanPropertyMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertNil(match)
     }
 
     func test_outputBooleanProperty_acceptorFailsToMatchOnNullProperty() async throws {
-        let output = GetWidgetOutputResponse(booleanProperty: nil)
+        let output = GetWidgetOutput(booleanProperty: nil)
         let subject = try WaitersClient.outputBooleanPropertyMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertNil(match)
@@ -73,7 +73,7 @@ class OutputMatcherTests: XCTestCase {
 
     func test_arrayPropertyAll_acceptorMatchesWhenArrayElementsAllMatch() async throws {
         let expected = "payload property contents"
-        let output = GetWidgetOutputResponse(stringArrayProperty: [expected, expected, expected])
+        let output = GetWidgetOutput(stringArrayProperty: [expected, expected, expected])
         let subject = try WaitersClient.outputStringArrayAllPropertyMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertEqual(match, .success(.success(output)))
@@ -81,21 +81,21 @@ class OutputMatcherTests: XCTestCase {
 
     func test_arrayPropertyAll_acceptorFailsToMatchWhenArrayElementsDontMatch() async throws {
         let expected = "payload property contents"
-        let output = GetWidgetOutputResponse(stringArrayProperty: [expected, expected, "unexpected"])
+        let output = GetWidgetOutput(stringArrayProperty: [expected, expected, "unexpected"])
         let subject = try WaitersClient.outputStringArrayAllPropertyMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertNil(match)
     }
 
     func test_arrayPropertyAll_acceptorFailsToMatchWhenArrayIsEmpty() async throws {
-        let output = GetWidgetOutputResponse(stringArrayProperty: [])
+        let output = GetWidgetOutput(stringArrayProperty: [])
         let subject = try WaitersClient.outputStringArrayAllPropertyMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertNil(match)
     }
 
     func test_arrayPropertyAll_acceptorFailsToMatchWhenArrayIsNull() async throws {
-        let output = GetWidgetOutputResponse(stringArrayProperty: nil)
+        let output = GetWidgetOutput(stringArrayProperty: nil)
         let subject = try WaitersClient.outputStringArrayAllPropertyMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertNil(match)
@@ -109,7 +109,7 @@ class OutputMatcherTests: XCTestCase {
 
     func test_arrayPropertyAny_acceptorMatchesWhenArrayElementsAllMatch() async throws {
         let expected = "payload property contents"
-        let output = GetWidgetOutputResponse(stringArrayProperty: [expected, expected, expected])
+        let output = GetWidgetOutput(stringArrayProperty: [expected, expected, expected])
         let subject = try WaitersClient.outputStringArrayAnyPropertyMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertEqual(match, .success(.success(output)))
@@ -117,7 +117,7 @@ class OutputMatcherTests: XCTestCase {
 
     func test_arrayPropertyAny_acceptorMatchesWhenAllButOneElementMismatches() async throws {
         let expected = "payload property contents"
-        let output = GetWidgetOutputResponse(stringArrayProperty: [expected, expected, "unexpected"])
+        let output = GetWidgetOutput(stringArrayProperty: [expected, expected, "unexpected"])
         let subject = try WaitersClient.outputStringArrayAnyPropertyMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertEqual(match, .success(.success(output)))
@@ -125,21 +125,21 @@ class OutputMatcherTests: XCTestCase {
 
     func test_arrayPropertyAny_acceptorFailsToMatchWhenAllElementsMismatch() async throws {
         let unexpected = "unexpected"
-        let output = GetWidgetOutputResponse(stringArrayProperty: [unexpected, unexpected, unexpected])
+        let output = GetWidgetOutput(stringArrayProperty: [unexpected, unexpected, unexpected])
         let subject = try WaitersClient.outputStringArrayAnyPropertyMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertNil(match)
     }
 
     func test_arrayPropertyAny_acceptorFailsToMatchWhenArrayIsEmpty() async throws {
-        let output = GetWidgetOutputResponse(stringArrayProperty: [])
+        let output = GetWidgetOutput(stringArrayProperty: [])
         let subject = try WaitersClient.outputStringArrayAnyPropertyMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertNil(match)
     }
 
     func test_arrayPropertyAny_acceptorFailsToMatchWhenArrayIsNull() async throws {
-        let output = GetWidgetOutputResponse(stringArrayProperty: nil)
+        let output = GetWidgetOutput(stringArrayProperty: nil)
         let subject = try WaitersClient.outputStringArrayAnyPropertyMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertNil(match)
@@ -226,14 +226,14 @@ class OutputMatcherTests: XCTestCase {
     // JMESPath expected value: "abc"
 
     func test_projection_acceptorMatchesWhenProjectedValuesMatchExpectation() async throws {
-        let output = GetWidgetOutputResponse(dataMap: ["x": "abc", "y": "abc", "z": "abc"])
+        let output = GetWidgetOutput(dataMap: ["x": "abc", "y": "abc", "z": "abc"])
         let subject = try WaitersClient.projectionMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertEqual(match, .success(.success(output)))
     }
 
     func test_projection_acceptorDoesNotMatchWhenProjectedValuesDontMatchExpectation() async throws {
-        let output = GetWidgetOutputResponse(dataMap: ["x": "abc", "y": "abc", "z": "def"])
+        let output = GetWidgetOutput(dataMap: ["x": "abc", "y": "abc", "z": "def"])
         let subject = try WaitersClient.projectionMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertNil(match)
@@ -246,14 +246,14 @@ class OutputMatcherTests: XCTestCase {
     // JMESPath expected value: "true"
 
     func test_containsNonLiteral_acceptorMatchesWhenStringPropertyIsFound() async throws {
-        let output = GetWidgetOutputResponse(dataMap: ["a": "abc", "b": "xyz"], stringProperty: "xyz")
+        let output = GetWidgetOutput(dataMap: ["a": "abc", "b": "xyz"], stringProperty: "xyz")
         let subject = try WaitersClient.containsFieldMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertEqual(match, .success(.success(output)))
     }
 
     func test_containsNonLiteral_acceptorDoesNotMatchWhenStringPropertyIsNotFound() async throws {
-        let output = GetWidgetOutputResponse(dataMap: ["a": "abc", "b": "xyz"], stringProperty: "def")
+        let output = GetWidgetOutput(dataMap: ["a": "abc", "b": "xyz"], stringProperty: "def")
         let subject = try WaitersClient.containsFieldMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertNil(match)
@@ -266,14 +266,14 @@ class OutputMatcherTests: XCTestCase {
     // JMESPath expected value: "true"
 
     func test_andInequality_acceptorMatchesWhenCountsAreThreeAndNotThree() async throws {
-        let output = GetWidgetOutputResponse(dataMap: ["a": "a", "b": "b", "c": "c"], stringArrayProperty: ["a", "b"])
+        let output = GetWidgetOutput(dataMap: ["a": "a", "b": "b", "c": "c"], stringArrayProperty: ["a", "b"])
         let subject = try WaitersClient.andInequalityMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertEqual(match, .success(.success(output)))
     }
 
     func test_andInequality_acceptorDoesNotMatchWhenCountsAreNotThreeAndThree() async throws {
-        let output = GetWidgetOutputResponse(dataMap: ["a": "a", "b": "b"], stringArrayProperty: ["a", "b", "c"])
+        let output = GetWidgetOutput(dataMap: ["a": "a", "b": "b"], stringArrayProperty: ["a", "b", "c"])
         let subject = try WaitersClient.andInequalityMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertNil(match)
@@ -281,13 +281,13 @@ class OutputMatcherTests: XCTestCase {
 
     // MARK: - Helper methods
 
-    private func outputTree(globalName: String? = nil, embeddedName: String? = "c", appendBonusKid: Bool = false) -> GetWidgetOutputResponse {
+    private func outputTree(globalName: String? = nil, embeddedName: String? = "c", appendBonusKid: Bool = false) -> GetWidgetOutput {
         var grandchildren2: [WaitersClientTypes.Grandchild] = [
             .init(name: embeddedName ?? globalName, number: 1),
             .init(name: globalName ?? "d", number: 2)
         ]
         if appendBonusKid { grandchildren2.append(.init(name: "bonus kid", number: 7))}
-        return GetWidgetOutputResponse(children: [
+        return GetWidgetOutput(children: [
             .init(grandchildren: [
                 .init(name: globalName ?? "a", number: 3),
                 .init(name: globalName ?? "b", number: 4)

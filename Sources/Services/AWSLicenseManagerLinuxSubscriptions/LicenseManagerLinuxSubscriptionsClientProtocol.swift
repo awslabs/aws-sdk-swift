@@ -4,14 +4,66 @@ import ClientRuntime
 
 /// With License Manager, you can discover and track your commercial Linux subscriptions on running Amazon EC2 instances.
 public protocol LicenseManagerLinuxSubscriptionsClientProtocol {
+    /// Performs the `GetServiceSettings` operation on the `LicenseManagerLinuxSubscriptions` service.
+    ///
     /// Lists the Linux subscriptions service settings.
-    func getServiceSettings(input: GetServiceSettingsInput) async throws -> GetServiceSettingsOutputResponse
+    ///
+    /// - Parameter GetServiceSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetServiceSettingsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
+    func getServiceSettings(input: GetServiceSettingsInput) async throws -> GetServiceSettingsOutput
+    /// Performs the `ListLinuxSubscriptionInstances` operation on the `LicenseManagerLinuxSubscriptions` service.
+    ///
     /// Lists the running Amazon EC2 instances that were discovered with commercial Linux subscriptions.
-    func listLinuxSubscriptionInstances(input: ListLinuxSubscriptionInstancesInput) async throws -> ListLinuxSubscriptionInstancesOutputResponse
+    ///
+    /// - Parameter ListLinuxSubscriptionInstancesInput : NextToken length limit is half of ddb accepted limit. Increase this limit if parameters in request increases.
+    ///
+    /// - Returns: `ListLinuxSubscriptionInstancesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
+    func listLinuxSubscriptionInstances(input: ListLinuxSubscriptionInstancesInput) async throws -> ListLinuxSubscriptionInstancesOutput
+    /// Performs the `ListLinuxSubscriptions` operation on the `LicenseManagerLinuxSubscriptions` service.
+    ///
     /// Lists the Linux subscriptions that have been discovered. If you have linked your organization, the returned results will include data aggregated across your accounts in Organizations.
-    func listLinuxSubscriptions(input: ListLinuxSubscriptionsInput) async throws -> ListLinuxSubscriptionsOutputResponse
+    ///
+    /// - Parameter ListLinuxSubscriptionsInput : NextToken length limit is half of ddb accepted limit. Increase this limit if parameters in request increases.
+    ///
+    /// - Returns: `ListLinuxSubscriptionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
+    func listLinuxSubscriptions(input: ListLinuxSubscriptionsInput) async throws -> ListLinuxSubscriptionsOutput
+    /// Performs the `UpdateServiceSettings` operation on the `LicenseManagerLinuxSubscriptions` service.
+    ///
     /// Updates the service settings for Linux subscriptions.
-    func updateServiceSettings(input: UpdateServiceSettingsInput) async throws -> UpdateServiceSettingsOutputResponse
+    ///
+    /// - Parameter UpdateServiceSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateServiceSettingsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
+    func updateServiceSettings(input: UpdateServiceSettingsInput) async throws -> UpdateServiceSettingsOutput
 }
 
 public enum LicenseManagerLinuxSubscriptionsClientTypes {}

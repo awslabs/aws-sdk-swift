@@ -66,7 +66,7 @@ extension CreateHomeRegionControlInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if dryRun != false {
+        if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let homeRegion = self.homeRegion {
@@ -86,7 +86,7 @@ extension CreateHomeRegionControlInput: ClientRuntime.URLPathProvider {
 
 public struct CreateHomeRegionControlInput: Swift.Equatable {
     /// Optional Boolean flag to indicate whether any effect should take place. It tests whether the caller has permission to make the call.
-    public var dryRun: Swift.Bool
+    public var dryRun: Swift.Bool?
     /// The name of the home region of the calling account.
     /// This member is required.
     public var homeRegion: Swift.String?
@@ -95,7 +95,7 @@ public struct CreateHomeRegionControlInput: Swift.Equatable {
     public var target: MigrationHubConfigClientTypes.Target?
 
     public init(
-        dryRun: Swift.Bool = false,
+        dryRun: Swift.Bool? = nil,
         homeRegion: Swift.String? = nil,
         target: MigrationHubConfigClientTypes.Target? = nil
     )
@@ -109,7 +109,7 @@ public struct CreateHomeRegionControlInput: Swift.Equatable {
 struct CreateHomeRegionControlInputBody: Swift.Equatable {
     let homeRegion: Swift.String?
     let target: MigrationHubConfigClientTypes.Target?
-    let dryRun: Swift.Bool
+    let dryRun: Swift.Bool?
 }
 
 extension CreateHomeRegionControlInputBody: Swift.Decodable {
@@ -125,13 +125,53 @@ extension CreateHomeRegionControlInputBody: Swift.Decodable {
         homeRegion = homeRegionDecoded
         let targetDecoded = try containerValues.decodeIfPresent(MigrationHubConfigClientTypes.Target.self, forKey: .target)
         target = targetDecoded
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
     }
 }
 
-public enum CreateHomeRegionControlOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateHomeRegionControlOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateHomeRegionControlOutputBody = try responseDecoder.decode(responseBody: data)
+            self.homeRegionControl = output.homeRegionControl
+        } else {
+            self.homeRegionControl = nil
+        }
+    }
+}
+
+public struct CreateHomeRegionControlOutput: Swift.Equatable {
+    /// This object is the HomeRegionControl object that's returned by a successful call to CreateHomeRegionControl.
+    public var homeRegionControl: MigrationHubConfigClientTypes.HomeRegionControl?
+
+    public init(
+        homeRegionControl: MigrationHubConfigClientTypes.HomeRegionControl? = nil
+    )
+    {
+        self.homeRegionControl = homeRegionControl
+    }
+}
+
+struct CreateHomeRegionControlOutputBody: Swift.Equatable {
+    let homeRegionControl: MigrationHubConfigClientTypes.HomeRegionControl?
+}
+
+extension CreateHomeRegionControlOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case homeRegionControl = "HomeRegionControl"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let homeRegionControlDecoded = try containerValues.decodeIfPresent(MigrationHubConfigClientTypes.HomeRegionControl.self, forKey: .homeRegionControl)
+        homeRegionControl = homeRegionControlDecoded
+    }
+}
+
+enum CreateHomeRegionControlOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -146,43 +186,76 @@ public enum CreateHomeRegionControlOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension CreateHomeRegionControlOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateHomeRegionControlOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.homeRegionControl = output.homeRegionControl
-        } else {
-            self.homeRegionControl = nil
+extension DeleteHomeRegionControlInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case controlId = "ControlId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let controlId = self.controlId {
+            try encodeContainer.encode(controlId, forKey: .controlId)
         }
     }
 }
 
-public struct CreateHomeRegionControlOutputResponse: Swift.Equatable {
-    /// This object is the HomeRegionControl object that's returned by a successful call to CreateHomeRegionControl.
-    public var homeRegionControl: MigrationHubConfigClientTypes.HomeRegionControl?
-
-    public init(
-        homeRegionControl: MigrationHubConfigClientTypes.HomeRegionControl? = nil
-    )
-    {
-        self.homeRegionControl = homeRegionControl
+extension DeleteHomeRegionControlInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
-struct CreateHomeRegionControlOutputResponseBody: Swift.Equatable {
-    let homeRegionControl: MigrationHubConfigClientTypes.HomeRegionControl?
+public struct DeleteHomeRegionControlInput: Swift.Equatable {
+    /// A unique identifier that's generated for each home region control. It's always a string that begins with "hrc-" followed by 12 lowercase letters and numbers.
+    /// This member is required.
+    public var controlId: Swift.String?
+
+    public init(
+        controlId: Swift.String? = nil
+    )
+    {
+        self.controlId = controlId
+    }
 }
 
-extension CreateHomeRegionControlOutputResponseBody: Swift.Decodable {
+struct DeleteHomeRegionControlInputBody: Swift.Equatable {
+    let controlId: Swift.String?
+}
+
+extension DeleteHomeRegionControlInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case homeRegionControl = "HomeRegionControl"
+        case controlId = "ControlId"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let homeRegionControlDecoded = try containerValues.decodeIfPresent(MigrationHubConfigClientTypes.HomeRegionControl.self, forKey: .homeRegionControl)
-        homeRegionControl = homeRegionControlDecoded
+        let controlIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .controlId)
+        controlId = controlIdDecoded
+    }
+}
+
+extension DeleteHomeRegionControlOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteHomeRegionControlOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteHomeRegionControlOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -281,26 +354,11 @@ extension DescribeHomeRegionControlsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeHomeRegionControlsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeHomeRegionControlsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeHomeRegionControlsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeHomeRegionControlsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeHomeRegionControlsOutputBody = try responseDecoder.decode(responseBody: data)
             self.homeRegionControls = output.homeRegionControls
             self.nextToken = output.nextToken
         } else {
@@ -310,7 +368,7 @@ extension DescribeHomeRegionControlsOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DescribeHomeRegionControlsOutputResponse: Swift.Equatable {
+public struct DescribeHomeRegionControlsOutput: Swift.Equatable {
     /// An array that contains your HomeRegionControl objects.
     public var homeRegionControls: [MigrationHubConfigClientTypes.HomeRegionControl]?
     /// If a NextToken was returned by a previous call, more results are available. To retrieve the next page of results, make the call again using the returned token in NextToken.
@@ -326,12 +384,12 @@ public struct DescribeHomeRegionControlsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeHomeRegionControlsOutputResponseBody: Swift.Equatable {
+struct DescribeHomeRegionControlsOutputBody: Swift.Equatable {
     let homeRegionControls: [MigrationHubConfigClientTypes.HomeRegionControl]?
     let nextToken: Swift.String?
 }
 
-extension DescribeHomeRegionControlsOutputResponseBody: Swift.Decodable {
+extension DescribeHomeRegionControlsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case homeRegionControls = "HomeRegionControls"
         case nextToken = "NextToken"
@@ -352,6 +410,21 @@ extension DescribeHomeRegionControlsOutputResponseBody: Swift.Decodable {
         homeRegionControls = homeRegionControlsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeHomeRegionControlsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -438,26 +511,11 @@ extension GetHomeRegionInputBody: Swift.Decodable {
     }
 }
 
-public enum GetHomeRegionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetHomeRegionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetHomeRegionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetHomeRegionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetHomeRegionOutputBody = try responseDecoder.decode(responseBody: data)
             self.homeRegion = output.homeRegion
         } else {
             self.homeRegion = nil
@@ -465,7 +523,7 @@ extension GetHomeRegionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetHomeRegionOutputResponse: Swift.Equatable {
+public struct GetHomeRegionOutput: Swift.Equatable {
     /// The name of the home region of the calling account.
     public var homeRegion: Swift.String?
 
@@ -477,11 +535,11 @@ public struct GetHomeRegionOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetHomeRegionOutputResponseBody: Swift.Equatable {
+struct GetHomeRegionOutputBody: Swift.Equatable {
     let homeRegion: Swift.String?
 }
 
-extension GetHomeRegionOutputResponseBody: Swift.Decodable {
+extension GetHomeRegionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case homeRegion = "HomeRegion"
     }
@@ -490,6 +548,21 @@ extension GetHomeRegionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let homeRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .homeRegion)
         homeRegion = homeRegionDecoded
+    }
+}
+
+enum GetHomeRegionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

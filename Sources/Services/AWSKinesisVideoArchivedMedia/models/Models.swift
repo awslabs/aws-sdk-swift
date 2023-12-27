@@ -551,7 +551,7 @@ extension KinesisVideoArchivedMediaClientTypes {
         public var fragmentSizeInBytes: Swift.Int
         /// The timestamp from the producer corresponding to the fragment.
         public var producerTimestamp: ClientRuntime.Date?
-        /// The timestamp from the AWS server corresponding to the fragment.
+        /// The timestamp from the Amazon Web Services server corresponding to the fragment.
         public var serverTimestamp: ClientRuntime.Date?
 
         public init(
@@ -734,26 +734,7 @@ extension GetClipInputBody: Swift.Decodable {
     }
 }
 
-public enum GetClipOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ClientLimitExceededException": return try await ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidCodecPrivateDataException": return try await InvalidCodecPrivateDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMediaFrameException": return try await InvalidMediaFrameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingCodecPrivateDataException": return try await MissingCodecPrivateDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NoDataRetentionException": return try await NoDataRetentionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedStreamMediaTypeException": return try await UnsupportedStreamMediaTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetClipOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetClipOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             self.contentType = contentTypeHeaderValue
@@ -765,13 +746,13 @@ extension GetClipOutputResponse: ClientRuntime.HttpResponseBinding {
             self.payload = .data(data)
         case .stream(let stream):
             self.payload = .stream(stream)
-        case .none:
+        case .noStream:
             self.payload = nil
         }
     }
 }
 
-public struct GetClipOutputResponse: Swift.Equatable {
+public struct GetClipOutput: Swift.Equatable {
     /// The content type of the media in the requested clip.
     public var contentType: Swift.String?
     /// Traditional MP4 file that contains the media clip from the specified video stream. The output will contain the first 100 MB or the first 200 fragments from the specified start timestamp. For more information, see [Kinesis Video Streams Limits](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html).
@@ -787,11 +768,11 @@ public struct GetClipOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetClipOutputResponseBody: Swift.Equatable {
+struct GetClipOutputBody: Swift.Equatable {
     let payload: ClientRuntime.ByteStream?
 }
 
-extension GetClipOutputResponseBody: Swift.Decodable {
+extension GetClipOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case payload = "Payload"
     }
@@ -800,6 +781,25 @@ extension GetClipOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let payloadDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .payload)
         payload = payloadDecoded
+    }
+}
+
+enum GetClipOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientLimitExceededException": return try await ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCodecPrivateDataException": return try await InvalidCodecPrivateDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMediaFrameException": return try await InvalidMediaFrameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingCodecPrivateDataException": return try await MissingCodecPrivateDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoDataRetentionException": return try await NoDataRetentionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedStreamMediaTypeException": return try await UnsupportedStreamMediaTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -943,8 +943,48 @@ extension GetDASHStreamingSessionURLInputBody: Swift.Decodable {
     }
 }
 
-public enum GetDASHStreamingSessionURLOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension GetDASHStreamingSessionURLOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetDASHStreamingSessionURLOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dashStreamingSessionURL = output.dashStreamingSessionURL
+        } else {
+            self.dashStreamingSessionURL = nil
+        }
+    }
+}
+
+public struct GetDASHStreamingSessionURLOutput: Swift.Equatable {
+    /// The URL (containing the session token) that a media player can use to retrieve the MPEG-DASH manifest.
+    public var dashStreamingSessionURL: Swift.String?
+
+    public init(
+        dashStreamingSessionURL: Swift.String? = nil
+    )
+    {
+        self.dashStreamingSessionURL = dashStreamingSessionURL
+    }
+}
+
+struct GetDASHStreamingSessionURLOutputBody: Swift.Equatable {
+    let dashStreamingSessionURL: Swift.String?
+}
+
+extension GetDASHStreamingSessionURLOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dashStreamingSessionURL = "DASHStreamingSessionURL"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dashStreamingSessionURLDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dashStreamingSessionURL)
+        dashStreamingSessionURL = dashStreamingSessionURLDecoded
+    }
+}
+
+enum GetDASHStreamingSessionURLOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -958,46 +998,6 @@ public enum GetDASHStreamingSessionURLOutputError: ClientRuntime.HttpResponseErr
             case "UnsupportedStreamMediaTypeException": return try await UnsupportedStreamMediaTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetDASHStreamingSessionURLOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetDASHStreamingSessionURLOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.dashStreamingSessionURL = output.dashStreamingSessionURL
-        } else {
-            self.dashStreamingSessionURL = nil
-        }
-    }
-}
-
-public struct GetDASHStreamingSessionURLOutputResponse: Swift.Equatable {
-    /// The URL (containing the session token) that a media player can use to retrieve the MPEG-DASH manifest.
-    public var dashStreamingSessionURL: Swift.String?
-
-    public init(
-        dashStreamingSessionURL: Swift.String? = nil
-    )
-    {
-        self.dashStreamingSessionURL = dashStreamingSessionURL
-    }
-}
-
-struct GetDASHStreamingSessionURLOutputResponseBody: Swift.Equatable {
-    let dashStreamingSessionURL: Swift.String?
-}
-
-extension GetDASHStreamingSessionURLOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dashStreamingSessionURL = "DASHStreamingSessionURL"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let dashStreamingSessionURLDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dashStreamingSessionURL)
-        dashStreamingSessionURL = dashStreamingSessionURLDecoded
     }
 }
 
@@ -1162,8 +1162,48 @@ extension GetHLSStreamingSessionURLInputBody: Swift.Decodable {
     }
 }
 
-public enum GetHLSStreamingSessionURLOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension GetHLSStreamingSessionURLOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetHLSStreamingSessionURLOutputBody = try responseDecoder.decode(responseBody: data)
+            self.hlsStreamingSessionURL = output.hlsStreamingSessionURL
+        } else {
+            self.hlsStreamingSessionURL = nil
+        }
+    }
+}
+
+public struct GetHLSStreamingSessionURLOutput: Swift.Equatable {
+    /// The URL (containing the session token) that a media player can use to retrieve the HLS master playlist.
+    public var hlsStreamingSessionURL: Swift.String?
+
+    public init(
+        hlsStreamingSessionURL: Swift.String? = nil
+    )
+    {
+        self.hlsStreamingSessionURL = hlsStreamingSessionURL
+    }
+}
+
+struct GetHLSStreamingSessionURLOutputBody: Swift.Equatable {
+    let hlsStreamingSessionURL: Swift.String?
+}
+
+extension GetHLSStreamingSessionURLOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hlsStreamingSessionURL = "HLSStreamingSessionURL"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let hlsStreamingSessionURLDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hlsStreamingSessionURL)
+        hlsStreamingSessionURL = hlsStreamingSessionURLDecoded
+    }
+}
+
+enum GetHLSStreamingSessionURLOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1177,46 +1217,6 @@ public enum GetHLSStreamingSessionURLOutputError: ClientRuntime.HttpResponseErro
             case "UnsupportedStreamMediaTypeException": return try await UnsupportedStreamMediaTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetHLSStreamingSessionURLOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetHLSStreamingSessionURLOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.hlsStreamingSessionURL = output.hlsStreamingSessionURL
-        } else {
-            self.hlsStreamingSessionURL = nil
-        }
-    }
-}
-
-public struct GetHLSStreamingSessionURLOutputResponse: Swift.Equatable {
-    /// The URL (containing the session token) that a media player can use to retrieve the HLS master playlist.
-    public var hlsStreamingSessionURL: Swift.String?
-
-    public init(
-        hlsStreamingSessionURL: Swift.String? = nil
-    )
-    {
-        self.hlsStreamingSessionURL = hlsStreamingSessionURL
-    }
-}
-
-struct GetHLSStreamingSessionURLOutputResponseBody: Swift.Equatable {
-    let hlsStreamingSessionURL: Swift.String?
-}
-
-extension GetHLSStreamingSessionURLOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case hlsStreamingSessionURL = "HLSStreamingSessionURL"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let hlsStreamingSessionURLDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hlsStreamingSessionURL)
-        hlsStreamingSessionURL = hlsStreamingSessionURLDecoded
     }
 }
 
@@ -1287,7 +1287,7 @@ extension GetImagesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetImagesInput: Swift.Equatable {
-    /// The end timestamp for the range of images to be generated.
+    /// The end timestamp for the range of images to be generated. If the time range between StartTimestamp and EndTimestamp is more than 300 seconds above StartTimestamp, you will receive an IllegalArgumentException.
     /// This member is required.
     public var endTimestamp: ClientRuntime.Date?
     /// The format that will be used to encode the image.
@@ -1300,12 +1300,11 @@ public struct GetImagesInput: Swift.Equatable {
     /// The origin of the Server or Producer timestamps to use to generate the images.
     /// This member is required.
     public var imageSelectorType: KinesisVideoArchivedMediaClientTypes.ImageSelectorType?
-    /// The maximum number of images to be returned by the API. The default limit is 100 images per API response. The additional results will be paginated.
+    /// The maximum number of images to be returned by the API. The default limit is 25 images per API response. Providing a MaxResults greater than this value will result in a page size of 25. Any additional results will be paginated.
     public var maxResults: Swift.Int?
     /// A token that specifies where to start paginating the next set of Images. This is the GetImages:NextToken from a previously truncated response.
     public var nextToken: Swift.String?
-    /// The time interval in milliseconds (ms) at which the images need to be generated from the stream. The minimum value that can be provided is 3000 ms. If the timestamp range is less than the sampling interval, the Image from the startTimestamp will be returned if available. The minimum value of 3000 ms is a soft limit. If needed, a lower sampling frequency can be requested.
-    /// This member is required.
+    /// The time interval in milliseconds (ms) at which the images need to be generated from the stream, with a default of 3000 ms. The minimum value that can be provided is 200 ms. If the timestamp range is less than the sampling interval, the Image from the startTimestamp will be returned if available. The minimum value of 200 ms is a hard limit.
     public var samplingInterval: Swift.Int?
     /// The starting point from which the images should be generated. This StartTimestamp must be within an inclusive range of timestamps for an image to be returned.
     /// This member is required.
@@ -1416,25 +1415,11 @@ extension GetImagesInputBody: Swift.Decodable {
     }
 }
 
-public enum GetImagesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ClientLimitExceededException": return try await ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetImagesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetImagesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetImagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetImagesOutputBody = try responseDecoder.decode(responseBody: data)
             self.images = output.images
             self.nextToken = output.nextToken
         } else {
@@ -1444,7 +1429,7 @@ extension GetImagesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetImagesOutputResponse: Swift.Equatable {
+public struct GetImagesOutput: Swift.Equatable {
     /// The list of images generated from the video stream. If there is no media available for the given timestamp, the NO_MEDIA error will be listed in the output. If an error occurs while the image is being generated, the MEDIA_ERROR will be listed in the output as the cause of the missing image.
     public var images: [KinesisVideoArchivedMediaClientTypes.Image]?
     /// The encrypted token that was used in the request to get more images.
@@ -1460,12 +1445,12 @@ public struct GetImagesOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetImagesOutputResponseBody: Swift.Equatable {
+struct GetImagesOutputBody: Swift.Equatable {
     let images: [KinesisVideoArchivedMediaClientTypes.Image]?
     let nextToken: Swift.String?
 }
 
-extension GetImagesOutputResponseBody: Swift.Decodable {
+extension GetImagesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case images = "Images"
         case nextToken = "NextToken"
@@ -1486,6 +1471,20 @@ extension GetImagesOutputResponseBody: Swift.Decodable {
         images = imagesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum GetImagesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientLimitExceededException": return try await ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1573,21 +1572,7 @@ extension GetMediaForFragmentListInputBody: Swift.Decodable {
     }
 }
 
-public enum GetMediaForFragmentListOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ClientLimitExceededException": return try await ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetMediaForFragmentListOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetMediaForFragmentListOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             self.contentType = contentTypeHeaderValue
@@ -1599,13 +1584,13 @@ extension GetMediaForFragmentListOutputResponse: ClientRuntime.HttpResponseBindi
             self.payload = .data(data)
         case .stream(let stream):
             self.payload = .stream(stream)
-        case .none:
+        case .noStream:
             self.payload = nil
         }
     }
 }
 
-public struct GetMediaForFragmentListOutputResponse: Swift.Equatable {
+public struct GetMediaForFragmentListOutput: Swift.Equatable {
     /// The content type of the requested media.
     public var contentType: Swift.String?
     /// The payload that Kinesis Video Streams returns is a sequence of chunks from the specified stream. For information about the chunks, see [PutMedia](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_dataplane_PutMedia.html). The chunks that Kinesis Video Streams returns in the GetMediaForFragmentList call also include the following additional Matroska (MKV) tags:
@@ -1621,7 +1606,7 @@ public struct GetMediaForFragmentListOutputResponse: Swift.Equatable {
     ///
     /// * AWS_KINESISVIDEO_FRAGMENT_NUMBER - The number of the fragment that threw the exception
     ///
-    /// * AWS_KINESISVIDEO_EXCEPTION_ERROR_CODE - The integer code of the exception
+    /// * AWS_KINESISVIDEO_EXCEPTION_ERROR_CODE - The integer code of the
     ///
     /// * AWS_KINESISVIDEO_EXCEPTION_MESSAGE - A text description of the exception
     public var payload: ClientRuntime.ByteStream?
@@ -1636,11 +1621,11 @@ public struct GetMediaForFragmentListOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetMediaForFragmentListOutputResponseBody: Swift.Equatable {
+struct GetMediaForFragmentListOutputBody: Swift.Equatable {
     let payload: ClientRuntime.ByteStream?
 }
 
-extension GetMediaForFragmentListOutputResponseBody: Swift.Decodable {
+extension GetMediaForFragmentListOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case payload = "Payload"
     }
@@ -1649,6 +1634,20 @@ extension GetMediaForFragmentListOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let payloadDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .payload)
         payload = payloadDecoded
+    }
+}
+
+enum GetMediaForFragmentListOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientLimitExceededException": return try await ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2262,25 +2261,11 @@ extension ListFragmentsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListFragmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ClientLimitExceededException": return try await ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListFragmentsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListFragmentsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListFragmentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListFragmentsOutputBody = try responseDecoder.decode(responseBody: data)
             self.fragments = output.fragments
             self.nextToken = output.nextToken
         } else {
@@ -2290,7 +2275,7 @@ extension ListFragmentsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFragmentsOutputResponse: Swift.Equatable {
+public struct ListFragmentsOutput: Swift.Equatable {
     /// A list of archived [Fragment] objects from the stream that meet the selector criteria. Results are in no specific order, even across pages.
     public var fragments: [KinesisVideoArchivedMediaClientTypes.Fragment]?
     /// If the returned list is truncated, the operation returns this token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -2306,12 +2291,12 @@ public struct ListFragmentsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListFragmentsOutputResponseBody: Swift.Equatable {
+struct ListFragmentsOutputBody: Swift.Equatable {
     let fragments: [KinesisVideoArchivedMediaClientTypes.Fragment]?
     let nextToken: Swift.String?
 }
 
-extension ListFragmentsOutputResponseBody: Swift.Decodable {
+extension ListFragmentsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fragments = "Fragments"
         case nextToken = "NextToken"
@@ -2332,6 +2317,20 @@ extension ListFragmentsOutputResponseBody: Swift.Decodable {
         fragments = fragmentsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListFragmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientLimitExceededException": return try await ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2515,7 +2514,7 @@ extension ResourceNotFoundException {
     }
 }
 
-/// GetMedia throws this error when Kinesis Video Streams can't find the stream that you specified. GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
+/// GetImages will throw this error when Kinesis Video Streams can't find the stream that you specified. GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {

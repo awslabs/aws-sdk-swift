@@ -634,7 +634,7 @@ extension SearchInput: ClientRuntime.QueryItemProvider {
             }
             let queryQueryItem = ClientRuntime.URLQueryItem(name: "q".urlPercentEncoding(), value: Swift.String(query).urlPercentEncoding())
             items.append(queryQueryItem)
-            if start != 0 {
+            if let start = start {
                 let startQueryItem = ClientRuntime.URLQueryItem(name: "start".urlPercentEncoding(), value: Swift.String(start).urlPercentEncoding())
                 items.append(startQueryItem)
             }
@@ -650,7 +650,7 @@ extension SearchInput: ClientRuntime.QueryItemProvider {
                 let highlightQueryItem = ClientRuntime.URLQueryItem(name: "highlight".urlPercentEncoding(), value: Swift.String(highlight).urlPercentEncoding())
                 items.append(highlightQueryItem)
             }
-            if size != 0 {
+            if let size = size {
                 let sizeQueryItem = ClientRuntime.URLQueryItem(name: "size".urlPercentEncoding(), value: Swift.String(size).urlPercentEncoding())
                 items.append(sizeQueryItem)
             }
@@ -666,7 +666,7 @@ extension SearchInput: ClientRuntime.QueryItemProvider {
                 let facetQueryItem = ClientRuntime.URLQueryItem(name: "facet".urlPercentEncoding(), value: Swift.String(facet).urlPercentEncoding())
                 items.append(facetQueryItem)
             }
-            if partial != false {
+            if let partial = partial {
                 let partialQueryItem = ClientRuntime.URLQueryItem(name: "partial".urlPercentEncoding(), value: Swift.String(partial).urlPercentEncoding())
                 items.append(partialQueryItem)
             }
@@ -722,7 +722,7 @@ public struct SearchInput: Swift.Equatable {
     /// If no highlight options are specified for a field, the returned field text is treated as HTML and the first match is highlighted with emphasis tags: <em>search-term</em>. For example, the following request retrieves highlights for the actors and title fields. { "actors": {}, "title": {"format": "text","max_phrases": 2,"pre_tag": "","post_tag": ""} }
     public var highlight: Swift.String?
     /// Enables partial results to be returned if one or more index partitions are unavailable. When your search index is partitioned across multiple search instances, by default Amazon CloudSearch only returns results if every partition can be queried. This means that the failure of a single search instance can result in 5xx (internal server) errors. When you enable partial results, Amazon CloudSearch returns whatever results are available and includes the percentage of documents searched in the search results (percent-searched). This enables you to more gracefully degrade your users' search experience. For example, rather than displaying no results, you could display the partial results and a message indicating that the results might be incomplete due to a temporary system outage.
-    public var partial: Swift.Bool
+    public var partial: Swift.Bool?
     /// Specifies the search criteria for the request. How you specify the search criteria depends on the query parser used for the request and the parser options specified in the queryOptions parameter. By default, the simple query parser is used to process requests. To use the structured, lucene, or dismax query parser, you must also specify the queryParser parameter. For more information about specifying search criteria, see [Searching Your Data](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/searching.html) in the Amazon CloudSearch Developer Guide.
     /// This member is required.
     public var query: Swift.String?
@@ -755,11 +755,11 @@ public struct SearchInput: Swift.Equatable {
     /// Specifies the field and expression values to include in the response. Multiple fields or expressions are specified as a comma-separated list. By default, a search response includes all return enabled fields (_all_fields). To return only the document IDs for the matching documents, specify _no_fields. To retrieve the relevance score calculated for each document, specify _score.
     public var `return`: Swift.String?
     /// Specifies the maximum number of search hits to include in the response.
-    public var size: Swift.Int
+    public var size: Swift.Int?
     /// Specifies the fields or custom expressions to use to sort the search results. Multiple fields or expressions are specified as a comma-separated list. You must specify the sort direction (asc or desc) for each field; for example, year desc,title asc. To use a field to sort results, the field must be sort-enabled in the domain configuration. Array type fields cannot be used for sorting. If no sort parameter is specified, results are sorted by their default relevance scores in descending order: _score desc. You can also sort by document ID (_id asc) and version (_version desc). For more information, see [Sorting Results](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/sorting-results.html) in the Amazon CloudSearch Developer Guide.
     public var sort: Swift.String?
     /// Specifies the offset of the first search hit you want to return. Note that the result set is zero-based; the first result is at index 0. You can specify either the start or cursor parameter in a request, they are mutually exclusive. For more information, see [Paginating Results](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/paginating-results.html) in the Amazon CloudSearch Developer Guide.
-    public var start: Swift.Int
+    public var start: Swift.Int?
     /// Specifies one or more fields for which to get statistics information. Each specified field must be facet-enabled in the domain configuration. The fields are specified in JSON using the form: {"FIELD-A":{},"FIELD-B":{}} There are currently no options supported for statistics.
     public var stats: Swift.String?
 
@@ -769,14 +769,14 @@ public struct SearchInput: Swift.Equatable {
         facet: Swift.String? = nil,
         filterQuery: Swift.String? = nil,
         highlight: Swift.String? = nil,
-        partial: Swift.Bool = false,
+        partial: Swift.Bool? = nil,
         query: Swift.String? = nil,
         queryOptions: Swift.String? = nil,
         queryParser: CloudSearchDomainClientTypes.QueryParser? = nil,
         `return`: Swift.String? = nil,
-        size: Swift.Int = 0,
+        size: Swift.Int? = nil,
         sort: Swift.String? = nil,
-        start: Swift.Int = 0,
+        start: Swift.Int? = nil,
         stats: Swift.String? = nil
     )
     {
@@ -806,22 +806,11 @@ extension SearchInputBody: Swift.Decodable {
     }
 }
 
-public enum SearchOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "SearchException": return try await SearchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension SearchOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SearchOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SearchOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SearchOutputBody = try responseDecoder.decode(responseBody: data)
             self.facets = output.facets
             self.hits = output.hits
             self.stats = output.stats
@@ -836,7 +825,7 @@ extension SearchOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result of a Search request. Contains the documents that match the specified search criteria and any requested fields, highlights, and facet information.
-public struct SearchOutputResponse: Swift.Equatable {
+public struct SearchOutput: Swift.Equatable {
     /// The requested facet information.
     public var facets: [Swift.String:CloudSearchDomainClientTypes.BucketInfo]?
     /// The documents that match the search criteria.
@@ -860,14 +849,14 @@ public struct SearchOutputResponse: Swift.Equatable {
     }
 }
 
-struct SearchOutputResponseBody: Swift.Equatable {
+struct SearchOutputBody: Swift.Equatable {
     let status: CloudSearchDomainClientTypes.SearchStatus?
     let hits: CloudSearchDomainClientTypes.Hits?
     let facets: [Swift.String:CloudSearchDomainClientTypes.BucketInfo]?
     let stats: [Swift.String:CloudSearchDomainClientTypes.FieldStats]?
 }
 
-extension SearchOutputResponseBody: Swift.Decodable {
+extension SearchOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case facets
         case hits
@@ -903,6 +892,17 @@ extension SearchOutputResponseBody: Swift.Decodable {
             }
         }
         stats = statsDecoded0
+    }
+}
+
+enum SearchOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "SearchException": return try await SearchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -963,7 +963,7 @@ extension SuggestInput: ClientRuntime.QueryItemProvider {
             }
             let suggesterQueryItem = ClientRuntime.URLQueryItem(name: "suggester".urlPercentEncoding(), value: Swift.String(suggester).urlPercentEncoding())
             items.append(suggesterQueryItem)
-            if size != 0 {
+            if let size = size {
                 let sizeQueryItem = ClientRuntime.URLQueryItem(name: "size".urlPercentEncoding(), value: Swift.String(size).urlPercentEncoding())
                 items.append(sizeQueryItem)
             }
@@ -990,14 +990,14 @@ public struct SuggestInput: Swift.Equatable {
     /// This member is required.
     public var query: Swift.String?
     /// Specifies the maximum number of suggestions to return.
-    public var size: Swift.Int
+    public var size: Swift.Int?
     /// Specifies the name of the suggester to use to find suggested matches.
     /// This member is required.
     public var suggester: Swift.String?
 
     public init(
         query: Swift.String? = nil,
-        size: Swift.Int = 0,
+        size: Swift.Int? = nil,
         suggester: Swift.String? = nil
     )
     {
@@ -1083,22 +1083,11 @@ extension CloudSearchDomainClientTypes {
 
 }
 
-public enum SuggestOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "SearchException": return try await SearchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension SuggestOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SuggestOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SuggestOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SuggestOutputBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
             self.suggest = output.suggest
         } else {
@@ -1109,7 +1098,7 @@ extension SuggestOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a Suggest request.
-public struct SuggestOutputResponse: Swift.Equatable {
+public struct SuggestOutput: Swift.Equatable {
     /// The status of a SuggestRequest. Contains the resource ID (rid) and how long it took to process the request (timems).
     public var status: CloudSearchDomainClientTypes.SuggestStatus?
     /// Container for the matching search suggestion information.
@@ -1125,12 +1114,12 @@ public struct SuggestOutputResponse: Swift.Equatable {
     }
 }
 
-struct SuggestOutputResponseBody: Swift.Equatable {
+struct SuggestOutputBody: Swift.Equatable {
     let status: CloudSearchDomainClientTypes.SuggestStatus?
     let suggest: CloudSearchDomainClientTypes.SuggestModel?
 }
 
-extension SuggestOutputResponseBody: Swift.Decodable {
+extension SuggestOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case status
         case suggest
@@ -1142,6 +1131,17 @@ extension SuggestOutputResponseBody: Swift.Decodable {
         status = statusDecoded
         let suggestDecoded = try containerValues.decodeIfPresent(CloudSearchDomainClientTypes.SuggestModel.self, forKey: .suggest)
         suggest = suggestDecoded
+    }
+}
+
+enum SuggestOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "SearchException": return try await SearchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1245,31 +1245,6 @@ extension CloudSearchDomainClientTypes {
 
 }
 
-public struct UploadDocumentsInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "UploadDocumentsInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<UploadDocumentsInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UploadDocumentsOutputResponse>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let documents = input.operationInput.documents {
-            let documentsBody = ClientRuntime.HttpBody(byteStream: documents)
-            input.builder.withBody(documentsBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<UploadDocumentsInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UploadDocumentsOutputResponse>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension UploadDocumentsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case documents
@@ -1348,22 +1323,11 @@ extension UploadDocumentsInputBody: Swift.Decodable {
     }
 }
 
-public enum UploadDocumentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DocumentServiceException": return try await DocumentServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UploadDocumentsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UploadDocumentsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UploadDocumentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UploadDocumentsOutputBody = try responseDecoder.decode(responseBody: data)
             self.adds = output.adds
             self.deletes = output.deletes
             self.status = output.status
@@ -1378,7 +1342,7 @@ extension UploadDocumentsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to an UploadDocuments request.
-public struct UploadDocumentsOutputResponse: Swift.Equatable {
+public struct UploadDocumentsOutput: Swift.Equatable {
     /// The number of documents that were added to the search domain.
     public var adds: Swift.Int
     /// The number of documents that were deleted from the search domain.
@@ -1402,14 +1366,14 @@ public struct UploadDocumentsOutputResponse: Swift.Equatable {
     }
 }
 
-struct UploadDocumentsOutputResponseBody: Swift.Equatable {
+struct UploadDocumentsOutputBody: Swift.Equatable {
     let status: Swift.String?
     let adds: Swift.Int
     let deletes: Swift.Int
     let warnings: [CloudSearchDomainClientTypes.DocumentServiceWarning]?
 }
 
-extension UploadDocumentsOutputResponseBody: Swift.Decodable {
+extension UploadDocumentsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adds
         case deletes
@@ -1436,5 +1400,16 @@ extension UploadDocumentsOutputResponseBody: Swift.Decodable {
             }
         }
         warnings = warningsDecoded0
+    }
+}
+
+enum UploadDocumentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DocumentServiceException": return try await DocumentServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }

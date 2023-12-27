@@ -12,31 +12,34 @@ import XCTest
 @_spi(FileBasedConfig) @testable import AWSClientRuntime
 
 class CachedCredentialsProviderTests: XCTestCase {
-    func testGetCredentials() async {
+
+    func testGetCredentials() async throws {
         var counter: Int = 0
+        let accessKey = UUID().uuidString
+        let secret = UUID().uuidString
         let coreProvider = MockCredentialsProvider {
             counter += 1
-            return .init(accessKey: "some_access_key", secret: "some_secret")
+            return .init(accessKey: accessKey, secret: secret)
         }
-        
-        let subject = try! CachedCredentialsProvider(
+        let subject = try CachedCredentialsProvider(
             source: coreProvider,
-            refreshTime: 1
+            refreshTime: 0.01
         )
-        
-        _ = try! await subject.getCredentials()
-        _ = try! await subject.getCredentials()
-        _ = try! await subject.getCredentials()
-        _ = try! await subject.getCredentials()
-        
+
+        _ = try await subject.getCredentials()
+        _ = try await subject.getCredentials()
+        _ = try await subject.getCredentials()
+        _ = try await subject.getCredentials()
+
+        // Counter is 1 because the last three accesses use cached credentials
         XCTAssertEqual(counter, 1)
-        
-        try! await Task.sleep(nanoseconds: 1 * 1_000_000_000)
-        
-        let credentials = try! await subject.getCredentials()
-        
+
+        try! await Task.sleep(nanoseconds: 1_000_000_000 / 100)  // 0.01 seconds
+        let credentials = try await subject.getCredentials()
+
+        // Counter is 2 because we slept long enough for cache to expire
         XCTAssertEqual(counter, 2)
-        XCTAssertEqual(credentials.accessKey, "some_access_key")
-        XCTAssertEqual(credentials.secret, "some_secret")
+        XCTAssertEqual(credentials.accessKey, accessKey)
+        XCTAssertEqual(credentials.secret, secret)
     }
 }

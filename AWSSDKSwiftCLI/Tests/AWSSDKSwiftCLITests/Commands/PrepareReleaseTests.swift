@@ -104,7 +104,7 @@ class PrepareReleaseTests: CLITestCase {
         ProcessRunner.testRunner = runner
         let subject = PrepareRelease.mock(repoType: .awsSdkSwift)
         try! subject.stageFiles()
-        XCTAssertTrue(command.hasSuffix("git add Package.swift Package.version packageDependencies.plist Sources/Services Tests/Services"))
+        XCTAssertTrue(command.hasSuffix("git add Package.swift Package.version packageDependencies.plist Sources/Services Tests/Services Sources/Core/AWSSDKForSwift/Documentation.docc/AWSSDKForSwift.md"))
     }
     
     func testStageFilesForSmithySwift() {
@@ -130,6 +130,7 @@ extension PrepareRelease {
     ) -> Self {
         PrepareRelease(
             repoType: repoType,
+            repoOrg: .awslabs,
             repoPath: repoPath,
             sourceCodeArtifactId: sourceCodeArtifactId,
             diffChecker: diffChecker

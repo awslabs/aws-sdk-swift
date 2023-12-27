@@ -3,7 +3,7 @@ import AWSClientRuntime
 import ClientRuntime
 
 extension CostandUsageReportClientTypes {
-    /// The region of the S3 bucket that AWS delivers the report into.
+    /// The region of the S3 bucket that Amazon Web Services delivers the report into.
     public enum AWSRegion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case bahrain
         case beijing
@@ -114,7 +114,7 @@ extension CostandUsageReportClientTypes {
 }
 
 extension CostandUsageReportClientTypes {
-    /// The types of manifest that you want AWS to create for this report.
+    /// The types of manifest that you want Amazon Web Services to create for this report.
     public enum AdditionalArtifact: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case athena
         case quicksight
@@ -150,7 +150,7 @@ extension CostandUsageReportClientTypes {
 }
 
 extension CostandUsageReportClientTypes {
-    /// The compression format that AWS uses for the report.
+    /// The compression format that Amazon Web Services uses for the report.
     public enum CompressionFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case gzip
         case parquet
@@ -207,6 +207,7 @@ extension DeleteReportDefinitionInput: ClientRuntime.URLPathProvider {
 /// Deletes the specified report.
 public struct DeleteReportDefinitionInput: Swift.Equatable {
     /// The name of the report that you want to delete. The name must be unique, is case sensitive, and can't include spaces.
+    /// This member is required.
     public var reportName: Swift.String?
 
     public init(
@@ -233,23 +234,11 @@ extension DeleteReportDefinitionInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteReportDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalErrorException": return try await InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteReportDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteReportDefinitionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteReportDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteReportDefinitionOutputBody = try responseDecoder.decode(responseBody: data)
             self.responseMessage = output.responseMessage
         } else {
             self.responseMessage = nil
@@ -258,7 +247,7 @@ extension DeleteReportDefinitionOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response.
-public struct DeleteReportDefinitionOutputResponse: Swift.Equatable {
+public struct DeleteReportDefinitionOutput: Swift.Equatable {
     /// Whether the deletion was successful or not.
     public var responseMessage: Swift.String?
 
@@ -270,11 +259,11 @@ public struct DeleteReportDefinitionOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteReportDefinitionOutputResponseBody: Swift.Equatable {
+struct DeleteReportDefinitionOutputBody: Swift.Equatable {
     let responseMessage: Swift.String?
 }
 
-extension DeleteReportDefinitionOutputResponseBody: Swift.Decodable {
+extension DeleteReportDefinitionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case responseMessage = "ResponseMessage"
     }
@@ -283,6 +272,18 @@ extension DeleteReportDefinitionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let responseMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .responseMessage)
         responseMessage = responseMessageDecoded
+    }
+}
+
+enum DeleteReportDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalErrorException": return try await InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -309,9 +310,9 @@ extension DescribeReportDefinitionsInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Requests a list of AWS Cost and Usage reports owned by the account.
+/// Requests a Amazon Web Services Cost and Usage Report list owned by the account.
 public struct DescribeReportDefinitionsInput: Swift.Equatable {
-    /// The maximum number of results that AWS returns for the operation.
+    /// The maximum number of results that Amazon Web Services returns for the operation.
     public var maxResults: Swift.Int?
     /// A generic string.
     public var nextToken: Swift.String?
@@ -346,22 +347,11 @@ extension DescribeReportDefinitionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeReportDefinitionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalErrorException": return try await InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeReportDefinitionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeReportDefinitionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeReportDefinitionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeReportDefinitionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.reportDefinitions = output.reportDefinitions
         } else {
@@ -372,10 +362,10 @@ extension DescribeReportDefinitionsOutputResponse: ClientRuntime.HttpResponseBin
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response.
-public struct DescribeReportDefinitionsOutputResponse: Swift.Equatable {
+public struct DescribeReportDefinitionsOutput: Swift.Equatable {
     /// A generic string.
     public var nextToken: Swift.String?
-    /// A list of AWS Cost and Usage reports owned by the account.
+    /// An Amazon Web Services Cost and Usage Report list owned by the account.
     public var reportDefinitions: [CostandUsageReportClientTypes.ReportDefinition]?
 
     public init(
@@ -388,12 +378,12 @@ public struct DescribeReportDefinitionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeReportDefinitionsOutputResponseBody: Swift.Equatable {
+struct DescribeReportDefinitionsOutputBody: Swift.Equatable {
     let reportDefinitions: [CostandUsageReportClientTypes.ReportDefinition]?
     let nextToken: Swift.String?
 }
 
-extension DescribeReportDefinitionsOutputResponseBody: Swift.Decodable {
+extension DescribeReportDefinitionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case reportDefinitions = "ReportDefinitions"
@@ -414,6 +404,17 @@ extension DescribeReportDefinitionsOutputResponseBody: Swift.Decodable {
         reportDefinitions = reportDefinitionsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeReportDefinitionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalErrorException": return try await InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -529,6 +530,151 @@ extension InternalErrorExceptionBody: Swift.Decodable {
     }
 }
 
+extension CostandUsageReportClientTypes {
+    public enum LastStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case errorNoBucket
+        case errorPermissions
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LastStatus] {
+            return [
+                .errorNoBucket,
+                .errorPermissions,
+                .success,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .errorNoBucket: return "ERROR_NO_BUCKET"
+            case .errorPermissions: return "ERROR_PERMISSIONS"
+            case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LastStatus(rawValue: rawValue) ?? LastStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ListTagsForResourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reportName = "ReportName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let reportName = self.reportName {
+            try encodeContainer.encode(reportName, forKey: .reportName)
+        }
+    }
+}
+
+extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListTagsForResourceInput: Swift.Equatable {
+    /// The report name of the report definition that tags are to be returned for.
+    /// This member is required.
+    public var reportName: Swift.String?
+
+    public init(
+        reportName: Swift.String? = nil
+    )
+    {
+        self.reportName = reportName
+    }
+}
+
+struct ListTagsForResourceInputBody: Swift.Equatable {
+    let reportName: Swift.String?
+}
+
+extension ListTagsForResourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reportName = "ReportName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reportNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportName)
+        reportName = reportNameDecoded
+    }
+}
+
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.tags = output.tags
+        } else {
+            self.tags = nil
+        }
+    }
+}
+
+public struct ListTagsForResourceOutput: Swift.Equatable {
+    /// The tags assigned to the report definition resource.
+    public var tags: [CostandUsageReportClientTypes.Tag]?
+
+    public init(
+        tags: [CostandUsageReportClientTypes.Tag]? = nil
+    )
+    {
+        self.tags = tags
+    }
+}
+
+struct ListTagsForResourceOutputBody: Swift.Equatable {
+    let tags: [CostandUsageReportClientTypes.Tag]?
+}
+
+extension ListTagsForResourceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagsContainer = try containerValues.decodeIfPresent([CostandUsageReportClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[CostandUsageReportClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [CostandUsageReportClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalErrorException": return try await InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ModifyReportDefinitionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case reportDefinition = "ReportDefinition"
@@ -553,7 +699,7 @@ extension ModifyReportDefinitionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ModifyReportDefinitionInput: Swift.Equatable {
-    /// The definition of AWS Cost and Usage Report. You can specify the report name, time unit, report format, compression format, S3 bucket, additional artifacts, and schema elements in the definition.
+    /// The definition of Amazon Web Services Cost and Usage Report. You can specify the report name, time unit, report format, compression format, S3 bucket, additional artifacts, and schema elements in the definition.
     /// This member is required.
     public var reportDefinition: CostandUsageReportClientTypes.ReportDefinition?
     /// The name of the report that you want to create. The name must be unique, is case sensitive, and can't include spaces.
@@ -590,8 +736,18 @@ extension ModifyReportDefinitionInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyReportDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension ModifyReportDefinitionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct ModifyReportDefinitionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum ModifyReportDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -602,25 +758,22 @@ public enum ModifyReportDefinitionOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension ModifyReportDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct ModifyReportDefinitionOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
 extension PutReportDefinitionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case reportDefinition = "ReportDefinition"
+        case tags = "Tags"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let reportDefinition = self.reportDefinition {
             try encodeContainer.encode(reportDefinition, forKey: .reportDefinition)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
         }
     }
 }
@@ -636,54 +789,72 @@ public struct PutReportDefinitionInput: Swift.Equatable {
     /// Represents the output of the PutReportDefinition operation. The content consists of the detailed metadata and data file information.
     /// This member is required.
     public var reportDefinition: CostandUsageReportClientTypes.ReportDefinition?
+    /// The tags to be assigned to the report definition resource.
+    public var tags: [CostandUsageReportClientTypes.Tag]?
 
     public init(
-        reportDefinition: CostandUsageReportClientTypes.ReportDefinition? = nil
+        reportDefinition: CostandUsageReportClientTypes.ReportDefinition? = nil,
+        tags: [CostandUsageReportClientTypes.Tag]? = nil
     )
     {
         self.reportDefinition = reportDefinition
+        self.tags = tags
     }
 }
 
 struct PutReportDefinitionInputBody: Swift.Equatable {
     let reportDefinition: CostandUsageReportClientTypes.ReportDefinition?
+    let tags: [CostandUsageReportClientTypes.Tag]?
 }
 
 extension PutReportDefinitionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case reportDefinition = "ReportDefinition"
+        case tags = "Tags"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportDefinitionDecoded = try containerValues.decodeIfPresent(CostandUsageReportClientTypes.ReportDefinition.self, forKey: .reportDefinition)
         reportDefinition = reportDefinitionDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([CostandUsageReportClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[CostandUsageReportClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [CostandUsageReportClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
-public enum PutReportDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension PutReportDefinitionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+public struct PutReportDefinitionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutReportDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "DuplicateReportNameException": return try await DuplicateReportNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalErrorException": return try await InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ReportLimitReachedException": return try await ReportLimitReachedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension PutReportDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
-public struct PutReportDefinitionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CostandUsageReportClientTypes.ReportDefinition: Swift.Codable {
@@ -695,6 +866,7 @@ extension CostandUsageReportClientTypes.ReportDefinition: Swift.Codable {
         case format = "Format"
         case refreshClosedReports = "RefreshClosedReports"
         case reportName = "ReportName"
+        case reportStatus = "ReportStatus"
         case reportVersioning = "ReportVersioning"
         case s3Bucket = "S3Bucket"
         case s3Prefix = "S3Prefix"
@@ -730,6 +902,9 @@ extension CostandUsageReportClientTypes.ReportDefinition: Swift.Codable {
         }
         if let reportName = self.reportName {
             try encodeContainer.encode(reportName, forKey: .reportName)
+        }
+        if let reportStatus = self.reportStatus {
+            try encodeContainer.encode(reportStatus, forKey: .reportStatus)
         }
         if let reportVersioning = self.reportVersioning {
             try encodeContainer.encode(reportVersioning.rawValue, forKey: .reportVersioning)
@@ -792,23 +967,25 @@ extension CostandUsageReportClientTypes.ReportDefinition: Swift.Codable {
         reportVersioning = reportVersioningDecoded
         let billingViewArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .billingViewArn)
         billingViewArn = billingViewArnDecoded
+        let reportStatusDecoded = try containerValues.decodeIfPresent(CostandUsageReportClientTypes.ReportStatus.self, forKey: .reportStatus)
+        reportStatus = reportStatusDecoded
     }
 }
 
 extension CostandUsageReportClientTypes {
-    /// The definition of AWS Cost and Usage Report. You can specify the report name, time unit, report format, compression format, S3 bucket, additional artifacts, and schema elements in the definition.
+    /// The definition of Amazon Web Services Cost and Usage Report. You can specify the report name, time unit, report format, compression format, S3 bucket, additional artifacts, and schema elements in the definition.
     public struct ReportDefinition: Swift.Equatable {
         /// A list of manifests that you want Amazon Web Services to create for this report.
         public var additionalArtifacts: [CostandUsageReportClientTypes.AdditionalArtifact]?
         /// A list of strings that indicate additional content that Amazon Web Services includes in the report, such as individual resource IDs.
         /// This member is required.
         public var additionalSchemaElements: [CostandUsageReportClientTypes.SchemaElement]?
-        /// The Amazon resource name of the billing view. You can get this value by using the billing view service public APIs.
+        /// The Amazon resource name of the billing view. The BillingViewArn is needed to create Amazon Web Services Cost and Usage Report for each billing group maintained in the Amazon Web Services Billing Conductor service. The BillingViewArn for a billing group can be constructed as: arn:aws:billing::payer-account-id:billingview/billing-group-primary-account-id
         public var billingViewArn: Swift.String?
-        /// The compression format that AWS uses for the report.
+        /// The compression format that Amazon Web Services uses for the report.
         /// This member is required.
         public var compression: CostandUsageReportClientTypes.CompressionFormat?
-        /// The format that AWS saves the report in.
+        /// The format that Amazon Web Services saves the report in.
         /// This member is required.
         public var format: CostandUsageReportClientTypes.ReportFormat?
         /// Whether you want Amazon Web Services to update your reports after they have been finalized if Amazon Web Services detects charges related to previous months. These charges can include refunds, credits, or support fees.
@@ -816,15 +993,17 @@ extension CostandUsageReportClientTypes {
         /// The name of the report that you want to create. The name must be unique, is case sensitive, and can't include spaces.
         /// This member is required.
         public var reportName: Swift.String?
+        /// The status of the report.
+        public var reportStatus: CostandUsageReportClientTypes.ReportStatus?
         /// Whether you want Amazon Web Services to overwrite the previous version of each report or to deliver the report in addition to the previous versions.
         public var reportVersioning: CostandUsageReportClientTypes.ReportVersioning?
-        /// The S3 bucket where AWS delivers the report.
+        /// The S3 bucket where Amazon Web Services delivers the report.
         /// This member is required.
         public var s3Bucket: Swift.String?
-        /// The prefix that AWS adds to the report name when AWS delivers the report. Your prefix can't include spaces.
+        /// The prefix that Amazon Web Services adds to the report name when Amazon Web Services delivers the report. Your prefix can't include spaces.
         /// This member is required.
         public var s3Prefix: Swift.String?
-        /// The region of the S3 bucket that AWS delivers the report into.
+        /// The region of the S3 bucket that Amazon Web Services delivers the report into.
         /// This member is required.
         public var s3Region: CostandUsageReportClientTypes.AWSRegion?
         /// The length of time covered by the report.
@@ -839,6 +1018,7 @@ extension CostandUsageReportClientTypes {
             format: CostandUsageReportClientTypes.ReportFormat? = nil,
             refreshClosedReports: Swift.Bool? = nil,
             reportName: Swift.String? = nil,
+            reportStatus: CostandUsageReportClientTypes.ReportStatus? = nil,
             reportVersioning: CostandUsageReportClientTypes.ReportVersioning? = nil,
             s3Bucket: Swift.String? = nil,
             s3Prefix: Swift.String? = nil,
@@ -853,6 +1033,7 @@ extension CostandUsageReportClientTypes {
             self.format = format
             self.refreshClosedReports = refreshClosedReports
             self.reportName = reportName
+            self.reportStatus = reportStatus
             self.reportVersioning = reportVersioning
             self.s3Bucket = s3Bucket
             self.s3Prefix = s3Prefix
@@ -864,7 +1045,7 @@ extension CostandUsageReportClientTypes {
 }
 
 extension CostandUsageReportClientTypes {
-    /// The format that AWS saves the report in.
+    /// The format that Amazon Web Services saves the report in.
     public enum ReportFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case csv
         case parquet
@@ -952,6 +1133,51 @@ extension ReportLimitReachedExceptionBody: Swift.Decodable {
     }
 }
 
+extension CostandUsageReportClientTypes.ReportStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastDelivery
+        case lastStatus
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lastDelivery = self.lastDelivery {
+            try encodeContainer.encode(lastDelivery, forKey: .lastDelivery)
+        }
+        if let lastStatus = self.lastStatus {
+            try encodeContainer.encode(lastStatus.rawValue, forKey: .lastStatus)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lastDeliveryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastDelivery)
+        lastDelivery = lastDeliveryDecoded
+        let lastStatusDecoded = try containerValues.decodeIfPresent(CostandUsageReportClientTypes.LastStatus.self, forKey: .lastStatus)
+        lastStatus = lastStatusDecoded
+    }
+}
+
+extension CostandUsageReportClientTypes {
+    /// A two element dictionary with a lastDelivery and lastStatus key whose values describe the date and status of the last delivered report for a particular report definition.
+    public struct ReportStatus: Swift.Equatable {
+        /// A timestamp that gives the date of a report delivery.
+        public var lastDelivery: Swift.String?
+        /// An enum that gives the status of a report delivery.
+        public var lastStatus: CostandUsageReportClientTypes.LastStatus?
+
+        public init(
+            lastDelivery: Swift.String? = nil,
+            lastStatus: CostandUsageReportClientTypes.LastStatus? = nil
+        )
+        {
+            self.lastDelivery = lastDelivery
+            self.lastStatus = lastStatus
+        }
+    }
+
+}
+
 extension CostandUsageReportClientTypes {
     public enum ReportVersioning: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case createNewReport
@@ -984,15 +1210,73 @@ extension CostandUsageReportClientTypes {
     }
 }
 
+extension ResourceNotFoundException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The specified report (ReportName) in the request doesn't exist.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// A message to show the detail of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ResourceNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ResourceNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension CostandUsageReportClientTypes {
-    /// Whether or not AWS includes resource IDs in the report.
+    /// Whether or not Amazon Web Services includes resource IDs in the report.
     public enum SchemaElement: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case manualDiscountCompatibility
         case resources
         case splitCostAllocationData
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SchemaElement] {
             return [
+                .manualDiscountCompatibility,
                 .resources,
                 .splitCostAllocationData,
                 .sdkUnknown("")
@@ -1004,6 +1288,7 @@ extension CostandUsageReportClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .manualDiscountCompatibility: return "MANUAL_DISCOUNT_COMPATIBILITY"
             case .resources: return "RESOURCES"
             case .splitCostAllocationData: return "SPLIT_COST_ALLOCATION_DATA"
             case let .sdkUnknown(s): return s
@@ -1013,6 +1298,149 @@ extension CostandUsageReportClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = SchemaElement(rawValue: rawValue) ?? SchemaElement.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CostandUsageReportClientTypes.Tag: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key = "Key"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension CostandUsageReportClientTypes {
+    /// Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a report definition.
+    public struct Tag: Swift.Equatable {
+        /// The key of the tag. Tag keys are case sensitive. Each report definition can only have up to one tag with the same key. If you try to add an existing tag with the same key, the existing tag value will be updated to the new value.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value of the tag. Tag values are case-sensitive. This can be an empty string.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
+}
+
+extension TagResourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reportName = "ReportName"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let reportName = self.reportName {
+            try encodeContainer.encode(reportName, forKey: .reportName)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension TagResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct TagResourceInput: Swift.Equatable {
+    /// The report name of the report definition that tags are to be associated with.
+    /// This member is required.
+    public var reportName: Swift.String?
+    /// The tags to be assigned to the report definition resource.
+    /// This member is required.
+    public var tags: [CostandUsageReportClientTypes.Tag]?
+
+    public init(
+        reportName: Swift.String? = nil,
+        tags: [CostandUsageReportClientTypes.Tag]? = nil
+    )
+    {
+        self.reportName = reportName
+        self.tags = tags
+    }
+}
+
+struct TagResourceInputBody: Swift.Equatable {
+    let reportName: Swift.String?
+    let tags: [CostandUsageReportClientTypes.Tag]?
+}
+
+extension TagResourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reportName = "ReportName"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reportNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportName)
+        reportName = reportNameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([CostandUsageReportClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[CostandUsageReportClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [CostandUsageReportClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalErrorException": return try await InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
@@ -1053,6 +1481,102 @@ extension CostandUsageReportClientTypes {
     }
 }
 
+extension UntagResourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reportName = "ReportName"
+        case tagKeys = "TagKeys"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let reportName = self.reportName {
+            try encodeContainer.encode(reportName, forKey: .reportName)
+        }
+        if let tagKeys = tagKeys {
+            var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
+            }
+        }
+    }
+}
+
+extension UntagResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UntagResourceInput: Swift.Equatable {
+    /// The report name of the report definition that tags are to be disassociated from.
+    /// This member is required.
+    public var reportName: Swift.String?
+    /// The tags to be disassociated from the report definition resource.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init(
+        reportName: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    )
+    {
+        self.reportName = reportName
+        self.tagKeys = tagKeys
+    }
+}
+
+struct UntagResourceInputBody: Swift.Equatable {
+    let reportName: Swift.String?
+    let tagKeys: [Swift.String]?
+}
+
+extension UntagResourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reportName = "ReportName"
+        case tagKeys = "TagKeys"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reportNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportName)
+        reportName = reportNameDecoded
+        let tagKeysContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tagKeys)
+        var tagKeysDecoded0:[Swift.String]? = nil
+        if let tagKeysContainer = tagKeysContainer {
+            tagKeysDecoded0 = [Swift.String]()
+            for string0 in tagKeysContainer {
+                if let string0 = string0 {
+                    tagKeysDecoded0?.append(string0)
+                }
+            }
+        }
+        tagKeys = tagKeysDecoded0
+    }
+}
+
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalErrorException": return try await InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ValidationException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -1068,7 +1592,7 @@ extension ValidationException {
     }
 }
 
-/// The input fails to satisfy the constraints specified by an AWS service.
+/// The input fails to satisfy the constraints specified by an Amazon Web Services service.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {

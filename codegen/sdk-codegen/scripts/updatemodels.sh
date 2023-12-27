@@ -33,6 +33,10 @@ fetchGitHubRepo
 
 JSON_MODEL_FILES=`find ${TEMPDIR}/aws-models |grep -e "smithy\/model\.json$"`
 
+# Delete all current model files before copying latest models in.
+# This ensures that removed models will not be included in the next release.
+rm -rf $OUTPUT_DIR/*
+
 for model in ${JSON_MODEL_FILES}; do
     SDKID=`cat ${model} |grep \"sdkId\": | sed 's/.*: \(.*\)/\1/g' | tr -d "\"" | tr -d "," | tr '[:upper:]' '[:lower:]' | tr " " "-"`
     NUM_VERSIONS=`cat "${model}" | grep -e "\"version\": \"[0-9]*-[0-9]*-[0-9]*\"" |wc -l |awk '{print $1}'`

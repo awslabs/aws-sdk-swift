@@ -4,46 +4,356 @@ import ClientRuntime
 
 /// An example service, deployed with the Octane Service creator, which will echo the string
 public protocol IoTRoboRunnerClientProtocol {
+    /// Performs the `CreateDestination` operation on the `IoTRoboRunner` service.
+    ///
     /// Grants permission to create a destination
-    func createDestination(input: CreateDestinationInput) async throws -> CreateDestinationOutputResponse
+    ///
+    /// - Parameter CreateDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDestinationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Exception thrown if a resource in a create request already exists.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ServiceQuotaExceededException` : Exception thrown if the user's AWS account has reached a service limit and the operation cannot proceed.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
+    func createDestination(input: CreateDestinationInput) async throws -> CreateDestinationOutput
+    /// Performs the `CreateSite` operation on the `IoTRoboRunner` service.
+    ///
     /// Grants permission to create a site
-    func createSite(input: CreateSiteInput) async throws -> CreateSiteOutputResponse
+    ///
+    /// - Parameter CreateSiteInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSiteOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Exception thrown if a resource in a create request already exists.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ServiceQuotaExceededException` : Exception thrown if the user's AWS account has reached a service limit and the operation cannot proceed.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
+    func createSite(input: CreateSiteInput) async throws -> CreateSiteOutput
+    /// Performs the `CreateWorker` operation on the `IoTRoboRunner` service.
+    ///
     /// Grants permission to create a worker
-    func createWorker(input: CreateWorkerInput) async throws -> CreateWorkerOutputResponse
+    ///
+    /// - Parameter CreateWorkerInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Exception thrown if a resource in a create request already exists.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ServiceQuotaExceededException` : Exception thrown if the user's AWS account has reached a service limit and the operation cannot proceed.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
+    func createWorker(input: CreateWorkerInput) async throws -> CreateWorkerOutput
+    /// Performs the `CreateWorkerFleet` operation on the `IoTRoboRunner` service.
+    ///
     /// Grants permission to create a worker fleet
-    func createWorkerFleet(input: CreateWorkerFleetInput) async throws -> CreateWorkerFleetOutputResponse
+    ///
+    /// - Parameter CreateWorkerFleetInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkerFleetOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Exception thrown if a resource in a create request already exists.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ServiceQuotaExceededException` : Exception thrown if the user's AWS account has reached a service limit and the operation cannot proceed.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
+    func createWorkerFleet(input: CreateWorkerFleetInput) async throws -> CreateWorkerFleetOutput
+    /// Performs the `DeleteDestination` operation on the `IoTRoboRunner` service.
+    ///
     /// Grants permission to delete a destination
-    func deleteDestination(input: DeleteDestinationInput) async throws -> DeleteDestinationOutputResponse
+    ///
+    /// - Parameter DeleteDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDestinationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Exception thrown if a resource in a create request already exists.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
+    func deleteDestination(input: DeleteDestinationInput) async throws -> DeleteDestinationOutput
+    /// Performs the `DeleteSite` operation on the `IoTRoboRunner` service.
+    ///
     /// Grants permission to delete a site
-    func deleteSite(input: DeleteSiteInput) async throws -> DeleteSiteOutputResponse
+    ///
+    /// - Parameter DeleteSiteInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSiteOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Exception thrown if a resource in a create request already exists.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
+    func deleteSite(input: DeleteSiteInput) async throws -> DeleteSiteOutput
+    /// Performs the `DeleteWorker` operation on the `IoTRoboRunner` service.
+    ///
     /// Grants permission to delete a worker
-    func deleteWorker(input: DeleteWorkerInput) async throws -> DeleteWorkerOutputResponse
+    ///
+    /// - Parameter DeleteWorkerInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorkerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Exception thrown if a resource in a create request already exists.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
+    func deleteWorker(input: DeleteWorkerInput) async throws -> DeleteWorkerOutput
+    /// Performs the `DeleteWorkerFleet` operation on the `IoTRoboRunner` service.
+    ///
     /// Grants permission to delete a worker fleet
-    func deleteWorkerFleet(input: DeleteWorkerFleetInput) async throws -> DeleteWorkerFleetOutputResponse
+    ///
+    /// - Parameter DeleteWorkerFleetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorkerFleetOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Exception thrown if a resource in a create request already exists.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
+    func deleteWorkerFleet(input: DeleteWorkerFleetInput) async throws -> DeleteWorkerFleetOutput
+    /// Performs the `GetDestination` operation on the `IoTRoboRunner` service.
+    ///
     /// Grants permission to get a destination
-    func getDestination(input: GetDestinationInput) async throws -> GetDestinationOutputResponse
+    ///
+    /// - Parameter GetDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `GetDestinationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
+    func getDestination(input: GetDestinationInput) async throws -> GetDestinationOutput
+    /// Performs the `GetSite` operation on the `IoTRoboRunner` service.
+    ///
     /// Grants permission to get a site
-    func getSite(input: GetSiteInput) async throws -> GetSiteOutputResponse
+    ///
+    /// - Parameter GetSiteInput : [no documentation found]
+    ///
+    /// - Returns: `GetSiteOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
+    func getSite(input: GetSiteInput) async throws -> GetSiteOutput
+    /// Performs the `GetWorker` operation on the `IoTRoboRunner` service.
+    ///
     /// Grants permission to get a worker
-    func getWorker(input: GetWorkerInput) async throws -> GetWorkerOutputResponse
+    ///
+    /// - Parameter GetWorkerInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
+    func getWorker(input: GetWorkerInput) async throws -> GetWorkerOutput
+    /// Performs the `GetWorkerFleet` operation on the `IoTRoboRunner` service.
+    ///
     /// Grants permission to get a worker fleet
-    func getWorkerFleet(input: GetWorkerFleetInput) async throws -> GetWorkerFleetOutputResponse
+    ///
+    /// - Parameter GetWorkerFleetInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkerFleetOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
+    func getWorkerFleet(input: GetWorkerFleetInput) async throws -> GetWorkerFleetOutput
+    /// Performs the `ListDestinations` operation on the `IoTRoboRunner` service.
+    ///
     /// Grants permission to list destinations
-    func listDestinations(input: ListDestinationsInput) async throws -> ListDestinationsOutputResponse
+    ///
+    /// - Parameter ListDestinationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDestinationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
+    func listDestinations(input: ListDestinationsInput) async throws -> ListDestinationsOutput
+    /// Performs the `ListSites` operation on the `IoTRoboRunner` service.
+    ///
     /// Grants permission to list sites
-    func listSites(input: ListSitesInput) async throws -> ListSitesOutputResponse
+    ///
+    /// - Parameter ListSitesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSitesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
+    func listSites(input: ListSitesInput) async throws -> ListSitesOutput
+    /// Performs the `ListWorkerFleets` operation on the `IoTRoboRunner` service.
+    ///
     /// Grants permission to list worker fleets
-    func listWorkerFleets(input: ListWorkerFleetsInput) async throws -> ListWorkerFleetsOutputResponse
+    ///
+    /// - Parameter ListWorkerFleetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkerFleetsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
+    func listWorkerFleets(input: ListWorkerFleetsInput) async throws -> ListWorkerFleetsOutput
+    /// Performs the `ListWorkers` operation on the `IoTRoboRunner` service.
+    ///
     /// Grants permission to list workers
-    func listWorkers(input: ListWorkersInput) async throws -> ListWorkersOutputResponse
+    ///
+    /// - Parameter ListWorkersInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
+    func listWorkers(input: ListWorkersInput) async throws -> ListWorkersOutput
+    /// Performs the `UpdateDestination` operation on the `IoTRoboRunner` service.
+    ///
     /// Grants permission to update a destination
-    func updateDestination(input: UpdateDestinationInput) async throws -> UpdateDestinationOutputResponse
+    ///
+    /// - Parameter UpdateDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDestinationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
+    func updateDestination(input: UpdateDestinationInput) async throws -> UpdateDestinationOutput
+    /// Performs the `UpdateSite` operation on the `IoTRoboRunner` service.
+    ///
     /// Grants permission to update a site
-    func updateSite(input: UpdateSiteInput) async throws -> UpdateSiteOutputResponse
+    ///
+    /// - Parameter UpdateSiteInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSiteOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
+    func updateSite(input: UpdateSiteInput) async throws -> UpdateSiteOutput
+    /// Performs the `UpdateWorker` operation on the `IoTRoboRunner` service.
+    ///
     /// Grants permission to update a worker
-    func updateWorker(input: UpdateWorkerInput) async throws -> UpdateWorkerOutputResponse
+    ///
+    /// - Parameter UpdateWorkerInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorkerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
+    func updateWorker(input: UpdateWorkerInput) async throws -> UpdateWorkerOutput
+    /// Performs the `UpdateWorkerFleet` operation on the `IoTRoboRunner` service.
+    ///
     /// Grants permission to update a worker fleet
-    func updateWorkerFleet(input: UpdateWorkerFleetInput) async throws -> UpdateWorkerFleetOutputResponse
+    ///
+    /// - Parameter UpdateWorkerFleetInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorkerFleetOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
+    func updateWorkerFleet(input: UpdateWorkerFleetInput) async throws -> UpdateWorkerFleetOutput
 }
 
 public enum IoTRoboRunnerClientTypes {}

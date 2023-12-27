@@ -1,5 +1,4 @@
-// swift-tools-version: 5.5
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+// swift-tools-version: 5.7
 
 import PackageDescription
 
@@ -24,10 +23,8 @@ let package = Package(
                 .product(name: "Logging", package: "swift-log"),
             ],
             resources: [
-                .process("Resources/Package.Base.swift")
-            ],
-            swiftSettings: [
-                .unsafeFlags(["-package-description-version", "5.5"])
+                .process("Resources/Package.Base.swift"),
+                .process("Resources/DocIndex.Base.md")
             ]
         ),
         .testTarget(

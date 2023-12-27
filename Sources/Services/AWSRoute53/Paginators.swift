@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension Route53Client {
-    /// Paginate over `[ListCidrBlocksOutputResponse]` results.
+    /// Paginate over `[ListCidrBlocksOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListCidrBlocksInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListCidrBlocksOutputResponse`
-    public func listCidrBlocksPaginated(input: ListCidrBlocksInput) -> ClientRuntime.PaginatorSequence<ListCidrBlocksInput, ListCidrBlocksOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListCidrBlocksInput, ListCidrBlocksOutputResponse>(input: input, inputKey: \ListCidrBlocksInput.nextToken, outputKey: \ListCidrBlocksOutputResponse.nextToken, paginationFunction: self.listCidrBlocks(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCidrBlocksOutput`
+    public func listCidrBlocksPaginated(input: ListCidrBlocksInput) -> ClientRuntime.PaginatorSequence<ListCidrBlocksInput, ListCidrBlocksOutput> {
+        return ClientRuntime.PaginatorSequence<ListCidrBlocksInput, ListCidrBlocksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCidrBlocks(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension ListCidrBlocksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCidrBlocksInput, Output == ListCidrBlocksOutputResponse {
+extension PaginatorSequence where OperationStackInput == ListCidrBlocksInput, OperationStackOutput == ListCidrBlocksOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCidrBlocksPaginated`
     /// to access the nested member `[Route53ClientTypes.CidrBlockSummary]`
     /// - Returns: `[Route53ClientTypes.CidrBlockSummary]`
@@ -35,16 +35,16 @@ extension PaginatorSequence where Input == ListCidrBlocksInput, Output == ListCi
     }
 }
 extension Route53Client {
-    /// Paginate over `[ListCidrCollectionsOutputResponse]` results.
+    /// Paginate over `[ListCidrCollectionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListCidrCollectionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListCidrCollectionsOutputResponse`
-    public func listCidrCollectionsPaginated(input: ListCidrCollectionsInput) -> ClientRuntime.PaginatorSequence<ListCidrCollectionsInput, ListCidrCollectionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListCidrCollectionsInput, ListCidrCollectionsOutputResponse>(input: input, inputKey: \ListCidrCollectionsInput.nextToken, outputKey: \ListCidrCollectionsOutputResponse.nextToken, paginationFunction: self.listCidrCollections(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCidrCollectionsOutput`
+    public func listCidrCollectionsPaginated(input: ListCidrCollectionsInput) -> ClientRuntime.PaginatorSequence<ListCidrCollectionsInput, ListCidrCollectionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCidrCollectionsInput, ListCidrCollectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCidrCollections(input:))
     }
 }
 
@@ -56,7 +56,7 @@ extension ListCidrCollectionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCidrCollectionsInput, Output == ListCidrCollectionsOutputResponse {
+extension PaginatorSequence where OperationStackInput == ListCidrCollectionsInput, OperationStackOutput == ListCidrCollectionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCidrCollectionsPaginated`
     /// to access the nested member `[Route53ClientTypes.CollectionSummary]`
     /// - Returns: `[Route53ClientTypes.CollectionSummary]`
@@ -65,16 +65,16 @@ extension PaginatorSequence where Input == ListCidrCollectionsInput, Output == L
     }
 }
 extension Route53Client {
-    /// Paginate over `[ListCidrLocationsOutputResponse]` results.
+    /// Paginate over `[ListCidrLocationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListCidrLocationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListCidrLocationsOutputResponse`
-    public func listCidrLocationsPaginated(input: ListCidrLocationsInput) -> ClientRuntime.PaginatorSequence<ListCidrLocationsInput, ListCidrLocationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListCidrLocationsInput, ListCidrLocationsOutputResponse>(input: input, inputKey: \ListCidrLocationsInput.nextToken, outputKey: \ListCidrLocationsOutputResponse.nextToken, paginationFunction: self.listCidrLocations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCidrLocationsOutput`
+    public func listCidrLocationsPaginated(input: ListCidrLocationsInput) -> ClientRuntime.PaginatorSequence<ListCidrLocationsInput, ListCidrLocationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCidrLocationsInput, ListCidrLocationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCidrLocations(input:))
     }
 }
 
@@ -87,7 +87,7 @@ extension ListCidrLocationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCidrLocationsInput, Output == ListCidrLocationsOutputResponse {
+extension PaginatorSequence where OperationStackInput == ListCidrLocationsInput, OperationStackOutput == ListCidrLocationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCidrLocationsPaginated`
     /// to access the nested member `[Route53ClientTypes.LocationSummary]`
     /// - Returns: `[Route53ClientTypes.LocationSummary]`
@@ -96,16 +96,16 @@ extension PaginatorSequence where Input == ListCidrLocationsInput, Output == Lis
     }
 }
 extension Route53Client {
-    /// Paginate over `[ListHealthChecksOutputResponse]` results.
+    /// Paginate over `[ListHealthChecksOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListHealthChecksInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListHealthChecksOutputResponse`
-    public func listHealthChecksPaginated(input: ListHealthChecksInput) -> ClientRuntime.PaginatorSequence<ListHealthChecksInput, ListHealthChecksOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListHealthChecksInput, ListHealthChecksOutputResponse>(input: input, inputKey: \ListHealthChecksInput.marker, outputKey: \ListHealthChecksOutputResponse.nextMarker, paginationFunction: self.listHealthChecks(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListHealthChecksOutput`
+    public func listHealthChecksPaginated(input: ListHealthChecksInput) -> ClientRuntime.PaginatorSequence<ListHealthChecksInput, ListHealthChecksOutput> {
+        return ClientRuntime.PaginatorSequence<ListHealthChecksInput, ListHealthChecksOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listHealthChecks(input:))
     }
 }
 
@@ -117,7 +117,7 @@ extension ListHealthChecksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListHealthChecksInput, Output == ListHealthChecksOutputResponse {
+extension PaginatorSequence where OperationStackInput == ListHealthChecksInput, OperationStackOutput == ListHealthChecksOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listHealthChecksPaginated`
     /// to access the nested member `[Route53ClientTypes.HealthCheck]`
     /// - Returns: `[Route53ClientTypes.HealthCheck]`
@@ -126,16 +126,16 @@ extension PaginatorSequence where Input == ListHealthChecksInput, Output == List
     }
 }
 extension Route53Client {
-    /// Paginate over `[ListHostedZonesOutputResponse]` results.
+    /// Paginate over `[ListHostedZonesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListHostedZonesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListHostedZonesOutputResponse`
-    public func listHostedZonesPaginated(input: ListHostedZonesInput) -> ClientRuntime.PaginatorSequence<ListHostedZonesInput, ListHostedZonesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListHostedZonesInput, ListHostedZonesOutputResponse>(input: input, inputKey: \ListHostedZonesInput.marker, outputKey: \ListHostedZonesOutputResponse.nextMarker, paginationFunction: self.listHostedZones(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListHostedZonesOutput`
+    public func listHostedZonesPaginated(input: ListHostedZonesInput) -> ClientRuntime.PaginatorSequence<ListHostedZonesInput, ListHostedZonesOutput> {
+        return ClientRuntime.PaginatorSequence<ListHostedZonesInput, ListHostedZonesOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listHostedZones(input:))
     }
 }
 
@@ -143,12 +143,13 @@ extension ListHostedZonesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListHostedZonesInput {
         return ListHostedZonesInput(
             delegationSetId: self.delegationSetId,
+            hostedZoneType: self.hostedZoneType,
             marker: token,
             maxItems: self.maxItems
         )}
 }
 
-extension PaginatorSequence where Input == ListHostedZonesInput, Output == ListHostedZonesOutputResponse {
+extension PaginatorSequence where OperationStackInput == ListHostedZonesInput, OperationStackOutput == ListHostedZonesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listHostedZonesPaginated`
     /// to access the nested member `[Route53ClientTypes.HostedZone]`
     /// - Returns: `[Route53ClientTypes.HostedZone]`
@@ -157,16 +158,16 @@ extension PaginatorSequence where Input == ListHostedZonesInput, Output == ListH
     }
 }
 extension Route53Client {
-    /// Paginate over `[ListQueryLoggingConfigsOutputResponse]` results.
+    /// Paginate over `[ListQueryLoggingConfigsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListQueryLoggingConfigsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListQueryLoggingConfigsOutputResponse`
-    public func listQueryLoggingConfigsPaginated(input: ListQueryLoggingConfigsInput) -> ClientRuntime.PaginatorSequence<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutputResponse>(input: input, inputKey: \ListQueryLoggingConfigsInput.nextToken, outputKey: \ListQueryLoggingConfigsOutputResponse.nextToken, paginationFunction: self.listQueryLoggingConfigs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListQueryLoggingConfigsOutput`
+    public func listQueryLoggingConfigsPaginated(input: ListQueryLoggingConfigsInput) -> ClientRuntime.PaginatorSequence<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutput> {
+        return ClientRuntime.PaginatorSequence<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listQueryLoggingConfigs(input:))
     }
 }
 
@@ -179,7 +180,7 @@ extension ListQueryLoggingConfigsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListQueryLoggingConfigsInput, Output == ListQueryLoggingConfigsOutputResponse {
+extension PaginatorSequence where OperationStackInput == ListQueryLoggingConfigsInput, OperationStackOutput == ListQueryLoggingConfigsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listQueryLoggingConfigsPaginated`
     /// to access the nested member `[Route53ClientTypes.QueryLoggingConfig]`
     /// - Returns: `[Route53ClientTypes.QueryLoggingConfig]`

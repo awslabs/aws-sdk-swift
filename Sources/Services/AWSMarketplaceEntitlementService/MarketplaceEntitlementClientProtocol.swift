@@ -6,8 +6,21 @@ import ClientRuntime
 ///
 /// * GetEntitlements- Gets the entitlements for a Marketplace product.
 public protocol MarketplaceEntitlementClientProtocol {
+    /// Performs the `GetEntitlements` operation on the `AWSMPEntitlementService` service.
+    ///
     /// GetEntitlements retrieves entitlement values for a given product. The results can be filtered based on customer identifier or product dimensions.
-    func getEntitlements(input: GetEntitlementsInput) async throws -> GetEntitlementsOutputResponse
+    ///
+    /// - Parameter GetEntitlementsInput : The GetEntitlementsRequest contains parameters for the GetEntitlements operation.
+    ///
+    /// - Returns: `GetEntitlementsOutput` : The GetEntitlementsRequest contains results from the GetEntitlements operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceErrorException` : An internal error has occurred. Retry your request. If the problem persists, post a message with details on the AWS forums.
+    /// - `InvalidParameterException` : One or more parameters in your request was invalid.
+    /// - `ThrottlingException` : The calls to the GetEntitlements API are throttled.
+    func getEntitlements(input: GetEntitlementsInput) async throws -> GetEntitlementsOutput
 }
 
 public enum MarketplaceEntitlementClientTypes {}

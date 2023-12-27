@@ -20,7 +20,7 @@ struct PrepareReleaseCommand: ParsableCommand {
     
     @Argument(help: "The repository type to release. sdk or smithy-swift")
     var repoType: PrepareRelease.Repo
-    
+
     @Argument(help: "The path to the git repository.")
     var repoPath: String
     
@@ -28,8 +28,16 @@ struct PrepareReleaseCommand: ParsableCommand {
     var sourceCodeArtifactId: String
     
     func run() throws {
+        let repoOrg: PrepareRelease.Org
+        switch repoType {
+        case .awsSdkSwift:
+            repoOrg = .awslabs
+        case .smithySwift:
+            repoOrg = .smithyLang
+        }
         let prepareRelease = PrepareRelease.standard(
             repoType: repoType,
+            repoOrg: repoOrg,
             repoPath: repoPath,
             sourceCodeArtifactId: sourceCodeArtifactId
         )
@@ -45,10 +53,18 @@ struct PrepareRelease {
         case awsSdkSwift = "aws-sdk-swift"
         case smithySwift = "smithy-swift"
     }
+
+    enum Org: String, ExpressibleByArgument {
+        case awslabs = "awslabs"
+        case smithyLang = "smithy-lang"
+    }
     
     /// The repository type to prepare the release
     /// This dictates which files are staged for commit
     let repoType: Repo
+
+    /// The GitHub org that the repo belongs to
+    let repoOrg: Org
     
     /// The path to the package repository
     let repoPath: String
@@ -130,7 +146,8 @@ struct PrepareRelease {
                 "Package.version",
                 "packageDependencies.plist",
                 "Sources/Services",
-                "Tests/Services"
+                "Tests/Services",
+                "Sources/Core/AWSSDKForSwift/Documentation.docc/AWSSDKForSwift.md"
             ]
         case .smithySwift:
             files = ["Package.version"]
@@ -174,6 +191,7 @@ struct PrepareRelease {
         let releaseNotes = ReleaseNotesBuilder(
             previousVersion: previousVersion,
             newVersion: newVersion,
+            repoOrg: repoOrg,
             repoType: repoType,
             commits: commits
         ).build()
@@ -208,11 +226,13 @@ extension PrepareRelease {
     /// - Returns: The standard release preparer
     static func standard(
         repoType: Repo,
+        repoOrg: Org,
         repoPath: String,
         sourceCodeArtifactId: String
     ) -> Self {
         PrepareRelease(
             repoType: repoType,
+            repoOrg: repoOrg,
             repoPath: repoPath,
             sourceCodeArtifactId: sourceCodeArtifactId
         ) { branch, version in

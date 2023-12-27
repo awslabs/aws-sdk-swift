@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension SSMClientProtocol {
 
-    static func commandExecutedWaiterConfig() throws -> WaiterConfiguration<GetCommandInvocationInput, GetCommandInvocationOutputResponse> {
-        let acceptors: [WaiterConfiguration<GetCommandInvocationInput, GetCommandInvocationOutputResponse>.Acceptor] = [
-            .init(state: .retry, matcher: { (input: GetCommandInvocationInput, result: Result<GetCommandInvocationOutputResponse, Error>) -> Bool in
+    static func commandExecutedWaiterConfig() throws -> WaiterConfiguration<GetCommandInvocationInput, GetCommandInvocationOutput> {
+        let acceptors: [WaiterConfiguration<GetCommandInvocationInput, GetCommandInvocationOutput>.Acceptor] = [
+            .init(state: .retry, matcher: { (input: GetCommandInvocationInput, result: Result<GetCommandInvocationOutput, Error>) -> Bool in
                 // JMESPath expression: "Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Pending"
@@ -14,7 +14,7 @@ extension SSMClientProtocol {
                 let status = output.status
                 return JMESUtils.compare(status, ==, "Pending")
             }),
-            .init(state: .retry, matcher: { (input: GetCommandInvocationInput, result: Result<GetCommandInvocationOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: GetCommandInvocationInput, result: Result<GetCommandInvocationOutput, Error>) -> Bool in
                 // JMESPath expression: "Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "InProgress"
@@ -22,7 +22,7 @@ extension SSMClientProtocol {
                 let status = output.status
                 return JMESUtils.compare(status, ==, "InProgress")
             }),
-            .init(state: .retry, matcher: { (input: GetCommandInvocationInput, result: Result<GetCommandInvocationOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: GetCommandInvocationInput, result: Result<GetCommandInvocationOutput, Error>) -> Bool in
                 // JMESPath expression: "Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Delayed"
@@ -30,7 +30,7 @@ extension SSMClientProtocol {
                 let status = output.status
                 return JMESUtils.compare(status, ==, "Delayed")
             }),
-            .init(state: .success, matcher: { (input: GetCommandInvocationInput, result: Result<GetCommandInvocationOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: GetCommandInvocationInput, result: Result<GetCommandInvocationOutput, Error>) -> Bool in
                 // JMESPath expression: "Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Success"
@@ -38,7 +38,7 @@ extension SSMClientProtocol {
                 let status = output.status
                 return JMESUtils.compare(status, ==, "Success")
             }),
-            .init(state: .failure, matcher: { (input: GetCommandInvocationInput, result: Result<GetCommandInvocationOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: GetCommandInvocationInput, result: Result<GetCommandInvocationOutput, Error>) -> Bool in
                 // JMESPath expression: "Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Cancelled"
@@ -46,7 +46,7 @@ extension SSMClientProtocol {
                 let status = output.status
                 return JMESUtils.compare(status, ==, "Cancelled")
             }),
-            .init(state: .failure, matcher: { (input: GetCommandInvocationInput, result: Result<GetCommandInvocationOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: GetCommandInvocationInput, result: Result<GetCommandInvocationOutput, Error>) -> Bool in
                 // JMESPath expression: "Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "TimedOut"
@@ -54,7 +54,7 @@ extension SSMClientProtocol {
                 let status = output.status
                 return JMESUtils.compare(status, ==, "TimedOut")
             }),
-            .init(state: .failure, matcher: { (input: GetCommandInvocationInput, result: Result<GetCommandInvocationOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: GetCommandInvocationInput, result: Result<GetCommandInvocationOutput, Error>) -> Bool in
                 // JMESPath expression: "Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Failed"
@@ -62,7 +62,7 @@ extension SSMClientProtocol {
                 let status = output.status
                 return JMESUtils.compare(status, ==, "Failed")
             }),
-            .init(state: .failure, matcher: { (input: GetCommandInvocationInput, result: Result<GetCommandInvocationOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: GetCommandInvocationInput, result: Result<GetCommandInvocationOutput, Error>) -> Bool in
                 // JMESPath expression: "Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Cancelling"
@@ -70,12 +70,12 @@ extension SSMClientProtocol {
                 let status = output.status
                 return JMESUtils.compare(status, ==, "Cancelling")
             }),
-            .init(state: .retry, matcher: { (input: GetCommandInvocationInput, result: Result<GetCommandInvocationOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: GetCommandInvocationInput, result: Result<GetCommandInvocationOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "InvocationDoesNotExist"
             }),
         ]
-        return try WaiterConfiguration<GetCommandInvocationInput, GetCommandInvocationOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+        return try WaiterConfiguration<GetCommandInvocationInput, GetCommandInvocationOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the CommandExecuted event on the getCommandInvocation operation.
@@ -89,7 +89,7 @@ extension SSMClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilCommandExecuted(options: WaiterOptions, input: GetCommandInvocationInput) async throws -> WaiterOutcome<GetCommandInvocationOutputResponse> {
+    public func waitUntilCommandExecuted(options: WaiterOptions, input: GetCommandInvocationInput) async throws -> WaiterOutcome<GetCommandInvocationOutput> {
         let waiter = Waiter(config: try Self.commandExecutedWaiterConfig(), operation: self.getCommandInvocation(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

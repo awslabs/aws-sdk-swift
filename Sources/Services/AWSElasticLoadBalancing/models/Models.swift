@@ -28,7 +28,7 @@ extension ElasticLoadBalancingClientTypes.AccessLog: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .enabled)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
         enabled = enabledDecoded
         let s3BucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketName)
         s3BucketName = s3BucketNameDecoded
@@ -233,8 +233,19 @@ extension AddTagsInputBody: Swift.Decodable {
     }
 }
 
-public enum AddTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension AddTagsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// Contains the output of AddTags.
+public struct AddTagsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum AddTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -243,17 +254,6 @@ public enum AddTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension AddTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// Contains the output of AddTags.
-public struct AddTagsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ElasticLoadBalancingClientTypes.AdditionalAttribute: Swift.Codable {
@@ -433,23 +433,11 @@ extension ApplySecurityGroupsToLoadBalancerInputBody: Swift.Decodable {
     }
 }
 
-public enum ApplySecurityGroupsToLoadBalancerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidSecurityGroup": return try await InvalidSecurityGroupException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ApplySecurityGroupsToLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ApplySecurityGroupsToLoadBalancerOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ApplySecurityGroupsToLoadBalancerOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ApplySecurityGroupsToLoadBalancerOutputBody = try responseDecoder.decode(responseBody: data)
             self.securityGroups = output.securityGroups
         } else {
             self.securityGroups = nil
@@ -458,7 +446,7 @@ extension ApplySecurityGroupsToLoadBalancerOutputResponse: ClientRuntime.HttpRes
 }
 
 /// Contains the output of ApplySecurityGroupsToLoadBalancer.
-public struct ApplySecurityGroupsToLoadBalancerOutputResponse: Swift.Equatable {
+public struct ApplySecurityGroupsToLoadBalancerOutput: Swift.Equatable {
     /// The IDs of the security groups associated with the load balancer.
     public var securityGroups: [Swift.String]?
 
@@ -470,11 +458,11 @@ public struct ApplySecurityGroupsToLoadBalancerOutputResponse: Swift.Equatable {
     }
 }
 
-struct ApplySecurityGroupsToLoadBalancerOutputResponseBody: Swift.Equatable {
+struct ApplySecurityGroupsToLoadBalancerOutputBody: Swift.Equatable {
     let securityGroups: [Swift.String]?
 }
 
-extension ApplySecurityGroupsToLoadBalancerOutputResponseBody: Swift.Decodable {
+extension ApplySecurityGroupsToLoadBalancerOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case securityGroups = "SecurityGroups"
     }
@@ -500,6 +488,18 @@ extension ApplySecurityGroupsToLoadBalancerOutputResponseBody: Swift.Decodable {
             }
         } else {
             securityGroups = nil
+        }
+    }
+}
+
+enum ApplySecurityGroupsToLoadBalancerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSecurityGroup": return try await InvalidSecurityGroupException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -589,24 +589,11 @@ extension AttachLoadBalancerToSubnetsInputBody: Swift.Decodable {
     }
 }
 
-public enum AttachLoadBalancerToSubnetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidSubnet": return try await InvalidSubnetException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "SubnetNotFound": return try await SubnetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension AttachLoadBalancerToSubnetsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension AttachLoadBalancerToSubnetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: AttachLoadBalancerToSubnetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: AttachLoadBalancerToSubnetsOutputBody = try responseDecoder.decode(responseBody: data)
             self.subnets = output.subnets
         } else {
             self.subnets = nil
@@ -615,7 +602,7 @@ extension AttachLoadBalancerToSubnetsOutputResponse: ClientRuntime.HttpResponseB
 }
 
 /// Contains the output of AttachLoadBalancerToSubnets.
-public struct AttachLoadBalancerToSubnetsOutputResponse: Swift.Equatable {
+public struct AttachLoadBalancerToSubnetsOutput: Swift.Equatable {
     /// The IDs of the subnets attached to the load balancer.
     public var subnets: [Swift.String]?
 
@@ -627,11 +614,11 @@ public struct AttachLoadBalancerToSubnetsOutputResponse: Swift.Equatable {
     }
 }
 
-struct AttachLoadBalancerToSubnetsOutputResponseBody: Swift.Equatable {
+struct AttachLoadBalancerToSubnetsOutputBody: Swift.Equatable {
     let subnets: [Swift.String]?
 }
 
-extension AttachLoadBalancerToSubnetsOutputResponseBody: Swift.Decodable {
+extension AttachLoadBalancerToSubnetsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case subnets = "Subnets"
     }
@@ -661,6 +648,19 @@ extension AttachLoadBalancerToSubnetsOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum AttachLoadBalancerToSubnetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSubnet": return try await InvalidSubnetException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubnetNotFound": return try await SubnetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension ElasticLoadBalancingClientTypes.BackendServerDescription: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instancePort = "InstancePort"
@@ -669,7 +669,7 @@ extension ElasticLoadBalancingClientTypes.BackendServerDescription: Swift.Codabl
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if instancePort != 0 {
+        if let instancePort = instancePort {
             try container.encode(instancePort, forKey: ClientRuntime.Key("InstancePort"))
         }
         if let policyNames = policyNames {
@@ -688,7 +688,7 @@ extension ElasticLoadBalancingClientTypes.BackendServerDescription: Swift.Codabl
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let instancePortDecoded = try containerValues.decode(Swift.Int.self, forKey: .instancePort)
+        let instancePortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instancePort)
         instancePort = instancePortDecoded
         if containerValues.contains(.policyNames) {
             struct KeyVal0{struct member{}}
@@ -716,12 +716,12 @@ extension ElasticLoadBalancingClientTypes {
     /// Information about the configuration of an EC2 instance.
     public struct BackendServerDescription: Swift.Equatable {
         /// The port on which the EC2 instance is listening.
-        public var instancePort: Swift.Int
+        public var instancePort: Swift.Int?
         /// The names of the policies enabled for the EC2 instance.
         public var policyNames: [Swift.String]?
 
         public init(
-            instancePort: Swift.Int = 0,
+            instancePort: Swift.Int? = nil,
             policyNames: [Swift.String]? = nil
         )
         {
@@ -845,21 +845,11 @@ extension ConfigureHealthCheckInputBody: Swift.Decodable {
     }
 }
 
-public enum ConfigureHealthCheckOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ConfigureHealthCheckOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ConfigureHealthCheckOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ConfigureHealthCheckOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ConfigureHealthCheckOutputBody = try responseDecoder.decode(responseBody: data)
             self.healthCheck = output.healthCheck
         } else {
             self.healthCheck = nil
@@ -868,7 +858,7 @@ extension ConfigureHealthCheckOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 /// Contains the output of ConfigureHealthCheck.
-public struct ConfigureHealthCheckOutputResponse: Swift.Equatable {
+public struct ConfigureHealthCheckOutput: Swift.Equatable {
     /// The updated health check.
     public var healthCheck: ElasticLoadBalancingClientTypes.HealthCheck?
 
@@ -880,11 +870,11 @@ public struct ConfigureHealthCheckOutputResponse: Swift.Equatable {
     }
 }
 
-struct ConfigureHealthCheckOutputResponseBody: Swift.Equatable {
+struct ConfigureHealthCheckOutputBody: Swift.Equatable {
     let healthCheck: ElasticLoadBalancingClientTypes.HealthCheck?
 }
 
-extension ConfigureHealthCheckOutputResponseBody: Swift.Decodable {
+extension ConfigureHealthCheckOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case healthCheck = "HealthCheck"
     }
@@ -894,6 +884,16 @@ extension ConfigureHealthCheckOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ConfigureHealthCheckResult"))
         let healthCheckDecoded = try containerValues.decodeIfPresent(ElasticLoadBalancingClientTypes.HealthCheck.self, forKey: .healthCheck)
         healthCheck = healthCheckDecoded
+    }
+}
+
+enum ConfigureHealthCheckOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -915,7 +915,7 @@ extension ElasticLoadBalancingClientTypes.ConnectionDraining: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .enabled)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
         enabled = enabledDecoded
         let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout)
         timeout = timeoutDecoded
@@ -1050,8 +1050,19 @@ extension CreateAppCookieStickinessPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateAppCookieStickinessPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateAppCookieStickinessPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// Contains the output for CreateAppCookieStickinessPolicy.
+public struct CreateAppCookieStickinessPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CreateAppCookieStickinessPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1061,17 +1072,6 @@ public enum CreateAppCookieStickinessPolicyOutputError: ClientRuntime.HttpRespon
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension CreateAppCookieStickinessPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// Contains the output for CreateAppCookieStickinessPolicy.
-public struct CreateAppCookieStickinessPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CreateLBCookieStickinessPolicyInput: Swift.Encodable {
@@ -1144,8 +1144,19 @@ extension CreateLBCookieStickinessPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateLBCookieStickinessPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateLBCookieStickinessPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// Contains the output for CreateLBCookieStickinessPolicy.
+public struct CreateLBCookieStickinessPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CreateLBCookieStickinessPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1155,17 +1166,6 @@ public enum CreateLBCookieStickinessPolicyOutputError: ClientRuntime.HttpRespons
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension CreateLBCookieStickinessPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// Contains the output for CreateLBCookieStickinessPolicy.
-public struct CreateLBCookieStickinessPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CreateLoadBalancerInput: Swift.Encodable {
@@ -1497,8 +1497,19 @@ extension CreateLoadBalancerListenersInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateLoadBalancerListenersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateLoadBalancerListenersOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// Contains the parameters for CreateLoadBalancerListener.
+public struct CreateLoadBalancerListenersOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CreateLoadBalancerListenersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1511,19 +1522,50 @@ public enum CreateLoadBalancerListenersOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension CreateLoadBalancerListenersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateLoadBalancerOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateLoadBalancerOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dnsName = output.dnsName
+        } else {
+            self.dnsName = nil
+        }
     }
 }
 
-/// Contains the parameters for CreateLoadBalancerListener.
-public struct CreateLoadBalancerListenersOutputResponse: Swift.Equatable {
+/// Contains the output for CreateLoadBalancer.
+public struct CreateLoadBalancerOutput: Swift.Equatable {
+    /// The DNS name of the load balancer.
+    public var dnsName: Swift.String?
 
-    public init() { }
+    public init(
+        dnsName: Swift.String? = nil
+    )
+    {
+        self.dnsName = dnsName
+    }
 }
 
-public enum CreateLoadBalancerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+struct CreateLoadBalancerOutputBody: Swift.Equatable {
+    let dnsName: Swift.String?
+}
+
+extension CreateLoadBalancerOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dnsName = "DNSName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateLoadBalancerResult"))
+        let dnsNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dnsName)
+        dnsName = dnsNameDecoded
+    }
+}
+
+enum CreateLoadBalancerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CertificateNotFound": return try await CertificateNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1540,48 +1582,6 @@ public enum CreateLoadBalancerOutputError: ClientRuntime.HttpResponseErrorBindin
             case "UnsupportedProtocol": return try await UnsupportedProtocolException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension CreateLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateLoadBalancerOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.dnsName = output.dnsName
-        } else {
-            self.dnsName = nil
-        }
-    }
-}
-
-/// Contains the output for CreateLoadBalancer.
-public struct CreateLoadBalancerOutputResponse: Swift.Equatable {
-    /// The DNS name of the load balancer.
-    public var dnsName: Swift.String?
-
-    public init(
-        dnsName: Swift.String? = nil
-    )
-    {
-        self.dnsName = dnsName
-    }
-}
-
-struct CreateLoadBalancerOutputResponseBody: Swift.Equatable {
-    let dnsName: Swift.String?
-}
-
-extension CreateLoadBalancerOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dnsName = "DNSName"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateLoadBalancerResult"))
-        let dnsNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dnsName)
-        dnsName = dnsNameDecoded
     }
 }
 
@@ -1693,8 +1693,19 @@ extension CreateLoadBalancerPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateLoadBalancerPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateLoadBalancerPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// Contains the output of CreateLoadBalancerPolicy.
+public struct CreateLoadBalancerPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CreateLoadBalancerPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1705,17 +1716,6 @@ public enum CreateLoadBalancerPolicyOutputError: ClientRuntime.HttpResponseError
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension CreateLoadBalancerPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// Contains the output of CreateLoadBalancerPolicy.
-public struct CreateLoadBalancerPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ElasticLoadBalancingClientTypes.CrossZoneLoadBalancing: Swift.Codable {
@@ -1732,7 +1732,7 @@ extension ElasticLoadBalancingClientTypes.CrossZoneLoadBalancing: Swift.Codable 
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .enabled)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
         enabled = enabledDecoded
     }
 }
@@ -1886,8 +1886,19 @@ extension DeleteLoadBalancerListenersInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteLoadBalancerListenersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteLoadBalancerListenersOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// Contains the output of DeleteLoadBalancerListeners.
+public struct DeleteLoadBalancerListenersOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteLoadBalancerListenersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1896,35 +1907,24 @@ public enum DeleteLoadBalancerListenersOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension DeleteLoadBalancerListenersOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// Contains the output of DeleteLoadBalancerListeners.
-public struct DeleteLoadBalancerListenersOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
-public enum DeleteLoadBalancerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteLoadBalancerOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// Contains the output of DeleteLoadBalancer.
-public struct DeleteLoadBalancerOutputResponse: Swift.Equatable {
+public struct DeleteLoadBalancerOutput: Swift.Equatable {
 
     public init() { }
+}
+
+enum DeleteLoadBalancerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
 }
 
 extension DeleteLoadBalancerPolicyInput: Swift.Encodable {
@@ -1986,8 +1986,19 @@ extension DeleteLoadBalancerPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteLoadBalancerPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteLoadBalancerPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// Contains the output of DeleteLoadBalancerPolicy.
+public struct DeleteLoadBalancerPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteLoadBalancerPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1995,17 +2006,6 @@ public enum DeleteLoadBalancerPolicyOutputError: ClientRuntime.HttpResponseError
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteLoadBalancerPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// Contains the output of DeleteLoadBalancerPolicy.
-public struct DeleteLoadBalancerPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DependencyThrottleException {
@@ -2147,22 +2147,11 @@ extension DeregisterInstancesFromLoadBalancerInputBody: Swift.Decodable {
     }
 }
 
-public enum DeregisterInstancesFromLoadBalancerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidInstance": return try await InvalidEndPointException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeregisterInstancesFromLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeregisterInstancesFromLoadBalancerOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeregisterInstancesFromLoadBalancerOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeregisterInstancesFromLoadBalancerOutputBody = try responseDecoder.decode(responseBody: data)
             self.instances = output.instances
         } else {
             self.instances = nil
@@ -2171,7 +2160,7 @@ extension DeregisterInstancesFromLoadBalancerOutputResponse: ClientRuntime.HttpR
 }
 
 /// Contains the output of DeregisterInstancesFromLoadBalancer.
-public struct DeregisterInstancesFromLoadBalancerOutputResponse: Swift.Equatable {
+public struct DeregisterInstancesFromLoadBalancerOutput: Swift.Equatable {
     /// The remaining instances registered with the load balancer.
     public var instances: [ElasticLoadBalancingClientTypes.Instance]?
 
@@ -2183,11 +2172,11 @@ public struct DeregisterInstancesFromLoadBalancerOutputResponse: Swift.Equatable
     }
 }
 
-struct DeregisterInstancesFromLoadBalancerOutputResponseBody: Swift.Equatable {
+struct DeregisterInstancesFromLoadBalancerOutputBody: Swift.Equatable {
     let instances: [ElasticLoadBalancingClientTypes.Instance]?
 }
 
-extension DeregisterInstancesFromLoadBalancerOutputResponseBody: Swift.Decodable {
+extension DeregisterInstancesFromLoadBalancerOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instances = "Instances"
     }
@@ -2213,6 +2202,17 @@ extension DeregisterInstancesFromLoadBalancerOutputResponseBody: Swift.Decodable
             }
         } else {
             instances = nil
+        }
+    }
+}
+
+enum DeregisterInstancesFromLoadBalancerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidInstance": return try await InvalidEndPointException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -2273,20 +2273,11 @@ extension DescribeAccountLimitsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeAccountLimitsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeAccountLimitsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeAccountLimitsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeAccountLimitsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeAccountLimitsOutputBody = try responseDecoder.decode(responseBody: data)
             self.limits = output.limits
             self.nextMarker = output.nextMarker
         } else {
@@ -2296,7 +2287,7 @@ extension DescribeAccountLimitsOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeAccountLimitsOutputResponse: Swift.Equatable {
+public struct DescribeAccountLimitsOutput: Swift.Equatable {
     /// Information about the limits.
     public var limits: [ElasticLoadBalancingClientTypes.Limit]?
     /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
@@ -2312,12 +2303,12 @@ public struct DescribeAccountLimitsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeAccountLimitsOutputResponseBody: Swift.Equatable {
+struct DescribeAccountLimitsOutputBody: Swift.Equatable {
     let limits: [ElasticLoadBalancingClientTypes.Limit]?
     let nextMarker: Swift.String?
 }
 
-extension DescribeAccountLimitsOutputResponseBody: Swift.Decodable {
+extension DescribeAccountLimitsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case limits = "Limits"
         case nextMarker = "NextMarker"
@@ -2347,6 +2338,15 @@ extension DescribeAccountLimitsOutputResponseBody: Swift.Decodable {
         }
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
+    }
+}
+
+enum DescribeAccountLimitsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -2434,22 +2434,11 @@ extension DescribeInstanceHealthInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeInstanceHealthOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidInstance": return try await InvalidEndPointException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeInstanceHealthOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeInstanceHealthOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeInstanceHealthOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeInstanceHealthOutputBody = try responseDecoder.decode(responseBody: data)
             self.instanceStates = output.instanceStates
         } else {
             self.instanceStates = nil
@@ -2458,7 +2447,7 @@ extension DescribeInstanceHealthOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 /// Contains the output for DescribeInstanceHealth.
-public struct DescribeInstanceHealthOutputResponse: Swift.Equatable {
+public struct DescribeInstanceHealthOutput: Swift.Equatable {
     /// Information about the health of the instances.
     public var instanceStates: [ElasticLoadBalancingClientTypes.InstanceState]?
 
@@ -2470,11 +2459,11 @@ public struct DescribeInstanceHealthOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeInstanceHealthOutputResponseBody: Swift.Equatable {
+struct DescribeInstanceHealthOutputBody: Swift.Equatable {
     let instanceStates: [ElasticLoadBalancingClientTypes.InstanceState]?
 }
 
-extension DescribeInstanceHealthOutputResponseBody: Swift.Decodable {
+extension DescribeInstanceHealthOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceStates = "InstanceStates"
     }
@@ -2500,6 +2489,17 @@ extension DescribeInstanceHealthOutputResponseBody: Swift.Decodable {
             }
         } else {
             instanceStates = nil
+        }
+    }
+}
+
+enum DescribeInstanceHealthOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidInstance": return try await InvalidEndPointException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -2551,22 +2551,11 @@ extension DescribeLoadBalancerAttributesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeLoadBalancerAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "LoadBalancerAttributeNotFound": return try await LoadBalancerAttributeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeLoadBalancerAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeLoadBalancerAttributesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeLoadBalancerAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeLoadBalancerAttributesOutputBody = try responseDecoder.decode(responseBody: data)
             self.loadBalancerAttributes = output.loadBalancerAttributes
         } else {
             self.loadBalancerAttributes = nil
@@ -2575,7 +2564,7 @@ extension DescribeLoadBalancerAttributesOutputResponse: ClientRuntime.HttpRespon
 }
 
 /// Contains the output of DescribeLoadBalancerAttributes.
-public struct DescribeLoadBalancerAttributesOutputResponse: Swift.Equatable {
+public struct DescribeLoadBalancerAttributesOutput: Swift.Equatable {
     /// Information about the load balancer attributes.
     public var loadBalancerAttributes: ElasticLoadBalancingClientTypes.LoadBalancerAttributes?
 
@@ -2587,11 +2576,11 @@ public struct DescribeLoadBalancerAttributesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeLoadBalancerAttributesOutputResponseBody: Swift.Equatable {
+struct DescribeLoadBalancerAttributesOutputBody: Swift.Equatable {
     let loadBalancerAttributes: ElasticLoadBalancingClientTypes.LoadBalancerAttributes?
 }
 
-extension DescribeLoadBalancerAttributesOutputResponseBody: Swift.Decodable {
+extension DescribeLoadBalancerAttributesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case loadBalancerAttributes = "LoadBalancerAttributes"
     }
@@ -2601,6 +2590,17 @@ extension DescribeLoadBalancerAttributesOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeLoadBalancerAttributesResult"))
         let loadBalancerAttributesDecoded = try containerValues.decodeIfPresent(ElasticLoadBalancingClientTypes.LoadBalancerAttributes.self, forKey: .loadBalancerAttributes)
         loadBalancerAttributes = loadBalancerAttributesDecoded
+    }
+}
+
+enum DescribeLoadBalancerAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LoadBalancerAttributeNotFound": return try await LoadBalancerAttributeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -2687,22 +2687,11 @@ extension DescribeLoadBalancerPoliciesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeLoadBalancerPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "PolicyNotFound": return try await PolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeLoadBalancerPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeLoadBalancerPoliciesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeLoadBalancerPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeLoadBalancerPoliciesOutputBody = try responseDecoder.decode(responseBody: data)
             self.policyDescriptions = output.policyDescriptions
         } else {
             self.policyDescriptions = nil
@@ -2711,7 +2700,7 @@ extension DescribeLoadBalancerPoliciesOutputResponse: ClientRuntime.HttpResponse
 }
 
 /// Contains the output of DescribeLoadBalancerPolicies.
-public struct DescribeLoadBalancerPoliciesOutputResponse: Swift.Equatable {
+public struct DescribeLoadBalancerPoliciesOutput: Swift.Equatable {
     /// Information about the policies.
     public var policyDescriptions: [ElasticLoadBalancingClientTypes.PolicyDescription]?
 
@@ -2723,11 +2712,11 @@ public struct DescribeLoadBalancerPoliciesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeLoadBalancerPoliciesOutputResponseBody: Swift.Equatable {
+struct DescribeLoadBalancerPoliciesOutputBody: Swift.Equatable {
     let policyDescriptions: [ElasticLoadBalancingClientTypes.PolicyDescription]?
 }
 
-extension DescribeLoadBalancerPoliciesOutputResponseBody: Swift.Decodable {
+extension DescribeLoadBalancerPoliciesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policyDescriptions = "PolicyDescriptions"
     }
@@ -2753,6 +2742,17 @@ extension DescribeLoadBalancerPoliciesOutputResponseBody: Swift.Decodable {
             }
         } else {
             policyDescriptions = nil
+        }
+    }
+}
+
+enum DescribeLoadBalancerPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "PolicyNotFound": return try await PolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -2829,21 +2829,11 @@ extension DescribeLoadBalancerPolicyTypesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeLoadBalancerPolicyTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "PolicyTypeNotFound": return try await PolicyTypeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeLoadBalancerPolicyTypesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeLoadBalancerPolicyTypesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeLoadBalancerPolicyTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeLoadBalancerPolicyTypesOutputBody = try responseDecoder.decode(responseBody: data)
             self.policyTypeDescriptions = output.policyTypeDescriptions
         } else {
             self.policyTypeDescriptions = nil
@@ -2852,7 +2842,7 @@ extension DescribeLoadBalancerPolicyTypesOutputResponse: ClientRuntime.HttpRespo
 }
 
 /// Contains the output of DescribeLoadBalancerPolicyTypes.
-public struct DescribeLoadBalancerPolicyTypesOutputResponse: Swift.Equatable {
+public struct DescribeLoadBalancerPolicyTypesOutput: Swift.Equatable {
     /// Information about the policy types.
     public var policyTypeDescriptions: [ElasticLoadBalancingClientTypes.PolicyTypeDescription]?
 
@@ -2864,11 +2854,11 @@ public struct DescribeLoadBalancerPolicyTypesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeLoadBalancerPolicyTypesOutputResponseBody: Swift.Equatable {
+struct DescribeLoadBalancerPolicyTypesOutputBody: Swift.Equatable {
     let policyTypeDescriptions: [ElasticLoadBalancingClientTypes.PolicyTypeDescription]?
 }
 
-extension DescribeLoadBalancerPolicyTypesOutputResponseBody: Swift.Decodable {
+extension DescribeLoadBalancerPolicyTypesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policyTypeDescriptions = "PolicyTypeDescriptions"
     }
@@ -2894,6 +2884,16 @@ extension DescribeLoadBalancerPolicyTypesOutputResponseBody: Swift.Decodable {
             }
         } else {
             policyTypeDescriptions = nil
+        }
+    }
+}
+
+enum DescribeLoadBalancerPolicyTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "PolicyTypeNotFound": return try await PolicyTypeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -2992,22 +2992,11 @@ extension DescribeLoadBalancersInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeLoadBalancersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DependencyThrottle": return try await DependencyThrottleException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeLoadBalancersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeLoadBalancersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeLoadBalancersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeLoadBalancersOutputBody = try responseDecoder.decode(responseBody: data)
             self.loadBalancerDescriptions = output.loadBalancerDescriptions
             self.nextMarker = output.nextMarker
         } else {
@@ -3018,7 +3007,7 @@ extension DescribeLoadBalancersOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 /// Contains the parameters for DescribeLoadBalancers.
-public struct DescribeLoadBalancersOutputResponse: Swift.Equatable {
+public struct DescribeLoadBalancersOutput: Swift.Equatable {
     /// Information about the load balancers.
     public var loadBalancerDescriptions: [ElasticLoadBalancingClientTypes.LoadBalancerDescription]?
     /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
@@ -3034,12 +3023,12 @@ public struct DescribeLoadBalancersOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeLoadBalancersOutputResponseBody: Swift.Equatable {
+struct DescribeLoadBalancersOutputBody: Swift.Equatable {
     let loadBalancerDescriptions: [ElasticLoadBalancingClientTypes.LoadBalancerDescription]?
     let nextMarker: Swift.String?
 }
 
-extension DescribeLoadBalancersOutputResponseBody: Swift.Decodable {
+extension DescribeLoadBalancersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case loadBalancerDescriptions = "LoadBalancerDescriptions"
         case nextMarker = "NextMarker"
@@ -3069,6 +3058,17 @@ extension DescribeLoadBalancersOutputResponseBody: Swift.Decodable {
         }
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
+    }
+}
+
+enum DescribeLoadBalancersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DependencyThrottle": return try await DependencyThrottleException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -3145,21 +3145,11 @@ extension DescribeTagsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeTagsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeTagsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeTagsOutputBody = try responseDecoder.decode(responseBody: data)
             self.tagDescriptions = output.tagDescriptions
         } else {
             self.tagDescriptions = nil
@@ -3168,7 +3158,7 @@ extension DescribeTagsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output for DescribeTags.
-public struct DescribeTagsOutputResponse: Swift.Equatable {
+public struct DescribeTagsOutput: Swift.Equatable {
     /// Information about the tags.
     public var tagDescriptions: [ElasticLoadBalancingClientTypes.TagDescription]?
 
@@ -3180,11 +3170,11 @@ public struct DescribeTagsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeTagsOutputResponseBody: Swift.Equatable {
+struct DescribeTagsOutputBody: Swift.Equatable {
     let tagDescriptions: [ElasticLoadBalancingClientTypes.TagDescription]?
 }
 
-extension DescribeTagsOutputResponseBody: Swift.Decodable {
+extension DescribeTagsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tagDescriptions = "TagDescriptions"
     }
@@ -3210,6 +3200,16 @@ extension DescribeTagsOutputResponseBody: Swift.Decodable {
             }
         } else {
             tagDescriptions = nil
+        }
+    }
+}
+
+enum DescribeTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -3299,22 +3299,11 @@ extension DetachLoadBalancerFromSubnetsInputBody: Swift.Decodable {
     }
 }
 
-public enum DetachLoadBalancerFromSubnetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DetachLoadBalancerFromSubnetsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DetachLoadBalancerFromSubnetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DetachLoadBalancerFromSubnetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DetachLoadBalancerFromSubnetsOutputBody = try responseDecoder.decode(responseBody: data)
             self.subnets = output.subnets
         } else {
             self.subnets = nil
@@ -3323,7 +3312,7 @@ extension DetachLoadBalancerFromSubnetsOutputResponse: ClientRuntime.HttpRespons
 }
 
 /// Contains the output of DetachLoadBalancerFromSubnets.
-public struct DetachLoadBalancerFromSubnetsOutputResponse: Swift.Equatable {
+public struct DetachLoadBalancerFromSubnetsOutput: Swift.Equatable {
     /// The IDs of the remaining subnets for the load balancer.
     public var subnets: [Swift.String]?
 
@@ -3335,11 +3324,11 @@ public struct DetachLoadBalancerFromSubnetsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DetachLoadBalancerFromSubnetsOutputResponseBody: Swift.Equatable {
+struct DetachLoadBalancerFromSubnetsOutputBody: Swift.Equatable {
     let subnets: [Swift.String]?
 }
 
-extension DetachLoadBalancerFromSubnetsOutputResponseBody: Swift.Decodable {
+extension DetachLoadBalancerFromSubnetsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case subnets = "Subnets"
     }
@@ -3365,6 +3354,17 @@ extension DetachLoadBalancerFromSubnetsOutputResponseBody: Swift.Decodable {
             }
         } else {
             subnets = nil
+        }
+    }
+}
+
+enum DetachLoadBalancerFromSubnetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -3454,22 +3454,11 @@ extension DisableAvailabilityZonesForLoadBalancerInputBody: Swift.Decodable {
     }
 }
 
-public enum DisableAvailabilityZonesForLoadBalancerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DisableAvailabilityZonesForLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DisableAvailabilityZonesForLoadBalancerOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DisableAvailabilityZonesForLoadBalancerOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DisableAvailabilityZonesForLoadBalancerOutputBody = try responseDecoder.decode(responseBody: data)
             self.availabilityZones = output.availabilityZones
         } else {
             self.availabilityZones = nil
@@ -3478,7 +3467,7 @@ extension DisableAvailabilityZonesForLoadBalancerOutputResponse: ClientRuntime.H
 }
 
 /// Contains the output for DisableAvailabilityZonesForLoadBalancer.
-public struct DisableAvailabilityZonesForLoadBalancerOutputResponse: Swift.Equatable {
+public struct DisableAvailabilityZonesForLoadBalancerOutput: Swift.Equatable {
     /// The remaining Availability Zones for the load balancer.
     public var availabilityZones: [Swift.String]?
 
@@ -3490,11 +3479,11 @@ public struct DisableAvailabilityZonesForLoadBalancerOutputResponse: Swift.Equat
     }
 }
 
-struct DisableAvailabilityZonesForLoadBalancerOutputResponseBody: Swift.Equatable {
+struct DisableAvailabilityZonesForLoadBalancerOutputBody: Swift.Equatable {
     let availabilityZones: [Swift.String]?
 }
 
-extension DisableAvailabilityZonesForLoadBalancerOutputResponseBody: Swift.Decodable {
+extension DisableAvailabilityZonesForLoadBalancerOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case availabilityZones = "AvailabilityZones"
     }
@@ -3520,6 +3509,17 @@ extension DisableAvailabilityZonesForLoadBalancerOutputResponseBody: Swift.Decod
             }
         } else {
             availabilityZones = nil
+        }
+    }
+}
+
+enum DisableAvailabilityZonesForLoadBalancerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -3825,21 +3825,11 @@ extension EnableAvailabilityZonesForLoadBalancerInputBody: Swift.Decodable {
     }
 }
 
-public enum EnableAvailabilityZonesForLoadBalancerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension EnableAvailabilityZonesForLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
+extension EnableAvailabilityZonesForLoadBalancerOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: EnableAvailabilityZonesForLoadBalancerOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: EnableAvailabilityZonesForLoadBalancerOutputBody = try responseDecoder.decode(responseBody: data)
             self.availabilityZones = output.availabilityZones
         } else {
             self.availabilityZones = nil
@@ -3848,7 +3838,7 @@ extension EnableAvailabilityZonesForLoadBalancerOutputResponse: ClientRuntime.Ht
 }
 
 /// Contains the output of EnableAvailabilityZonesForLoadBalancer.
-public struct EnableAvailabilityZonesForLoadBalancerOutputResponse: Swift.Equatable {
+public struct EnableAvailabilityZonesForLoadBalancerOutput: Swift.Equatable {
     /// The updated list of Availability Zones for the load balancer.
     public var availabilityZones: [Swift.String]?
 
@@ -3860,11 +3850,11 @@ public struct EnableAvailabilityZonesForLoadBalancerOutputResponse: Swift.Equata
     }
 }
 
-struct EnableAvailabilityZonesForLoadBalancerOutputResponseBody: Swift.Equatable {
+struct EnableAvailabilityZonesForLoadBalancerOutputBody: Swift.Equatable {
     let availabilityZones: [Swift.String]?
 }
 
-extension EnableAvailabilityZonesForLoadBalancerOutputResponseBody: Swift.Decodable {
+extension EnableAvailabilityZonesForLoadBalancerOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case availabilityZones = "AvailabilityZones"
     }
@@ -3894,6 +3884,16 @@ extension EnableAvailabilityZonesForLoadBalancerOutputResponseBody: Swift.Decoda
     }
 }
 
+enum EnableAvailabilityZonesForLoadBalancerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension ElasticLoadBalancingClientTypes.HealthCheck: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case healthyThreshold = "HealthyThreshold"
@@ -3905,19 +3905,19 @@ extension ElasticLoadBalancingClientTypes.HealthCheck: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if healthyThreshold != 0 {
+        if let healthyThreshold = healthyThreshold {
             try container.encode(healthyThreshold, forKey: ClientRuntime.Key("HealthyThreshold"))
         }
-        if interval != 0 {
+        if let interval = interval {
             try container.encode(interval, forKey: ClientRuntime.Key("Interval"))
         }
         if let target = target {
             try container.encode(target, forKey: ClientRuntime.Key("Target"))
         }
-        if timeout != 0 {
+        if let timeout = timeout {
             try container.encode(timeout, forKey: ClientRuntime.Key("Timeout"))
         }
-        if unhealthyThreshold != 0 {
+        if let unhealthyThreshold = unhealthyThreshold {
             try container.encode(unhealthyThreshold, forKey: ClientRuntime.Key("UnhealthyThreshold"))
         }
     }
@@ -3926,13 +3926,13 @@ extension ElasticLoadBalancingClientTypes.HealthCheck: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .target)
         target = targetDecoded
-        let intervalDecoded = try containerValues.decode(Swift.Int.self, forKey: .interval)
+        let intervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .interval)
         interval = intervalDecoded
-        let timeoutDecoded = try containerValues.decode(Swift.Int.self, forKey: .timeout)
+        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout)
         timeout = timeoutDecoded
-        let unhealthyThresholdDecoded = try containerValues.decode(Swift.Int.self, forKey: .unhealthyThreshold)
+        let unhealthyThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .unhealthyThreshold)
         unhealthyThreshold = unhealthyThresholdDecoded
-        let healthyThresholdDecoded = try containerValues.decode(Swift.Int.self, forKey: .healthyThreshold)
+        let healthyThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .healthyThreshold)
         healthyThreshold = healthyThresholdDecoded
     }
 }
@@ -3942,26 +3942,26 @@ extension ElasticLoadBalancingClientTypes {
     public struct HealthCheck: Swift.Equatable {
         /// The number of consecutive health checks successes required before moving the instance to the Healthy state.
         /// This member is required.
-        public var healthyThreshold: Swift.Int
+        public var healthyThreshold: Swift.Int?
         /// The approximate interval, in seconds, between health checks of an individual instance.
         /// This member is required.
-        public var interval: Swift.Int
+        public var interval: Swift.Int?
         /// The instance being checked. The protocol is either TCP, HTTP, HTTPS, or SSL. The range of valid ports is one (1) through 65535. TCP is the default, specified as a TCP: port pair, for example "TCP:5000". In this case, a health check simply attempts to open a TCP connection to the instance on the specified port. Failure to connect within the configured timeout is considered unhealthy. SSL is also specified as SSL: port pair, for example, SSL:5000. For HTTP/HTTPS, you must include a ping path in the string. HTTP is specified as a HTTP:port;/;PathToPing; grouping, for example "HTTP:80/weather/us/wa/seattle". In this case, a HTTP GET request is issued to the instance on the given port and path. Any answer other than "200 OK" within the timeout period is considered unhealthy. The total length of the HTTP ping target must be 1024 16-bit Unicode characters or less.
         /// This member is required.
         public var target: Swift.String?
         /// The amount of time, in seconds, during which no response means a failed health check. This value must be less than the Interval value.
         /// This member is required.
-        public var timeout: Swift.Int
+        public var timeout: Swift.Int?
         /// The number of consecutive health check failures required before moving the instance to the Unhealthy state.
         /// This member is required.
-        public var unhealthyThreshold: Swift.Int
+        public var unhealthyThreshold: Swift.Int?
 
         public init(
-            healthyThreshold: Swift.Int = 0,
-            interval: Swift.Int = 0,
+            healthyThreshold: Swift.Int? = nil,
+            interval: Swift.Int? = nil,
             target: Swift.String? = nil,
-            timeout: Swift.Int = 0,
-            unhealthyThreshold: Swift.Int = 0
+            timeout: Swift.Int? = nil,
+            unhealthyThreshold: Swift.Int? = nil
         )
         {
             self.healthyThreshold = healthyThreshold
@@ -4475,7 +4475,7 @@ extension ElasticLoadBalancingClientTypes.Listener: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if instancePort != 0 {
+        if let instancePort = instancePort {
             try container.encode(instancePort, forKey: ClientRuntime.Key("InstancePort"))
         }
         if let instanceProtocol = instanceProtocol {
@@ -4496,11 +4496,11 @@ extension ElasticLoadBalancingClientTypes.Listener: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let protocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .protocol)
         `protocol` = protocolDecoded
-        let loadBalancerPortDecoded = try containerValues.decode(Swift.Int.self, forKey: .loadBalancerPort)
+        let loadBalancerPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .loadBalancerPort) ?? 0
         loadBalancerPort = loadBalancerPortDecoded
         let instanceProtocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceProtocol)
         instanceProtocol = instanceProtocolDecoded
-        let instancePortDecoded = try containerValues.decode(Swift.Int.self, forKey: .instancePort)
+        let instancePortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instancePort)
         instancePort = instancePortDecoded
         let sslCertificateIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sslCertificateId)
         sslCertificateId = sslCertificateIdDecoded
@@ -4512,7 +4512,7 @@ extension ElasticLoadBalancingClientTypes {
     public struct Listener: Swift.Equatable {
         /// The port on which the instance is listening.
         /// This member is required.
-        public var instancePort: Swift.Int
+        public var instancePort: Swift.Int?
         /// The protocol to use for routing traffic to instances: HTTP, HTTPS, TCP, or SSL. If the front-end protocol is TCP or SSL, the back-end protocol must be TCP or SSL. If the front-end protocol is HTTP or HTTPS, the back-end protocol must be HTTP or HTTPS. If there is another listener with the same InstancePort whose InstanceProtocol is secure, (HTTPS or SSL), the listener's InstanceProtocol must also be secure. If there is another listener with the same InstancePort whose InstanceProtocol is HTTP or TCP, the listener's InstanceProtocol must be HTTP or TCP.
         public var instanceProtocol: Swift.String?
         /// The port on which the load balancer is listening. On EC2-VPC, you can specify any port from the range 1-65535. On EC2-Classic, you can specify any port from the following list: 25, 80, 443, 465, 587, 1024-65535.
@@ -4525,7 +4525,7 @@ extension ElasticLoadBalancingClientTypes {
         public var sslCertificateId: Swift.String?
 
         public init(
-            instancePort: Swift.Int = 0,
+            instancePort: Swift.Int? = nil,
             instanceProtocol: Swift.String? = nil,
             loadBalancerPort: Swift.Int = 0,
             `protocol`: Swift.String? = nil,
@@ -4875,7 +4875,7 @@ extension ElasticLoadBalancingClientTypes.LoadBalancerDescription: Swift.Codable
             try container.encode(canonicalHostedZoneNameID, forKey: ClientRuntime.Key("CanonicalHostedZoneNameID"))
         }
         if let createdTime = createdTime {
-            try container.encodeTimestamp(createdTime, format: .dateTime, forKey: ClientRuntime.Key("createdTime"))
+            try container.encodeTimestamp(createdTime, format: .dateTime, forKey: ClientRuntime.Key("CreatedTime"))
         }
         if let dnsName = dnsName {
             try container.encode(dnsName, forKey: ClientRuntime.Key("DNSName"))
@@ -5222,23 +5222,11 @@ extension ModifyLoadBalancerAttributesInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyLoadBalancerAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "LoadBalancerAttributeNotFound": return try await LoadBalancerAttributeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ModifyLoadBalancerAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ModifyLoadBalancerAttributesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ModifyLoadBalancerAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ModifyLoadBalancerAttributesOutputBody = try responseDecoder.decode(responseBody: data)
             self.loadBalancerAttributes = output.loadBalancerAttributes
             self.loadBalancerName = output.loadBalancerName
         } else {
@@ -5249,7 +5237,7 @@ extension ModifyLoadBalancerAttributesOutputResponse: ClientRuntime.HttpResponse
 }
 
 /// Contains the output of ModifyLoadBalancerAttributes.
-public struct ModifyLoadBalancerAttributesOutputResponse: Swift.Equatable {
+public struct ModifyLoadBalancerAttributesOutput: Swift.Equatable {
     /// Information about the load balancer attributes.
     public var loadBalancerAttributes: ElasticLoadBalancingClientTypes.LoadBalancerAttributes?
     /// The name of the load balancer.
@@ -5265,12 +5253,12 @@ public struct ModifyLoadBalancerAttributesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ModifyLoadBalancerAttributesOutputResponseBody: Swift.Equatable {
+struct ModifyLoadBalancerAttributesOutputBody: Swift.Equatable {
     let loadBalancerName: Swift.String?
     let loadBalancerAttributes: ElasticLoadBalancingClientTypes.LoadBalancerAttributes?
 }
 
-extension ModifyLoadBalancerAttributesOutputResponseBody: Swift.Decodable {
+extension ModifyLoadBalancerAttributesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case loadBalancerAttributes = "LoadBalancerAttributes"
         case loadBalancerName = "LoadBalancerName"
@@ -5283,6 +5271,18 @@ extension ModifyLoadBalancerAttributesOutputResponseBody: Swift.Decodable {
         loadBalancerName = loadBalancerNameDecoded
         let loadBalancerAttributesDecoded = try containerValues.decodeIfPresent(ElasticLoadBalancingClientTypes.LoadBalancerAttributes.self, forKey: .loadBalancerAttributes)
         loadBalancerAttributes = loadBalancerAttributesDecoded
+    }
+}
+
+enum ModifyLoadBalancerAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LoadBalancerAttributeNotFound": return try await LoadBalancerAttributeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -6001,22 +6001,11 @@ extension RegisterInstancesWithLoadBalancerInputBody: Swift.Decodable {
     }
 }
 
-public enum RegisterInstancesWithLoadBalancerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidInstance": return try await InvalidEndPointException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension RegisterInstancesWithLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RegisterInstancesWithLoadBalancerOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RegisterInstancesWithLoadBalancerOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RegisterInstancesWithLoadBalancerOutputBody = try responseDecoder.decode(responseBody: data)
             self.instances = output.instances
         } else {
             self.instances = nil
@@ -6025,7 +6014,7 @@ extension RegisterInstancesWithLoadBalancerOutputResponse: ClientRuntime.HttpRes
 }
 
 /// Contains the output of RegisterInstancesWithLoadBalancer.
-public struct RegisterInstancesWithLoadBalancerOutputResponse: Swift.Equatable {
+public struct RegisterInstancesWithLoadBalancerOutput: Swift.Equatable {
     /// The updated list of instances for the load balancer.
     public var instances: [ElasticLoadBalancingClientTypes.Instance]?
 
@@ -6037,11 +6026,11 @@ public struct RegisterInstancesWithLoadBalancerOutputResponse: Swift.Equatable {
     }
 }
 
-struct RegisterInstancesWithLoadBalancerOutputResponseBody: Swift.Equatable {
+struct RegisterInstancesWithLoadBalancerOutputBody: Swift.Equatable {
     let instances: [ElasticLoadBalancingClientTypes.Instance]?
 }
 
-extension RegisterInstancesWithLoadBalancerOutputResponseBody: Swift.Decodable {
+extension RegisterInstancesWithLoadBalancerOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instances = "Instances"
     }
@@ -6067,6 +6056,17 @@ extension RegisterInstancesWithLoadBalancerOutputResponseBody: Swift.Decodable {
             }
         } else {
             instances = nil
+        }
+    }
+}
+
+enum RegisterInstancesWithLoadBalancerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidInstance": return try await InvalidEndPointException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -6182,8 +6182,19 @@ extension RemoveTagsInputBody: Swift.Decodable {
     }
 }
 
-public enum RemoveTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension RemoveTagsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// Contains the output of RemoveTags.
+public struct RemoveTagsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum RemoveTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6192,24 +6203,13 @@ public enum RemoveTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension RemoveTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// Contains the output of RemoveTags.
-public struct RemoveTagsOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
 extension SetLoadBalancerListenerSSLCertificateInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let loadBalancerName = loadBalancerName {
             try container.encode(loadBalancerName, forKey: ClientRuntime.Key("LoadBalancerName"))
         }
-        if loadBalancerPort != 0 {
+        if let loadBalancerPort = loadBalancerPort {
             try container.encode(loadBalancerPort, forKey: ClientRuntime.Key("LoadBalancerPort"))
         }
         if let sslCertificateId = sslCertificateId {
@@ -6233,14 +6233,14 @@ public struct SetLoadBalancerListenerSSLCertificateInput: Swift.Equatable {
     public var loadBalancerName: Swift.String?
     /// The port that uses the specified SSL certificate.
     /// This member is required.
-    public var loadBalancerPort: Swift.Int
+    public var loadBalancerPort: Swift.Int?
     /// The Amazon Resource Name (ARN) of the SSL certificate.
     /// This member is required.
     public var sslCertificateId: Swift.String?
 
     public init(
         loadBalancerName: Swift.String? = nil,
-        loadBalancerPort: Swift.Int = 0,
+        loadBalancerPort: Swift.Int? = nil,
         sslCertificateId: Swift.String? = nil
     )
     {
@@ -6252,7 +6252,7 @@ public struct SetLoadBalancerListenerSSLCertificateInput: Swift.Equatable {
 
 struct SetLoadBalancerListenerSSLCertificateInputBody: Swift.Equatable {
     let loadBalancerName: Swift.String?
-    let loadBalancerPort: Swift.Int
+    let loadBalancerPort: Swift.Int?
     let sslCertificateId: Swift.String?
 }
 
@@ -6267,15 +6267,26 @@ extension SetLoadBalancerListenerSSLCertificateInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let loadBalancerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .loadBalancerName)
         loadBalancerName = loadBalancerNameDecoded
-        let loadBalancerPortDecoded = try containerValues.decode(Swift.Int.self, forKey: .loadBalancerPort)
+        let loadBalancerPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .loadBalancerPort) ?? 0
         loadBalancerPort = loadBalancerPortDecoded
         let sslCertificateIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sslCertificateId)
         sslCertificateId = sslCertificateIdDecoded
     }
 }
 
-public enum SetLoadBalancerListenerSSLCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension SetLoadBalancerListenerSSLCertificateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// Contains the output of SetLoadBalancerListenerSSLCertificate.
+public struct SetLoadBalancerListenerSSLCertificateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum SetLoadBalancerListenerSSLCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6286,17 +6297,6 @@ public enum SetLoadBalancerListenerSSLCertificateOutputError: ClientRuntime.Http
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension SetLoadBalancerListenerSSLCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// Contains the output of SetLoadBalancerListenerSSLCertificate.
-public struct SetLoadBalancerListenerSSLCertificateOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension SetLoadBalancerPoliciesForBackendServerInput: Swift.Encodable {
@@ -6396,8 +6396,19 @@ extension SetLoadBalancerPoliciesForBackendServerInputBody: Swift.Decodable {
     }
 }
 
-public enum SetLoadBalancerPoliciesForBackendServerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension SetLoadBalancerPoliciesForBackendServerOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// Contains the output of SetLoadBalancerPoliciesForBackendServer.
+public struct SetLoadBalancerPoliciesForBackendServerOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum SetLoadBalancerPoliciesForBackendServerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6408,24 +6419,13 @@ public enum SetLoadBalancerPoliciesForBackendServerOutputError: ClientRuntime.Ht
     }
 }
 
-extension SetLoadBalancerPoliciesForBackendServerOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// Contains the output of SetLoadBalancerPoliciesForBackendServer.
-public struct SetLoadBalancerPoliciesForBackendServerOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
 extension SetLoadBalancerPoliciesOfListenerInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let loadBalancerName = loadBalancerName {
             try container.encode(loadBalancerName, forKey: ClientRuntime.Key("LoadBalancerName"))
         }
-        if loadBalancerPort != 0 {
+        if let loadBalancerPort = loadBalancerPort {
             try container.encode(loadBalancerPort, forKey: ClientRuntime.Key("LoadBalancerPort"))
         }
         if let policyNames = policyNames {
@@ -6458,14 +6458,14 @@ public struct SetLoadBalancerPoliciesOfListenerInput: Swift.Equatable {
     public var loadBalancerName: Swift.String?
     /// The external port of the load balancer.
     /// This member is required.
-    public var loadBalancerPort: Swift.Int
+    public var loadBalancerPort: Swift.Int?
     /// The names of the policies. This list must include all policies to be enabled. If you omit a policy that is currently enabled, it is disabled. If the list is empty, all current policies are disabled.
     /// This member is required.
     public var policyNames: [Swift.String]?
 
     public init(
         loadBalancerName: Swift.String? = nil,
-        loadBalancerPort: Swift.Int = 0,
+        loadBalancerPort: Swift.Int? = nil,
         policyNames: [Swift.String]? = nil
     )
     {
@@ -6477,7 +6477,7 @@ public struct SetLoadBalancerPoliciesOfListenerInput: Swift.Equatable {
 
 struct SetLoadBalancerPoliciesOfListenerInputBody: Swift.Equatable {
     let loadBalancerName: Swift.String?
-    let loadBalancerPort: Swift.Int
+    let loadBalancerPort: Swift.Int?
     let policyNames: [Swift.String]?
 }
 
@@ -6492,7 +6492,7 @@ extension SetLoadBalancerPoliciesOfListenerInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let loadBalancerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .loadBalancerName)
         loadBalancerName = loadBalancerNameDecoded
-        let loadBalancerPortDecoded = try containerValues.decode(Swift.Int.self, forKey: .loadBalancerPort)
+        let loadBalancerPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .loadBalancerPort) ?? 0
         loadBalancerPort = loadBalancerPortDecoded
         if containerValues.contains(.policyNames) {
             struct KeyVal0{struct member{}}
@@ -6516,8 +6516,19 @@ extension SetLoadBalancerPoliciesOfListenerInputBody: Swift.Decodable {
     }
 }
 
-public enum SetLoadBalancerPoliciesOfListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension SetLoadBalancerPoliciesOfListenerOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// Contains the output of SetLoadBalancePoliciesOfListener.
+public struct SetLoadBalancerPoliciesOfListenerOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum SetLoadBalancerPoliciesOfListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "LoadBalancerNotFound": return try await AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6527,17 +6538,6 @@ public enum SetLoadBalancerPoliciesOfListenerOutputError: ClientRuntime.HttpResp
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension SetLoadBalancerPoliciesOfListenerOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// Contains the output of SetLoadBalancePoliciesOfListener.
-public struct SetLoadBalancerPoliciesOfListenerOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ElasticLoadBalancingClientTypes.SourceSecurityGroup: Swift.Codable {

@@ -185,19 +185,19 @@ extension ConnectContactLensClientTypes.CharacterOffsets: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if beginOffsetChar != 0 {
+        if let beginOffsetChar = self.beginOffsetChar {
             try encodeContainer.encode(beginOffsetChar, forKey: .beginOffsetChar)
         }
-        if endOffsetChar != 0 {
+        if let endOffsetChar = self.endOffsetChar {
             try encodeContainer.encode(endOffsetChar, forKey: .endOffsetChar)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let beginOffsetCharDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .beginOffsetChar) ?? 0
+        let beginOffsetCharDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .beginOffsetChar)
         beginOffsetChar = beginOffsetCharDecoded
-        let endOffsetCharDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endOffsetChar) ?? 0
+        let endOffsetCharDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endOffsetChar)
         endOffsetChar = endOffsetCharDecoded
     }
 }
@@ -207,14 +207,14 @@ extension ConnectContactLensClientTypes {
     public struct CharacterOffsets: Swift.Equatable {
         /// The beginning of the issue.
         /// This member is required.
-        public var beginOffsetChar: Swift.Int
+        public var beginOffsetChar: Swift.Int?
         /// The end of the issue.
         /// This member is required.
-        public var endOffsetChar: Swift.Int
+        public var endOffsetChar: Swift.Int?
 
         public init(
-            beginOffsetChar: Swift.Int = 0,
-            endOffsetChar: Swift.Int = 0
+            beginOffsetChar: Swift.Int? = nil,
+            endOffsetChar: Swift.Int? = nil
         )
         {
             self.beginOffsetChar = beginOffsetChar
@@ -386,7 +386,7 @@ extension ListRealtimeContactAnalysisSegmentsInput: Swift.Encodable {
         if let instanceId = self.instanceId {
             try encodeContainer.encode(instanceId, forKey: .instanceId)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -409,14 +409,14 @@ public struct ListRealtimeContactAnalysisSegmentsInput: Swift.Equatable {
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximimum number of results to return per page.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
 
     public init(
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -430,7 +430,7 @@ public struct ListRealtimeContactAnalysisSegmentsInput: Swift.Equatable {
 struct ListRealtimeContactAnalysisSegmentsInputBody: Swift.Equatable {
     let instanceId: Swift.String?
     let contactId: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -448,33 +448,18 @@ extension ListRealtimeContactAnalysisSegmentsInputBody: Swift.Decodable {
         instanceId = instanceIdDecoded
         let contactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactId)
         contactId = contactIdDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
 }
 
-public enum ListRealtimeContactAnalysisSegmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRealtimeContactAnalysisSegmentsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRealtimeContactAnalysisSegmentsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRealtimeContactAnalysisSegmentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRealtimeContactAnalysisSegmentsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.segments = output.segments
         } else {
@@ -484,7 +469,7 @@ extension ListRealtimeContactAnalysisSegmentsOutputResponse: ClientRuntime.HttpR
     }
 }
 
-public struct ListRealtimeContactAnalysisSegmentsOutputResponse: Swift.Equatable {
+public struct ListRealtimeContactAnalysisSegmentsOutput: Swift.Equatable {
     /// If there are additional results, this is the token for the next set of results. If response includes nextToken there are two possible scenarios:
     ///
     /// * There are more segments so another call is required to get them.
@@ -508,12 +493,12 @@ public struct ListRealtimeContactAnalysisSegmentsOutputResponse: Swift.Equatable
     }
 }
 
-struct ListRealtimeContactAnalysisSegmentsOutputResponseBody: Swift.Equatable {
+struct ListRealtimeContactAnalysisSegmentsOutputBody: Swift.Equatable {
     let segments: [ConnectContactLensClientTypes.RealtimeContactAnalysisSegment]?
     let nextToken: Swift.String?
 }
 
-extension ListRealtimeContactAnalysisSegmentsOutputResponseBody: Swift.Decodable {
+extension ListRealtimeContactAnalysisSegmentsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case segments = "Segments"
@@ -537,6 +522,21 @@ extension ListRealtimeContactAnalysisSegmentsOutputResponseBody: Swift.Decodable
     }
 }
 
+enum ListRealtimeContactAnalysisSegmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ConnectContactLensClientTypes.PointOfInterest: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case beginOffsetMillis = "BeginOffsetMillis"
@@ -545,19 +545,19 @@ extension ConnectContactLensClientTypes.PointOfInterest: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if beginOffsetMillis != 0 {
+        if let beginOffsetMillis = self.beginOffsetMillis {
             try encodeContainer.encode(beginOffsetMillis, forKey: .beginOffsetMillis)
         }
-        if endOffsetMillis != 0 {
+        if let endOffsetMillis = self.endOffsetMillis {
             try encodeContainer.encode(endOffsetMillis, forKey: .endOffsetMillis)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let beginOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .beginOffsetMillis) ?? 0
+        let beginOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .beginOffsetMillis)
         beginOffsetMillis = beginOffsetMillisDecoded
-        let endOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endOffsetMillis) ?? 0
+        let endOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endOffsetMillis)
         endOffsetMillis = endOffsetMillisDecoded
     }
 }
@@ -567,14 +567,14 @@ extension ConnectContactLensClientTypes {
     public struct PointOfInterest: Swift.Equatable {
         /// The beginning offset in milliseconds where the category rule was detected.
         /// This member is required.
-        public var beginOffsetMillis: Swift.Int
+        public var beginOffsetMillis: Swift.Int?
         /// The ending offset in milliseconds where the category rule was detected.
         /// This member is required.
-        public var endOffsetMillis: Swift.Int
+        public var endOffsetMillis: Swift.Int?
 
         public init(
-            beginOffsetMillis: Swift.Int = 0,
-            endOffsetMillis: Swift.Int = 0
+            beginOffsetMillis: Swift.Int? = nil,
+            endOffsetMillis: Swift.Int? = nil
         )
         {
             self.beginOffsetMillis = beginOffsetMillis
@@ -789,13 +789,13 @@ extension ConnectContactLensClientTypes.Transcript: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if beginOffsetMillis != 0 {
+        if let beginOffsetMillis = self.beginOffsetMillis {
             try encodeContainer.encode(beginOffsetMillis, forKey: .beginOffsetMillis)
         }
         if let content = self.content {
             try encodeContainer.encode(content, forKey: .content)
         }
-        if endOffsetMillis != 0 {
+        if let endOffsetMillis = self.endOffsetMillis {
             try encodeContainer.encode(endOffsetMillis, forKey: .endOffsetMillis)
         }
         if let id = self.id {
@@ -828,9 +828,9 @@ extension ConnectContactLensClientTypes.Transcript: Swift.Codable {
         participantRole = participantRoleDecoded
         let contentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .content)
         content = contentDecoded
-        let beginOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .beginOffsetMillis) ?? 0
+        let beginOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .beginOffsetMillis)
         beginOffsetMillis = beginOffsetMillisDecoded
-        let endOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endOffsetMillis) ?? 0
+        let endOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endOffsetMillis)
         endOffsetMillis = endOffsetMillisDecoded
         let sentimentDecoded = try containerValues.decodeIfPresent(ConnectContactLensClientTypes.SentimentValue.self, forKey: .sentiment)
         sentiment = sentimentDecoded
@@ -853,13 +853,13 @@ extension ConnectContactLensClientTypes {
     public struct Transcript: Swift.Equatable {
         /// The beginning offset in the contact for this transcript.
         /// This member is required.
-        public var beginOffsetMillis: Swift.Int
+        public var beginOffsetMillis: Swift.Int?
         /// The content of the transcript.
         /// This member is required.
         public var content: Swift.String?
         /// The end offset in the contact for this transcript.
         /// This member is required.
-        public var endOffsetMillis: Swift.Int
+        public var endOffsetMillis: Swift.Int?
         /// The identifier of the transcript.
         /// This member is required.
         public var id: Swift.String?
@@ -876,9 +876,9 @@ extension ConnectContactLensClientTypes {
         public var sentiment: ConnectContactLensClientTypes.SentimentValue?
 
         public init(
-            beginOffsetMillis: Swift.Int = 0,
+            beginOffsetMillis: Swift.Int? = nil,
             content: Swift.String? = nil,
-            endOffsetMillis: Swift.Int = 0,
+            endOffsetMillis: Swift.Int? = nil,
             id: Swift.String? = nil,
             issuesDetected: [ConnectContactLensClientTypes.IssueDetected]? = nil,
             participantId: Swift.String? = nil,

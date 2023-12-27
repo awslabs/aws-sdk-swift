@@ -228,26 +228,11 @@ extension CancelKeyDeletionInputBody: Swift.Decodable {
     }
 }
 
-public enum CancelKeyDeletionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CancelKeyDeletionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CancelKeyDeletionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CancelKeyDeletionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CancelKeyDeletionOutputBody = try responseDecoder.decode(responseBody: data)
             self.keyId = output.keyId
         } else {
             self.keyId = nil
@@ -255,7 +240,7 @@ extension CancelKeyDeletionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelKeyDeletionOutputResponse: Swift.Equatable {
+public struct CancelKeyDeletionOutput: Swift.Equatable {
     /// The Amazon Resource Name ([key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)) of the KMS key whose deletion is canceled.
     public var keyId: Swift.String?
 
@@ -267,11 +252,11 @@ public struct CancelKeyDeletionOutputResponse: Swift.Equatable {
     }
 }
 
-struct CancelKeyDeletionOutputResponseBody: Swift.Equatable {
+struct CancelKeyDeletionOutputBody: Swift.Equatable {
     let keyId: Swift.String?
 }
 
-extension CancelKeyDeletionOutputResponseBody: Swift.Decodable {
+extension CancelKeyDeletionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyId = "KeyId"
     }
@@ -280,6 +265,21 @@ extension CancelKeyDeletionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyId)
         keyId = keyIdDecoded
+    }
+}
+
+enum CancelKeyDeletionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -615,8 +615,18 @@ extension ConnectCustomKeyStoreInputBody: Swift.Decodable {
     }
 }
 
-public enum ConnectCustomKeyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension ConnectCustomKeyStoreOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct ConnectCustomKeyStoreOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum ConnectCustomKeyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -628,16 +638,6 @@ public enum ConnectCustomKeyStoreOutputError: ClientRuntime.HttpResponseErrorBin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension ConnectCustomKeyStoreOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct ConnectCustomKeyStoreOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension KMSClientTypes {
@@ -829,8 +829,18 @@ extension CreateAliasInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateAliasOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CreateAliasOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CreateAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -844,16 +854,6 @@ public enum CreateAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension CreateAliasOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CreateAliasOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CreateCustomKeyStoreInput: Swift.CustomDebugStringConvertible {
@@ -1027,8 +1027,48 @@ extension CreateCustomKeyStoreInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateCustomKeyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateCustomKeyStoreOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateCustomKeyStoreOutputBody = try responseDecoder.decode(responseBody: data)
+            self.customKeyStoreId = output.customKeyStoreId
+        } else {
+            self.customKeyStoreId = nil
+        }
+    }
+}
+
+public struct CreateCustomKeyStoreOutput: Swift.Equatable {
+    /// A unique identifier for the new custom key store.
+    public var customKeyStoreId: Swift.String?
+
+    public init(
+        customKeyStoreId: Swift.String? = nil
+    )
+    {
+        self.customKeyStoreId = customKeyStoreId
+    }
+}
+
+struct CreateCustomKeyStoreOutputBody: Swift.Equatable {
+    let customKeyStoreId: Swift.String?
+}
+
+extension CreateCustomKeyStoreOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customKeyStoreId = "CustomKeyStoreId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let customKeyStoreIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customKeyStoreId)
+        customKeyStoreId = customKeyStoreIdDecoded
+    }
+}
+
+enum CreateCustomKeyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1051,46 +1091,6 @@ public enum CreateCustomKeyStoreOutputError: ClientRuntime.HttpResponseErrorBind
             case "XksProxyVpcEndpointServiceNotFoundException": return try await XksProxyVpcEndpointServiceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateCustomKeyStoreOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateCustomKeyStoreOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.customKeyStoreId = output.customKeyStoreId
-        } else {
-            self.customKeyStoreId = nil
-        }
-    }
-}
-
-public struct CreateCustomKeyStoreOutputResponse: Swift.Equatable {
-    /// A unique identifier for the new custom key store.
-    public var customKeyStoreId: Swift.String?
-
-    public init(
-        customKeyStoreId: Swift.String? = nil
-    )
-    {
-        self.customKeyStoreId = customKeyStoreId
-    }
-}
-
-struct CreateCustomKeyStoreOutputResponseBody: Swift.Equatable {
-    let customKeyStoreId: Swift.String?
-}
-
-extension CreateCustomKeyStoreOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case customKeyStoreId = "CustomKeyStoreId"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let customKeyStoreIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customKeyStoreId)
-        customKeyStoreId = customKeyStoreIdDecoded
     }
 }
 
@@ -1259,30 +1259,11 @@ extension CreateGrantInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateGrantOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateGrantOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateGrantOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateGrantOutputBody = try responseDecoder.decode(responseBody: data)
             self.grantId = output.grantId
             self.grantToken = output.grantToken
         } else {
@@ -1292,7 +1273,7 @@ extension CreateGrantOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGrantOutputResponse: Swift.Equatable {
+public struct CreateGrantOutput: Swift.Equatable {
     /// The unique identifier for the grant. You can use the GrantId in a [ListGrants], [RetireGrant], or [RevokeGrant] operation.
     public var grantId: Swift.String?
     /// The grant token. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see [Grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token) and [Using a grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#using-grant-token) in the Key Management Service Developer Guide.
@@ -1308,12 +1289,12 @@ public struct CreateGrantOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateGrantOutputResponseBody: Swift.Equatable {
+struct CreateGrantOutputBody: Swift.Equatable {
     let grantToken: Swift.String?
     let grantId: Swift.String?
 }
 
-extension CreateGrantOutputResponseBody: Swift.Decodable {
+extension CreateGrantOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case grantId = "GrantId"
         case grantToken = "GrantToken"
@@ -1325,6 +1306,25 @@ extension CreateGrantOutputResponseBody: Swift.Decodable {
         grantToken = grantTokenDecoded
         let grantIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .grantId)
         grantId = grantIdDecoded
+    }
+}
+
+enum CreateGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1391,7 +1391,7 @@ extension CreateKeyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateKeyInput: Swift.Equatable {
-    /// Skips ("bypasses") the key policy lockout safety check. The default value is false. Setting this value to true increases the risk that the KMS key becomes unmanageable. Do not set this value to true indiscriminately. For more information, see [Default key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-default.html#prevent-unmanageable-key) in the Key Management Service Developer Guide. Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent [PutKeyPolicy] request on the KMS key.
+    /// Skips ("bypasses") the key policy lockout safety check. The default value is false. Setting this value to true increases the risk that the KMS key becomes unmanageable. Do not set this value to true indiscriminately. For more information, see [Default key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-default.html#prevent-unmanageable-key) in the Key Management Service Developer Guide. Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent [PutKeyPolicy](https://docs.aws.amazon.com/kms/latest/APIReference/API_PutKeyPolicy.html) request on the KMS key.
     public var bypassPolicyLockoutSafetyCheck: Swift.Bool?
     /// Creates the KMS key in the specified [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html). The ConnectionState of the custom key store must be CONNECTED. To find the CustomKeyStoreID and ConnectionState use the [DescribeCustomKeyStores] operation. This parameter is valid only for symmetric encryption KMS keys in a single Region. You cannot create any other type of KMS key in a custom key store. When you create a KMS key in an CloudHSM key store, KMS generates a non-exportable 256-bit symmetric key in its associated CloudHSM cluster and associates it with the KMS key. When you create a KMS key in an external key store, you must use the XksKeyId parameter to specify an external key that serves as key material for the KMS key.
     public var customKeyStoreId: Swift.String?
@@ -1578,8 +1578,48 @@ extension CreateKeyInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateKeyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateKeyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.keyMetadata = output.keyMetadata
+        } else {
+            self.keyMetadata = nil
+        }
+    }
+}
+
+public struct CreateKeyOutput: Swift.Equatable {
+    /// Metadata associated with the KMS key.
+    public var keyMetadata: KMSClientTypes.KeyMetadata?
+
+    public init(
+        keyMetadata: KMSClientTypes.KeyMetadata? = nil
+    )
+    {
+        self.keyMetadata = keyMetadata
+    }
+}
+
+struct CreateKeyOutputBody: Swift.Equatable {
+    let keyMetadata: KMSClientTypes.KeyMetadata?
+}
+
+extension CreateKeyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case keyMetadata = "KeyMetadata"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyMetadataDecoded = try containerValues.decodeIfPresent(KMSClientTypes.KeyMetadata.self, forKey: .keyMetadata)
+        keyMetadata = keyMetadataDecoded
+    }
+}
+
+enum CreateKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1598,46 +1638,6 @@ public enum CreateKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "XksKeyNotFoundException": return try await XksKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.keyMetadata = output.keyMetadata
-        } else {
-            self.keyMetadata = nil
-        }
-    }
-}
-
-public struct CreateKeyOutputResponse: Swift.Equatable {
-    /// Metadata associated with the KMS key.
-    public var keyMetadata: KMSClientTypes.KeyMetadata?
-
-    public init(
-        keyMetadata: KMSClientTypes.KeyMetadata? = nil
-    )
-    {
-        self.keyMetadata = keyMetadata
-    }
-}
-
-struct CreateKeyOutputResponseBody: Swift.Equatable {
-    let keyMetadata: KMSClientTypes.KeyMetadata?
-}
-
-extension CreateKeyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case keyMetadata = "KeyMetadata"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let keyMetadataDecoded = try containerValues.decodeIfPresent(KMSClientTypes.KeyMetadata.self, forKey: .keyMetadata)
-        keyMetadata = keyMetadataDecoded
     }
 }
 
@@ -2301,7 +2301,7 @@ public struct DecryptInput: Swift.Equatable {
     ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey]. To get the alias name and alias ARN, use [ListAliases].
     public var keyId: Swift.String?
-    /// A signed [attestation document](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave-how.html#term-attestdoc) from an Amazon Web Services Nitro enclave and the encryption algorithm to use with the enclave's public key. The only valid encryption algorithm is RSAES_OAEP_SHA_256. This parameter only supports attestation documents for Amazon Web Services Nitro Enclaves. To include this parameter, use the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) or any Amazon Web Services SDK. When you use this parameter, instead of returning the plaintext data, KMS encrypts the plaintext data with the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the enclave. The Plaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
+    /// A signed [attestation document](https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave-concepts.html#term-attestdoc) from an Amazon Web Services Nitro enclave and the encryption algorithm to use with the enclave's public key. The only valid encryption algorithm is RSAES_OAEP_SHA_256. This parameter only supports attestation documents for Amazon Web Services Nitro Enclaves. To include this parameter, use the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) or any Amazon Web Services SDK. When you use this parameter, instead of returning the plaintext data, KMS encrypts the plaintext data with the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the enclave. The Plaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
     public var recipient: KMSClientTypes.RecipientInfo?
 
     public init(
@@ -2382,37 +2382,16 @@ extension DecryptInputBody: Swift.Decodable {
     }
 }
 
-public enum DecryptOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IncorrectKeyException": return try await IncorrectKeyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidCiphertext": return try await InvalidCiphertextException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DecryptOutputResponse: Swift.CustomDebugStringConvertible {
+extension DecryptOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DecryptOutputResponse(ciphertextForRecipient: \(Swift.String(describing: ciphertextForRecipient)), encryptionAlgorithm: \(Swift.String(describing: encryptionAlgorithm)), keyId: \(Swift.String(describing: keyId)), plaintext: \"CONTENT_REDACTED\")"}
+        "DecryptOutput(ciphertextForRecipient: \(Swift.String(describing: ciphertextForRecipient)), encryptionAlgorithm: \(Swift.String(describing: encryptionAlgorithm)), keyId: \(Swift.String(describing: keyId)), plaintext: \"CONTENT_REDACTED\")"}
 }
 
-extension DecryptOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DecryptOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DecryptOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DecryptOutputBody = try responseDecoder.decode(responseBody: data)
             self.ciphertextForRecipient = output.ciphertextForRecipient
             self.encryptionAlgorithm = output.encryptionAlgorithm
             self.keyId = output.keyId
@@ -2426,7 +2405,7 @@ extension DecryptOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DecryptOutputResponse: Swift.Equatable {
+public struct DecryptOutput: Swift.Equatable {
     /// The plaintext data encrypted with the public key in the attestation document. This field is included in the response only when the Recipient parameter in the request includes a valid attestation document from an Amazon Web Services Nitro enclave. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
     public var ciphertextForRecipient: ClientRuntime.Data?
     /// The encryption algorithm that was used to decrypt the ciphertext.
@@ -2450,14 +2429,14 @@ public struct DecryptOutputResponse: Swift.Equatable {
     }
 }
 
-struct DecryptOutputResponseBody: Swift.Equatable {
+struct DecryptOutputBody: Swift.Equatable {
     let keyId: Swift.String?
     let plaintext: ClientRuntime.Data?
     let encryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec?
     let ciphertextForRecipient: ClientRuntime.Data?
 }
 
-extension DecryptOutputResponseBody: Swift.Decodable {
+extension DecryptOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ciphertextForRecipient = "CiphertextForRecipient"
         case encryptionAlgorithm = "EncryptionAlgorithm"
@@ -2475,6 +2454,27 @@ extension DecryptOutputResponseBody: Swift.Decodable {
         encryptionAlgorithm = encryptionAlgorithmDecoded
         let ciphertextForRecipientDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .ciphertextForRecipient)
         ciphertextForRecipient = ciphertextForRecipientDecoded
+    }
+}
+
+enum DecryptOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IncorrectKeyException": return try await IncorrectKeyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCiphertext": return try await InvalidCiphertextException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2526,8 +2526,18 @@ extension DeleteAliasInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteAliasOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteAliasOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2538,16 +2548,6 @@ public enum DeleteAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteAliasOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteAliasOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteCustomKeyStoreInput: Swift.Encodable {
@@ -2598,8 +2598,18 @@ extension DeleteCustomKeyStoreInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteCustomKeyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteCustomKeyStoreOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteCustomKeyStoreOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteCustomKeyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2610,16 +2620,6 @@ public enum DeleteCustomKeyStoreOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteCustomKeyStoreOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteCustomKeyStoreOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteImportedKeyMaterialInput: Swift.Encodable {
@@ -2677,8 +2677,18 @@ extension DeleteImportedKeyMaterialInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteImportedKeyMaterialOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteImportedKeyMaterialOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteImportedKeyMaterialOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteImportedKeyMaterialOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2691,16 +2701,6 @@ public enum DeleteImportedKeyMaterialOutputError: ClientRuntime.HttpResponseErro
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteImportedKeyMaterialOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteImportedKeyMaterialOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DependencyTimeoutException {
@@ -2841,24 +2841,11 @@ extension DescribeCustomKeyStoresInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeCustomKeyStoresOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CustomKeyStoreNotFoundException": return try await CustomKeyStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMarker": return try await InvalidMarkerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeCustomKeyStoresOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeCustomKeyStoresOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeCustomKeyStoresOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeCustomKeyStoresOutputBody = try responseDecoder.decode(responseBody: data)
             self.customKeyStores = output.customKeyStores
             self.nextMarker = output.nextMarker
             self.truncated = output.truncated
@@ -2870,7 +2857,7 @@ extension DescribeCustomKeyStoresOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DescribeCustomKeyStoresOutputResponse: Swift.Equatable {
+public struct DescribeCustomKeyStoresOutput: Swift.Equatable {
     /// Contains metadata about each custom key store.
     public var customKeyStores: [KMSClientTypes.CustomKeyStoresListEntry]?
     /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
@@ -2890,13 +2877,13 @@ public struct DescribeCustomKeyStoresOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeCustomKeyStoresOutputResponseBody: Swift.Equatable {
+struct DescribeCustomKeyStoresOutputBody: Swift.Equatable {
     let customKeyStores: [KMSClientTypes.CustomKeyStoresListEntry]?
     let nextMarker: Swift.String?
     let truncated: Swift.Bool
 }
 
-extension DescribeCustomKeyStoresOutputResponseBody: Swift.Decodable {
+extension DescribeCustomKeyStoresOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case customKeyStores = "CustomKeyStores"
         case nextMarker = "NextMarker"
@@ -2920,6 +2907,19 @@ extension DescribeCustomKeyStoresOutputResponseBody: Swift.Decodable {
         nextMarker = nextMarkerDecoded
         let truncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .truncated) ?? false
         truncated = truncatedDecoded
+    }
+}
+
+enum DescribeCustomKeyStoresOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CustomKeyStoreNotFoundException": return try await CustomKeyStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMarker": return try await InvalidMarkerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3006,25 +3006,11 @@ extension DescribeKeyInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeKeyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeKeyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeKeyOutputBody = try responseDecoder.decode(responseBody: data)
             self.keyMetadata = output.keyMetadata
         } else {
             self.keyMetadata = nil
@@ -3032,7 +3018,7 @@ extension DescribeKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeKeyOutputResponse: Swift.Equatable {
+public struct DescribeKeyOutput: Swift.Equatable {
     /// Metadata associated with the key.
     public var keyMetadata: KMSClientTypes.KeyMetadata?
 
@@ -3044,11 +3030,11 @@ public struct DescribeKeyOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeKeyOutputResponseBody: Swift.Equatable {
+struct DescribeKeyOutputBody: Swift.Equatable {
     let keyMetadata: KMSClientTypes.KeyMetadata?
 }
 
-extension DescribeKeyOutputResponseBody: Swift.Decodable {
+extension DescribeKeyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyMetadata = "KeyMetadata"
     }
@@ -3057,6 +3043,20 @@ extension DescribeKeyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyMetadataDecoded = try containerValues.decodeIfPresent(KMSClientTypes.KeyMetadata.self, forKey: .keyMetadata)
         keyMetadata = keyMetadataDecoded
+    }
+}
+
+enum DescribeKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3115,8 +3115,18 @@ extension DisableKeyInputBody: Swift.Decodable {
     }
 }
 
-public enum DisableKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DisableKeyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DisableKeyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DisableKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3128,16 +3138,6 @@ public enum DisableKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DisableKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DisableKeyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DisableKeyRotationInput: Swift.Encodable {
@@ -3195,8 +3195,18 @@ extension DisableKeyRotationInputBody: Swift.Decodable {
     }
 }
 
-public enum DisableKeyRotationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DisableKeyRotationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DisableKeyRotationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DisableKeyRotationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3210,16 +3220,6 @@ public enum DisableKeyRotationOutputError: ClientRuntime.HttpResponseErrorBindin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DisableKeyRotationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DisableKeyRotationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DisabledException {
@@ -3325,8 +3325,18 @@ extension DisconnectCustomKeyStoreInputBody: Swift.Decodable {
     }
 }
 
-public enum DisconnectCustomKeyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DisconnectCustomKeyStoreOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DisconnectCustomKeyStoreOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DisconnectCustomKeyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3336,16 +3346,6 @@ public enum DisconnectCustomKeyStoreOutputError: ClientRuntime.HttpResponseError
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DisconnectCustomKeyStoreOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DisconnectCustomKeyStoreOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DryRunOperationException {
@@ -3458,8 +3458,18 @@ extension EnableKeyInputBody: Swift.Decodable {
     }
 }
 
-public enum EnableKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension EnableKeyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct EnableKeyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum EnableKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3472,16 +3482,6 @@ public enum EnableKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension EnableKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct EnableKeyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension EnableKeyRotationInput: Swift.Encodable {
@@ -3539,8 +3539,18 @@ extension EnableKeyRotationInputBody: Swift.Decodable {
     }
 }
 
-public enum EnableKeyRotationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension EnableKeyRotationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct EnableKeyRotationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum EnableKeyRotationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3554,16 +3564,6 @@ public enum EnableKeyRotationOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension EnableKeyRotationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct EnableKeyRotationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension EncryptInput: Swift.CustomDebugStringConvertible {
@@ -3715,30 +3715,11 @@ extension EncryptInputBody: Swift.Decodable {
     }
 }
 
-public enum EncryptOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension EncryptOutputResponse: ClientRuntime.HttpResponseBinding {
+extension EncryptOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: EncryptOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: EncryptOutputBody = try responseDecoder.decode(responseBody: data)
             self.ciphertextBlob = output.ciphertextBlob
             self.encryptionAlgorithm = output.encryptionAlgorithm
             self.keyId = output.keyId
@@ -3750,7 +3731,7 @@ extension EncryptOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EncryptOutputResponse: Swift.Equatable {
+public struct EncryptOutput: Swift.Equatable {
     /// The encrypted plaintext. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
     public var ciphertextBlob: ClientRuntime.Data?
     /// The encryption algorithm that was used to encrypt the plaintext.
@@ -3770,13 +3751,13 @@ public struct EncryptOutputResponse: Swift.Equatable {
     }
 }
 
-struct EncryptOutputResponseBody: Swift.Equatable {
+struct EncryptOutputBody: Swift.Equatable {
     let ciphertextBlob: ClientRuntime.Data?
     let keyId: Swift.String?
     let encryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec?
 }
 
-extension EncryptOutputResponseBody: Swift.Decodable {
+extension EncryptOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ciphertextBlob = "CiphertextBlob"
         case encryptionAlgorithm = "EncryptionAlgorithm"
@@ -3791,6 +3772,25 @@ extension EncryptOutputResponseBody: Swift.Decodable {
         keyId = keyIdDecoded
         let encryptionAlgorithmDecoded = try containerValues.decodeIfPresent(KMSClientTypes.EncryptionAlgorithmSpec.self, forKey: .encryptionAlgorithm)
         encryptionAlgorithm = encryptionAlgorithmDecoded
+    }
+}
+
+enum EncryptOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4074,35 +4074,16 @@ extension GenerateDataKeyInputBody: Swift.Decodable {
     }
 }
 
-public enum GenerateDataKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GenerateDataKeyOutputResponse: Swift.CustomDebugStringConvertible {
+extension GenerateDataKeyOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GenerateDataKeyOutputResponse(ciphertextBlob: \(Swift.String(describing: ciphertextBlob)), ciphertextForRecipient: \(Swift.String(describing: ciphertextForRecipient)), keyId: \(Swift.String(describing: keyId)), plaintext: \"CONTENT_REDACTED\")"}
+        "GenerateDataKeyOutput(ciphertextBlob: \(Swift.String(describing: ciphertextBlob)), ciphertextForRecipient: \(Swift.String(describing: ciphertextForRecipient)), keyId: \(Swift.String(describing: keyId)), plaintext: \"CONTENT_REDACTED\")"}
 }
 
-extension GenerateDataKeyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GenerateDataKeyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GenerateDataKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GenerateDataKeyOutputBody = try responseDecoder.decode(responseBody: data)
             self.ciphertextBlob = output.ciphertextBlob
             self.ciphertextForRecipient = output.ciphertextForRecipient
             self.keyId = output.keyId
@@ -4116,7 +4097,7 @@ extension GenerateDataKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GenerateDataKeyOutputResponse: Swift.Equatable {
+public struct GenerateDataKeyOutput: Swift.Equatable {
     /// The encrypted copy of the data key. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
     public var ciphertextBlob: ClientRuntime.Data?
     /// The plaintext data key encrypted with the public key from the Nitro enclave. This ciphertext can be decrypted only by using a private key in the Nitro enclave. This field is included in the response only when the Recipient parameter in the request includes a valid attestation document from an Amazon Web Services Nitro enclave. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
@@ -4140,14 +4121,14 @@ public struct GenerateDataKeyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GenerateDataKeyOutputResponseBody: Swift.Equatable {
+struct GenerateDataKeyOutputBody: Swift.Equatable {
     let ciphertextBlob: ClientRuntime.Data?
     let plaintext: ClientRuntime.Data?
     let keyId: Swift.String?
     let ciphertextForRecipient: ClientRuntime.Data?
 }
 
-extension GenerateDataKeyOutputResponseBody: Swift.Decodable {
+extension GenerateDataKeyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ciphertextBlob = "CiphertextBlob"
         case ciphertextForRecipient = "CiphertextForRecipient"
@@ -4165,6 +4146,25 @@ extension GenerateDataKeyOutputResponseBody: Swift.Decodable {
         keyId = keyIdDecoded
         let ciphertextForRecipientDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .ciphertextForRecipient)
         ciphertextForRecipient = ciphertextForRecipientDecoded
+    }
+}
+
+enum GenerateDataKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4312,36 +4312,16 @@ extension GenerateDataKeyPairInputBody: Swift.Decodable {
     }
 }
 
-public enum GenerateDataKeyPairOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GenerateDataKeyPairOutputResponse: Swift.CustomDebugStringConvertible {
+extension GenerateDataKeyPairOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GenerateDataKeyPairOutputResponse(ciphertextForRecipient: \(Swift.String(describing: ciphertextForRecipient)), keyId: \(Swift.String(describing: keyId)), keyPairSpec: \(Swift.String(describing: keyPairSpec)), privateKeyCiphertextBlob: \(Swift.String(describing: privateKeyCiphertextBlob)), publicKey: \(Swift.String(describing: publicKey)), privateKeyPlaintext: \"CONTENT_REDACTED\")"}
+        "GenerateDataKeyPairOutput(ciphertextForRecipient: \(Swift.String(describing: ciphertextForRecipient)), keyId: \(Swift.String(describing: keyId)), keyPairSpec: \(Swift.String(describing: keyPairSpec)), privateKeyCiphertextBlob: \(Swift.String(describing: privateKeyCiphertextBlob)), publicKey: \(Swift.String(describing: publicKey)), privateKeyPlaintext: \"CONTENT_REDACTED\")"}
 }
 
-extension GenerateDataKeyPairOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GenerateDataKeyPairOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GenerateDataKeyPairOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GenerateDataKeyPairOutputBody = try responseDecoder.decode(responseBody: data)
             self.ciphertextForRecipient = output.ciphertextForRecipient
             self.keyId = output.keyId
             self.keyPairSpec = output.keyPairSpec
@@ -4359,7 +4339,7 @@ extension GenerateDataKeyPairOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GenerateDataKeyPairOutputResponse: Swift.Equatable {
+public struct GenerateDataKeyPairOutput: Swift.Equatable {
     /// The plaintext private data key encrypted with the public key from the Nitro enclave. This ciphertext can be decrypted only by using a private key in the Nitro enclave. This field is included in the response only when the Recipient parameter in the request includes a valid attestation document from an Amazon Web Services Nitro enclave. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
     public var ciphertextForRecipient: ClientRuntime.Data?
     /// The Amazon Resource Name ([key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)) of the KMS key that encrypted the private key.
@@ -4391,7 +4371,7 @@ public struct GenerateDataKeyPairOutputResponse: Swift.Equatable {
     }
 }
 
-struct GenerateDataKeyPairOutputResponseBody: Swift.Equatable {
+struct GenerateDataKeyPairOutputBody: Swift.Equatable {
     let privateKeyCiphertextBlob: ClientRuntime.Data?
     let privateKeyPlaintext: ClientRuntime.Data?
     let publicKey: ClientRuntime.Data?
@@ -4400,7 +4380,7 @@ struct GenerateDataKeyPairOutputResponseBody: Swift.Equatable {
     let ciphertextForRecipient: ClientRuntime.Data?
 }
 
-extension GenerateDataKeyPairOutputResponseBody: Swift.Decodable {
+extension GenerateDataKeyPairOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ciphertextForRecipient = "CiphertextForRecipient"
         case keyId = "KeyId"
@@ -4424,6 +4404,26 @@ extension GenerateDataKeyPairOutputResponseBody: Swift.Decodable {
         keyPairSpec = keyPairSpecDecoded
         let ciphertextForRecipientDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .ciphertextForRecipient)
         ciphertextForRecipient = ciphertextForRecipientDecoded
+    }
+}
+
+enum GenerateDataKeyPairOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4559,31 +4559,11 @@ extension GenerateDataKeyPairWithoutPlaintextInputBody: Swift.Decodable {
     }
 }
 
-public enum GenerateDataKeyPairWithoutPlaintextOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GenerateDataKeyPairWithoutPlaintextOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GenerateDataKeyPairWithoutPlaintextOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GenerateDataKeyPairWithoutPlaintextOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GenerateDataKeyPairWithoutPlaintextOutputBody = try responseDecoder.decode(responseBody: data)
             self.keyId = output.keyId
             self.keyPairSpec = output.keyPairSpec
             self.privateKeyCiphertextBlob = output.privateKeyCiphertextBlob
@@ -4597,7 +4577,7 @@ extension GenerateDataKeyPairWithoutPlaintextOutputResponse: ClientRuntime.HttpR
     }
 }
 
-public struct GenerateDataKeyPairWithoutPlaintextOutputResponse: Swift.Equatable {
+public struct GenerateDataKeyPairWithoutPlaintextOutput: Swift.Equatable {
     /// The Amazon Resource Name ([key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)) of the KMS key that encrypted the private key.
     public var keyId: Swift.String?
     /// The type of data key pair that was generated.
@@ -4621,14 +4601,14 @@ public struct GenerateDataKeyPairWithoutPlaintextOutputResponse: Swift.Equatable
     }
 }
 
-struct GenerateDataKeyPairWithoutPlaintextOutputResponseBody: Swift.Equatable {
+struct GenerateDataKeyPairWithoutPlaintextOutputBody: Swift.Equatable {
     let privateKeyCiphertextBlob: ClientRuntime.Data?
     let publicKey: ClientRuntime.Data?
     let keyId: Swift.String?
     let keyPairSpec: KMSClientTypes.DataKeyPairSpec?
 }
 
-extension GenerateDataKeyPairWithoutPlaintextOutputResponseBody: Swift.Decodable {
+extension GenerateDataKeyPairWithoutPlaintextOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyId = "KeyId"
         case keyPairSpec = "KeyPairSpec"
@@ -4646,6 +4626,26 @@ extension GenerateDataKeyPairWithoutPlaintextOutputResponseBody: Swift.Decodable
         keyId = keyIdDecoded
         let keyPairSpecDecoded = try containerValues.decodeIfPresent(KMSClientTypes.DataKeyPairSpec.self, forKey: .keyPairSpec)
         keyPairSpec = keyPairSpecDecoded
+    }
+}
+
+enum GenerateDataKeyPairWithoutPlaintextOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4792,30 +4792,11 @@ extension GenerateDataKeyWithoutPlaintextInputBody: Swift.Decodable {
     }
 }
 
-public enum GenerateDataKeyWithoutPlaintextOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GenerateDataKeyWithoutPlaintextOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GenerateDataKeyWithoutPlaintextOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GenerateDataKeyWithoutPlaintextOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GenerateDataKeyWithoutPlaintextOutputBody = try responseDecoder.decode(responseBody: data)
             self.ciphertextBlob = output.ciphertextBlob
             self.keyId = output.keyId
         } else {
@@ -4825,7 +4806,7 @@ extension GenerateDataKeyWithoutPlaintextOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct GenerateDataKeyWithoutPlaintextOutputResponse: Swift.Equatable {
+public struct GenerateDataKeyWithoutPlaintextOutput: Swift.Equatable {
     /// The encrypted data key. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
     public var ciphertextBlob: ClientRuntime.Data?
     /// The Amazon Resource Name ([key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)) of the KMS key that encrypted the data key.
@@ -4841,12 +4822,12 @@ public struct GenerateDataKeyWithoutPlaintextOutputResponse: Swift.Equatable {
     }
 }
 
-struct GenerateDataKeyWithoutPlaintextOutputResponseBody: Swift.Equatable {
+struct GenerateDataKeyWithoutPlaintextOutputBody: Swift.Equatable {
     let ciphertextBlob: ClientRuntime.Data?
     let keyId: Swift.String?
 }
 
-extension GenerateDataKeyWithoutPlaintextOutputResponseBody: Swift.Decodable {
+extension GenerateDataKeyWithoutPlaintextOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ciphertextBlob = "CiphertextBlob"
         case keyId = "KeyId"
@@ -4858,6 +4839,25 @@ extension GenerateDataKeyWithoutPlaintextOutputResponseBody: Swift.Decodable {
         ciphertextBlob = ciphertextBlobDecoded
         let keyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyId)
         keyId = keyIdDecoded
+    }
+}
+
+enum GenerateDataKeyWithoutPlaintextOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4976,29 +4976,11 @@ extension GenerateMacInputBody: Swift.Decodable {
     }
 }
 
-public enum GenerateMacOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GenerateMacOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GenerateMacOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GenerateMacOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GenerateMacOutputBody = try responseDecoder.decode(responseBody: data)
             self.keyId = output.keyId
             self.mac = output.mac
             self.macAlgorithm = output.macAlgorithm
@@ -5010,7 +4992,7 @@ extension GenerateMacOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GenerateMacOutputResponse: Swift.Equatable {
+public struct GenerateMacOutput: Swift.Equatable {
     /// The HMAC KMS key used in the operation.
     public var keyId: Swift.String?
     /// The hash-based message authentication code (HMAC) that was generated for the specified message, HMAC KMS key, and MAC algorithm. This is the standard, raw HMAC defined in [RFC 2104](https://datatracker.ietf.org/doc/html/rfc2104).
@@ -5030,13 +5012,13 @@ public struct GenerateMacOutputResponse: Swift.Equatable {
     }
 }
 
-struct GenerateMacOutputResponseBody: Swift.Equatable {
+struct GenerateMacOutputBody: Swift.Equatable {
     let mac: ClientRuntime.Data?
     let macAlgorithm: KMSClientTypes.MacAlgorithmSpec?
     let keyId: Swift.String?
 }
 
-extension GenerateMacOutputResponseBody: Swift.Decodable {
+extension GenerateMacOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyId = "KeyId"
         case mac = "Mac"
@@ -5051,6 +5033,24 @@ extension GenerateMacOutputResponseBody: Swift.Decodable {
         macAlgorithm = macAlgorithmDecoded
         let keyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyId)
         keyId = keyIdDecoded
+    }
+}
+
+enum GenerateMacOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5125,31 +5125,16 @@ extension GenerateRandomInputBody: Swift.Decodable {
     }
 }
 
-public enum GenerateRandomOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CustomKeyStoreInvalidStateException": return try await CustomKeyStoreInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CustomKeyStoreNotFoundException": return try await CustomKeyStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GenerateRandomOutputResponse: Swift.CustomDebugStringConvertible {
+extension GenerateRandomOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GenerateRandomOutputResponse(ciphertextForRecipient: \(Swift.String(describing: ciphertextForRecipient)), plaintext: \"CONTENT_REDACTED\")"}
+        "GenerateRandomOutput(ciphertextForRecipient: \(Swift.String(describing: ciphertextForRecipient)), plaintext: \"CONTENT_REDACTED\")"}
 }
 
-extension GenerateRandomOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GenerateRandomOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GenerateRandomOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GenerateRandomOutputBody = try responseDecoder.decode(responseBody: data)
             self.ciphertextForRecipient = output.ciphertextForRecipient
             self.plaintext = output.plaintext
         } else {
@@ -5159,7 +5144,7 @@ extension GenerateRandomOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GenerateRandomOutputResponse: Swift.Equatable {
+public struct GenerateRandomOutput: Swift.Equatable {
     /// The plaintext random bytes encrypted with the public key from the Nitro enclave. This ciphertext can be decrypted only by using a private key in the Nitro enclave. This field is included in the response only when the Recipient parameter in the request includes a valid attestation document from an Amazon Web Services Nitro enclave. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
     public var ciphertextForRecipient: ClientRuntime.Data?
     /// The random byte string. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded. If the response includes the CiphertextForRecipient field, the Plaintext field is null or empty.
@@ -5175,12 +5160,12 @@ public struct GenerateRandomOutputResponse: Swift.Equatable {
     }
 }
 
-struct GenerateRandomOutputResponseBody: Swift.Equatable {
+struct GenerateRandomOutputBody: Swift.Equatable {
     let plaintext: ClientRuntime.Data?
     let ciphertextForRecipient: ClientRuntime.Data?
 }
 
-extension GenerateRandomOutputResponseBody: Swift.Decodable {
+extension GenerateRandomOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ciphertextForRecipient = "CiphertextForRecipient"
         case plaintext = "Plaintext"
@@ -5192,6 +5177,21 @@ extension GenerateRandomOutputResponseBody: Swift.Decodable {
         plaintext = plaintextDecoded
         let ciphertextForRecipientDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .ciphertextForRecipient)
         ciphertextForRecipient = ciphertextForRecipientDecoded
+    }
+}
+
+enum GenerateRandomOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CustomKeyStoreInvalidStateException": return try await CustomKeyStoreInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CustomKeyStoreNotFoundException": return try await CustomKeyStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5263,26 +5263,11 @@ extension GetKeyPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum GetKeyPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetKeyPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetKeyPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetKeyPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetKeyPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
             self.policy = nil
@@ -5290,7 +5275,7 @@ extension GetKeyPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetKeyPolicyOutputResponse: Swift.Equatable {
+public struct GetKeyPolicyOutput: Swift.Equatable {
     /// A key policy document in JSON format.
     public var policy: Swift.String?
 
@@ -5302,11 +5287,11 @@ public struct GetKeyPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetKeyPolicyOutputResponseBody: Swift.Equatable {
+struct GetKeyPolicyOutputBody: Swift.Equatable {
     let policy: Swift.String?
 }
 
-extension GetKeyPolicyOutputResponseBody: Swift.Decodable {
+extension GetKeyPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy = "Policy"
     }
@@ -5315,6 +5300,21 @@ extension GetKeyPolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
         policy = policyDecoded
+    }
+}
+
+enum GetKeyPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5373,27 +5373,11 @@ extension GetKeyRotationStatusInputBody: Swift.Decodable {
     }
 }
 
-public enum GetKeyRotationStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetKeyRotationStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetKeyRotationStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetKeyRotationStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetKeyRotationStatusOutputBody = try responseDecoder.decode(responseBody: data)
             self.keyRotationEnabled = output.keyRotationEnabled
         } else {
             self.keyRotationEnabled = false
@@ -5401,7 +5385,7 @@ extension GetKeyRotationStatusOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetKeyRotationStatusOutputResponse: Swift.Equatable {
+public struct GetKeyRotationStatusOutput: Swift.Equatable {
     /// A Boolean value that specifies whether key rotation is enabled.
     public var keyRotationEnabled: Swift.Bool
 
@@ -5413,11 +5397,11 @@ public struct GetKeyRotationStatusOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetKeyRotationStatusOutputResponseBody: Swift.Equatable {
+struct GetKeyRotationStatusOutputBody: Swift.Equatable {
     let keyRotationEnabled: Swift.Bool
 }
 
-extension GetKeyRotationStatusOutputResponseBody: Swift.Decodable {
+extension GetKeyRotationStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyRotationEnabled = "KeyRotationEnabled"
     }
@@ -5426,6 +5410,22 @@ extension GetKeyRotationStatusOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyRotationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keyRotationEnabled) ?? false
         keyRotationEnabled = keyRotationEnabledDecoded
+    }
+}
+
+enum GetKeyRotationStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5477,7 +5477,7 @@ public struct GetParametersForImportInput: Swift.Equatable {
     ///
     /// * RSAES_OAEP_SHA_1 — Supported for all types of key material, except RSA key material (private key). You cannot use the RSAES_OAEP_SHA_1 wrapping algorithm with the RSA_2048 wrapping key spec to wrap ECC_NIST_P521 key material.
     ///
-    /// * RSAES_PKCS1_V1_5 (Deprecated) — Supported only for symmetric encryption key material (and only in legacy mode).
+    /// * RSAES_PKCS1_V1_5 (Deprecated) — As of October 10, 2023, KMS does not support the RSAES_PKCS1_V1_5 wrapping algorithm.
     /// This member is required.
     public var wrappingAlgorithm: KMSClientTypes.AlgorithmSpec?
     /// The type of RSA public key to return in the response. You will use this wrapping key with the specified wrapping algorithm to protect your key material during import. Use the longest RSA wrapping key that is practical. You cannot use an RSA_2048 public key to directly wrap an ECC_NIST_P521 private key. Instead, use an RSA_AES wrapping algorithm or choose a longer RSA public key.
@@ -5520,32 +5520,16 @@ extension GetParametersForImportInputBody: Swift.Decodable {
     }
 }
 
-public enum GetParametersForImportOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetParametersForImportOutputResponse: Swift.CustomDebugStringConvertible {
+extension GetParametersForImportOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetParametersForImportOutputResponse(importToken: \(Swift.String(describing: importToken)), keyId: \(Swift.String(describing: keyId)), parametersValidTo: \(Swift.String(describing: parametersValidTo)), publicKey: \"CONTENT_REDACTED\")"}
+        "GetParametersForImportOutput(importToken: \(Swift.String(describing: importToken)), keyId: \(Swift.String(describing: keyId)), parametersValidTo: \(Swift.String(describing: parametersValidTo)), publicKey: \"CONTENT_REDACTED\")"}
 }
 
-extension GetParametersForImportOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetParametersForImportOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetParametersForImportOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetParametersForImportOutputBody = try responseDecoder.decode(responseBody: data)
             self.importToken = output.importToken
             self.keyId = output.keyId
             self.parametersValidTo = output.parametersValidTo
@@ -5559,7 +5543,7 @@ extension GetParametersForImportOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetParametersForImportOutputResponse: Swift.Equatable {
+public struct GetParametersForImportOutput: Swift.Equatable {
     /// The import token to send in a subsequent [ImportKeyMaterial] request.
     public var importToken: ClientRuntime.Data?
     /// The Amazon Resource Name ([key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)) of the KMS key to use in a subsequent [ImportKeyMaterial] request. This is the same KMS key specified in the GetParametersForImport request.
@@ -5583,14 +5567,14 @@ public struct GetParametersForImportOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetParametersForImportOutputResponseBody: Swift.Equatable {
+struct GetParametersForImportOutputBody: Swift.Equatable {
     let keyId: Swift.String?
     let importToken: ClientRuntime.Data?
     let publicKey: ClientRuntime.Data?
     let parametersValidTo: ClientRuntime.Date?
 }
 
-extension GetParametersForImportOutputResponseBody: Swift.Decodable {
+extension GetParametersForImportOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case importToken = "ImportToken"
         case keyId = "KeyId"
@@ -5608,6 +5592,22 @@ extension GetParametersForImportOutputResponseBody: Swift.Decodable {
         publicKey = publicKeyDecoded
         let parametersValidToDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .parametersValidTo)
         parametersValidTo = parametersValidToDecoded
+    }
+}
+
+enum GetParametersForImportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5694,31 +5694,11 @@ extension GetPublicKeyInputBody: Swift.Decodable {
     }
 }
 
-public enum GetPublicKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPublicKeyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetPublicKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetPublicKeyOutputBody = try responseDecoder.decode(responseBody: data)
             self.customerMasterKeySpec = output.customerMasterKeySpec
             self.encryptionAlgorithms = output.encryptionAlgorithms
             self.keyId = output.keyId
@@ -5738,7 +5718,7 @@ extension GetPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPublicKeyOutputResponse: Swift.Equatable {
+public struct GetPublicKeyOutput: Swift.Equatable {
     /// Instead, use the KeySpec field in the GetPublicKey response. The KeySpec and CustomerMasterKeySpec fields have the same value. We recommend that you use the KeySpec field in your code. However, to avoid breaking changes, KMS supports both fields.
     @available(*, deprecated, message: "This field has been deprecated. Instead, use the KeySpec field.")
     public var customerMasterKeySpec: KMSClientTypes.CustomerMasterKeySpec?
@@ -5775,7 +5755,7 @@ public struct GetPublicKeyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPublicKeyOutputResponseBody: Swift.Equatable {
+struct GetPublicKeyOutputBody: Swift.Equatable {
     let keyId: Swift.String?
     let publicKey: ClientRuntime.Data?
     let customerMasterKeySpec: KMSClientTypes.CustomerMasterKeySpec?
@@ -5785,7 +5765,7 @@ struct GetPublicKeyOutputResponseBody: Swift.Equatable {
     let signingAlgorithms: [KMSClientTypes.SigningAlgorithmSpec]?
 }
 
-extension GetPublicKeyOutputResponseBody: Swift.Decodable {
+extension GetPublicKeyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case customerMasterKeySpec = "CustomerMasterKeySpec"
         case encryptionAlgorithms = "EncryptionAlgorithms"
@@ -5830,6 +5810,26 @@ extension GetPublicKeyOutputResponseBody: Swift.Decodable {
             }
         }
         signingAlgorithms = signingAlgorithmsDecoded0
+    }
+}
+
+enum GetPublicKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6208,8 +6208,18 @@ extension ImportKeyMaterialInputBody: Swift.Decodable {
     }
 }
 
-public enum ImportKeyMaterialOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension ImportKeyMaterialOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct ImportKeyMaterialOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum ImportKeyMaterialOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6226,16 +6236,6 @@ public enum ImportKeyMaterialOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension ImportKeyMaterialOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct ImportKeyMaterialOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension IncorrectKeyException {
@@ -7827,26 +7827,11 @@ extension ListAliasesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListAliasesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMarker": return try await InvalidMarkerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAliasesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAliasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAliasesOutputBody = try responseDecoder.decode(responseBody: data)
             self.aliases = output.aliases
             self.nextMarker = output.nextMarker
             self.truncated = output.truncated
@@ -7858,7 +7843,7 @@ extension ListAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAliasesOutputResponse: Swift.Equatable {
+public struct ListAliasesOutput: Swift.Equatable {
     /// A list of aliases.
     public var aliases: [KMSClientTypes.AliasListEntry]?
     /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
@@ -7878,13 +7863,13 @@ public struct ListAliasesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAliasesOutputResponseBody: Swift.Equatable {
+struct ListAliasesOutputBody: Swift.Equatable {
     let aliases: [KMSClientTypes.AliasListEntry]?
     let nextMarker: Swift.String?
     let truncated: Swift.Bool
 }
 
-extension ListAliasesOutputResponseBody: Swift.Decodable {
+extension ListAliasesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case aliases = "Aliases"
         case nextMarker = "NextMarker"
@@ -7908,6 +7893,21 @@ extension ListAliasesOutputResponseBody: Swift.Decodable {
         nextMarker = nextMarkerDecoded
         let truncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .truncated) ?? false
         truncated = truncatedDecoded
+    }
+}
+
+enum ListAliasesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMarker": return try await InvalidMarkerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8014,28 +8014,11 @@ extension ListGrantsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListGrantsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidGrantId": return try await InvalidGrantIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMarker": return try await InvalidMarkerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListGrantsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListGrantsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListGrantsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListGrantsOutputBody = try responseDecoder.decode(responseBody: data)
             self.grants = output.grants
             self.nextMarker = output.nextMarker
             self.truncated = output.truncated
@@ -8047,7 +8030,7 @@ extension ListGrantsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGrantsOutputResponse: Swift.Equatable {
+public struct ListGrantsOutput: Swift.Equatable {
     /// A list of grants.
     public var grants: [KMSClientTypes.GrantListEntry]?
     /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
@@ -8067,13 +8050,13 @@ public struct ListGrantsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListGrantsOutputResponseBody: Swift.Equatable {
+struct ListGrantsOutputBody: Swift.Equatable {
     let grants: [KMSClientTypes.GrantListEntry]?
     let nextMarker: Swift.String?
     let truncated: Swift.Bool
 }
 
-extension ListGrantsOutputResponseBody: Swift.Decodable {
+extension ListGrantsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case grants = "Grants"
         case nextMarker = "NextMarker"
@@ -8097,6 +8080,23 @@ extension ListGrantsOutputResponseBody: Swift.Decodable {
         nextMarker = nextMarkerDecoded
         let truncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .truncated) ?? false
         truncated = truncatedDecoded
+    }
+}
+
+enum ListGrantsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGrantId": return try await InvalidGrantIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMarker": return try await InvalidMarkerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8179,26 +8179,11 @@ extension ListKeyPoliciesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListKeyPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListKeyPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListKeyPoliciesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListKeyPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListKeyPoliciesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.policyNames = output.policyNames
             self.truncated = output.truncated
@@ -8210,7 +8195,7 @@ extension ListKeyPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListKeyPoliciesOutputResponse: Swift.Equatable {
+public struct ListKeyPoliciesOutput: Swift.Equatable {
     /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
     public var nextMarker: Swift.String?
     /// A list of key policy names. The only valid value is default.
@@ -8230,13 +8215,13 @@ public struct ListKeyPoliciesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListKeyPoliciesOutputResponseBody: Swift.Equatable {
+struct ListKeyPoliciesOutputBody: Swift.Equatable {
     let policyNames: [Swift.String]?
     let nextMarker: Swift.String?
     let truncated: Swift.Bool
 }
 
-extension ListKeyPoliciesOutputResponseBody: Swift.Decodable {
+extension ListKeyPoliciesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextMarker = "NextMarker"
         case policyNames = "PolicyNames"
@@ -8260,6 +8245,21 @@ extension ListKeyPoliciesOutputResponseBody: Swift.Decodable {
         nextMarker = nextMarkerDecoded
         let truncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .truncated) ?? false
         truncated = truncatedDecoded
+    }
+}
+
+enum ListKeyPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8322,24 +8322,11 @@ extension ListKeysInputBody: Swift.Decodable {
     }
 }
 
-public enum ListKeysOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMarker": return try await InvalidMarkerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListKeysOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListKeysOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListKeysOutputBody = try responseDecoder.decode(responseBody: data)
             self.keys = output.keys
             self.nextMarker = output.nextMarker
             self.truncated = output.truncated
@@ -8351,7 +8338,7 @@ extension ListKeysOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListKeysOutputResponse: Swift.Equatable {
+public struct ListKeysOutput: Swift.Equatable {
     /// A list of KMS keys.
     public var keys: [KMSClientTypes.KeyListEntry]?
     /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
@@ -8371,13 +8358,13 @@ public struct ListKeysOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListKeysOutputResponseBody: Swift.Equatable {
+struct ListKeysOutputBody: Swift.Equatable {
     let keys: [KMSClientTypes.KeyListEntry]?
     let nextMarker: Swift.String?
     let truncated: Swift.Bool
 }
 
-extension ListKeysOutputResponseBody: Swift.Decodable {
+extension ListKeysOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keys = "Keys"
         case nextMarker = "NextMarker"
@@ -8401,6 +8388,19 @@ extension ListKeysOutputResponseBody: Swift.Decodable {
         nextMarker = nextMarkerDecoded
         let truncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .truncated) ?? false
         truncated = truncatedDecoded
+    }
+}
+
+enum ListKeysOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMarker": return try await InvalidMarkerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8483,25 +8483,11 @@ extension ListResourceTagsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListResourceTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMarker": return try await InvalidMarkerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListResourceTagsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListResourceTagsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListResourceTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListResourceTagsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.tags = output.tags
             self.truncated = output.truncated
@@ -8513,7 +8499,7 @@ extension ListResourceTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListResourceTagsOutputResponse: Swift.Equatable {
+public struct ListResourceTagsOutput: Swift.Equatable {
     /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request. Do not assume or infer any information from this value.
     public var nextMarker: Swift.String?
     /// A list of tags. Each tag consists of a tag key and a tag value. Tagging or untagging a KMS key can allow or deny permission to the KMS key. For details, see [ABAC for KMS](https://docs.aws.amazon.com/kms/latest/developerguide/abac.html) in the Key Management Service Developer Guide.
@@ -8533,13 +8519,13 @@ public struct ListResourceTagsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListResourceTagsOutputResponseBody: Swift.Equatable {
+struct ListResourceTagsOutputBody: Swift.Equatable {
     let tags: [KMSClientTypes.Tag]?
     let nextMarker: Swift.String?
     let truncated: Swift.Bool
 }
 
-extension ListResourceTagsOutputResponseBody: Swift.Decodable {
+extension ListResourceTagsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextMarker = "NextMarker"
         case tags = "Tags"
@@ -8563,6 +8549,20 @@ extension ListResourceTagsOutputResponseBody: Swift.Decodable {
         nextMarker = nextMarkerDecoded
         let truncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .truncated) ?? false
         truncated = truncatedDecoded
+    }
+}
+
+enum ListResourceTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMarker": return try await InvalidMarkerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8638,26 +8638,11 @@ extension ListRetirableGrantsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListRetirableGrantsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMarker": return try await InvalidMarkerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRetirableGrantsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRetirableGrantsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRetirableGrantsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRetirableGrantsOutputBody = try responseDecoder.decode(responseBody: data)
             self.grants = output.grants
             self.nextMarker = output.nextMarker
             self.truncated = output.truncated
@@ -8669,7 +8654,7 @@ extension ListRetirableGrantsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRetirableGrantsOutputResponse: Swift.Equatable {
+public struct ListRetirableGrantsOutput: Swift.Equatable {
     /// A list of grants.
     public var grants: [KMSClientTypes.GrantListEntry]?
     /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
@@ -8689,13 +8674,13 @@ public struct ListRetirableGrantsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRetirableGrantsOutputResponseBody: Swift.Equatable {
+struct ListRetirableGrantsOutputBody: Swift.Equatable {
     let grants: [KMSClientTypes.GrantListEntry]?
     let nextMarker: Swift.String?
     let truncated: Swift.Bool
 }
 
-extension ListRetirableGrantsOutputResponseBody: Swift.Decodable {
+extension ListRetirableGrantsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case grants = "Grants"
         case nextMarker = "NextMarker"
@@ -8719,6 +8704,21 @@ extension ListRetirableGrantsOutputResponseBody: Swift.Decodable {
         nextMarker = nextMarkerDecoded
         let truncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .truncated) ?? false
         truncated = truncatedDecoded
+    }
+}
+
+enum ListRetirableGrantsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMarker": return try await InvalidMarkerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9116,7 +9116,7 @@ extension PutKeyPolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutKeyPolicyInput: Swift.Equatable {
-    /// Skips ("bypasses") the key policy lockout safety check. The default value is false. Setting this value to true increases the risk that the KMS key becomes unmanageable. Do not set this value to true indiscriminately. For more information, see [Default key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-default.html#prevent-unmanageable-key) in the Key Management Service Developer Guide. Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent [PutKeyPolicy] request on the KMS key.
+    /// Skips ("bypasses") the key policy lockout safety check. The default value is false. Setting this value to true increases the risk that the KMS key becomes unmanageable. Do not set this value to true indiscriminately. For more information, see [Default key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-default.html#prevent-unmanageable-key) in the Key Management Service Developer Guide. Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent [PutKeyPolicy](https://docs.aws.amazon.com/kms/latest/APIReference/API_PutKeyPolicy.html) request on the KMS key.
     public var bypassPolicyLockoutSafetyCheck: Swift.Bool?
     /// Sets the key policy on the specified KMS key. Specify the key ID or key ARN of the KMS key. For example:
     ///
@@ -9193,8 +9193,18 @@ extension PutKeyPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum PutKeyPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension PutKeyPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutKeyPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutKeyPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -9209,16 +9219,6 @@ public enum PutKeyPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension PutKeyPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutKeyPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ReEncryptInput: Swift.Encodable {
@@ -9424,32 +9424,11 @@ extension ReEncryptInputBody: Swift.Decodable {
     }
 }
 
-public enum ReEncryptOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IncorrectKeyException": return try await IncorrectKeyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidCiphertext": return try await InvalidCiphertextException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ReEncryptOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ReEncryptOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ReEncryptOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ReEncryptOutputBody = try responseDecoder.decode(responseBody: data)
             self.ciphertextBlob = output.ciphertextBlob
             self.destinationEncryptionAlgorithm = output.destinationEncryptionAlgorithm
             self.keyId = output.keyId
@@ -9465,7 +9444,7 @@ extension ReEncryptOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ReEncryptOutputResponse: Swift.Equatable {
+public struct ReEncryptOutput: Swift.Equatable {
     /// The reencrypted data. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
     public var ciphertextBlob: ClientRuntime.Data?
     /// The encryption algorithm that was used to reencrypt the data.
@@ -9493,7 +9472,7 @@ public struct ReEncryptOutputResponse: Swift.Equatable {
     }
 }
 
-struct ReEncryptOutputResponseBody: Swift.Equatable {
+struct ReEncryptOutputBody: Swift.Equatable {
     let ciphertextBlob: ClientRuntime.Data?
     let sourceKeyId: Swift.String?
     let keyId: Swift.String?
@@ -9501,7 +9480,7 @@ struct ReEncryptOutputResponseBody: Swift.Equatable {
     let destinationEncryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec?
 }
 
-extension ReEncryptOutputResponseBody: Swift.Decodable {
+extension ReEncryptOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ciphertextBlob = "CiphertextBlob"
         case destinationEncryptionAlgorithm = "DestinationEncryptionAlgorithm"
@@ -9522,6 +9501,27 @@ extension ReEncryptOutputResponseBody: Swift.Decodable {
         sourceEncryptionAlgorithm = sourceEncryptionAlgorithmDecoded
         let destinationEncryptionAlgorithmDecoded = try containerValues.decodeIfPresent(KMSClientTypes.EncryptionAlgorithmSpec.self, forKey: .destinationEncryptionAlgorithm)
         destinationEncryptionAlgorithm = destinationEncryptionAlgorithmDecoded
+    }
+}
+
+enum ReEncryptOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IncorrectKeyException": return try await IncorrectKeyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCiphertext": return try await InvalidCiphertextException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9613,7 +9613,7 @@ extension ReplicateKeyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ReplicateKeyInput: Swift.Equatable {
-    /// Skips ("bypasses") the key policy lockout safety check. The default value is false. Setting this value to true increases the risk that the KMS key becomes unmanageable. Do not set this value to true indiscriminately. For more information, see [Default key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-default.html#prevent-unmanageable-key) in the Key Management Service Developer Guide. Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent [PutKeyPolicy] request on the KMS key.
+    /// Skips ("bypasses") the key policy lockout safety check. The default value is false. Setting this value to true increases the risk that the KMS key becomes unmanageable. Do not set this value to true indiscriminately. For more information, see [Default key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-default.html#prevent-unmanageable-key) in the Key Management Service Developer Guide. Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent [PutKeyPolicy](https://docs.aws.amazon.com/kms/latest/APIReference/API_PutKeyPolicy.html) request on the KMS key.
     public var bypassPolicyLockoutSafetyCheck: Swift.Bool?
     /// A description of the KMS key. The default value is an empty string (no description). Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. The description is not a shared property of multi-Region keys. You can specify the same description or a different description for each key in a set of related multi-Region keys. KMS does not synchronize this property.
     public var description: Swift.String?
@@ -9714,31 +9714,11 @@ extension ReplicateKeyInputBody: Swift.Decodable {
     }
 }
 
-public enum ReplicateKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AlreadyExists": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MalformedPolicyDocument": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TagException": return try await TagException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ReplicateKeyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ReplicateKeyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ReplicateKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ReplicateKeyOutputBody = try responseDecoder.decode(responseBody: data)
             self.replicaKeyMetadata = output.replicaKeyMetadata
             self.replicaPolicy = output.replicaPolicy
             self.replicaTags = output.replicaTags
@@ -9750,7 +9730,7 @@ extension ReplicateKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ReplicateKeyOutputResponse: Swift.Equatable {
+public struct ReplicateKeyOutput: Swift.Equatable {
     /// Displays details about the new replica key, including its Amazon Resource Name ([key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)) and [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html). It also includes the ARN and Amazon Web Services Region of its primary key and other replica keys.
     public var replicaKeyMetadata: KMSClientTypes.KeyMetadata?
     /// The key policy of the new replica key. The value is a key policy document in JSON format.
@@ -9770,13 +9750,13 @@ public struct ReplicateKeyOutputResponse: Swift.Equatable {
     }
 }
 
-struct ReplicateKeyOutputResponseBody: Swift.Equatable {
+struct ReplicateKeyOutputBody: Swift.Equatable {
     let replicaKeyMetadata: KMSClientTypes.KeyMetadata?
     let replicaPolicy: Swift.String?
     let replicaTags: [KMSClientTypes.Tag]?
 }
 
-extension ReplicateKeyOutputResponseBody: Swift.Decodable {
+extension ReplicateKeyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case replicaKeyMetadata = "ReplicaKeyMetadata"
         case replicaPolicy = "ReplicaPolicy"
@@ -9800,6 +9780,26 @@ extension ReplicateKeyOutputResponseBody: Swift.Decodable {
             }
         }
         replicaTags = replicaTagsDecoded0
+    }
+}
+
+enum ReplicateKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlreadyExists": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MalformedPolicyDocument": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TagException": return try await TagException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9888,8 +9888,18 @@ extension RetireGrantInputBody: Swift.Decodable {
     }
 }
 
-public enum RetireGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension RetireGrantOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RetireGrantOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum RetireGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -9904,16 +9914,6 @@ public enum RetireGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension RetireGrantOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct RetireGrantOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension RevokeGrantInput: Swift.Encodable {
@@ -9996,8 +9996,18 @@ extension RevokeGrantInputBody: Swift.Decodable {
     }
 }
 
-public enum RevokeGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension RevokeGrantOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RevokeGrantOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum RevokeGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -10011,16 +10021,6 @@ public enum RevokeGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension RevokeGrantOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct RevokeGrantOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ScheduleKeyDeletionInput: Swift.Encodable {
@@ -10090,26 +10090,11 @@ extension ScheduleKeyDeletionInputBody: Swift.Decodable {
     }
 }
 
-public enum ScheduleKeyDeletionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ScheduleKeyDeletionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ScheduleKeyDeletionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ScheduleKeyDeletionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ScheduleKeyDeletionOutputBody = try responseDecoder.decode(responseBody: data)
             self.deletionDate = output.deletionDate
             self.keyId = output.keyId
             self.keyState = output.keyState
@@ -10123,7 +10108,7 @@ extension ScheduleKeyDeletionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ScheduleKeyDeletionOutputResponse: Swift.Equatable {
+public struct ScheduleKeyDeletionOutput: Swift.Equatable {
     /// The date and time after which KMS deletes the KMS key. If the KMS key is a multi-Region primary key with replica keys, this field does not appear. The deletion date for the primary key isn't known until its last replica key is deleted.
     public var deletionDate: ClientRuntime.Date?
     /// The Amazon Resource Name ([key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)) of the KMS key whose deletion is scheduled.
@@ -10147,14 +10132,14 @@ public struct ScheduleKeyDeletionOutputResponse: Swift.Equatable {
     }
 }
 
-struct ScheduleKeyDeletionOutputResponseBody: Swift.Equatable {
+struct ScheduleKeyDeletionOutputBody: Swift.Equatable {
     let keyId: Swift.String?
     let deletionDate: ClientRuntime.Date?
     let keyState: KMSClientTypes.KeyState?
     let pendingWindowInDays: Swift.Int?
 }
 
-extension ScheduleKeyDeletionOutputResponseBody: Swift.Decodable {
+extension ScheduleKeyDeletionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deletionDate = "DeletionDate"
         case keyId = "KeyId"
@@ -10172,6 +10157,21 @@ extension ScheduleKeyDeletionOutputResponseBody: Swift.Decodable {
         keyState = keyStateDecoded
         let pendingWindowInDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pendingWindowInDays)
         pendingWindowInDays = pendingWindowInDaysDecoded
+    }
+}
+
+enum ScheduleKeyDeletionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10321,30 +10321,11 @@ extension SignInputBody: Swift.Decodable {
     }
 }
 
-public enum SignOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension SignOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SignOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SignOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SignOutputBody = try responseDecoder.decode(responseBody: data)
             self.keyId = output.keyId
             self.signature = output.signature
             self.signingAlgorithm = output.signingAlgorithm
@@ -10356,7 +10337,7 @@ extension SignOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SignOutputResponse: Swift.Equatable {
+public struct SignOutput: Swift.Equatable {
     /// The Amazon Resource Name ([key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)) of the asymmetric KMS key that was used to sign the message.
     public var keyId: Swift.String?
     /// The cryptographic signature that was generated for the message.
@@ -10383,13 +10364,13 @@ public struct SignOutputResponse: Swift.Equatable {
     }
 }
 
-struct SignOutputResponseBody: Swift.Equatable {
+struct SignOutputBody: Swift.Equatable {
     let keyId: Swift.String?
     let signature: ClientRuntime.Data?
     let signingAlgorithm: KMSClientTypes.SigningAlgorithmSpec?
 }
 
-extension SignOutputResponseBody: Swift.Decodable {
+extension SignOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyId = "KeyId"
         case signature = "Signature"
@@ -10404,6 +10385,25 @@ extension SignOutputResponseBody: Swift.Decodable {
         signature = signatureDecoded
         let signingAlgorithmDecoded = try containerValues.decodeIfPresent(KMSClientTypes.SigningAlgorithmSpec.self, forKey: .signingAlgorithm)
         signingAlgorithm = signingAlgorithmDecoded
+    }
+}
+
+enum SignOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10645,8 +10645,18 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -10659,16 +10669,6 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UnsupportedOperationException {
@@ -10806,8 +10806,18 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -10819,16 +10829,6 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateAliasInput: Swift.Encodable {
@@ -10899,8 +10899,18 @@ extension UpdateAliasInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateAliasOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateAliasOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -10912,16 +10922,6 @@ public enum UpdateAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateAliasOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateAliasOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateCustomKeyStoreInput: Swift.CustomDebugStringConvertible {
@@ -11073,8 +11073,18 @@ extension UpdateCustomKeyStoreInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateCustomKeyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateCustomKeyStoreOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateCustomKeyStoreOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateCustomKeyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -11098,16 +11108,6 @@ public enum UpdateCustomKeyStoreOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateCustomKeyStoreOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateCustomKeyStoreOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateKeyDescriptionInput: Swift.Encodable {
@@ -11178,8 +11178,18 @@ extension UpdateKeyDescriptionInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateKeyDescriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateKeyDescriptionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateKeyDescriptionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateKeyDescriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -11191,16 +11201,6 @@ public enum UpdateKeyDescriptionOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateKeyDescriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateKeyDescriptionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdatePrimaryRegionInput: Swift.Encodable {
@@ -11271,8 +11271,18 @@ extension UpdatePrimaryRegionInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdatePrimaryRegionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdatePrimaryRegionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdatePrimaryRegionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdatePrimaryRegionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -11285,16 +11295,6 @@ public enum UpdatePrimaryRegionOutputError: ClientRuntime.HttpResponseErrorBindi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdatePrimaryRegionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdatePrimaryRegionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension VerifyInput: Swift.CustomDebugStringConvertible {
@@ -11584,30 +11584,11 @@ extension VerifyMacInputBody: Swift.Decodable {
     }
 }
 
-public enum VerifyMacOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidMac": return try await KMSInvalidMacException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension VerifyMacOutputResponse: ClientRuntime.HttpResponseBinding {
+extension VerifyMacOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: VerifyMacOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: VerifyMacOutputBody = try responseDecoder.decode(responseBody: data)
             self.keyId = output.keyId
             self.macAlgorithm = output.macAlgorithm
             self.macValid = output.macValid
@@ -11619,7 +11600,7 @@ extension VerifyMacOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct VerifyMacOutputResponse: Swift.Equatable {
+public struct VerifyMacOutput: Swift.Equatable {
     /// The HMAC KMS key used in the verification.
     public var keyId: Swift.String?
     /// The MAC algorithm used in the verification.
@@ -11639,13 +11620,13 @@ public struct VerifyMacOutputResponse: Swift.Equatable {
     }
 }
 
-struct VerifyMacOutputResponseBody: Swift.Equatable {
+struct VerifyMacOutputBody: Swift.Equatable {
     let keyId: Swift.String?
     let macValid: Swift.Bool
     let macAlgorithm: KMSClientTypes.MacAlgorithmSpec?
 }
 
-extension VerifyMacOutputResponseBody: Swift.Decodable {
+extension VerifyMacOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyId = "KeyId"
         case macAlgorithm = "MacAlgorithm"
@@ -11663,19 +11644,18 @@ extension VerifyMacOutputResponseBody: Swift.Decodable {
     }
 }
 
-public enum VerifyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum VerifyMacOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidSignature": return try await KMSInvalidSignatureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidMac": return try await KMSInvalidMacException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -11683,11 +11663,11 @@ public enum VerifyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension VerifyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension VerifyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: VerifyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: VerifyOutputBody = try responseDecoder.decode(responseBody: data)
             self.keyId = output.keyId
             self.signatureValid = output.signatureValid
             self.signingAlgorithm = output.signingAlgorithm
@@ -11699,7 +11679,7 @@ extension VerifyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct VerifyOutputResponse: Swift.Equatable {
+public struct VerifyOutput: Swift.Equatable {
     /// The Amazon Resource Name ([key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)) of the asymmetric KMS key that was used to verify the signature.
     public var keyId: Swift.String?
     /// A Boolean value that indicates whether the signature was verified. A value of True indicates that the Signature was produced by signing the Message with the specified KeyID and SigningAlgorithm. If the signature is not verified, the Verify operation fails with a KMSInvalidSignatureException exception.
@@ -11719,13 +11699,13 @@ public struct VerifyOutputResponse: Swift.Equatable {
     }
 }
 
-struct VerifyOutputResponseBody: Swift.Equatable {
+struct VerifyOutputBody: Swift.Equatable {
     let keyId: Swift.String?
     let signatureValid: Swift.Bool
     let signingAlgorithm: KMSClientTypes.SigningAlgorithmSpec?
 }
 
-extension VerifyOutputResponseBody: Swift.Decodable {
+extension VerifyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyId = "KeyId"
         case signatureValid = "SignatureValid"
@@ -11740,6 +11720,26 @@ extension VerifyOutputResponseBody: Swift.Decodable {
         signatureValid = signatureValidDecoded
         let signingAlgorithmDecoded = try containerValues.decodeIfPresent(KMSClientTypes.SigningAlgorithmSpec.self, forKey: .signingAlgorithm)
         signingAlgorithm = signingAlgorithmDecoded
+    }
+}
+
+enum VerifyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidSignature": return try await KMSInvalidSignatureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -12542,7 +12542,7 @@ extension XksProxyVpcEndpointServiceInvalidConfigurationException {
     }
 }
 
-/// The request was rejected because the Amazon VPC endpoint service configuration does not fulfill the requirements for an external key store proxy. For details, see the exception message and [review the requirements] for Amazon VPC endpoint service connectivity for an external key store.
+/// The request was rejected because the Amazon VPC endpoint service configuration does not fulfill the requirements for an external key store proxy. For details, see the exception message and [review the requirements](https://docs.aws.amazon.com/kms/latest/developerguide/vpc-connectivity.html#xks-vpc-requirements) for Amazon VPC endpoint service connectivity for an external key store.
 public struct XksProxyVpcEndpointServiceInvalidConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {

@@ -12,12 +12,12 @@ import XCTest
 @_spi(FileBasedConfig) @testable import AWSClientRuntime
 
 class StaticCredentialsProviderTests: XCTestCase {
-    func testGetCredentials() async {
-        let subject = try! StaticCredentialsProvider(.init(
+    func testGetCredentials() async throws {
+        let subject = try StaticCredentialsProvider(.init(
             accessKey: "some_access_key",
             secret: "some_secret"
         ))
-        let credentials = try! await subject.getCredentials()
+        let credentials = try await subject.getCredentials()
         
         XCTAssertEqual(credentials.accessKey, "some_access_key")
         XCTAssertEqual(credentials.secret, "some_secret")

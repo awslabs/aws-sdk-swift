@@ -4,56 +4,414 @@ import ClientRuntime
 
 /// Backup gateway Backup gateway connects Backup to your hypervisor, so you can create, store, and restore backups of your virtual machines (VMs) anywhere, whether on-premises or in the VMware Cloud (VMC) on Amazon Web Services. Add on-premises resources by connecting to a hypervisor through a gateway. Backup will automatically discover the resources in your hypervisor. Use Backup to assign virtual or on-premises resources to a backup plan, or run on-demand backups. Once you have backed up your resources, you can view them and restore them like any resource supported by Backup. To download the Amazon Web Services software to get started, navigate to the Backup console, choose Gateways, then choose Create gateway.
 public protocol BackupGatewayClientProtocol {
+    /// Performs the `AssociateGatewayToServer` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// Associates a backup gateway with your server. After you complete the association process, you can back up and restore your VMs through the gateway.
-    func associateGatewayToServer(input: AssociateGatewayToServerInput) async throws -> AssociateGatewayToServerOutputResponse
+    ///
+    /// - Parameter AssociateGatewayToServerInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateGatewayToServerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ConflictException` : The operation cannot proceed because it is not supported.
+    func associateGatewayToServer(input: AssociateGatewayToServerInput) async throws -> AssociateGatewayToServerOutput
+    /// Performs the `CreateGateway` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// Creates a backup gateway. After you create a gateway, you can associate it with a server using the AssociateGatewayToServer operation.
-    func createGateway(input: CreateGatewayInput) async throws -> CreateGatewayOutputResponse
+    ///
+    /// - Parameter CreateGatewayInput : [no documentation found]
+    ///
+    /// - Returns: `CreateGatewayOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    func createGateway(input: CreateGatewayInput) async throws -> CreateGatewayOutput
+    /// Performs the `DeleteGateway` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// Deletes a backup gateway.
-    func deleteGateway(input: DeleteGatewayInput) async throws -> DeleteGatewayOutputResponse
+    ///
+    /// - Parameter DeleteGatewayInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteGatewayOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
+    func deleteGateway(input: DeleteGatewayInput) async throws -> DeleteGatewayOutput
+    /// Performs the `DeleteHypervisor` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// Deletes a hypervisor.
-    func deleteHypervisor(input: DeleteHypervisorInput) async throws -> DeleteHypervisorOutputResponse
+    ///
+    /// - Parameter DeleteHypervisorInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteHypervisorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `AccessDeniedException` : The operation cannot proceed because you have insufficient permissions.
+    /// - `ConflictException` : The operation cannot proceed because it is not supported.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
+    func deleteHypervisor(input: DeleteHypervisorInput) async throws -> DeleteHypervisorOutput
+    /// Performs the `DisassociateGatewayFromServer` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// Disassociates a backup gateway from the specified server. After the disassociation process finishes, the gateway can no longer access the virtual machines on the server.
-    func disassociateGatewayFromServer(input: DisassociateGatewayFromServerInput) async throws -> DisassociateGatewayFromServerOutputResponse
+    ///
+    /// - Parameter DisassociateGatewayFromServerInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateGatewayFromServerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ConflictException` : The operation cannot proceed because it is not supported.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
+    func disassociateGatewayFromServer(input: DisassociateGatewayFromServerInput) async throws -> DisassociateGatewayFromServerOutput
+    /// Performs the `GetBandwidthRateLimitSchedule` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. Use this to get a gateway's bandwidth rate limit schedule.
-    func getBandwidthRateLimitSchedule(input: GetBandwidthRateLimitScheduleInput) async throws -> GetBandwidthRateLimitScheduleOutputResponse
+    ///
+    /// - Parameter GetBandwidthRateLimitScheduleInput : [no documentation found]
+    ///
+    /// - Returns: `GetBandwidthRateLimitScheduleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
+    func getBandwidthRateLimitSchedule(input: GetBandwidthRateLimitScheduleInput) async throws -> GetBandwidthRateLimitScheduleOutput
+    /// Performs the `GetGateway` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// By providing the ARN (Amazon Resource Name), this API returns the gateway.
-    func getGateway(input: GetGatewayInput) async throws -> GetGatewayOutputResponse
+    ///
+    /// - Parameter GetGatewayInput : [no documentation found]
+    ///
+    /// - Returns: `GetGatewayOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
+    func getGateway(input: GetGatewayInput) async throws -> GetGatewayOutput
+    /// Performs the `GetHypervisor` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// This action requests information about the specified hypervisor to which the gateway will connect. A hypervisor is hardware, software, or firmware that creates and manages virtual machines, and allocates resources to them.
-    func getHypervisor(input: GetHypervisorInput) async throws -> GetHypervisorOutputResponse
+    ///
+    /// - Parameter GetHypervisorInput : [no documentation found]
+    ///
+    /// - Returns: `GetHypervisorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
+    func getHypervisor(input: GetHypervisorInput) async throws -> GetHypervisorOutput
+    /// Performs the `GetHypervisorPropertyMappings` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// This action retrieves the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the on-premises hypervisor to the properties available in Amazon Web Services.
-    func getHypervisorPropertyMappings(input: GetHypervisorPropertyMappingsInput) async throws -> GetHypervisorPropertyMappingsOutputResponse
+    ///
+    /// - Parameter GetHypervisorPropertyMappingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetHypervisorPropertyMappingsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
+    func getHypervisorPropertyMappings(input: GetHypervisorPropertyMappingsInput) async throws -> GetHypervisorPropertyMappingsOutput
+    /// Performs the `GetVirtualMachine` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// By providing the ARN (Amazon Resource Name), this API returns the virtual machine.
-    func getVirtualMachine(input: GetVirtualMachineInput) async throws -> GetVirtualMachineOutputResponse
+    ///
+    /// - Parameter GetVirtualMachineInput : [no documentation found]
+    ///
+    /// - Returns: `GetVirtualMachineOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
+    func getVirtualMachine(input: GetVirtualMachineInput) async throws -> GetVirtualMachineOutput
+    /// Performs the `ImportHypervisorConfiguration` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// Connect to a hypervisor by importing its configuration.
-    func importHypervisorConfiguration(input: ImportHypervisorConfigurationInput) async throws -> ImportHypervisorConfigurationOutputResponse
+    ///
+    /// - Parameter ImportHypervisorConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `ImportHypervisorConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `AccessDeniedException` : The operation cannot proceed because you have insufficient permissions.
+    /// - `ConflictException` : The operation cannot proceed because it is not supported.
+    func importHypervisorConfiguration(input: ImportHypervisorConfigurationInput) async throws -> ImportHypervisorConfigurationOutput
+    /// Performs the `ListGateways` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// Lists backup gateways owned by an Amazon Web Services account in an Amazon Web Services Region. The returned list is ordered by gateway Amazon Resource Name (ARN).
-    func listGateways(input: ListGatewaysInput) async throws -> ListGatewaysOutputResponse
+    ///
+    /// - Parameter ListGatewaysInput : [no documentation found]
+    ///
+    /// - Returns: `ListGatewaysOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    func listGateways(input: ListGatewaysInput) async throws -> ListGatewaysOutput
+    /// Performs the `ListHypervisors` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// Lists your hypervisors.
-    func listHypervisors(input: ListHypervisorsInput) async throws -> ListHypervisorsOutputResponse
+    ///
+    /// - Parameter ListHypervisorsInput : [no documentation found]
+    ///
+    /// - Returns: `ListHypervisorsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    func listHypervisors(input: ListHypervisorsInput) async throws -> ListHypervisorsOutput
+    /// Performs the `ListTagsForResource` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// Lists the tags applied to the resource identified by its Amazon Resource Name (ARN).
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `ListVirtualMachines` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// Lists your virtual machines.
-    func listVirtualMachines(input: ListVirtualMachinesInput) async throws -> ListVirtualMachinesOutputResponse
+    ///
+    /// - Parameter ListVirtualMachinesInput : [no documentation found]
+    ///
+    /// - Returns: `ListVirtualMachinesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    func listVirtualMachines(input: ListVirtualMachinesInput) async throws -> ListVirtualMachinesOutput
+    /// Performs the `PutBandwidthRateLimitSchedule` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// This action sets the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have a bandwidth rate limit schedule, which means no bandwidth rate limiting is in effect. Use this to initiate a gateway's bandwidth rate limit schedule.
-    func putBandwidthRateLimitSchedule(input: PutBandwidthRateLimitScheduleInput) async throws -> PutBandwidthRateLimitScheduleOutputResponse
+    ///
+    /// - Parameter PutBandwidthRateLimitScheduleInput : [no documentation found]
+    ///
+    /// - Returns: `PutBandwidthRateLimitScheduleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
+    func putBandwidthRateLimitSchedule(input: PutBandwidthRateLimitScheduleInput) async throws -> PutBandwidthRateLimitScheduleOutput
+    /// Performs the `PutHypervisorPropertyMappings` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// This action sets the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the on-premises hypervisor to the properties available in Amazon Web Services.
-    func putHypervisorPropertyMappings(input: PutHypervisorPropertyMappingsInput) async throws -> PutHypervisorPropertyMappingsOutputResponse
+    ///
+    /// - Parameter PutHypervisorPropertyMappingsInput : [no documentation found]
+    ///
+    /// - Returns: `PutHypervisorPropertyMappingsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `AccessDeniedException` : The operation cannot proceed because you have insufficient permissions.
+    /// - `ConflictException` : The operation cannot proceed because it is not supported.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
+    func putHypervisorPropertyMappings(input: PutHypervisorPropertyMappingsInput) async throws -> PutHypervisorPropertyMappingsOutput
+    /// Performs the `PutMaintenanceStartTime` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// Set the maintenance start time for a gateway.
-    func putMaintenanceStartTime(input: PutMaintenanceStartTimeInput) async throws -> PutMaintenanceStartTimeOutputResponse
+    ///
+    /// - Parameter PutMaintenanceStartTimeInput : [no documentation found]
+    ///
+    /// - Returns: `PutMaintenanceStartTimeOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ConflictException` : The operation cannot proceed because it is not supported.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
+    func putMaintenanceStartTime(input: PutMaintenanceStartTimeInput) async throws -> PutMaintenanceStartTimeOutput
+    /// Performs the `StartVirtualMachinesMetadataSync` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// This action sends a request to sync metadata across the specified virtual machines.
-    func startVirtualMachinesMetadataSync(input: StartVirtualMachinesMetadataSyncInput) async throws -> StartVirtualMachinesMetadataSyncOutputResponse
+    ///
+    /// - Parameter StartVirtualMachinesMetadataSyncInput : [no documentation found]
+    ///
+    /// - Returns: `StartVirtualMachinesMetadataSyncOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `AccessDeniedException` : The operation cannot proceed because you have insufficient permissions.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
+    func startVirtualMachinesMetadataSync(input: StartVirtualMachinesMetadataSyncInput) async throws -> StartVirtualMachinesMetadataSyncOutput
+    /// Performs the `TagResource` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// Tag the resource.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `TestHypervisorConfiguration` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// Tests your hypervisor configuration to validate that backup gateway can connect with the hypervisor and its resources.
-    func testHypervisorConfiguration(input: TestHypervisorConfigurationInput) async throws -> TestHypervisorConfigurationOutputResponse
+    ///
+    /// - Parameter TestHypervisorConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `TestHypervisorConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ConflictException` : The operation cannot proceed because it is not supported.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
+    func testHypervisorConfiguration(input: TestHypervisorConfigurationInput) async throws -> TestHypervisorConfigurationOutput
+    /// Performs the `UntagResource` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// Removes tags from the resource.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateGatewayInformation` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// Updates a gateway's name. Specify which gateway to update using the Amazon Resource Name (ARN) of the gateway in your request.
-    func updateGatewayInformation(input: UpdateGatewayInformationInput) async throws -> UpdateGatewayInformationOutputResponse
+    ///
+    /// - Parameter UpdateGatewayInformationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateGatewayInformationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ConflictException` : The operation cannot proceed because it is not supported.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
+    func updateGatewayInformation(input: UpdateGatewayInformationInput) async throws -> UpdateGatewayInformationOutput
+    /// Performs the `UpdateGatewaySoftwareNow` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// Updates the gateway virtual machine (VM) software. The request immediately triggers the software update. When you make this request, you get a 200 OK success response immediately. However, it might take some time for the update to complete.
-    func updateGatewaySoftwareNow(input: UpdateGatewaySoftwareNowInput) async throws -> UpdateGatewaySoftwareNowOutputResponse
+    ///
+    /// - Parameter UpdateGatewaySoftwareNowInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateGatewaySoftwareNowOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
+    func updateGatewaySoftwareNow(input: UpdateGatewaySoftwareNowInput) async throws -> UpdateGatewaySoftwareNowOutput
+    /// Performs the `UpdateHypervisor` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// Updates a hypervisor metadata, including its host, username, and password. Specify which hypervisor to update using the Amazon Resource Name (ARN) of the hypervisor in your request.
-    func updateHypervisor(input: UpdateHypervisorInput) async throws -> UpdateHypervisorOutputResponse
+    ///
+    /// - Parameter UpdateHypervisorInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateHypervisorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `AccessDeniedException` : The operation cannot proceed because you have insufficient permissions.
+    /// - `ConflictException` : The operation cannot proceed because it is not supported.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
+    func updateHypervisor(input: UpdateHypervisorInput) async throws -> UpdateHypervisorOutput
 }
 
 public enum BackupGatewayClientTypes {}

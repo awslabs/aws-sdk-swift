@@ -2,20 +2,199 @@
 
 import ClientRuntime
 
-/// This is the API Reference Guide for the zonal shift feature of Amazon Route 53 Application Recovery Controller. This guide is for developers who need detailed information about zonal shift API actions, data types, and errors. Zonal shift is in preview release for Amazon Route 53 Application Recovery Controller and is subject to change. Zonal shift in Route 53 ARC enables you to move traffic for a load balancer resource away from an Availability Zone. Starting a zonal shift helps your application recover immediately, for example, from a developer's bad code deployment or from an AWS infrastructure failure in a single Availability Zone, reducing the impact and time lost from an issue in one zone. Supported AWS resources are automatically registered with Route 53 ARC. Resources that are registered for zonal shifts in Route 53 ARC are managed resources in Route 53 ARC. You can start a zonal shift for any managed resource in your account in a Region. At this time, you can only start a zonal shift for Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off. Zonal shifts are temporary. You must specify an expiration when you start a zonal shift, of up to three days initially. If you want to still keep traffic away from an Availability Zone, you can update the zonal shift and set a new expiration. You can also cancel a zonal shift, before it expires, for example, if you're ready to restore traffic to the Availability Zone. For more information about using zonal shift, see the [Amazon Route 53 Application Recovery Controller Developer Guide](https://docs.aws.amazon.com/r53recovery/latest/dg/what-is-route53-recovery.html).
+/// Welcome to the Zonal Shift API Reference Guide for Amazon Route 53 Application Recovery Controller (Route 53 ARC). You can start a zonal shift to move traffic for a load balancer resource away from an Availability Zone to help your application recover quickly from an impairment in an Availability Zone. For example, you can recover your application from a developer's bad code deployment or from an Amazon Web Services infrastructure failure in a single Availability Zone. You can also configure zonal autoshift for a load balancer resource. Zonal autoshift is a capability in Route 53 ARC where Amazon Web Services shifts away application resource traffic from an Availability Zone, on your behalf, to help reduce your time to recovery during events. Amazon Web Services shifts away traffic for resources that are enabled for zonal autoshift whenever Amazon Web Services determines that there's an issue in the Availability Zone that could potentially affect customers. To ensure that zonal autoshift is safe for your application, you must also configure practice runs when you enable zonal autoshift for a resource. Practice runs start weekly zonal shifts for a resource, to shift traffic for the resource out of an Availability Zone. Practice runs make sure, on a regular basis, that you have enough capacity in all the Availability Zones in an Amazon Web Services Region for your application to continue to operate normally when traffic for a resource is shifted away from one Availability Zone. You must prescale resource capacity in all Availability Zones in the Region where your application is deployed, before you configure practice runs or enable zonal autoshift for a resource. You should not rely on scaling on demand when an autoshift or practice run starts. For more information about using zonal shift and zonal autoshift, see the [Amazon Route 53 Application Recovery Controller Developer Guide](https://docs.aws.amazon.com/r53recovery/latest/dg/what-is-route53-recovery.html).
 public protocol ARCZonalShiftClientProtocol {
-    /// Cancel a zonal shift in Amazon Route 53 Application Recovery Controller that you've started for a resource in your AWS account in an AWS Region.
-    func cancelZonalShift(input: CancelZonalShiftInput) async throws -> CancelZonalShiftOutputResponse
-    /// Get information about a resource that's been registered for zonal shifts with Amazon Route 53 Application Recovery Controller in this AWS Region. Resources that are registered for zonal shifts are managed resources in Route 53 ARC. At this time, you can only start a zonal shift for Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
-    func getManagedResource(input: GetManagedResourceInput) async throws -> GetManagedResourceOutputResponse
-    /// Lists all the resources in your AWS account in this AWS Region that are managed for zonal shifts in Amazon Route 53 Application Recovery Controller, and information about them. The information includes their Amazon Resource Names (ARNs), the Availability Zones the resources are deployed in, and the resource name.
-    func listManagedResources(input: ListManagedResourcesInput) async throws -> ListManagedResourcesOutputResponse
-    /// Lists all the active zonal shifts in Amazon Route 53 Application Recovery Controller in your AWS account in this AWS Region.
-    func listZonalShifts(input: ListZonalShiftsInput) async throws -> ListZonalShiftsOutputResponse
-    /// You start a zonal shift to temporarily move load balancer traffic away from an Availability Zone in a AWS Region, to help your application recover immediately, for example, from a developer's bad code deployment or from an AWS infrastructure failure in a single Availability Zone. You can start a zonal shift in Route 53 ARC only for managed resources in your account in an AWS Region. Resources are automatically registered with Route 53 ARC by AWS services. At this time, you can only start a zonal shift for Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off. When you start a zonal shift, traffic for the resource is no longer routed to the Availability Zone. The zonal shift is created immediately in Route 53 ARC. However, it can take a short time, typically up to a few minutes, for existing, in-progress connections in the Availability Zone to complete. For more information, see [Zonal shift](https://docs.aws.amazon.com/r53recovery/latest/dg/arc-zonal-shift.html) in the Amazon Route 53 Application Recovery Controller Developer Guide.
-    func startZonalShift(input: StartZonalShiftInput) async throws -> StartZonalShiftOutputResponse
-    /// Update an active zonal shift in Amazon Route 53 Application Recovery Controller in your AWS account. You can update a zonal shift to set a new expiration, or edit or replace the comment for the zonal shift.
-    func updateZonalShift(input: UpdateZonalShiftInput) async throws -> UpdateZonalShiftOutputResponse
+    /// Performs the `CancelZonalShift` operation on the `PercDataPlane` service.
+    ///
+    /// Cancel a zonal shift in Amazon Route 53 Application Recovery Controller. To cancel the zonal shift, specify the zonal shift ID. A zonal shift can be one that you've started for a resource in your Amazon Web Services account in an Amazon Web Services Region, or it can be a zonal shift started by a practice run with zonal autoshift.
+    ///
+    /// - Parameter CancelZonalShiftInput : [no documentation found]
+    ///
+    /// - Returns: `CancelZonalShiftOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ResourceNotFoundException` : The input requested a resource that was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    func cancelZonalShift(input: CancelZonalShiftInput) async throws -> CancelZonalShiftOutput
+    /// Performs the `CreatePracticeRunConfiguration` operation on the `PercDataPlane` service.
+    ///
+    /// A practice run configuration for zonal autoshift is required when you enable zonal autoshift. A practice run configuration includes specifications for blocked dates and blocked time windows, and for Amazon CloudWatch alarms that you create to use with practice runs. The alarms that you specify are an outcome alarm, to monitor application health during practice runs and, optionally, a blocking alarm, to block practice runs from starting. For more information, see [ Considerations when you configure zonal autoshift](https://docs.aws.amazon.com/r53recovery/latest/dg/arc-zonal-autoshift.considerations.html) in the Amazon Route 53 Application Recovery Controller Developer Guide.
+    ///
+    /// - Parameter CreatePracticeRunConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePracticeRunConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ResourceNotFoundException` : The input requested a resource that was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    func createPracticeRunConfiguration(input: CreatePracticeRunConfigurationInput) async throws -> CreatePracticeRunConfigurationOutput
+    /// Performs the `DeletePracticeRunConfiguration` operation on the `PercDataPlane` service.
+    ///
+    /// Deletes the practice run configuration for a resource. Before you can delete a practice run configuration for a resource., you must disable zonal autoshift for the resource. Practice runs must be configured for zonal autoshift to be enabled.
+    ///
+    /// - Parameter DeletePracticeRunConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePracticeRunConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ResourceNotFoundException` : The input requested a resource that was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    func deletePracticeRunConfiguration(input: DeletePracticeRunConfigurationInput) async throws -> DeletePracticeRunConfigurationOutput
+    /// Performs the `GetManagedResource` operation on the `PercDataPlane` service.
+    ///
+    /// Get information about a resource that's been registered for zonal shifts with Amazon Route 53 Application Recovery Controller in this Amazon Web Services Region. Resources that are registered for zonal shifts are managed resources in Route 53 ARC. You can start zonal shifts and configure zonal autoshift for managed resources. At this time, you can only start a zonal shift or configure zonal autoshift for Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
+    ///
+    /// - Parameter GetManagedResourceInput : [no documentation found]
+    ///
+    /// - Returns: `GetManagedResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ResourceNotFoundException` : The input requested a resource that was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    func getManagedResource(input: GetManagedResourceInput) async throws -> GetManagedResourceOutput
+    /// Performs the `ListAutoshifts` operation on the `PercDataPlane` service.
+    ///
+    /// Returns the active autoshifts for a specified resource.
+    ///
+    /// - Parameter ListAutoshiftsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAutoshiftsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    func listAutoshifts(input: ListAutoshiftsInput) async throws -> ListAutoshiftsOutput
+    /// Performs the `ListManagedResources` operation on the `PercDataPlane` service.
+    ///
+    /// Lists all the resources in your Amazon Web Services account in this Amazon Web Services Region that are managed for zonal shifts in Amazon Route 53 Application Recovery Controller, and information about them. The information includes the zonal autoshift status for the resource, as well as the Amazon Resource Name (ARN), the Availability Zones that each resource is deployed in, and the resource name.
+    ///
+    /// - Parameter ListManagedResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListManagedResourcesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    func listManagedResources(input: ListManagedResourcesInput) async throws -> ListManagedResourcesOutput
+    /// Performs the `ListZonalShifts` operation on the `PercDataPlane` service.
+    ///
+    /// Lists all active and completed zonal shifts in Amazon Route 53 Application Recovery Controller in your Amazon Web Services account in this Amazon Web Services Region. ListZonalShifts returns customer-started zonal shifts, as well as practice run zonal shifts that Route 53 ARC started on your behalf for zonal autoshift. The ListZonalShifts operation does not list autoshifts. For more information about listing autoshifts, see [">ListAutoshifts](https://docs.aws.amazon.com/arc-zonal-shift/latest/api/API_ListAutoshifts.html).
+    ///
+    /// - Parameter ListZonalShiftsInput : [no documentation found]
+    ///
+    /// - Returns: `ListZonalShiftsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    func listZonalShifts(input: ListZonalShiftsInput) async throws -> ListZonalShiftsOutput
+    /// Performs the `StartZonalShift` operation on the `PercDataPlane` service.
+    ///
+    /// You start a zonal shift to temporarily move load balancer traffic away from an Availability Zone in an Amazon Web Services Region, to help your application recover immediately, for example, from a developer's bad code deployment or from an Amazon Web Services infrastructure failure in a single Availability Zone. You can start a zonal shift in Route 53 ARC only for managed resources in your Amazon Web Services account in an Amazon Web Services Region. Resources are automatically registered with Route 53 ARC by Amazon Web Services services. At this time, you can only start a zonal shift for Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off. When you start a zonal shift, traffic for the resource is no longer routed to the Availability Zone. The zonal shift is created immediately in Route 53 ARC. However, it can take a short time, typically up to a few minutes, for existing, in-progress connections in the Availability Zone to complete. For more information, see [Zonal shift](https://docs.aws.amazon.com/r53recovery/latest/dg/arc-zonal-shift.html) in the Amazon Route 53 Application Recovery Controller Developer Guide.
+    ///
+    /// - Parameter StartZonalShiftInput : [no documentation found]
+    ///
+    /// - Returns: `StartZonalShiftOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ResourceNotFoundException` : The input requested a resource that was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    func startZonalShift(input: StartZonalShiftInput) async throws -> StartZonalShiftOutput
+    /// Performs the `UpdatePracticeRunConfiguration` operation on the `PercDataPlane` service.
+    ///
+    /// Update a practice run configuration to change one or more of the following: add, change, or remove the blocking alarm; change the outcome alarm; or add, change, or remove blocking dates or time windows.
+    ///
+    /// - Parameter UpdatePracticeRunConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePracticeRunConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ResourceNotFoundException` : The input requested a resource that was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    func updatePracticeRunConfiguration(input: UpdatePracticeRunConfigurationInput) async throws -> UpdatePracticeRunConfigurationOutput
+    /// Performs the `UpdateZonalAutoshiftConfiguration` operation on the `PercDataPlane` service.
+    ///
+    /// You can update the zonal autoshift status for a resource, to enable or disable zonal autoshift. When zonal autoshift is ENABLED, Amazon Web Services shifts away resource traffic from an Availability Zone, on your behalf, when Amazon Web Services determines that there's an issue in the Availability Zone that could potentially affect customers.
+    ///
+    /// - Parameter UpdateZonalAutoshiftConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateZonalAutoshiftConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ResourceNotFoundException` : The input requested a resource that was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    func updateZonalAutoshiftConfiguration(input: UpdateZonalAutoshiftConfigurationInput) async throws -> UpdateZonalAutoshiftConfigurationOutput
+    /// Performs the `UpdateZonalShift` operation on the `PercDataPlane` service.
+    ///
+    /// Update an active zonal shift in Amazon Route 53 Application Recovery Controller in your Amazon Web Services account. You can update a zonal shift to set a new expiration, or edit or replace the comment for the zonal shift.
+    ///
+    /// - Parameter UpdateZonalShiftInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateZonalShiftOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ResourceNotFoundException` : The input requested a resource that was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    func updateZonalShift(input: UpdateZonalShiftInput) async throws -> UpdateZonalShiftOutput
 }
 
 public enum ARCZonalShiftClientTypes {}

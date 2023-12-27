@@ -84,7 +84,7 @@ extension AddDraftAppVersionResourceMappingsInput: ClientRuntime.URLPathProvider
 }
 
 public struct AddDraftAppVersionResourceMappingsInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Mappings used to map logical resources from the template to physical resources. You can use the mapping type CFN_STACK if the application template uses a logical stack name. Or you can map individual resources by using the mapping type RESOURCE. We recommend using the mapping type CFN_STACK if the application is backed by a CloudFormation stack.
@@ -130,27 +130,11 @@ extension AddDraftAppVersionResourceMappingsInputBody: Swift.Decodable {
     }
 }
 
-public enum AddDraftAppVersionResourceMappingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension AddDraftAppVersionResourceMappingsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension AddDraftAppVersionResourceMappingsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: AddDraftAppVersionResourceMappingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: AddDraftAppVersionResourceMappingsOutputBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appVersion = output.appVersion
             self.resourceMappings = output.resourceMappings
@@ -162,8 +146,8 @@ extension AddDraftAppVersionResourceMappingsOutputResponse: ClientRuntime.HttpRe
     }
 }
 
-public struct AddDraftAppVersionResourceMappingsOutputResponse: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+public struct AddDraftAppVersionResourceMappingsOutput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -185,13 +169,13 @@ public struct AddDraftAppVersionResourceMappingsOutputResponse: Swift.Equatable 
     }
 }
 
-struct AddDraftAppVersionResourceMappingsOutputResponseBody: Swift.Equatable {
+struct AddDraftAppVersionResourceMappingsOutputBody: Swift.Equatable {
     let appArn: Swift.String?
     let appVersion: Swift.String?
     let resourceMappings: [ResiliencehubClientTypes.ResourceMapping]?
 }
 
-extension AddDraftAppVersionResourceMappingsOutputResponseBody: Swift.Decodable {
+extension AddDraftAppVersionResourceMappingsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case appVersion
@@ -218,6 +202,22 @@ extension AddDraftAppVersionResourceMappingsOutputResponseBody: Swift.Decodable 
     }
 }
 
+enum AddDraftAppVersionResourceMappingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ResiliencehubClientTypes.AlarmRecommendation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appComponentName
@@ -227,6 +227,7 @@ extension ResiliencehubClientTypes.AlarmRecommendation: Swift.Codable {
         case name
         case prerequisite
         case recommendationId
+        case recommendationStatus
         case referenceId
         case type
     }
@@ -259,6 +260,9 @@ extension ResiliencehubClientTypes.AlarmRecommendation: Swift.Codable {
         }
         if let recommendationId = self.recommendationId {
             try encodeContainer.encode(recommendationId, forKey: .recommendationId)
+        }
+        if let recommendationStatus = self.recommendationStatus {
+            try encodeContainer.encode(recommendationStatus.rawValue, forKey: .recommendationStatus)
         }
         if let referenceId = self.referenceId {
             try encodeContainer.encode(referenceId, forKey: .referenceId)
@@ -306,6 +310,8 @@ extension ResiliencehubClientTypes.AlarmRecommendation: Swift.Codable {
             }
         }
         appComponentNames = appComponentNamesDecoded0
+        let recommendationStatusDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.RecommendationStatus.self, forKey: .recommendationStatus)
+        recommendationStatus = recommendationStatusDecoded
     }
 }
 
@@ -329,6 +335,8 @@ extension ResiliencehubClientTypes {
         /// Identifier of the alarm recommendation.
         /// This member is required.
         public var recommendationId: Swift.String?
+        /// Status of the recommended Amazon CloudWatch alarm.
+        public var recommendationStatus: ResiliencehubClientTypes.RecommendationStatus?
         /// Reference identifier of the alarm recommendation.
         /// This member is required.
         public var referenceId: Swift.String?
@@ -344,6 +352,7 @@ extension ResiliencehubClientTypes {
             name: Swift.String? = nil,
             prerequisite: Swift.String? = nil,
             recommendationId: Swift.String? = nil,
+            recommendationStatus: ResiliencehubClientTypes.RecommendationStatus? = nil,
             referenceId: Swift.String? = nil,
             type: ResiliencehubClientTypes.AlarmType? = nil
         )
@@ -355,6 +364,7 @@ extension ResiliencehubClientTypes {
             self.name = name
             self.prerequisite = prerequisite
             self.recommendationId = recommendationId
+            self.recommendationStatus = recommendationStatus
             self.referenceId = referenceId
             self.type = type
         }
@@ -419,6 +429,8 @@ extension ResiliencehubClientTypes.App: Swift.Codable {
         case permissionModel
         case policyArn
         case resiliencyScore
+        case rpoInSecs
+        case rtoInSecs
         case status
         case tags
     }
@@ -469,6 +481,12 @@ extension ResiliencehubClientTypes.App: Swift.Codable {
         }
         if resiliencyScore != 0.0 {
             try encodeContainer.encode(resiliencyScore, forKey: .resiliencyScore)
+        }
+        if let rpoInSecs = self.rpoInSecs {
+            try encodeContainer.encode(rpoInSecs, forKey: .rpoInSecs)
+        }
+        if let rtoInSecs = self.rtoInSecs {
+            try encodeContainer.encode(rtoInSecs, forKey: .rtoInSecs)
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
@@ -533,25 +551,29 @@ extension ResiliencehubClientTypes.App: Swift.Codable {
         driftStatus = driftStatusDecoded
         let lastDriftEvaluationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastDriftEvaluationTime)
         lastDriftEvaluationTime = lastDriftEvaluationTimeDecoded
+        let rtoInSecsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rtoInSecs)
+        rtoInSecs = rtoInSecsDecoded
+        let rpoInSecsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rpoInSecs)
+        rpoInSecs = rpoInSecsDecoded
     }
 }
 
 extension ResiliencehubClientTypes.App: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "App(appArn: \(Swift.String(describing: appArn)), assessmentSchedule: \(Swift.String(describing: assessmentSchedule)), complianceStatus: \(Swift.String(describing: complianceStatus)), creationTime: \(Swift.String(describing: creationTime)), description: \(Swift.String(describing: description)), driftStatus: \(Swift.String(describing: driftStatus)), eventSubscriptions: \(Swift.String(describing: eventSubscriptions)), lastAppComplianceEvaluationTime: \(Swift.String(describing: lastAppComplianceEvaluationTime)), lastDriftEvaluationTime: \(Swift.String(describing: lastDriftEvaluationTime)), lastResiliencyScoreEvaluationTime: \(Swift.String(describing: lastResiliencyScoreEvaluationTime)), name: \(Swift.String(describing: name)), permissionModel: \(Swift.String(describing: permissionModel)), policyArn: \(Swift.String(describing: policyArn)), resiliencyScore: \(Swift.String(describing: resiliencyScore)), status: \(Swift.String(describing: status)), tags: \"CONTENT_REDACTED\")"}
+        "App(appArn: \(Swift.String(describing: appArn)), assessmentSchedule: \(Swift.String(describing: assessmentSchedule)), complianceStatus: \(Swift.String(describing: complianceStatus)), creationTime: \(Swift.String(describing: creationTime)), description: \(Swift.String(describing: description)), driftStatus: \(Swift.String(describing: driftStatus)), eventSubscriptions: \(Swift.String(describing: eventSubscriptions)), lastAppComplianceEvaluationTime: \(Swift.String(describing: lastAppComplianceEvaluationTime)), lastDriftEvaluationTime: \(Swift.String(describing: lastDriftEvaluationTime)), lastResiliencyScoreEvaluationTime: \(Swift.String(describing: lastResiliencyScoreEvaluationTime)), name: \(Swift.String(describing: name)), permissionModel: \(Swift.String(describing: permissionModel)), policyArn: \(Swift.String(describing: policyArn)), resiliencyScore: \(Swift.String(describing: resiliencyScore)), rpoInSecs: \(Swift.String(describing: rpoInSecs)), rtoInSecs: \(Swift.String(describing: rtoInSecs)), status: \(Swift.String(describing: status)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension ResiliencehubClientTypes {
     /// Defines an Resilience Hub application.
     public struct App: Swift.Equatable {
-        /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
         /// This member is required.
         public var appArn: Swift.String?
         /// Assessment execution schedule with 'Daily' or 'Disabled' values.
         public var assessmentSchedule: ResiliencehubClientTypes.AppAssessmentScheduleType?
         /// Current status of compliance for the resiliency policy.
         public var complianceStatus: ResiliencehubClientTypes.AppComplianceStatusType?
-        /// Timestamp for when the app was created.
+        /// Date and time when the app was created.
         /// This member is required.
         public var creationTime: ClientRuntime.Date?
         /// Optional description for an application.
@@ -560,21 +582,25 @@ extension ResiliencehubClientTypes {
         public var driftStatus: ResiliencehubClientTypes.AppDriftStatusType?
         /// The list of events you would like to subscribe and get notification for. Currently, Resilience Hub supports notifications only for Drift detected and Scheduled assessment failure events.
         public var eventSubscriptions: [ResiliencehubClientTypes.EventSubscription]?
-        /// Timestamp for the most recent compliance evaluation.
+        /// Date and time the most recent compliance evaluation.
         public var lastAppComplianceEvaluationTime: ClientRuntime.Date?
         /// Indicates the last time that a drift was evaluated.
         public var lastDriftEvaluationTime: ClientRuntime.Date?
-        /// Timestamp for the most recent resiliency score evaluation.
+        /// Date and time the most recent resiliency score evaluation.
         public var lastResiliencyScoreEvaluationTime: ClientRuntime.Date?
         /// Name for the application.
         /// This member is required.
         public var name: Swift.String?
         /// Defines the roles and credentials that Resilience Hub would use while creating the application, importing its resources, and running an assessment.
         public var permissionModel: ResiliencehubClientTypes.PermissionModel?
-        /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
         public var policyArn: Swift.String?
         /// Current resiliency score for the application.
         public var resiliencyScore: Swift.Double
+        /// Recovery Point Objective (RPO) in seconds.
+        public var rpoInSecs: Swift.Int?
+        /// Recovery Time Objective (RTO) in seconds.
+        public var rtoInSecs: Swift.Int?
         /// Status of the application.
         public var status: ResiliencehubClientTypes.AppStatusType?
         /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair.
@@ -595,6 +621,8 @@ extension ResiliencehubClientTypes {
             permissionModel: ResiliencehubClientTypes.PermissionModel? = nil,
             policyArn: Swift.String? = nil,
             resiliencyScore: Swift.Double = 0.0,
+            rpoInSecs: Swift.Int? = nil,
+            rtoInSecs: Swift.Int? = nil,
             status: ResiliencehubClientTypes.AppStatusType? = nil,
             tags: [Swift.String:Swift.String]? = nil
         )
@@ -613,6 +641,8 @@ extension ResiliencehubClientTypes {
             self.permissionModel = permissionModel
             self.policyArn = policyArn
             self.resiliencyScore = resiliencyScore
+            self.rpoInSecs = rpoInSecs
+            self.rtoInSecs = rtoInSecs
             self.status = status
             self.tags = tags
         }
@@ -773,11 +803,11 @@ extension ResiliencehubClientTypes.AppAssessment: Swift.CustomDebugStringConvert
 extension ResiliencehubClientTypes {
     /// Defines an application assessment.
     public struct AppAssessment: Swift.Equatable {
-        /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
         public var appArn: Swift.String?
         /// Version of an application.
         public var appVersion: Swift.String?
-        /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
         /// This member is required.
         public var assessmentArn: Swift.String?
         /// Name of the assessment.
@@ -989,11 +1019,11 @@ extension ResiliencehubClientTypes.AppAssessmentSummary: Swift.Codable {
 extension ResiliencehubClientTypes {
     /// Defines an application assessment summary.
     public struct AppAssessmentSummary: Swift.Equatable {
-        /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
         public var appArn: Swift.String?
         /// Version of an application.
         public var appVersion: Swift.String?
-        /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
         /// This member is required.
         public var assessmentArn: Swift.String?
         /// Name of the assessment.
@@ -1374,7 +1404,7 @@ extension ResiliencehubClientTypes {
         public var importType: ResiliencehubClientTypes.ResourceMappingType?
         /// The number of resources.
         public var resourceCount: Swift.Int
-        /// The Amazon Resource Name (ARN) of the input source. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// The Amazon Resource Name (ARN) of the input source. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
         public var sourceArn: Swift.String?
         /// The name of the input source.
         public var sourceName: Swift.String?
@@ -1441,8 +1471,11 @@ extension ResiliencehubClientTypes.AppSummary: Swift.Codable {
         case creationTime
         case description
         case driftStatus
+        case lastAppComplianceEvaluationTime
         case name
         case resiliencyScore
+        case rpoInSecs
+        case rtoInSecs
         case status
     }
 
@@ -1466,11 +1499,20 @@ extension ResiliencehubClientTypes.AppSummary: Swift.Codable {
         if let driftStatus = self.driftStatus {
             try encodeContainer.encode(driftStatus.rawValue, forKey: .driftStatus)
         }
+        if let lastAppComplianceEvaluationTime = self.lastAppComplianceEvaluationTime {
+            try encodeContainer.encodeTimestamp(lastAppComplianceEvaluationTime, format: .epochSeconds, forKey: .lastAppComplianceEvaluationTime)
+        }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
         if resiliencyScore != 0.0 {
             try encodeContainer.encode(resiliencyScore, forKey: .resiliencyScore)
+        }
+        if let rpoInSecs = self.rpoInSecs {
+            try encodeContainer.encode(rpoInSecs, forKey: .rpoInSecs)
+        }
+        if let rtoInSecs = self.rtoInSecs {
+            try encodeContainer.encode(rtoInSecs, forKey: .rtoInSecs)
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
@@ -1497,31 +1539,43 @@ extension ResiliencehubClientTypes.AppSummary: Swift.Codable {
         status = statusDecoded
         let driftStatusDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.AppDriftStatusType.self, forKey: .driftStatus)
         driftStatus = driftStatusDecoded
+        let lastAppComplianceEvaluationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastAppComplianceEvaluationTime)
+        lastAppComplianceEvaluationTime = lastAppComplianceEvaluationTimeDecoded
+        let rtoInSecsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rtoInSecs)
+        rtoInSecs = rtoInSecsDecoded
+        let rpoInSecsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rpoInSecs)
+        rpoInSecs = rpoInSecsDecoded
     }
 }
 
 extension ResiliencehubClientTypes {
     /// Defines an application summary.
     public struct AppSummary: Swift.Equatable {
-        /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
         /// This member is required.
         public var appArn: Swift.String?
         /// Assessment execution schedule with 'Daily' or 'Disabled' values.
         public var assessmentSchedule: ResiliencehubClientTypes.AppAssessmentScheduleType?
         /// The current status of compliance for the resiliency policy.
         public var complianceStatus: ResiliencehubClientTypes.AppComplianceStatusType?
-        /// The timestamp for when the app was created.
+        /// Date and time when the app was created.
         /// This member is required.
         public var creationTime: ClientRuntime.Date?
         /// The optional description for an app.
         public var description: Swift.String?
         /// Indicates if compliance drifts (deviations) were detected while running an assessment for your application.
         public var driftStatus: ResiliencehubClientTypes.AppDriftStatusType?
+        /// Date and time of the most recent compliance evaluation.
+        public var lastAppComplianceEvaluationTime: ClientRuntime.Date?
         /// The name of the application.
         /// This member is required.
         public var name: Swift.String?
         /// The current resiliency score for the application.
         public var resiliencyScore: Swift.Double
+        /// Recovery Point Objective (RPO) in seconds.
+        public var rpoInSecs: Swift.Int?
+        /// Recovery Time Objective (RTO) in seconds.
+        public var rtoInSecs: Swift.Int?
         /// Status of the application.
         public var status: ResiliencehubClientTypes.AppStatusType?
 
@@ -1532,8 +1586,11 @@ extension ResiliencehubClientTypes {
             creationTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
             driftStatus: ResiliencehubClientTypes.AppDriftStatusType? = nil,
+            lastAppComplianceEvaluationTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
             resiliencyScore: Swift.Double = 0.0,
+            rpoInSecs: Swift.Int? = nil,
+            rtoInSecs: Swift.Int? = nil,
             status: ResiliencehubClientTypes.AppStatusType? = nil
         )
         {
@@ -1543,8 +1600,11 @@ extension ResiliencehubClientTypes {
             self.creationTime = creationTime
             self.description = description
             self.driftStatus = driftStatus
+            self.lastAppComplianceEvaluationTime = lastAppComplianceEvaluationTime
             self.name = name
             self.resiliencyScore = resiliencyScore
+            self.rpoInSecs = rpoInSecs
+            self.rtoInSecs = rtoInSecs
             self.status = status
         }
     }
@@ -1761,7 +1821,7 @@ extension BatchUpdateRecommendationStatusInput: ClientRuntime.URLPathProvider {
 }
 
 public struct BatchUpdateRecommendationStatusInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Defines the list of operational recommendations that need to be included or excluded.
@@ -1807,26 +1867,11 @@ extension BatchUpdateRecommendationStatusInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchUpdateRecommendationStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchUpdateRecommendationStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchUpdateRecommendationStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchUpdateRecommendationStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchUpdateRecommendationStatusOutputBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.failedEntries = output.failedEntries
             self.successfulEntries = output.successfulEntries
@@ -1838,8 +1883,8 @@ extension BatchUpdateRecommendationStatusOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct BatchUpdateRecommendationStatusOutputResponse: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+public struct BatchUpdateRecommendationStatusOutput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// A list of items with error details about each item, which could not be included or excluded.
@@ -1861,13 +1906,13 @@ public struct BatchUpdateRecommendationStatusOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchUpdateRecommendationStatusOutputResponseBody: Swift.Equatable {
+struct BatchUpdateRecommendationStatusOutputBody: Swift.Equatable {
     let appArn: Swift.String?
     let successfulEntries: [ResiliencehubClientTypes.BatchUpdateRecommendationStatusSuccessfulEntry]?
     let failedEntries: [ResiliencehubClientTypes.BatchUpdateRecommendationStatusFailedEntry]?
 }
 
-extension BatchUpdateRecommendationStatusOutputResponseBody: Swift.Decodable {
+extension BatchUpdateRecommendationStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case failedEntries
@@ -1900,6 +1945,21 @@ extension BatchUpdateRecommendationStatusOutputResponseBody: Swift.Decodable {
             }
         }
         failedEntries = failedEntriesDecoded0
+    }
+}
+
+enum BatchUpdateRecommendationStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2684,7 +2744,7 @@ public struct CreateAppInput: Swift.Equatable {
     public var name: Swift.String?
     /// Defines the roles and credentials that Resilience Hub would use while creating the application, importing its resources, and running an assessment.
     public var permissionModel: ResiliencehubClientTypes.PermissionModel?
-    /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     public var policyArn: Swift.String?
     /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair.
     public var tags: [Swift.String:Swift.String]?
@@ -2773,28 +2833,11 @@ extension CreateAppInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateAppOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateAppOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateAppOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateAppOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateAppOutputBody = try responseDecoder.decode(responseBody: data)
             self.app = output.app
         } else {
             self.app = nil
@@ -2802,7 +2845,7 @@ extension CreateAppOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAppOutputResponse: Swift.Equatable {
+public struct CreateAppOutput: Swift.Equatable {
     /// The created application returned as an object with details including compliance status, creation time, description, resiliency score, and more.
     /// This member is required.
     public var app: ResiliencehubClientTypes.App?
@@ -2815,11 +2858,11 @@ public struct CreateAppOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateAppOutputResponseBody: Swift.Equatable {
+struct CreateAppOutputBody: Swift.Equatable {
     let app: ResiliencehubClientTypes.App?
 }
 
-extension CreateAppOutputResponseBody: Swift.Decodable {
+extension CreateAppOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case app
     }
@@ -2828,6 +2871,23 @@ extension CreateAppOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.App.self, forKey: .app)
         app = appDecoded
+    }
+}
+
+enum CreateAppOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2879,7 +2939,7 @@ extension CreateAppVersionAppComponentInput: ClientRuntime.URLPathProvider {
 public struct CreateAppVersionAppComponentInput: Swift.Equatable {
     /// Currently, there is no supported additional information for Application Components.
     public var additionalInfo: [Swift.String:[Swift.String]]?
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests.
@@ -2963,28 +3023,11 @@ extension CreateAppVersionAppComponentInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateAppVersionAppComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateAppVersionAppComponentOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateAppVersionAppComponentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateAppVersionAppComponentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateAppVersionAppComponentOutputBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appComponent = output.appComponent
             self.appVersion = output.appVersion
@@ -2996,8 +3039,8 @@ extension CreateAppVersionAppComponentOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct CreateAppVersionAppComponentOutputResponse: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+public struct CreateAppVersionAppComponentOutput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// List of Application Components that belong to this resource.
@@ -3018,13 +3061,13 @@ public struct CreateAppVersionAppComponentOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateAppVersionAppComponentOutputResponseBody: Swift.Equatable {
+struct CreateAppVersionAppComponentOutputBody: Swift.Equatable {
     let appArn: Swift.String?
     let appVersion: Swift.String?
     let appComponent: ResiliencehubClientTypes.AppComponent?
 }
 
-extension CreateAppVersionAppComponentOutputResponseBody: Swift.Decodable {
+extension CreateAppVersionAppComponentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case appComponent
@@ -3039,6 +3082,23 @@ extension CreateAppVersionAppComponentOutputResponseBody: Swift.Decodable {
         appVersion = appVersionDecoded
         let appComponentDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.AppComponent.self, forKey: .appComponent)
         appComponent = appComponentDecoded
+    }
+}
+
+enum CreateAppVersionAppComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3109,7 +3169,7 @@ extension CreateAppVersionResourceInput: ClientRuntime.URLPathProvider {
 public struct CreateAppVersionResourceInput: Swift.Equatable {
     /// Currently, there is no supported additional information for resources.
     public var additionalInfo: [Swift.String:[Swift.String]]?
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// List of Application Components that this resource belongs to. If an Application Component is not part of the Resilience Hub application, it will be added.
@@ -3236,28 +3296,11 @@ extension CreateAppVersionResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateAppVersionResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateAppVersionResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateAppVersionResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateAppVersionResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateAppVersionResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appVersion = output.appVersion
             self.physicalResource = output.physicalResource
@@ -3269,8 +3312,8 @@ extension CreateAppVersionResourceOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct CreateAppVersionResourceOutputResponse: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+public struct CreateAppVersionResourceOutput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Resilience Hub application version.
@@ -3291,13 +3334,13 @@ public struct CreateAppVersionResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateAppVersionResourceOutputResponseBody: Swift.Equatable {
+struct CreateAppVersionResourceOutputBody: Swift.Equatable {
     let appArn: Swift.String?
     let appVersion: Swift.String?
     let physicalResource: ResiliencehubClientTypes.PhysicalResource?
 }
 
-extension CreateAppVersionResourceOutputResponseBody: Swift.Decodable {
+extension CreateAppVersionResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case appVersion
@@ -3312,6 +3355,23 @@ extension CreateAppVersionResourceOutputResponseBody: Swift.Decodable {
         appVersion = appVersionDecoded
         let physicalResourceDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.PhysicalResource.self, forKey: .physicalResource)
         physicalResource = physicalResourceDecoded
+    }
+}
+
+enum CreateAppVersionResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3377,7 +3437,7 @@ extension CreateRecommendationTemplateInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateRecommendationTemplateInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var assessmentArn: Swift.String?
     /// The name of the Amazon S3 bucket that will contain the recommendation template.
@@ -3489,8 +3549,48 @@ extension CreateRecommendationTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateRecommendationTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateRecommendationTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateRecommendationTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.recommendationTemplate = output.recommendationTemplate
+        } else {
+            self.recommendationTemplate = nil
+        }
+    }
+}
+
+public struct CreateRecommendationTemplateOutput: Swift.Equatable {
+    /// The newly created recommendation template, returned as an object. This object includes the template's name, format, status, tags, Amazon S3 bucket location, and more.
+    public var recommendationTemplate: ResiliencehubClientTypes.RecommendationTemplate?
+
+    public init(
+        recommendationTemplate: ResiliencehubClientTypes.RecommendationTemplate? = nil
+    )
+    {
+        self.recommendationTemplate = recommendationTemplate
+    }
+}
+
+struct CreateRecommendationTemplateOutputBody: Swift.Equatable {
+    let recommendationTemplate: ResiliencehubClientTypes.RecommendationTemplate?
+}
+
+extension CreateRecommendationTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recommendationTemplate
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recommendationTemplateDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.RecommendationTemplate.self, forKey: .recommendationTemplate)
+        recommendationTemplate = recommendationTemplateDecoded
+    }
+}
+
+enum CreateRecommendationTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3503,46 +3603,6 @@ public enum CreateRecommendationTemplateOutputError: ClientRuntime.HttpResponseE
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateRecommendationTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateRecommendationTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.recommendationTemplate = output.recommendationTemplate
-        } else {
-            self.recommendationTemplate = nil
-        }
-    }
-}
-
-public struct CreateRecommendationTemplateOutputResponse: Swift.Equatable {
-    /// The newly created recommendation template, returned as an object. This object includes the template's name, format, status, tags, Amazon S3 bucket location, and more.
-    public var recommendationTemplate: ResiliencehubClientTypes.RecommendationTemplate?
-
-    public init(
-        recommendationTemplate: ResiliencehubClientTypes.RecommendationTemplate? = nil
-    )
-    {
-        self.recommendationTemplate = recommendationTemplate
-    }
-}
-
-struct CreateRecommendationTemplateOutputResponseBody: Swift.Equatable {
-    let recommendationTemplate: ResiliencehubClientTypes.RecommendationTemplate?
-}
-
-extension CreateRecommendationTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case recommendationTemplate
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let recommendationTemplateDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.RecommendationTemplate.self, forKey: .recommendationTemplate)
-        recommendationTemplate = recommendationTemplateDecoded
     }
 }
 
@@ -3697,27 +3757,11 @@ extension CreateResiliencyPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateResiliencyPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateResiliencyPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateResiliencyPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateResiliencyPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateResiliencyPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
             self.policy = nil
@@ -3725,7 +3769,7 @@ extension CreateResiliencyPolicyOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct CreateResiliencyPolicyOutputResponse: Swift.Equatable {
+public struct CreateResiliencyPolicyOutput: Swift.Equatable {
     /// The type of resiliency policy that was created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.
     /// This member is required.
     public var policy: ResiliencehubClientTypes.ResiliencyPolicy?
@@ -3738,11 +3782,11 @@ public struct CreateResiliencyPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateResiliencyPolicyOutputResponseBody: Swift.Equatable {
+struct CreateResiliencyPolicyOutputBody: Swift.Equatable {
     let policy: ResiliencehubClientTypes.ResiliencyPolicy?
 }
 
-extension CreateResiliencyPolicyOutputResponseBody: Swift.Decodable {
+extension CreateResiliencyPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy
     }
@@ -3751,6 +3795,22 @@ extension CreateResiliencyPolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.ResiliencyPolicy.self, forKey: .policy)
         policy = policyDecoded
+    }
+}
+
+enum CreateResiliencyPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3813,7 +3873,7 @@ extension DeleteAppAssessmentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteAppAssessmentInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var assessmentArn: Swift.String?
     /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests.
@@ -3849,27 +3909,11 @@ extension DeleteAppAssessmentInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteAppAssessmentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteAppAssessmentOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteAppAssessmentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteAppAssessmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteAppAssessmentOutputBody = try responseDecoder.decode(responseBody: data)
             self.assessmentArn = output.assessmentArn
             self.assessmentStatus = output.assessmentStatus
         } else {
@@ -3879,8 +3923,8 @@ extension DeleteAppAssessmentOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAppAssessmentOutputResponse: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+public struct DeleteAppAssessmentOutput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var assessmentArn: Swift.String?
     /// The current status of the assessment for the resiliency policy.
@@ -3897,12 +3941,12 @@ public struct DeleteAppAssessmentOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteAppAssessmentOutputResponseBody: Swift.Equatable {
+struct DeleteAppAssessmentOutputBody: Swift.Equatable {
     let assessmentArn: Swift.String?
     let assessmentStatus: ResiliencehubClientTypes.AssessmentStatus?
 }
 
-extension DeleteAppAssessmentOutputResponseBody: Swift.Decodable {
+extension DeleteAppAssessmentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case assessmentArn
         case assessmentStatus
@@ -3914,6 +3958,22 @@ extension DeleteAppAssessmentOutputResponseBody: Swift.Decodable {
         assessmentArn = assessmentArnDecoded
         let assessmentStatusDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.AssessmentStatus.self, forKey: .assessmentStatus)
         assessmentStatus = assessmentStatusDecoded
+    }
+}
+
+enum DeleteAppAssessmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3945,7 +4005,7 @@ extension DeleteAppInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteAppInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests.
@@ -4025,14 +4085,14 @@ extension DeleteAppInputSourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteAppInputSourceInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests.
     public var clientToken: Swift.String?
     /// The namespace on your Amazon Elastic Kubernetes Service cluster that you want to delete from the Resilience Hub application.
     public var eksSourceClusterNamespace: ResiliencehubClientTypes.EksSourceClusterNamespace?
-    /// The Amazon Resource Name (ARN) of the imported resource you want to remove from the Resilience Hub application. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the imported resource you want to remove from the Resilience Hub application. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     public var sourceArn: Swift.String?
     /// The imported Terraform s3 state ﬁle you want to remove from the Resilience Hub application.
     public var terraformSource: ResiliencehubClientTypes.TerraformSource?
@@ -4085,27 +4145,11 @@ extension DeleteAppInputSourceInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteAppInputSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteAppInputSourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteAppInputSourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteAppInputSourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteAppInputSourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appInputSource = output.appInputSource
         } else {
@@ -4115,8 +4159,8 @@ extension DeleteAppInputSourceOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DeleteAppInputSourceOutputResponse: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+public struct DeleteAppInputSourceOutput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     public var appArn: Swift.String?
     /// Name of the input source from where the application resource is imported from.
     public var appInputSource: ResiliencehubClientTypes.AppInputSource?
@@ -4131,12 +4175,12 @@ public struct DeleteAppInputSourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteAppInputSourceOutputResponseBody: Swift.Equatable {
+struct DeleteAppInputSourceOutputBody: Swift.Equatable {
     let appArn: Swift.String?
     let appInputSource: ResiliencehubClientTypes.AppInputSource?
 }
 
-extension DeleteAppInputSourceOutputResponseBody: Swift.Decodable {
+extension DeleteAppInputSourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case appInputSource
@@ -4151,11 +4195,12 @@ extension DeleteAppInputSourceOutputResponseBody: Swift.Decodable {
     }
 }
 
-public enum DeleteAppOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteAppInputSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -4166,11 +4211,11 @@ public enum DeleteAppOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteAppOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteAppOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteAppOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteAppOutputBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
         } else {
             self.appArn = nil
@@ -4178,8 +4223,8 @@ extension DeleteAppOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAppOutputResponse: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+public struct DeleteAppOutput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
 
@@ -4191,11 +4236,11 @@ public struct DeleteAppOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteAppOutputResponseBody: Swift.Equatable {
+struct DeleteAppOutputBody: Swift.Equatable {
     let appArn: Swift.String?
 }
 
-extension DeleteAppOutputResponseBody: Swift.Decodable {
+extension DeleteAppOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
     }
@@ -4204,6 +4249,21 @@ extension DeleteAppOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appArn)
         appArn = appArnDecoded
+    }
+}
+
+enum DeleteAppOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4235,7 +4295,7 @@ extension DeleteAppVersionAppComponentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteAppVersionAppComponentInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests.
@@ -4280,27 +4340,11 @@ extension DeleteAppVersionAppComponentInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteAppVersionAppComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteAppVersionAppComponentOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteAppVersionAppComponentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteAppVersionAppComponentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteAppVersionAppComponentOutputBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appComponent = output.appComponent
             self.appVersion = output.appVersion
@@ -4312,8 +4356,8 @@ extension DeleteAppVersionAppComponentOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct DeleteAppVersionAppComponentOutputResponse: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+public struct DeleteAppVersionAppComponentOutput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// List of Application Components that belong to this resource.
@@ -4334,13 +4378,13 @@ public struct DeleteAppVersionAppComponentOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteAppVersionAppComponentOutputResponseBody: Swift.Equatable {
+struct DeleteAppVersionAppComponentOutputBody: Swift.Equatable {
     let appArn: Swift.String?
     let appVersion: Swift.String?
     let appComponent: ResiliencehubClientTypes.AppComponent?
 }
 
-extension DeleteAppVersionAppComponentOutputResponseBody: Swift.Decodable {
+extension DeleteAppVersionAppComponentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case appComponent
@@ -4355,6 +4399,22 @@ extension DeleteAppVersionAppComponentOutputResponseBody: Swift.Decodable {
         appVersion = appVersionDecoded
         let appComponentDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.AppComponent.self, forKey: .appComponent)
         appComponent = appComponentDecoded
+    }
+}
+
+enum DeleteAppVersionAppComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4402,7 +4462,7 @@ extension DeleteAppVersionResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteAppVersionResourceInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Amazon Web Services account that owns the physical resource.
@@ -4478,27 +4538,11 @@ extension DeleteAppVersionResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteAppVersionResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteAppVersionResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteAppVersionResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteAppVersionResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteAppVersionResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appVersion = output.appVersion
             self.physicalResource = output.physicalResource
@@ -4510,8 +4554,8 @@ extension DeleteAppVersionResourceOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DeleteAppVersionResourceOutputResponse: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+public struct DeleteAppVersionResourceOutput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Resilience Hub application version.
@@ -4532,13 +4576,13 @@ public struct DeleteAppVersionResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteAppVersionResourceOutputResponseBody: Swift.Equatable {
+struct DeleteAppVersionResourceOutputBody: Swift.Equatable {
     let appArn: Swift.String?
     let appVersion: Swift.String?
     let physicalResource: ResiliencehubClientTypes.PhysicalResource?
 }
 
-extension DeleteAppVersionResourceOutputResponseBody: Swift.Decodable {
+extension DeleteAppVersionResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case appVersion
@@ -4553,6 +4597,22 @@ extension DeleteAppVersionResourceOutputResponseBody: Swift.Decodable {
         appVersion = appVersionDecoded
         let physicalResourceDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.PhysicalResource.self, forKey: .physicalResource)
         physicalResource = physicalResourceDecoded
+    }
+}
+
+enum DeleteAppVersionResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4616,26 +4676,11 @@ extension DeleteRecommendationTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteRecommendationTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteRecommendationTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteRecommendationTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteRecommendationTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteRecommendationTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.recommendationTemplateArn = output.recommendationTemplateArn
             self.status = output.status
         } else {
@@ -4645,7 +4690,7 @@ extension DeleteRecommendationTemplateOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct DeleteRecommendationTemplateOutputResponse: Swift.Equatable {
+public struct DeleteRecommendationTemplateOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) for a recommendation template.
     /// This member is required.
     public var recommendationTemplateArn: Swift.String?
@@ -4663,12 +4708,12 @@ public struct DeleteRecommendationTemplateOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteRecommendationTemplateOutputResponseBody: Swift.Equatable {
+struct DeleteRecommendationTemplateOutputBody: Swift.Equatable {
     let recommendationTemplateArn: Swift.String?
     let status: ResiliencehubClientTypes.RecommendationTemplateStatus?
 }
 
-extension DeleteRecommendationTemplateOutputResponseBody: Swift.Decodable {
+extension DeleteRecommendationTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case recommendationTemplateArn
         case status
@@ -4680,6 +4725,21 @@ extension DeleteRecommendationTemplateOutputResponseBody: Swift.Decodable {
         recommendationTemplateArn = recommendationTemplateArnDecoded
         let statusDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.RecommendationTemplateStatus.self, forKey: .status)
         status = statusDecoded
+    }
+}
+
+enum DeleteRecommendationTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4709,7 +4769,7 @@ extension DeleteResiliencyPolicyInput: ClientRuntime.URLPathProvider {
 public struct DeleteResiliencyPolicyInput: Swift.Equatable {
     /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests.
     public var clientToken: Swift.String?
-    /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var policyArn: Swift.String?
 
@@ -4743,27 +4803,11 @@ extension DeleteResiliencyPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteResiliencyPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteResiliencyPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteResiliencyPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteResiliencyPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteResiliencyPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.policyArn = output.policyArn
         } else {
             self.policyArn = nil
@@ -4771,8 +4815,8 @@ extension DeleteResiliencyPolicyOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DeleteResiliencyPolicyOutputResponse: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+public struct DeleteResiliencyPolicyOutput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var policyArn: Swift.String?
 
@@ -4784,11 +4828,11 @@ public struct DeleteResiliencyPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteResiliencyPolicyOutputResponseBody: Swift.Equatable {
+struct DeleteResiliencyPolicyOutputBody: Swift.Equatable {
     let policyArn: Swift.String?
 }
 
-extension DeleteResiliencyPolicyOutputResponseBody: Swift.Decodable {
+extension DeleteResiliencyPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policyArn
     }
@@ -4797,6 +4841,22 @@ extension DeleteResiliencyPolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyArn)
         policyArn = policyArnDecoded
+    }
+}
+
+enum DeleteResiliencyPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4820,7 +4880,7 @@ extension DescribeAppAssessmentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeAppAssessmentInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var assessmentArn: Swift.String?
 
@@ -4848,26 +4908,11 @@ extension DescribeAppAssessmentInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeAppAssessmentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeAppAssessmentOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeAppAssessmentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeAppAssessmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeAppAssessmentOutputBody = try responseDecoder.decode(responseBody: data)
             self.assessment = output.assessment
         } else {
             self.assessment = nil
@@ -4875,7 +4920,7 @@ extension DescribeAppAssessmentOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeAppAssessmentOutputResponse: Swift.Equatable {
+public struct DescribeAppAssessmentOutput: Swift.Equatable {
     /// The assessment for an Resilience Hub application, returned as an object. This object includes Amazon Resource Names (ARNs), compliance information, compliance status, cost, messages, resiliency scores, and more.
     /// This member is required.
     public var assessment: ResiliencehubClientTypes.AppAssessment?
@@ -4888,11 +4933,11 @@ public struct DescribeAppAssessmentOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeAppAssessmentOutputResponseBody: Swift.Equatable {
+struct DescribeAppAssessmentOutputBody: Swift.Equatable {
     let assessment: ResiliencehubClientTypes.AppAssessment?
 }
 
-extension DescribeAppAssessmentOutputResponseBody: Swift.Decodable {
+extension DescribeAppAssessmentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case assessment
     }
@@ -4901,6 +4946,21 @@ extension DescribeAppAssessmentOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let assessmentDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.AppAssessment.self, forKey: .assessment)
         assessment = assessmentDecoded
+    }
+}
+
+enum DescribeAppAssessmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4924,7 +4984,7 @@ extension DescribeAppInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeAppInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
 
@@ -4952,26 +5012,11 @@ extension DescribeAppInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeAppOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeAppOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeAppOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeAppOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeAppOutputBody = try responseDecoder.decode(responseBody: data)
             self.app = output.app
         } else {
             self.app = nil
@@ -4979,7 +5024,7 @@ extension DescribeAppOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAppOutputResponse: Swift.Equatable {
+public struct DescribeAppOutput: Swift.Equatable {
     /// The specified application, returned as an object with details including compliance status, creation time, description, resiliency score, and more.
     /// This member is required.
     public var app: ResiliencehubClientTypes.App?
@@ -4992,11 +5037,11 @@ public struct DescribeAppOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeAppOutputResponseBody: Swift.Equatable {
+struct DescribeAppOutputBody: Swift.Equatable {
     let app: ResiliencehubClientTypes.App?
 }
 
-extension DescribeAppOutputResponseBody: Swift.Decodable {
+extension DescribeAppOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case app
     }
@@ -5005,6 +5050,21 @@ extension DescribeAppOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.App.self, forKey: .app)
         app = appDecoded
+    }
+}
+
+enum DescribeAppOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5036,7 +5096,7 @@ extension DescribeAppVersionAppComponentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeAppVersionAppComponentInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Resilience Hub application version.
@@ -5082,27 +5142,11 @@ extension DescribeAppVersionAppComponentInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeAppVersionAppComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeAppVersionAppComponentOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeAppVersionAppComponentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeAppVersionAppComponentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeAppVersionAppComponentOutputBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appComponent = output.appComponent
             self.appVersion = output.appVersion
@@ -5114,8 +5158,8 @@ extension DescribeAppVersionAppComponentOutputResponse: ClientRuntime.HttpRespon
     }
 }
 
-public struct DescribeAppVersionAppComponentOutputResponse: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+public struct DescribeAppVersionAppComponentOutput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// List of Application Components that belong to this resource.
@@ -5136,13 +5180,13 @@ public struct DescribeAppVersionAppComponentOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeAppVersionAppComponentOutputResponseBody: Swift.Equatable {
+struct DescribeAppVersionAppComponentOutputBody: Swift.Equatable {
     let appArn: Swift.String?
     let appVersion: Swift.String?
     let appComponent: ResiliencehubClientTypes.AppComponent?
 }
 
-extension DescribeAppVersionAppComponentOutputResponseBody: Swift.Decodable {
+extension DescribeAppVersionAppComponentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case appComponent
@@ -5157,6 +5201,22 @@ extension DescribeAppVersionAppComponentOutputResponseBody: Swift.Decodable {
         appVersion = appVersionDecoded
         let appComponentDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.AppComponent.self, forKey: .appComponent)
         appComponent = appComponentDecoded
+    }
+}
+
+enum DescribeAppVersionAppComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5184,7 +5244,7 @@ extension DescribeAppVersionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeAppVersionInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Resilience Hub application version.
@@ -5221,26 +5281,11 @@ extension DescribeAppVersionInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeAppVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeAppVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeAppVersionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeAppVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeAppVersionOutputBody = try responseDecoder.decode(responseBody: data)
             self.additionalInfo = output.additionalInfo
             self.appArn = output.appArn
             self.appVersion = output.appVersion
@@ -5252,10 +5297,10 @@ extension DescribeAppVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAppVersionOutputResponse: Swift.Equatable {
+public struct DescribeAppVersionOutput: Swift.Equatable {
     /// Additional configuration parameters for an Resilience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html). Currently, this parameter supports only failover region and account.
     public var additionalInfo: [Swift.String:[Swift.String]]?
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Resilience Hub application version.
@@ -5274,13 +5319,13 @@ public struct DescribeAppVersionOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeAppVersionOutputResponseBody: Swift.Equatable {
+struct DescribeAppVersionOutputBody: Swift.Equatable {
     let appArn: Swift.String?
     let appVersion: Swift.String?
     let additionalInfo: [Swift.String:[Swift.String]]?
 }
 
-extension DescribeAppVersionOutputResponseBody: Swift.Decodable {
+extension DescribeAppVersionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case additionalInfo
         case appArn
@@ -5311,6 +5356,21 @@ extension DescribeAppVersionOutputResponseBody: Swift.Decodable {
             }
         }
         additionalInfo = additionalInfoDecoded0
+    }
+}
+
+enum DescribeAppVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5358,7 +5418,7 @@ extension DescribeAppVersionResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeAppVersionResourceInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Resilience Hub application version.
@@ -5435,27 +5495,11 @@ extension DescribeAppVersionResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeAppVersionResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeAppVersionResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeAppVersionResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeAppVersionResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeAppVersionResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appVersion = output.appVersion
             self.physicalResource = output.physicalResource
@@ -5467,8 +5511,8 @@ extension DescribeAppVersionResourceOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DescribeAppVersionResourceOutputResponse: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+public struct DescribeAppVersionResourceOutput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Resilience Hub application version.
@@ -5489,13 +5533,13 @@ public struct DescribeAppVersionResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeAppVersionResourceOutputResponseBody: Swift.Equatable {
+struct DescribeAppVersionResourceOutputBody: Swift.Equatable {
     let appArn: Swift.String?
     let appVersion: Swift.String?
     let physicalResource: ResiliencehubClientTypes.PhysicalResource?
 }
 
-extension DescribeAppVersionResourceOutputResponseBody: Swift.Decodable {
+extension DescribeAppVersionResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case appVersion
@@ -5510,6 +5554,22 @@ extension DescribeAppVersionResourceOutputResponseBody: Swift.Decodable {
         appVersion = appVersionDecoded
         let physicalResourceDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.PhysicalResource.self, forKey: .physicalResource)
         physicalResource = physicalResourceDecoded
+    }
+}
+
+enum DescribeAppVersionResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5541,7 +5601,7 @@ extension DescribeAppVersionResourcesResolutionStatusInput: ClientRuntime.URLPat
 }
 
 public struct DescribeAppVersionResourcesResolutionStatusInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -5586,26 +5646,11 @@ extension DescribeAppVersionResourcesResolutionStatusInputBody: Swift.Decodable 
     }
 }
 
-public enum DescribeAppVersionResourcesResolutionStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeAppVersionResourcesResolutionStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeAppVersionResourcesResolutionStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeAppVersionResourcesResolutionStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeAppVersionResourcesResolutionStatusOutputBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appVersion = output.appVersion
             self.errorMessage = output.errorMessage
@@ -5621,8 +5666,8 @@ extension DescribeAppVersionResourcesResolutionStatusOutputResponse: ClientRunti
     }
 }
 
-public struct DescribeAppVersionResourcesResolutionStatusOutputResponse: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+public struct DescribeAppVersionResourcesResolutionStatusOutput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -5653,7 +5698,7 @@ public struct DescribeAppVersionResourcesResolutionStatusOutputResponse: Swift.E
     }
 }
 
-struct DescribeAppVersionResourcesResolutionStatusOutputResponseBody: Swift.Equatable {
+struct DescribeAppVersionResourcesResolutionStatusOutputBody: Swift.Equatable {
     let appArn: Swift.String?
     let appVersion: Swift.String?
     let resolutionId: Swift.String?
@@ -5661,7 +5706,7 @@ struct DescribeAppVersionResourcesResolutionStatusOutputResponseBody: Swift.Equa
     let errorMessage: Swift.String?
 }
 
-extension DescribeAppVersionResourcesResolutionStatusOutputResponseBody: Swift.Decodable {
+extension DescribeAppVersionResourcesResolutionStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case appVersion
@@ -5682,6 +5727,21 @@ extension DescribeAppVersionResourcesResolutionStatusOutputResponseBody: Swift.D
         status = statusDecoded
         let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
         errorMessage = errorMessageDecoded
+    }
+}
+
+enum DescribeAppVersionResourcesResolutionStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5709,7 +5769,7 @@ extension DescribeAppVersionTemplateInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeAppVersionTemplateInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -5746,26 +5806,11 @@ extension DescribeAppVersionTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeAppVersionTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeAppVersionTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeAppVersionTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeAppVersionTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeAppVersionTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appTemplateBody = output.appTemplateBody
             self.appVersion = output.appVersion
@@ -5777,8 +5822,8 @@ extension DescribeAppVersionTemplateOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DescribeAppVersionTemplateOutputResponse: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+public struct DescribeAppVersionTemplateOutput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// A JSON string that provides information about your application structure. To learn more about the appTemplateBody template, see the sample template provided in the Examples section. The appTemplateBody JSON string has the following structure:
@@ -5874,13 +5919,13 @@ public struct DescribeAppVersionTemplateOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeAppVersionTemplateOutputResponseBody: Swift.Equatable {
+struct DescribeAppVersionTemplateOutputBody: Swift.Equatable {
     let appArn: Swift.String?
     let appVersion: Swift.String?
     let appTemplateBody: Swift.String?
 }
 
-extension DescribeAppVersionTemplateOutputResponseBody: Swift.Decodable {
+extension DescribeAppVersionTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case appTemplateBody
@@ -5895,6 +5940,21 @@ extension DescribeAppVersionTemplateOutputResponseBody: Swift.Decodable {
         appVersion = appVersionDecoded
         let appTemplateBodyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appTemplateBody)
         appTemplateBody = appTemplateBodyDecoded
+    }
+}
+
+enum DescribeAppVersionTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5918,7 +5978,7 @@ extension DescribeDraftAppVersionResourcesImportStatusInput: ClientRuntime.URLPa
 }
 
 public struct DescribeDraftAppVersionResourcesImportStatusInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
 
@@ -5946,26 +6006,11 @@ extension DescribeDraftAppVersionResourcesImportStatusInputBody: Swift.Decodable
     }
 }
 
-public enum DescribeDraftAppVersionResourcesImportStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeDraftAppVersionResourcesImportStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDraftAppVersionResourcesImportStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDraftAppVersionResourcesImportStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDraftAppVersionResourcesImportStatusOutputBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appVersion = output.appVersion
             self.errorMessage = output.errorMessage
@@ -5981,8 +6026,8 @@ extension DescribeDraftAppVersionResourcesImportStatusOutputResponse: ClientRunt
     }
 }
 
-public struct DescribeDraftAppVersionResourcesImportStatusOutputResponse: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+public struct DescribeDraftAppVersionResourcesImportStatusOutput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -5993,7 +6038,7 @@ public struct DescribeDraftAppVersionResourcesImportStatusOutputResponse: Swift.
     /// Status of the action.
     /// This member is required.
     public var status: ResiliencehubClientTypes.ResourceImportStatusType?
-    /// The timestamp for when the status last changed.
+    /// The time when the status last changed.
     /// This member is required.
     public var statusChangeTime: ClientRuntime.Date?
 
@@ -6013,7 +6058,7 @@ public struct DescribeDraftAppVersionResourcesImportStatusOutputResponse: Swift.
     }
 }
 
-struct DescribeDraftAppVersionResourcesImportStatusOutputResponseBody: Swift.Equatable {
+struct DescribeDraftAppVersionResourcesImportStatusOutputBody: Swift.Equatable {
     let appArn: Swift.String?
     let appVersion: Swift.String?
     let status: ResiliencehubClientTypes.ResourceImportStatusType?
@@ -6021,7 +6066,7 @@ struct DescribeDraftAppVersionResourcesImportStatusOutputResponseBody: Swift.Equ
     let errorMessage: Swift.String?
 }
 
-extension DescribeDraftAppVersionResourcesImportStatusOutputResponseBody: Swift.Decodable {
+extension DescribeDraftAppVersionResourcesImportStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case appVersion
@@ -6045,6 +6090,21 @@ extension DescribeDraftAppVersionResourcesImportStatusOutputResponseBody: Swift.
     }
 }
 
+enum DescribeDraftAppVersionResourcesImportStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribeResiliencyPolicyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policyArn
@@ -6065,7 +6125,7 @@ extension DescribeResiliencyPolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeResiliencyPolicyInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var policyArn: Swift.String?
 
@@ -6093,26 +6153,11 @@ extension DescribeResiliencyPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeResiliencyPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeResiliencyPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeResiliencyPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeResiliencyPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeResiliencyPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
             self.policy = nil
@@ -6120,7 +6165,7 @@ extension DescribeResiliencyPolicyOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DescribeResiliencyPolicyOutputResponse: Swift.Equatable {
+public struct DescribeResiliencyPolicyOutput: Swift.Equatable {
     /// Information about the specific resiliency policy, returned as an object. This object includes creation time, data location constraints, its name, description, tags, the recovery time objective (RTO) and recovery point objective (RPO) in seconds, and more.
     /// This member is required.
     public var policy: ResiliencehubClientTypes.ResiliencyPolicy?
@@ -6133,11 +6178,11 @@ public struct DescribeResiliencyPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeResiliencyPolicyOutputResponseBody: Swift.Equatable {
+struct DescribeResiliencyPolicyOutputBody: Swift.Equatable {
     let policy: ResiliencehubClientTypes.ResiliencyPolicy?
 }
 
-extension DescribeResiliencyPolicyOutputResponseBody: Swift.Decodable {
+extension DescribeResiliencyPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy
     }
@@ -6146,6 +6191,21 @@ extension DescribeResiliencyPolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.ResiliencyPolicy.self, forKey: .policy)
         policy = policyDecoded
+    }
+}
+
+enum DescribeResiliencyPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6446,7 +6506,7 @@ extension ResiliencehubClientTypes.EksSource: Swift.Codable {
 extension ResiliencehubClientTypes {
     /// The input source of the Amazon Elastic Kubernetes Service cluster.
     public struct EksSource: Swift.Equatable {
-        /// Amazon Resource Name (ARN) of the Amazon Elastic Kubernetes Service cluster. The format for this ARN is: arn:aws:eks:region:account-id:cluster/cluster-name. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Amazon Resource Name (ARN) of the Amazon Elastic Kubernetes Service cluster. The format for this ARN is: arn:aws:eks:region:account-id:cluster/cluster-name. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
         /// This member is required.
         public var eksClusterArn: Swift.String?
         /// The list of namespaces located on your Amazon Elastic Kubernetes Service cluster.
@@ -6493,7 +6553,7 @@ extension ResiliencehubClientTypes.EksSourceClusterNamespace: Swift.Codable {
 extension ResiliencehubClientTypes {
     /// The input source of the namespace that is located on your Amazon Elastic Kubernetes Service cluster.
     public struct EksSourceClusterNamespace: Swift.Equatable {
-        /// Amazon Resource Name (ARN) of the Amazon Elastic Kubernetes Service cluster. The format for this ARN is: arn:aws:eks:region:account-id:cluster/cluster-name. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Amazon Resource Name (ARN) of the Amazon Elastic Kubernetes Service cluster. The format for this ARN is: arn:aws:eks:region:account-id:cluster/cluster-name. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
         /// This member is required.
         public var eksClusterArn: Swift.String?
         /// Name of the namespace that is located on your Amazon Elastic Kubernetes Service cluster.
@@ -6590,7 +6650,7 @@ extension ResiliencehubClientTypes {
         /// Unique name to identify an event subscription.
         /// This member is required.
         public var name: Swift.String?
-        /// Amazon Resource Name (ARN) of the Amazon Simple Notification Service topic. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Amazon Resource Name (ARN) of the Amazon Simple Notification Service topic. The format for this ARN is: arn:partition:sns:region:account:topic-name. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
         public var snsTopicArn: Swift.String?
 
         public init(
@@ -6702,10 +6762,10 @@ extension ResiliencehubClientTypes.FailurePolicy: Swift.Codable {
 extension ResiliencehubClientTypes {
     /// Defines a failure policy.
     public struct FailurePolicy: Swift.Equatable {
-        /// The Recovery Point Objective (RPO), in seconds.
+        /// Recovery Point Objective (RPO) in seconds.
         /// This member is required.
         public var rpoInSecs: Swift.Int
-        /// The Recovery Time Objective (RTO), in seconds.
+        /// Recovery Time Objective (RTO) in seconds.
         /// This member is required.
         public var rtoInSecs: Swift.Int
 
@@ -6807,7 +6867,7 @@ extension ImportResourcesToDraftAppVersionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ImportResourcesToDraftAppVersionInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The input sources of the Amazon Elastic Kubernetes Service resources you need to import.
@@ -6894,28 +6954,11 @@ extension ImportResourcesToDraftAppVersionInputBody: Swift.Decodable {
     }
 }
 
-public enum ImportResourcesToDraftAppVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ImportResourcesToDraftAppVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ImportResourcesToDraftAppVersionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ImportResourcesToDraftAppVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ImportResourcesToDraftAppVersionOutputBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appVersion = output.appVersion
             self.eksSources = output.eksSources
@@ -6933,8 +6976,8 @@ extension ImportResourcesToDraftAppVersionOutputResponse: ClientRuntime.HttpResp
     }
 }
 
-public struct ImportResourcesToDraftAppVersionOutputResponse: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+public struct ImportResourcesToDraftAppVersionOutput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -6968,7 +7011,7 @@ public struct ImportResourcesToDraftAppVersionOutputResponse: Swift.Equatable {
     }
 }
 
-struct ImportResourcesToDraftAppVersionOutputResponseBody: Swift.Equatable {
+struct ImportResourcesToDraftAppVersionOutputBody: Swift.Equatable {
     let appArn: Swift.String?
     let appVersion: Swift.String?
     let sourceArns: [Swift.String]?
@@ -6977,7 +7020,7 @@ struct ImportResourcesToDraftAppVersionOutputResponseBody: Swift.Equatable {
     let eksSources: [ResiliencehubClientTypes.EksSource]?
 }
 
-extension ImportResourcesToDraftAppVersionOutputResponseBody: Swift.Decodable {
+extension ImportResourcesToDraftAppVersionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case appVersion
@@ -7028,6 +7071,23 @@ extension ImportResourcesToDraftAppVersionOutputResponseBody: Swift.Decodable {
             }
         }
         eksSources = eksSourcesDecoded0
+    }
+}
+
+enum ImportResourcesToDraftAppVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7114,7 +7174,7 @@ extension ListAlarmRecommendationsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAlarmRecommendationsInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var assessmentArn: Swift.String?
     /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -7158,26 +7218,11 @@ extension ListAlarmRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListAlarmRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAlarmRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAlarmRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAlarmRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAlarmRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.alarmRecommendations = output.alarmRecommendations
             self.nextToken = output.nextToken
         } else {
@@ -7187,7 +7232,7 @@ extension ListAlarmRecommendationsOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListAlarmRecommendationsOutputResponse: Swift.Equatable {
+public struct ListAlarmRecommendationsOutput: Swift.Equatable {
     /// The alarm recommendations for an Resilience Hub application, returned as an object. This object includes Application Component names, descriptions, information about whether a recommendation has already been implemented or not, prerequisites, and more.
     /// This member is required.
     public var alarmRecommendations: [ResiliencehubClientTypes.AlarmRecommendation]?
@@ -7204,12 +7249,12 @@ public struct ListAlarmRecommendationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAlarmRecommendationsOutputResponseBody: Swift.Equatable {
+struct ListAlarmRecommendationsOutputBody: Swift.Equatable {
     let alarmRecommendations: [ResiliencehubClientTypes.AlarmRecommendation]?
     let nextToken: Swift.String?
 }
 
-extension ListAlarmRecommendationsOutputResponseBody: Swift.Decodable {
+extension ListAlarmRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case alarmRecommendations
         case nextToken
@@ -7230,6 +7275,21 @@ extension ListAlarmRecommendationsOutputResponseBody: Swift.Decodable {
         alarmRecommendations = alarmRecommendationsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAlarmRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7261,7 +7321,7 @@ extension ListAppAssessmentComplianceDriftsInput: ClientRuntime.URLPathProvider 
 }
 
 public struct ListAppAssessmentComplianceDriftsInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var assessmentArn: Swift.String?
     /// Indicates the maximum number of applications requested.
@@ -7305,25 +7365,11 @@ extension ListAppAssessmentComplianceDriftsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListAppAssessmentComplianceDriftsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAppAssessmentComplianceDriftsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAppAssessmentComplianceDriftsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAppAssessmentComplianceDriftsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAppAssessmentComplianceDriftsOutputBody = try responseDecoder.decode(responseBody: data)
             self.complianceDrifts = output.complianceDrifts
             self.nextToken = output.nextToken
         } else {
@@ -7333,7 +7379,7 @@ extension ListAppAssessmentComplianceDriftsOutputResponse: ClientRuntime.HttpRes
     }
 }
 
-public struct ListAppAssessmentComplianceDriftsOutputResponse: Swift.Equatable {
+public struct ListAppAssessmentComplianceDriftsOutput: Swift.Equatable {
     /// Indicates compliance drifts (recovery time objective (RTO) and recovery point objective (RPO)) detected for an assessed entity.
     /// This member is required.
     public var complianceDrifts: [ResiliencehubClientTypes.ComplianceDrift]?
@@ -7350,12 +7396,12 @@ public struct ListAppAssessmentComplianceDriftsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAppAssessmentComplianceDriftsOutputResponseBody: Swift.Equatable {
+struct ListAppAssessmentComplianceDriftsOutputBody: Swift.Equatable {
     let complianceDrifts: [ResiliencehubClientTypes.ComplianceDrift]?
     let nextToken: Swift.String?
 }
 
-extension ListAppAssessmentComplianceDriftsOutputResponseBody: Swift.Decodable {
+extension ListAppAssessmentComplianceDriftsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case complianceDrifts
         case nextToken
@@ -7376,6 +7422,20 @@ extension ListAppAssessmentComplianceDriftsOutputResponseBody: Swift.Decodable {
         complianceDrifts = complianceDriftsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAppAssessmentComplianceDriftsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7429,7 +7489,7 @@ extension ListAppAssessmentsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppAssessmentsInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     public var appArn: Swift.String?
     /// The name for the assessment.
     public var assessmentName: Swift.String?
@@ -7477,26 +7537,11 @@ extension ListAppAssessmentsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListAppAssessmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAppAssessmentsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAppAssessmentsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAppAssessmentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAppAssessmentsOutputBody = try responseDecoder.decode(responseBody: data)
             self.assessmentSummaries = output.assessmentSummaries
             self.nextToken = output.nextToken
         } else {
@@ -7506,7 +7551,7 @@ extension ListAppAssessmentsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAppAssessmentsOutputResponse: Swift.Equatable {
+public struct ListAppAssessmentsOutput: Swift.Equatable {
     /// The summaries for the specified assessments, returned as an object. This object includes application versions, associated Amazon Resource Numbers (ARNs), cost, messages, resiliency scores, and more.
     /// This member is required.
     public var assessmentSummaries: [ResiliencehubClientTypes.AppAssessmentSummary]?
@@ -7523,12 +7568,12 @@ public struct ListAppAssessmentsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAppAssessmentsOutputResponseBody: Swift.Equatable {
+struct ListAppAssessmentsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let assessmentSummaries: [ResiliencehubClientTypes.AppAssessmentSummary]?
 }
 
-extension ListAppAssessmentsOutputResponseBody: Swift.Decodable {
+extension ListAppAssessmentsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case assessmentSummaries
         case nextToken
@@ -7549,6 +7594,21 @@ extension ListAppAssessmentsOutputResponseBody: Swift.Decodable {
             }
         }
         assessmentSummaries = assessmentSummariesDecoded0
+    }
+}
+
+enum ListAppAssessmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7580,7 +7640,7 @@ extension ListAppComponentCompliancesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppComponentCompliancesInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var assessmentArn: Swift.String?
     /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -7624,26 +7684,11 @@ extension ListAppComponentCompliancesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListAppComponentCompliancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAppComponentCompliancesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAppComponentCompliancesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAppComponentCompliancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAppComponentCompliancesOutputBody = try responseDecoder.decode(responseBody: data)
             self.componentCompliances = output.componentCompliances
             self.nextToken = output.nextToken
         } else {
@@ -7653,7 +7698,7 @@ extension ListAppComponentCompliancesOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct ListAppComponentCompliancesOutputResponse: Swift.Equatable {
+public struct ListAppComponentCompliancesOutput: Swift.Equatable {
     /// The compliances for an Resilience Hub Application Component, returned as an object. This object contains the names of the Application Components, compliances, costs, resiliency scores, outage scores, and more.
     /// This member is required.
     public var componentCompliances: [ResiliencehubClientTypes.AppComponentCompliance]?
@@ -7670,12 +7715,12 @@ public struct ListAppComponentCompliancesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAppComponentCompliancesOutputResponseBody: Swift.Equatable {
+struct ListAppComponentCompliancesOutputBody: Swift.Equatable {
     let componentCompliances: [ResiliencehubClientTypes.AppComponentCompliance]?
     let nextToken: Swift.String?
 }
 
-extension ListAppComponentCompliancesOutputResponseBody: Swift.Decodable {
+extension ListAppComponentCompliancesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case componentCompliances
         case nextToken
@@ -7696,6 +7741,21 @@ extension ListAppComponentCompliancesOutputResponseBody: Swift.Decodable {
         componentCompliances = componentCompliancesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAppComponentCompliancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7727,7 +7787,7 @@ extension ListAppComponentRecommendationsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppComponentRecommendationsInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var assessmentArn: Swift.String?
     /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -7771,26 +7831,11 @@ extension ListAppComponentRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListAppComponentRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAppComponentRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAppComponentRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAppComponentRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAppComponentRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.componentRecommendations = output.componentRecommendations
             self.nextToken = output.nextToken
         } else {
@@ -7800,7 +7845,7 @@ extension ListAppComponentRecommendationsOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct ListAppComponentRecommendationsOutputResponse: Swift.Equatable {
+public struct ListAppComponentRecommendationsOutput: Swift.Equatable {
     /// The recommendations for an Resilience Hub Application Component, returned as an object. This object contains the names of the Application Components, configuration recommendations, and recommendation statuses.
     /// This member is required.
     public var componentRecommendations: [ResiliencehubClientTypes.ComponentRecommendation]?
@@ -7817,12 +7862,12 @@ public struct ListAppComponentRecommendationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAppComponentRecommendationsOutputResponseBody: Swift.Equatable {
+struct ListAppComponentRecommendationsOutputBody: Swift.Equatable {
     let componentRecommendations: [ResiliencehubClientTypes.ComponentRecommendation]?
     let nextToken: Swift.String?
 }
 
-extension ListAppComponentRecommendationsOutputResponseBody: Swift.Decodable {
+extension ListAppComponentRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case componentRecommendations
         case nextToken
@@ -7843,6 +7888,21 @@ extension ListAppComponentRecommendationsOutputResponseBody: Swift.Decodable {
         componentRecommendations = componentRecommendationsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAppComponentRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7878,7 +7938,7 @@ extension ListAppInputSourcesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppInputSourcesInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Resilience Hub application version.
@@ -7931,26 +7991,11 @@ extension ListAppInputSourcesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListAppInputSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAppInputSourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAppInputSourcesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAppInputSourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAppInputSourcesOutputBody = try responseDecoder.decode(responseBody: data)
             self.appInputSources = output.appInputSources
             self.nextToken = output.nextToken
         } else {
@@ -7960,7 +8005,7 @@ extension ListAppInputSourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAppInputSourcesOutputResponse: Swift.Equatable {
+public struct ListAppInputSourcesOutput: Swift.Equatable {
     /// The list of Resilience Hub application input sources.
     /// This member is required.
     public var appInputSources: [ResiliencehubClientTypes.AppInputSource]?
@@ -7977,12 +8022,12 @@ public struct ListAppInputSourcesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAppInputSourcesOutputResponseBody: Swift.Equatable {
+struct ListAppInputSourcesOutputBody: Swift.Equatable {
     let appInputSources: [ResiliencehubClientTypes.AppInputSource]?
     let nextToken: Swift.String?
 }
 
-extension ListAppInputSourcesOutputResponseBody: Swift.Decodable {
+extension ListAppInputSourcesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appInputSources
         case nextToken
@@ -8003,6 +8048,21 @@ extension ListAppInputSourcesOutputResponseBody: Swift.Decodable {
         appInputSources = appInputSourcesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAppInputSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8038,7 +8098,7 @@ extension ListAppVersionAppComponentsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppVersionAppComponentsInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Version of the Application Component.
@@ -8091,27 +8151,11 @@ extension ListAppVersionAppComponentsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListAppVersionAppComponentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAppVersionAppComponentsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAppVersionAppComponentsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAppVersionAppComponentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAppVersionAppComponentsOutputBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appComponents = output.appComponents
             self.appVersion = output.appVersion
@@ -8125,8 +8169,8 @@ extension ListAppVersionAppComponentsOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct ListAppVersionAppComponentsOutputResponse: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+public struct ListAppVersionAppComponentsOutput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Defines an Application Component.
@@ -8151,14 +8195,14 @@ public struct ListAppVersionAppComponentsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAppVersionAppComponentsOutputResponseBody: Swift.Equatable {
+struct ListAppVersionAppComponentsOutputBody: Swift.Equatable {
     let appArn: Swift.String?
     let appVersion: Swift.String?
     let appComponents: [ResiliencehubClientTypes.AppComponent]?
     let nextToken: Swift.String?
 }
 
-extension ListAppVersionAppComponentsOutputResponseBody: Swift.Decodable {
+extension ListAppVersionAppComponentsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case appComponents
@@ -8185,6 +8229,22 @@ extension ListAppVersionAppComponentsOutputResponseBody: Swift.Decodable {
         appComponents = appComponentsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAppVersionAppComponentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8220,7 +8280,7 @@ extension ListAppVersionResourceMappingsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppVersionResourceMappingsInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -8273,26 +8333,11 @@ extension ListAppVersionResourceMappingsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListAppVersionResourceMappingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAppVersionResourceMappingsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAppVersionResourceMappingsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAppVersionResourceMappingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAppVersionResourceMappingsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.resourceMappings = output.resourceMappings
         } else {
@@ -8302,7 +8347,7 @@ extension ListAppVersionResourceMappingsOutputResponse: ClientRuntime.HttpRespon
     }
 }
 
-public struct ListAppVersionResourceMappingsOutputResponse: Swift.Equatable {
+public struct ListAppVersionResourceMappingsOutput: Swift.Equatable {
     /// Token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// Mappings used to map logical resources from the template to physical resources. You can use the mapping type CFN_STACK if the application template uses a logical stack name. Or you can map individual resources by using the mapping type RESOURCE. We recommend using the mapping type CFN_STACK if the application is backed by a CloudFormation stack.
@@ -8319,12 +8364,12 @@ public struct ListAppVersionResourceMappingsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAppVersionResourceMappingsOutputResponseBody: Swift.Equatable {
+struct ListAppVersionResourceMappingsOutputBody: Swift.Equatable {
     let resourceMappings: [ResiliencehubClientTypes.ResourceMapping]?
     let nextToken: Swift.String?
 }
 
-extension ListAppVersionResourceMappingsOutputResponseBody: Swift.Decodable {
+extension ListAppVersionResourceMappingsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case resourceMappings
@@ -8345,6 +8390,21 @@ extension ListAppVersionResourceMappingsOutputResponseBody: Swift.Decodable {
         resourceMappings = resourceMappingsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAppVersionResourceMappingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8384,7 +8444,7 @@ extension ListAppVersionResourcesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppVersionResourcesInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -8445,27 +8505,11 @@ extension ListAppVersionResourcesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListAppVersionResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAppVersionResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAppVersionResourcesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAppVersionResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAppVersionResourcesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.physicalResources = output.physicalResources
             self.resolutionId = output.resolutionId
@@ -8477,7 +8521,7 @@ extension ListAppVersionResourcesOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListAppVersionResourcesOutputResponse: Swift.Equatable {
+public struct ListAppVersionResourcesOutput: Swift.Equatable {
     /// Token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The physical resources in the application version.
@@ -8499,13 +8543,13 @@ public struct ListAppVersionResourcesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAppVersionResourcesOutputResponseBody: Swift.Equatable {
+struct ListAppVersionResourcesOutputBody: Swift.Equatable {
     let physicalResources: [ResiliencehubClientTypes.PhysicalResource]?
     let resolutionId: Swift.String?
     let nextToken: Swift.String?
 }
 
-extension ListAppVersionResourcesOutputResponseBody: Swift.Decodable {
+extension ListAppVersionResourcesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case physicalResources
@@ -8529,6 +8573,22 @@ extension ListAppVersionResourcesOutputResponseBody: Swift.Decodable {
         resolutionId = resolutionIdDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAppVersionResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8568,7 +8628,7 @@ extension ListAppVersionsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppVersionsInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Upper limit of the time range to filter the application versions.
@@ -8628,25 +8688,11 @@ extension ListAppVersionsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListAppVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAppVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAppVersionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAppVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAppVersionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.appVersions = output.appVersions
             self.nextToken = output.nextToken
         } else {
@@ -8656,7 +8702,7 @@ extension ListAppVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAppVersionsOutputResponse: Swift.Equatable {
+public struct ListAppVersionsOutput: Swift.Equatable {
     /// The version of the application.
     /// This member is required.
     public var appVersions: [ResiliencehubClientTypes.AppVersionSummary]?
@@ -8673,12 +8719,12 @@ public struct ListAppVersionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAppVersionsOutputResponseBody: Swift.Equatable {
+struct ListAppVersionsOutputBody: Swift.Equatable {
     let appVersions: [ResiliencehubClientTypes.AppVersionSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListAppVersionsOutputResponseBody: Swift.Decodable {
+extension ListAppVersionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appVersions
         case nextToken
@@ -8702,6 +8748,20 @@ extension ListAppVersionsOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListAppVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListAppsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -8714,6 +8774,10 @@ extension ListAppsInput: ClientRuntime.QueryItemProvider {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
+            if let reverseOrder = reverseOrder {
+                let reverseOrderQueryItem = ClientRuntime.URLQueryItem(name: "reverseOrder".urlPercentEncoding(), value: Swift.String(reverseOrder).urlPercentEncoding())
+                items.append(reverseOrderQueryItem)
+            }
             if let name = name {
                 let nameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
                 items.append(nameQueryItem)
@@ -8721,6 +8785,14 @@ extension ListAppsInput: ClientRuntime.QueryItemProvider {
             if let appArn = appArn {
                 let appArnQueryItem = ClientRuntime.URLQueryItem(name: "appArn".urlPercentEncoding(), value: Swift.String(appArn).urlPercentEncoding())
                 items.append(appArnQueryItem)
+            }
+            if let toLastAssessmentTime = toLastAssessmentTime {
+                let toLastAssessmentTimeQueryItem = ClientRuntime.URLQueryItem(name: "toLastAssessmentTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: toLastAssessmentTime)).urlPercentEncoding())
+                items.append(toLastAssessmentTimeQueryItem)
+            }
+            if let fromLastAssessmentTime = fromLastAssessmentTime {
+                let fromLastAssessmentTimeQueryItem = ClientRuntime.URLQueryItem(name: "fromLastAssessmentTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: fromLastAssessmentTime)).urlPercentEncoding())
+                items.append(fromLastAssessmentTimeQueryItem)
             }
             return items
         }
@@ -8734,26 +8806,38 @@ extension ListAppsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppsInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     public var appArn: Swift.String?
+    /// Indicates the lower limit of the range that is used to filter applications based on their last assessment times.
+    public var fromLastAssessmentTime: ClientRuntime.Date?
     /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// The name for the one of the listed applications.
     public var name: Swift.String?
     /// Null, or the token from a previous call to get the next set of results.
     public var nextToken: Swift.String?
+    /// The application list is sorted based on the values of lastAppComplianceEvaluationTime field. By default, application list is sorted in ascending order. To sort the appliation list in descending order, set this field to True.
+    public var reverseOrder: Swift.Bool?
+    /// Indicates the upper limit of the range that is used to filter the applications based on their last assessment times.
+    public var toLastAssessmentTime: ClientRuntime.Date?
 
     public init(
         appArn: Swift.String? = nil,
+        fromLastAssessmentTime: ClientRuntime.Date? = nil,
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        reverseOrder: Swift.Bool? = nil,
+        toLastAssessmentTime: ClientRuntime.Date? = nil
     )
     {
         self.appArn = appArn
+        self.fromLastAssessmentTime = fromLastAssessmentTime
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
+        self.reverseOrder = reverseOrder
+        self.toLastAssessmentTime = toLastAssessmentTime
     }
 }
 
@@ -8766,25 +8850,11 @@ extension ListAppsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListAppsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAppsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAppsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAppsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAppsOutputBody = try responseDecoder.decode(responseBody: data)
             self.appSummaries = output.appSummaries
             self.nextToken = output.nextToken
         } else {
@@ -8794,7 +8864,7 @@ extension ListAppsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAppsOutputResponse: Swift.Equatable {
+public struct ListAppsOutput: Swift.Equatable {
     /// Summaries for the Resilience Hub application.
     /// This member is required.
     public var appSummaries: [ResiliencehubClientTypes.AppSummary]?
@@ -8811,12 +8881,12 @@ public struct ListAppsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAppsOutputResponseBody: Swift.Equatable {
+struct ListAppsOutputBody: Swift.Equatable {
     let appSummaries: [ResiliencehubClientTypes.AppSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListAppsOutputResponseBody: Swift.Decodable {
+extension ListAppsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appSummaries
         case nextToken
@@ -8837,6 +8907,20 @@ extension ListAppsOutputResponseBody: Swift.Decodable {
         appSummaries = appSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAppsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8888,7 +8972,7 @@ extension ListRecommendationTemplatesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListRecommendationTemplatesInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var assessmentArn: Swift.String?
     /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -8933,25 +9017,11 @@ extension ListRecommendationTemplatesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListRecommendationTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRecommendationTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRecommendationTemplatesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRecommendationTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRecommendationTemplatesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.recommendationTemplates = output.recommendationTemplates
         } else {
@@ -8961,7 +9031,7 @@ extension ListRecommendationTemplatesOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct ListRecommendationTemplatesOutputResponse: Swift.Equatable {
+public struct ListRecommendationTemplatesOutput: Swift.Equatable {
     /// Token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The recommendation templates for the Resilience Hub applications.
@@ -8977,12 +9047,12 @@ public struct ListRecommendationTemplatesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRecommendationTemplatesOutputResponseBody: Swift.Equatable {
+struct ListRecommendationTemplatesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let recommendationTemplates: [ResiliencehubClientTypes.RecommendationTemplate]?
 }
 
-extension ListRecommendationTemplatesOutputResponseBody: Swift.Decodable {
+extension ListRecommendationTemplatesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case recommendationTemplates
@@ -9003,6 +9073,20 @@ extension ListRecommendationTemplatesOutputResponseBody: Swift.Decodable {
             }
         }
         recommendationTemplates = recommendationTemplatesDecoded0
+    }
+}
+
+enum ListRecommendationTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9062,26 +9146,11 @@ extension ListResiliencyPoliciesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListResiliencyPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListResiliencyPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListResiliencyPoliciesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListResiliencyPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListResiliencyPoliciesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.resiliencyPolicies = output.resiliencyPolicies
         } else {
@@ -9091,7 +9160,7 @@ extension ListResiliencyPoliciesOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListResiliencyPoliciesOutputResponse: Swift.Equatable {
+public struct ListResiliencyPoliciesOutput: Swift.Equatable {
     /// Token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The resiliency policies for the Resilience Hub applications.
@@ -9108,12 +9177,12 @@ public struct ListResiliencyPoliciesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListResiliencyPoliciesOutputResponseBody: Swift.Equatable {
+struct ListResiliencyPoliciesOutputBody: Swift.Equatable {
     let resiliencyPolicies: [ResiliencehubClientTypes.ResiliencyPolicy]?
     let nextToken: Swift.String?
 }
 
-extension ListResiliencyPoliciesOutputResponseBody: Swift.Decodable {
+extension ListResiliencyPoliciesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case resiliencyPolicies
@@ -9134,6 +9203,21 @@ extension ListResiliencyPoliciesOutputResponseBody: Swift.Decodable {
         resiliencyPolicies = resiliencyPoliciesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListResiliencyPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9165,7 +9249,7 @@ extension ListSopRecommendationsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListSopRecommendationsInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var assessmentArn: Swift.String?
     /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -9209,27 +9293,11 @@ extension ListSopRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListSopRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSopRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSopRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSopRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSopRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.sopRecommendations = output.sopRecommendations
         } else {
@@ -9239,7 +9307,7 @@ extension ListSopRecommendationsOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListSopRecommendationsOutputResponse: Swift.Equatable {
+public struct ListSopRecommendationsOutput: Swift.Equatable {
     /// Token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The standard operating procedure (SOP) recommendations for the Resilience Hub applications.
@@ -9256,12 +9324,12 @@ public struct ListSopRecommendationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSopRecommendationsOutputResponseBody: Swift.Equatable {
+struct ListSopRecommendationsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let sopRecommendations: [ResiliencehubClientTypes.SopRecommendation]?
 }
 
-extension ListSopRecommendationsOutputResponseBody: Swift.Decodable {
+extension ListSopRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case sopRecommendations
@@ -9282,6 +9350,22 @@ extension ListSopRecommendationsOutputResponseBody: Swift.Decodable {
             }
         }
         sopRecommendations = sopRecommendationsDecoded0
+    }
+}
+
+enum ListSopRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9333,26 +9417,11 @@ extension ListSuggestedResiliencyPoliciesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListSuggestedResiliencyPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSuggestedResiliencyPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSuggestedResiliencyPoliciesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSuggestedResiliencyPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSuggestedResiliencyPoliciesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.resiliencyPolicies = output.resiliencyPolicies
         } else {
@@ -9362,7 +9431,7 @@ extension ListSuggestedResiliencyPoliciesOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct ListSuggestedResiliencyPoliciesOutputResponse: Swift.Equatable {
+public struct ListSuggestedResiliencyPoliciesOutput: Swift.Equatable {
     /// Token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The suggested resiliency policies for the Resilience Hub applications.
@@ -9379,12 +9448,12 @@ public struct ListSuggestedResiliencyPoliciesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSuggestedResiliencyPoliciesOutputResponseBody: Swift.Equatable {
+struct ListSuggestedResiliencyPoliciesOutputBody: Swift.Equatable {
     let resiliencyPolicies: [ResiliencehubClientTypes.ResiliencyPolicy]?
     let nextToken: Swift.String?
 }
 
-extension ListSuggestedResiliencyPoliciesOutputResponseBody: Swift.Decodable {
+extension ListSuggestedResiliencyPoliciesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case resiliencyPolicies
@@ -9405,6 +9474,21 @@ extension ListSuggestedResiliencyPoliciesOutputResponseBody: Swift.Decodable {
         resiliencyPolicies = resiliencyPoliciesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListSuggestedResiliencyPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9439,31 +9523,16 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: Swift.CustomDebugStringConvertible {
+extension ListTagsForResourceOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ListTagsForResourceOutputResponse(tags: \"CONTENT_REDACTED\")"}
+        "ListTagsForResourceOutput(tags: \"CONTENT_REDACTED\")"}
 }
 
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -9471,7 +9540,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair.
     public var tags: [Swift.String:Swift.String]?
 
@@ -9483,11 +9552,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags
     }
@@ -9505,6 +9574,21 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9536,7 +9620,7 @@ extension ListTestRecommendationsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListTestRecommendationsInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var assessmentArn: Swift.String?
     /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -9580,27 +9664,11 @@ extension ListTestRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTestRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTestRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTestRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTestRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTestRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.testRecommendations = output.testRecommendations
         } else {
@@ -9610,7 +9678,7 @@ extension ListTestRecommendationsOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListTestRecommendationsOutputResponse: Swift.Equatable {
+public struct ListTestRecommendationsOutput: Swift.Equatable {
     /// Token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The test recommendations for the Resilience Hub application.
@@ -9627,12 +9695,12 @@ public struct ListTestRecommendationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTestRecommendationsOutputResponseBody: Swift.Equatable {
+struct ListTestRecommendationsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let testRecommendations: [ResiliencehubClientTypes.TestRecommendation]?
 }
 
-extension ListTestRecommendationsOutputResponseBody: Swift.Decodable {
+extension ListTestRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case testRecommendations
@@ -9653,6 +9721,22 @@ extension ListTestRecommendationsOutputResponseBody: Swift.Decodable {
             }
         }
         testRecommendations = testRecommendationsDecoded0
+    }
+}
+
+enum ListTestRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9692,7 +9776,7 @@ extension ListUnsupportedAppVersionResourcesInput: ClientRuntime.URLPathProvider
 }
 
 public struct ListUnsupportedAppVersionResourcesInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -9753,27 +9837,11 @@ extension ListUnsupportedAppVersionResourcesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListUnsupportedAppVersionResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListUnsupportedAppVersionResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListUnsupportedAppVersionResourcesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListUnsupportedAppVersionResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListUnsupportedAppVersionResourcesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.resolutionId = output.resolutionId
             self.unsupportedResources = output.unsupportedResources
@@ -9785,7 +9853,7 @@ extension ListUnsupportedAppVersionResourcesOutputResponse: ClientRuntime.HttpRe
     }
 }
 
-public struct ListUnsupportedAppVersionResourcesOutputResponse: Swift.Equatable {
+public struct ListUnsupportedAppVersionResourcesOutput: Swift.Equatable {
     /// Token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The identifier for a specific resolution.
@@ -9807,13 +9875,13 @@ public struct ListUnsupportedAppVersionResourcesOutputResponse: Swift.Equatable 
     }
 }
 
-struct ListUnsupportedAppVersionResourcesOutputResponseBody: Swift.Equatable {
+struct ListUnsupportedAppVersionResourcesOutputBody: Swift.Equatable {
     let unsupportedResources: [ResiliencehubClientTypes.UnsupportedResource]?
     let resolutionId: Swift.String?
     let nextToken: Swift.String?
 }
 
-extension ListUnsupportedAppVersionResourcesOutputResponseBody: Swift.Decodable {
+extension ListUnsupportedAppVersionResourcesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case resolutionId
@@ -9837,6 +9905,22 @@ extension ListUnsupportedAppVersionResourcesOutputResponseBody: Swift.Decodable 
         resolutionId = resolutionIdDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListUnsupportedAppVersionResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9968,7 +10052,11 @@ extension ResiliencehubClientTypes {
         ///
         /// * These roles must have a trust policy with iam:AssumeRole permission to the invoker role in the primary account.
         public var crossAccountRoleArns: [Swift.String]?
-        /// Existing Amazon Web Services IAM role name in the primary Amazon Web Services account that will be assumed by Resilience Hub Service Principle to obtain a read-only access to your application resources while running an assessment. You must have iam:passRole permission for this role while creating or updating the application.
+        /// Existing Amazon Web Services IAM role name in the primary Amazon Web Services account that will be assumed by Resilience Hub Service Principle to obtain a read-only access to your application resources while running an assessment.
+        ///
+        /// * You must have iam:passRole permission for this role while creating or updating the application.
+        ///
+        /// * Currently, invokerRoleName accepts only [A-Za-z0-9_+=,.@-] characters.
         public var invokerRoleName: Swift.String?
         /// Defines how Resilience Hub scans your resources. It can scan for the resources by using a pre-existing role in your Amazon Web Services account, or by using the credentials of the current IAM user.
         /// This member is required.
@@ -10346,7 +10434,7 @@ extension PublishAppVersionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PublishAppVersionInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Name of the application version.
@@ -10382,27 +10470,11 @@ extension PublishAppVersionInputBody: Swift.Decodable {
     }
 }
 
-public enum PublishAppVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension PublishAppVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PublishAppVersionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PublishAppVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PublishAppVersionOutputBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appVersion = output.appVersion
             self.identifier = output.identifier
@@ -10416,8 +10488,8 @@ extension PublishAppVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PublishAppVersionOutputResponse: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+public struct PublishAppVersionOutput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -10441,14 +10513,14 @@ public struct PublishAppVersionOutputResponse: Swift.Equatable {
     }
 }
 
-struct PublishAppVersionOutputResponseBody: Swift.Equatable {
+struct PublishAppVersionOutputBody: Swift.Equatable {
     let appArn: Swift.String?
     let appVersion: Swift.String?
     let identifier: Swift.Int?
     let versionName: Swift.String?
 }
 
-extension PublishAppVersionOutputResponseBody: Swift.Decodable {
+extension PublishAppVersionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case appVersion
@@ -10466,6 +10538,22 @@ extension PublishAppVersionOutputResponseBody: Swift.Decodable {
         identifier = identifierDecoded
         let versionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionName)
         versionName = versionNameDecoded
+    }
+}
+
+enum PublishAppVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10493,7 +10581,7 @@ extension PutDraftAppVersionTemplateInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutDraftAppVersionTemplateInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// A JSON string that provides information about your application structure. To learn more about the appTemplateBody template, see the sample template provided in the Examples section. The appTemplateBody JSON string has the following structure:
@@ -10604,27 +10692,11 @@ extension PutDraftAppVersionTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum PutDraftAppVersionTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension PutDraftAppVersionTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PutDraftAppVersionTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PutDraftAppVersionTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PutDraftAppVersionTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appVersion = output.appVersion
         } else {
@@ -10634,8 +10706,8 @@ extension PutDraftAppVersionTemplateOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct PutDraftAppVersionTemplateOutputResponse: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+public struct PutDraftAppVersionTemplateOutput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     public var appArn: Swift.String?
     /// The version of the application.
     public var appVersion: Swift.String?
@@ -10650,12 +10722,12 @@ public struct PutDraftAppVersionTemplateOutputResponse: Swift.Equatable {
     }
 }
 
-struct PutDraftAppVersionTemplateOutputResponseBody: Swift.Equatable {
+struct PutDraftAppVersionTemplateOutputBody: Swift.Equatable {
     let appArn: Swift.String?
     let appVersion: Swift.String?
 }
 
-extension PutDraftAppVersionTemplateOutputResponseBody: Swift.Decodable {
+extension PutDraftAppVersionTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case appVersion
@@ -10667,6 +10739,22 @@ extension PutDraftAppVersionTemplateOutputResponseBody: Swift.Decodable {
         appArn = appArnDecoded
         let appVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appVersion)
         appVersion = appVersionDecoded
+    }
+}
+
+enum PutDraftAppVersionTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10866,6 +10954,44 @@ extension ResiliencehubClientTypes {
 
 }
 
+extension ResiliencehubClientTypes {
+    public enum RecommendationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case excluded
+        case implemented
+        case inactive
+        case notImplemented
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecommendationStatus] {
+            return [
+                .excluded,
+                .implemented,
+                .inactive,
+                .notImplemented,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .excluded: return "Excluded"
+            case .implemented: return "Implemented"
+            case .inactive: return "Inactive"
+            case .notImplemented: return "NotImplemented"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RecommendationStatus(rawValue: rawValue) ?? RecommendationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ResiliencehubClientTypes.RecommendationTemplate: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
@@ -11007,9 +11133,9 @@ extension ResiliencehubClientTypes.RecommendationTemplate: Swift.CustomDebugStri
 extension ResiliencehubClientTypes {
     /// Defines a recommendation template created with the [CreateRecommendationTemplate] action.
     public struct RecommendationTemplate: Swift.Equatable {
-        /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
         public var appArn: Swift.String?
-        /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
         /// This member is required.
         public var assessmentArn: Swift.String?
         /// The end time for the action.
@@ -11178,7 +11304,7 @@ extension RemoveDraftAppVersionResourceMappingsInput: ClientRuntime.URLPathProvi
 }
 
 public struct RemoveDraftAppVersionResourceMappingsInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The names of the registered applications you want to remove from the resource mappings.
@@ -11308,27 +11434,11 @@ extension RemoveDraftAppVersionResourceMappingsInputBody: Swift.Decodable {
     }
 }
 
-public enum RemoveDraftAppVersionResourceMappingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension RemoveDraftAppVersionResourceMappingsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RemoveDraftAppVersionResourceMappingsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RemoveDraftAppVersionResourceMappingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RemoveDraftAppVersionResourceMappingsOutputBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appVersion = output.appVersion
         } else {
@@ -11338,8 +11448,8 @@ extension RemoveDraftAppVersionResourceMappingsOutputResponse: ClientRuntime.Htt
     }
 }
 
-public struct RemoveDraftAppVersionResourceMappingsOutputResponse: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+public struct RemoveDraftAppVersionResourceMappingsOutput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     public var appArn: Swift.String?
     /// The version of the application.
     public var appVersion: Swift.String?
@@ -11354,12 +11464,12 @@ public struct RemoveDraftAppVersionResourceMappingsOutputResponse: Swift.Equatab
     }
 }
 
-struct RemoveDraftAppVersionResourceMappingsOutputResponseBody: Swift.Equatable {
+struct RemoveDraftAppVersionResourceMappingsOutputBody: Swift.Equatable {
     let appArn: Swift.String?
     let appVersion: Swift.String?
 }
 
-extension RemoveDraftAppVersionResourceMappingsOutputResponseBody: Swift.Decodable {
+extension RemoveDraftAppVersionResourceMappingsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case appVersion
@@ -11371,6 +11481,22 @@ extension RemoveDraftAppVersionResourceMappingsOutputResponseBody: Swift.Decodab
         appArn = appArnDecoded
         let appVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appVersion)
         appVersion = appVersionDecoded
+    }
+}
+
+enum RemoveDraftAppVersionResourceMappingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11506,9 +11632,9 @@ extension ResiliencehubClientTypes.ResiliencyPolicy: Swift.CustomDebugStringConv
 }
 
 extension ResiliencehubClientTypes {
-    /// Defines a resiliency policy.
+    /// Defines a resiliency policy. Resilience Hub allows you to provide a value of zero for rtoInSecs and rpoInSecs of your resiliency policy. But, while assessing your application, the lowest possible assessment result is near zero. Hence, if you provide value zero for rtoInSecs and rpoInSecs, the estimated workload RTO and estimated workload RPO result will be near zero and the Compliance status for your application will be set to Policy breached.
     public struct ResiliencyPolicy: Swift.Equatable {
-        /// The timestamp for when the resiliency policy was created.
+        /// Date and time when the resiliency policy was created.
         public var creationTime: ClientRuntime.Date?
         /// Specifies a high-level geographical location constraint for where your resilience policy data can be stored.
         public var dataLocationConstraint: ResiliencehubClientTypes.DataLocationConstraint?
@@ -11516,7 +11642,7 @@ extension ResiliencehubClientTypes {
         public var estimatedCostTier: ResiliencehubClientTypes.EstimatedCostTier?
         /// The resiliency policy.
         public var policy: [Swift.String:ResiliencehubClientTypes.FailurePolicy]?
-        /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
         public var policyArn: Swift.String?
         /// The description for the policy.
         public var policyDescription: Swift.String?
@@ -11599,12 +11725,19 @@ extension ResiliencehubClientTypes {
 
 extension ResiliencehubClientTypes.ResiliencyScore: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case componentScore
         case disruptionScore
         case score
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let componentScore = componentScore {
+            var componentScoreContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .componentScore)
+            for (dictKey0, scoringComponentResiliencyScores0) in componentScore {
+                try componentScoreContainer.encode(scoringComponentResiliencyScores0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let disruptionScore = disruptionScore {
             var disruptionScoreContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .disruptionScore)
             for (dictKey0, disruptionResiliencyScore0) in disruptionScore {
@@ -11631,12 +11764,25 @@ extension ResiliencehubClientTypes.ResiliencyScore: Swift.Codable {
             }
         }
         disruptionScore = disruptionScoreDecoded0
+        let componentScoreContainer = try containerValues.decodeIfPresent([Swift.String: ResiliencehubClientTypes.ScoringComponentResiliencyScore?].self, forKey: .componentScore)
+        var componentScoreDecoded0: [Swift.String:ResiliencehubClientTypes.ScoringComponentResiliencyScore]? = nil
+        if let componentScoreContainer = componentScoreContainer {
+            componentScoreDecoded0 = [Swift.String:ResiliencehubClientTypes.ScoringComponentResiliencyScore]()
+            for (key0, scoringcomponentresiliencyscore0) in componentScoreContainer {
+                if let scoringcomponentresiliencyscore0 = scoringcomponentresiliencyscore0 {
+                    componentScoreDecoded0?[key0] = scoringcomponentresiliencyscore0
+                }
+            }
+        }
+        componentScore = componentScoreDecoded0
     }
 }
 
 extension ResiliencehubClientTypes {
     /// The overall resiliency score, returned as an object that includes the disruption score and outage score.
     public struct ResiliencyScore: Swift.Equatable {
+        /// The score generated by Resilience Hub for the scoring component after running an assessment. For example, if the score is 25 points, it indicates the overall score of your application generated by Resilience Hub after running an assessment.
+        public var componentScore: [Swift.String:ResiliencehubClientTypes.ScoringComponentResiliencyScore]?
         /// The disruption score for a valid key.
         /// This member is required.
         public var disruptionScore: [Swift.String:Swift.Double]?
@@ -11645,15 +11791,55 @@ extension ResiliencehubClientTypes {
         public var score: Swift.Double
 
         public init(
+            componentScore: [Swift.String:ResiliencehubClientTypes.ScoringComponentResiliencyScore]? = nil,
             disruptionScore: [Swift.String:Swift.Double]? = nil,
             score: Swift.Double = 0.0
         )
         {
+            self.componentScore = componentScore
             self.disruptionScore = disruptionScore
             self.score = score
         }
     }
 
+}
+
+extension ResiliencehubClientTypes {
+    public enum ResiliencyScoreType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case alarm
+        case compliance
+        case sop
+        case test
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResiliencyScoreType] {
+            return [
+                .alarm,
+                .compliance,
+                .sop,
+                .test,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .alarm: return "Alarm"
+            case .compliance: return "Compliance"
+            case .sop: return "Sop"
+            case .test: return "Test"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ResiliencyScoreType(rawValue: rawValue) ?? ResiliencyScoreType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ResolveAppVersionResourcesInput: Swift.Encodable {
@@ -11680,7 +11866,7 @@ extension ResolveAppVersionResourcesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ResolveAppVersionResourcesInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -11717,27 +11903,11 @@ extension ResolveAppVersionResourcesInputBody: Swift.Decodable {
     }
 }
 
-public enum ResolveAppVersionResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ResolveAppVersionResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ResolveAppVersionResourcesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ResolveAppVersionResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ResolveAppVersionResourcesOutputBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appVersion = output.appVersion
             self.resolutionId = output.resolutionId
@@ -11751,8 +11921,8 @@ extension ResolveAppVersionResourcesOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct ResolveAppVersionResourcesOutputResponse: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+public struct ResolveAppVersionResourcesOutput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -11779,14 +11949,14 @@ public struct ResolveAppVersionResourcesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ResolveAppVersionResourcesOutputResponseBody: Swift.Equatable {
+struct ResolveAppVersionResourcesOutputBody: Swift.Equatable {
     let appArn: Swift.String?
     let appVersion: Swift.String?
     let resolutionId: Swift.String?
     let status: ResiliencehubClientTypes.ResourceResolutionStatusType?
 }
 
-extension ResolveAppVersionResourcesOutputResponseBody: Swift.Decodable {
+extension ResolveAppVersionResourcesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case appVersion
@@ -11804,6 +11974,22 @@ extension ResolveAppVersionResourcesOutputResponseBody: Swift.Decodable {
         resolutionId = resolutionIdDecoded
         let statusDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.ResourceResolutionStatusType.self, forKey: .status)
         status = statusDecoded
+    }
+}
+
+enum ResolveAppVersionResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -12330,6 +12516,71 @@ extension ResiliencehubClientTypes {
 
 }
 
+extension ResiliencehubClientTypes.ScoringComponentResiliencyScore: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case excludedCount
+        case outstandingCount
+        case possibleScore
+        case score
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if excludedCount != 0 {
+            try encodeContainer.encode(excludedCount, forKey: .excludedCount)
+        }
+        if outstandingCount != 0 {
+            try encodeContainer.encode(outstandingCount, forKey: .outstandingCount)
+        }
+        if possibleScore != 0.0 {
+            try encodeContainer.encode(possibleScore, forKey: .possibleScore)
+        }
+        if score != 0.0 {
+            try encodeContainer.encode(score, forKey: .score)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .score) ?? 0.0
+        score = scoreDecoded
+        let possibleScoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .possibleScore) ?? 0.0
+        possibleScore = possibleScoreDecoded
+        let outstandingCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .outstandingCount) ?? 0
+        outstandingCount = outstandingCountDecoded
+        let excludedCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .excludedCount) ?? 0
+        excludedCount = excludedCountDecoded
+    }
+}
+
+extension ResiliencehubClientTypes {
+    /// Resiliency score of each scoring component. For more information about scoring component, see [Calculating resiliency score](https://docs.aws.amazon.com/resilience-hub/latest/userguide/calculate-score.html).
+    public struct ScoringComponentResiliencyScore: Swift.Equatable {
+        /// Number of recommendations that were excluded from the assessment. For example, if the Excluded count for Resilience Hub recommended Amazon CloudWatch alarms is 7, it indicates that 7 Amazon CloudWatch alarms are excluded from the assessment.
+        public var excludedCount: Swift.Int
+        /// Number of issues that must be resolved to obtain the maximum possible score for the scoring component. For SOPs, alarms, and FIS experiments, these are the number of recommendations that must be implemented. For compliance, it is the number of Application Components that has breached the resiliency policy. For example, if the Outstanding count for Resilience Hub recommended Amazon CloudWatch alarms is 5, it indicates that 5 Amazon CloudWatch alarms must be fixed to achieve the maximum possible score.
+        public var outstandingCount: Swift.Int
+        /// Maximum possible score that can be obtained for the scoring component. If the Possible score is 20 points, it indicates the maximum possible score you can achieve for your application when you run a new assessment after implementing all the Resilience Hub recommendations.
+        public var possibleScore: Swift.Double
+        /// Resiliency score of your application.
+        public var score: Swift.Double
+
+        public init(
+            excludedCount: Swift.Int = 0,
+            outstandingCount: Swift.Int = 0,
+            possibleScore: Swift.Double = 0.0,
+            score: Swift.Double = 0.0
+        )
+        {
+            self.excludedCount = excludedCount
+            self.outstandingCount = outstandingCount
+            self.possibleScore = possibleScore
+            self.score = score
+        }
+    }
+
+}
+
 extension ServiceQuotaExceededException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -12393,6 +12644,7 @@ extension ResiliencehubClientTypes.SopRecommendation: Swift.Codable {
         case name
         case prerequisite
         case recommendationId
+        case recommendationStatus
         case referenceId
         case serviceType
     }
@@ -12419,6 +12671,9 @@ extension ResiliencehubClientTypes.SopRecommendation: Swift.Codable {
         }
         if let recommendationId = self.recommendationId {
             try encodeContainer.encode(recommendationId, forKey: .recommendationId)
+        }
+        if let recommendationStatus = self.recommendationStatus {
+            try encodeContainer.encode(recommendationStatus.rawValue, forKey: .recommendationStatus)
         }
         if let referenceId = self.referenceId {
             try encodeContainer.encode(referenceId, forKey: .referenceId)
@@ -12455,6 +12710,8 @@ extension ResiliencehubClientTypes.SopRecommendation: Swift.Codable {
         referenceId = referenceIdDecoded
         let prerequisiteDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prerequisite)
         prerequisite = prerequisiteDecoded
+        let recommendationStatusDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.RecommendationStatus.self, forKey: .recommendationStatus)
+        recommendationStatus = recommendationStatusDecoded
     }
 }
 
@@ -12474,6 +12731,8 @@ extension ResiliencehubClientTypes {
         /// Identifier for the SOP recommendation.
         /// This member is required.
         public var recommendationId: Swift.String?
+        /// Status of the recommended standard operating procedure.
+        public var recommendationStatus: ResiliencehubClientTypes.RecommendationStatus?
         /// Reference identifier for the SOP recommendation.
         /// This member is required.
         public var referenceId: Swift.String?
@@ -12488,6 +12747,7 @@ extension ResiliencehubClientTypes {
             name: Swift.String? = nil,
             prerequisite: Swift.String? = nil,
             recommendationId: Swift.String? = nil,
+            recommendationStatus: ResiliencehubClientTypes.RecommendationStatus? = nil,
             referenceId: Swift.String? = nil,
             serviceType: ResiliencehubClientTypes.SopServiceType? = nil
         )
@@ -12498,6 +12758,7 @@ extension ResiliencehubClientTypes {
             self.name = name
             self.prerequisite = prerequisite
             self.recommendationId = recommendationId
+            self.recommendationStatus = recommendationStatus
             self.referenceId = referenceId
             self.serviceType = serviceType
         }
@@ -12578,7 +12839,7 @@ extension StartAppAssessmentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartAppAssessmentInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -12649,28 +12910,11 @@ extension StartAppAssessmentInputBody: Swift.Decodable {
     }
 }
 
-public enum StartAppAssessmentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartAppAssessmentOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartAppAssessmentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartAppAssessmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartAppAssessmentOutputBody = try responseDecoder.decode(responseBody: data)
             self.assessment = output.assessment
         } else {
             self.assessment = nil
@@ -12678,7 +12922,7 @@ extension StartAppAssessmentOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartAppAssessmentOutputResponse: Swift.Equatable {
+public struct StartAppAssessmentOutput: Swift.Equatable {
     /// The assessment created.
     /// This member is required.
     public var assessment: ResiliencehubClientTypes.AppAssessment?
@@ -12691,11 +12935,11 @@ public struct StartAppAssessmentOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartAppAssessmentOutputResponseBody: Swift.Equatable {
+struct StartAppAssessmentOutputBody: Swift.Equatable {
     let assessment: ResiliencehubClientTypes.AppAssessment?
 }
 
-extension StartAppAssessmentOutputResponseBody: Swift.Decodable {
+extension StartAppAssessmentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case assessment
     }
@@ -12704,6 +12948,23 @@ extension StartAppAssessmentOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let assessmentDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.AppAssessment.self, forKey: .assessment)
         assessment = assessmentDecoded
+    }
+}
+
+enum StartAppAssessmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -12780,8 +13041,18 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -12793,16 +13064,6 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ResiliencehubClientTypes {
@@ -12883,6 +13144,7 @@ extension ResiliencehubClientTypes.TestRecommendation: Swift.Codable {
         case name
         case prerequisite
         case recommendationId
+        case recommendationStatus
         case referenceId
         case risk
         case type
@@ -12919,6 +13181,9 @@ extension ResiliencehubClientTypes.TestRecommendation: Swift.Codable {
         }
         if let recommendationId = self.recommendationId {
             try encodeContainer.encode(recommendationId, forKey: .recommendationId)
+        }
+        if let recommendationStatus = self.recommendationStatus {
+            try encodeContainer.encode(recommendationStatus.rawValue, forKey: .recommendationStatus)
         }
         if let referenceId = self.referenceId {
             try encodeContainer.encode(referenceId, forKey: .referenceId)
@@ -12973,6 +13238,8 @@ extension ResiliencehubClientTypes.TestRecommendation: Swift.Codable {
             }
         }
         dependsOnAlarms = dependsOnAlarmsDecoded0
+        let recommendationStatusDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.RecommendationStatus.self, forKey: .recommendationStatus)
+        recommendationStatus = recommendationStatusDecoded
     }
 }
 
@@ -12995,6 +13262,8 @@ extension ResiliencehubClientTypes {
         public var prerequisite: Swift.String?
         /// Identifier for the test recommendation.
         public var recommendationId: Swift.String?
+        /// Status of the recommended test.
+        public var recommendationStatus: ResiliencehubClientTypes.RecommendationStatus?
         /// Reference identifier for the test recommendation.
         /// This member is required.
         public var referenceId: Swift.String?
@@ -13012,6 +13281,7 @@ extension ResiliencehubClientTypes {
             name: Swift.String? = nil,
             prerequisite: Swift.String? = nil,
             recommendationId: Swift.String? = nil,
+            recommendationStatus: ResiliencehubClientTypes.RecommendationStatus? = nil,
             referenceId: Swift.String? = nil,
             risk: ResiliencehubClientTypes.TestRisk? = nil,
             type: ResiliencehubClientTypes.TestType? = nil
@@ -13025,6 +13295,7 @@ extension ResiliencehubClientTypes {
             self.name = name
             self.prerequisite = prerequisite
             self.recommendationId = recommendationId
+            self.recommendationStatus = recommendationStatus
             self.referenceId = referenceId
             self.risk = risk
             self.type = type
@@ -13297,8 +13568,18 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -13310,16 +13591,6 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateAppInput: Swift.Encodable {
@@ -13369,7 +13640,7 @@ extension UpdateAppInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateAppInput: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Assessment execution schedule with 'Daily' or 'Disabled' values.
@@ -13382,7 +13653,7 @@ public struct UpdateAppInput: Swift.Equatable {
     public var eventSubscriptions: [ResiliencehubClientTypes.EventSubscription]?
     /// Defines the roles and credentials that Resilience Hub would use while creating an application, importing its resources, and running an assessment.
     public var permissionModel: ResiliencehubClientTypes.PermissionModel?
-    /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     public var policyArn: Swift.String?
 
     public init(
@@ -13454,27 +13725,11 @@ extension UpdateAppInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateAppOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateAppOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateAppOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateAppOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateAppOutputBody = try responseDecoder.decode(responseBody: data)
             self.app = output.app
         } else {
             self.app = nil
@@ -13482,7 +13737,7 @@ extension UpdateAppOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAppOutputResponse: Swift.Equatable {
+public struct UpdateAppOutput: Swift.Equatable {
     /// The specified application, returned as an object with details including compliance status, creation time, description, resiliency score, and more.
     /// This member is required.
     public var app: ResiliencehubClientTypes.App?
@@ -13495,11 +13750,11 @@ public struct UpdateAppOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateAppOutputResponseBody: Swift.Equatable {
+struct UpdateAppOutputBody: Swift.Equatable {
     let app: ResiliencehubClientTypes.App?
 }
 
-extension UpdateAppOutputResponseBody: Swift.Decodable {
+extension UpdateAppOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case app
     }
@@ -13508,6 +13763,22 @@ extension UpdateAppOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.App.self, forKey: .app)
         app = appDecoded
+    }
+}
+
+enum UpdateAppOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -13555,7 +13826,7 @@ extension UpdateAppVersionAppComponentInput: ClientRuntime.URLPathProvider {
 public struct UpdateAppVersionAppComponentInput: Swift.Equatable {
     /// Currently, there is no supported additional information for Application Components.
     public var additionalInfo: [Swift.String:[Swift.String]]?
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Identifier of the Application Component.
@@ -13630,27 +13901,11 @@ extension UpdateAppVersionAppComponentInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateAppVersionAppComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateAppVersionAppComponentOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateAppVersionAppComponentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateAppVersionAppComponentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateAppVersionAppComponentOutputBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appComponent = output.appComponent
             self.appVersion = output.appVersion
@@ -13662,8 +13917,8 @@ extension UpdateAppVersionAppComponentOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct UpdateAppVersionAppComponentOutputResponse: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+public struct UpdateAppVersionAppComponentOutput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// List of Application Components that belong to this resource.
@@ -13684,13 +13939,13 @@ public struct UpdateAppVersionAppComponentOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateAppVersionAppComponentOutputResponseBody: Swift.Equatable {
+struct UpdateAppVersionAppComponentOutputBody: Swift.Equatable {
     let appArn: Swift.String?
     let appVersion: Swift.String?
     let appComponent: ResiliencehubClientTypes.AppComponent?
 }
 
-extension UpdateAppVersionAppComponentOutputResponseBody: Swift.Decodable {
+extension UpdateAppVersionAppComponentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case appComponent
@@ -13705,6 +13960,22 @@ extension UpdateAppVersionAppComponentOutputResponseBody: Swift.Decodable {
         appVersion = appVersionDecoded
         let appComponentDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.AppComponent.self, forKey: .appComponent)
         appComponent = appComponentDecoded
+    }
+}
+
+enum UpdateAppVersionAppComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -13740,7 +14011,7 @@ extension UpdateAppVersionInput: ClientRuntime.URLPathProvider {
 public struct UpdateAppVersionInput: Swift.Equatable {
     /// Additional configuration parameters for an Resilience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html). Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
     public var additionalInfo: [Swift.String:[Swift.String]]?
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
 
@@ -13790,27 +14061,11 @@ extension UpdateAppVersionInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateAppVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateAppVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateAppVersionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateAppVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateAppVersionOutputBody = try responseDecoder.decode(responseBody: data)
             self.additionalInfo = output.additionalInfo
             self.appArn = output.appArn
             self.appVersion = output.appVersion
@@ -13822,10 +14077,10 @@ extension UpdateAppVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAppVersionOutputResponse: Swift.Equatable {
+public struct UpdateAppVersionOutput: Swift.Equatable {
     /// Additional configuration parameters for an Resilience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html). Currently, this parameter supports only failover region and account.
     public var additionalInfo: [Swift.String:[Swift.String]]?
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Resilience Hub application version.
@@ -13844,13 +14099,13 @@ public struct UpdateAppVersionOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateAppVersionOutputResponseBody: Swift.Equatable {
+struct UpdateAppVersionOutputBody: Swift.Equatable {
     let appArn: Swift.String?
     let appVersion: Swift.String?
     let additionalInfo: [Swift.String:[Swift.String]]?
 }
 
-extension UpdateAppVersionOutputResponseBody: Swift.Decodable {
+extension UpdateAppVersionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case additionalInfo
         case appArn
@@ -13881,6 +14136,22 @@ extension UpdateAppVersionOutputResponseBody: Swift.Decodable {
             }
         }
         additionalInfo = additionalInfoDecoded0
+    }
+}
+
+enum UpdateAppVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -13951,7 +14222,7 @@ extension UpdateAppVersionResourceInput: ClientRuntime.URLPathProvider {
 public struct UpdateAppVersionResourceInput: Swift.Equatable {
     /// Currently, there is no supported additional information for resources.
     public var additionalInfo: [Swift.String:[Swift.String]]?
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// List of Application Components that this resource belongs to. If an Application Component is not part of the Resilience Hub application, it will be added.
@@ -14074,28 +14345,11 @@ extension UpdateAppVersionResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateAppVersionResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateAppVersionResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateAppVersionResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateAppVersionResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateAppVersionResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appVersion = output.appVersion
             self.physicalResource = output.physicalResource
@@ -14107,8 +14361,8 @@ extension UpdateAppVersionResourceOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct UpdateAppVersionResourceOutputResponse: Swift.Equatable {
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+public struct UpdateAppVersionResourceOutput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Resilience Hub application version.
@@ -14129,13 +14383,13 @@ public struct UpdateAppVersionResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateAppVersionResourceOutputResponseBody: Swift.Equatable {
+struct UpdateAppVersionResourceOutputBody: Swift.Equatable {
     let appArn: Swift.String?
     let appVersion: Swift.String?
     let physicalResource: ResiliencehubClientTypes.PhysicalResource?
 }
 
-extension UpdateAppVersionResourceOutputResponseBody: Swift.Decodable {
+extension UpdateAppVersionResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case appVersion
@@ -14150,6 +14404,23 @@ extension UpdateAppVersionResourceOutputResponseBody: Swift.Decodable {
         appVersion = appVersionDecoded
         let physicalResourceDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.PhysicalResource.self, forKey: .physicalResource)
         physicalResource = physicalResourceDecoded
+    }
+}
+
+enum UpdateAppVersionResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -14334,7 +14605,7 @@ public struct UpdateResiliencyPolicyInput: Swift.Equatable {
     public var dataLocationConstraint: ResiliencehubClientTypes.DataLocationConstraint?
     /// The type of resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.
     public var policy: [Swift.String:ResiliencehubClientTypes.FailurePolicy]?
-    /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var policyArn: Swift.String?
     /// The description for the policy.
@@ -14407,27 +14678,11 @@ extension UpdateResiliencyPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateResiliencyPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateResiliencyPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateResiliencyPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateResiliencyPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateResiliencyPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
             self.policy = nil
@@ -14435,7 +14690,7 @@ extension UpdateResiliencyPolicyOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct UpdateResiliencyPolicyOutputResponse: Swift.Equatable {
+public struct UpdateResiliencyPolicyOutput: Swift.Equatable {
     /// The type of resiliency policy that was updated, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.
     /// This member is required.
     public var policy: ResiliencehubClientTypes.ResiliencyPolicy?
@@ -14448,11 +14703,11 @@ public struct UpdateResiliencyPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateResiliencyPolicyOutputResponseBody: Swift.Equatable {
+struct UpdateResiliencyPolicyOutputBody: Swift.Equatable {
     let policy: ResiliencehubClientTypes.ResiliencyPolicy?
 }
 
-extension UpdateResiliencyPolicyOutputResponseBody: Swift.Decodable {
+extension UpdateResiliencyPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy
     }
@@ -14461,6 +14716,22 @@ extension UpdateResiliencyPolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.ResiliencyPolicy.self, forKey: .policy)
         policy = policyDecoded
+    }
+}
+
+enum UpdateResiliencyPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

@@ -4,58 +4,456 @@ import ClientRuntime
 
 /// Amazon Web Services AppFabric quickly connects software as a service (SaaS) applications across your organization. This allows IT and security teams to easily manage and secure applications using a standard schema, and employees can complete everyday tasks faster using generative artificial intelligence (AI). You can use these APIs to complete AppFabric tasks, such as setting up audit log ingestions or viewing user access. For more information about AppFabric, including the required permissions to use the service, see the [Amazon Web Services AppFabric Administration Guide](https://docs.aws.amazon.com/appfabric/latest/adminguide/). For more information about using the Command Line Interface (CLI) to manage your AppFabric resources, see the [AppFabric section of the CLI Reference](https://docs.aws.amazon.com/cli/latest/reference/appfabric/index.html).
 public protocol AppFabricClientProtocol {
+    /// Performs the `BatchGetUserAccessTasks` operation on the `FabricFrontEndService` service.
+    ///
     /// Gets user access details in a batch request. This action polls data from the tasks that are kicked off by the StartUserAccessTasks action.
-    func batchGetUserAccessTasks(input: BatchGetUserAccessTasksInput) async throws -> BatchGetUserAccessTasksOutputResponse
+    ///
+    /// - Parameter BatchGetUserAccessTasksInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetUserAccessTasksOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func batchGetUserAccessTasks(input: BatchGetUserAccessTasksInput) async throws -> BatchGetUserAccessTasksOutput
+    /// Performs the `ConnectAppAuthorization` operation on the `FabricFrontEndService` service.
+    ///
     /// Establishes a connection between Amazon Web Services AppFabric and an application, which allows AppFabric to call the APIs of the application.
-    func connectAppAuthorization(input: ConnectAppAuthorizationInput) async throws -> ConnectAppAuthorizationOutputResponse
+    ///
+    /// - Parameter ConnectAppAuthorizationInput : [no documentation found]
+    ///
+    /// - Returns: `ConnectAppAuthorizationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func connectAppAuthorization(input: ConnectAppAuthorizationInput) async throws -> ConnectAppAuthorizationOutput
+    /// Performs the `CreateAppAuthorization` operation on the `FabricFrontEndService` service.
+    ///
     /// Creates an app authorization within an app bundle, which allows AppFabric to connect to an application.
-    func createAppAuthorization(input: CreateAppAuthorizationInput) async throws -> CreateAppAuthorizationOutputResponse
+    ///
+    /// - Parameter CreateAppAuthorizationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAppAuthorizationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `ConflictException` : The request has created a conflict. Check the request parameters and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func createAppAuthorization(input: CreateAppAuthorizationInput) async throws -> CreateAppAuthorizationOutput
+    /// Performs the `CreateAppBundle` operation on the `FabricFrontEndService` service.
+    ///
     /// Creates an app bundle to collect data from an application using AppFabric.
-    func createAppBundle(input: CreateAppBundleInput) async throws -> CreateAppBundleOutputResponse
+    ///
+    /// - Parameter CreateAppBundleInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAppBundleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `ConflictException` : The request has created a conflict. Check the request parameters and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func createAppBundle(input: CreateAppBundleInput) async throws -> CreateAppBundleOutput
+    /// Performs the `CreateIngestion` operation on the `FabricFrontEndService` service.
+    ///
     /// Creates a data ingestion for an application.
-    func createIngestion(input: CreateIngestionInput) async throws -> CreateIngestionOutputResponse
+    ///
+    /// - Parameter CreateIngestionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateIngestionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `ConflictException` : The request has created a conflict. Check the request parameters and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func createIngestion(input: CreateIngestionInput) async throws -> CreateIngestionOutput
+    /// Performs the `CreateIngestionDestination` operation on the `FabricFrontEndService` service.
+    ///
     /// Creates an ingestion destination, which specifies how an application's ingested data is processed by Amazon Web Services AppFabric and where it's delivered.
-    func createIngestionDestination(input: CreateIngestionDestinationInput) async throws -> CreateIngestionDestinationOutputResponse
+    ///
+    /// - Parameter CreateIngestionDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateIngestionDestinationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `ConflictException` : The request has created a conflict. Check the request parameters and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func createIngestionDestination(input: CreateIngestionDestinationInput) async throws -> CreateIngestionDestinationOutput
+    /// Performs the `DeleteAppAuthorization` operation on the `FabricFrontEndService` service.
+    ///
     /// Deletes an app authorization. You must delete the associated ingestion before you can delete an app authorization.
-    func deleteAppAuthorization(input: DeleteAppAuthorizationInput) async throws -> DeleteAppAuthorizationOutputResponse
+    ///
+    /// - Parameter DeleteAppAuthorizationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAppAuthorizationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func deleteAppAuthorization(input: DeleteAppAuthorizationInput) async throws -> DeleteAppAuthorizationOutput
+    /// Performs the `DeleteAppBundle` operation on the `FabricFrontEndService` service.
+    ///
     /// Deletes an app bundle. You must delete all associated app authorizations before you can delete an app bundle.
-    func deleteAppBundle(input: DeleteAppBundleInput) async throws -> DeleteAppBundleOutputResponse
+    ///
+    /// - Parameter DeleteAppBundleInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAppBundleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `ConflictException` : The request has created a conflict. Check the request parameters and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func deleteAppBundle(input: DeleteAppBundleInput) async throws -> DeleteAppBundleOutput
+    /// Performs the `DeleteIngestion` operation on the `FabricFrontEndService` service.
+    ///
     /// Deletes an ingestion. You must stop (disable) the ingestion and you must delete all associated ingestion destinations before you can delete an app ingestion.
-    func deleteIngestion(input: DeleteIngestionInput) async throws -> DeleteIngestionOutputResponse
+    ///
+    /// - Parameter DeleteIngestionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteIngestionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func deleteIngestion(input: DeleteIngestionInput) async throws -> DeleteIngestionOutput
+    /// Performs the `DeleteIngestionDestination` operation on the `FabricFrontEndService` service.
+    ///
     /// Deletes an ingestion destination. This deletes the association between an ingestion and it's destination. It doesn't delete previously ingested data or the storage destination, such as the Amazon S3 bucket where the data is delivered. If the ingestion destination is deleted while the associated ingestion is enabled, the ingestion will fail and is eventually disabled.
-    func deleteIngestionDestination(input: DeleteIngestionDestinationInput) async throws -> DeleteIngestionDestinationOutputResponse
+    ///
+    /// - Parameter DeleteIngestionDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteIngestionDestinationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func deleteIngestionDestination(input: DeleteIngestionDestinationInput) async throws -> DeleteIngestionDestinationOutput
+    /// Performs the `GetAppAuthorization` operation on the `FabricFrontEndService` service.
+    ///
     /// Returns information about an app authorization.
-    func getAppAuthorization(input: GetAppAuthorizationInput) async throws -> GetAppAuthorizationOutputResponse
+    ///
+    /// - Parameter GetAppAuthorizationInput : [no documentation found]
+    ///
+    /// - Returns: `GetAppAuthorizationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func getAppAuthorization(input: GetAppAuthorizationInput) async throws -> GetAppAuthorizationOutput
+    /// Performs the `GetAppBundle` operation on the `FabricFrontEndService` service.
+    ///
     /// Returns information about an app bundle.
-    func getAppBundle(input: GetAppBundleInput) async throws -> GetAppBundleOutputResponse
+    ///
+    /// - Parameter GetAppBundleInput : [no documentation found]
+    ///
+    /// - Returns: `GetAppBundleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func getAppBundle(input: GetAppBundleInput) async throws -> GetAppBundleOutput
+    /// Performs the `GetIngestion` operation on the `FabricFrontEndService` service.
+    ///
     /// Returns information about an ingestion.
-    func getIngestion(input: GetIngestionInput) async throws -> GetIngestionOutputResponse
+    ///
+    /// - Parameter GetIngestionInput : [no documentation found]
+    ///
+    /// - Returns: `GetIngestionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func getIngestion(input: GetIngestionInput) async throws -> GetIngestionOutput
+    /// Performs the `GetIngestionDestination` operation on the `FabricFrontEndService` service.
+    ///
     /// Returns information about an ingestion destination.
-    func getIngestionDestination(input: GetIngestionDestinationInput) async throws -> GetIngestionDestinationOutputResponse
+    ///
+    /// - Parameter GetIngestionDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `GetIngestionDestinationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func getIngestionDestination(input: GetIngestionDestinationInput) async throws -> GetIngestionDestinationOutput
+    /// Performs the `ListAppAuthorizations` operation on the `FabricFrontEndService` service.
+    ///
     /// Returns a list of all app authorizations configured for an app bundle.
-    func listAppAuthorizations(input: ListAppAuthorizationsInput) async throws -> ListAppAuthorizationsOutputResponse
+    ///
+    /// - Parameter ListAppAuthorizationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAppAuthorizationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func listAppAuthorizations(input: ListAppAuthorizationsInput) async throws -> ListAppAuthorizationsOutput
+    /// Performs the `ListAppBundles` operation on the `FabricFrontEndService` service.
+    ///
     /// Returns a list of app bundles.
-    func listAppBundles(input: ListAppBundlesInput) async throws -> ListAppBundlesOutputResponse
+    ///
+    /// - Parameter ListAppBundlesInput : [no documentation found]
+    ///
+    /// - Returns: `ListAppBundlesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func listAppBundles(input: ListAppBundlesInput) async throws -> ListAppBundlesOutput
+    /// Performs the `ListIngestionDestinations` operation on the `FabricFrontEndService` service.
+    ///
     /// Returns a list of all ingestion destinations configured for an ingestion.
-    func listIngestionDestinations(input: ListIngestionDestinationsInput) async throws -> ListIngestionDestinationsOutputResponse
+    ///
+    /// - Parameter ListIngestionDestinationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListIngestionDestinationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func listIngestionDestinations(input: ListIngestionDestinationsInput) async throws -> ListIngestionDestinationsOutput
+    /// Performs the `ListIngestions` operation on the `FabricFrontEndService` service.
+    ///
     /// Returns a list of all ingestions configured for an app bundle.
-    func listIngestions(input: ListIngestionsInput) async throws -> ListIngestionsOutputResponse
+    ///
+    /// - Parameter ListIngestionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListIngestionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func listIngestions(input: ListIngestionsInput) async throws -> ListIngestionsOutput
+    /// Performs the `ListTagsForResource` operation on the `FabricFrontEndService` service.
+    ///
     /// Returns a list of tags for a resource.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `StartIngestion` operation on the `FabricFrontEndService` service.
+    ///
     /// Starts (enables) an ingestion, which collects data from an application.
-    func startIngestion(input: StartIngestionInput) async throws -> StartIngestionOutputResponse
+    ///
+    /// - Parameter StartIngestionInput : [no documentation found]
+    ///
+    /// - Returns: `StartIngestionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `ConflictException` : The request has created a conflict. Check the request parameters and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func startIngestion(input: StartIngestionInput) async throws -> StartIngestionOutput
+    /// Performs the `StartUserAccessTasks` operation on the `FabricFrontEndService` service.
+    ///
     /// Starts the tasks to search user access status for a specific email address. The tasks are stopped when the user access status data is found. The tasks are terminated when the API calls to the application time out.
-    func startUserAccessTasks(input: StartUserAccessTasksInput) async throws -> StartUserAccessTasksOutputResponse
+    ///
+    /// - Parameter StartUserAccessTasksInput : [no documentation found]
+    ///
+    /// - Returns: `StartUserAccessTasksOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func startUserAccessTasks(input: StartUserAccessTasksInput) async throws -> StartUserAccessTasksOutput
+    /// Performs the `StopIngestion` operation on the `FabricFrontEndService` service.
+    ///
     /// Stops (disables) an ingestion.
-    func stopIngestion(input: StopIngestionInput) async throws -> StopIngestionOutputResponse
+    ///
+    /// - Parameter StopIngestionInput : [no documentation found]
+    ///
+    /// - Returns: `StopIngestionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `ConflictException` : The request has created a conflict. Check the request parameters and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func stopIngestion(input: StopIngestionInput) async throws -> StopIngestionOutput
+    /// Performs the `TagResource` operation on the `FabricFrontEndService` service.
+    ///
     /// Assigns one or more tags (key-value pairs) to the specified resource.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `FabricFrontEndService` service.
+    ///
     /// Removes a tag or tags from a resource.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateAppAuthorization` operation on the `FabricFrontEndService` service.
+    ///
     /// Updates an app authorization within an app bundle, which allows AppFabric to connect to an application. If the app authorization was in a connected state, updating the app authorization will set it back to a PendingConnect state.
-    func updateAppAuthorization(input: UpdateAppAuthorizationInput) async throws -> UpdateAppAuthorizationOutputResponse
+    ///
+    /// - Parameter UpdateAppAuthorizationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAppAuthorizationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func updateAppAuthorization(input: UpdateAppAuthorizationInput) async throws -> UpdateAppAuthorizationOutput
+    /// Performs the `UpdateIngestionDestination` operation on the `FabricFrontEndService` service.
+    ///
     /// Updates an ingestion destination, which specifies how an application's ingested data is processed by Amazon Web Services AppFabric and where it's delivered.
-    func updateIngestionDestination(input: UpdateIngestionDestinationInput) async throws -> UpdateIngestionDestinationOutputResponse
+    ///
+    /// - Parameter UpdateIngestionDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateIngestionDestinationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `ConflictException` : The request has created a conflict. Check the request parameters and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
+    func updateIngestionDestination(input: UpdateIngestionDestinationInput) async throws -> UpdateIngestionDestinationOutput
 }
 
 public enum AppFabricClientTypes {}

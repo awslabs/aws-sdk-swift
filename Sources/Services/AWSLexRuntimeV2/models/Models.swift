@@ -9,7 +9,7 @@ extension AccessDeniedException: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let message = self.message {
+        if let message = self.properties.message {
             try encodeContainer.encode(message, forKey: .message)
         }
     }
@@ -17,7 +17,7 @@ extension AccessDeniedException: Swift.Codable {
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        properties.message = messageDecoded
     }
 }
 
@@ -322,7 +322,7 @@ extension BadGatewayException: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let message = self.message {
+        if let message = self.properties.message {
             try encodeContainer.encode(message, forKey: .message)
         }
     }
@@ -330,7 +330,7 @@ extension BadGatewayException: Swift.Codable {
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        properties.message = messageDecoded
     }
 }
 
@@ -652,7 +652,7 @@ extension ConflictException: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let message = self.message {
+        if let message = self.properties.message {
             try encodeContainer.encode(message, forKey: .message)
         }
     }
@@ -660,7 +660,7 @@ extension ConflictException: Swift.Codable {
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        properties.message = messageDecoded
     }
 }
 
@@ -868,27 +868,11 @@ extension DeleteSessionInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteSessionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteSessionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteSessionOutputBody = try responseDecoder.decode(responseBody: data)
             self.botAliasId = output.botAliasId
             self.botId = output.botId
             self.localeId = output.localeId
@@ -902,7 +886,7 @@ extension DeleteSessionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSessionOutputResponse: Swift.Equatable {
+public struct DeleteSessionOutput: Swift.Equatable {
     /// The alias identifier in use for the bot that contained the session data.
     public var botAliasId: Swift.String?
     /// The identifier of the bot that contained the session data.
@@ -926,14 +910,14 @@ public struct DeleteSessionOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteSessionOutputResponseBody: Swift.Equatable {
+struct DeleteSessionOutputBody: Swift.Equatable {
     let botId: Swift.String?
     let botAliasId: Swift.String?
     let localeId: Swift.String?
     let sessionId: Swift.String?
 }
 
-extension DeleteSessionOutputResponseBody: Swift.Decodable {
+extension DeleteSessionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case botAliasId
         case botId
@@ -954,6 +938,22 @@ extension DeleteSessionOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum DeleteSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DependencyFailedException: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
@@ -961,7 +961,7 @@ extension DependencyFailedException: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let message = self.message {
+        if let message = self.properties.message {
             try encodeContainer.encode(message, forKey: .message)
         }
     }
@@ -969,7 +969,7 @@ extension DependencyFailedException: Swift.Codable {
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        properties.message = messageDecoded
     }
 }
 
@@ -1076,23 +1076,23 @@ extension LexRuntimeV2ClientTypes {
         /// * Spell by word - "b as in boy" "o as in oscar" "b as in boy"
         ///
         ///
-        /// For more information, see [ Using spelling to enter slot values ](https://docs.aws.amazon.com/lexv2/latest/dg/using-spelling.html).
+        /// For more information, see [ Using spelling to enter slot values ](https://docs.aws.amazon.com/lexv2/latest/dg/spelling-styles.html).
         public var slotElicitationStyle: LexRuntimeV2ClientTypes.StyleType?
         /// The name of the slot that should be elicited from the user.
         public var slotToElicit: Swift.String?
         /// The name of the constituent sub slot of the composite slot specified in slotToElicit that should be elicited from the user.
         public var subSlotToElicit: LexRuntimeV2ClientTypes.ElicitSubSlot?
-        /// The next action that the bot should take in its interaction with the user. The possible values are:
+        /// The next action that the bot should take in its interaction with the user. The following values are possible:
         ///
-        /// * Close - Indicates that there will not be a response from the user. For example, the statement "Your order has been placed" does not require a response.
+        /// * Close – Indicates that there will not be a response from the user. For example, the statement "Your order has been placed" does not require a response.
         ///
-        /// * ConfirmIntent - The next action is asking the user if the intent is complete and ready to be fulfilled. This is a yes/no question such as "Place the order?"
+        /// * ConfirmIntent – The next action is asking the user if the intent is complete and ready to be fulfilled. This is a yes/no question such as "Place the order?"
         ///
-        /// * Delegate - The next action is determined by Amazon Lex V2.
+        /// * Delegate – The next action is determined by Amazon Lex V2.
         ///
-        /// * ElicitIntent - The next action is to elicit an intent from the user.
+        /// * ElicitIntent – The next action is to elicit an intent from the user.
         ///
-        /// * ElicitSlot - The next action is to elicit a slot value from the user.
+        /// * ElicitSlot – The next action is to elicit a slot value from the user.
         /// This member is required.
         public var type: LexRuntimeV2ClientTypes.DialogActionType?
 
@@ -1213,7 +1213,7 @@ extension LexRuntimeV2ClientTypes.ElicitSubSlot: Swift.Codable {
             try encodeContainer.encode(name, forKey: .name)
         }
         if let subSlotToElicit = self.subSlotToElicit {
-            try encodeContainer.encode(subSlotToElicit.value, forKey: .subSlotToElicit)
+            try encodeContainer.encode(subSlotToElicit, forKey: .subSlotToElicit)
         }
     }
 
@@ -1221,7 +1221,7 @@ extension LexRuntimeV2ClientTypes.ElicitSubSlot: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
-        let subSlotToElicitDecoded = try containerValues.decodeIfPresent(Box<LexRuntimeV2ClientTypes.ElicitSubSlot>.self, forKey: .subSlotToElicit)
+        let subSlotToElicitDecoded = try containerValues.decodeIfPresent(LexRuntimeV2ClientTypes.ElicitSubSlot.self, forKey: .subSlotToElicit)
         subSlotToElicit = subSlotToElicitDecoded
     }
 }
@@ -1233,11 +1233,11 @@ extension LexRuntimeV2ClientTypes {
         /// This member is required.
         public var name: Swift.String?
         /// The field is not supported.
-        public var subSlotToElicit: Box<LexRuntimeV2ClientTypes.ElicitSubSlot>?
+        @Indirect public var subSlotToElicit: LexRuntimeV2ClientTypes.ElicitSubSlot?
 
         public init(
             name: Swift.String? = nil,
-            subSlotToElicit: Box<LexRuntimeV2ClientTypes.ElicitSubSlot>? = nil
+            subSlotToElicit: LexRuntimeV2ClientTypes.ElicitSubSlot? = nil
         )
         {
             self.name = name
@@ -1302,26 +1302,11 @@ extension GetSessionInputBody: Swift.Decodable {
     }
 }
 
-public enum GetSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetSessionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSessionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSessionOutputBody = try responseDecoder.decode(responseBody: data)
             self.interpretations = output.interpretations
             self.messages = output.messages
             self.sessionId = output.sessionId
@@ -1335,7 +1320,7 @@ extension GetSessionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSessionOutputResponse: Swift.Equatable {
+public struct GetSessionOutput: Swift.Equatable {
     /// A list of intents that Amazon Lex V2 determined might satisfy the user's utterance. Each interpretation includes the intent, a score that indicates how confident Amazon Lex V2 is that the interpretation is the correct one, and an optional sentiment response that indicates the sentiment expressed in the utterance.
     public var interpretations: [LexRuntimeV2ClientTypes.Interpretation]?
     /// A list of messages that were last sent to the user. The messages are ordered based on the order that your returned the messages from your Lambda function or the order that messages are defined in the bot.
@@ -1359,14 +1344,14 @@ public struct GetSessionOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSessionOutputResponseBody: Swift.Equatable {
+struct GetSessionOutputBody: Swift.Equatable {
     let sessionId: Swift.String?
     let messages: [LexRuntimeV2ClientTypes.Message]?
     let interpretations: [LexRuntimeV2ClientTypes.Interpretation]?
     let sessionState: LexRuntimeV2ClientTypes.SessionState?
 }
 
-extension GetSessionOutputResponseBody: Swift.Decodable {
+extension GetSessionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case interpretations
         case messages
@@ -1402,6 +1387,21 @@ extension GetSessionOutputResponseBody: Swift.Decodable {
         interpretations = interpretationsDecoded0
         let sessionStateDecoded = try containerValues.decodeIfPresent(LexRuntimeV2ClientTypes.SessionState.self, forKey: .sessionState)
         sessionState = sessionStateDecoded
+    }
+}
+
+enum GetSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1605,14 +1605,26 @@ extension LexRuntimeV2ClientTypes.Intent: Swift.Codable {
 extension LexRuntimeV2ClientTypes {
     /// The current intent that Amazon Lex V2 is attempting to fulfill.
     public struct Intent: Swift.Equatable {
-        /// Contains information about whether fulfillment of the intent has been confirmed.
+        /// Indicates whether the intent has been Confirmed, Denied, or None if the confirmation stage has not yet been reached.
         public var confirmationState: LexRuntimeV2ClientTypes.ConfirmationState?
         /// The name of the intent.
         /// This member is required.
         public var name: Swift.String?
         /// A map of all of the slots for the intent. The name of the slot maps to the value of the slot. If a slot has not been filled, the value is null.
         public var slots: [Swift.String:LexRuntimeV2ClientTypes.Slot]?
-        /// Contains fulfillment information for the intent.
+        /// Indicates the fulfillment state for the intent. The meanings of each value are as follows:
+        ///
+        /// * Failed – The bot failed to fulfill the intent.
+        ///
+        /// * Fulfilled – The bot has completed fulfillment of the intent.
+        ///
+        /// * FulfillmentInProgress – The bot is in the middle of fulfilling the intent.
+        ///
+        /// * InProgress – The bot is in the middle of eliciting the slot values that are necessary to fulfill the intent.
+        ///
+        /// * ReadyForFulfillment – The bot has elicited all the slot values for the intent and is ready to fulfill the intent.
+        ///
+        /// * Waiting – The bot is waiting for a response from the user (limited to streaming conversations).
         public var state: LexRuntimeV2ClientTypes.IntentState?
 
         public init(
@@ -1715,7 +1727,7 @@ extension LexRuntimeV2ClientTypes {
     public struct IntentResultEvent: Swift.Equatable {
         /// A unique identifier of the event sent by Amazon Lex V2. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex V2 in the current session.
         public var eventId: Swift.String?
-        /// Indicates whether the input to the operation was text or speech.
+        /// Indicates whether the input to the operation was text, speech, or from a touch-tone keypad.
         public var inputMode: LexRuntimeV2ClientTypes.InputMode?
         /// A list of intents that Amazon Lex V2 determined might satisfy the user's utterance. Each interpretation includes the intent, a score that indicates how confident Amazon Lex V2 is that the interpretation is the correct one, and an optional sentiment response that indicates the sentiment expressed in the utterance.
         public var interpretations: [LexRuntimeV2ClientTypes.Interpretation]?
@@ -1801,7 +1813,7 @@ extension InternalServerException: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let message = self.message {
+        if let message = self.properties.message {
             try encodeContainer.encode(message, forKey: .message)
         }
     }
@@ -1809,7 +1821,7 @@ extension InternalServerException: Swift.Codable {
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        properties.message = messageDecoded
     }
 }
 
@@ -1872,6 +1884,7 @@ extension InternalServerExceptionBody: Swift.Decodable {
 extension LexRuntimeV2ClientTypes.Interpretation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case intent
+        case interpretationSource
         case nluConfidence
         case sentimentResponse
     }
@@ -1880,6 +1893,9 @@ extension LexRuntimeV2ClientTypes.Interpretation: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let intent = self.intent {
             try encodeContainer.encode(intent, forKey: .intent)
+        }
+        if let interpretationSource = self.interpretationSource {
+            try encodeContainer.encode(interpretationSource.rawValue, forKey: .interpretationSource)
         }
         if let nluConfidence = self.nluConfidence {
             try encodeContainer.encode(nluConfidence, forKey: .nluConfidence)
@@ -1897,14 +1913,18 @@ extension LexRuntimeV2ClientTypes.Interpretation: Swift.Codable {
         sentimentResponse = sentimentResponseDecoded
         let intentDecoded = try containerValues.decodeIfPresent(LexRuntimeV2ClientTypes.Intent.self, forKey: .intent)
         intent = intentDecoded
+        let interpretationSourceDecoded = try containerValues.decodeIfPresent(LexRuntimeV2ClientTypes.InterpretationSource.self, forKey: .interpretationSource)
+        interpretationSource = interpretationSourceDecoded
     }
 }
 
 extension LexRuntimeV2ClientTypes {
-    /// An intent that Amazon Lex V2 determined might satisfy the user's utterance. The intents are ordered by the confidence score.
+    /// An object containing information about an intent that Amazon Lex V2 determined might satisfy the user's utterance. The intents are ordered by the confidence score.
     public struct Interpretation: Swift.Equatable {
         /// A list of intents that might satisfy the user's utterance. The intents are ordered by the confidence score.
         public var intent: LexRuntimeV2ClientTypes.Intent?
+        /// Specifies the service that interpreted the input.
+        public var interpretationSource: LexRuntimeV2ClientTypes.InterpretationSource?
         /// Determines the threshold where Amazon Lex V2 will insert the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative intents in a response. AMAZON.FallbackIntent and AMAZON.KendraSearchIntent are only inserted if they are configured for the bot.
         public var nluConfidence: LexRuntimeV2ClientTypes.ConfidenceScore?
         /// The sentiment expressed in an utterance. When the bot is configured to send utterances to Amazon Comprehend for sentiment analysis, this field contains the result of the analysis.
@@ -1912,16 +1932,50 @@ extension LexRuntimeV2ClientTypes {
 
         public init(
             intent: LexRuntimeV2ClientTypes.Intent? = nil,
+            interpretationSource: LexRuntimeV2ClientTypes.InterpretationSource? = nil,
             nluConfidence: LexRuntimeV2ClientTypes.ConfidenceScore? = nil,
             sentimentResponse: LexRuntimeV2ClientTypes.SentimentResponse? = nil
         )
         {
             self.intent = intent
+            self.interpretationSource = interpretationSource
             self.nluConfidence = nluConfidence
             self.sentimentResponse = sentimentResponse
         }
     }
 
+}
+
+extension LexRuntimeV2ClientTypes {
+    public enum InterpretationSource: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case bedrock
+        case lex
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InterpretationSource] {
+            return [
+                .bedrock,
+                .lex,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .bedrock: return "Bedrock"
+            case .lex: return "Lex"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InterpretationSource(rawValue: rawValue) ?? InterpretationSource.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension LexRuntimeV2ClientTypes.Message: Swift.Codable {
@@ -2302,25 +2356,7 @@ extension PutSessionInputBody: Swift.Decodable {
     }
 }
 
-public enum PutSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DependencyFailedException": return try await DependencyFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension PutSessionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PutSessionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             self.contentType = contentTypeHeaderValue
@@ -2352,24 +2388,24 @@ extension PutSessionOutputResponse: ClientRuntime.HttpResponseBinding {
             self.audioStream = .data(data)
         case .stream(let stream):
             self.audioStream = .stream(stream)
-        case .none:
+        case .noStream:
             self.audioStream = nil
         }
     }
 }
 
-public struct PutSessionOutputResponse: Swift.Equatable {
+public struct PutSessionOutput: Swift.Equatable {
     /// If the requested content type was audio, the audio version of the message to convey to the user.
     public var audioStream: ClientRuntime.ByteStream?
     /// The type of response. Same as the type specified in the responseContentType field in the request.
     public var contentType: Swift.String?
     /// A list of messages that were last sent to the user. The messages are ordered based on how you return the messages from you Lambda function or the order that the messages are defined in the bot.
     public var messages: Swift.String?
-    /// Request-specific information passed between the client application and Amazon Lex V2. These are the same as the requestAttribute parameter in the call to the PutSession operation.
+    /// A base-64-encoded gzipped field that provides request-specific information passed between the client application and Amazon Lex V2. These are the same as the requestAttribute parameter in the call to the PutSession operation.
     public var requestAttributes: Swift.String?
     /// The identifier of the session that received the data.
     public var sessionId: Swift.String?
-    /// Represents the current state of the dialog between the user and the bot. Use this to determine the progress of the conversation and what the next action may be.
+    /// A base-64-encoded gzipped field that represents the current state of the dialog between the user and the bot. Use this to determine the progress of the conversation and what the next action may be.
     public var sessionState: Swift.String?
 
     public init(
@@ -2390,11 +2426,11 @@ public struct PutSessionOutputResponse: Swift.Equatable {
     }
 }
 
-struct PutSessionOutputResponseBody: Swift.Equatable {
+struct PutSessionOutputBody: Swift.Equatable {
     let audioStream: ClientRuntime.ByteStream?
 }
 
-extension PutSessionOutputResponseBody: Swift.Decodable {
+extension PutSessionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case audioStream
     }
@@ -2403,6 +2439,24 @@ extension PutSessionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let audioStreamDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .audioStream)
         audioStream = audioStreamDecoded
+    }
+}
+
+enum PutSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependencyFailedException": return try await DependencyFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2527,29 +2581,11 @@ extension RecognizeTextInputBody: Swift.Decodable {
     }
 }
 
-public enum RecognizeTextOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DependencyFailedException": return try await DependencyFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension RecognizeTextOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RecognizeTextOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RecognizeTextOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RecognizeTextOutputBody = try responseDecoder.decode(responseBody: data)
             self.interpretations = output.interpretations
             self.messages = output.messages
             self.recognizedBotMember = output.recognizedBotMember
@@ -2567,7 +2603,7 @@ extension RecognizeTextOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RecognizeTextOutputResponse: Swift.Equatable {
+public struct RecognizeTextOutput: Swift.Equatable {
     /// A list of intents that Amazon Lex V2 determined might satisfy the user's utterance. Each interpretation includes the intent, a score that indicates now confident Amazon Lex V2 is that the interpretation is the correct one, and an optional sentiment response that indicates the sentiment expressed in the utterance.
     public var interpretations: [LexRuntimeV2ClientTypes.Interpretation]?
     /// A list of messages last sent to the user. The messages are ordered based on the order that you returned the messages from your Lambda function or the order that the messages are defined in the bot.
@@ -2599,7 +2635,7 @@ public struct RecognizeTextOutputResponse: Swift.Equatable {
     }
 }
 
-struct RecognizeTextOutputResponseBody: Swift.Equatable {
+struct RecognizeTextOutputBody: Swift.Equatable {
     let messages: [LexRuntimeV2ClientTypes.Message]?
     let sessionState: LexRuntimeV2ClientTypes.SessionState?
     let interpretations: [LexRuntimeV2ClientTypes.Interpretation]?
@@ -2608,7 +2644,7 @@ struct RecognizeTextOutputResponseBody: Swift.Equatable {
     let recognizedBotMember: LexRuntimeV2ClientTypes.RecognizedBotMember?
 }
 
-extension RecognizeTextOutputResponseBody: Swift.Decodable {
+extension RecognizeTextOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case interpretations
         case messages
@@ -2662,29 +2698,22 @@ extension RecognizeTextOutputResponseBody: Swift.Decodable {
     }
 }
 
-public struct RecognizeUtteranceInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "RecognizeUtteranceInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<RecognizeUtteranceInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<RecognizeUtteranceOutputResponse>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let inputStream = input.operationInput.inputStream {
-            let inputStreamBody = ClientRuntime.HttpBody(byteStream: inputStream)
-            input.builder.withBody(inputStreamBody)
+enum RecognizeTextOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependencyFailedException": return try await DependencyFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-        return try await next.handle(context: context, input: input)
     }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<RecognizeUtteranceInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<RecognizeUtteranceOutputResponse>
-    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension RecognizeUtteranceInput: Swift.CustomDebugStringConvertible {
@@ -2847,25 +2876,7 @@ extension RecognizeUtteranceInputBody: Swift.Decodable {
     }
 }
 
-public enum RecognizeUtteranceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DependencyFailedException": return try await DependencyFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension RecognizeUtteranceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RecognizeUtteranceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             self.contentType = contentTypeHeaderValue
@@ -2917,18 +2928,18 @@ extension RecognizeUtteranceOutputResponse: ClientRuntime.HttpResponseBinding {
             self.audioStream = .data(data)
         case .stream(let stream):
             self.audioStream = .stream(stream)
-        case .none:
+        case .noStream:
             self.audioStream = nil
         }
     }
 }
 
-public struct RecognizeUtteranceOutputResponse: Swift.Equatable {
+public struct RecognizeUtteranceOutput: Swift.Equatable {
     /// The prompt or statement to send to the user. This is based on the bot configuration and context. For example, if Amazon Lex V2 did not understand the user intent, it sends the clarificationPrompt configured for the bot. If the intent requires confirmation before taking the fulfillment action, it sends the confirmationPrompt. Another example: Suppose that the Lambda function successfully fulfilled the intent, and sent a message to convey to the user. Then Amazon Lex V2 sends that message in the response.
     public var audioStream: ClientRuntime.ByteStream?
     /// Content type as specified in the responseContentType in the request.
     public var contentType: Swift.String?
-    /// Indicates whether the input mode to the operation was text or speech.
+    /// Indicates whether the input mode to the operation was text, speech, or from a touch-tone keypad.
     public var inputMode: Swift.String?
     /// The text used to process the request. If the input was an audio stream, the inputTranscript field contains the text extracted from the audio stream. This is the text that is actually processed to recognize intents and slot values. You can use this information to determine if Amazon Lex V2 is correctly processing the audio that you send. The inputTranscript field is compressed with gzip and then base64 encoded. Before you can use the contents of the field, you must decode and decompress the contents. See the example for a simple function to decode and decompress the contents.
     public var inputTranscript: Swift.String?
@@ -2971,11 +2982,11 @@ public struct RecognizeUtteranceOutputResponse: Swift.Equatable {
     }
 }
 
-struct RecognizeUtteranceOutputResponseBody: Swift.Equatable {
+struct RecognizeUtteranceOutputBody: Swift.Equatable {
     let audioStream: ClientRuntime.ByteStream?
 }
 
-extension RecognizeUtteranceOutputResponseBody: Swift.Decodable {
+extension RecognizeUtteranceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case audioStream
     }
@@ -2984,6 +2995,24 @@ extension RecognizeUtteranceOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let audioStreamDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .audioStream)
         audioStream = audioStreamDecoded
+    }
+}
+
+enum RecognizeUtteranceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependencyFailedException": return try await DependencyFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3040,7 +3069,7 @@ extension ResourceNotFoundException: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let message = self.message {
+        if let message = self.properties.message {
             try encodeContainer.encode(message, forKey: .message)
         }
     }
@@ -3048,7 +3077,7 @@ extension ResourceNotFoundException: Swift.Codable {
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        properties.message = messageDecoded
     }
 }
 
@@ -3651,49 +3680,6 @@ extension LexRuntimeV2ClientTypes {
 
 }
 
-public struct StartConversationInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "StartConversationInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<StartConversationInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<StartConversationOutputResponse>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let requestEventStream = input.operationInput.requestEventStream {
-                guard let messageEncoder = context.getMessageEncoder() else {
-                    fatalError("Message encoder is required for streaming payload")
-                }
-                guard let messageSigner = context.getMessageSigner() else {
-                    fatalError("Message signer is required for streaming payload")
-                }
-                let encoderStream = ClientRuntime.EventStream.DefaultMessageEncoderStream(stream: requestEventStream, messageEncoder: messageEncoder, requestEncoder: encoder, messageSinger: messageSigner)
-                input.builder.withBody(.stream(encoderStream))
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let requestEventStreamData = "{}".data(using: .utf8)!
-                    let requestEventStreamBody = ClientRuntime.HttpBody.data(requestEventStreamData)
-                    input.builder.withBody(requestEventStreamBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<StartConversationInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<StartConversationOutputResponse>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension StartConversationInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -3759,8 +3745,32 @@ public struct StartConversationInput: Swift.Equatable {
     }
 }
 
-public enum StartConversationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension StartConversationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder {
+            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
+            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<LexRuntimeV2ClientTypes.StartConversationResponseEventStream>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
+            self.responseEventStream = decoderStream.toAsyncStream()
+        } else {
+            self.responseEventStream = nil
+        }
+    }
+}
+
+public struct StartConversationOutput: Swift.Equatable {
+    /// Represents the stream of events from Amazon Lex V2 to your application. The events are encoded as HTTP/2 data frames.
+    public var responseEventStream: AsyncThrowingStream<LexRuntimeV2ClientTypes.StartConversationResponseEventStream, Swift.Error>?
+
+    public init(
+        responseEventStream: AsyncThrowingStream<LexRuntimeV2ClientTypes.StartConversationResponseEventStream, Swift.Error>? = nil
+    )
+    {
+        self.responseEventStream = responseEventStream
+    }
+}
+
+enum StartConversationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3773,30 +3783,6 @@ public enum StartConversationOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension StartConversationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder {
-            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
-            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<LexRuntimeV2ClientTypes.StartConversationResponseEventStream>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
-            self.responseEventStream = decoderStream.toAsyncStream()
-        } else {
-            self.responseEventStream = nil
-        }
-    }
-}
-
-public struct StartConversationOutputResponse: Swift.Equatable {
-    /// Represents the stream of events from Amazon Lex V2 to your application. The events are encoded as HTTP/2 data frames.
-    public var responseEventStream: AsyncThrowingStream<LexRuntimeV2ClientTypes.StartConversationResponseEventStream, Swift.Error>?
-
-    public init(
-        responseEventStream: AsyncThrowingStream<LexRuntimeV2ClientTypes.StartConversationResponseEventStream, Swift.Error>? = nil
-    )
-    {
-        self.responseEventStream = responseEventStream
-    }
-}
-
 extension LexRuntimeV2ClientTypes.StartConversationRequestEventStream: ClientRuntime.MessageMarshallable {
     public func marshall(encoder: ClientRuntime.RequestEncoder) throws -> ClientRuntime.EventStream.Message {
         var headers: [ClientRuntime.EventStream.Header] = [.init(name: ":message-type", value: .string("event"))]
@@ -3805,27 +3791,27 @@ extension LexRuntimeV2ClientTypes.StartConversationRequestEventStream: ClientRun
         case .configurationevent(let value):
             headers.append(.init(name: ":event-type", value: .string("ConfigurationEvent")))
             headers.append(.init(name: ":content-type", value: .string("application/json")))
-            payload = try encoder.encode(value)
+            payload = try ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder)(value, JSONReadWrite.writingClosure())
         case .audioinputevent(let value):
             headers.append(.init(name: ":event-type", value: .string("AudioInputEvent")))
             headers.append(.init(name: ":content-type", value: .string("application/json")))
-            payload = try encoder.encode(value)
+            payload = try ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder)(value, JSONReadWrite.writingClosure())
         case .dtmfinputevent(let value):
             headers.append(.init(name: ":event-type", value: .string("DTMFInputEvent")))
             headers.append(.init(name: ":content-type", value: .string("application/json")))
-            payload = try encoder.encode(value)
+            payload = try ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder)(value, JSONReadWrite.writingClosure())
         case .textinputevent(let value):
             headers.append(.init(name: ":event-type", value: .string("TextInputEvent")))
             headers.append(.init(name: ":content-type", value: .string("application/json")))
-            payload = try encoder.encode(value)
+            payload = try ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder)(value, JSONReadWrite.writingClosure())
         case .playbackcompletionevent(let value):
             headers.append(.init(name: ":event-type", value: .string("PlaybackCompletionEvent")))
             headers.append(.init(name: ":content-type", value: .string("application/json")))
-            payload = try encoder.encode(value)
+            payload = try ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder)(value, JSONReadWrite.writingClosure())
         case .disconnectionevent(let value):
             headers.append(.init(name: ":event-type", value: .string("DisconnectionEvent")))
             headers.append(.init(name: ":content-type", value: .string("application/json")))
-            payload = try encoder.encode(value)
+            payload = try ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder)(value, JSONReadWrite.writingClosure())
         case .sdkUnknown(_):
             throw ClientRuntime.ClientError.unknownError("cannot serialize the unknown event type!")
         }
@@ -3835,7 +3821,7 @@ extension LexRuntimeV2ClientTypes.StartConversationRequestEventStream: ClientRun
 
 extension LexRuntimeV2ClientTypes {
     /// Represents a stream of events between your application and Amazon Lex V2.
-    public enum StartConversationRequestEventStream: Swift.Equatable {
+    public indirect enum StartConversationRequestEventStream: Swift.Equatable {
         /// Configuration information sent from your client application to Amazon Lex V2
         case configurationevent(LexRuntimeV2ClientTypes.ConfigurationEvent)
         /// Speech audio sent from your client application to Amazon Lex V2. Audio starts accumulating when Amazon Lex V2 identifies a voice and continues until a natural pause in the speech is found before processing.
@@ -3916,7 +3902,7 @@ extension LexRuntimeV2ClientTypes.StartConversationResponseEventStream: ClientRu
 
 extension LexRuntimeV2ClientTypes {
     /// Represents a stream of events between Amazon Lex V2 and your application.
-    public enum StartConversationResponseEventStream: Swift.Equatable {
+    public indirect enum StartConversationResponseEventStream: Swift.Equatable {
         /// Event sent from Amazon Lex V2 to indicate to the client application should stop playback of audio. For example, if the client is playing a prompt that asks for the user's telephone number, the user might start to say the phone number before the prompt is complete. Amazon Lex V2 sends this event to the client application to indicate that the user is responding and that Amazon Lex V2 is processing their input.
         case playbackinterruptionevent(LexRuntimeV2ClientTypes.PlaybackInterruptionEvent)
         /// Event sent from Amazon Lex V2 to your client application that contains a transcript of voice audio.
@@ -4094,7 +4080,7 @@ extension ThrottlingException: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let message = self.message {
+        if let message = self.properties.message {
             try encodeContainer.encode(message, forKey: .message)
         }
     }
@@ -4102,7 +4088,7 @@ extension ThrottlingException: Swift.Codable {
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        properties.message = messageDecoded
     }
 }
 
@@ -4214,7 +4200,7 @@ extension ValidationException: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let message = self.message {
+        if let message = self.properties.message {
             try encodeContainer.encode(message, forKey: .message)
         }
     }
@@ -4222,7 +4208,7 @@ extension ValidationException: Swift.Codable {
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        properties.message = messageDecoded
     }
 }
 
@@ -4326,14 +4312,14 @@ extension LexRuntimeV2ClientTypes.Value: Swift.Codable {
 }
 
 extension LexRuntimeV2ClientTypes {
-    /// The value of a slot.
+    /// Information about the value provided for a slot and Amazon Lex V2's interpretation.
     public struct Value: Swift.Equatable {
-        /// The value that Amazon Lex V2 determines for the slot. The actual value depends on the setting of the value selection strategy for the bot. You can choose to use the value entered by the user, or you can have Amazon Lex V2 choose the first value in the resolvedValues list.
+        /// The value that Amazon Lex V2 determines for the slot, given the user input. The actual value depends on the setting of the value selection strategy for the bot. You can choose to use the value entered by the user, or you can have Amazon Lex V2 choose the first value in the resolvedValues list.
         /// This member is required.
         public var interpretedValue: Swift.String?
-        /// The text of the utterance from the user that was entered for the slot.
+        /// The part of the user's response to the slot elicitation that Amazon Lex V2 determines is relevant to the slot value.
         public var originalValue: Swift.String?
-        /// A list of additional values that have been recognized for the slot.
+        /// A list of values that Amazon Lex V2 determines are possible resolutions for the user input. The first value matches the interpretedValue.
         public var resolvedValues: [Swift.String]?
 
         public init(

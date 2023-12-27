@@ -165,9 +165,9 @@ extension MobileClientTypes.BundleDetails: Swift.Codable {
         var availablePlatformsDecoded0:[MobileClientTypes.Platform]? = nil
         if let availablePlatformsContainer = availablePlatformsContainer {
             availablePlatformsDecoded0 = [MobileClientTypes.Platform]()
-            for string0 in availablePlatformsContainer {
-                if let string0 = string0 {
-                    availablePlatformsDecoded0?.append(string0)
+            for enum0 in availablePlatformsContainer {
+                if let enum0 = enum0 {
+                    availablePlatformsDecoded0?.append(enum0)
                 }
             }
         }
@@ -209,32 +209,6 @@ extension MobileClientTypes {
         }
     }
 
-}
-
-public struct CreateProjectInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "CreateProjectInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<CreateProjectInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateProjectOutputResponse>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let contents = input.operationInput.contents {
-            let contentsData = contents
-            let contentsBody = ClientRuntime.HttpBody.data(contentsData)
-            input.builder.withBody(contentsBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<CreateProjectInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateProjectOutputResponse>
-    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension CreateProjectInput: Swift.Encodable {
@@ -318,8 +292,49 @@ extension CreateProjectInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateProjectOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateProjectOutputBody = try responseDecoder.decode(responseBody: data)
+            self.details = output.details
+        } else {
+            self.details = nil
+        }
+    }
+}
+
+/// Result structure used in response to a request to create a project.
+public struct CreateProjectOutput: Swift.Equatable {
+    /// Detailed information about the created AWS Mobile Hub project.
+    public var details: MobileClientTypes.ProjectDetails?
+
+    public init(
+        details: MobileClientTypes.ProjectDetails? = nil
+    )
+    {
+        self.details = details
+    }
+}
+
+struct CreateProjectOutputBody: Swift.Equatable {
+    let details: MobileClientTypes.ProjectDetails?
+}
+
+extension CreateProjectOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case details
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let detailsDecoded = try containerValues.decodeIfPresent(MobileClientTypes.ProjectDetails.self, forKey: .details)
+        details = detailsDecoded
+    }
+}
+
+enum CreateProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -332,47 +347,6 @@ public enum CreateProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateProjectOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateProjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.details = output.details
-        } else {
-            self.details = nil
-        }
-    }
-}
-
-/// Result structure used in response to a request to create a project.
-public struct CreateProjectOutputResponse: Swift.Equatable {
-    /// Detailed information about the created AWS Mobile Hub project.
-    public var details: MobileClientTypes.ProjectDetails?
-
-    public init(
-        details: MobileClientTypes.ProjectDetails? = nil
-    )
-    {
-        self.details = details
-    }
-}
-
-struct CreateProjectOutputResponseBody: Swift.Equatable {
-    let details: MobileClientTypes.ProjectDetails?
-}
-
-extension CreateProjectOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case details
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let detailsDecoded = try containerValues.decodeIfPresent(MobileClientTypes.ProjectDetails.self, forKey: .details)
-        details = detailsDecoded
     }
 }
 
@@ -408,26 +382,11 @@ extension DeleteProjectInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteProjectOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteProjectOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteProjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteProjectOutputBody = try responseDecoder.decode(responseBody: data)
             self.deletedResources = output.deletedResources
             self.orphanedResources = output.orphanedResources
         } else {
@@ -438,7 +397,7 @@ extension DeleteProjectOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Result structure used in response to request to delete a project.
-public struct DeleteProjectOutputResponse: Swift.Equatable {
+public struct DeleteProjectOutput: Swift.Equatable {
     /// Resources which were deleted.
     public var deletedResources: [MobileClientTypes.Resource]?
     /// Resources which were not deleted, due to a risk of losing potentially important data or files.
@@ -454,12 +413,12 @@ public struct DeleteProjectOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteProjectOutputResponseBody: Swift.Equatable {
+struct DeleteProjectOutputBody: Swift.Equatable {
     let deletedResources: [MobileClientTypes.Resource]?
     let orphanedResources: [MobileClientTypes.Resource]?
 }
 
-extension DeleteProjectOutputResponseBody: Swift.Decodable {
+extension DeleteProjectOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deletedResources
         case orphanedResources
@@ -489,6 +448,21 @@ extension DeleteProjectOutputResponseBody: Swift.Decodable {
             }
         }
         orphanedResources = orphanedResourcesDecoded0
+    }
+}
+
+enum DeleteProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -524,8 +498,49 @@ extension DescribeBundleInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeBundleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DescribeBundleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeBundleOutputBody = try responseDecoder.decode(responseBody: data)
+            self.details = output.details
+        } else {
+            self.details = nil
+        }
+    }
+}
+
+/// Result structure contains the details of the bundle.
+public struct DescribeBundleOutput: Swift.Equatable {
+    /// The details of the bundle.
+    public var details: MobileClientTypes.BundleDetails?
+
+    public init(
+        details: MobileClientTypes.BundleDetails? = nil
+    )
+    {
+        self.details = details
+    }
+}
+
+struct DescribeBundleOutputBody: Swift.Equatable {
+    let details: MobileClientTypes.BundleDetails?
+}
+
+extension DescribeBundleOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case details
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let detailsDecoded = try containerValues.decodeIfPresent(MobileClientTypes.BundleDetails.self, forKey: .details)
+        details = detailsDecoded
+    }
+}
+
+enum DescribeBundleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -540,52 +555,11 @@ public enum DescribeBundleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeBundleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DescribeBundleOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.details = output.details
-        } else {
-            self.details = nil
-        }
-    }
-}
-
-/// Result structure contains the details of the bundle.
-public struct DescribeBundleOutputResponse: Swift.Equatable {
-    /// The details of the bundle.
-    public var details: MobileClientTypes.BundleDetails?
-
-    public init(
-        details: MobileClientTypes.BundleDetails? = nil
-    )
-    {
-        self.details = details
-    }
-}
-
-struct DescribeBundleOutputResponseBody: Swift.Equatable {
-    let details: MobileClientTypes.BundleDetails?
-}
-
-extension DescribeBundleOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case details
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let detailsDecoded = try containerValues.decodeIfPresent(MobileClientTypes.BundleDetails.self, forKey: .details)
-        details = detailsDecoded
-    }
-}
-
 extension DescribeProjectInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if syncFromResources != false {
+            if let syncFromResources = syncFromResources {
                 let syncFromResourcesQueryItem = ClientRuntime.URLQueryItem(name: "syncFromResources".urlPercentEncoding(), value: Swift.String(syncFromResources).urlPercentEncoding())
                 items.append(syncFromResourcesQueryItem)
             }
@@ -612,11 +586,11 @@ public struct DescribeProjectInput: Swift.Equatable {
     /// This member is required.
     public var projectId: Swift.String?
     /// If set to true, causes AWS Mobile Hub to synchronize information from other services, e.g., update state of AWS CloudFormation stacks in the AWS Mobile Hub project.
-    public var syncFromResources: Swift.Bool
+    public var syncFromResources: Swift.Bool?
 
     public init(
         projectId: Swift.String? = nil,
-        syncFromResources: Swift.Bool = false
+        syncFromResources: Swift.Bool? = nil
     )
     {
         self.projectId = projectId
@@ -633,27 +607,11 @@ extension DescribeProjectInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeProjectOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeProjectOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeProjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeProjectOutputBody = try responseDecoder.decode(responseBody: data)
             self.details = output.details
         } else {
             self.details = nil
@@ -662,7 +620,7 @@ extension DescribeProjectOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Result structure used for requests of project details.
-public struct DescribeProjectOutputResponse: Swift.Equatable {
+public struct DescribeProjectOutput: Swift.Equatable {
     /// Detailed information about an AWS Mobile Hub project.
     public var details: MobileClientTypes.ProjectDetails?
 
@@ -674,11 +632,11 @@ public struct DescribeProjectOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeProjectOutputResponseBody: Swift.Equatable {
+struct DescribeProjectOutputBody: Swift.Equatable {
     let details: MobileClientTypes.ProjectDetails?
 }
 
-extension DescribeProjectOutputResponseBody: Swift.Decodable {
+extension DescribeProjectOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case details
     }
@@ -687,6 +645,22 @@ extension DescribeProjectOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let detailsDecoded = try containerValues.decodeIfPresent(MobileClientTypes.ProjectDetails.self, forKey: .details)
         details = detailsDecoded
+    }
+}
+
+enum DescribeProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -747,27 +721,11 @@ extension ExportBundleInputBody: Swift.Decodable {
     }
 }
 
-public enum ExportBundleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ExportBundleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ExportBundleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ExportBundleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ExportBundleOutputBody = try responseDecoder.decode(responseBody: data)
             self.downloadUrl = output.downloadUrl
         } else {
             self.downloadUrl = nil
@@ -776,7 +734,7 @@ extension ExportBundleOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Result structure which contains link to download custom-generated SDK and tool packages used to integrate mobile web or app clients with backed AWS resources.
-public struct ExportBundleOutputResponse: Swift.Equatable {
+public struct ExportBundleOutput: Swift.Equatable {
     /// URL which contains the custom-generated SDK and tool packages used to integrate the client mobile app or web app with the AWS resources created by the AWS Mobile Hub project.
     public var downloadUrl: Swift.String?
 
@@ -788,11 +746,11 @@ public struct ExportBundleOutputResponse: Swift.Equatable {
     }
 }
 
-struct ExportBundleOutputResponseBody: Swift.Equatable {
+struct ExportBundleOutputBody: Swift.Equatable {
     let downloadUrl: Swift.String?
 }
 
-extension ExportBundleOutputResponseBody: Swift.Decodable {
+extension ExportBundleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case downloadUrl
     }
@@ -801,6 +759,22 @@ extension ExportBundleOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let downloadUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .downloadUrl)
         downloadUrl = downloadUrlDecoded
+    }
+}
+
+enum ExportBundleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -836,27 +810,11 @@ extension ExportProjectInputBody: Swift.Decodable {
     }
 }
 
-public enum ExportProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ExportProjectOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ExportProjectOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ExportProjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ExportProjectOutputBody = try responseDecoder.decode(responseBody: data)
             self.downloadUrl = output.downloadUrl
             self.shareUrl = output.shareUrl
             self.snapshotId = output.snapshotId
@@ -869,7 +827,7 @@ extension ExportProjectOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Result structure used for requests to export project configuration details.
-public struct ExportProjectOutputResponse: Swift.Equatable {
+public struct ExportProjectOutput: Swift.Equatable {
     /// URL which can be used to download the exported project configuation file(s).
     public var downloadUrl: Swift.String?
     /// URL which can be shared to allow other AWS users to create their own project in AWS Mobile Hub with the same configuration as the specified project. This URL pertains to a snapshot in time of the project configuration that is created when this API is called. If you want to share additional changes to your project configuration, then you will need to create and share a new snapshot by calling this method again.
@@ -889,13 +847,13 @@ public struct ExportProjectOutputResponse: Swift.Equatable {
     }
 }
 
-struct ExportProjectOutputResponseBody: Swift.Equatable {
+struct ExportProjectOutputBody: Swift.Equatable {
     let downloadUrl: Swift.String?
     let shareUrl: Swift.String?
     let snapshotId: Swift.String?
 }
 
-extension ExportProjectOutputResponseBody: Swift.Decodable {
+extension ExportProjectOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case downloadUrl
         case shareUrl
@@ -910,6 +868,22 @@ extension ExportProjectOutputResponseBody: Swift.Decodable {
         shareUrl = shareUrlDecoded
         let snapshotIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotId)
         snapshotId = snapshotIdDecoded
+    }
+}
+
+enum ExportProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1038,7 +1012,7 @@ extension ListBundlesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -1060,12 +1034,12 @@ extension ListBundlesInput: ClientRuntime.URLPathProvider {
 /// Request structure to request all available bundles.
 public struct ListBundlesInput: Swift.Equatable {
     /// Maximum number of records to list in a single response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Pagination token. Set to null to start listing bundles from start. If non-null pagination token is returned in a result, then pass its value in here in another request to list more bundles.
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -1083,26 +1057,11 @@ extension ListBundlesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListBundlesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListBundlesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListBundlesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListBundlesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListBundlesOutputBody = try responseDecoder.decode(responseBody: data)
             self.bundleList = output.bundleList
             self.nextToken = output.nextToken
         } else {
@@ -1113,7 +1072,7 @@ extension ListBundlesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Result structure contains a list of all available bundles with details.
-public struct ListBundlesOutputResponse: Swift.Equatable {
+public struct ListBundlesOutput: Swift.Equatable {
     /// A list of bundles.
     public var bundleList: [MobileClientTypes.BundleDetails]?
     /// Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries.
@@ -1129,12 +1088,12 @@ public struct ListBundlesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListBundlesOutputResponseBody: Swift.Equatable {
+struct ListBundlesOutputBody: Swift.Equatable {
     let bundleList: [MobileClientTypes.BundleDetails]?
     let nextToken: Swift.String?
 }
 
-extension ListBundlesOutputResponseBody: Swift.Decodable {
+extension ListBundlesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bundleList
         case nextToken
@@ -1158,11 +1117,26 @@ extension ListBundlesOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListBundlesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListProjectsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -1184,12 +1158,12 @@ extension ListProjectsInput: ClientRuntime.URLPathProvider {
 /// Request structure used to request projects list in AWS Mobile Hub.
 public struct ListProjectsInput: Swift.Equatable {
     /// Maximum number of records to list in a single response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Pagination token. Set to null to start listing projects from start. If non-null pagination token is returned in a result, then pass its value in here in another request to list more projects.
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -1207,26 +1181,11 @@ extension ListProjectsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListProjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListProjectsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListProjectsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListProjectsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListProjectsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.projects = output.projects
         } else {
@@ -1237,7 +1196,7 @@ extension ListProjectsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Result structure used for requests to list projects in AWS Mobile Hub.
-public struct ListProjectsOutputResponse: Swift.Equatable {
+public struct ListProjectsOutput: Swift.Equatable {
     /// Pagination token. Set to null to start listing records from start. If non-null pagination token is returned in a result, then pass its value in here in another request to list more entries.
     public var nextToken: Swift.String?
     /// List of projects.
@@ -1253,12 +1212,12 @@ public struct ListProjectsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListProjectsOutputResponseBody: Swift.Equatable {
+struct ListProjectsOutputBody: Swift.Equatable {
     let projects: [MobileClientTypes.ProjectSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListProjectsOutputResponseBody: Swift.Decodable {
+extension ListProjectsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case projects
@@ -1279,6 +1238,21 @@ extension ListProjectsOutputResponseBody: Swift.Decodable {
         projects = projectsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListProjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1857,32 +1831,6 @@ extension UnauthorizedExceptionBody: Swift.Decodable {
     }
 }
 
-public struct UpdateProjectInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "UpdateProjectInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<UpdateProjectInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateProjectOutputResponse>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let contents = input.operationInput.contents {
-            let contentsData = contents
-            let contentsBody = ClientRuntime.HttpBody.data(contentsData)
-            input.builder.withBody(contentsBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateProjectInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateProjectOutputResponse>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension UpdateProjectInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contents
@@ -1951,8 +1899,49 @@ extension UpdateProjectInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateProjectOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateProjectOutputBody = try responseDecoder.decode(responseBody: data)
+            self.details = output.details
+        } else {
+            self.details = nil
+        }
+    }
+}
+
+/// Result structure used for requests to updated project configuration.
+public struct UpdateProjectOutput: Swift.Equatable {
+    /// Detailed information about the updated AWS Mobile Hub project.
+    public var details: MobileClientTypes.ProjectDetails?
+
+    public init(
+        details: MobileClientTypes.ProjectDetails? = nil
+    )
+    {
+        self.details = details
+    }
+}
+
+struct UpdateProjectOutputBody: Swift.Equatable {
+    let details: MobileClientTypes.ProjectDetails?
+}
+
+extension UpdateProjectOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case details
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let detailsDecoded = try containerValues.decodeIfPresent(MobileClientTypes.ProjectDetails.self, forKey: .details)
+        details = detailsDecoded
+    }
+}
+
+enum UpdateProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1966,46 +1955,5 @@ public enum UpdateProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateProjectOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateProjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.details = output.details
-        } else {
-            self.details = nil
-        }
-    }
-}
-
-/// Result structure used for requests to updated project configuration.
-public struct UpdateProjectOutputResponse: Swift.Equatable {
-    /// Detailed information about the updated AWS Mobile Hub project.
-    public var details: MobileClientTypes.ProjectDetails?
-
-    public init(
-        details: MobileClientTypes.ProjectDetails? = nil
-    )
-    {
-        self.details = details
-    }
-}
-
-struct UpdateProjectOutputResponseBody: Swift.Equatable {
-    let details: MobileClientTypes.ProjectDetails?
-}
-
-extension UpdateProjectOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case details
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let detailsDecoded = try containerValues.decodeIfPresent(MobileClientTypes.ProjectDetails.self, forKey: .details)
-        details = detailsDecoded
     }
 }

@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension IoTSiteWiseClientProtocol {
 
-    static func assetActiveWaiterConfig() throws -> WaiterConfiguration<DescribeAssetInput, DescribeAssetOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeAssetInput, DescribeAssetOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeAssetInput, result: Result<DescribeAssetOutputResponse, Error>) -> Bool in
+    static func assetActiveWaiterConfig() throws -> WaiterConfiguration<DescribeAssetInput, DescribeAssetOutput> {
+        let acceptors: [WaiterConfiguration<DescribeAssetInput, DescribeAssetOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeAssetInput, result: Result<DescribeAssetOutput, Error>) -> Bool in
                 // JMESPath expression: "assetStatus.state"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "ACTIVE"
@@ -15,7 +15,7 @@ extension IoTSiteWiseClientProtocol {
                 let state = assetStatus?.state
                 return JMESUtils.compare(state, ==, "ACTIVE")
             }),
-            .init(state: .failure, matcher: { (input: DescribeAssetInput, result: Result<DescribeAssetOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeAssetInput, result: Result<DescribeAssetOutput, Error>) -> Bool in
                 // JMESPath expression: "assetStatus.state"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "FAILED"
@@ -25,7 +25,7 @@ extension IoTSiteWiseClientProtocol {
                 return JMESUtils.compare(state, ==, "FAILED")
             }),
         ]
-        return try WaiterConfiguration<DescribeAssetInput, DescribeAssetOutputResponse>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeAssetInput, DescribeAssetOutput>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the AssetActive event on the describeAsset operation.
@@ -39,19 +39,19 @@ extension IoTSiteWiseClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilAssetActive(options: WaiterOptions, input: DescribeAssetInput) async throws -> WaiterOutcome<DescribeAssetOutputResponse> {
+    public func waitUntilAssetActive(options: WaiterOptions, input: DescribeAssetInput) async throws -> WaiterOutcome<DescribeAssetOutput> {
         let waiter = Waiter(config: try Self.assetActiveWaiterConfig(), operation: self.describeAsset(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func assetNotExistsWaiterConfig() throws -> WaiterConfiguration<DescribeAssetInput, DescribeAssetOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeAssetInput, DescribeAssetOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeAssetInput, result: Result<DescribeAssetOutputResponse, Error>) -> Bool in
+    static func assetNotExistsWaiterConfig() throws -> WaiterConfiguration<DescribeAssetInput, DescribeAssetOutput> {
+        let acceptors: [WaiterConfiguration<DescribeAssetInput, DescribeAssetOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeAssetInput, result: Result<DescribeAssetOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
-        return try WaiterConfiguration<DescribeAssetInput, DescribeAssetOutputResponse>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeAssetInput, DescribeAssetOutput>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the AssetNotExists event on the describeAsset operation.
@@ -65,14 +65,14 @@ extension IoTSiteWiseClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilAssetNotExists(options: WaiterOptions, input: DescribeAssetInput) async throws -> WaiterOutcome<DescribeAssetOutputResponse> {
+    public func waitUntilAssetNotExists(options: WaiterOptions, input: DescribeAssetInput) async throws -> WaiterOutcome<DescribeAssetOutput> {
         let waiter = Waiter(config: try Self.assetNotExistsWaiterConfig(), operation: self.describeAsset(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func assetModelActiveWaiterConfig() throws -> WaiterConfiguration<DescribeAssetModelInput, DescribeAssetModelOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeAssetModelInput, DescribeAssetModelOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeAssetModelInput, result: Result<DescribeAssetModelOutputResponse, Error>) -> Bool in
+    static func assetModelActiveWaiterConfig() throws -> WaiterConfiguration<DescribeAssetModelInput, DescribeAssetModelOutput> {
+        let acceptors: [WaiterConfiguration<DescribeAssetModelInput, DescribeAssetModelOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeAssetModelInput, result: Result<DescribeAssetModelOutput, Error>) -> Bool in
                 // JMESPath expression: "assetModelStatus.state"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "ACTIVE"
@@ -81,7 +81,7 @@ extension IoTSiteWiseClientProtocol {
                 let state = assetModelStatus?.state
                 return JMESUtils.compare(state, ==, "ACTIVE")
             }),
-            .init(state: .failure, matcher: { (input: DescribeAssetModelInput, result: Result<DescribeAssetModelOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeAssetModelInput, result: Result<DescribeAssetModelOutput, Error>) -> Bool in
                 // JMESPath expression: "assetModelStatus.state"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "FAILED"
@@ -91,7 +91,7 @@ extension IoTSiteWiseClientProtocol {
                 return JMESUtils.compare(state, ==, "FAILED")
             }),
         ]
-        return try WaiterConfiguration<DescribeAssetModelInput, DescribeAssetModelOutputResponse>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeAssetModelInput, DescribeAssetModelOutput>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the AssetModelActive event on the describeAssetModel operation.
@@ -105,19 +105,19 @@ extension IoTSiteWiseClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilAssetModelActive(options: WaiterOptions, input: DescribeAssetModelInput) async throws -> WaiterOutcome<DescribeAssetModelOutputResponse> {
+    public func waitUntilAssetModelActive(options: WaiterOptions, input: DescribeAssetModelInput) async throws -> WaiterOutcome<DescribeAssetModelOutput> {
         let waiter = Waiter(config: try Self.assetModelActiveWaiterConfig(), operation: self.describeAssetModel(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func assetModelNotExistsWaiterConfig() throws -> WaiterConfiguration<DescribeAssetModelInput, DescribeAssetModelOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeAssetModelInput, DescribeAssetModelOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeAssetModelInput, result: Result<DescribeAssetModelOutputResponse, Error>) -> Bool in
+    static func assetModelNotExistsWaiterConfig() throws -> WaiterConfiguration<DescribeAssetModelInput, DescribeAssetModelOutput> {
+        let acceptors: [WaiterConfiguration<DescribeAssetModelInput, DescribeAssetModelOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeAssetModelInput, result: Result<DescribeAssetModelOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
-        return try WaiterConfiguration<DescribeAssetModelInput, DescribeAssetModelOutputResponse>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeAssetModelInput, DescribeAssetModelOutput>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the AssetModelNotExists event on the describeAssetModel operation.
@@ -131,14 +131,14 @@ extension IoTSiteWiseClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilAssetModelNotExists(options: WaiterOptions, input: DescribeAssetModelInput) async throws -> WaiterOutcome<DescribeAssetModelOutputResponse> {
+    public func waitUntilAssetModelNotExists(options: WaiterOptions, input: DescribeAssetModelInput) async throws -> WaiterOutcome<DescribeAssetModelOutput> {
         let waiter = Waiter(config: try Self.assetModelNotExistsWaiterConfig(), operation: self.describeAssetModel(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func portalActiveWaiterConfig() throws -> WaiterConfiguration<DescribePortalInput, DescribePortalOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribePortalInput, DescribePortalOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribePortalInput, result: Result<DescribePortalOutputResponse, Error>) -> Bool in
+    static func portalActiveWaiterConfig() throws -> WaiterConfiguration<DescribePortalInput, DescribePortalOutput> {
+        let acceptors: [WaiterConfiguration<DescribePortalInput, DescribePortalOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribePortalInput, result: Result<DescribePortalOutput, Error>) -> Bool in
                 // JMESPath expression: "portalStatus.state"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "ACTIVE"
@@ -148,7 +148,7 @@ extension IoTSiteWiseClientProtocol {
                 return JMESUtils.compare(state, ==, "ACTIVE")
             }),
         ]
-        return try WaiterConfiguration<DescribePortalInput, DescribePortalOutputResponse>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribePortalInput, DescribePortalOutput>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the PortalActive event on the describePortal operation.
@@ -162,19 +162,19 @@ extension IoTSiteWiseClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilPortalActive(options: WaiterOptions, input: DescribePortalInput) async throws -> WaiterOutcome<DescribePortalOutputResponse> {
+    public func waitUntilPortalActive(options: WaiterOptions, input: DescribePortalInput) async throws -> WaiterOutcome<DescribePortalOutput> {
         let waiter = Waiter(config: try Self.portalActiveWaiterConfig(), operation: self.describePortal(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func portalNotExistsWaiterConfig() throws -> WaiterConfiguration<DescribePortalInput, DescribePortalOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribePortalInput, DescribePortalOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribePortalInput, result: Result<DescribePortalOutputResponse, Error>) -> Bool in
+    static func portalNotExistsWaiterConfig() throws -> WaiterConfiguration<DescribePortalInput, DescribePortalOutput> {
+        let acceptors: [WaiterConfiguration<DescribePortalInput, DescribePortalOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribePortalInput, result: Result<DescribePortalOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
-        return try WaiterConfiguration<DescribePortalInput, DescribePortalOutputResponse>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribePortalInput, DescribePortalOutput>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the PortalNotExists event on the describePortal operation.
@@ -188,7 +188,7 @@ extension IoTSiteWiseClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilPortalNotExists(options: WaiterOptions, input: DescribePortalInput) async throws -> WaiterOutcome<DescribePortalOutputResponse> {
+    public func waitUntilPortalNotExists(options: WaiterOptions, input: DescribePortalInput) async throws -> WaiterOutcome<DescribePortalOutput> {
         let waiter = Waiter(config: try Self.portalNotExistsWaiterConfig(), operation: self.describePortal(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

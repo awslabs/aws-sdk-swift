@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension EKSClient {
-    /// Paginate over `[DescribeAddonVersionsOutputResponse]` results.
+    /// Paginate over `[DescribeAddonVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeAddonVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAddonVersionsOutputResponse`
-    public func describeAddonVersionsPaginated(input: DescribeAddonVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeAddonVersionsInput, DescribeAddonVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeAddonVersionsInput, DescribeAddonVersionsOutputResponse>(input: input, inputKey: \DescribeAddonVersionsInput.nextToken, outputKey: \DescribeAddonVersionsOutputResponse.nextToken, paginationFunction: self.describeAddonVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAddonVersionsOutput`
+    public func describeAddonVersionsPaginated(input: DescribeAddonVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeAddonVersionsInput, DescribeAddonVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeAddonVersionsInput, DescribeAddonVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAddonVersions(input:))
     }
 }
 
@@ -29,7 +29,7 @@ extension DescribeAddonVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeAddonVersionsInput, Output == DescribeAddonVersionsOutputResponse {
+extension PaginatorSequence where OperationStackInput == DescribeAddonVersionsInput, OperationStackOutput == DescribeAddonVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeAddonVersionsPaginated`
     /// to access the nested member `[EKSClientTypes.AddonInfo]`
     /// - Returns: `[EKSClientTypes.AddonInfo]`
@@ -38,16 +38,78 @@ extension PaginatorSequence where Input == DescribeAddonVersionsInput, Output ==
     }
 }
 extension EKSClient {
-    /// Paginate over `[ListAddonsOutputResponse]` results.
+    /// Paginate over `[ListAccessEntriesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAccessEntriesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAccessEntriesOutput`
+    public func listAccessEntriesPaginated(input: ListAccessEntriesInput) -> ClientRuntime.PaginatorSequence<ListAccessEntriesInput, ListAccessEntriesOutput> {
+        return ClientRuntime.PaginatorSequence<ListAccessEntriesInput, ListAccessEntriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccessEntries(input:))
+    }
+}
+
+extension ListAccessEntriesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAccessEntriesInput {
+        return ListAccessEntriesInput(
+            associatedPolicyArn: self.associatedPolicyArn,
+            clusterName: self.clusterName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAccessEntriesInput, OperationStackOutput == ListAccessEntriesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAccessEntriesPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
+    public func accessEntries() async throws -> [Swift.String] {
+        return try await self.asyncCompactMap { item in item.accessEntries }
+    }
+}
+extension EKSClient {
+    /// Paginate over `[ListAccessPoliciesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAccessPoliciesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAccessPoliciesOutput`
+    public func listAccessPoliciesPaginated(input: ListAccessPoliciesInput) -> ClientRuntime.PaginatorSequence<ListAccessPoliciesInput, ListAccessPoliciesOutput> {
+        return ClientRuntime.PaginatorSequence<ListAccessPoliciesInput, ListAccessPoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccessPolicies(input:))
+    }
+}
+
+extension ListAccessPoliciesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAccessPoliciesInput {
+        return ListAccessPoliciesInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAccessPoliciesInput, OperationStackOutput == ListAccessPoliciesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAccessPoliciesPaginated`
+    /// to access the nested member `[EKSClientTypes.AccessPolicy]`
+    /// - Returns: `[EKSClientTypes.AccessPolicy]`
+    public func accessPolicies() async throws -> [EKSClientTypes.AccessPolicy] {
+        return try await self.asyncCompactMap { item in item.accessPolicies }
+    }
+}
+extension EKSClient {
+    /// Paginate over `[ListAddonsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAddonsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAddonsOutputResponse`
-    public func listAddonsPaginated(input: ListAddonsInput) -> ClientRuntime.PaginatorSequence<ListAddonsInput, ListAddonsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAddonsInput, ListAddonsOutputResponse>(input: input, inputKey: \ListAddonsInput.nextToken, outputKey: \ListAddonsOutputResponse.nextToken, paginationFunction: self.listAddons(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAddonsOutput`
+    public func listAddonsPaginated(input: ListAddonsInput) -> ClientRuntime.PaginatorSequence<ListAddonsInput, ListAddonsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAddonsInput, ListAddonsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAddons(input:))
     }
 }
 
@@ -60,7 +122,7 @@ extension ListAddonsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAddonsInput, Output == ListAddonsOutputResponse {
+extension PaginatorSequence where OperationStackInput == ListAddonsInput, OperationStackOutput == ListAddonsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAddonsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -69,16 +131,48 @@ extension PaginatorSequence where Input == ListAddonsInput, Output == ListAddons
     }
 }
 extension EKSClient {
-    /// Paginate over `[ListClustersOutputResponse]` results.
+    /// Paginate over `[ListAssociatedAccessPoliciesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAssociatedAccessPoliciesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAssociatedAccessPoliciesOutput`
+    public func listAssociatedAccessPoliciesPaginated(input: ListAssociatedAccessPoliciesInput) -> ClientRuntime.PaginatorSequence<ListAssociatedAccessPoliciesInput, ListAssociatedAccessPoliciesOutput> {
+        return ClientRuntime.PaginatorSequence<ListAssociatedAccessPoliciesInput, ListAssociatedAccessPoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssociatedAccessPolicies(input:))
+    }
+}
+
+extension ListAssociatedAccessPoliciesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAssociatedAccessPoliciesInput {
+        return ListAssociatedAccessPoliciesInput(
+            clusterName: self.clusterName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            principalArn: self.principalArn
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAssociatedAccessPoliciesInput, OperationStackOutput == ListAssociatedAccessPoliciesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAssociatedAccessPoliciesPaginated`
+    /// to access the nested member `[EKSClientTypes.AssociatedAccessPolicy]`
+    /// - Returns: `[EKSClientTypes.AssociatedAccessPolicy]`
+    public func associatedAccessPolicies() async throws -> [EKSClientTypes.AssociatedAccessPolicy] {
+        return try await self.asyncCompactMap { item in item.associatedAccessPolicies }
+    }
+}
+extension EKSClient {
+    /// Paginate over `[ListClustersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListClustersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListClustersOutputResponse`
-    public func listClustersPaginated(input: ListClustersInput) -> ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutputResponse>(input: input, inputKey: \ListClustersInput.nextToken, outputKey: \ListClustersOutputResponse.nextToken, paginationFunction: self.listClusters(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListClustersOutput`
+    public func listClustersPaginated(input: ListClustersInput) -> ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutput> {
+        return ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listClusters(input:))
     }
 }
 
@@ -91,7 +185,7 @@ extension ListClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListClustersInput, Output == ListClustersOutputResponse {
+extension PaginatorSequence where OperationStackInput == ListClustersInput, OperationStackOutput == ListClustersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listClustersPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -100,16 +194,47 @@ extension PaginatorSequence where Input == ListClustersInput, Output == ListClus
     }
 }
 extension EKSClient {
-    /// Paginate over `[ListFargateProfilesOutputResponse]` results.
+    /// Paginate over `[ListEksAnywhereSubscriptionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEksAnywhereSubscriptionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEksAnywhereSubscriptionsOutput`
+    public func listEksAnywhereSubscriptionsPaginated(input: ListEksAnywhereSubscriptionsInput) -> ClientRuntime.PaginatorSequence<ListEksAnywhereSubscriptionsInput, ListEksAnywhereSubscriptionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListEksAnywhereSubscriptionsInput, ListEksAnywhereSubscriptionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEksAnywhereSubscriptions(input:))
+    }
+}
+
+extension ListEksAnywhereSubscriptionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListEksAnywhereSubscriptionsInput {
+        return ListEksAnywhereSubscriptionsInput(
+            includeStatus: self.includeStatus,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListEksAnywhereSubscriptionsInput, OperationStackOutput == ListEksAnywhereSubscriptionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listEksAnywhereSubscriptionsPaginated`
+    /// to access the nested member `[EKSClientTypes.EksAnywhereSubscription]`
+    /// - Returns: `[EKSClientTypes.EksAnywhereSubscription]`
+    public func subscriptions() async throws -> [EKSClientTypes.EksAnywhereSubscription] {
+        return try await self.asyncCompactMap { item in item.subscriptions }
+    }
+}
+extension EKSClient {
+    /// Paginate over `[ListFargateProfilesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFargateProfilesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFargateProfilesOutputResponse`
-    public func listFargateProfilesPaginated(input: ListFargateProfilesInput) -> ClientRuntime.PaginatorSequence<ListFargateProfilesInput, ListFargateProfilesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFargateProfilesInput, ListFargateProfilesOutputResponse>(input: input, inputKey: \ListFargateProfilesInput.nextToken, outputKey: \ListFargateProfilesOutputResponse.nextToken, paginationFunction: self.listFargateProfiles(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFargateProfilesOutput`
+    public func listFargateProfilesPaginated(input: ListFargateProfilesInput) -> ClientRuntime.PaginatorSequence<ListFargateProfilesInput, ListFargateProfilesOutput> {
+        return ClientRuntime.PaginatorSequence<ListFargateProfilesInput, ListFargateProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFargateProfiles(input:))
     }
 }
 
@@ -122,7 +247,7 @@ extension ListFargateProfilesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFargateProfilesInput, Output == ListFargateProfilesOutputResponse {
+extension PaginatorSequence where OperationStackInput == ListFargateProfilesInput, OperationStackOutput == ListFargateProfilesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFargateProfilesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -131,16 +256,16 @@ extension PaginatorSequence where Input == ListFargateProfilesInput, Output == L
     }
 }
 extension EKSClient {
-    /// Paginate over `[ListIdentityProviderConfigsOutputResponse]` results.
+    /// Paginate over `[ListIdentityProviderConfigsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListIdentityProviderConfigsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListIdentityProviderConfigsOutputResponse`
-    public func listIdentityProviderConfigsPaginated(input: ListIdentityProviderConfigsInput) -> ClientRuntime.PaginatorSequence<ListIdentityProviderConfigsInput, ListIdentityProviderConfigsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListIdentityProviderConfigsInput, ListIdentityProviderConfigsOutputResponse>(input: input, inputKey: \ListIdentityProviderConfigsInput.nextToken, outputKey: \ListIdentityProviderConfigsOutputResponse.nextToken, paginationFunction: self.listIdentityProviderConfigs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListIdentityProviderConfigsOutput`
+    public func listIdentityProviderConfigsPaginated(input: ListIdentityProviderConfigsInput) -> ClientRuntime.PaginatorSequence<ListIdentityProviderConfigsInput, ListIdentityProviderConfigsOutput> {
+        return ClientRuntime.PaginatorSequence<ListIdentityProviderConfigsInput, ListIdentityProviderConfigsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listIdentityProviderConfigs(input:))
     }
 }
 
@@ -153,7 +278,7 @@ extension ListIdentityProviderConfigsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListIdentityProviderConfigsInput, Output == ListIdentityProviderConfigsOutputResponse {
+extension PaginatorSequence where OperationStackInput == ListIdentityProviderConfigsInput, OperationStackOutput == ListIdentityProviderConfigsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listIdentityProviderConfigsPaginated`
     /// to access the nested member `[EKSClientTypes.IdentityProviderConfig]`
     /// - Returns: `[EKSClientTypes.IdentityProviderConfig]`
@@ -162,16 +287,16 @@ extension PaginatorSequence where Input == ListIdentityProviderConfigsInput, Out
     }
 }
 extension EKSClient {
-    /// Paginate over `[ListNodegroupsOutputResponse]` results.
+    /// Paginate over `[ListNodegroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListNodegroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListNodegroupsOutputResponse`
-    public func listNodegroupsPaginated(input: ListNodegroupsInput) -> ClientRuntime.PaginatorSequence<ListNodegroupsInput, ListNodegroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListNodegroupsInput, ListNodegroupsOutputResponse>(input: input, inputKey: \ListNodegroupsInput.nextToken, outputKey: \ListNodegroupsOutputResponse.nextToken, paginationFunction: self.listNodegroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListNodegroupsOutput`
+    public func listNodegroupsPaginated(input: ListNodegroupsInput) -> ClientRuntime.PaginatorSequence<ListNodegroupsInput, ListNodegroupsOutput> {
+        return ClientRuntime.PaginatorSequence<ListNodegroupsInput, ListNodegroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listNodegroups(input:))
     }
 }
 
@@ -184,7 +309,7 @@ extension ListNodegroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListNodegroupsInput, Output == ListNodegroupsOutputResponse {
+extension PaginatorSequence where OperationStackInput == ListNodegroupsInput, OperationStackOutput == ListNodegroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listNodegroupsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -193,16 +318,49 @@ extension PaginatorSequence where Input == ListNodegroupsInput, Output == ListNo
     }
 }
 extension EKSClient {
-    /// Paginate over `[ListUpdatesOutputResponse]` results.
+    /// Paginate over `[ListPodIdentityAssociationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPodIdentityAssociationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPodIdentityAssociationsOutput`
+    public func listPodIdentityAssociationsPaginated(input: ListPodIdentityAssociationsInput) -> ClientRuntime.PaginatorSequence<ListPodIdentityAssociationsInput, ListPodIdentityAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPodIdentityAssociationsInput, ListPodIdentityAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPodIdentityAssociations(input:))
+    }
+}
+
+extension ListPodIdentityAssociationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPodIdentityAssociationsInput {
+        return ListPodIdentityAssociationsInput(
+            clusterName: self.clusterName,
+            maxResults: self.maxResults,
+            namespace: self.namespace,
+            nextToken: token,
+            serviceAccount: self.serviceAccount
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListPodIdentityAssociationsInput, OperationStackOutput == ListPodIdentityAssociationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listPodIdentityAssociationsPaginated`
+    /// to access the nested member `[EKSClientTypes.PodIdentityAssociationSummary]`
+    /// - Returns: `[EKSClientTypes.PodIdentityAssociationSummary]`
+    public func associations() async throws -> [EKSClientTypes.PodIdentityAssociationSummary] {
+        return try await self.asyncCompactMap { item in item.associations }
+    }
+}
+extension EKSClient {
+    /// Paginate over `[ListUpdatesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListUpdatesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListUpdatesOutputResponse`
-    public func listUpdatesPaginated(input: ListUpdatesInput) -> ClientRuntime.PaginatorSequence<ListUpdatesInput, ListUpdatesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListUpdatesInput, ListUpdatesOutputResponse>(input: input, inputKey: \ListUpdatesInput.nextToken, outputKey: \ListUpdatesOutputResponse.nextToken, paginationFunction: self.listUpdates(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListUpdatesOutput`
+    public func listUpdatesPaginated(input: ListUpdatesInput) -> ClientRuntime.PaginatorSequence<ListUpdatesInput, ListUpdatesOutput> {
+        return ClientRuntime.PaginatorSequence<ListUpdatesInput, ListUpdatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listUpdates(input:))
     }
 }
 
@@ -217,7 +375,7 @@ extension ListUpdatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListUpdatesInput, Output == ListUpdatesOutputResponse {
+extension PaginatorSequence where OperationStackInput == ListUpdatesInput, OperationStackOutput == ListUpdatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listUpdatesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`

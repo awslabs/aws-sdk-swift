@@ -12,6 +12,7 @@ object AWSClientRuntimeTypes {
 
     object EC2Query {
         val Ec2NarrowedResponse = runtimeSymbol("Ec2NarrowedResponse")
+        val Ec2QueryError = runtimeSymbol("Ec2QueryError")
     }
     object AWSJSON {
         val XAmzTargetMiddleware = runtimeSymbol("XAmzTargetMiddleware")
@@ -35,7 +36,6 @@ object AWSClientRuntimeTypes {
 
     object Core {
         val AWSUserAgentMetadata = runtimeSymbol("AWSUserAgentMetadata")
-        val APIMetadata = runtimeSymbol("APIMetadata")
         val UserAgentMiddleware = runtimeSymbol("UserAgentMiddleware")
         val EndpointResolverMiddleware = runtimeSymbol("EndpointResolverMiddleware")
         val FrameworkMetadata = runtimeSymbol("FrameworkMetadata")

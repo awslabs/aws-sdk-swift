@@ -4,20 +4,20 @@ import ClientRuntime
 
 extension S3ClientProtocol {
 
-    static func bucketExistsWaiterConfig() throws -> WaiterConfiguration<HeadBucketInput, HeadBucketOutputResponse> {
-        let acceptors: [WaiterConfiguration<HeadBucketInput, HeadBucketOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: HeadBucketInput, result: Result<HeadBucketOutputResponse, Error>) -> Bool in
+    static func bucketExistsWaiterConfig() throws -> WaiterConfiguration<HeadBucketInput, HeadBucketOutput> {
+        let acceptors: [WaiterConfiguration<HeadBucketInput, HeadBucketOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: HeadBucketInput, result: Result<HeadBucketOutput, Error>) -> Bool in
                 switch result {
                     case .success: return true
                     case .failure: return false
                 }
             }),
-            .init(state: .retry, matcher: { (input: HeadBucketInput, result: Result<HeadBucketOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: HeadBucketInput, result: Result<HeadBucketOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "NotFound"
             }),
         ]
-        return try WaiterConfiguration<HeadBucketInput, HeadBucketOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+        return try WaiterConfiguration<HeadBucketInput, HeadBucketOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the BucketExists event on the headBucket operation.
@@ -31,19 +31,19 @@ extension S3ClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilBucketExists(options: WaiterOptions, input: HeadBucketInput) async throws -> WaiterOutcome<HeadBucketOutputResponse> {
+    public func waitUntilBucketExists(options: WaiterOptions, input: HeadBucketInput) async throws -> WaiterOutcome<HeadBucketOutput> {
         let waiter = Waiter(config: try Self.bucketExistsWaiterConfig(), operation: self.headBucket(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func bucketNotExistsWaiterConfig() throws -> WaiterConfiguration<HeadBucketInput, HeadBucketOutputResponse> {
-        let acceptors: [WaiterConfiguration<HeadBucketInput, HeadBucketOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: HeadBucketInput, result: Result<HeadBucketOutputResponse, Error>) -> Bool in
+    static func bucketNotExistsWaiterConfig() throws -> WaiterConfiguration<HeadBucketInput, HeadBucketOutput> {
+        let acceptors: [WaiterConfiguration<HeadBucketInput, HeadBucketOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: HeadBucketInput, result: Result<HeadBucketOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "NotFound"
             }),
         ]
-        return try WaiterConfiguration<HeadBucketInput, HeadBucketOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+        return try WaiterConfiguration<HeadBucketInput, HeadBucketOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the BucketNotExists event on the headBucket operation.
@@ -57,25 +57,25 @@ extension S3ClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilBucketNotExists(options: WaiterOptions, input: HeadBucketInput) async throws -> WaiterOutcome<HeadBucketOutputResponse> {
+    public func waitUntilBucketNotExists(options: WaiterOptions, input: HeadBucketInput) async throws -> WaiterOutcome<HeadBucketOutput> {
         let waiter = Waiter(config: try Self.bucketNotExistsWaiterConfig(), operation: self.headBucket(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func objectExistsWaiterConfig() throws -> WaiterConfiguration<HeadObjectInput, HeadObjectOutputResponse> {
-        let acceptors: [WaiterConfiguration<HeadObjectInput, HeadObjectOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: HeadObjectInput, result: Result<HeadObjectOutputResponse, Error>) -> Bool in
+    static func objectExistsWaiterConfig() throws -> WaiterConfiguration<HeadObjectInput, HeadObjectOutput> {
+        let acceptors: [WaiterConfiguration<HeadObjectInput, HeadObjectOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: HeadObjectInput, result: Result<HeadObjectOutput, Error>) -> Bool in
                 switch result {
                     case .success: return true
                     case .failure: return false
                 }
             }),
-            .init(state: .retry, matcher: { (input: HeadObjectInput, result: Result<HeadObjectOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: HeadObjectInput, result: Result<HeadObjectOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "NotFound"
             }),
         ]
-        return try WaiterConfiguration<HeadObjectInput, HeadObjectOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+        return try WaiterConfiguration<HeadObjectInput, HeadObjectOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ObjectExists event on the headObject operation.
@@ -89,19 +89,19 @@ extension S3ClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilObjectExists(options: WaiterOptions, input: HeadObjectInput) async throws -> WaiterOutcome<HeadObjectOutputResponse> {
+    public func waitUntilObjectExists(options: WaiterOptions, input: HeadObjectInput) async throws -> WaiterOutcome<HeadObjectOutput> {
         let waiter = Waiter(config: try Self.objectExistsWaiterConfig(), operation: self.headObject(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func objectNotExistsWaiterConfig() throws -> WaiterConfiguration<HeadObjectInput, HeadObjectOutputResponse> {
-        let acceptors: [WaiterConfiguration<HeadObjectInput, HeadObjectOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: HeadObjectInput, result: Result<HeadObjectOutputResponse, Error>) -> Bool in
+    static func objectNotExistsWaiterConfig() throws -> WaiterConfiguration<HeadObjectInput, HeadObjectOutput> {
+        let acceptors: [WaiterConfiguration<HeadObjectInput, HeadObjectOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: HeadObjectInput, result: Result<HeadObjectOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "NotFound"
             }),
         ]
-        return try WaiterConfiguration<HeadObjectInput, HeadObjectOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+        return try WaiterConfiguration<HeadObjectInput, HeadObjectOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ObjectNotExists event on the headObject operation.
@@ -115,7 +115,7 @@ extension S3ClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilObjectNotExists(options: WaiterOptions, input: HeadObjectInput) async throws -> WaiterOutcome<HeadObjectOutputResponse> {
+    public func waitUntilObjectNotExists(options: WaiterOptions, input: HeadObjectInput) async throws -> WaiterOutcome<HeadObjectOutput> {
         let waiter = Waiter(config: try Self.objectNotExistsWaiterConfig(), operation: self.headObject(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

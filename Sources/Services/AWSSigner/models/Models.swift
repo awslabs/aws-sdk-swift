@@ -172,8 +172,48 @@ extension AddProfilePermissionInputBody: Swift.Decodable {
     }
 }
 
-public enum AddProfilePermissionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension AddProfilePermissionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AddProfilePermissionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.revisionId = output.revisionId
+        } else {
+            self.revisionId = nil
+        }
+    }
+}
+
+public struct AddProfilePermissionOutput: Swift.Equatable {
+    /// A unique identifier for the current profile revision.
+    public var revisionId: Swift.String?
+
+    public init(
+        revisionId: Swift.String? = nil
+    )
+    {
+        self.revisionId = revisionId
+    }
+}
+
+struct AddProfilePermissionOutputBody: Swift.Equatable {
+    let revisionId: Swift.String?
+}
+
+extension AddProfilePermissionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case revisionId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let revisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .revisionId)
+        revisionId = revisionIdDecoded
+    }
+}
+
+enum AddProfilePermissionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -186,46 +226,6 @@ public enum AddProfilePermissionOutputError: ClientRuntime.HttpResponseErrorBind
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension AddProfilePermissionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: AddProfilePermissionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.revisionId = output.revisionId
-        } else {
-            self.revisionId = nil
-        }
-    }
-}
-
-public struct AddProfilePermissionOutputResponse: Swift.Equatable {
-    /// A unique identifier for the current profile revision.
-    public var revisionId: Swift.String?
-
-    public init(
-        revisionId: Swift.String? = nil
-    )
-    {
-        self.revisionId = revisionId
-    }
-}
-
-struct AddProfilePermissionOutputResponseBody: Swift.Equatable {
-    let revisionId: Swift.String?
-}
-
-extension AddProfilePermissionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case revisionId
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let revisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .revisionId)
-        revisionId = revisionIdDecoded
     }
 }
 
@@ -324,8 +324,18 @@ extension CancelSigningProfileInputBody: Swift.Decodable {
     }
 }
 
-public enum CancelSigningProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CancelSigningProfileOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CancelSigningProfileOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CancelSigningProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -336,16 +346,6 @@ public enum CancelSigningProfileOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension CancelSigningProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CancelSigningProfileOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension SignerClientTypes {
@@ -472,25 +472,11 @@ extension DescribeSigningJobInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeSigningJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeSigningJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeSigningJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeSigningJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeSigningJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.completedAt = output.completedAt
             self.createdAt = output.createdAt
             self.jobId = output.jobId
@@ -534,7 +520,7 @@ extension DescribeSigningJobOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSigningJobOutputResponse: Swift.Equatable {
+public struct DescribeSigningJobOutput: Swift.Equatable {
     /// Date and time that the signing job was completed.
     public var completedAt: ClientRuntime.Date?
     /// Date and time that the signing job was created.
@@ -561,7 +547,7 @@ public struct DescribeSigningJobOutputResponse: Swift.Equatable {
     public var revocationRecord: SignerClientTypes.SigningJobRevocationRecord?
     /// Thr expiration timestamp for the signature generated by the signing job.
     public var signatureExpiresAt: ClientRuntime.Date?
-    /// Name of the S3 bucket where the signed code image is saved by code signing.
+    /// Name of the S3 bucket where the signed code image is saved by AWS Signer.
     public var signedObject: SignerClientTypes.SignedObject?
     /// The Amazon Resource Name (ARN) of your code signing certificate.
     public var signingMaterial: SignerClientTypes.SigningMaterial?
@@ -618,7 +604,7 @@ public struct DescribeSigningJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeSigningJobOutputResponseBody: Swift.Equatable {
+struct DescribeSigningJobOutputBody: Swift.Equatable {
     let jobId: Swift.String?
     let source: SignerClientTypes.Source?
     let signingMaterial: SignerClientTypes.SigningMaterial?
@@ -640,7 +626,7 @@ struct DescribeSigningJobOutputResponseBody: Swift.Equatable {
     let jobInvoker: Swift.String?
 }
 
-extension DescribeSigningJobOutputResponseBody: Swift.Decodable {
+extension DescribeSigningJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case completedAt
         case createdAt
@@ -712,6 +698,20 @@ extension DescribeSigningJobOutputResponseBody: Swift.Decodable {
         jobOwner = jobOwnerDecoded
         let jobInvokerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobInvoker)
         jobInvoker = jobInvokerDecoded
+    }
+}
+
+enum DescribeSigningJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -820,12 +820,12 @@ extension SignerClientTypes.EncryptionAlgorithmOptions: Swift.Codable {
 }
 
 extension SignerClientTypes {
-    /// The encryption algorithm options that are available to a code signing job.
+    /// The encryption algorithm options that are available to a code-signing job.
     public struct EncryptionAlgorithmOptions: Swift.Equatable {
-        /// The set of accepted encryption algorithms that are allowed in a code signing job.
+        /// The set of accepted encryption algorithms that are allowed in a code-signing job.
         /// This member is required.
         public var allowedValues: [SignerClientTypes.EncryptionAlgorithm]?
-        /// The default encryption algorithm that is used by a code signing job.
+        /// The default encryption algorithm that is used by a code-signing job.
         /// This member is required.
         public var defaultValue: SignerClientTypes.EncryptionAlgorithm?
 
@@ -889,7 +889,17 @@ extension GetRevocationStatusInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetRevocationStatusInput: Swift.Equatable {
-    /// A list of composite signed hashes that identify certificates. A certificate identifier consists of a subject certificate TBS hash (signed by the parent CA) combined with a parent CA TBS hash (signed by the parent CA’s CA). Root certificates are defined as their own CA.
+    /// A list of composite signed hashes that identify certificates. A certificate identifier consists of a subject certificate TBS hash (signed by the parent CA) combined with a parent CA TBS hash (signed by the parent CA’s CA). Root certificates are defined as their own CA. The following example shows how to calculate a hash for this parameter using OpenSSL commands: openssl asn1parse -in childCert.pem -strparse 4 -out childCert.tbs
+    ///     openssl sha384 < childCert.tbs -binary > childCertTbsHash
+    ///
+    ///
+    ///     openssl asn1parse -in parentCert.pem -strparse 4 -out parentCert.tbs
+    ///
+    ///
+    ///     openssl sha384 < parentCert.tbs -binary > parentCertTbsHash xxd -p childCertTbsHash > certificateHash.hex xxd -p parentCertTbsHash >> certificateHash.hex
+    ///
+    ///
+    ///     cat certificateHash.hex | tr -d '\n'
     /// This member is required.
     public var certificateHashes: [Swift.String]?
     /// The ARN of a signing job.
@@ -930,25 +940,11 @@ extension GetRevocationStatusInputBody: Swift.Decodable {
     }
 }
 
-public enum GetRevocationStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetRevocationStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRevocationStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRevocationStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRevocationStatusOutputBody = try responseDecoder.decode(responseBody: data)
             self.revokedEntities = output.revokedEntities
         } else {
             self.revokedEntities = nil
@@ -956,8 +952,8 @@ extension GetRevocationStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRevocationStatusOutputResponse: Swift.Equatable {
-    /// A list of revoked entities (including one or more of the signing profile ARN, signing job ID, and certificate hash) supplied as input to the API.
+public struct GetRevocationStatusOutput: Swift.Equatable {
+    /// A list of revoked entities (including zero or more of the signing profile ARN, signing job ARN, and certificate hashes) supplied as input to the API.
     public var revokedEntities: [Swift.String]?
 
     public init(
@@ -968,11 +964,11 @@ public struct GetRevocationStatusOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRevocationStatusOutputResponseBody: Swift.Equatable {
+struct GetRevocationStatusOutputBody: Swift.Equatable {
     let revokedEntities: [Swift.String]?
 }
 
-extension GetRevocationStatusOutputResponseBody: Swift.Decodable {
+extension GetRevocationStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case revokedEntities
     }
@@ -990,6 +986,20 @@ extension GetRevocationStatusOutputResponseBody: Swift.Decodable {
             }
         }
         revokedEntities = revokedEntitiesDecoded0
+    }
+}
+
+enum GetRevocationStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1024,25 +1034,11 @@ extension GetSigningPlatformInputBody: Swift.Decodable {
     }
 }
 
-public enum GetSigningPlatformOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetSigningPlatformOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSigningPlatformOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSigningPlatformOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSigningPlatformOutputBody = try responseDecoder.decode(responseBody: data)
             self.category = output.category
             self.displayName = output.displayName
             self.maxSizeInMB = output.maxSizeInMB
@@ -1066,7 +1062,7 @@ extension GetSigningPlatformOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSigningPlatformOutputResponse: Swift.Equatable {
+public struct GetSigningPlatformOutput: Swift.Equatable {
     /// The category type of the target signing platform.
     public var category: SignerClientTypes.Category?
     /// The display name of the target signing platform.
@@ -1110,7 +1106,7 @@ public struct GetSigningPlatformOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSigningPlatformOutputResponseBody: Swift.Equatable {
+struct GetSigningPlatformOutputBody: Swift.Equatable {
     let platformId: Swift.String?
     let displayName: Swift.String?
     let partner: Swift.String?
@@ -1122,7 +1118,7 @@ struct GetSigningPlatformOutputResponseBody: Swift.Equatable {
     let revocationSupported: Swift.Bool
 }
 
-extension GetSigningPlatformOutputResponseBody: Swift.Decodable {
+extension GetSigningPlatformOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case category
         case displayName
@@ -1155,6 +1151,20 @@ extension GetSigningPlatformOutputResponseBody: Swift.Decodable {
         maxSizeInMB = maxSizeInMBDecoded
         let revocationSupportedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .revocationSupported) ?? false
         revocationSupported = revocationSupportedDecoded
+    }
+}
+
+enum GetSigningPlatformOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1206,25 +1216,11 @@ extension GetSigningProfileInputBody: Swift.Decodable {
     }
 }
 
-public enum GetSigningProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetSigningProfileOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSigningProfileOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSigningProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSigningProfileOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.overrides = output.overrides
             self.platformDisplayName = output.platformDisplayName
@@ -1258,7 +1254,7 @@ extension GetSigningProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSigningProfileOutputResponse: Swift.Equatable {
+public struct GetSigningProfileOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) for the signing profile.
     public var arn: Swift.String?
     /// A list of overrides applied by the target signing profile for signing operations.
@@ -1322,7 +1318,7 @@ public struct GetSigningProfileOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSigningProfileOutputResponseBody: Swift.Equatable {
+struct GetSigningProfileOutputBody: Swift.Equatable {
     let profileName: Swift.String?
     let profileVersion: Swift.String?
     let profileVersionArn: Swift.String?
@@ -1339,7 +1335,7 @@ struct GetSigningProfileOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension GetSigningProfileOutputResponseBody: Swift.Decodable {
+extension GetSigningProfileOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case overrides
@@ -1405,6 +1401,20 @@ extension GetSigningProfileOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum GetSigningProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1478,12 +1488,12 @@ extension SignerClientTypes.HashAlgorithmOptions: Swift.Codable {
 }
 
 extension SignerClientTypes {
-    /// The hash algorithms that are available to a code signing job.
+    /// The hash algorithms that are available to a code-signing job.
     public struct HashAlgorithmOptions: Swift.Equatable {
-        /// The set of accepted hash algorithms allowed in a code signing job.
+        /// The set of accepted hash algorithms allowed in a code-signing job.
         /// This member is required.
         public var allowedValues: [SignerClientTypes.HashAlgorithm]?
-        /// The default hash algorithm that is used in a code signing job.
+        /// The default hash algorithm that is used in a code-signing job.
         /// This member is required.
         public var defaultValue: SignerClientTypes.HashAlgorithm?
 
@@ -1646,26 +1656,11 @@ extension ListProfilePermissionsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListProfilePermissionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListProfilePermissionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListProfilePermissionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListProfilePermissionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListProfilePermissionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.permissions = output.permissions
             self.policySizeBytes = output.policySizeBytes
@@ -1679,7 +1674,7 @@ extension ListProfilePermissionsOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListProfilePermissionsOutputResponse: Swift.Equatable {
+public struct ListProfilePermissionsOutput: Swift.Equatable {
     /// String for specifying the next set of paginated results.
     public var nextToken: Swift.String?
     /// List of permissions associated with the Signing Profile.
@@ -1703,14 +1698,14 @@ public struct ListProfilePermissionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListProfilePermissionsOutputResponseBody: Swift.Equatable {
+struct ListProfilePermissionsOutputBody: Swift.Equatable {
     let revisionId: Swift.String?
     let policySizeBytes: Swift.Int
     let permissions: [SignerClientTypes.Permission]?
     let nextToken: Swift.String?
 }
 
-extension ListProfilePermissionsOutputResponseBody: Swift.Decodable {
+extension ListProfilePermissionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case permissions
@@ -1737,6 +1732,21 @@ extension ListProfilePermissionsOutputResponseBody: Swift.Decodable {
         permissions = permissionsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListProfilePermissionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1844,25 +1854,11 @@ extension ListSigningJobsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListSigningJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSigningJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSigningJobsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSigningJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSigningJobsOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobs = output.jobs
             self.nextToken = output.nextToken
         } else {
@@ -1872,7 +1868,7 @@ extension ListSigningJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSigningJobsOutputResponse: Swift.Equatable {
+public struct ListSigningJobsOutput: Swift.Equatable {
     /// A list of your signing jobs.
     public var jobs: [SignerClientTypes.SigningJob]?
     /// String for specifying the next set of paginated results.
@@ -1888,12 +1884,12 @@ public struct ListSigningJobsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSigningJobsOutputResponseBody: Swift.Equatable {
+struct ListSigningJobsOutputBody: Swift.Equatable {
     let jobs: [SignerClientTypes.SigningJob]?
     let nextToken: Swift.String?
 }
 
-extension ListSigningJobsOutputResponseBody: Swift.Decodable {
+extension ListSigningJobsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobs
         case nextToken
@@ -1914,6 +1910,20 @@ extension ListSigningJobsOutputResponseBody: Swift.Decodable {
         jobs = jobsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListSigningJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1989,25 +1999,11 @@ extension ListSigningPlatformsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListSigningPlatformsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSigningPlatformsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSigningPlatformsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSigningPlatformsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSigningPlatformsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.platforms = output.platforms
         } else {
@@ -2017,7 +2013,7 @@ extension ListSigningPlatformsOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListSigningPlatformsOutputResponse: Swift.Equatable {
+public struct ListSigningPlatformsOutput: Swift.Equatable {
     /// Value for specifying the next set of paginated results to return.
     public var nextToken: Swift.String?
     /// A list of all platforms that match the request parameters.
@@ -2033,12 +2029,12 @@ public struct ListSigningPlatformsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSigningPlatformsOutputResponseBody: Swift.Equatable {
+struct ListSigningPlatformsOutputBody: Swift.Equatable {
     let platforms: [SignerClientTypes.SigningPlatform]?
     let nextToken: Swift.String?
 }
 
-extension ListSigningPlatformsOutputResponseBody: Swift.Decodable {
+extension ListSigningPlatformsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case platforms
@@ -2059,6 +2055,20 @@ extension ListSigningPlatformsOutputResponseBody: Swift.Decodable {
         platforms = platformsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListSigningPlatformsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2136,24 +2146,11 @@ extension ListSigningProfilesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListSigningProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSigningProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSigningProfilesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSigningProfilesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSigningProfilesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.profiles = output.profiles
         } else {
@@ -2163,7 +2160,7 @@ extension ListSigningProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSigningProfilesOutputResponse: Swift.Equatable {
+public struct ListSigningProfilesOutput: Swift.Equatable {
     /// Value for specifying the next set of paginated results to return.
     public var nextToken: Swift.String?
     /// A list of profiles that are available in the AWS account. This includes profiles with the status of CANCELED if the includeCanceled parameter is set to true.
@@ -2179,12 +2176,12 @@ public struct ListSigningProfilesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSigningProfilesOutputResponseBody: Swift.Equatable {
+struct ListSigningProfilesOutputBody: Swift.Equatable {
     let profiles: [SignerClientTypes.SigningProfile]?
     let nextToken: Swift.String?
 }
 
-extension ListSigningProfilesOutputResponseBody: Swift.Decodable {
+extension ListSigningProfilesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case profiles
@@ -2205,6 +2202,19 @@ extension ListSigningProfilesOutputResponseBody: Swift.Decodable {
         profiles = profilesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListSigningProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2239,25 +2249,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -2265,7 +2261,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// A list of tags associated with the signing profile.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2277,11 +2273,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags
     }
@@ -2299,6 +2295,20 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2571,26 +2581,11 @@ extension PutSigningProfileInputBody: Swift.Decodable {
     }
 }
 
-public enum PutSigningProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension PutSigningProfileOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PutSigningProfileOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PutSigningProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PutSigningProfileOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.profileVersion = output.profileVersion
             self.profileVersionArn = output.profileVersionArn
@@ -2602,7 +2597,7 @@ extension PutSigningProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutSigningProfileOutputResponse: Swift.Equatable {
+public struct PutSigningProfileOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the signing profile created.
     public var arn: Swift.String?
     /// The version of the signing profile being created.
@@ -2622,13 +2617,13 @@ public struct PutSigningProfileOutputResponse: Swift.Equatable {
     }
 }
 
-struct PutSigningProfileOutputResponseBody: Swift.Equatable {
+struct PutSigningProfileOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let profileVersion: Swift.String?
     let profileVersionArn: Swift.String?
 }
 
-extension PutSigningProfileOutputResponseBody: Swift.Decodable {
+extension PutSigningProfileOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case profileVersion
@@ -2643,6 +2638,21 @@ extension PutSigningProfileOutputResponseBody: Swift.Decodable {
         profileVersion = profileVersionDecoded
         let profileVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileVersionArn)
         profileVersionArn = profileVersionArnDecoded
+    }
+}
+
+enum PutSigningProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2705,27 +2715,11 @@ extension RemoveProfilePermissionInputBody: Swift.Decodable {
     }
 }
 
-public enum RemoveProfilePermissionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension RemoveProfilePermissionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RemoveProfilePermissionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RemoveProfilePermissionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RemoveProfilePermissionOutputBody = try responseDecoder.decode(responseBody: data)
             self.revisionId = output.revisionId
         } else {
             self.revisionId = nil
@@ -2733,7 +2727,7 @@ extension RemoveProfilePermissionOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct RemoveProfilePermissionOutputResponse: Swift.Equatable {
+public struct RemoveProfilePermissionOutput: Swift.Equatable {
     /// An identifier for the current revision of the profile permissions.
     public var revisionId: Swift.String?
 
@@ -2745,11 +2739,11 @@ public struct RemoveProfilePermissionOutputResponse: Swift.Equatable {
     }
 }
 
-struct RemoveProfilePermissionOutputResponseBody: Swift.Equatable {
+struct RemoveProfilePermissionOutputBody: Swift.Equatable {
     let revisionId: Swift.String?
 }
 
-extension RemoveProfilePermissionOutputResponseBody: Swift.Decodable {
+extension RemoveProfilePermissionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case revisionId
     }
@@ -2758,6 +2752,22 @@ extension RemoveProfilePermissionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let revisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .revisionId)
         revisionId = revisionIdDecoded
+    }
+}
+
+enum RemoveProfilePermissionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2893,8 +2903,18 @@ extension RevokeSignatureInputBody: Swift.Decodable {
     }
 }
 
-public enum RevokeSignatureOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension RevokeSignatureOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RevokeSignatureOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum RevokeSignatureOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2906,16 +2926,6 @@ public enum RevokeSignatureOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension RevokeSignatureOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct RevokeSignatureOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension RevokeSigningProfileInput: Swift.Encodable {
@@ -3000,8 +3010,18 @@ extension RevokeSigningProfileInputBody: Swift.Decodable {
     }
 }
 
-public enum RevokeSigningProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension RevokeSigningProfileOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RevokeSigningProfileOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum RevokeSigningProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3013,16 +3033,6 @@ public enum RevokeSigningProfileOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension RevokeSigningProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct RevokeSigningProfileOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension SignerClientTypes.S3Destination: Swift.Codable {
@@ -3051,11 +3061,11 @@ extension SignerClientTypes.S3Destination: Swift.Codable {
 }
 
 extension SignerClientTypes {
-    /// The name and prefix of the S3 bucket where code signing saves your signed objects.
+    /// The name and prefix of the Amazon S3 bucket where AWS Signer saves your signed objects.
     public struct S3Destination: Swift.Equatable {
         /// Name of the S3 bucket.
         public var bucketName: Swift.String?
-        /// An Amazon S3 prefix that you can use to limit responses to those that begin with the specified prefix.
+        /// An S3 prefix that you can use to limit responses to those that begin with the specified prefix.
         public var `prefix`: Swift.String?
 
         public init(
@@ -3096,7 +3106,7 @@ extension SignerClientTypes.S3SignedObject: Swift.Codable {
 }
 
 extension SignerClientTypes {
-    /// The S3 bucket name and key where code signing saved your signed code image.
+    /// The Amazon S3 bucket name and key where Signer saved your signed code image.
     public struct S3SignedObject: Swift.Equatable {
         /// Name of the S3 bucket.
         public var bucketName: Swift.String?
@@ -3147,7 +3157,7 @@ extension SignerClientTypes.S3Source: Swift.Codable {
 }
 
 extension SignerClientTypes {
-    /// Information about the S3 bucket where you saved your unsigned code.
+    /// Information about the Amazon S3 bucket where you saved your unsigned code.
     public struct S3Source: Swift.Equatable {
         /// Name of the S3 bucket.
         /// This member is required.
@@ -3272,7 +3282,7 @@ public struct SignPayloadInput: Swift.Equatable {
     /// Specifies the object digest (hash) to sign.
     /// This member is required.
     public var payload: ClientRuntime.Data?
-    /// Payload content type
+    /// Payload content type. The single valid type is application/vnd.cncf.notary.payload.v1+json.
     /// This member is required.
     public var payloadFormat: Swift.String?
     /// The name of the signing profile.
@@ -3323,26 +3333,11 @@ extension SignPayloadInputBody: Swift.Decodable {
     }
 }
 
-public enum SignPayloadOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension SignPayloadOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SignPayloadOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SignPayloadOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SignPayloadOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.jobOwner = output.jobOwner
             self.metadata = output.metadata
@@ -3356,12 +3351,12 @@ extension SignPayloadOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SignPayloadOutputResponse: Swift.Equatable {
+public struct SignPayloadOutput: Swift.Equatable {
     /// Unique identifier of the signing job.
     public var jobId: Swift.String?
     /// The AWS account ID of the job owner.
     public var jobOwner: Swift.String?
-    /// Information including the signing profile ARN and the signing job ID. Clients use metadata to signature records, for example, as annotations added to the signature manifest inside an OCI registry.
+    /// Information including the signing profile ARN and the signing job ID.
     public var metadata: [Swift.String:Swift.String]?
     /// A cryptographic signature.
     public var signature: ClientRuntime.Data?
@@ -3380,14 +3375,14 @@ public struct SignPayloadOutputResponse: Swift.Equatable {
     }
 }
 
-struct SignPayloadOutputResponseBody: Swift.Equatable {
+struct SignPayloadOutputBody: Swift.Equatable {
     let jobId: Swift.String?
     let jobOwner: Swift.String?
     let metadata: [Swift.String:Swift.String]?
     let signature: ClientRuntime.Data?
 }
 
-extension SignPayloadOutputResponseBody: Swift.Decodable {
+extension SignPayloadOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId
         case jobOwner
@@ -3414,6 +3409,21 @@ extension SignPayloadOutputResponseBody: Swift.Decodable {
         metadata = metadataDecoded0
         let signatureDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .signature)
         signature = signatureDecoded
+    }
+}
+
+enum SignPayloadOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3523,12 +3533,12 @@ extension SignerClientTypes.SigningConfiguration: Swift.Codable {
 }
 
 extension SignerClientTypes {
-    /// The configuration of a code signing operation.
+    /// The configuration of a signing operation.
     public struct SigningConfiguration: Swift.Equatable {
-        /// The encryption algorithm options that are available for a code signing job.
+        /// The encryption algorithm options that are available for a code-signing job.
         /// This member is required.
         public var encryptionAlgorithmOptions: SignerClientTypes.EncryptionAlgorithmOptions?
-        /// The hash algorithm options that are available for a code signing job.
+        /// The hash algorithm options that are available for a code-signing job.
         /// This member is required.
         public var hashAlgorithmOptions: SignerClientTypes.HashAlgorithmOptions?
 
@@ -3572,9 +3582,9 @@ extension SignerClientTypes.SigningConfigurationOverrides: Swift.Codable {
 extension SignerClientTypes {
     /// A signing configuration that overrides the default encryption or hash algorithm of a signing job.
     public struct SigningConfigurationOverrides: Swift.Equatable {
-        /// A specified override of the default encryption algorithm that is used in a code signing job.
+        /// A specified override of the default encryption algorithm that is used in a code-signing job.
         public var encryptionAlgorithm: SignerClientTypes.EncryptionAlgorithm?
-        /// A specified override of the default hash algorithm that is used in a code signing job.
+        /// A specified override of the default hash algorithm that is used in a code-signing job.
         public var hashAlgorithm: SignerClientTypes.HashAlgorithm?
 
         public init(
@@ -3627,12 +3637,12 @@ extension SignerClientTypes.SigningImageFormat: Swift.Codable {
 }
 
 extension SignerClientTypes {
-    /// The image format of a code signing platform or profile.
+    /// The image format of a AWS Signer platform or profile.
     public struct SigningImageFormat: Swift.Equatable {
-        /// The default format of a code signing image.
+        /// The default format of a signing image.
         /// This member is required.
         public var defaultFormat: SignerClientTypes.ImageFormat?
-        /// The supported formats of a code signing image.
+        /// The supported formats of a signing image.
         /// This member is required.
         public var supportedFormats: [SignerClientTypes.ImageFormat]?
 
@@ -3972,25 +3982,25 @@ extension SignerClientTypes.SigningPlatform: Swift.Codable {
 }
 
 extension SignerClientTypes {
-    /// Contains information about the signing configurations and parameters that are used to perform a code signing job.
+    /// Contains information about the signing configurations and parameters that are used to perform a code-signing job.
     public struct SigningPlatform: Swift.Equatable {
-        /// The category of a code signing platform.
+        /// The category of a signing platform.
         public var category: SignerClientTypes.Category?
-        /// The display name of a code signing platform.
+        /// The display name of a signing platform.
         public var displayName: Swift.String?
-        /// The maximum size (in MB) of code that can be signed by a code signing platform.
+        /// The maximum size (in MB) of code that can be signed by a signing platform.
         public var maxSizeInMB: Swift.Int
-        /// Any partner entities linked to a code signing platform.
+        /// Any partner entities linked to a signing platform.
         public var partner: Swift.String?
-        /// The ID of a code signing platform.
+        /// The ID of a signing platform.
         public var platformId: Swift.String?
         /// Indicates whether revocation is supported for the platform.
         public var revocationSupported: Swift.Bool
-        /// The configuration of a code signing platform. This includes the designated hash algorithm and encryption algorithm of a signing platform.
+        /// The configuration of a signing platform. This includes the designated hash algorithm and encryption algorithm of a signing platform.
         public var signingConfiguration: SignerClientTypes.SigningConfiguration?
-        /// The image format of a code signing platform or profile.
+        /// The image format of a AWS Signer platform or profile.
         public var signingImageFormat: SignerClientTypes.SigningImageFormat?
-        /// The types of targets that can be signed by a code signing platform.
+        /// The types of targets that can be signed by a signing platform.
         public var target: Swift.String?
 
         public init(
@@ -4045,7 +4055,7 @@ extension SignerClientTypes.SigningPlatformOverrides: Swift.Codable {
 }
 
 extension SignerClientTypes {
-    /// Any overrides that are applied to the signing configuration of a code signing platform.
+    /// Any overrides that are applied to the signing configuration of a signing platform.
     public struct SigningPlatformOverrides: Swift.Equatable {
         /// A signing configuration that overrides the default encryption or hash algorithm of a signing job.
         public var signingConfiguration: SignerClientTypes.SigningConfigurationOverrides?
@@ -4168,7 +4178,7 @@ extension SignerClientTypes.SigningProfile: Swift.Codable {
 }
 
 extension SignerClientTypes {
-    /// Contains information about the ACM certificates and code signing configuration parameters that can be used by a given code signing user.
+    /// Contains information about the ACM certificates and signing configuration parameters that can be used by a given code signing user.
     public struct SigningProfile: Swift.Equatable {
         /// The Amazon Resource Name (ARN) for the signing profile.
         public var arn: Swift.String?
@@ -4186,9 +4196,9 @@ extension SignerClientTypes {
         public var signatureValidityPeriod: SignerClientTypes.SignatureValidityPeriod?
         /// The ACM certificate that is available for use by a signing profile.
         public var signingMaterial: SignerClientTypes.SigningMaterial?
-        /// The parameters that are available for use by a code signing user.
+        /// The parameters that are available for use by a Signer user.
         public var signingParameters: [Swift.String:Swift.String]?
-        /// The status of a code signing profile.
+        /// The status of a signing profile.
         public var status: SignerClientTypes.SigningProfileStatus?
         /// A list of tags associated with the signing profile.
         public var tags: [Swift.String:Swift.String]?
@@ -4482,27 +4492,11 @@ extension StartSigningJobInputBody: Swift.Decodable {
     }
 }
 
-public enum StartSigningJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartSigningJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartSigningJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartSigningJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartSigningJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.jobOwner = output.jobOwner
         } else {
@@ -4512,7 +4506,7 @@ extension StartSigningJobOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartSigningJobOutputResponse: Swift.Equatable {
+public struct StartSigningJobOutput: Swift.Equatable {
     /// The ID of your signing job.
     public var jobId: Swift.String?
     /// The AWS account ID of the signing job owner.
@@ -4528,12 +4522,12 @@ public struct StartSigningJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartSigningJobOutputResponseBody: Swift.Equatable {
+struct StartSigningJobOutputBody: Swift.Equatable {
     let jobId: Swift.String?
     let jobOwner: Swift.String?
 }
 
-extension StartSigningJobOutputResponseBody: Swift.Decodable {
+extension StartSigningJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId
         case jobOwner
@@ -4545,6 +4539,22 @@ extension StartSigningJobOutputResponseBody: Swift.Decodable {
         jobId = jobIdDecoded
         let jobOwnerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobOwner)
         jobOwner = jobOwnerDecoded
+    }
+}
+
+enum StartSigningJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4616,8 +4626,18 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4628,16 +4648,6 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ThrottlingException {
@@ -4822,8 +4832,18 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4834,16 +4854,6 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ValidationException {

@@ -671,6 +671,7 @@ extension CleanRoomsClientTypes.AnalysisRuleCustom: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allowedAnalyses
         case allowedAnalysisProviders
+        case differentialPrivacy
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -686,6 +687,9 @@ extension CleanRoomsClientTypes.AnalysisRuleCustom: Swift.Codable {
             for accountid0 in allowedAnalysisProviders {
                 try allowedAnalysisProvidersContainer.encode(accountid0)
             }
+        }
+        if let differentialPrivacy = self.differentialPrivacy {
+            try encodeContainer.encode(differentialPrivacy, forKey: .differentialPrivacy)
         }
     }
 
@@ -713,25 +717,31 @@ extension CleanRoomsClientTypes.AnalysisRuleCustom: Swift.Codable {
             }
         }
         allowedAnalysisProviders = allowedAnalysisProvidersDecoded0
+        let differentialPrivacyDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.DifferentialPrivacyConfiguration.self, forKey: .differentialPrivacy)
+        differentialPrivacy = differentialPrivacyDecoded
     }
 }
 
 extension CleanRoomsClientTypes {
-    /// A type of analysis rule that enables the table owner to approve custom SQL queries on their configured tables.
+    /// A type of analysis rule that enables the table owner to approve custom SQL queries on their configured tables. It supports differential privacy.
     public struct AnalysisRuleCustom: Swift.Equatable {
         /// The analysis templates that are allowed by the custom analysis rule.
         /// This member is required.
         public var allowedAnalyses: [Swift.String]?
         /// The Amazon Web Services accounts that are allowed to query by the custom analysis rule. Required when allowedAnalyses is ANY_QUERY.
         public var allowedAnalysisProviders: [Swift.String]?
+        /// The differential privacy configuration.
+        public var differentialPrivacy: CleanRoomsClientTypes.DifferentialPrivacyConfiguration?
 
         public init(
             allowedAnalyses: [Swift.String]? = nil,
-            allowedAnalysisProviders: [Swift.String]? = nil
+            allowedAnalysisProviders: [Swift.String]? = nil,
+            differentialPrivacy: CleanRoomsClientTypes.DifferentialPrivacyConfiguration? = nil
         )
         {
             self.allowedAnalyses = allowedAnalyses
             self.allowedAnalysisProviders = allowedAnalysisProviders
+            self.differentialPrivacy = differentialPrivacy
         }
     }
 
@@ -1497,26 +1507,11 @@ extension BatchGetCollaborationAnalysisTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchGetCollaborationAnalysisTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchGetCollaborationAnalysisTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchGetCollaborationAnalysisTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchGetCollaborationAnalysisTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchGetCollaborationAnalysisTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.collaborationAnalysisTemplates = output.collaborationAnalysisTemplates
             self.errors = output.errors
         } else {
@@ -1526,7 +1521,7 @@ extension BatchGetCollaborationAnalysisTemplateOutputResponse: ClientRuntime.Htt
     }
 }
 
-public struct BatchGetCollaborationAnalysisTemplateOutputResponse: Swift.Equatable {
+public struct BatchGetCollaborationAnalysisTemplateOutput: Swift.Equatable {
     /// The retrieved list of analysis templates within a collaboration.
     /// This member is required.
     public var collaborationAnalysisTemplates: [CleanRoomsClientTypes.CollaborationAnalysisTemplate]?
@@ -1544,12 +1539,12 @@ public struct BatchGetCollaborationAnalysisTemplateOutputResponse: Swift.Equatab
     }
 }
 
-struct BatchGetCollaborationAnalysisTemplateOutputResponseBody: Swift.Equatable {
+struct BatchGetCollaborationAnalysisTemplateOutputBody: Swift.Equatable {
     let collaborationAnalysisTemplates: [CleanRoomsClientTypes.CollaborationAnalysisTemplate]?
     let errors: [CleanRoomsClientTypes.BatchGetCollaborationAnalysisTemplateError]?
 }
 
-extension BatchGetCollaborationAnalysisTemplateOutputResponseBody: Swift.Decodable {
+extension BatchGetCollaborationAnalysisTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case collaborationAnalysisTemplates
         case errors
@@ -1579,6 +1574,21 @@ extension BatchGetCollaborationAnalysisTemplateOutputResponseBody: Swift.Decodab
             }
         }
         errors = errorsDecoded0
+    }
+}
+
+enum BatchGetCollaborationAnalysisTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1708,26 +1718,11 @@ extension BatchGetSchemaInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchGetSchemaOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchGetSchemaOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchGetSchemaOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchGetSchemaOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchGetSchemaOutputBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
             self.schemas = output.schemas
         } else {
@@ -1737,7 +1732,7 @@ extension BatchGetSchemaOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetSchemaOutputResponse: Swift.Equatable {
+public struct BatchGetSchemaOutput: Swift.Equatable {
     /// Error reasons for schemas that could not be retrieved. One error is returned for every schema that could not be retrieved.
     /// This member is required.
     public var errors: [CleanRoomsClientTypes.BatchGetSchemaError]?
@@ -1755,12 +1750,12 @@ public struct BatchGetSchemaOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchGetSchemaOutputResponseBody: Swift.Equatable {
+struct BatchGetSchemaOutputBody: Swift.Equatable {
     let schemas: [CleanRoomsClientTypes.Schema]?
     let errors: [CleanRoomsClientTypes.BatchGetSchemaError]?
 }
 
-extension BatchGetSchemaOutputResponseBody: Swift.Decodable {
+extension BatchGetSchemaOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errors
         case schemas
@@ -1790,6 +1785,21 @@ extension BatchGetSchemaOutputResponseBody: Swift.Decodable {
             }
         }
         errors = errorsDecoded0
+    }
+}
+
+enum BatchGetSchemaOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2263,6 +2273,646 @@ extension CleanRoomsClientTypes {
 
 }
 
+extension CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case collaborationArn
+        case collaborationId
+        case configuredAudienceModelArn
+        case createTime
+        case creatorAccountId
+        case description
+        case id
+        case name
+        case updateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let collaborationArn = self.collaborationArn {
+            try encodeContainer.encode(collaborationArn, forKey: .collaborationArn)
+        }
+        if let collaborationId = self.collaborationId {
+            try encodeContainer.encode(collaborationId, forKey: .collaborationId)
+        }
+        if let configuredAudienceModelArn = self.configuredAudienceModelArn {
+            try encodeContainer.encode(configuredAudienceModelArn, forKey: .configuredAudienceModelArn)
+        }
+        if let createTime = self.createTime {
+            try encodeContainer.encodeTimestamp(createTime, format: .epochSeconds, forKey: .createTime)
+        }
+        if let creatorAccountId = self.creatorAccountId {
+            try encodeContainer.encode(creatorAccountId, forKey: .creatorAccountId)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let updateTime = self.updateTime {
+            try encodeContainer.encodeTimestamp(updateTime, format: .epochSeconds, forKey: .updateTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let collaborationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationId)
+        collaborationId = collaborationIdDecoded
+        let collaborationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationArn)
+        collaborationArn = collaborationArnDecoded
+        let configuredAudienceModelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configuredAudienceModelArn)
+        configuredAudienceModelArn = configuredAudienceModelArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let creatorAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creatorAccountId)
+        creatorAccountId = creatorAccountIdDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createTime)
+        createTime = createTimeDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// The configured audience model association within a collaboration.
+    public struct CollaborationConfiguredAudienceModelAssociation: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the configured audience model association.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The unique ARN for the configured audience model's associated collaboration.
+        /// This member is required.
+        public var collaborationArn: Swift.String?
+        /// A unique identifier for the collaboration that the configured audience model associations belong to. Accepts collaboration ID.
+        /// This member is required.
+        public var collaborationId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the configure audience model.
+        /// This member is required.
+        public var configuredAudienceModelArn: Swift.String?
+        /// The time at which the configured audience model association was created.
+        /// This member is required.
+        public var createTime: ClientRuntime.Date?
+        /// The identifier used to reference members of the collaboration. Only supports AWS account ID.
+        /// This member is required.
+        public var creatorAccountId: Swift.String?
+        /// The description of the configured audience model association.
+        public var description: Swift.String?
+        /// The identifier of the configured audience model association.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the configured audience model association.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The most recent time at which the configured audience model association was updated.
+        /// This member is required.
+        public var updateTime: ClientRuntime.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            collaborationArn: Swift.String? = nil,
+            collaborationId: Swift.String? = nil,
+            configuredAudienceModelArn: Swift.String? = nil,
+            createTime: ClientRuntime.Date? = nil,
+            creatorAccountId: Swift.String? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            updateTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.arn = arn
+            self.collaborationArn = collaborationArn
+            self.collaborationId = collaborationId
+            self.configuredAudienceModelArn = configuredAudienceModelArn
+            self.createTime = createTime
+            self.creatorAccountId = creatorAccountId
+            self.description = description
+            self.id = id
+            self.name = name
+            self.updateTime = updateTime
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociationSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case collaborationArn
+        case collaborationId
+        case createTime
+        case creatorAccountId
+        case description
+        case id
+        case name
+        case updateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let collaborationArn = self.collaborationArn {
+            try encodeContainer.encode(collaborationArn, forKey: .collaborationArn)
+        }
+        if let collaborationId = self.collaborationId {
+            try encodeContainer.encode(collaborationId, forKey: .collaborationId)
+        }
+        if let createTime = self.createTime {
+            try encodeContainer.encodeTimestamp(createTime, format: .epochSeconds, forKey: .createTime)
+        }
+        if let creatorAccountId = self.creatorAccountId {
+            try encodeContainer.encode(creatorAccountId, forKey: .creatorAccountId)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let updateTime = self.updateTime {
+            try encodeContainer.encodeTimestamp(updateTime, format: .epochSeconds, forKey: .updateTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createTime)
+        createTime = createTimeDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+        let collaborationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationArn)
+        collaborationArn = collaborationArnDecoded
+        let collaborationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationId)
+        collaborationId = collaborationIdDecoded
+        let creatorAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creatorAccountId)
+        creatorAccountId = creatorAccountIdDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// A summary of the configured audience model association in the collaboration.
+    public struct CollaborationConfiguredAudienceModelAssociationSummary: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the configured audience model association.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The unique ARN for the configured audience model's associated collaboration.
+        /// This member is required.
+        public var collaborationArn: Swift.String?
+        /// A unique identifier for the collaboration that the configured audience model associations belong to. Accepts collaboration ID.
+        /// This member is required.
+        public var collaborationId: Swift.String?
+        /// The time at which the configured audience model association was created.
+        /// This member is required.
+        public var createTime: ClientRuntime.Date?
+        /// The identifier used to reference members of the collaboration. Only supports AWS account ID.
+        /// This member is required.
+        public var creatorAccountId: Swift.String?
+        /// The description of the configured audience model association.
+        public var description: Swift.String?
+        /// The identifier of the configured audience model association.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the configured audience model association.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The most recent time at which the configured audience model association was updated.
+        /// This member is required.
+        public var updateTime: ClientRuntime.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            collaborationArn: Swift.String? = nil,
+            collaborationId: Swift.String? = nil,
+            createTime: ClientRuntime.Date? = nil,
+            creatorAccountId: Swift.String? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            updateTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.arn = arn
+            self.collaborationArn = collaborationArn
+            self.collaborationId = collaborationId
+            self.createTime = createTime
+            self.creatorAccountId = creatorAccountId
+            self.description = description
+            self.id = id
+            self.name = name
+            self.updateTime = updateTime
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.CollaborationPrivacyBudgetSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case budget
+        case collaborationArn
+        case collaborationId
+        case createTime
+        case creatorAccountId
+        case id
+        case privacyBudgetTemplateArn
+        case privacyBudgetTemplateId
+        case type
+        case updateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let budget = self.budget {
+            try encodeContainer.encode(budget, forKey: .budget)
+        }
+        if let collaborationArn = self.collaborationArn {
+            try encodeContainer.encode(collaborationArn, forKey: .collaborationArn)
+        }
+        if let collaborationId = self.collaborationId {
+            try encodeContainer.encode(collaborationId, forKey: .collaborationId)
+        }
+        if let createTime = self.createTime {
+            try encodeContainer.encodeTimestamp(createTime, format: .epochSeconds, forKey: .createTime)
+        }
+        if let creatorAccountId = self.creatorAccountId {
+            try encodeContainer.encode(creatorAccountId, forKey: .creatorAccountId)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let privacyBudgetTemplateArn = self.privacyBudgetTemplateArn {
+            try encodeContainer.encode(privacyBudgetTemplateArn, forKey: .privacyBudgetTemplateArn)
+        }
+        if let privacyBudgetTemplateId = self.privacyBudgetTemplateId {
+            try encodeContainer.encode(privacyBudgetTemplateId, forKey: .privacyBudgetTemplateId)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+        if let updateTime = self.updateTime {
+            try encodeContainer.encodeTimestamp(updateTime, format: .epochSeconds, forKey: .updateTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let privacyBudgetTemplateIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .privacyBudgetTemplateId)
+        privacyBudgetTemplateId = privacyBudgetTemplateIdDecoded
+        let privacyBudgetTemplateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .privacyBudgetTemplateArn)
+        privacyBudgetTemplateArn = privacyBudgetTemplateArnDecoded
+        let collaborationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationId)
+        collaborationId = collaborationIdDecoded
+        let collaborationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationArn)
+        collaborationArn = collaborationArnDecoded
+        let creatorAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creatorAccountId)
+        creatorAccountId = creatorAccountIdDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PrivacyBudgetType.self, forKey: .type)
+        type = typeDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createTime)
+        createTime = createTimeDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+        let budgetDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PrivacyBudget.self, forKey: .budget)
+        budget = budgetDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// A summary of the collaboration privacy budgets. This summary includes the collaboration information, creation information, epsilon provided, and utility in terms of aggregations.
+    public struct CollaborationPrivacyBudgetSummary: Swift.Equatable {
+        /// The includes epsilon provided and utility in terms of aggregations.
+        /// This member is required.
+        public var budget: CleanRoomsClientTypes.PrivacyBudget?
+        /// The ARN of the collaboration that includes this privacy budget.
+        /// This member is required.
+        public var collaborationArn: Swift.String?
+        /// The unique identifier of the collaboration that includes this privacy budget.
+        /// This member is required.
+        public var collaborationId: Swift.String?
+        /// The time at which the privacy budget was created.
+        /// This member is required.
+        public var createTime: ClientRuntime.Date?
+        /// The unique identifier of the account that created this privacy budget.
+        /// This member is required.
+        public var creatorAccountId: Swift.String?
+        /// The unique identifier of the collaboration privacy budget.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The ARN of the collaboration privacy budget template.
+        /// This member is required.
+        public var privacyBudgetTemplateArn: Swift.String?
+        /// The unique identifier of the collaboration privacy budget template.
+        /// This member is required.
+        public var privacyBudgetTemplateId: Swift.String?
+        /// The type of privacy budget template.
+        /// This member is required.
+        public var type: CleanRoomsClientTypes.PrivacyBudgetType?
+        /// The most recent time at which the privacy budget was updated.
+        /// This member is required.
+        public var updateTime: ClientRuntime.Date?
+
+        public init(
+            budget: CleanRoomsClientTypes.PrivacyBudget? = nil,
+            collaborationArn: Swift.String? = nil,
+            collaborationId: Swift.String? = nil,
+            createTime: ClientRuntime.Date? = nil,
+            creatorAccountId: Swift.String? = nil,
+            id: Swift.String? = nil,
+            privacyBudgetTemplateArn: Swift.String? = nil,
+            privacyBudgetTemplateId: Swift.String? = nil,
+            type: CleanRoomsClientTypes.PrivacyBudgetType? = nil,
+            updateTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.budget = budget
+            self.collaborationArn = collaborationArn
+            self.collaborationId = collaborationId
+            self.createTime = createTime
+            self.creatorAccountId = creatorAccountId
+            self.id = id
+            self.privacyBudgetTemplateArn = privacyBudgetTemplateArn
+            self.privacyBudgetTemplateId = privacyBudgetTemplateId
+            self.type = type
+            self.updateTime = updateTime
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case autoRefresh
+        case collaborationArn
+        case collaborationId
+        case createTime
+        case creatorAccountId
+        case id
+        case parameters
+        case privacyBudgetType
+        case updateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let autoRefresh = self.autoRefresh {
+            try encodeContainer.encode(autoRefresh.rawValue, forKey: .autoRefresh)
+        }
+        if let collaborationArn = self.collaborationArn {
+            try encodeContainer.encode(collaborationArn, forKey: .collaborationArn)
+        }
+        if let collaborationId = self.collaborationId {
+            try encodeContainer.encode(collaborationId, forKey: .collaborationId)
+        }
+        if let createTime = self.createTime {
+            try encodeContainer.encodeTimestamp(createTime, format: .epochSeconds, forKey: .createTime)
+        }
+        if let creatorAccountId = self.creatorAccountId {
+            try encodeContainer.encode(creatorAccountId, forKey: .creatorAccountId)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let parameters = self.parameters {
+            try encodeContainer.encode(parameters, forKey: .parameters)
+        }
+        if let privacyBudgetType = self.privacyBudgetType {
+            try encodeContainer.encode(privacyBudgetType.rawValue, forKey: .privacyBudgetType)
+        }
+        if let updateTime = self.updateTime {
+            try encodeContainer.encodeTimestamp(updateTime, format: .epochSeconds, forKey: .updateTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let collaborationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationId)
+        collaborationId = collaborationIdDecoded
+        let collaborationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationArn)
+        collaborationArn = collaborationArnDecoded
+        let creatorAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creatorAccountId)
+        creatorAccountId = creatorAccountIdDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createTime)
+        createTime = createTimeDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+        let privacyBudgetTypeDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PrivacyBudgetType.self, forKey: .privacyBudgetType)
+        privacyBudgetType = privacyBudgetTypeDecoded
+        let autoRefreshDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PrivacyBudgetTemplateAutoRefresh.self, forKey: .autoRefresh)
+        autoRefresh = autoRefreshDecoded
+        let parametersDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PrivacyBudgetTemplateParametersOutput.self, forKey: .parameters)
+        parameters = parametersDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// An array that specifies the information for a collaboration's privacy budget template.
+    public struct CollaborationPrivacyBudgetTemplate: Swift.Equatable {
+        /// The ARN of the collaboration privacy budget template.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// How often the privacy budget refreshes. If you plan to regularly bring new data into the collaboration, use CALENDAR_MONTH to automatically get a new privacy budget for the collaboration every calendar month. Choosing this option allows arbitrary amounts of information to be revealed about rows of the data when repeatedly queried across refreshes. Avoid choosing this if the same rows will be repeatedly queried between privacy budget refreshes.
+        /// This member is required.
+        public var autoRefresh: CleanRoomsClientTypes.PrivacyBudgetTemplateAutoRefresh?
+        /// The ARN of the collaboration that includes this collaboration privacy budget template.
+        /// This member is required.
+        public var collaborationArn: Swift.String?
+        /// The unique identifier of the collaboration that includes this collaboration privacy budget template.
+        /// This member is required.
+        public var collaborationId: Swift.String?
+        /// The time at which the collaboration privacy budget template was created.
+        /// This member is required.
+        public var createTime: ClientRuntime.Date?
+        /// The unique identifier of the account that created this collaboration privacy budget template.
+        /// This member is required.
+        public var creatorAccountId: Swift.String?
+        /// The unique identifier of the collaboration privacy budget template.
+        /// This member is required.
+        public var id: Swift.String?
+        /// Specifies the epsilon and noise parameters for the privacy budget template.
+        /// This member is required.
+        public var parameters: CleanRoomsClientTypes.PrivacyBudgetTemplateParametersOutput?
+        /// The type of privacy budget template.
+        /// This member is required.
+        public var privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType?
+        /// The most recent time at which the collaboration privacy budget template was updated.
+        /// This member is required.
+        public var updateTime: ClientRuntime.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            autoRefresh: CleanRoomsClientTypes.PrivacyBudgetTemplateAutoRefresh? = nil,
+            collaborationArn: Swift.String? = nil,
+            collaborationId: Swift.String? = nil,
+            createTime: ClientRuntime.Date? = nil,
+            creatorAccountId: Swift.String? = nil,
+            id: Swift.String? = nil,
+            parameters: CleanRoomsClientTypes.PrivacyBudgetTemplateParametersOutput? = nil,
+            privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType? = nil,
+            updateTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.arn = arn
+            self.autoRefresh = autoRefresh
+            self.collaborationArn = collaborationArn
+            self.collaborationId = collaborationId
+            self.createTime = createTime
+            self.creatorAccountId = creatorAccountId
+            self.id = id
+            self.parameters = parameters
+            self.privacyBudgetType = privacyBudgetType
+            self.updateTime = updateTime
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplateSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case collaborationArn
+        case collaborationId
+        case createTime
+        case creatorAccountId
+        case id
+        case privacyBudgetType
+        case updateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let collaborationArn = self.collaborationArn {
+            try encodeContainer.encode(collaborationArn, forKey: .collaborationArn)
+        }
+        if let collaborationId = self.collaborationId {
+            try encodeContainer.encode(collaborationId, forKey: .collaborationId)
+        }
+        if let createTime = self.createTime {
+            try encodeContainer.encodeTimestamp(createTime, format: .epochSeconds, forKey: .createTime)
+        }
+        if let creatorAccountId = self.creatorAccountId {
+            try encodeContainer.encode(creatorAccountId, forKey: .creatorAccountId)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let privacyBudgetType = self.privacyBudgetType {
+            try encodeContainer.encode(privacyBudgetType.rawValue, forKey: .privacyBudgetType)
+        }
+        if let updateTime = self.updateTime {
+            try encodeContainer.encodeTimestamp(updateTime, format: .epochSeconds, forKey: .updateTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let collaborationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationId)
+        collaborationId = collaborationIdDecoded
+        let collaborationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationArn)
+        collaborationArn = collaborationArnDecoded
+        let creatorAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creatorAccountId)
+        creatorAccountId = creatorAccountIdDecoded
+        let privacyBudgetTypeDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PrivacyBudgetType.self, forKey: .privacyBudgetType)
+        privacyBudgetType = privacyBudgetTypeDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createTime)
+        createTime = createTimeDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// A summary of the collaboration's privacy budget template. This summary includes information about who created the privacy budget template and what collaborations it belongs to.
+    public struct CollaborationPrivacyBudgetTemplateSummary: Swift.Equatable {
+        /// The ARN of the collaboration privacy budget template.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The ARN of the collaboration that contains this collaboration privacy budget template.
+        /// This member is required.
+        public var collaborationArn: Swift.String?
+        /// The unique identifier of the collaboration that contains this collaboration privacy budget template.
+        /// This member is required.
+        public var collaborationId: Swift.String?
+        /// The time at which the collaboration privacy budget template was created.
+        /// This member is required.
+        public var createTime: ClientRuntime.Date?
+        /// The unique identifier of the account that created this collaboration privacy budget template.
+        /// This member is required.
+        public var creatorAccountId: Swift.String?
+        /// The unique identifier of the collaboration privacy budget template.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The type of the privacy budget template.
+        /// This member is required.
+        public var privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType?
+        /// The most recent time at which the collaboration privacy budget template was updated.
+        /// This member is required.
+        public var updateTime: ClientRuntime.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            collaborationArn: Swift.String? = nil,
+            collaborationId: Swift.String? = nil,
+            createTime: ClientRuntime.Date? = nil,
+            creatorAccountId: Swift.String? = nil,
+            id: Swift.String? = nil,
+            privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType? = nil,
+            updateTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.arn = arn
+            self.collaborationArn = collaborationArn
+            self.collaborationId = collaborationId
+            self.createTime = createTime
+            self.creatorAccountId = creatorAccountId
+            self.id = id
+            self.privacyBudgetType = privacyBudgetType
+            self.updateTime = updateTime
+        }
+    }
+
+}
+
 extension CleanRoomsClientTypes {
     public enum CollaborationQueryLogStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
@@ -2470,6 +3120,307 @@ extension CleanRoomsClientTypes {
         {
             self.name = name
             self.type = type
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.ConfiguredAudienceModelAssociation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case collaborationArn
+        case collaborationId
+        case configuredAudienceModelArn
+        case createTime
+        case description
+        case id
+        case manageResourcePolicies
+        case membershipArn
+        case membershipId
+        case name
+        case updateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let collaborationArn = self.collaborationArn {
+            try encodeContainer.encode(collaborationArn, forKey: .collaborationArn)
+        }
+        if let collaborationId = self.collaborationId {
+            try encodeContainer.encode(collaborationId, forKey: .collaborationId)
+        }
+        if let configuredAudienceModelArn = self.configuredAudienceModelArn {
+            try encodeContainer.encode(configuredAudienceModelArn, forKey: .configuredAudienceModelArn)
+        }
+        if let createTime = self.createTime {
+            try encodeContainer.encodeTimestamp(createTime, format: .epochSeconds, forKey: .createTime)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let manageResourcePolicies = self.manageResourcePolicies {
+            try encodeContainer.encode(manageResourcePolicies, forKey: .manageResourcePolicies)
+        }
+        if let membershipArn = self.membershipArn {
+            try encodeContainer.encode(membershipArn, forKey: .membershipArn)
+        }
+        if let membershipId = self.membershipId {
+            try encodeContainer.encode(membershipId, forKey: .membershipId)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let updateTime = self.updateTime {
+            try encodeContainer.encodeTimestamp(updateTime, format: .epochSeconds, forKey: .updateTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let configuredAudienceModelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configuredAudienceModelArn)
+        configuredAudienceModelArn = configuredAudienceModelArnDecoded
+        let membershipIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .membershipId)
+        membershipId = membershipIdDecoded
+        let membershipArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .membershipArn)
+        membershipArn = membershipArnDecoded
+        let collaborationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationId)
+        collaborationId = collaborationIdDecoded
+        let collaborationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationArn)
+        collaborationArn = collaborationArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let manageResourcePoliciesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .manageResourcePolicies)
+        manageResourcePolicies = manageResourcePoliciesDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createTime)
+        createTime = createTimeDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// Details about the configured audience model association.
+    public struct ConfiguredAudienceModelAssociation: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the configured audience model association.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the collaboration that contains this configured audience model association.
+        /// This member is required.
+        public var collaborationArn: Swift.String?
+        /// A unique identifier of the collaboration that contains this configured audience model association.
+        /// This member is required.
+        public var collaborationId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the configured audience model that was used for this configured audience model association.
+        /// This member is required.
+        public var configuredAudienceModelArn: Swift.String?
+        /// The time at which the configured audience model association was created.
+        /// This member is required.
+        public var createTime: ClientRuntime.Date?
+        /// The description of the configured audience model association.
+        public var description: Swift.String?
+        /// A unique identifier of the configured audience model association.
+        /// This member is required.
+        public var id: Swift.String?
+        /// When TRUE, indicates that the resource policy for the configured audience model resource being associated is configured for Clean Rooms to manage permissions related to the given collaboration. When FALSE, indicates that the configured audience model resource owner will manage permissions related to the given collaboration.
+        /// This member is required.
+        public var manageResourcePolicies: Swift.Bool?
+        /// The Amazon Resource Name (ARN) of the membership that contains this configured audience model association.
+        /// This member is required.
+        public var membershipArn: Swift.String?
+        /// A unique identifier for the membership that contains this configured audience model association.
+        /// This member is required.
+        public var membershipId: Swift.String?
+        /// The name of the configured audience model association.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The most recent time at which the configured audience model association was updated.
+        /// This member is required.
+        public var updateTime: ClientRuntime.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            collaborationArn: Swift.String? = nil,
+            collaborationId: Swift.String? = nil,
+            configuredAudienceModelArn: Swift.String? = nil,
+            createTime: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            manageResourcePolicies: Swift.Bool? = nil,
+            membershipArn: Swift.String? = nil,
+            membershipId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            updateTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.arn = arn
+            self.collaborationArn = collaborationArn
+            self.collaborationId = collaborationId
+            self.configuredAudienceModelArn = configuredAudienceModelArn
+            self.createTime = createTime
+            self.description = description
+            self.id = id
+            self.manageResourcePolicies = manageResourcePolicies
+            self.membershipArn = membershipArn
+            self.membershipId = membershipId
+            self.name = name
+            self.updateTime = updateTime
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.ConfiguredAudienceModelAssociationSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case collaborationArn
+        case collaborationId
+        case configuredAudienceModelArn
+        case createTime
+        case description
+        case id
+        case membershipArn
+        case membershipId
+        case name
+        case updateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let collaborationArn = self.collaborationArn {
+            try encodeContainer.encode(collaborationArn, forKey: .collaborationArn)
+        }
+        if let collaborationId = self.collaborationId {
+            try encodeContainer.encode(collaborationId, forKey: .collaborationId)
+        }
+        if let configuredAudienceModelArn = self.configuredAudienceModelArn {
+            try encodeContainer.encode(configuredAudienceModelArn, forKey: .configuredAudienceModelArn)
+        }
+        if let createTime = self.createTime {
+            try encodeContainer.encodeTimestamp(createTime, format: .epochSeconds, forKey: .createTime)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let membershipArn = self.membershipArn {
+            try encodeContainer.encode(membershipArn, forKey: .membershipArn)
+        }
+        if let membershipId = self.membershipId {
+            try encodeContainer.encode(membershipId, forKey: .membershipId)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let updateTime = self.updateTime {
+            try encodeContainer.encodeTimestamp(updateTime, format: .epochSeconds, forKey: .updateTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let membershipIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .membershipId)
+        membershipId = membershipIdDecoded
+        let membershipArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .membershipArn)
+        membershipArn = membershipArnDecoded
+        let collaborationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationArn)
+        collaborationArn = collaborationArnDecoded
+        let collaborationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationId)
+        collaborationId = collaborationIdDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createTime)
+        createTime = createTimeDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let configuredAudienceModelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configuredAudienceModelArn)
+        configuredAudienceModelArn = configuredAudienceModelArnDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// A summary of the configured audience model association.
+    public struct ConfiguredAudienceModelAssociationSummary: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the configured audience model association.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the collaboration that contains the configured audience model association.
+        /// This member is required.
+        public var collaborationArn: Swift.String?
+        /// A unique identifier of the collaboration that configured audience model is associated with.
+        /// This member is required.
+        public var collaborationId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the configured audience model that was used for this configured audience model association.
+        /// This member is required.
+        public var configuredAudienceModelArn: Swift.String?
+        /// The time at which the configured audience model association was created.
+        /// This member is required.
+        public var createTime: ClientRuntime.Date?
+        /// The description of the configured audience model association.
+        public var description: Swift.String?
+        /// A unique identifier of the configured audience model association.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The Amazon Resource Name (ARN) of the membership that contains the configured audience model association.
+        /// This member is required.
+        public var membershipArn: Swift.String?
+        /// A unique identifier of the membership that contains the configured audience model association.
+        /// This member is required.
+        public var membershipId: Swift.String?
+        /// The name of the configured audience model association.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The most recent time at which the configured audience model association was updated.
+        /// This member is required.
+        public var updateTime: ClientRuntime.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            collaborationArn: Swift.String? = nil,
+            collaborationId: Swift.String? = nil,
+            configuredAudienceModelArn: Swift.String? = nil,
+            createTime: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            membershipArn: Swift.String? = nil,
+            membershipId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            updateTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.arn = arn
+            self.collaborationArn = collaborationArn
+            self.collaborationId = collaborationId
+            self.configuredAudienceModelArn = configuredAudienceModelArn
+            self.createTime = createTime
+            self.description = description
+            self.id = id
+            self.membershipArn = membershipArn
+            self.membershipId = membershipId
+            self.name = name
+            self.updateTime = updateTime
         }
     }
 
@@ -2811,7 +3762,7 @@ extension CleanRoomsClientTypes {
         case list(CleanRoomsClientTypes.AnalysisRuleList)
         /// Analysis rule type that enables only aggregation queries on a configured table.
         case aggregation(CleanRoomsClientTypes.AnalysisRuleAggregation)
-        /// A type of analysis rule that enables the table owner to approve custom SQL queries on their configured tables.
+        /// A type of analysis rule that enables the table owner to approve custom SQL queries on their configured tables. It supports differential privacy.
         case custom(CleanRoomsClientTypes.AnalysisRuleCustom)
         case sdkUnknown(Swift.String)
     }
@@ -3492,8 +4443,49 @@ extension CreateAnalysisTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateAnalysisTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateAnalysisTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateAnalysisTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.analysisTemplate = output.analysisTemplate
+        } else {
+            self.analysisTemplate = nil
+        }
+    }
+}
+
+public struct CreateAnalysisTemplateOutput: Swift.Equatable {
+    /// The analysis template.
+    /// This member is required.
+    public var analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate?
+
+    public init(
+        analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate? = nil
+    )
+    {
+        self.analysisTemplate = analysisTemplate
+    }
+}
+
+struct CreateAnalysisTemplateOutputBody: Swift.Equatable {
+    let analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate?
+}
+
+extension CreateAnalysisTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisTemplate
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let analysisTemplateDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.AnalysisTemplate.self, forKey: .analysisTemplate)
+        analysisTemplate = analysisTemplateDecoded
+    }
+}
+
+enum CreateAnalysisTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3509,51 +4501,11 @@ public enum CreateAnalysisTemplateOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension CreateAnalysisTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateAnalysisTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.analysisTemplate = output.analysisTemplate
-        } else {
-            self.analysisTemplate = nil
-        }
-    }
-}
-
-public struct CreateAnalysisTemplateOutputResponse: Swift.Equatable {
-    /// The analysis template.
-    /// This member is required.
-    public var analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate?
-
-    public init(
-        analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate? = nil
-    )
-    {
-        self.analysisTemplate = analysisTemplate
-    }
-}
-
-struct CreateAnalysisTemplateOutputResponseBody: Swift.Equatable {
-    let analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate?
-}
-
-extension CreateAnalysisTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case analysisTemplate
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let analysisTemplateDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.AnalysisTemplate.self, forKey: .analysisTemplate)
-        analysisTemplate = analysisTemplateDecoded
-    }
-}
-
 extension CreateCollaborationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creatorDisplayName
         case creatorMemberAbilities
+        case creatorPaymentConfiguration
         case dataEncryptionMetadata
         case description
         case members
@@ -3572,6 +4524,9 @@ extension CreateCollaborationInput: Swift.Encodable {
             for memberability0 in creatorMemberAbilities {
                 try creatorMemberAbilitiesContainer.encode(memberability0.rawValue)
             }
+        }
+        if let creatorPaymentConfiguration = self.creatorPaymentConfiguration {
+            try encodeContainer.encode(creatorPaymentConfiguration, forKey: .creatorPaymentConfiguration)
         }
         if let dataEncryptionMetadata = self.dataEncryptionMetadata {
             try encodeContainer.encode(dataEncryptionMetadata, forKey: .dataEncryptionMetadata)
@@ -3613,6 +4568,8 @@ public struct CreateCollaborationInput: Swift.Equatable {
     /// The abilities granted to the collaboration creator.
     /// This member is required.
     public var creatorMemberAbilities: [CleanRoomsClientTypes.MemberAbility]?
+    /// The collaboration creator's payment responsibilities set by the collaboration creator. If the collaboration creator hasn't specified anyone as the member paying for query compute costs, then the member who can query is the default payer.
+    public var creatorPaymentConfiguration: CleanRoomsClientTypes.PaymentConfiguration?
     /// The settings for client-side encryption with Cryptographic Computing for Clean Rooms.
     public var dataEncryptionMetadata: CleanRoomsClientTypes.DataEncryptionMetadata?
     /// A description of the collaboration provided by the collaboration owner.
@@ -3633,6 +4590,7 @@ public struct CreateCollaborationInput: Swift.Equatable {
     public init(
         creatorDisplayName: Swift.String? = nil,
         creatorMemberAbilities: [CleanRoomsClientTypes.MemberAbility]? = nil,
+        creatorPaymentConfiguration: CleanRoomsClientTypes.PaymentConfiguration? = nil,
         dataEncryptionMetadata: CleanRoomsClientTypes.DataEncryptionMetadata? = nil,
         description: Swift.String? = nil,
         members: [CleanRoomsClientTypes.MemberSpecification]? = nil,
@@ -3643,6 +4601,7 @@ public struct CreateCollaborationInput: Swift.Equatable {
     {
         self.creatorDisplayName = creatorDisplayName
         self.creatorMemberAbilities = creatorMemberAbilities
+        self.creatorPaymentConfiguration = creatorPaymentConfiguration
         self.dataEncryptionMetadata = dataEncryptionMetadata
         self.description = description
         self.members = members
@@ -3661,12 +4620,14 @@ struct CreateCollaborationInputBody: Swift.Equatable {
     let dataEncryptionMetadata: CleanRoomsClientTypes.DataEncryptionMetadata?
     let queryLogStatus: CleanRoomsClientTypes.CollaborationQueryLogStatus?
     let tags: [Swift.String:Swift.String]?
+    let creatorPaymentConfiguration: CleanRoomsClientTypes.PaymentConfiguration?
 }
 
 extension CreateCollaborationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creatorDisplayName
         case creatorMemberAbilities
+        case creatorPaymentConfiguration
         case dataEncryptionMetadata
         case description
         case members
@@ -3720,11 +4681,54 @@ extension CreateCollaborationInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let creatorPaymentConfigurationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PaymentConfiguration.self, forKey: .creatorPaymentConfiguration)
+        creatorPaymentConfiguration = creatorPaymentConfigurationDecoded
     }
 }
 
-public enum CreateCollaborationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateCollaborationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateCollaborationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.collaboration = output.collaboration
+        } else {
+            self.collaboration = nil
+        }
+    }
+}
+
+public struct CreateCollaborationOutput: Swift.Equatable {
+    /// The entire created collaboration object.
+    /// This member is required.
+    public var collaboration: CleanRoomsClientTypes.Collaboration?
+
+    public init(
+        collaboration: CleanRoomsClientTypes.Collaboration? = nil
+    )
+    {
+        self.collaboration = collaboration
+    }
+}
+
+struct CreateCollaborationOutputBody: Swift.Equatable {
+    let collaboration: CleanRoomsClientTypes.Collaboration?
+}
+
+extension CreateCollaborationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collaboration
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let collaborationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.Collaboration.self, forKey: .collaboration)
+        collaboration = collaborationDecoded
+    }
+}
+
+enum CreateCollaborationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3738,44 +4742,179 @@ public enum CreateCollaborationOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension CreateCollaborationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateCollaborationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.collaboration = output.collaboration
-        } else {
-            self.collaboration = nil
+extension CreateConfiguredAudienceModelAssociationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuredAudienceModelArn
+        case configuredAudienceModelAssociationName
+        case description
+        case manageResourcePolicies
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configuredAudienceModelArn = self.configuredAudienceModelArn {
+            try encodeContainer.encode(configuredAudienceModelArn, forKey: .configuredAudienceModelArn)
+        }
+        if let configuredAudienceModelAssociationName = self.configuredAudienceModelAssociationName {
+            try encodeContainer.encode(configuredAudienceModelAssociationName, forKey: .configuredAudienceModelAssociationName)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let manageResourcePolicies = self.manageResourcePolicies {
+            try encodeContainer.encode(manageResourcePolicies, forKey: .manageResourcePolicies)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
     }
 }
 
-public struct CreateCollaborationOutputResponse: Swift.Equatable {
-    /// The entire created collaboration object.
-    /// This member is required.
-    public var collaboration: CleanRoomsClientTypes.Collaboration?
-
-    public init(
-        collaboration: CleanRoomsClientTypes.Collaboration? = nil
-    )
-    {
-        self.collaboration = collaboration
+extension CreateConfiguredAudienceModelAssociationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let membershipIdentifier = membershipIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/configuredaudiencemodelassociations"
     }
 }
 
-struct CreateCollaborationOutputResponseBody: Swift.Equatable {
-    let collaboration: CleanRoomsClientTypes.Collaboration?
+public struct CreateConfiguredAudienceModelAssociationInput: Swift.Equatable {
+    /// A unique identifier for the configured audience model that you want to associate.
+    /// This member is required.
+    public var configuredAudienceModelArn: Swift.String?
+    /// The name of the configured audience model association.
+    /// This member is required.
+    public var configuredAudienceModelAssociationName: Swift.String?
+    /// A description of the configured audience model association.
+    public var description: Swift.String?
+    /// When TRUE, indicates that the resource policy for the configured audience model resource being associated is configured for Clean Rooms to manage permissions related to the given collaboration. When FALSE, indicates that the configured audience model resource owner will manage permissions related to the given collaboration. Setting this to TRUE requires you to have permissions to create, update, and delete the resource policy for the cleanrooms-ml resource when you call the [DeleteConfiguredAudienceModelAssociation] resource. In addition, if you are the collaboration creator and specify TRUE, you must have the same permissions when you call the [DeleteMember] and [DeleteCollaboration] APIs.
+    /// This member is required.
+    public var manageResourcePolicies: Swift.Bool?
+    /// A unique identifier for one of your memberships for a collaboration. The configured audience model is associated to the collaboration that this membership belongs to. Accepts a membership ID.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+    /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        configuredAudienceModelArn: Swift.String? = nil,
+        configuredAudienceModelAssociationName: Swift.String? = nil,
+        description: Swift.String? = nil,
+        manageResourcePolicies: Swift.Bool? = nil,
+        membershipIdentifier: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.configuredAudienceModelArn = configuredAudienceModelArn
+        self.configuredAudienceModelAssociationName = configuredAudienceModelAssociationName
+        self.description = description
+        self.manageResourcePolicies = manageResourcePolicies
+        self.membershipIdentifier = membershipIdentifier
+        self.tags = tags
+    }
 }
 
-extension CreateCollaborationOutputResponseBody: Swift.Decodable {
+struct CreateConfiguredAudienceModelAssociationInputBody: Swift.Equatable {
+    let configuredAudienceModelArn: Swift.String?
+    let configuredAudienceModelAssociationName: Swift.String?
+    let manageResourcePolicies: Swift.Bool?
+    let tags: [Swift.String:Swift.String]?
+    let description: Swift.String?
+}
+
+extension CreateConfiguredAudienceModelAssociationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case collaboration
+        case configuredAudienceModelArn
+        case configuredAudienceModelAssociationName
+        case description
+        case manageResourcePolicies
+        case tags
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let collaborationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.Collaboration.self, forKey: .collaboration)
-        collaboration = collaborationDecoded
+        let configuredAudienceModelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configuredAudienceModelArn)
+        configuredAudienceModelArn = configuredAudienceModelArnDecoded
+        let configuredAudienceModelAssociationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configuredAudienceModelAssociationName)
+        configuredAudienceModelAssociationName = configuredAudienceModelAssociationNameDecoded
+        let manageResourcePoliciesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .manageResourcePolicies)
+        manageResourcePolicies = manageResourcePoliciesDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension CreateConfiguredAudienceModelAssociationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateConfiguredAudienceModelAssociationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.configuredAudienceModelAssociation = output.configuredAudienceModelAssociation
+        } else {
+            self.configuredAudienceModelAssociation = nil
+        }
+    }
+}
+
+public struct CreateConfiguredAudienceModelAssociationOutput: Swift.Equatable {
+    /// Information about the configured audience model association.
+    /// This member is required.
+    public var configuredAudienceModelAssociation: CleanRoomsClientTypes.ConfiguredAudienceModelAssociation?
+
+    public init(
+        configuredAudienceModelAssociation: CleanRoomsClientTypes.ConfiguredAudienceModelAssociation? = nil
+    )
+    {
+        self.configuredAudienceModelAssociation = configuredAudienceModelAssociation
+    }
+}
+
+struct CreateConfiguredAudienceModelAssociationOutputBody: Swift.Equatable {
+    let configuredAudienceModelAssociation: CleanRoomsClientTypes.ConfiguredAudienceModelAssociation?
+}
+
+extension CreateConfiguredAudienceModelAssociationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuredAudienceModelAssociation
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configuredAudienceModelAssociationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.ConfiguredAudienceModelAssociation.self, forKey: .configuredAudienceModelAssociation)
+        configuredAudienceModelAssociation = configuredAudienceModelAssociationDecoded
+    }
+}
+
+enum CreateConfiguredAudienceModelAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3848,27 +4987,11 @@ extension CreateConfiguredTableAnalysisRuleInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateConfiguredTableAnalysisRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateConfiguredTableAnalysisRuleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateConfiguredTableAnalysisRuleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateConfiguredTableAnalysisRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateConfiguredTableAnalysisRuleOutputBody = try responseDecoder.decode(responseBody: data)
             self.analysisRule = output.analysisRule
         } else {
             self.analysisRule = nil
@@ -3876,7 +4999,7 @@ extension CreateConfiguredTableAnalysisRuleOutputResponse: ClientRuntime.HttpRes
     }
 }
 
-public struct CreateConfiguredTableAnalysisRuleOutputResponse: Swift.Equatable {
+public struct CreateConfiguredTableAnalysisRuleOutput: Swift.Equatable {
     /// The entire created analysis rule.
     /// This member is required.
     public var analysisRule: CleanRoomsClientTypes.ConfiguredTableAnalysisRule?
@@ -3889,11 +5012,11 @@ public struct CreateConfiguredTableAnalysisRuleOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateConfiguredTableAnalysisRuleOutputResponseBody: Swift.Equatable {
+struct CreateConfiguredTableAnalysisRuleOutputBody: Swift.Equatable {
     let analysisRule: CleanRoomsClientTypes.ConfiguredTableAnalysisRule?
 }
 
-extension CreateConfiguredTableAnalysisRuleOutputResponseBody: Swift.Decodable {
+extension CreateConfiguredTableAnalysisRuleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case analysisRule
     }
@@ -3902,6 +5025,22 @@ extension CreateConfiguredTableAnalysisRuleOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let analysisRuleDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.ConfiguredTableAnalysisRule.self, forKey: .analysisRule)
         analysisRule = analysisRuleDecoded
+    }
+}
+
+enum CreateConfiguredTableAnalysisRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4023,28 +5162,11 @@ extension CreateConfiguredTableAssociationInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateConfiguredTableAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateConfiguredTableAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateConfiguredTableAssociationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateConfiguredTableAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateConfiguredTableAssociationOutputBody = try responseDecoder.decode(responseBody: data)
             self.configuredTableAssociation = output.configuredTableAssociation
         } else {
             self.configuredTableAssociation = nil
@@ -4052,7 +5174,7 @@ extension CreateConfiguredTableAssociationOutputResponse: ClientRuntime.HttpResp
     }
 }
 
-public struct CreateConfiguredTableAssociationOutputResponse: Swift.Equatable {
+public struct CreateConfiguredTableAssociationOutput: Swift.Equatable {
     /// The entire configured table association object.
     /// This member is required.
     public var configuredTableAssociation: CleanRoomsClientTypes.ConfiguredTableAssociation?
@@ -4065,11 +5187,11 @@ public struct CreateConfiguredTableAssociationOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateConfiguredTableAssociationOutputResponseBody: Swift.Equatable {
+struct CreateConfiguredTableAssociationOutputBody: Swift.Equatable {
     let configuredTableAssociation: CleanRoomsClientTypes.ConfiguredTableAssociation?
 }
 
-extension CreateConfiguredTableAssociationOutputResponseBody: Swift.Decodable {
+extension CreateConfiguredTableAssociationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuredTableAssociation
     }
@@ -4078,6 +5200,23 @@ extension CreateConfiguredTableAssociationOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configuredTableAssociationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.ConfiguredTableAssociation.self, forKey: .configuredTableAssociation)
         configuredTableAssociation = configuredTableAssociationDecoded
+    }
+}
+
+enum CreateConfiguredTableAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4216,8 +5355,49 @@ extension CreateConfiguredTableInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateConfiguredTableOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateConfiguredTableOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateConfiguredTableOutputBody = try responseDecoder.decode(responseBody: data)
+            self.configuredTable = output.configuredTable
+        } else {
+            self.configuredTable = nil
+        }
+    }
+}
+
+public struct CreateConfiguredTableOutput: Swift.Equatable {
+    /// The created configured table.
+    /// This member is required.
+    public var configuredTable: CleanRoomsClientTypes.ConfiguredTable?
+
+    public init(
+        configuredTable: CleanRoomsClientTypes.ConfiguredTable? = nil
+    )
+    {
+        self.configuredTable = configuredTable
+    }
+}
+
+struct CreateConfiguredTableOutputBody: Swift.Equatable {
+    let configuredTable: CleanRoomsClientTypes.ConfiguredTable?
+}
+
+extension CreateConfiguredTableOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuredTable
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configuredTableDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.ConfiguredTable.self, forKey: .configuredTable)
+        configuredTable = configuredTableDecoded
+    }
+}
+
+enum CreateConfiguredTableOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4233,50 +5413,11 @@ public enum CreateConfiguredTableOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension CreateConfiguredTableOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateConfiguredTableOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.configuredTable = output.configuredTable
-        } else {
-            self.configuredTable = nil
-        }
-    }
-}
-
-public struct CreateConfiguredTableOutputResponse: Swift.Equatable {
-    /// The created configured table.
-    /// This member is required.
-    public var configuredTable: CleanRoomsClientTypes.ConfiguredTable?
-
-    public init(
-        configuredTable: CleanRoomsClientTypes.ConfiguredTable? = nil
-    )
-    {
-        self.configuredTable = configuredTable
-    }
-}
-
-struct CreateConfiguredTableOutputResponseBody: Swift.Equatable {
-    let configuredTable: CleanRoomsClientTypes.ConfiguredTable?
-}
-
-extension CreateConfiguredTableOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case configuredTable
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let configuredTableDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.ConfiguredTable.self, forKey: .configuredTable)
-        configuredTable = configuredTableDecoded
-    }
-}
-
 extension CreateMembershipInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case collaborationIdentifier
+        case defaultResultConfiguration
+        case paymentConfiguration
         case queryLogStatus
         case tags
     }
@@ -4285,6 +5426,12 @@ extension CreateMembershipInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let collaborationIdentifier = self.collaborationIdentifier {
             try encodeContainer.encode(collaborationIdentifier, forKey: .collaborationIdentifier)
+        }
+        if let defaultResultConfiguration = self.defaultResultConfiguration {
+            try encodeContainer.encode(defaultResultConfiguration, forKey: .defaultResultConfiguration)
+        }
+        if let paymentConfiguration = self.paymentConfiguration {
+            try encodeContainer.encode(paymentConfiguration, forKey: .paymentConfiguration)
         }
         if let queryLogStatus = self.queryLogStatus {
             try encodeContainer.encode(queryLogStatus.rawValue, forKey: .queryLogStatus)
@@ -4308,7 +5455,11 @@ public struct CreateMembershipInput: Swift.Equatable {
     /// The unique ID for the associated collaboration.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
-    /// An indicator as to whether query logging has been enabled or disabled for the collaboration.
+    /// The default protected query result configuration as specified by the member who can receive results.
+    public var defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration?
+    /// The payment responsibilities accepted by the collaboration member. Not required if the collaboration member has the member ability to run queries. Required if the collaboration member doesn't have the member ability to run queries but is configured as a payer by the collaboration creator.
+    public var paymentConfiguration: CleanRoomsClientTypes.MembershipPaymentConfiguration?
+    /// An indicator as to whether query logging has been enabled or disabled for the membership.
     /// This member is required.
     public var queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus?
     /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
@@ -4316,11 +5467,15 @@ public struct CreateMembershipInput: Swift.Equatable {
 
     public init(
         collaborationIdentifier: Swift.String? = nil,
+        defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration? = nil,
+        paymentConfiguration: CleanRoomsClientTypes.MembershipPaymentConfiguration? = nil,
         queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.collaborationIdentifier = collaborationIdentifier
+        self.defaultResultConfiguration = defaultResultConfiguration
+        self.paymentConfiguration = paymentConfiguration
         self.queryLogStatus = queryLogStatus
         self.tags = tags
     }
@@ -4330,11 +5485,15 @@ struct CreateMembershipInputBody: Swift.Equatable {
     let collaborationIdentifier: Swift.String?
     let queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus?
     let tags: [Swift.String:Swift.String]?
+    let defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration?
+    let paymentConfiguration: CleanRoomsClientTypes.MembershipPaymentConfiguration?
 }
 
 extension CreateMembershipInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case collaborationIdentifier
+        case defaultResultConfiguration
+        case paymentConfiguration
         case queryLogStatus
         case tags
     }
@@ -4356,11 +5515,56 @@ extension CreateMembershipInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let defaultResultConfigurationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration.self, forKey: .defaultResultConfiguration)
+        defaultResultConfiguration = defaultResultConfigurationDecoded
+        let paymentConfigurationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.MembershipPaymentConfiguration.self, forKey: .paymentConfiguration)
+        paymentConfiguration = paymentConfigurationDecoded
     }
 }
 
-public enum CreateMembershipOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateMembershipOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateMembershipOutputBody = try responseDecoder.decode(responseBody: data)
+            self.membership = output.membership
+        } else {
+            self.membership = nil
+        }
+    }
+}
+
+public struct CreateMembershipOutput: Swift.Equatable {
+    /// The membership that was created.
+    /// This member is required.
+    public var membership: CleanRoomsClientTypes.Membership?
+
+    public init(
+        membership: CleanRoomsClientTypes.Membership? = nil
+    )
+    {
+        self.membership = membership
+    }
+}
+
+struct CreateMembershipOutputBody: Swift.Equatable {
+    let membership: CleanRoomsClientTypes.Membership?
+}
+
+extension CreateMembershipOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case membership
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let membershipDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.Membership.self, forKey: .membership)
+        membership = membershipDecoded
+    }
+}
+
+enum CreateMembershipOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4376,44 +5580,166 @@ public enum CreateMembershipOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension CreateMembershipOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateMembershipOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.membership = output.membership
-        } else {
-            self.membership = nil
+extension CreatePrivacyBudgetTemplateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoRefresh
+        case parameters
+        case privacyBudgetType
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoRefresh = self.autoRefresh {
+            try encodeContainer.encode(autoRefresh.rawValue, forKey: .autoRefresh)
+        }
+        if let parameters = self.parameters {
+            try encodeContainer.encode(parameters, forKey: .parameters)
+        }
+        if let privacyBudgetType = self.privacyBudgetType {
+            try encodeContainer.encode(privacyBudgetType.rawValue, forKey: .privacyBudgetType)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
     }
 }
 
-public struct CreateMembershipOutputResponse: Swift.Equatable {
-    /// The membership that was created.
-    /// This member is required.
-    public var membership: CleanRoomsClientTypes.Membership?
-
-    public init(
-        membership: CleanRoomsClientTypes.Membership? = nil
-    )
-    {
-        self.membership = membership
+extension CreatePrivacyBudgetTemplateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let membershipIdentifier = membershipIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/privacybudgettemplates"
     }
 }
 
-struct CreateMembershipOutputResponseBody: Swift.Equatable {
-    let membership: CleanRoomsClientTypes.Membership?
+public struct CreatePrivacyBudgetTemplateInput: Swift.Equatable {
+    /// How often the privacy budget refreshes. If you plan to regularly bring new data into the collaboration, you can use CALENDAR_MONTH to automatically get a new privacy budget for the collaboration every calendar month. Choosing this option allows arbitrary amounts of information to be revealed about rows of the data when repeatedly queries across refreshes. Avoid choosing this if the same rows will be repeatedly queried between privacy budget refreshes.
+    /// This member is required.
+    public var autoRefresh: CleanRoomsClientTypes.PrivacyBudgetTemplateAutoRefresh?
+    /// A unique identifier for one of your memberships for a collaboration. The privacy budget template is created in the collaboration that this membership belongs to. Accepts a membership ID.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+    /// Specifies your parameters for the privacy budget template.
+    /// This member is required.
+    public var parameters: CleanRoomsClientTypes.PrivacyBudgetTemplateParametersInput?
+    /// Specifies the type of the privacy budget template.
+    /// This member is required.
+    public var privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType?
+    /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        autoRefresh: CleanRoomsClientTypes.PrivacyBudgetTemplateAutoRefresh? = nil,
+        membershipIdentifier: Swift.String? = nil,
+        parameters: CleanRoomsClientTypes.PrivacyBudgetTemplateParametersInput? = nil,
+        privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.autoRefresh = autoRefresh
+        self.membershipIdentifier = membershipIdentifier
+        self.parameters = parameters
+        self.privacyBudgetType = privacyBudgetType
+        self.tags = tags
+    }
 }
 
-extension CreateMembershipOutputResponseBody: Swift.Decodable {
+struct CreatePrivacyBudgetTemplateInputBody: Swift.Equatable {
+    let autoRefresh: CleanRoomsClientTypes.PrivacyBudgetTemplateAutoRefresh?
+    let privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType?
+    let parameters: CleanRoomsClientTypes.PrivacyBudgetTemplateParametersInput?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreatePrivacyBudgetTemplateInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case membership
+        case autoRefresh
+        case parameters
+        case privacyBudgetType
+        case tags
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let membershipDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.Membership.self, forKey: .membership)
-        membership = membershipDecoded
+        let autoRefreshDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PrivacyBudgetTemplateAutoRefresh.self, forKey: .autoRefresh)
+        autoRefresh = autoRefreshDecoded
+        let privacyBudgetTypeDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PrivacyBudgetType.self, forKey: .privacyBudgetType)
+        privacyBudgetType = privacyBudgetTypeDecoded
+        let parametersDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PrivacyBudgetTemplateParametersInput.self, forKey: .parameters)
+        parameters = parametersDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreatePrivacyBudgetTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreatePrivacyBudgetTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.privacyBudgetTemplate = output.privacyBudgetTemplate
+        } else {
+            self.privacyBudgetTemplate = nil
+        }
+    }
+}
+
+public struct CreatePrivacyBudgetTemplateOutput: Swift.Equatable {
+    /// A summary of the elements in the privacy budget template.
+    /// This member is required.
+    public var privacyBudgetTemplate: CleanRoomsClientTypes.PrivacyBudgetTemplate?
+
+    public init(
+        privacyBudgetTemplate: CleanRoomsClientTypes.PrivacyBudgetTemplate? = nil
+    )
+    {
+        self.privacyBudgetTemplate = privacyBudgetTemplate
+    }
+}
+
+struct CreatePrivacyBudgetTemplateOutputBody: Swift.Equatable {
+    let privacyBudgetTemplate: CleanRoomsClientTypes.PrivacyBudgetTemplate?
+}
+
+extension CreatePrivacyBudgetTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case privacyBudgetTemplate
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let privacyBudgetTemplateDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PrivacyBudgetTemplate.self, forKey: .privacyBudgetTemplate)
+        privacyBudgetTemplate = privacyBudgetTemplateDecoded
+    }
+}
+
+enum CreatePrivacyBudgetTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4457,16 +5783,16 @@ extension CleanRoomsClientTypes.DataEncryptionMetadata: Swift.Codable {
 extension CleanRoomsClientTypes {
     /// The settings for client-side encryption for cryptographic computing.
     public struct DataEncryptionMetadata: Swift.Equatable {
-        /// Indicates whether encrypted tables can contain cleartext data (true) or are to cryptographically process every column (false).
+        /// Indicates whether encrypted tables can contain cleartext data (TRUE) or are to cryptographically process every column (FALSE).
         /// This member is required.
         public var allowCleartext: Swift.Bool?
-        /// Indicates whether Fingerprint columns can contain duplicate entries (true) or are to contain only non-repeated values (false).
+        /// Indicates whether Fingerprint columns can contain duplicate entries (TRUE) or are to contain only non-repeated values (FALSE).
         /// This member is required.
         public var allowDuplicates: Swift.Bool?
-        /// Indicates whether Fingerprint columns can be joined on any other Fingerprint column with a different name (true) or can only be joined on Fingerprint columns of the same name (false).
+        /// Indicates whether Fingerprint columns can be joined on any other Fingerprint column with a different name (TRUE) or can only be joined on Fingerprint columns of the same name (FALSE).
         /// This member is required.
         public var allowJoinsOnColumnsWithDifferentNames: Swift.Bool?
-        /// Indicates whether NULL values are to be copied as NULL to encrypted tables (true) or cryptographically processed (false).
+        /// Indicates whether NULL values are to be copied as NULL to encrypted tables (TRUE) or cryptographically processed (FALSE).
         /// This member is required.
         public var preserveNulls: Swift.Bool?
 
@@ -4525,8 +5851,18 @@ extension DeleteAnalysisTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteAnalysisTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteAnalysisTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteAnalysisTemplateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteAnalysisTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4538,16 +5874,6 @@ public enum DeleteAnalysisTemplateOutputError: ClientRuntime.HttpResponseErrorBi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteAnalysisTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteAnalysisTemplateOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteCollaborationInput: ClientRuntime.URLPathProvider {
@@ -4581,8 +5907,18 @@ extension DeleteCollaborationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteCollaborationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteCollaborationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteCollaborationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteCollaborationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4595,14 +5931,68 @@ public enum DeleteCollaborationOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension DeleteCollaborationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteConfiguredAudienceModelAssociationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let membershipIdentifier = membershipIdentifier else {
+            return nil
+        }
+        guard let configuredAudienceModelAssociationIdentifier = configuredAudienceModelAssociationIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/configuredaudiencemodelassociations/\(configuredAudienceModelAssociationIdentifier.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteConfiguredAudienceModelAssociationInput: Swift.Equatable {
+    /// A unique identifier of the configured audience model association that you want to delete.
+    /// This member is required.
+    public var configuredAudienceModelAssociationIdentifier: Swift.String?
+    /// A unique identifier of the membership that contains the audience model association that you want to delete.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+
+    public init(
+        configuredAudienceModelAssociationIdentifier: Swift.String? = nil,
+        membershipIdentifier: Swift.String? = nil
+    )
+    {
+        self.configuredAudienceModelAssociationIdentifier = configuredAudienceModelAssociationIdentifier
+        self.membershipIdentifier = membershipIdentifier
+    }
+}
+
+struct DeleteConfiguredAudienceModelAssociationInputBody: Swift.Equatable {
+}
+
+extension DeleteConfiguredAudienceModelAssociationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteConfiguredAudienceModelAssociationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
-public struct DeleteCollaborationOutputResponse: Swift.Equatable {
+public struct DeleteConfiguredAudienceModelAssociationOutput: Swift.Equatable {
 
     public init() { }
+}
+
+enum DeleteConfiguredAudienceModelAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension DeleteConfiguredTableAnalysisRuleInput: ClientRuntime.URLPathProvider {
@@ -4644,8 +6034,19 @@ extension DeleteConfiguredTableAnalysisRuleInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteConfiguredTableAnalysisRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteConfiguredTableAnalysisRuleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty response that indicates a successful delete.
+public struct DeleteConfiguredTableAnalysisRuleOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteConfiguredTableAnalysisRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4658,17 +6059,6 @@ public enum DeleteConfiguredTableAnalysisRuleOutputError: ClientRuntime.HttpResp
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteConfiguredTableAnalysisRuleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty response that indicates a successful delete.
-public struct DeleteConfiguredTableAnalysisRuleOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteConfiguredTableAssociationInput: ClientRuntime.URLPathProvider {
@@ -4710,8 +6100,18 @@ extension DeleteConfiguredTableAssociationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteConfiguredTableAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteConfiguredTableAssociationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteConfiguredTableAssociationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteConfiguredTableAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4724,16 +6124,6 @@ public enum DeleteConfiguredTableAssociationOutputError: ClientRuntime.HttpRespo
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteConfiguredTableAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteConfiguredTableAssociationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteConfiguredTableInput: ClientRuntime.URLPathProvider {
@@ -4767,8 +6157,19 @@ extension DeleteConfiguredTableInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteConfiguredTableOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteConfiguredTableOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// The empty output for a successful deletion.
+public struct DeleteConfiguredTableOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteConfiguredTableOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4781,17 +6182,6 @@ public enum DeleteConfiguredTableOutputError: ClientRuntime.HttpResponseErrorBin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteConfiguredTableOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// The empty output for a successful deletion.
-public struct DeleteConfiguredTableOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteMemberInput: ClientRuntime.URLPathProvider {
@@ -4833,8 +6223,18 @@ extension DeleteMemberInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteMemberOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteMemberOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteMemberOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteMemberOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4847,16 +6247,6 @@ public enum DeleteMemberOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteMemberOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteMemberOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteMembershipInput: ClientRuntime.URLPathProvider {
@@ -4890,8 +6280,18 @@ extension DeleteMembershipInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteMembershipOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteMembershipOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteMembershipOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteMembershipOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4906,14 +6306,717 @@ public enum DeleteMembershipOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DeleteMembershipOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeletePrivacyBudgetTemplateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let membershipIdentifier = membershipIdentifier else {
+            return nil
+        }
+        guard let privacyBudgetTemplateIdentifier = privacyBudgetTemplateIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/privacybudgettemplates/\(privacyBudgetTemplateIdentifier.urlPercentEncoding())"
+    }
+}
+
+public struct DeletePrivacyBudgetTemplateInput: Swift.Equatable {
+    /// A unique identifier for one of your memberships for a collaboration. The privacy budget template is deleted from the collaboration that this membership belongs to. Accepts a membership ID.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+    /// A unique identifier for your privacy budget template.
+    /// This member is required.
+    public var privacyBudgetTemplateIdentifier: Swift.String?
+
+    public init(
+        membershipIdentifier: Swift.String? = nil,
+        privacyBudgetTemplateIdentifier: Swift.String? = nil
+    )
+    {
+        self.membershipIdentifier = membershipIdentifier
+        self.privacyBudgetTemplateIdentifier = privacyBudgetTemplateIdentifier
+    }
+}
+
+struct DeletePrivacyBudgetTemplateInputBody: Swift.Equatable {
+}
+
+extension DeletePrivacyBudgetTemplateInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeletePrivacyBudgetTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
-public struct DeleteMembershipOutputResponse: Swift.Equatable {
+public struct DeletePrivacyBudgetTemplateOutput: Swift.Equatable {
 
     public init() { }
+}
+
+enum DeletePrivacyBudgetTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+    public enum DifferentialPrivacyAggregationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case avg
+        case count
+        case countDistinct
+        case stddev
+        case sum
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DifferentialPrivacyAggregationType] {
+            return [
+                .avg,
+                .count,
+                .countDistinct,
+                .stddev,
+                .sum,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .avg: return "AVG"
+            case .count: return "COUNT"
+            case .countDistinct: return "COUNT_DISTINCT"
+            case .stddev: return "STDDEV"
+            case .sum: return "SUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DifferentialPrivacyAggregationType(rawValue: rawValue) ?? DifferentialPrivacyAggregationType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.DifferentialPrivacyColumn: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// Specifies the name of the column that contains the unique identifier of your users, whose privacy you want to protect.
+    public struct DifferentialPrivacyColumn: Swift.Equatable {
+        /// The name of the column, such as user_id, that contains the unique identifier of your users, whose privacy you want to protect. If you want to turn on differential privacy for two or more tables in a collaboration, you must configure the same column as the user identifier column in both analysis rules.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            name: Swift.String? = nil
+        )
+        {
+            self.name = name
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.DifferentialPrivacyConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case columns
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let columns = columns {
+            var columnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columns)
+            for differentialprivacycolumn0 in columns {
+                try columnsContainer.encode(differentialprivacycolumn0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let columnsContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.DifferentialPrivacyColumn?].self, forKey: .columns)
+        var columnsDecoded0:[CleanRoomsClientTypes.DifferentialPrivacyColumn]? = nil
+        if let columnsContainer = columnsContainer {
+            columnsDecoded0 = [CleanRoomsClientTypes.DifferentialPrivacyColumn]()
+            for structure0 in columnsContainer {
+                if let structure0 = structure0 {
+                    columnsDecoded0?.append(structure0)
+                }
+            }
+        }
+        columns = columnsDecoded0
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// Specifies the unique identifier for your users.
+    public struct DifferentialPrivacyConfiguration: Swift.Equatable {
+        /// The name of the column (such as user_id) that contains the unique identifier of your users whose privacy you want to protect. If you want to turn on diﬀerential privacy for two or more tables in a collaboration, you must conﬁgure the same column as the user identiﬁer column in both analysis rules.
+        /// This member is required.
+        public var columns: [CleanRoomsClientTypes.DifferentialPrivacyColumn]?
+
+        public init(
+            columns: [CleanRoomsClientTypes.DifferentialPrivacyColumn]? = nil
+        )
+        {
+            self.columns = columns
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.DifferentialPrivacyParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sensitivityParameters
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sensitivityParameters = sensitivityParameters {
+            var sensitivityParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sensitivityParameters)
+            for differentialprivacysensitivityparameters0 in sensitivityParameters {
+                try sensitivityParametersContainer.encode(differentialprivacysensitivityparameters0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sensitivityParametersContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.DifferentialPrivacySensitivityParameters?].self, forKey: .sensitivityParameters)
+        var sensitivityParametersDecoded0:[CleanRoomsClientTypes.DifferentialPrivacySensitivityParameters]? = nil
+        if let sensitivityParametersContainer = sensitivityParametersContainer {
+            sensitivityParametersDecoded0 = [CleanRoomsClientTypes.DifferentialPrivacySensitivityParameters]()
+            for structure0 in sensitivityParametersContainer {
+                if let structure0 = structure0 {
+                    sensitivityParametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        sensitivityParameters = sensitivityParametersDecoded0
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// An array that contains the sensitivity parameters.
+    public struct DifferentialPrivacyParameters: Swift.Equatable {
+        /// Provides the sensitivity parameters that you can use to better understand the total amount of noise in query results.
+        /// This member is required.
+        public var sensitivityParameters: [CleanRoomsClientTypes.DifferentialPrivacySensitivityParameters]?
+
+        public init(
+            sensitivityParameters: [CleanRoomsClientTypes.DifferentialPrivacySensitivityParameters]? = nil
+        )
+        {
+            self.sensitivityParameters = sensitivityParameters
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.DifferentialPrivacyPreviewAggregation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxCount
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxCount = self.maxCount {
+            try encodeContainer.encode(maxCount, forKey: .maxCount)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.DifferentialPrivacyAggregationType.self, forKey: .type)
+        type = typeDecoded
+        let maxCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCount)
+        maxCount = maxCountDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// Provides an estimate of the number of aggregation functions that the member who can query can run given the epsilon and noise parameters.
+    public struct DifferentialPrivacyPreviewAggregation: Swift.Equatable {
+        /// The maximum number of aggregations that the member who can query can run given the epsilon and noise parameters.
+        /// This member is required.
+        public var maxCount: Swift.Int?
+        /// The type of aggregation function.
+        /// This member is required.
+        public var type: CleanRoomsClientTypes.DifferentialPrivacyAggregationType?
+
+        public init(
+            maxCount: Swift.Int? = nil,
+            type: CleanRoomsClientTypes.DifferentialPrivacyAggregationType? = nil
+        )
+        {
+            self.maxCount = maxCount
+            self.type = type
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.DifferentialPrivacyPreviewParametersInput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case epsilon
+        case usersNoisePerQuery
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let epsilon = self.epsilon {
+            try encodeContainer.encode(epsilon, forKey: .epsilon)
+        }
+        if let usersNoisePerQuery = self.usersNoisePerQuery {
+            try encodeContainer.encode(usersNoisePerQuery, forKey: .usersNoisePerQuery)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let epsilonDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .epsilon)
+        epsilon = epsilonDecoded
+        let usersNoisePerQueryDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .usersNoisePerQuery)
+        usersNoisePerQuery = usersNoisePerQueryDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// The epsilon and noise parameters that you want to preview.
+    public struct DifferentialPrivacyPreviewParametersInput: Swift.Equatable {
+        /// The epsilon value that you want to preview.
+        /// This member is required.
+        public var epsilon: Swift.Int?
+        /// Noise added per query is measured in terms of the number of users whose contributions you want to obscure. This value governs the rate at which the privacy budget is depleted.
+        /// This member is required.
+        public var usersNoisePerQuery: Swift.Int?
+
+        public init(
+            epsilon: Swift.Int? = nil,
+            usersNoisePerQuery: Swift.Int? = nil
+        )
+        {
+            self.epsilon = epsilon
+            self.usersNoisePerQuery = usersNoisePerQuery
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregations
+        case epsilon
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let aggregations = aggregations {
+            var aggregationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .aggregations)
+            for differentialprivacyprivacybudgetaggregation0 in aggregations {
+                try aggregationsContainer.encode(differentialprivacyprivacybudgetaggregation0)
+            }
+        }
+        if let epsilon = self.epsilon {
+            try encodeContainer.encode(epsilon, forKey: .epsilon)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let aggregationsContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudgetAggregation?].self, forKey: .aggregations)
+        var aggregationsDecoded0:[CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudgetAggregation]? = nil
+        if let aggregationsContainer = aggregationsContainer {
+            aggregationsDecoded0 = [CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudgetAggregation]()
+            for structure0 in aggregationsContainer {
+                if let structure0 = structure0 {
+                    aggregationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        aggregations = aggregationsDecoded0
+        let epsilonDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .epsilon)
+        epsilon = epsilonDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// Specifies the configured epsilon value and the utility in terms of total aggregations, as well as the remaining aggregations available.
+    public struct DifferentialPrivacyPrivacyBudget: Swift.Equatable {
+        /// This information includes the configured epsilon value and the utility in terms of total aggregations, as well as the remaining aggregations.
+        /// This member is required.
+        public var aggregations: [CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudgetAggregation]?
+        /// The epsilon value that you configured.
+        /// This member is required.
+        public var epsilon: Swift.Int?
+
+        public init(
+            aggregations: [CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudgetAggregation]? = nil,
+            epsilon: Swift.Int? = nil
+        )
+        {
+            self.aggregations = aggregations
+            self.epsilon = epsilon
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudgetAggregation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxCount
+        case remainingCount
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxCount = self.maxCount {
+            try encodeContainer.encode(maxCount, forKey: .maxCount)
+        }
+        if let remainingCount = self.remainingCount {
+            try encodeContainer.encode(remainingCount, forKey: .remainingCount)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.DifferentialPrivacyAggregationType.self, forKey: .type)
+        type = typeDecoded
+        let maxCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCount)
+        maxCount = maxCountDecoded
+        let remainingCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .remainingCount)
+        remainingCount = remainingCountDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// Information about the total number of aggregations, as well as the remaining aggregations.
+    public struct DifferentialPrivacyPrivacyBudgetAggregation: Swift.Equatable {
+        /// The maximum number of aggregation functions that you can perform with the given privacy budget.
+        /// This member is required.
+        public var maxCount: Swift.Int?
+        /// The remaining number of aggregation functions that can be run with the available privacy budget.
+        /// This member is required.
+        public var remainingCount: Swift.Int?
+        /// The different types of aggregation functions that you can perform.
+        /// This member is required.
+        public var type: CleanRoomsClientTypes.DifferentialPrivacyAggregationType?
+
+        public init(
+            maxCount: Swift.Int? = nil,
+            remainingCount: Swift.Int? = nil,
+            type: CleanRoomsClientTypes.DifferentialPrivacyAggregationType? = nil
+        )
+        {
+            self.maxCount = maxCount
+            self.remainingCount = remainingCount
+            self.type = type
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.DifferentialPrivacyPrivacyImpact: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregations
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let aggregations = aggregations {
+            var aggregationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .aggregations)
+            for differentialprivacypreviewaggregation0 in aggregations {
+                try aggregationsContainer.encode(differentialprivacypreviewaggregation0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let aggregationsContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.DifferentialPrivacyPreviewAggregation?].self, forKey: .aggregations)
+        var aggregationsDecoded0:[CleanRoomsClientTypes.DifferentialPrivacyPreviewAggregation]? = nil
+        if let aggregationsContainer = aggregationsContainer {
+            aggregationsDecoded0 = [CleanRoomsClientTypes.DifferentialPrivacyPreviewAggregation]()
+            for structure0 in aggregationsContainer {
+                if let structure0 = structure0 {
+                    aggregationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        aggregations = aggregationsDecoded0
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// Information about the number of aggregation functions that the member who can query can run given the epsilon and noise parameters.
+    public struct DifferentialPrivacyPrivacyImpact: Swift.Equatable {
+        /// The number of aggregation functions that you can perform.
+        /// This member is required.
+        public var aggregations: [CleanRoomsClientTypes.DifferentialPrivacyPreviewAggregation]?
+
+        public init(
+            aggregations: [CleanRoomsClientTypes.DifferentialPrivacyPreviewAggregation]? = nil
+        )
+        {
+            self.aggregations = aggregations
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.DifferentialPrivacySensitivityParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregationExpression
+        case aggregationType
+        case maxColumnValue
+        case minColumnValue
+        case userContributionLimit
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let aggregationExpression = self.aggregationExpression {
+            try encodeContainer.encode(aggregationExpression, forKey: .aggregationExpression)
+        }
+        if let aggregationType = self.aggregationType {
+            try encodeContainer.encode(aggregationType.rawValue, forKey: .aggregationType)
+        }
+        if let maxColumnValue = self.maxColumnValue {
+            try encodeContainer.encode(maxColumnValue, forKey: .maxColumnValue)
+        }
+        if let minColumnValue = self.minColumnValue {
+            try encodeContainer.encode(minColumnValue, forKey: .minColumnValue)
+        }
+        if let userContributionLimit = self.userContributionLimit {
+            try encodeContainer.encode(userContributionLimit, forKey: .userContributionLimit)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let aggregationTypeDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.DifferentialPrivacyAggregationType.self, forKey: .aggregationType)
+        aggregationType = aggregationTypeDecoded
+        let aggregationExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .aggregationExpression)
+        aggregationExpression = aggregationExpressionDecoded
+        let userContributionLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .userContributionLimit)
+        userContributionLimit = userContributionLimitDecoded
+        let minColumnValueDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .minColumnValue)
+        minColumnValue = minColumnValueDecoded
+        let maxColumnValueDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .maxColumnValue)
+        maxColumnValue = maxColumnValueDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// Provides the sensitivity parameters.
+    public struct DifferentialPrivacySensitivityParameters: Swift.Equatable {
+        /// The aggregation expression that was run.
+        /// This member is required.
+        public var aggregationExpression: Swift.String?
+        /// The type of aggregation function that was run.
+        /// This member is required.
+        public var aggregationType: CleanRoomsClientTypes.DifferentialPrivacyAggregationType?
+        /// The upper bound of the aggregation expression.
+        public var maxColumnValue: Swift.Float?
+        /// The lower bound of the aggregation expression.
+        public var minColumnValue: Swift.Float?
+        /// The maximum number of rows contributed by a user in a SQL query.
+        /// This member is required.
+        public var userContributionLimit: Swift.Int?
+
+        public init(
+            aggregationExpression: Swift.String? = nil,
+            aggregationType: CleanRoomsClientTypes.DifferentialPrivacyAggregationType? = nil,
+            maxColumnValue: Swift.Float? = nil,
+            minColumnValue: Swift.Float? = nil,
+            userContributionLimit: Swift.Int? = nil
+        )
+        {
+            self.aggregationExpression = aggregationExpression
+            self.aggregationType = aggregationType
+            self.maxColumnValue = maxColumnValue
+            self.minColumnValue = minColumnValue
+            self.userContributionLimit = userContributionLimit
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.DifferentialPrivacyTemplateParametersInput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case epsilon
+        case usersNoisePerQuery
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let epsilon = self.epsilon {
+            try encodeContainer.encode(epsilon, forKey: .epsilon)
+        }
+        if let usersNoisePerQuery = self.usersNoisePerQuery {
+            try encodeContainer.encode(usersNoisePerQuery, forKey: .usersNoisePerQuery)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let epsilonDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .epsilon)
+        epsilon = epsilonDecoded
+        let usersNoisePerQueryDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .usersNoisePerQuery)
+        usersNoisePerQuery = usersNoisePerQueryDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// The epsilon and noise parameter values that you want to use for the differential privacy template.
+    public struct DifferentialPrivacyTemplateParametersInput: Swift.Equatable {
+        /// The epsilon value that you want to use.
+        /// This member is required.
+        public var epsilon: Swift.Int?
+        /// Noise added per query is measured in terms of the number of users whose contributions you want to obscure. This value governs the rate at which the privacy budget is depleted.
+        /// This member is required.
+        public var usersNoisePerQuery: Swift.Int?
+
+        public init(
+            epsilon: Swift.Int? = nil,
+            usersNoisePerQuery: Swift.Int? = nil
+        )
+        {
+            self.epsilon = epsilon
+            self.usersNoisePerQuery = usersNoisePerQuery
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.DifferentialPrivacyTemplateParametersOutput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case epsilon
+        case usersNoisePerQuery
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let epsilon = self.epsilon {
+            try encodeContainer.encode(epsilon, forKey: .epsilon)
+        }
+        if let usersNoisePerQuery = self.usersNoisePerQuery {
+            try encodeContainer.encode(usersNoisePerQuery, forKey: .usersNoisePerQuery)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let epsilonDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .epsilon)
+        epsilon = epsilonDecoded
+        let usersNoisePerQueryDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .usersNoisePerQuery)
+        usersNoisePerQuery = usersNoisePerQueryDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// The epsilon and noise parameter values that were used for the differential privacy template.
+    public struct DifferentialPrivacyTemplateParametersOutput: Swift.Equatable {
+        /// The epsilon value that you specified.
+        /// This member is required.
+        public var epsilon: Swift.Int?
+        /// Noise added per query is measured in terms of the number of users whose contributions you want to obscure. This value governs the rate at which the privacy budget is depleted.
+        /// This member is required.
+        public var usersNoisePerQuery: Swift.Int?
+
+        public init(
+            epsilon: Swift.Int? = nil,
+            usersNoisePerQuery: Swift.Int? = nil
+        )
+        {
+            self.epsilon = epsilon
+            self.usersNoisePerQuery = usersNoisePerQuery
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.DifferentialPrivacyTemplateUpdateParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case epsilon
+        case usersNoisePerQuery
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let epsilon = self.epsilon {
+            try encodeContainer.encode(epsilon, forKey: .epsilon)
+        }
+        if let usersNoisePerQuery = self.usersNoisePerQuery {
+            try encodeContainer.encode(usersNoisePerQuery, forKey: .usersNoisePerQuery)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let epsilonDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .epsilon)
+        epsilon = epsilonDecoded
+        let usersNoisePerQueryDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .usersNoisePerQuery)
+        usersNoisePerQuery = usersNoisePerQueryDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// The epsilon and noise parameter values that you want to update in the differential privacy template.
+    public struct DifferentialPrivacyTemplateUpdateParameters: Swift.Equatable {
+        /// The updated epsilon value that you want to use.
+        public var epsilon: Swift.Int?
+        /// The updated value of noise added per query. It is measured in terms of the number of users whose contributions you want to obscure. This value governs the rate at which the privacy budget is depleted.
+        public var usersNoisePerQuery: Swift.Int?
+
+        public init(
+            epsilon: Swift.Int? = nil,
+            usersNoisePerQuery: Swift.Int? = nil
+        )
+        {
+            self.epsilon = epsilon
+            self.usersNoisePerQuery = usersNoisePerQuery
+        }
+    }
+
 }
 
 extension CleanRoomsClientTypes {
@@ -4987,26 +7090,11 @@ extension GetAnalysisTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum GetAnalysisTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetAnalysisTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetAnalysisTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetAnalysisTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetAnalysisTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.analysisTemplate = output.analysisTemplate
         } else {
             self.analysisTemplate = nil
@@ -5014,7 +7102,7 @@ extension GetAnalysisTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAnalysisTemplateOutputResponse: Swift.Equatable {
+public struct GetAnalysisTemplateOutput: Swift.Equatable {
     /// The analysis template.
     /// This member is required.
     public var analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate?
@@ -5027,11 +7115,11 @@ public struct GetAnalysisTemplateOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetAnalysisTemplateOutputResponseBody: Swift.Equatable {
+struct GetAnalysisTemplateOutputBody: Swift.Equatable {
     let analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate?
 }
 
-extension GetAnalysisTemplateOutputResponseBody: Swift.Decodable {
+extension GetAnalysisTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case analysisTemplate
     }
@@ -5040,6 +7128,21 @@ extension GetAnalysisTemplateOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let analysisTemplateDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.AnalysisTemplate.self, forKey: .analysisTemplate)
         analysisTemplate = analysisTemplateDecoded
+    }
+}
+
+enum GetAnalysisTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5082,8 +7185,49 @@ extension GetCollaborationAnalysisTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum GetCollaborationAnalysisTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension GetCollaborationAnalysisTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetCollaborationAnalysisTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.collaborationAnalysisTemplate = output.collaborationAnalysisTemplate
+        } else {
+            self.collaborationAnalysisTemplate = nil
+        }
+    }
+}
+
+public struct GetCollaborationAnalysisTemplateOutput: Swift.Equatable {
+    /// The analysis template within a collaboration.
+    /// This member is required.
+    public var collaborationAnalysisTemplate: CleanRoomsClientTypes.CollaborationAnalysisTemplate?
+
+    public init(
+        collaborationAnalysisTemplate: CleanRoomsClientTypes.CollaborationAnalysisTemplate? = nil
+    )
+    {
+        self.collaborationAnalysisTemplate = collaborationAnalysisTemplate
+    }
+}
+
+struct GetCollaborationAnalysisTemplateOutputBody: Swift.Equatable {
+    let collaborationAnalysisTemplate: CleanRoomsClientTypes.CollaborationAnalysisTemplate?
+}
+
+extension GetCollaborationAnalysisTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collaborationAnalysisTemplate
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let collaborationAnalysisTemplateDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.CollaborationAnalysisTemplate.self, forKey: .collaborationAnalysisTemplate)
+        collaborationAnalysisTemplate = collaborationAnalysisTemplateDecoded
+    }
+}
+
+enum GetCollaborationAnalysisTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5097,44 +7241,98 @@ public enum GetCollaborationAnalysisTemplateOutputError: ClientRuntime.HttpRespo
     }
 }
 
-extension GetCollaborationAnalysisTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetCollaborationConfiguredAudienceModelAssociationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let collaborationIdentifier = collaborationIdentifier else {
+            return nil
+        }
+        guard let configuredAudienceModelAssociationIdentifier = configuredAudienceModelAssociationIdentifier else {
+            return nil
+        }
+        return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/configuredaudiencemodelassociations/\(configuredAudienceModelAssociationIdentifier.urlPercentEncoding())"
+    }
+}
+
+public struct GetCollaborationConfiguredAudienceModelAssociationInput: Swift.Equatable {
+    /// A unique identifier for the collaboration that the configured audience model association belongs to. Accepts a collaboration ID.
+    /// This member is required.
+    public var collaborationIdentifier: Swift.String?
+    /// A unique identifier for the configured audience model association that you want to retrieve.
+    /// This member is required.
+    public var configuredAudienceModelAssociationIdentifier: Swift.String?
+
+    public init(
+        collaborationIdentifier: Swift.String? = nil,
+        configuredAudienceModelAssociationIdentifier: Swift.String? = nil
+    )
+    {
+        self.collaborationIdentifier = collaborationIdentifier
+        self.configuredAudienceModelAssociationIdentifier = configuredAudienceModelAssociationIdentifier
+    }
+}
+
+struct GetCollaborationConfiguredAudienceModelAssociationInputBody: Swift.Equatable {
+}
+
+extension GetCollaborationConfiguredAudienceModelAssociationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetCollaborationConfiguredAudienceModelAssociationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetCollaborationAnalysisTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.collaborationAnalysisTemplate = output.collaborationAnalysisTemplate
+            let output: GetCollaborationConfiguredAudienceModelAssociationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.collaborationConfiguredAudienceModelAssociation = output.collaborationConfiguredAudienceModelAssociation
         } else {
-            self.collaborationAnalysisTemplate = nil
+            self.collaborationConfiguredAudienceModelAssociation = nil
         }
     }
 }
 
-public struct GetCollaborationAnalysisTemplateOutputResponse: Swift.Equatable {
-    /// The analysis template within a collaboration.
+public struct GetCollaborationConfiguredAudienceModelAssociationOutput: Swift.Equatable {
+    /// The metadata of the configured audience model association.
     /// This member is required.
-    public var collaborationAnalysisTemplate: CleanRoomsClientTypes.CollaborationAnalysisTemplate?
+    public var collaborationConfiguredAudienceModelAssociation: CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociation?
 
     public init(
-        collaborationAnalysisTemplate: CleanRoomsClientTypes.CollaborationAnalysisTemplate? = nil
+        collaborationConfiguredAudienceModelAssociation: CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociation? = nil
     )
     {
-        self.collaborationAnalysisTemplate = collaborationAnalysisTemplate
+        self.collaborationConfiguredAudienceModelAssociation = collaborationConfiguredAudienceModelAssociation
     }
 }
 
-struct GetCollaborationAnalysisTemplateOutputResponseBody: Swift.Equatable {
-    let collaborationAnalysisTemplate: CleanRoomsClientTypes.CollaborationAnalysisTemplate?
+struct GetCollaborationConfiguredAudienceModelAssociationOutputBody: Swift.Equatable {
+    let collaborationConfiguredAudienceModelAssociation: CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociation?
 }
 
-extension GetCollaborationAnalysisTemplateOutputResponseBody: Swift.Decodable {
+extension GetCollaborationConfiguredAudienceModelAssociationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case collaborationAnalysisTemplate
+        case collaborationConfiguredAudienceModelAssociation
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let collaborationAnalysisTemplateDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.CollaborationAnalysisTemplate.self, forKey: .collaborationAnalysisTemplate)
-        collaborationAnalysisTemplate = collaborationAnalysisTemplateDecoded
+        let collaborationConfiguredAudienceModelAssociationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociation.self, forKey: .collaborationConfiguredAudienceModelAssociation)
+        collaborationConfiguredAudienceModelAssociation = collaborationConfiguredAudienceModelAssociationDecoded
+    }
+}
+
+enum GetCollaborationConfiguredAudienceModelAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5169,25 +7367,11 @@ extension GetCollaborationInputBody: Swift.Decodable {
     }
 }
 
-public enum GetCollaborationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetCollaborationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetCollaborationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetCollaborationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetCollaborationOutputBody = try responseDecoder.decode(responseBody: data)
             self.collaboration = output.collaboration
         } else {
             self.collaboration = nil
@@ -5195,7 +7379,7 @@ extension GetCollaborationOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCollaborationOutputResponse: Swift.Equatable {
+public struct GetCollaborationOutput: Swift.Equatable {
     /// The entire collaboration for this identifier.
     /// This member is required.
     public var collaboration: CleanRoomsClientTypes.Collaboration?
@@ -5208,11 +7392,11 @@ public struct GetCollaborationOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetCollaborationOutputResponseBody: Swift.Equatable {
+struct GetCollaborationOutputBody: Swift.Equatable {
     let collaboration: CleanRoomsClientTypes.Collaboration?
 }
 
-extension GetCollaborationOutputResponseBody: Swift.Decodable {
+extension GetCollaborationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case collaboration
     }
@@ -5221,6 +7405,210 @@ extension GetCollaborationOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let collaborationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.Collaboration.self, forKey: .collaboration)
         collaboration = collaborationDecoded
+    }
+}
+
+enum GetCollaborationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetCollaborationPrivacyBudgetTemplateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let collaborationIdentifier = collaborationIdentifier else {
+            return nil
+        }
+        guard let privacyBudgetTemplateIdentifier = privacyBudgetTemplateIdentifier else {
+            return nil
+        }
+        return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/privacybudgettemplates/\(privacyBudgetTemplateIdentifier.urlPercentEncoding())"
+    }
+}
+
+public struct GetCollaborationPrivacyBudgetTemplateInput: Swift.Equatable {
+    /// A unique identifier for one of your collaborations.
+    /// This member is required.
+    public var collaborationIdentifier: Swift.String?
+    /// A unique identifier for one of your privacy budget templates.
+    /// This member is required.
+    public var privacyBudgetTemplateIdentifier: Swift.String?
+
+    public init(
+        collaborationIdentifier: Swift.String? = nil,
+        privacyBudgetTemplateIdentifier: Swift.String? = nil
+    )
+    {
+        self.collaborationIdentifier = collaborationIdentifier
+        self.privacyBudgetTemplateIdentifier = privacyBudgetTemplateIdentifier
+    }
+}
+
+struct GetCollaborationPrivacyBudgetTemplateInputBody: Swift.Equatable {
+}
+
+extension GetCollaborationPrivacyBudgetTemplateInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetCollaborationPrivacyBudgetTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetCollaborationPrivacyBudgetTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.collaborationPrivacyBudgetTemplate = output.collaborationPrivacyBudgetTemplate
+        } else {
+            self.collaborationPrivacyBudgetTemplate = nil
+        }
+    }
+}
+
+public struct GetCollaborationPrivacyBudgetTemplateOutput: Swift.Equatable {
+    /// Returns the details of the privacy budget template that you requested.
+    /// This member is required.
+    public var collaborationPrivacyBudgetTemplate: CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplate?
+
+    public init(
+        collaborationPrivacyBudgetTemplate: CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplate? = nil
+    )
+    {
+        self.collaborationPrivacyBudgetTemplate = collaborationPrivacyBudgetTemplate
+    }
+}
+
+struct GetCollaborationPrivacyBudgetTemplateOutputBody: Swift.Equatable {
+    let collaborationPrivacyBudgetTemplate: CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplate?
+}
+
+extension GetCollaborationPrivacyBudgetTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collaborationPrivacyBudgetTemplate
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let collaborationPrivacyBudgetTemplateDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplate.self, forKey: .collaborationPrivacyBudgetTemplate)
+        collaborationPrivacyBudgetTemplate = collaborationPrivacyBudgetTemplateDecoded
+    }
+}
+
+enum GetCollaborationPrivacyBudgetTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetConfiguredAudienceModelAssociationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let membershipIdentifier = membershipIdentifier else {
+            return nil
+        }
+        guard let configuredAudienceModelAssociationIdentifier = configuredAudienceModelAssociationIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/configuredaudiencemodelassociations/\(configuredAudienceModelAssociationIdentifier.urlPercentEncoding())"
+    }
+}
+
+public struct GetConfiguredAudienceModelAssociationInput: Swift.Equatable {
+    /// A unique identifier for the configured audience model association that you want to retrieve.
+    /// This member is required.
+    public var configuredAudienceModelAssociationIdentifier: Swift.String?
+    /// A unique identifier for the membership that contains the configured audience model association that you want to retrieve.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+
+    public init(
+        configuredAudienceModelAssociationIdentifier: Swift.String? = nil,
+        membershipIdentifier: Swift.String? = nil
+    )
+    {
+        self.configuredAudienceModelAssociationIdentifier = configuredAudienceModelAssociationIdentifier
+        self.membershipIdentifier = membershipIdentifier
+    }
+}
+
+struct GetConfiguredAudienceModelAssociationInputBody: Swift.Equatable {
+}
+
+extension GetConfiguredAudienceModelAssociationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetConfiguredAudienceModelAssociationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetConfiguredAudienceModelAssociationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.configuredAudienceModelAssociation = output.configuredAudienceModelAssociation
+        } else {
+            self.configuredAudienceModelAssociation = nil
+        }
+    }
+}
+
+public struct GetConfiguredAudienceModelAssociationOutput: Swift.Equatable {
+    /// Information about the configured audience model association that you requested.
+    /// This member is required.
+    public var configuredAudienceModelAssociation: CleanRoomsClientTypes.ConfiguredAudienceModelAssociation?
+
+    public init(
+        configuredAudienceModelAssociation: CleanRoomsClientTypes.ConfiguredAudienceModelAssociation? = nil
+    )
+    {
+        self.configuredAudienceModelAssociation = configuredAudienceModelAssociation
+    }
+}
+
+struct GetConfiguredAudienceModelAssociationOutputBody: Swift.Equatable {
+    let configuredAudienceModelAssociation: CleanRoomsClientTypes.ConfiguredAudienceModelAssociation?
+}
+
+extension GetConfiguredAudienceModelAssociationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuredAudienceModelAssociation
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configuredAudienceModelAssociationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.ConfiguredAudienceModelAssociation.self, forKey: .configuredAudienceModelAssociation)
+        configuredAudienceModelAssociation = configuredAudienceModelAssociationDecoded
+    }
+}
+
+enum GetConfiguredAudienceModelAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5263,26 +7651,11 @@ extension GetConfiguredTableAnalysisRuleInputBody: Swift.Decodable {
     }
 }
 
-public enum GetConfiguredTableAnalysisRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetConfiguredTableAnalysisRuleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetConfiguredTableAnalysisRuleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetConfiguredTableAnalysisRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetConfiguredTableAnalysisRuleOutputBody = try responseDecoder.decode(responseBody: data)
             self.analysisRule = output.analysisRule
         } else {
             self.analysisRule = nil
@@ -5290,7 +7663,7 @@ extension GetConfiguredTableAnalysisRuleOutputResponse: ClientRuntime.HttpRespon
     }
 }
 
-public struct GetConfiguredTableAnalysisRuleOutputResponse: Swift.Equatable {
+public struct GetConfiguredTableAnalysisRuleOutput: Swift.Equatable {
     /// The entire analysis rule output.
     /// This member is required.
     public var analysisRule: CleanRoomsClientTypes.ConfiguredTableAnalysisRule?
@@ -5303,11 +7676,11 @@ public struct GetConfiguredTableAnalysisRuleOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetConfiguredTableAnalysisRuleOutputResponseBody: Swift.Equatable {
+struct GetConfiguredTableAnalysisRuleOutputBody: Swift.Equatable {
     let analysisRule: CleanRoomsClientTypes.ConfiguredTableAnalysisRule?
 }
 
-extension GetConfiguredTableAnalysisRuleOutputResponseBody: Swift.Decodable {
+extension GetConfiguredTableAnalysisRuleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case analysisRule
     }
@@ -5316,6 +7689,21 @@ extension GetConfiguredTableAnalysisRuleOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let analysisRuleDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.ConfiguredTableAnalysisRule.self, forKey: .analysisRule)
         analysisRule = analysisRuleDecoded
+    }
+}
+
+enum GetConfiguredTableAnalysisRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5358,26 +7746,11 @@ extension GetConfiguredTableAssociationInputBody: Swift.Decodable {
     }
 }
 
-public enum GetConfiguredTableAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetConfiguredTableAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetConfiguredTableAssociationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetConfiguredTableAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetConfiguredTableAssociationOutputBody = try responseDecoder.decode(responseBody: data)
             self.configuredTableAssociation = output.configuredTableAssociation
         } else {
             self.configuredTableAssociation = nil
@@ -5385,7 +7758,7 @@ extension GetConfiguredTableAssociationOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct GetConfiguredTableAssociationOutputResponse: Swift.Equatable {
+public struct GetConfiguredTableAssociationOutput: Swift.Equatable {
     /// The entire configured table association object.
     /// This member is required.
     public var configuredTableAssociation: CleanRoomsClientTypes.ConfiguredTableAssociation?
@@ -5398,11 +7771,11 @@ public struct GetConfiguredTableAssociationOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetConfiguredTableAssociationOutputResponseBody: Swift.Equatable {
+struct GetConfiguredTableAssociationOutputBody: Swift.Equatable {
     let configuredTableAssociation: CleanRoomsClientTypes.ConfiguredTableAssociation?
 }
 
-extension GetConfiguredTableAssociationOutputResponseBody: Swift.Decodable {
+extension GetConfiguredTableAssociationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuredTableAssociation
     }
@@ -5411,6 +7784,21 @@ extension GetConfiguredTableAssociationOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configuredTableAssociationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.ConfiguredTableAssociation.self, forKey: .configuredTableAssociation)
         configuredTableAssociation = configuredTableAssociationDecoded
+    }
+}
+
+enum GetConfiguredTableAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5445,26 +7833,11 @@ extension GetConfiguredTableInputBody: Swift.Decodable {
     }
 }
 
-public enum GetConfiguredTableOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetConfiguredTableOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetConfiguredTableOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetConfiguredTableOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetConfiguredTableOutputBody = try responseDecoder.decode(responseBody: data)
             self.configuredTable = output.configuredTable
         } else {
             self.configuredTable = nil
@@ -5472,7 +7845,7 @@ extension GetConfiguredTableOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConfiguredTableOutputResponse: Swift.Equatable {
+public struct GetConfiguredTableOutput: Swift.Equatable {
     /// The retrieved configured table.
     /// This member is required.
     public var configuredTable: CleanRoomsClientTypes.ConfiguredTable?
@@ -5485,11 +7858,11 @@ public struct GetConfiguredTableOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetConfiguredTableOutputResponseBody: Swift.Equatable {
+struct GetConfiguredTableOutputBody: Swift.Equatable {
     let configuredTable: CleanRoomsClientTypes.ConfiguredTable?
 }
 
-extension GetConfiguredTableOutputResponseBody: Swift.Decodable {
+extension GetConfiguredTableOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuredTable
     }
@@ -5498,6 +7871,21 @@ extension GetConfiguredTableOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configuredTableDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.ConfiguredTable.self, forKey: .configuredTable)
         configuredTable = configuredTableDecoded
+    }
+}
+
+enum GetConfiguredTableOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5532,8 +7920,49 @@ extension GetMembershipInputBody: Swift.Decodable {
     }
 }
 
-public enum GetMembershipOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension GetMembershipOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetMembershipOutputBody = try responseDecoder.decode(responseBody: data)
+            self.membership = output.membership
+        } else {
+            self.membership = nil
+        }
+    }
+}
+
+public struct GetMembershipOutput: Swift.Equatable {
+    /// The membership retrieved for the provided identifier.
+    /// This member is required.
+    public var membership: CleanRoomsClientTypes.Membership?
+
+    public init(
+        membership: CleanRoomsClientTypes.Membership? = nil
+    )
+    {
+        self.membership = membership
+    }
+}
+
+struct GetMembershipOutputBody: Swift.Equatable {
+    let membership: CleanRoomsClientTypes.Membership?
+}
+
+extension GetMembershipOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case membership
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let membershipDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.Membership.self, forKey: .membership)
+        membership = membershipDecoded
+    }
+}
+
+enum GetMembershipOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5547,44 +7976,98 @@ public enum GetMembershipOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetMembershipOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPrivacyBudgetTemplateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let membershipIdentifier = membershipIdentifier else {
+            return nil
+        }
+        guard let privacyBudgetTemplateIdentifier = privacyBudgetTemplateIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/privacybudgettemplates/\(privacyBudgetTemplateIdentifier.urlPercentEncoding())"
+    }
+}
+
+public struct GetPrivacyBudgetTemplateInput: Swift.Equatable {
+    /// A unique identifier for one of your memberships for a collaboration. The privacy budget template is retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+    /// A unique identifier for your privacy budget template.
+    /// This member is required.
+    public var privacyBudgetTemplateIdentifier: Swift.String?
+
+    public init(
+        membershipIdentifier: Swift.String? = nil,
+        privacyBudgetTemplateIdentifier: Swift.String? = nil
+    )
+    {
+        self.membershipIdentifier = membershipIdentifier
+        self.privacyBudgetTemplateIdentifier = privacyBudgetTemplateIdentifier
+    }
+}
+
+struct GetPrivacyBudgetTemplateInputBody: Swift.Equatable {
+}
+
+extension GetPrivacyBudgetTemplateInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetPrivacyBudgetTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetMembershipOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.membership = output.membership
+            let output: GetPrivacyBudgetTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.privacyBudgetTemplate = output.privacyBudgetTemplate
         } else {
-            self.membership = nil
+            self.privacyBudgetTemplate = nil
         }
     }
 }
 
-public struct GetMembershipOutputResponse: Swift.Equatable {
-    /// The membership retrieved for the provided identifier.
+public struct GetPrivacyBudgetTemplateOutput: Swift.Equatable {
+    /// Returns the details of the privacy budget template that you requested.
     /// This member is required.
-    public var membership: CleanRoomsClientTypes.Membership?
+    public var privacyBudgetTemplate: CleanRoomsClientTypes.PrivacyBudgetTemplate?
 
     public init(
-        membership: CleanRoomsClientTypes.Membership? = nil
+        privacyBudgetTemplate: CleanRoomsClientTypes.PrivacyBudgetTemplate? = nil
     )
     {
-        self.membership = membership
+        self.privacyBudgetTemplate = privacyBudgetTemplate
     }
 }
 
-struct GetMembershipOutputResponseBody: Swift.Equatable {
-    let membership: CleanRoomsClientTypes.Membership?
+struct GetPrivacyBudgetTemplateOutputBody: Swift.Equatable {
+    let privacyBudgetTemplate: CleanRoomsClientTypes.PrivacyBudgetTemplate?
 }
 
-extension GetMembershipOutputResponseBody: Swift.Decodable {
+extension GetPrivacyBudgetTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case membership
+        case privacyBudgetTemplate
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let membershipDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.Membership.self, forKey: .membership)
-        membership = membershipDecoded
+        let privacyBudgetTemplateDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PrivacyBudgetTemplate.self, forKey: .privacyBudgetTemplate)
+        privacyBudgetTemplate = privacyBudgetTemplateDecoded
+    }
+}
+
+enum GetPrivacyBudgetTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5627,26 +8110,11 @@ extension GetProtectedQueryInputBody: Swift.Decodable {
     }
 }
 
-public enum GetProtectedQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetProtectedQueryOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetProtectedQueryOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetProtectedQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetProtectedQueryOutputBody = try responseDecoder.decode(responseBody: data)
             self.protectedQuery = output.protectedQuery
         } else {
             self.protectedQuery = nil
@@ -5654,7 +8122,7 @@ extension GetProtectedQueryOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetProtectedQueryOutputResponse: Swift.Equatable {
+public struct GetProtectedQueryOutput: Swift.Equatable {
     /// The query processing metadata.
     /// This member is required.
     public var protectedQuery: CleanRoomsClientTypes.ProtectedQuery?
@@ -5667,11 +8135,11 @@ public struct GetProtectedQueryOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetProtectedQueryOutputResponseBody: Swift.Equatable {
+struct GetProtectedQueryOutputBody: Swift.Equatable {
     let protectedQuery: CleanRoomsClientTypes.ProtectedQuery?
 }
 
-extension GetProtectedQueryOutputResponseBody: Swift.Decodable {
+extension GetProtectedQueryOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case protectedQuery
     }
@@ -5680,6 +8148,21 @@ extension GetProtectedQueryOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let protectedQueryDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.ProtectedQuery.self, forKey: .protectedQuery)
         protectedQuery = protectedQueryDecoded
+    }
+}
+
+enum GetProtectedQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5730,26 +8213,11 @@ extension GetSchemaAnalysisRuleInputBody: Swift.Decodable {
     }
 }
 
-public enum GetSchemaAnalysisRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetSchemaAnalysisRuleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSchemaAnalysisRuleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSchemaAnalysisRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSchemaAnalysisRuleOutputBody = try responseDecoder.decode(responseBody: data)
             self.analysisRule = output.analysisRule
         } else {
             self.analysisRule = nil
@@ -5757,7 +8225,7 @@ extension GetSchemaAnalysisRuleOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetSchemaAnalysisRuleOutputResponse: Swift.Equatable {
+public struct GetSchemaAnalysisRuleOutput: Swift.Equatable {
     /// A specification about how data from the configured table can be used.
     /// This member is required.
     public var analysisRule: CleanRoomsClientTypes.AnalysisRule?
@@ -5770,11 +8238,11 @@ public struct GetSchemaAnalysisRuleOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSchemaAnalysisRuleOutputResponseBody: Swift.Equatable {
+struct GetSchemaAnalysisRuleOutputBody: Swift.Equatable {
     let analysisRule: CleanRoomsClientTypes.AnalysisRule?
 }
 
-extension GetSchemaAnalysisRuleOutputResponseBody: Swift.Decodable {
+extension GetSchemaAnalysisRuleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case analysisRule
     }
@@ -5783,6 +8251,21 @@ extension GetSchemaAnalysisRuleOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let analysisRuleDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.AnalysisRule.self, forKey: .analysisRule)
         analysisRule = analysisRuleDecoded
+    }
+}
+
+enum GetSchemaAnalysisRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5825,26 +8308,11 @@ extension GetSchemaInputBody: Swift.Decodable {
     }
 }
 
-public enum GetSchemaOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetSchemaOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSchemaOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSchemaOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSchemaOutputBody = try responseDecoder.decode(responseBody: data)
             self.schema = output.schema
         } else {
             self.schema = nil
@@ -5852,7 +8320,7 @@ extension GetSchemaOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSchemaOutputResponse: Swift.Equatable {
+public struct GetSchemaOutput: Swift.Equatable {
     /// The entire schema object.
     /// This member is required.
     public var schema: CleanRoomsClientTypes.Schema?
@@ -5865,11 +8333,11 @@ public struct GetSchemaOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSchemaOutputResponseBody: Swift.Equatable {
+struct GetSchemaOutputBody: Swift.Equatable {
     let schema: CleanRoomsClientTypes.Schema?
 }
 
-extension GetSchemaOutputResponseBody: Swift.Decodable {
+extension GetSchemaOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case schema
     }
@@ -5878,6 +8346,21 @@ extension GetSchemaOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let schemaDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.Schema.self, forKey: .schema)
         schema = schemaDecoded
+    }
+}
+
+enum GetSchemaOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6100,26 +8583,11 @@ extension ListAnalysisTemplatesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListAnalysisTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAnalysisTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAnalysisTemplatesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAnalysisTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAnalysisTemplatesOutputBody = try responseDecoder.decode(responseBody: data)
             self.analysisTemplateSummaries = output.analysisTemplateSummaries
             self.nextToken = output.nextToken
         } else {
@@ -6129,7 +8597,7 @@ extension ListAnalysisTemplatesOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListAnalysisTemplatesOutputResponse: Swift.Equatable {
+public struct ListAnalysisTemplatesOutput: Swift.Equatable {
     /// Lists analysis template metadata.
     /// This member is required.
     public var analysisTemplateSummaries: [CleanRoomsClientTypes.AnalysisTemplateSummary]?
@@ -6146,12 +8614,12 @@ public struct ListAnalysisTemplatesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAnalysisTemplatesOutputResponseBody: Swift.Equatable {
+struct ListAnalysisTemplatesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let analysisTemplateSummaries: [CleanRoomsClientTypes.AnalysisTemplateSummary]?
 }
 
-extension ListAnalysisTemplatesOutputResponseBody: Swift.Decodable {
+extension ListAnalysisTemplatesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case analysisTemplateSummaries
         case nextToken
@@ -6172,6 +8640,21 @@ extension ListAnalysisTemplatesOutputResponseBody: Swift.Decodable {
             }
         }
         analysisTemplateSummaries = analysisTemplateSummariesDecoded0
+    }
+}
+
+enum ListAnalysisTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6231,26 +8714,11 @@ extension ListCollaborationAnalysisTemplatesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListCollaborationAnalysisTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListCollaborationAnalysisTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListCollaborationAnalysisTemplatesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListCollaborationAnalysisTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListCollaborationAnalysisTemplatesOutputBody = try responseDecoder.decode(responseBody: data)
             self.collaborationAnalysisTemplateSummaries = output.collaborationAnalysisTemplateSummaries
             self.nextToken = output.nextToken
         } else {
@@ -6260,7 +8728,7 @@ extension ListCollaborationAnalysisTemplatesOutputResponse: ClientRuntime.HttpRe
     }
 }
 
-public struct ListCollaborationAnalysisTemplatesOutputResponse: Swift.Equatable {
+public struct ListCollaborationAnalysisTemplatesOutput: Swift.Equatable {
     /// The metadata of the analysis template within a collaboration.
     /// This member is required.
     public var collaborationAnalysisTemplateSummaries: [CleanRoomsClientTypes.CollaborationAnalysisTemplateSummary]?
@@ -6277,12 +8745,12 @@ public struct ListCollaborationAnalysisTemplatesOutputResponse: Swift.Equatable 
     }
 }
 
-struct ListCollaborationAnalysisTemplatesOutputResponseBody: Swift.Equatable {
+struct ListCollaborationAnalysisTemplatesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let collaborationAnalysisTemplateSummaries: [CleanRoomsClientTypes.CollaborationAnalysisTemplateSummary]?
 }
 
-extension ListCollaborationAnalysisTemplatesOutputResponseBody: Swift.Decodable {
+extension ListCollaborationAnalysisTemplatesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case collaborationAnalysisTemplateSummaries
         case nextToken
@@ -6303,6 +8771,425 @@ extension ListCollaborationAnalysisTemplatesOutputResponseBody: Swift.Decodable 
             }
         }
         collaborationAnalysisTemplateSummaries = collaborationAnalysisTemplateSummariesDecoded0
+    }
+}
+
+enum ListCollaborationAnalysisTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListCollaborationConfiguredAudienceModelAssociationsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListCollaborationConfiguredAudienceModelAssociationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let collaborationIdentifier = collaborationIdentifier else {
+            return nil
+        }
+        return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/configuredaudiencemodelassociations"
+    }
+}
+
+public struct ListCollaborationConfiguredAudienceModelAssociationsInput: Swift.Equatable {
+    /// A unique identifier for the collaboration that the configured audience model association belongs to. Accepts a collaboration ID.
+    /// This member is required.
+    public var collaborationIdentifier: Swift.String?
+    /// The maximum size of the results that is returned per call.
+    public var maxResults: Swift.Int?
+    /// The token value retrieved from a previous call to access the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        collaborationIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.collaborationIdentifier = collaborationIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCollaborationConfiguredAudienceModelAssociationsInputBody: Swift.Equatable {
+}
+
+extension ListCollaborationConfiguredAudienceModelAssociationsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListCollaborationConfiguredAudienceModelAssociationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCollaborationConfiguredAudienceModelAssociationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.collaborationConfiguredAudienceModelAssociationSummaries = output.collaborationConfiguredAudienceModelAssociationSummaries
+            self.nextToken = output.nextToken
+        } else {
+            self.collaborationConfiguredAudienceModelAssociationSummaries = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListCollaborationConfiguredAudienceModelAssociationsOutput: Swift.Equatable {
+    /// The metadata of the configured audience model association within a collaboration.
+    /// This member is required.
+    public var collaborationConfiguredAudienceModelAssociationSummaries: [CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociationSummary]?
+    /// The token value retrieved from a previous call to access the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        collaborationConfiguredAudienceModelAssociationSummaries: [CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.collaborationConfiguredAudienceModelAssociationSummaries = collaborationConfiguredAudienceModelAssociationSummaries
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCollaborationConfiguredAudienceModelAssociationsOutputBody: Swift.Equatable {
+    let collaborationConfiguredAudienceModelAssociationSummaries: [CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociationSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListCollaborationConfiguredAudienceModelAssociationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collaborationConfiguredAudienceModelAssociationSummaries
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let collaborationConfiguredAudienceModelAssociationSummariesContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociationSummary?].self, forKey: .collaborationConfiguredAudienceModelAssociationSummaries)
+        var collaborationConfiguredAudienceModelAssociationSummariesDecoded0:[CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociationSummary]? = nil
+        if let collaborationConfiguredAudienceModelAssociationSummariesContainer = collaborationConfiguredAudienceModelAssociationSummariesContainer {
+            collaborationConfiguredAudienceModelAssociationSummariesDecoded0 = [CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociationSummary]()
+            for structure0 in collaborationConfiguredAudienceModelAssociationSummariesContainer {
+                if let structure0 = structure0 {
+                    collaborationConfiguredAudienceModelAssociationSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        collaborationConfiguredAudienceModelAssociationSummaries = collaborationConfiguredAudienceModelAssociationSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCollaborationConfiguredAudienceModelAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListCollaborationPrivacyBudgetTemplatesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListCollaborationPrivacyBudgetTemplatesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let collaborationIdentifier = collaborationIdentifier else {
+            return nil
+        }
+        return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/privacybudgettemplates"
+    }
+}
+
+public struct ListCollaborationPrivacyBudgetTemplatesInput: Swift.Equatable {
+    /// A unique identifier for one of your collaborations.
+    /// This member is required.
+    public var collaborationIdentifier: Swift.String?
+    /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+    public var maxResults: Swift.Int?
+    /// The token value retrieved from a previous call to access the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        collaborationIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.collaborationIdentifier = collaborationIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCollaborationPrivacyBudgetTemplatesInputBody: Swift.Equatable {
+}
+
+extension ListCollaborationPrivacyBudgetTemplatesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListCollaborationPrivacyBudgetTemplatesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCollaborationPrivacyBudgetTemplatesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.collaborationPrivacyBudgetTemplateSummaries = output.collaborationPrivacyBudgetTemplateSummaries
+            self.nextToken = output.nextToken
+        } else {
+            self.collaborationPrivacyBudgetTemplateSummaries = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListCollaborationPrivacyBudgetTemplatesOutput: Swift.Equatable {
+    /// An array that summarizes the collaboration privacy budget templates. The summary includes collaboration information, creation information, the privacy budget type.
+    /// This member is required.
+    public var collaborationPrivacyBudgetTemplateSummaries: [CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplateSummary]?
+    /// The token value retrieved from a previous call to access the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        collaborationPrivacyBudgetTemplateSummaries: [CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplateSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.collaborationPrivacyBudgetTemplateSummaries = collaborationPrivacyBudgetTemplateSummaries
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCollaborationPrivacyBudgetTemplatesOutputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let collaborationPrivacyBudgetTemplateSummaries: [CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplateSummary]?
+}
+
+extension ListCollaborationPrivacyBudgetTemplatesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collaborationPrivacyBudgetTemplateSummaries
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let collaborationPrivacyBudgetTemplateSummariesContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplateSummary?].self, forKey: .collaborationPrivacyBudgetTemplateSummaries)
+        var collaborationPrivacyBudgetTemplateSummariesDecoded0:[CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplateSummary]? = nil
+        if let collaborationPrivacyBudgetTemplateSummariesContainer = collaborationPrivacyBudgetTemplateSummariesContainer {
+            collaborationPrivacyBudgetTemplateSummariesDecoded0 = [CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplateSummary]()
+            for structure0 in collaborationPrivacyBudgetTemplateSummariesContainer {
+                if let structure0 = structure0 {
+                    collaborationPrivacyBudgetTemplateSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        collaborationPrivacyBudgetTemplateSummaries = collaborationPrivacyBudgetTemplateSummariesDecoded0
+    }
+}
+
+enum ListCollaborationPrivacyBudgetTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListCollaborationPrivacyBudgetsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let privacyBudgetType = privacyBudgetType else {
+                let message = "Creating a URL Query Item failed. privacyBudgetType is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let privacyBudgetTypeQueryItem = ClientRuntime.URLQueryItem(name: "privacyBudgetType".urlPercentEncoding(), value: Swift.String(privacyBudgetType.rawValue).urlPercentEncoding())
+            items.append(privacyBudgetTypeQueryItem)
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListCollaborationPrivacyBudgetsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let collaborationIdentifier = collaborationIdentifier else {
+            return nil
+        }
+        return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/privacybudgets"
+    }
+}
+
+public struct ListCollaborationPrivacyBudgetsInput: Swift.Equatable {
+    /// A unique identifier for one of your collaborations.
+    /// This member is required.
+    public var collaborationIdentifier: Swift.String?
+    /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+    public var maxResults: Swift.Int?
+    /// The token value retrieved from a previous call to access the next page of results.
+    public var nextToken: Swift.String?
+    /// Specifies the type of the privacy budget.
+    /// This member is required.
+    public var privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType?
+
+    public init(
+        collaborationIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType? = nil
+    )
+    {
+        self.collaborationIdentifier = collaborationIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.privacyBudgetType = privacyBudgetType
+    }
+}
+
+struct ListCollaborationPrivacyBudgetsInputBody: Swift.Equatable {
+}
+
+extension ListCollaborationPrivacyBudgetsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListCollaborationPrivacyBudgetsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCollaborationPrivacyBudgetsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.collaborationPrivacyBudgetSummaries = output.collaborationPrivacyBudgetSummaries
+            self.nextToken = output.nextToken
+        } else {
+            self.collaborationPrivacyBudgetSummaries = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListCollaborationPrivacyBudgetsOutput: Swift.Equatable {
+    /// Summaries of the collaboration privacy budgets.
+    /// This member is required.
+    public var collaborationPrivacyBudgetSummaries: [CleanRoomsClientTypes.CollaborationPrivacyBudgetSummary]?
+    /// The token value retrieved from a previous call to access the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        collaborationPrivacyBudgetSummaries: [CleanRoomsClientTypes.CollaborationPrivacyBudgetSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.collaborationPrivacyBudgetSummaries = collaborationPrivacyBudgetSummaries
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCollaborationPrivacyBudgetsOutputBody: Swift.Equatable {
+    let collaborationPrivacyBudgetSummaries: [CleanRoomsClientTypes.CollaborationPrivacyBudgetSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListCollaborationPrivacyBudgetsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collaborationPrivacyBudgetSummaries
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let collaborationPrivacyBudgetSummariesContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.CollaborationPrivacyBudgetSummary?].self, forKey: .collaborationPrivacyBudgetSummaries)
+        var collaborationPrivacyBudgetSummariesDecoded0:[CleanRoomsClientTypes.CollaborationPrivacyBudgetSummary]? = nil
+        if let collaborationPrivacyBudgetSummariesContainer = collaborationPrivacyBudgetSummariesContainer {
+            collaborationPrivacyBudgetSummariesDecoded0 = [CleanRoomsClientTypes.CollaborationPrivacyBudgetSummary]()
+            for structure0 in collaborationPrivacyBudgetSummariesContainer {
+                if let structure0 = structure0 {
+                    collaborationPrivacyBudgetSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        collaborationPrivacyBudgetSummaries = collaborationPrivacyBudgetSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCollaborationPrivacyBudgetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6362,25 +9249,11 @@ extension ListCollaborationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListCollaborationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListCollaborationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListCollaborationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListCollaborationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListCollaborationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.collaborationList = output.collaborationList
             self.nextToken = output.nextToken
         } else {
@@ -6390,7 +9263,7 @@ extension ListCollaborationsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCollaborationsOutputResponse: Swift.Equatable {
+public struct ListCollaborationsOutput: Swift.Equatable {
     /// The list of collaborations.
     /// This member is required.
     public var collaborationList: [CleanRoomsClientTypes.CollaborationSummary]?
@@ -6407,12 +9280,12 @@ public struct ListCollaborationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListCollaborationsOutputResponseBody: Swift.Equatable {
+struct ListCollaborationsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let collaborationList: [CleanRoomsClientTypes.CollaborationSummary]?
 }
 
-extension ListCollaborationsOutputResponseBody: Swift.Decodable {
+extension ListCollaborationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case collaborationList
         case nextToken
@@ -6433,6 +9306,151 @@ extension ListCollaborationsOutputResponseBody: Swift.Decodable {
             }
         }
         collaborationList = collaborationListDecoded0
+    }
+}
+
+enum ListCollaborationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListConfiguredAudienceModelAssociationsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListConfiguredAudienceModelAssociationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let membershipIdentifier = membershipIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/configuredaudiencemodelassociations"
+    }
+}
+
+public struct ListConfiguredAudienceModelAssociationsInput: Swift.Equatable {
+    /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+    public var maxResults: Swift.Int?
+    /// A unique identifier for a membership that contains the configured audience model associations that you want to retrieve.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+    /// The token value retrieved from a previous call to access the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        membershipIdentifier: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.membershipIdentifier = membershipIdentifier
+        self.nextToken = nextToken
+    }
+}
+
+struct ListConfiguredAudienceModelAssociationsInputBody: Swift.Equatable {
+}
+
+extension ListConfiguredAudienceModelAssociationsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListConfiguredAudienceModelAssociationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListConfiguredAudienceModelAssociationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.configuredAudienceModelAssociationSummaries = output.configuredAudienceModelAssociationSummaries
+            self.nextToken = output.nextToken
+        } else {
+            self.configuredAudienceModelAssociationSummaries = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListConfiguredAudienceModelAssociationsOutput: Swift.Equatable {
+    /// Summaries of the configured audience model associations that you requested.
+    /// This member is required.
+    public var configuredAudienceModelAssociationSummaries: [CleanRoomsClientTypes.ConfiguredAudienceModelAssociationSummary]?
+    /// The token value provided to access the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        configuredAudienceModelAssociationSummaries: [CleanRoomsClientTypes.ConfiguredAudienceModelAssociationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.configuredAudienceModelAssociationSummaries = configuredAudienceModelAssociationSummaries
+        self.nextToken = nextToken
+    }
+}
+
+struct ListConfiguredAudienceModelAssociationsOutputBody: Swift.Equatable {
+    let configuredAudienceModelAssociationSummaries: [CleanRoomsClientTypes.ConfiguredAudienceModelAssociationSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListConfiguredAudienceModelAssociationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuredAudienceModelAssociationSummaries
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configuredAudienceModelAssociationSummariesContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.ConfiguredAudienceModelAssociationSummary?].self, forKey: .configuredAudienceModelAssociationSummaries)
+        var configuredAudienceModelAssociationSummariesDecoded0:[CleanRoomsClientTypes.ConfiguredAudienceModelAssociationSummary]? = nil
+        if let configuredAudienceModelAssociationSummariesContainer = configuredAudienceModelAssociationSummariesContainer {
+            configuredAudienceModelAssociationSummariesDecoded0 = [CleanRoomsClientTypes.ConfiguredAudienceModelAssociationSummary]()
+            for structure0 in configuredAudienceModelAssociationSummariesContainer {
+                if let structure0 = structure0 {
+                    configuredAudienceModelAssociationSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        configuredAudienceModelAssociationSummaries = configuredAudienceModelAssociationSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListConfiguredAudienceModelAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6492,26 +9510,11 @@ extension ListConfiguredTableAssociationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListConfiguredTableAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListConfiguredTableAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListConfiguredTableAssociationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListConfiguredTableAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListConfiguredTableAssociationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.configuredTableAssociationSummaries = output.configuredTableAssociationSummaries
             self.nextToken = output.nextToken
         } else {
@@ -6521,7 +9524,7 @@ extension ListConfiguredTableAssociationsOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct ListConfiguredTableAssociationsOutputResponse: Swift.Equatable {
+public struct ListConfiguredTableAssociationsOutput: Swift.Equatable {
     /// The retrieved list of configured table associations.
     /// This member is required.
     public var configuredTableAssociationSummaries: [CleanRoomsClientTypes.ConfiguredTableAssociationSummary]?
@@ -6538,12 +9541,12 @@ public struct ListConfiguredTableAssociationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListConfiguredTableAssociationsOutputResponseBody: Swift.Equatable {
+struct ListConfiguredTableAssociationsOutputBody: Swift.Equatable {
     let configuredTableAssociationSummaries: [CleanRoomsClientTypes.ConfiguredTableAssociationSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListConfiguredTableAssociationsOutputResponseBody: Swift.Decodable {
+extension ListConfiguredTableAssociationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuredTableAssociationSummaries
         case nextToken
@@ -6564,6 +9567,21 @@ extension ListConfiguredTableAssociationsOutputResponseBody: Swift.Decodable {
         configuredTableAssociationSummaries = configuredTableAssociationSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListConfiguredTableAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6615,25 +9633,11 @@ extension ListConfiguredTablesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListConfiguredTablesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListConfiguredTablesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListConfiguredTablesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListConfiguredTablesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListConfiguredTablesOutputBody = try responseDecoder.decode(responseBody: data)
             self.configuredTableSummaries = output.configuredTableSummaries
             self.nextToken = output.nextToken
         } else {
@@ -6643,7 +9647,7 @@ extension ListConfiguredTablesOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListConfiguredTablesOutputResponse: Swift.Equatable {
+public struct ListConfiguredTablesOutput: Swift.Equatable {
     /// The configured tables listed by the request.
     /// This member is required.
     public var configuredTableSummaries: [CleanRoomsClientTypes.ConfiguredTableSummary]?
@@ -6660,12 +9664,12 @@ public struct ListConfiguredTablesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListConfiguredTablesOutputResponseBody: Swift.Equatable {
+struct ListConfiguredTablesOutputBody: Swift.Equatable {
     let configuredTableSummaries: [CleanRoomsClientTypes.ConfiguredTableSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListConfiguredTablesOutputResponseBody: Swift.Decodable {
+extension ListConfiguredTablesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuredTableSummaries
         case nextToken
@@ -6686,6 +9690,20 @@ extension ListConfiguredTablesOutputResponseBody: Swift.Decodable {
         configuredTableSummaries = configuredTableSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListConfiguredTablesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6745,26 +9763,11 @@ extension ListMembersInputBody: Swift.Decodable {
     }
 }
 
-public enum ListMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListMembersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListMembersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListMembersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListMembersOutputBody = try responseDecoder.decode(responseBody: data)
             self.memberSummaries = output.memberSummaries
             self.nextToken = output.nextToken
         } else {
@@ -6774,7 +9777,7 @@ extension ListMembersOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMembersOutputResponse: Swift.Equatable {
+public struct ListMembersOutput: Swift.Equatable {
     /// The list of members returned by the ListMembers operation.
     /// This member is required.
     public var memberSummaries: [CleanRoomsClientTypes.MemberSummary]?
@@ -6791,12 +9794,12 @@ public struct ListMembersOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListMembersOutputResponseBody: Swift.Equatable {
+struct ListMembersOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let memberSummaries: [CleanRoomsClientTypes.MemberSummary]?
 }
 
-extension ListMembersOutputResponseBody: Swift.Decodable {
+extension ListMembersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case memberSummaries
         case nextToken
@@ -6817,6 +9820,21 @@ extension ListMembersOutputResponseBody: Swift.Decodable {
             }
         }
         memberSummaries = memberSummariesDecoded0
+    }
+}
+
+enum ListMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6876,25 +9894,11 @@ extension ListMembershipsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListMembershipsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListMembershipsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListMembershipsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListMembershipsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListMembershipsOutputBody = try responseDecoder.decode(responseBody: data)
             self.membershipSummaries = output.membershipSummaries
             self.nextToken = output.nextToken
         } else {
@@ -6904,7 +9908,7 @@ extension ListMembershipsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMembershipsOutputResponse: Swift.Equatable {
+public struct ListMembershipsOutput: Swift.Equatable {
     /// The list of memberships returned from the ListMemberships operation.
     /// This member is required.
     public var membershipSummaries: [CleanRoomsClientTypes.MembershipSummary]?
@@ -6921,12 +9925,12 @@ public struct ListMembershipsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListMembershipsOutputResponseBody: Swift.Equatable {
+struct ListMembershipsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let membershipSummaries: [CleanRoomsClientTypes.MembershipSummary]?
 }
 
-extension ListMembershipsOutputResponseBody: Swift.Decodable {
+extension ListMembershipsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case membershipSummaries
         case nextToken
@@ -6947,6 +9951,293 @@ extension ListMembershipsOutputResponseBody: Swift.Decodable {
             }
         }
         membershipSummaries = membershipSummariesDecoded0
+    }
+}
+
+enum ListMembershipsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListPrivacyBudgetTemplatesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListPrivacyBudgetTemplatesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let membershipIdentifier = membershipIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/privacybudgettemplates"
+    }
+}
+
+public struct ListPrivacyBudgetTemplatesInput: Swift.Equatable {
+    /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+    public var maxResults: Swift.Int?
+    /// A unique identifier for one of your memberships for a collaboration. The privacy budget templates are retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+    /// The token value retrieved from a previous call to access the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        membershipIdentifier: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.membershipIdentifier = membershipIdentifier
+        self.nextToken = nextToken
+    }
+}
+
+struct ListPrivacyBudgetTemplatesInputBody: Swift.Equatable {
+}
+
+extension ListPrivacyBudgetTemplatesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListPrivacyBudgetTemplatesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListPrivacyBudgetTemplatesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.privacyBudgetTemplateSummaries = output.privacyBudgetTemplateSummaries
+        } else {
+            self.nextToken = nil
+            self.privacyBudgetTemplateSummaries = nil
+        }
+    }
+}
+
+public struct ListPrivacyBudgetTemplatesOutput: Swift.Equatable {
+    /// The token value retrieved from a previous call to access the next page of results.
+    public var nextToken: Swift.String?
+    /// An array that summarizes the privacy budget templates. The summary includes collaboration information, creation information, and privacy budget type.
+    /// This member is required.
+    public var privacyBudgetTemplateSummaries: [CleanRoomsClientTypes.PrivacyBudgetTemplateSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        privacyBudgetTemplateSummaries: [CleanRoomsClientTypes.PrivacyBudgetTemplateSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.privacyBudgetTemplateSummaries = privacyBudgetTemplateSummaries
+    }
+}
+
+struct ListPrivacyBudgetTemplatesOutputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let privacyBudgetTemplateSummaries: [CleanRoomsClientTypes.PrivacyBudgetTemplateSummary]?
+}
+
+extension ListPrivacyBudgetTemplatesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case privacyBudgetTemplateSummaries
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let privacyBudgetTemplateSummariesContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.PrivacyBudgetTemplateSummary?].self, forKey: .privacyBudgetTemplateSummaries)
+        var privacyBudgetTemplateSummariesDecoded0:[CleanRoomsClientTypes.PrivacyBudgetTemplateSummary]? = nil
+        if let privacyBudgetTemplateSummariesContainer = privacyBudgetTemplateSummariesContainer {
+            privacyBudgetTemplateSummariesDecoded0 = [CleanRoomsClientTypes.PrivacyBudgetTemplateSummary]()
+            for structure0 in privacyBudgetTemplateSummariesContainer {
+                if let structure0 = structure0 {
+                    privacyBudgetTemplateSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        privacyBudgetTemplateSummaries = privacyBudgetTemplateSummariesDecoded0
+    }
+}
+
+enum ListPrivacyBudgetTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListPrivacyBudgetsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let privacyBudgetType = privacyBudgetType else {
+                let message = "Creating a URL Query Item failed. privacyBudgetType is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let privacyBudgetTypeQueryItem = ClientRuntime.URLQueryItem(name: "privacyBudgetType".urlPercentEncoding(), value: Swift.String(privacyBudgetType.rawValue).urlPercentEncoding())
+            items.append(privacyBudgetTypeQueryItem)
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListPrivacyBudgetsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let membershipIdentifier = membershipIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/privacybudgets"
+    }
+}
+
+public struct ListPrivacyBudgetsInput: Swift.Equatable {
+    /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+    public var maxResults: Swift.Int?
+    /// A unique identifier for one of your memberships for a collaboration. The privacy budget is retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+    /// The token value retrieved from a previous call to access the next page of results.
+    public var nextToken: Swift.String?
+    /// The privacy budget type.
+    /// This member is required.
+    public var privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        membershipIdentifier: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.membershipIdentifier = membershipIdentifier
+        self.nextToken = nextToken
+        self.privacyBudgetType = privacyBudgetType
+    }
+}
+
+struct ListPrivacyBudgetsInputBody: Swift.Equatable {
+}
+
+extension ListPrivacyBudgetsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListPrivacyBudgetsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListPrivacyBudgetsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.privacyBudgetSummaries = output.privacyBudgetSummaries
+        } else {
+            self.nextToken = nil
+            self.privacyBudgetSummaries = nil
+        }
+    }
+}
+
+public struct ListPrivacyBudgetsOutput: Swift.Equatable {
+    /// The token value retrieved from a previous call to access the next page of results.
+    public var nextToken: Swift.String?
+    /// An array that summarizes the privacy budgets. The summary includes collaboration information, membership information, privacy budget template information, and privacy budget details.
+    /// This member is required.
+    public var privacyBudgetSummaries: [CleanRoomsClientTypes.PrivacyBudgetSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        privacyBudgetSummaries: [CleanRoomsClientTypes.PrivacyBudgetSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.privacyBudgetSummaries = privacyBudgetSummaries
+    }
+}
+
+struct ListPrivacyBudgetsOutputBody: Swift.Equatable {
+    let privacyBudgetSummaries: [CleanRoomsClientTypes.PrivacyBudgetSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListPrivacyBudgetsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case privacyBudgetSummaries
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let privacyBudgetSummariesContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.PrivacyBudgetSummary?].self, forKey: .privacyBudgetSummaries)
+        var privacyBudgetSummariesDecoded0:[CleanRoomsClientTypes.PrivacyBudgetSummary]? = nil
+        if let privacyBudgetSummariesContainer = privacyBudgetSummariesContainer {
+            privacyBudgetSummariesDecoded0 = [CleanRoomsClientTypes.PrivacyBudgetSummary]()
+            for structure0 in privacyBudgetSummariesContainer {
+                if let structure0 = structure0 {
+                    privacyBudgetSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        privacyBudgetSummaries = privacyBudgetSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListPrivacyBudgetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7014,26 +10305,11 @@ extension ListProtectedQueriesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListProtectedQueriesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListProtectedQueriesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListProtectedQueriesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListProtectedQueriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListProtectedQueriesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.protectedQueries = output.protectedQueries
         } else {
@@ -7043,7 +10319,7 @@ extension ListProtectedQueriesOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListProtectedQueriesOutputResponse: Swift.Equatable {
+public struct ListProtectedQueriesOutput: Swift.Equatable {
     /// The token value retrieved from a previous call to access the next page of results.
     public var nextToken: Swift.String?
     /// A list of protected queries.
@@ -7060,12 +10336,12 @@ public struct ListProtectedQueriesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListProtectedQueriesOutputResponseBody: Swift.Equatable {
+struct ListProtectedQueriesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let protectedQueries: [CleanRoomsClientTypes.ProtectedQuerySummary]?
 }
 
-extension ListProtectedQueriesOutputResponseBody: Swift.Decodable {
+extension ListProtectedQueriesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case protectedQueries
@@ -7086,6 +10362,21 @@ extension ListProtectedQueriesOutputResponseBody: Swift.Decodable {
             }
         }
         protectedQueries = protectedQueriesDecoded0
+    }
+}
+
+enum ListProtectedQueriesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7153,26 +10444,11 @@ extension ListSchemasInputBody: Swift.Decodable {
     }
 }
 
-public enum ListSchemasOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSchemasOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSchemasOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSchemasOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSchemasOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.schemaSummaries = output.schemaSummaries
         } else {
@@ -7182,7 +10458,7 @@ extension ListSchemasOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSchemasOutputResponse: Swift.Equatable {
+public struct ListSchemasOutput: Swift.Equatable {
     /// The token value retrieved from a previous call to access the next page of results.
     public var nextToken: Swift.String?
     /// The retrieved list of schemas.
@@ -7199,12 +10475,12 @@ public struct ListSchemasOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSchemasOutputResponseBody: Swift.Equatable {
+struct ListSchemasOutputBody: Swift.Equatable {
     let schemaSummaries: [CleanRoomsClientTypes.SchemaSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListSchemasOutputResponseBody: Swift.Decodable {
+extension ListSchemasOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case schemaSummaries
@@ -7225,6 +10501,21 @@ extension ListSchemasOutputResponseBody: Swift.Decodable {
         schemaSummaries = schemaSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListSchemasOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7259,23 +10550,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -7283,7 +10562,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// A map of objects specifying each key name and value.
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
@@ -7296,11 +10575,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags
     }
@@ -7318,6 +10597,18 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7358,6 +10649,7 @@ extension CleanRoomsClientTypes.MemberSpecification: Swift.Codable {
         case accountId
         case displayName
         case memberAbilities
+        case paymentConfiguration
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -7373,6 +10665,9 @@ extension CleanRoomsClientTypes.MemberSpecification: Swift.Codable {
             for memberability0 in memberAbilities {
                 try memberAbilitiesContainer.encode(memberability0.rawValue)
             }
+        }
+        if let paymentConfiguration = self.paymentConfiguration {
+            try encodeContainer.encode(paymentConfiguration, forKey: .paymentConfiguration)
         }
     }
 
@@ -7393,6 +10688,8 @@ extension CleanRoomsClientTypes.MemberSpecification: Swift.Codable {
         memberAbilities = memberAbilitiesDecoded0
         let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
         displayName = displayNameDecoded
+        let paymentConfigurationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PaymentConfiguration.self, forKey: .paymentConfiguration)
+        paymentConfiguration = paymentConfigurationDecoded
     }
 }
 
@@ -7408,16 +10705,20 @@ extension CleanRoomsClientTypes {
         /// The abilities granted to the collaboration member.
         /// This member is required.
         public var memberAbilities: [CleanRoomsClientTypes.MemberAbility]?
+        /// The collaboration member's payment responsibilities set by the collaboration creator. If the collaboration creator hasn't speciﬁed anyone as the member paying for query compute costs, then the member who can query is the default payer.
+        public var paymentConfiguration: CleanRoomsClientTypes.PaymentConfiguration?
 
         public init(
             accountId: Swift.String? = nil,
             displayName: Swift.String? = nil,
-            memberAbilities: [CleanRoomsClientTypes.MemberAbility]? = nil
+            memberAbilities: [CleanRoomsClientTypes.MemberAbility]? = nil,
+            paymentConfiguration: CleanRoomsClientTypes.PaymentConfiguration? = nil
         )
         {
             self.accountId = accountId
             self.displayName = displayName
             self.memberAbilities = memberAbilities
+            self.paymentConfiguration = paymentConfiguration
         }
     }
 
@@ -7469,6 +10770,7 @@ extension CleanRoomsClientTypes.MemberSummary: Swift.Codable {
         case displayName
         case membershipArn
         case membershipId
+        case paymentConfiguration
         case status
         case updateTime
     }
@@ -7495,6 +10797,9 @@ extension CleanRoomsClientTypes.MemberSummary: Swift.Codable {
         }
         if let membershipId = self.membershipId {
             try encodeContainer.encode(membershipId, forKey: .membershipId)
+        }
+        if let paymentConfiguration = self.paymentConfiguration {
+            try encodeContainer.encode(paymentConfiguration, forKey: .paymentConfiguration)
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
@@ -7531,6 +10836,8 @@ extension CleanRoomsClientTypes.MemberSummary: Swift.Codable {
         membershipId = membershipIdDecoded
         let membershipArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .membershipArn)
         membershipArn = membershipArnDecoded
+        let paymentConfigurationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PaymentConfiguration.self, forKey: .paymentConfiguration)
+        paymentConfiguration = paymentConfigurationDecoded
     }
 }
 
@@ -7553,7 +10860,10 @@ extension CleanRoomsClientTypes {
         public var membershipArn: Swift.String?
         /// The unique ID for the member's associated membership, if present.
         public var membershipId: Swift.String?
-        /// The status of the member. Valid values are `INVITED`, `ACTIVE`, `LEFT`, and `REMOVED`.
+        /// The collaboration member's payment responsibilities set by the collaboration creator.
+        /// This member is required.
+        public var paymentConfiguration: CleanRoomsClientTypes.PaymentConfiguration?
+        /// The status of the member.
         /// This member is required.
         public var status: CleanRoomsClientTypes.MemberStatus?
         /// The time the member metadata was last updated.
@@ -7567,6 +10877,7 @@ extension CleanRoomsClientTypes {
             displayName: Swift.String? = nil,
             membershipArn: Swift.String? = nil,
             membershipId: Swift.String? = nil,
+            paymentConfiguration: CleanRoomsClientTypes.PaymentConfiguration? = nil,
             status: CleanRoomsClientTypes.MemberStatus? = nil,
             updateTime: ClientRuntime.Date? = nil
         )
@@ -7577,6 +10888,7 @@ extension CleanRoomsClientTypes {
             self.displayName = displayName
             self.membershipArn = membershipArn
             self.membershipId = membershipId
+            self.paymentConfiguration = paymentConfiguration
             self.status = status
             self.updateTime = updateTime
         }
@@ -7593,8 +10905,10 @@ extension CleanRoomsClientTypes.Membership: Swift.Codable {
         case collaborationId
         case collaborationName
         case createTime
+        case defaultResultConfiguration
         case id
         case memberAbilities
+        case paymentConfiguration
         case queryLogStatus
         case status
         case updateTime
@@ -7623,6 +10937,9 @@ extension CleanRoomsClientTypes.Membership: Swift.Codable {
         if let createTime = self.createTime {
             try encodeContainer.encodeTimestamp(createTime, format: .epochSeconds, forKey: .createTime)
         }
+        if let defaultResultConfiguration = self.defaultResultConfiguration {
+            try encodeContainer.encode(defaultResultConfiguration, forKey: .defaultResultConfiguration)
+        }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
         }
@@ -7631,6 +10948,9 @@ extension CleanRoomsClientTypes.Membership: Swift.Codable {
             for memberability0 in memberAbilities {
                 try memberAbilitiesContainer.encode(memberability0.rawValue)
             }
+        }
+        if let paymentConfiguration = self.paymentConfiguration {
+            try encodeContainer.encode(paymentConfiguration, forKey: .paymentConfiguration)
         }
         if let queryLogStatus = self.queryLogStatus {
             try encodeContainer.encode(queryLogStatus.rawValue, forKey: .queryLogStatus)
@@ -7678,6 +10998,10 @@ extension CleanRoomsClientTypes.Membership: Swift.Codable {
         memberAbilities = memberAbilitiesDecoded0
         let queryLogStatusDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.MembershipQueryLogStatus.self, forKey: .queryLogStatus)
         queryLogStatus = queryLogStatusDecoded
+        let defaultResultConfigurationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration.self, forKey: .defaultResultConfiguration)
+        defaultResultConfiguration = defaultResultConfigurationDecoded
+        let paymentConfigurationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.MembershipPaymentConfiguration.self, forKey: .paymentConfiguration)
+        paymentConfiguration = paymentConfigurationDecoded
     }
 }
 
@@ -7705,16 +11029,21 @@ extension CleanRoomsClientTypes {
         /// The time when the membership was created.
         /// This member is required.
         public var createTime: ClientRuntime.Date?
+        /// The default protected query result configuration as specified by the member who can receive results.
+        public var defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration?
         /// The unique ID of the membership.
         /// This member is required.
         public var id: Swift.String?
         /// The abilities granted to the collaboration member.
         /// This member is required.
         public var memberAbilities: [CleanRoomsClientTypes.MemberAbility]?
-        /// An indicator as to whether query logging has been enabled or disabled for the collaboration.
+        /// The payment responsibilities accepted by the collaboration member.
+        /// This member is required.
+        public var paymentConfiguration: CleanRoomsClientTypes.MembershipPaymentConfiguration?
+        /// An indicator as to whether query logging has been enabled or disabled for the membership.
         /// This member is required.
         public var queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus?
-        /// The status of the membership. Valid values are `ACTIVE`, `REMOVED`, and `COLLABORATION_DELETED`.
+        /// The status of the membership.
         /// This member is required.
         public var status: CleanRoomsClientTypes.MembershipStatus?
         /// The time the membership metadata was last updated.
@@ -7729,8 +11058,10 @@ extension CleanRoomsClientTypes {
             collaborationId: Swift.String? = nil,
             collaborationName: Swift.String? = nil,
             createTime: ClientRuntime.Date? = nil,
+            defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration? = nil,
             id: Swift.String? = nil,
             memberAbilities: [CleanRoomsClientTypes.MemberAbility]? = nil,
+            paymentConfiguration: CleanRoomsClientTypes.MembershipPaymentConfiguration? = nil,
             queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus? = nil,
             status: CleanRoomsClientTypes.MembershipStatus? = nil,
             updateTime: ClientRuntime.Date? = nil
@@ -7743,11 +11074,172 @@ extension CleanRoomsClientTypes {
             self.collaborationId = collaborationId
             self.collaborationName = collaborationName
             self.createTime = createTime
+            self.defaultResultConfiguration = defaultResultConfiguration
             self.id = id
             self.memberAbilities = memberAbilities
+            self.paymentConfiguration = paymentConfiguration
             self.queryLogStatus = queryLogStatus
             self.status = status
             self.updateTime = updateTime
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.MembershipPaymentConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case queryCompute
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let queryCompute = self.queryCompute {
+            try encodeContainer.encode(queryCompute, forKey: .queryCompute)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let queryComputeDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.MembershipQueryComputePaymentConfig.self, forKey: .queryCompute)
+        queryCompute = queryComputeDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// An object representing the payment responsibilities accepted by the collaboration member.
+    public struct MembershipPaymentConfiguration: Swift.Equatable {
+        /// The payment responsibilities accepted by the collaboration member for query compute costs.
+        /// This member is required.
+        public var queryCompute: CleanRoomsClientTypes.MembershipQueryComputePaymentConfig?
+
+        public init(
+            queryCompute: CleanRoomsClientTypes.MembershipQueryComputePaymentConfig? = nil
+        )
+        {
+            self.queryCompute = queryCompute
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.MembershipProtectedQueryOutputConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .s3(s3):
+                try container.encode(s3, forKey: .s3)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let s3Decoded = try values.decodeIfPresent(CleanRoomsClientTypes.ProtectedQueryS3OutputConfiguration.self, forKey: .s3)
+        if let s3 = s3Decoded {
+            self = .s3(s3)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// Contains configurations for protected query results.
+    public enum MembershipProtectedQueryOutputConfiguration: Swift.Equatable {
+        /// Contains the configuration to write the query results to S3.
+        case s3(CleanRoomsClientTypes.ProtectedQueryS3OutputConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case outputConfiguration
+        case roleArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let outputConfiguration = self.outputConfiguration {
+            try encodeContainer.encode(outputConfiguration, forKey: .outputConfiguration)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let outputConfigurationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.MembershipProtectedQueryOutputConfiguration.self, forKey: .outputConfiguration)
+        outputConfiguration = outputConfigurationDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// Contains configurations for protected query results.
+    public struct MembershipProtectedQueryResultConfiguration: Swift.Equatable {
+        /// Configuration for protected query results.
+        /// This member is required.
+        public var outputConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryOutputConfiguration?
+        /// The unique ARN for an IAM role that is used by Clean Rooms to write protected query results to the result location, given by the member who can receive results.
+        public var roleArn: Swift.String?
+
+        public init(
+            outputConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryOutputConfiguration? = nil,
+            roleArn: Swift.String? = nil
+        )
+        {
+            self.outputConfiguration = outputConfiguration
+            self.roleArn = roleArn
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.MembershipQueryComputePaymentConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case isResponsible
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let isResponsible = self.isResponsible {
+            try encodeContainer.encode(isResponsible, forKey: .isResponsible)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let isResponsibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isResponsible)
+        isResponsible = isResponsibleDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// An object representing the payment responsibilities accepted by the collaboration member for query compute costs.
+    public struct MembershipQueryComputePaymentConfig: Swift.Equatable {
+        /// Indicates whether the collaboration member has accepted to pay for query compute costs (TRUE) or has not accepted to pay for query compute costs (FALSE). If the collaboration creator has not specified anyone to pay for query compute costs, then the member who can query is the default payer. An error message is returned for the following reasons:
+        ///
+        /// * If you set the value to FALSE but you are responsible to pay for query compute costs.
+        ///
+        /// * If you set the value to TRUE but you are not responsible to pay for query compute costs.
+        /// This member is required.
+        public var isResponsible: Swift.Bool?
+
+        public init(
+            isResponsible: Swift.Bool? = nil
+        )
+        {
+            self.isResponsible = isResponsible
         }
     }
 
@@ -7831,6 +11323,7 @@ extension CleanRoomsClientTypes.MembershipSummary: Swift.Codable {
         case createTime
         case id
         case memberAbilities
+        case paymentConfiguration
         case status
         case updateTime
     }
@@ -7866,6 +11359,9 @@ extension CleanRoomsClientTypes.MembershipSummary: Swift.Codable {
             for memberability0 in memberAbilities {
                 try memberAbilitiesContainer.encode(memberability0.rawValue)
             }
+        }
+        if let paymentConfiguration = self.paymentConfiguration {
+            try encodeContainer.encode(paymentConfiguration, forKey: .paymentConfiguration)
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
@@ -7908,6 +11404,8 @@ extension CleanRoomsClientTypes.MembershipSummary: Swift.Codable {
             }
         }
         memberAbilities = memberAbilitiesDecoded0
+        let paymentConfigurationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.MembershipPaymentConfiguration.self, forKey: .paymentConfiguration)
+        paymentConfiguration = paymentConfigurationDecoded
     }
 }
 
@@ -7941,7 +11439,10 @@ extension CleanRoomsClientTypes {
         /// The abilities granted to the collaboration member.
         /// This member is required.
         public var memberAbilities: [CleanRoomsClientTypes.MemberAbility]?
-        /// The status of the membership. Valid values are `ACTIVE`, `REMOVED`, and `COLLABORATION_DELETED`.
+        /// The payment responsibilities accepted by the collaboration member.
+        /// This member is required.
+        public var paymentConfiguration: CleanRoomsClientTypes.MembershipPaymentConfiguration?
+        /// The status of the membership.
         /// This member is required.
         public var status: CleanRoomsClientTypes.MembershipStatus?
         /// The time the membership metadata was last updated.
@@ -7958,6 +11459,7 @@ extension CleanRoomsClientTypes {
             createTime: ClientRuntime.Date? = nil,
             id: Swift.String? = nil,
             memberAbilities: [CleanRoomsClientTypes.MemberAbility]? = nil,
+            paymentConfiguration: CleanRoomsClientTypes.MembershipPaymentConfiguration? = nil,
             status: CleanRoomsClientTypes.MembershipStatus? = nil,
             updateTime: ClientRuntime.Date? = nil
         )
@@ -7971,6 +11473,7 @@ extension CleanRoomsClientTypes {
             self.createTime = createTime
             self.id = id
             self.memberAbilities = memberAbilities
+            self.paymentConfiguration = paymentConfiguration
             self.status = status
             self.updateTime = updateTime
         }
@@ -8049,9 +11552,857 @@ extension CleanRoomsClientTypes {
     }
 }
 
+extension CleanRoomsClientTypes.PaymentConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case queryCompute
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let queryCompute = self.queryCompute {
+            try encodeContainer.encode(queryCompute, forKey: .queryCompute)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let queryComputeDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.QueryComputePaymentConfig.self, forKey: .queryCompute)
+        queryCompute = queryComputeDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// An object representing the collaboration member's payment responsibilities set by the collaboration creator.
+    public struct PaymentConfiguration: Swift.Equatable {
+        /// The collaboration member's payment responsibilities set by the collaboration creator for query compute costs.
+        /// This member is required.
+        public var queryCompute: CleanRoomsClientTypes.QueryComputePaymentConfig?
+
+        public init(
+            queryCompute: CleanRoomsClientTypes.QueryComputePaymentConfig? = nil
+        )
+        {
+            self.queryCompute = queryCompute
+        }
+    }
+
+}
+
+extension PreviewPrivacyImpactInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case parameters
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let parameters = self.parameters {
+            try encodeContainer.encode(parameters, forKey: .parameters)
+        }
+    }
+}
+
+extension PreviewPrivacyImpactInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let membershipIdentifier = membershipIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/previewprivacyimpact"
+    }
+}
+
+public struct PreviewPrivacyImpactInput: Swift.Equatable {
+    /// A unique identifier for one of your memberships for a collaboration. Accepts a membership ID.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+    /// Specifies the desired epsilon and noise parameters to preview.
+    /// This member is required.
+    public var parameters: CleanRoomsClientTypes.PreviewPrivacyImpactParametersInput?
+
+    public init(
+        membershipIdentifier: Swift.String? = nil,
+        parameters: CleanRoomsClientTypes.PreviewPrivacyImpactParametersInput? = nil
+    )
+    {
+        self.membershipIdentifier = membershipIdentifier
+        self.parameters = parameters
+    }
+}
+
+struct PreviewPrivacyImpactInputBody: Swift.Equatable {
+    let parameters: CleanRoomsClientTypes.PreviewPrivacyImpactParametersInput?
+}
+
+extension PreviewPrivacyImpactInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case parameters
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let parametersDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PreviewPrivacyImpactParametersInput.self, forKey: .parameters)
+        parameters = parametersDecoded
+    }
+}
+
+extension PreviewPrivacyImpactOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PreviewPrivacyImpactOutputBody = try responseDecoder.decode(responseBody: data)
+            self.privacyImpact = output.privacyImpact
+        } else {
+            self.privacyImpact = nil
+        }
+    }
+}
+
+public struct PreviewPrivacyImpactOutput: Swift.Equatable {
+    /// An estimate of the number of aggregation functions that the member who can query can run given the epsilon and noise parameters. This does not change the privacy budget.
+    /// This member is required.
+    public var privacyImpact: CleanRoomsClientTypes.PrivacyImpact?
+
+    public init(
+        privacyImpact: CleanRoomsClientTypes.PrivacyImpact? = nil
+    )
+    {
+        self.privacyImpact = privacyImpact
+    }
+}
+
+struct PreviewPrivacyImpactOutputBody: Swift.Equatable {
+    let privacyImpact: CleanRoomsClientTypes.PrivacyImpact?
+}
+
+extension PreviewPrivacyImpactOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case privacyImpact
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let privacyImpactDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PrivacyImpact.self, forKey: .privacyImpact)
+        privacyImpact = privacyImpactDecoded
+    }
+}
+
+enum PreviewPrivacyImpactOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.PreviewPrivacyImpactParametersInput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case differentialprivacy = "differentialPrivacy"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .differentialprivacy(differentialprivacy):
+                try container.encode(differentialprivacy, forKey: .differentialprivacy)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let differentialprivacyDecoded = try values.decodeIfPresent(CleanRoomsClientTypes.DifferentialPrivacyPreviewParametersInput.self, forKey: .differentialprivacy)
+        if let differentialprivacy = differentialprivacyDecoded {
+            self = .differentialprivacy(differentialprivacy)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// Specifies the updated epsilon and noise parameters to preview. The preview allows you to see how the maximum number of each type of aggregation function would change with the new parameters.
+    public enum PreviewPrivacyImpactParametersInput: Swift.Equatable {
+        /// An array that specifies the epsilon and noise parameters.
+        case differentialprivacy(CleanRoomsClientTypes.DifferentialPrivacyPreviewParametersInput)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension CleanRoomsClientTypes.PrivacyBudget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case differentialprivacy = "differentialPrivacy"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .differentialprivacy(differentialprivacy):
+                try container.encode(differentialprivacy, forKey: .differentialprivacy)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let differentialprivacyDecoded = try values.decodeIfPresent(CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudget.self, forKey: .differentialprivacy)
+        if let differentialprivacy = differentialprivacyDecoded {
+            self = .differentialprivacy(differentialprivacy)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// The epsilon parameter value and number of each aggregation function that you can perform.
+    public enum PrivacyBudget: Swift.Equatable {
+        /// An object that specifies the epsilon parameter and the utility in terms of total aggregations, as well as the remaining aggregations available.
+        case differentialprivacy(CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudget)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension CleanRoomsClientTypes.PrivacyBudgetSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case budget
+        case collaborationArn
+        case collaborationId
+        case createTime
+        case id
+        case membershipArn
+        case membershipId
+        case privacyBudgetTemplateArn
+        case privacyBudgetTemplateId
+        case type
+        case updateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let budget = self.budget {
+            try encodeContainer.encode(budget, forKey: .budget)
+        }
+        if let collaborationArn = self.collaborationArn {
+            try encodeContainer.encode(collaborationArn, forKey: .collaborationArn)
+        }
+        if let collaborationId = self.collaborationId {
+            try encodeContainer.encode(collaborationId, forKey: .collaborationId)
+        }
+        if let createTime = self.createTime {
+            try encodeContainer.encodeTimestamp(createTime, format: .epochSeconds, forKey: .createTime)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let membershipArn = self.membershipArn {
+            try encodeContainer.encode(membershipArn, forKey: .membershipArn)
+        }
+        if let membershipId = self.membershipId {
+            try encodeContainer.encode(membershipId, forKey: .membershipId)
+        }
+        if let privacyBudgetTemplateArn = self.privacyBudgetTemplateArn {
+            try encodeContainer.encode(privacyBudgetTemplateArn, forKey: .privacyBudgetTemplateArn)
+        }
+        if let privacyBudgetTemplateId = self.privacyBudgetTemplateId {
+            try encodeContainer.encode(privacyBudgetTemplateId, forKey: .privacyBudgetTemplateId)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+        if let updateTime = self.updateTime {
+            try encodeContainer.encodeTimestamp(updateTime, format: .epochSeconds, forKey: .updateTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let privacyBudgetTemplateIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .privacyBudgetTemplateId)
+        privacyBudgetTemplateId = privacyBudgetTemplateIdDecoded
+        let privacyBudgetTemplateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .privacyBudgetTemplateArn)
+        privacyBudgetTemplateArn = privacyBudgetTemplateArnDecoded
+        let membershipIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .membershipId)
+        membershipId = membershipIdDecoded
+        let membershipArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .membershipArn)
+        membershipArn = membershipArnDecoded
+        let collaborationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationId)
+        collaborationId = collaborationIdDecoded
+        let collaborationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationArn)
+        collaborationArn = collaborationArnDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PrivacyBudgetType.self, forKey: .type)
+        type = typeDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createTime)
+        createTime = createTimeDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+        let budgetDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PrivacyBudget.self, forKey: .budget)
+        budget = budgetDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// An array that summaries the specified privacy budget. This summary includes collaboration information, creation information, membership information, and privacy budget information.
+    public struct PrivacyBudgetSummary: Swift.Equatable {
+        /// The provided privacy budget.
+        /// This member is required.
+        public var budget: CleanRoomsClientTypes.PrivacyBudget?
+        /// The ARN of the collaboration that contains this privacy budget.
+        /// This member is required.
+        public var collaborationArn: Swift.String?
+        /// The unique identifier of the collaboration that contains this privacy budget.
+        /// This member is required.
+        public var collaborationId: Swift.String?
+        /// The time at which the privacy budget was created.
+        /// This member is required.
+        public var createTime: ClientRuntime.Date?
+        /// The unique identifier of the privacy budget.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The Amazon Resource Name (ARN) of the member who created the privacy budget summary.
+        /// This member is required.
+        public var membershipArn: Swift.String?
+        /// The identifier for a membership resource.
+        /// This member is required.
+        public var membershipId: Swift.String?
+        /// The ARN of the privacy budget template.
+        /// This member is required.
+        public var privacyBudgetTemplateArn: Swift.String?
+        /// The unique identifier of the privacy budget template.
+        /// This member is required.
+        public var privacyBudgetTemplateId: Swift.String?
+        /// Specifies the type of the privacy budget.
+        /// This member is required.
+        public var type: CleanRoomsClientTypes.PrivacyBudgetType?
+        /// The most recent time at which the privacy budget was updated.
+        /// This member is required.
+        public var updateTime: ClientRuntime.Date?
+
+        public init(
+            budget: CleanRoomsClientTypes.PrivacyBudget? = nil,
+            collaborationArn: Swift.String? = nil,
+            collaborationId: Swift.String? = nil,
+            createTime: ClientRuntime.Date? = nil,
+            id: Swift.String? = nil,
+            membershipArn: Swift.String? = nil,
+            membershipId: Swift.String? = nil,
+            privacyBudgetTemplateArn: Swift.String? = nil,
+            privacyBudgetTemplateId: Swift.String? = nil,
+            type: CleanRoomsClientTypes.PrivacyBudgetType? = nil,
+            updateTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.budget = budget
+            self.collaborationArn = collaborationArn
+            self.collaborationId = collaborationId
+            self.createTime = createTime
+            self.id = id
+            self.membershipArn = membershipArn
+            self.membershipId = membershipId
+            self.privacyBudgetTemplateArn = privacyBudgetTemplateArn
+            self.privacyBudgetTemplateId = privacyBudgetTemplateId
+            self.type = type
+            self.updateTime = updateTime
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.PrivacyBudgetTemplate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case autoRefresh
+        case collaborationArn
+        case collaborationId
+        case createTime
+        case id
+        case membershipArn
+        case membershipId
+        case parameters
+        case privacyBudgetType
+        case updateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let autoRefresh = self.autoRefresh {
+            try encodeContainer.encode(autoRefresh.rawValue, forKey: .autoRefresh)
+        }
+        if let collaborationArn = self.collaborationArn {
+            try encodeContainer.encode(collaborationArn, forKey: .collaborationArn)
+        }
+        if let collaborationId = self.collaborationId {
+            try encodeContainer.encode(collaborationId, forKey: .collaborationId)
+        }
+        if let createTime = self.createTime {
+            try encodeContainer.encodeTimestamp(createTime, format: .epochSeconds, forKey: .createTime)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let membershipArn = self.membershipArn {
+            try encodeContainer.encode(membershipArn, forKey: .membershipArn)
+        }
+        if let membershipId = self.membershipId {
+            try encodeContainer.encode(membershipId, forKey: .membershipId)
+        }
+        if let parameters = self.parameters {
+            try encodeContainer.encode(parameters, forKey: .parameters)
+        }
+        if let privacyBudgetType = self.privacyBudgetType {
+            try encodeContainer.encode(privacyBudgetType.rawValue, forKey: .privacyBudgetType)
+        }
+        if let updateTime = self.updateTime {
+            try encodeContainer.encodeTimestamp(updateTime, format: .epochSeconds, forKey: .updateTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let membershipIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .membershipId)
+        membershipId = membershipIdDecoded
+        let membershipArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .membershipArn)
+        membershipArn = membershipArnDecoded
+        let collaborationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationId)
+        collaborationId = collaborationIdDecoded
+        let collaborationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationArn)
+        collaborationArn = collaborationArnDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createTime)
+        createTime = createTimeDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+        let privacyBudgetTypeDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PrivacyBudgetType.self, forKey: .privacyBudgetType)
+        privacyBudgetType = privacyBudgetTypeDecoded
+        let autoRefreshDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PrivacyBudgetTemplateAutoRefresh.self, forKey: .autoRefresh)
+        autoRefresh = autoRefreshDecoded
+        let parametersDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PrivacyBudgetTemplateParametersOutput.self, forKey: .parameters)
+        parameters = parametersDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// An object that defines the privacy budget template.
+    public struct PrivacyBudgetTemplate: Swift.Equatable {
+        /// The ARN of the privacy budget template.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// How often the privacy budget refreshes. If you plan to regularly bring new data into the collaboration, use CALENDAR_MONTH to automatically get a new privacy budget for the collaboration every calendar month. Choosing this option allows arbitrary amounts of information to be revealed about rows of the data when repeatedly queried across refreshes. Avoid choosing this if the same rows will be repeatedly queried between privacy budget refreshes.
+        /// This member is required.
+        public var autoRefresh: CleanRoomsClientTypes.PrivacyBudgetTemplateAutoRefresh?
+        /// The ARN of the collaboration that contains this privacy budget template.
+        /// This member is required.
+        public var collaborationArn: Swift.String?
+        /// The unique ID of the collaboration that contains this privacy budget template.
+        /// This member is required.
+        public var collaborationId: Swift.String?
+        /// The time at which the privacy budget template was created.
+        /// This member is required.
+        public var createTime: ClientRuntime.Date?
+        /// The unique identifier of the privacy budget template.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The Amazon Resource Name (ARN) of the member who created the privacy budget template.
+        /// This member is required.
+        public var membershipArn: Swift.String?
+        /// The identifier for a membership resource.
+        /// This member is required.
+        public var membershipId: Swift.String?
+        /// Specifies the epislon and noise parameters for the privacy budget template.
+        /// This member is required.
+        public var parameters: CleanRoomsClientTypes.PrivacyBudgetTemplateParametersOutput?
+        /// Specifies the type of the privacy budget template.
+        /// This member is required.
+        public var privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType?
+        /// The most recent time at which the privacy budget template was updated.
+        /// This member is required.
+        public var updateTime: ClientRuntime.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            autoRefresh: CleanRoomsClientTypes.PrivacyBudgetTemplateAutoRefresh? = nil,
+            collaborationArn: Swift.String? = nil,
+            collaborationId: Swift.String? = nil,
+            createTime: ClientRuntime.Date? = nil,
+            id: Swift.String? = nil,
+            membershipArn: Swift.String? = nil,
+            membershipId: Swift.String? = nil,
+            parameters: CleanRoomsClientTypes.PrivacyBudgetTemplateParametersOutput? = nil,
+            privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType? = nil,
+            updateTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.arn = arn
+            self.autoRefresh = autoRefresh
+            self.collaborationArn = collaborationArn
+            self.collaborationId = collaborationId
+            self.createTime = createTime
+            self.id = id
+            self.membershipArn = membershipArn
+            self.membershipId = membershipId
+            self.parameters = parameters
+            self.privacyBudgetType = privacyBudgetType
+            self.updateTime = updateTime
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes {
+    public enum PrivacyBudgetTemplateAutoRefresh: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case calendarMonth
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PrivacyBudgetTemplateAutoRefresh] {
+            return [
+                .calendarMonth,
+                .none,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .calendarMonth: return "CALENDAR_MONTH"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PrivacyBudgetTemplateAutoRefresh(rawValue: rawValue) ?? PrivacyBudgetTemplateAutoRefresh.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.PrivacyBudgetTemplateParametersInput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case differentialprivacy = "differentialPrivacy"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .differentialprivacy(differentialprivacy):
+                try container.encode(differentialprivacy, forKey: .differentialprivacy)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let differentialprivacyDecoded = try values.decodeIfPresent(CleanRoomsClientTypes.DifferentialPrivacyTemplateParametersInput.self, forKey: .differentialprivacy)
+        if let differentialprivacy = differentialprivacyDecoded {
+            self = .differentialprivacy(differentialprivacy)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// The epsilon and noise parameters that you want to use for the privacy budget template.
+    public enum PrivacyBudgetTemplateParametersInput: Swift.Equatable {
+        /// An object that specifies the epsilon and noise parameters.
+        case differentialprivacy(CleanRoomsClientTypes.DifferentialPrivacyTemplateParametersInput)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension CleanRoomsClientTypes.PrivacyBudgetTemplateParametersOutput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case differentialprivacy = "differentialPrivacy"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .differentialprivacy(differentialprivacy):
+                try container.encode(differentialprivacy, forKey: .differentialprivacy)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let differentialprivacyDecoded = try values.decodeIfPresent(CleanRoomsClientTypes.DifferentialPrivacyTemplateParametersOutput.self, forKey: .differentialprivacy)
+        if let differentialprivacy = differentialprivacyDecoded {
+            self = .differentialprivacy(differentialprivacy)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// The epsilon and noise parameters that were used in the privacy budget template.
+    public enum PrivacyBudgetTemplateParametersOutput: Swift.Equatable {
+        /// The epsilon and noise parameters.
+        case differentialprivacy(CleanRoomsClientTypes.DifferentialPrivacyTemplateParametersOutput)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension CleanRoomsClientTypes.PrivacyBudgetTemplateSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case collaborationArn
+        case collaborationId
+        case createTime
+        case id
+        case membershipArn
+        case membershipId
+        case privacyBudgetType
+        case updateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let collaborationArn = self.collaborationArn {
+            try encodeContainer.encode(collaborationArn, forKey: .collaborationArn)
+        }
+        if let collaborationId = self.collaborationId {
+            try encodeContainer.encode(collaborationId, forKey: .collaborationId)
+        }
+        if let createTime = self.createTime {
+            try encodeContainer.encodeTimestamp(createTime, format: .epochSeconds, forKey: .createTime)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let membershipArn = self.membershipArn {
+            try encodeContainer.encode(membershipArn, forKey: .membershipArn)
+        }
+        if let membershipId = self.membershipId {
+            try encodeContainer.encode(membershipId, forKey: .membershipId)
+        }
+        if let privacyBudgetType = self.privacyBudgetType {
+            try encodeContainer.encode(privacyBudgetType.rawValue, forKey: .privacyBudgetType)
+        }
+        if let updateTime = self.updateTime {
+            try encodeContainer.encodeTimestamp(updateTime, format: .epochSeconds, forKey: .updateTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let membershipIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .membershipId)
+        membershipId = membershipIdDecoded
+        let membershipArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .membershipArn)
+        membershipArn = membershipArnDecoded
+        let collaborationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationId)
+        collaborationId = collaborationIdDecoded
+        let collaborationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationArn)
+        collaborationArn = collaborationArnDecoded
+        let privacyBudgetTypeDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PrivacyBudgetType.self, forKey: .privacyBudgetType)
+        privacyBudgetType = privacyBudgetTypeDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createTime)
+        createTime = createTimeDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// A summary of the privacy budget template. The summary includes membership information, collaboration information, and creation information.
+    public struct PrivacyBudgetTemplateSummary: Swift.Equatable {
+        /// The ARN of the privacy budget template.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The ARN of the collaboration that contains this privacy budget template.
+        /// This member is required.
+        public var collaborationArn: Swift.String?
+        /// The unique ID of the collaboration that contains this privacy budget template.
+        /// This member is required.
+        public var collaborationId: Swift.String?
+        /// The time at which the privacy budget template was created.
+        /// This member is required.
+        public var createTime: ClientRuntime.Date?
+        /// The unique identifier of the privacy budget template.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The Amazon Resource Name (ARN) of the member who created the privacy budget template.
+        /// This member is required.
+        public var membershipArn: Swift.String?
+        /// The identifier for a membership resource.
+        /// This member is required.
+        public var membershipId: Swift.String?
+        /// The type of the privacy budget template.
+        /// This member is required.
+        public var privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType?
+        /// The most recent time at which the privacy budget template was updated.
+        /// This member is required.
+        public var updateTime: ClientRuntime.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            collaborationArn: Swift.String? = nil,
+            collaborationId: Swift.String? = nil,
+            createTime: ClientRuntime.Date? = nil,
+            id: Swift.String? = nil,
+            membershipArn: Swift.String? = nil,
+            membershipId: Swift.String? = nil,
+            privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType? = nil,
+            updateTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.arn = arn
+            self.collaborationArn = collaborationArn
+            self.collaborationId = collaborationId
+            self.createTime = createTime
+            self.id = id
+            self.membershipArn = membershipArn
+            self.membershipId = membershipId
+            self.privacyBudgetType = privacyBudgetType
+            self.updateTime = updateTime
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.PrivacyBudgetTemplateUpdateParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case differentialprivacy = "differentialPrivacy"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .differentialprivacy(differentialprivacy):
+                try container.encode(differentialprivacy, forKey: .differentialprivacy)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let differentialprivacyDecoded = try values.decodeIfPresent(CleanRoomsClientTypes.DifferentialPrivacyTemplateUpdateParameters.self, forKey: .differentialprivacy)
+        if let differentialprivacy = differentialprivacyDecoded {
+            self = .differentialprivacy(differentialprivacy)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// The epsilon and noise parameters that you want to update in the privacy budget template.
+    public enum PrivacyBudgetTemplateUpdateParameters: Swift.Equatable {
+        /// An object that specifies the new values for the epsilon and noise parameters.
+        case differentialprivacy(CleanRoomsClientTypes.DifferentialPrivacyTemplateUpdateParameters)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension CleanRoomsClientTypes {
+    public enum PrivacyBudgetType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case differentialPrivacy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PrivacyBudgetType] {
+            return [
+                .differentialPrivacy,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .differentialPrivacy: return "DIFFERENTIAL_PRIVACY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PrivacyBudgetType(rawValue: rawValue) ?? PrivacyBudgetType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.PrivacyImpact: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case differentialprivacy = "differentialPrivacy"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .differentialprivacy(differentialprivacy):
+                try container.encode(differentialprivacy, forKey: .differentialprivacy)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let differentialprivacyDecoded = try values.decodeIfPresent(CleanRoomsClientTypes.DifferentialPrivacyPrivacyImpact.self, forKey: .differentialprivacy)
+        if let differentialprivacy = differentialprivacyDecoded {
+            self = .differentialprivacy(differentialprivacy)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// Provides an estimate of the number of aggregation functions that the member who can query can run given the epsilon and noise parameters.
+    public enum PrivacyImpact: Swift.Equatable {
+        /// An object that lists the number and type of aggregation functions you can perform.
+        case differentialprivacy(CleanRoomsClientTypes.DifferentialPrivacyPrivacyImpact)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
 extension CleanRoomsClientTypes.ProtectedQuery: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createTime
+        case differentialPrivacy
         case error
         case id
         case membershipArn
@@ -8067,6 +12418,9 @@ extension CleanRoomsClientTypes.ProtectedQuery: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let createTime = self.createTime {
             try encodeContainer.encodeTimestamp(createTime, format: .epochSeconds, forKey: .createTime)
+        }
+        if let differentialPrivacy = self.differentialPrivacy {
+            try encodeContainer.encode(differentialPrivacy, forKey: .differentialPrivacy)
         }
         if let error = self.error {
             try encodeContainer.encode(error, forKey: .error)
@@ -8119,12 +12473,14 @@ extension CleanRoomsClientTypes.ProtectedQuery: Swift.Codable {
         result = resultDecoded
         let errorDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.ProtectedQueryError.self, forKey: .error)
         error = errorDecoded
+        let differentialPrivacyDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.DifferentialPrivacyParameters.self, forKey: .differentialPrivacy)
+        differentialPrivacy = differentialPrivacyDecoded
     }
 }
 
 extension CleanRoomsClientTypes.ProtectedQuery: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ProtectedQuery(createTime: \(Swift.String(describing: createTime)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), membershipArn: \(Swift.String(describing: membershipArn)), membershipId: \(Swift.String(describing: membershipId)), result: \(Swift.String(describing: result)), resultConfiguration: \(Swift.String(describing: resultConfiguration)), statistics: \(Swift.String(describing: statistics)), status: \(Swift.String(describing: status)), sqlParameters: \"CONTENT_REDACTED\")"}
+        "ProtectedQuery(createTime: \(Swift.String(describing: createTime)), differentialPrivacy: \(Swift.String(describing: differentialPrivacy)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), membershipArn: \(Swift.String(describing: membershipArn)), membershipId: \(Swift.String(describing: membershipId)), result: \(Swift.String(describing: result)), resultConfiguration: \(Swift.String(describing: resultConfiguration)), statistics: \(Swift.String(describing: statistics)), status: \(Swift.String(describing: status)), sqlParameters: \"CONTENT_REDACTED\")"}
 }
 
 extension CleanRoomsClientTypes {
@@ -8133,6 +12489,8 @@ extension CleanRoomsClientTypes {
         /// The time at which the protected query was created.
         /// This member is required.
         public var createTime: ClientRuntime.Date?
+        /// The sensitivity parameters of the differential privacy results of the protected query.
+        public var differentialPrivacy: CleanRoomsClientTypes.DifferentialPrivacyParameters?
         /// An error thrown by the protected query.
         public var error: CleanRoomsClientTypes.ProtectedQueryError?
         /// The identifier for a protected query instance.
@@ -8147,10 +12505,8 @@ extension CleanRoomsClientTypes {
         /// The result of the protected query.
         public var result: CleanRoomsClientTypes.ProtectedQueryResult?
         /// Contains any details needed to write the query results.
-        /// This member is required.
         public var resultConfiguration: CleanRoomsClientTypes.ProtectedQueryResultConfiguration?
         /// The protected query SQL parameters.
-        /// This member is required.
         public var sqlParameters: CleanRoomsClientTypes.ProtectedQuerySQLParameters?
         /// Statistics about protected query execution.
         public var statistics: CleanRoomsClientTypes.ProtectedQueryStatistics?
@@ -8160,6 +12516,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             createTime: ClientRuntime.Date? = nil,
+            differentialPrivacy: CleanRoomsClientTypes.DifferentialPrivacyParameters? = nil,
             error: CleanRoomsClientTypes.ProtectedQueryError? = nil,
             id: Swift.String? = nil,
             membershipArn: Swift.String? = nil,
@@ -8172,6 +12529,7 @@ extension CleanRoomsClientTypes {
         )
         {
             self.createTime = createTime
+            self.differentialPrivacy = differentialPrivacy
             self.error = error
             self.id = id
             self.membershipArn = membershipArn
@@ -8235,6 +12593,7 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes.ProtectedQueryOutput: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case memberlist = "memberList"
         case s3
         case sdkUnknown
     }
@@ -8242,6 +12601,11 @@ extension CleanRoomsClientTypes.ProtectedQueryOutput: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
+            case let .memberlist(memberlist):
+                var memberlistContainer = container.nestedUnkeyedContainer(forKey: .memberlist)
+                for protectedquerysinglememberoutput0 in memberlist {
+                    try memberlistContainer.encode(protectedquerysinglememberoutput0)
+                }
             case let .s3(s3):
                 try container.encode(s3, forKey: .s3)
             case let .sdkUnknown(sdkUnknown):
@@ -8256,6 +12620,20 @@ extension CleanRoomsClientTypes.ProtectedQueryOutput: Swift.Codable {
             self = .s3(s3)
             return
         }
+        let memberlistContainer = try values.decodeIfPresent([CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput?].self, forKey: .memberlist)
+        var memberlistDecoded0:[CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput]? = nil
+        if let memberlistContainer = memberlistContainer {
+            memberlistDecoded0 = [CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput]()
+            for structure0 in memberlistContainer {
+                if let structure0 = structure0 {
+                    memberlistDecoded0?.append(structure0)
+                }
+            }
+        }
+        if let memberlist = memberlistDecoded0 {
+            self = .memberlist(memberlist)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -8265,6 +12643,8 @@ extension CleanRoomsClientTypes {
     public enum ProtectedQueryOutput: Swift.Equatable {
         /// If present, the output for a protected query with an `S3` output type.
         case s3(CleanRoomsClientTypes.ProtectedQueryS3Output)
+        /// The list of member Amazon Web Services account(s) that received the results of the query.
+        case memberlist([CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput])
         case sdkUnknown(Swift.String)
     }
 
@@ -8545,6 +12925,42 @@ extension CleanRoomsClientTypes {
 
 }
 
+extension CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// Details about the member who received the query result.
+    public struct ProtectedQuerySingleMemberOutput: Swift.Equatable {
+        /// The Amazon Web Services account ID of the member in the collaboration who can receive results for the query.
+        /// This member is required.
+        public var accountId: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil
+        )
+        {
+            self.accountId = accountId
+        }
+    }
+
+}
+
 extension CleanRoomsClientTypes.ProtectedQueryStatistics: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case totalDurationInMillis
@@ -8734,6 +13150,42 @@ extension CleanRoomsClientTypes {
             self = ProtectedQueryType(rawValue: rawValue) ?? ProtectedQueryType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension CleanRoomsClientTypes.QueryComputePaymentConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case isResponsible
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let isResponsible = self.isResponsible {
+            try encodeContainer.encode(isResponsible, forKey: .isResponsible)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let isResponsibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isResponsible)
+        isResponsible = isResponsibleDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// An object representing the collaboration member's payment responsibilities set by the collaboration creator for query compute costs.
+    public struct QueryComputePaymentConfig: Swift.Equatable {
+        /// Indicates whether the collaboration creator has configured the collaboration member to pay for query compute costs (TRUE) or has not configured the collaboration member to pay for query compute costs (FALSE). Exactly one member can be configured to pay for query compute costs. An error is returned if the collaboration creator sets a TRUE value for more than one member in the collaboration. If the collaboration creator hasn't specified anyone as the member paying for query compute costs, then the member who can query is the default payer. An error is returned if the collaboration creator sets a FALSE value for the member who can query.
+        /// This member is required.
+        public var isResponsible: Swift.Bool?
+
+        public init(
+            isResponsible: Swift.Bool? = nil
+        )
+        {
+            self.isResponsible = isResponsible
+        }
+    }
+
 }
 
 extension ResourceNotFoundException {
@@ -9423,7 +13875,6 @@ public struct StartProtectedQueryInput: Swift.Equatable {
     /// This member is required.
     public var membershipIdentifier: Swift.String?
     /// The details needed to write the query results.
-    /// This member is required.
     public var resultConfiguration: CleanRoomsClientTypes.ProtectedQueryResultConfiguration?
     /// The protected SQL query parameters.
     /// This member is required.
@@ -9470,27 +13921,11 @@ extension StartProtectedQueryInputBody: Swift.Decodable {
     }
 }
 
-public enum StartProtectedQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartProtectedQueryOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartProtectedQueryOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartProtectedQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartProtectedQueryOutputBody = try responseDecoder.decode(responseBody: data)
             self.protectedQuery = output.protectedQuery
         } else {
             self.protectedQuery = nil
@@ -9498,7 +13933,7 @@ extension StartProtectedQueryOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartProtectedQueryOutputResponse: Swift.Equatable {
+public struct StartProtectedQueryOutput: Swift.Equatable {
     /// The protected query.
     /// This member is required.
     public var protectedQuery: CleanRoomsClientTypes.ProtectedQuery?
@@ -9511,11 +13946,11 @@ public struct StartProtectedQueryOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartProtectedQueryOutputResponseBody: Swift.Equatable {
+struct StartProtectedQueryOutputBody: Swift.Equatable {
     let protectedQuery: CleanRoomsClientTypes.ProtectedQuery?
 }
 
-extension StartProtectedQueryOutputResponseBody: Swift.Decodable {
+extension StartProtectedQueryOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case protectedQuery
     }
@@ -9524,6 +13959,22 @@ extension StartProtectedQueryOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let protectedQueryDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.ProtectedQuery.self, forKey: .protectedQuery)
         protectedQuery = protectedQueryDecoded
+    }
+}
+
+enum StartProtectedQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9632,8 +14083,18 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -9642,16 +14103,6 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CleanRoomsClientTypes {
@@ -9791,8 +14242,18 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -9801,16 +14262,6 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateAnalysisTemplateInput: Swift.Encodable {
@@ -9876,26 +14327,11 @@ extension UpdateAnalysisTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateAnalysisTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateAnalysisTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateAnalysisTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateAnalysisTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateAnalysisTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.analysisTemplate = output.analysisTemplate
         } else {
             self.analysisTemplate = nil
@@ -9903,7 +14339,7 @@ extension UpdateAnalysisTemplateOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct UpdateAnalysisTemplateOutputResponse: Swift.Equatable {
+public struct UpdateAnalysisTemplateOutput: Swift.Equatable {
     /// The analysis template.
     /// This member is required.
     public var analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate?
@@ -9916,11 +14352,11 @@ public struct UpdateAnalysisTemplateOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateAnalysisTemplateOutputResponseBody: Swift.Equatable {
+struct UpdateAnalysisTemplateOutputBody: Swift.Equatable {
     let analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate?
 }
 
-extension UpdateAnalysisTemplateOutputResponseBody: Swift.Decodable {
+extension UpdateAnalysisTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case analysisTemplate
     }
@@ -9929,6 +14365,21 @@ extension UpdateAnalysisTemplateOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let analysisTemplateDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.AnalysisTemplate.self, forKey: .analysisTemplate)
         analysisTemplate = analysisTemplateDecoded
+    }
+}
+
+enum UpdateAnalysisTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9999,25 +14450,11 @@ extension UpdateCollaborationInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateCollaborationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateCollaborationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateCollaborationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateCollaborationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateCollaborationOutputBody = try responseDecoder.decode(responseBody: data)
             self.collaboration = output.collaboration
         } else {
             self.collaboration = nil
@@ -10025,7 +14462,7 @@ extension UpdateCollaborationOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCollaborationOutputResponse: Swift.Equatable {
+public struct UpdateCollaborationOutput: Swift.Equatable {
     /// The entire collaboration that has been updated.
     /// This member is required.
     public var collaboration: CleanRoomsClientTypes.Collaboration?
@@ -10038,11 +14475,11 @@ public struct UpdateCollaborationOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateCollaborationOutputResponseBody: Swift.Equatable {
+struct UpdateCollaborationOutputBody: Swift.Equatable {
     let collaboration: CleanRoomsClientTypes.Collaboration?
 }
 
-extension UpdateCollaborationOutputResponseBody: Swift.Decodable {
+extension UpdateCollaborationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case collaboration
     }
@@ -10051,6 +14488,151 @@ extension UpdateCollaborationOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let collaborationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.Collaboration.self, forKey: .collaboration)
         collaboration = collaborationDecoded
+    }
+}
+
+enum UpdateCollaborationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateConfiguredAudienceModelAssociationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension UpdateConfiguredAudienceModelAssociationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let membershipIdentifier = membershipIdentifier else {
+            return nil
+        }
+        guard let configuredAudienceModelAssociationIdentifier = configuredAudienceModelAssociationIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/configuredaudiencemodelassociations/\(configuredAudienceModelAssociationIdentifier.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateConfiguredAudienceModelAssociationInput: Swift.Equatable {
+    /// A unique identifier for the configured audience model association that you want to update.
+    /// This member is required.
+    public var configuredAudienceModelAssociationIdentifier: Swift.String?
+    /// A new description for the configured audience model association.
+    public var description: Swift.String?
+    /// A unique identifier of the membership that contains the configured audience model association that you want to update.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+    /// A new name for the configured audience model association.
+    public var name: Swift.String?
+
+    public init(
+        configuredAudienceModelAssociationIdentifier: Swift.String? = nil,
+        description: Swift.String? = nil,
+        membershipIdentifier: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.configuredAudienceModelAssociationIdentifier = configuredAudienceModelAssociationIdentifier
+        self.description = description
+        self.membershipIdentifier = membershipIdentifier
+        self.name = name
+    }
+}
+
+struct UpdateConfiguredAudienceModelAssociationInputBody: Swift.Equatable {
+    let description: Swift.String?
+    let name: Swift.String?
+}
+
+extension UpdateConfiguredAudienceModelAssociationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case name
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension UpdateConfiguredAudienceModelAssociationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateConfiguredAudienceModelAssociationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.configuredAudienceModelAssociation = output.configuredAudienceModelAssociation
+        } else {
+            self.configuredAudienceModelAssociation = nil
+        }
+    }
+}
+
+public struct UpdateConfiguredAudienceModelAssociationOutput: Swift.Equatable {
+    /// Details about the configured audience model association that you updated.
+    /// This member is required.
+    public var configuredAudienceModelAssociation: CleanRoomsClientTypes.ConfiguredAudienceModelAssociation?
+
+    public init(
+        configuredAudienceModelAssociation: CleanRoomsClientTypes.ConfiguredAudienceModelAssociation? = nil
+    )
+    {
+        self.configuredAudienceModelAssociation = configuredAudienceModelAssociation
+    }
+}
+
+struct UpdateConfiguredAudienceModelAssociationOutputBody: Swift.Equatable {
+    let configuredAudienceModelAssociation: CleanRoomsClientTypes.ConfiguredAudienceModelAssociation?
+}
+
+extension UpdateConfiguredAudienceModelAssociationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuredAudienceModelAssociation
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configuredAudienceModelAssociationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.ConfiguredAudienceModelAssociation.self, forKey: .configuredAudienceModelAssociation)
+        configuredAudienceModelAssociation = configuredAudienceModelAssociationDecoded
+    }
+}
+
+enum UpdateConfiguredAudienceModelAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10118,27 +14700,11 @@ extension UpdateConfiguredTableAnalysisRuleInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateConfiguredTableAnalysisRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateConfiguredTableAnalysisRuleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateConfiguredTableAnalysisRuleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateConfiguredTableAnalysisRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateConfiguredTableAnalysisRuleOutputBody = try responseDecoder.decode(responseBody: data)
             self.analysisRule = output.analysisRule
         } else {
             self.analysisRule = nil
@@ -10146,7 +14712,7 @@ extension UpdateConfiguredTableAnalysisRuleOutputResponse: ClientRuntime.HttpRes
     }
 }
 
-public struct UpdateConfiguredTableAnalysisRuleOutputResponse: Swift.Equatable {
+public struct UpdateConfiguredTableAnalysisRuleOutput: Swift.Equatable {
     /// The entire updated analysis rule.
     /// This member is required.
     public var analysisRule: CleanRoomsClientTypes.ConfiguredTableAnalysisRule?
@@ -10159,11 +14725,11 @@ public struct UpdateConfiguredTableAnalysisRuleOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateConfiguredTableAnalysisRuleOutputResponseBody: Swift.Equatable {
+struct UpdateConfiguredTableAnalysisRuleOutputBody: Swift.Equatable {
     let analysisRule: CleanRoomsClientTypes.ConfiguredTableAnalysisRule?
 }
 
-extension UpdateConfiguredTableAnalysisRuleOutputResponseBody: Swift.Decodable {
+extension UpdateConfiguredTableAnalysisRuleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case analysisRule
     }
@@ -10172,6 +14738,22 @@ extension UpdateConfiguredTableAnalysisRuleOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let analysisRuleDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.ConfiguredTableAnalysisRule.self, forKey: .analysisRule)
         analysisRule = analysisRuleDecoded
+    }
+}
+
+enum UpdateConfiguredTableAnalysisRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10250,27 +14832,11 @@ extension UpdateConfiguredTableAssociationInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateConfiguredTableAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateConfiguredTableAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateConfiguredTableAssociationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateConfiguredTableAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateConfiguredTableAssociationOutputBody = try responseDecoder.decode(responseBody: data)
             self.configuredTableAssociation = output.configuredTableAssociation
         } else {
             self.configuredTableAssociation = nil
@@ -10278,7 +14844,7 @@ extension UpdateConfiguredTableAssociationOutputResponse: ClientRuntime.HttpResp
     }
 }
 
-public struct UpdateConfiguredTableAssociationOutputResponse: Swift.Equatable {
+public struct UpdateConfiguredTableAssociationOutput: Swift.Equatable {
     /// The entire updated configured table association.
     /// This member is required.
     public var configuredTableAssociation: CleanRoomsClientTypes.ConfiguredTableAssociation?
@@ -10291,11 +14857,11 @@ public struct UpdateConfiguredTableAssociationOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateConfiguredTableAssociationOutputResponseBody: Swift.Equatable {
+struct UpdateConfiguredTableAssociationOutputBody: Swift.Equatable {
     let configuredTableAssociation: CleanRoomsClientTypes.ConfiguredTableAssociation?
 }
 
-extension UpdateConfiguredTableAssociationOutputResponseBody: Swift.Decodable {
+extension UpdateConfiguredTableAssociationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuredTableAssociation
     }
@@ -10304,6 +14870,22 @@ extension UpdateConfiguredTableAssociationOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configuredTableAssociationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.ConfiguredTableAssociation.self, forKey: .configuredTableAssociation)
         configuredTableAssociation = configuredTableAssociationDecoded
+    }
+}
+
+enum UpdateConfiguredTableAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10374,8 +14956,49 @@ extension UpdateConfiguredTableInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateConfiguredTableOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateConfiguredTableOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateConfiguredTableOutputBody = try responseDecoder.decode(responseBody: data)
+            self.configuredTable = output.configuredTable
+        } else {
+            self.configuredTable = nil
+        }
+    }
+}
+
+public struct UpdateConfiguredTableOutput: Swift.Equatable {
+    /// The updated configured table.
+    /// This member is required.
+    public var configuredTable: CleanRoomsClientTypes.ConfiguredTable?
+
+    public init(
+        configuredTable: CleanRoomsClientTypes.ConfiguredTable? = nil
+    )
+    {
+        self.configuredTable = configuredTable
+    }
+}
+
+struct UpdateConfiguredTableOutputBody: Swift.Equatable {
+    let configuredTable: CleanRoomsClientTypes.ConfiguredTable?
+}
+
+extension UpdateConfiguredTableOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuredTable
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configuredTableDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.ConfiguredTable.self, forKey: .configuredTable)
+        configuredTable = configuredTableDecoded
+    }
+}
+
+enum UpdateConfiguredTableOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -10390,54 +15013,17 @@ public enum UpdateConfiguredTableOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension UpdateConfiguredTableOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateConfiguredTableOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.configuredTable = output.configuredTable
-        } else {
-            self.configuredTable = nil
-        }
-    }
-}
-
-public struct UpdateConfiguredTableOutputResponse: Swift.Equatable {
-    /// The updated configured table.
-    /// This member is required.
-    public var configuredTable: CleanRoomsClientTypes.ConfiguredTable?
-
-    public init(
-        configuredTable: CleanRoomsClientTypes.ConfiguredTable? = nil
-    )
-    {
-        self.configuredTable = configuredTable
-    }
-}
-
-struct UpdateConfiguredTableOutputResponseBody: Swift.Equatable {
-    let configuredTable: CleanRoomsClientTypes.ConfiguredTable?
-}
-
-extension UpdateConfiguredTableOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case configuredTable
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let configuredTableDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.ConfiguredTable.self, forKey: .configuredTable)
-        configuredTable = configuredTableDecoded
-    }
-}
-
 extension UpdateMembershipInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultResultConfiguration
         case queryLogStatus
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let defaultResultConfiguration = self.defaultResultConfiguration {
+            try encodeContainer.encode(defaultResultConfiguration, forKey: .defaultResultConfiguration)
+        }
         if let queryLogStatus = self.queryLogStatus {
             try encodeContainer.encode(queryLogStatus.rawValue, forKey: .queryLogStatus)
         }
@@ -10454,17 +15040,21 @@ extension UpdateMembershipInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateMembershipInput: Swift.Equatable {
+    /// The default protected query result configuration as specified by the member who can receive results.
+    public var defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration?
     /// The unique identifier of the membership.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
-    /// An indicator as to whether query logging has been enabled or disabled for the collaboration.
+    /// An indicator as to whether query logging has been enabled or disabled for the membership.
     public var queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus?
 
     public init(
+        defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration? = nil,
         membershipIdentifier: Swift.String? = nil,
         queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus? = nil
     )
     {
+        self.defaultResultConfiguration = defaultResultConfiguration
         self.membershipIdentifier = membershipIdentifier
         self.queryLogStatus = queryLogStatus
     }
@@ -10472,10 +15062,12 @@ public struct UpdateMembershipInput: Swift.Equatable {
 
 struct UpdateMembershipInputBody: Swift.Equatable {
     let queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus?
+    let defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration?
 }
 
 extension UpdateMembershipInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultResultConfiguration
         case queryLogStatus
     }
 
@@ -10483,11 +15075,54 @@ extension UpdateMembershipInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryLogStatusDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.MembershipQueryLogStatus.self, forKey: .queryLogStatus)
         queryLogStatus = queryLogStatusDecoded
+        let defaultResultConfigurationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration.self, forKey: .defaultResultConfiguration)
+        defaultResultConfiguration = defaultResultConfigurationDecoded
     }
 }
 
-public enum UpdateMembershipOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateMembershipOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateMembershipOutputBody = try responseDecoder.decode(responseBody: data)
+            self.membership = output.membership
+        } else {
+            self.membership = nil
+        }
+    }
+}
+
+public struct UpdateMembershipOutput: Swift.Equatable {
+    /// The membership object.
+    /// This member is required.
+    public var membership: CleanRoomsClientTypes.Membership?
+
+    public init(
+        membership: CleanRoomsClientTypes.Membership? = nil
+    )
+    {
+        self.membership = membership
+    }
+}
+
+struct UpdateMembershipOutputBody: Swift.Equatable {
+    let membership: CleanRoomsClientTypes.Membership?
+}
+
+extension UpdateMembershipOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case membership
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let membershipDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.Membership.self, forKey: .membership)
+        membership = membershipDecoded
+    }
+}
+
+enum UpdateMembershipOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -10502,44 +15137,136 @@ public enum UpdateMembershipOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension UpdateMembershipOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateMembershipOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.membership = output.membership
-        } else {
-            self.membership = nil
+extension UpdatePrivacyBudgetTemplateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case parameters
+        case privacyBudgetType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let parameters = self.parameters {
+            try encodeContainer.encode(parameters, forKey: .parameters)
+        }
+        if let privacyBudgetType = self.privacyBudgetType {
+            try encodeContainer.encode(privacyBudgetType.rawValue, forKey: .privacyBudgetType)
         }
     }
 }
 
-public struct UpdateMembershipOutputResponse: Swift.Equatable {
-    /// The membership object.
-    /// This member is required.
-    public var membership: CleanRoomsClientTypes.Membership?
-
-    public init(
-        membership: CleanRoomsClientTypes.Membership? = nil
-    )
-    {
-        self.membership = membership
+extension UpdatePrivacyBudgetTemplateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let membershipIdentifier = membershipIdentifier else {
+            return nil
+        }
+        guard let privacyBudgetTemplateIdentifier = privacyBudgetTemplateIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/privacybudgettemplates/\(privacyBudgetTemplateIdentifier.urlPercentEncoding())"
     }
 }
 
-struct UpdateMembershipOutputResponseBody: Swift.Equatable {
-    let membership: CleanRoomsClientTypes.Membership?
+public struct UpdatePrivacyBudgetTemplateInput: Swift.Equatable {
+    /// A unique identifier for one of your memberships for a collaboration. The privacy budget template is updated in the collaboration that this membership belongs to. Accepts a membership ID.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+    /// Specifies the epsilon and noise parameters for the privacy budget template.
+    public var parameters: CleanRoomsClientTypes.PrivacyBudgetTemplateUpdateParameters?
+    /// A unique identifier for your privacy budget template that you want to update.
+    /// This member is required.
+    public var privacyBudgetTemplateIdentifier: Swift.String?
+    /// Specifies the type of the privacy budget template.
+    /// This member is required.
+    public var privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType?
+
+    public init(
+        membershipIdentifier: Swift.String? = nil,
+        parameters: CleanRoomsClientTypes.PrivacyBudgetTemplateUpdateParameters? = nil,
+        privacyBudgetTemplateIdentifier: Swift.String? = nil,
+        privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType? = nil
+    )
+    {
+        self.membershipIdentifier = membershipIdentifier
+        self.parameters = parameters
+        self.privacyBudgetTemplateIdentifier = privacyBudgetTemplateIdentifier
+        self.privacyBudgetType = privacyBudgetType
+    }
 }
 
-extension UpdateMembershipOutputResponseBody: Swift.Decodable {
+struct UpdatePrivacyBudgetTemplateInputBody: Swift.Equatable {
+    let privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType?
+    let parameters: CleanRoomsClientTypes.PrivacyBudgetTemplateUpdateParameters?
+}
+
+extension UpdatePrivacyBudgetTemplateInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case membership
+        case parameters
+        case privacyBudgetType
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let membershipDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.Membership.self, forKey: .membership)
-        membership = membershipDecoded
+        let privacyBudgetTypeDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PrivacyBudgetType.self, forKey: .privacyBudgetType)
+        privacyBudgetType = privacyBudgetTypeDecoded
+        let parametersDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PrivacyBudgetTemplateUpdateParameters.self, forKey: .parameters)
+        parameters = parametersDecoded
+    }
+}
+
+extension UpdatePrivacyBudgetTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdatePrivacyBudgetTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.privacyBudgetTemplate = output.privacyBudgetTemplate
+        } else {
+            self.privacyBudgetTemplate = nil
+        }
+    }
+}
+
+public struct UpdatePrivacyBudgetTemplateOutput: Swift.Equatable {
+    /// Summary of the privacy budget template.
+    /// This member is required.
+    public var privacyBudgetTemplate: CleanRoomsClientTypes.PrivacyBudgetTemplate?
+
+    public init(
+        privacyBudgetTemplate: CleanRoomsClientTypes.PrivacyBudgetTemplate? = nil
+    )
+    {
+        self.privacyBudgetTemplate = privacyBudgetTemplate
+    }
+}
+
+struct UpdatePrivacyBudgetTemplateOutputBody: Swift.Equatable {
+    let privacyBudgetTemplate: CleanRoomsClientTypes.PrivacyBudgetTemplate?
+}
+
+extension UpdatePrivacyBudgetTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case privacyBudgetTemplate
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let privacyBudgetTemplateDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.PrivacyBudgetTemplate.self, forKey: .privacyBudgetTemplate)
+        privacyBudgetTemplate = privacyBudgetTemplateDecoded
+    }
+}
+
+enum UpdatePrivacyBudgetTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10607,27 +15334,11 @@ extension UpdateProtectedQueryInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateProtectedQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateProtectedQueryOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateProtectedQueryOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateProtectedQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateProtectedQueryOutputBody = try responseDecoder.decode(responseBody: data)
             self.protectedQuery = output.protectedQuery
         } else {
             self.protectedQuery = nil
@@ -10635,7 +15346,7 @@ extension UpdateProtectedQueryOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct UpdateProtectedQueryOutputResponse: Swift.Equatable {
+public struct UpdateProtectedQueryOutput: Swift.Equatable {
     /// The protected query output.
     /// This member is required.
     public var protectedQuery: CleanRoomsClientTypes.ProtectedQuery?
@@ -10648,11 +15359,11 @@ public struct UpdateProtectedQueryOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateProtectedQueryOutputResponseBody: Swift.Equatable {
+struct UpdateProtectedQueryOutputBody: Swift.Equatable {
     let protectedQuery: CleanRoomsClientTypes.ProtectedQuery?
 }
 
-extension UpdateProtectedQueryOutputResponseBody: Swift.Decodable {
+extension UpdateProtectedQueryOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case protectedQuery
     }
@@ -10661,6 +15372,22 @@ extension UpdateProtectedQueryOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let protectedQueryDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.ProtectedQuery.self, forKey: .protectedQuery)
         protectedQuery = protectedQueryDecoded
+    }
+}
+
+enum UpdateProtectedQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

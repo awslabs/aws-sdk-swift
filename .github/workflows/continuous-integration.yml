@@ -17,41 +17,46 @@ jobs:
       matrix:
         # This matrix runs tests on iOS sim & Mac, on oldest & newest supported Xcodes
         runner:
-          - macos-11
+          - macos-12
           - macos-13
         xcode:
-          # Xcode 13.2.1 is used as oldest because 13.2 is the first version which backports concurrency
-          - Xcode_13.2.1
-          - Xcode_14.3.1
+          - Xcode_14.0.1
+          - Xcode_15.0
         destination:
-          - 'platform=iOS Simulator,OS=15.2,name=iPhone 13'
-          - 'platform=iOS Simulator,OS=16.4,name=iPhone 14'
+          - 'platform=iOS Simulator,OS=16.0,name=iPhone 13'
+          - 'platform=iOS Simulator,OS=17.0,name=iPhone 14'
+          - 'platform=tvOS Simulator,OS=16.0,name=Apple TV 4K (at 1080p) (2nd generation)'
+          - 'platform=tvOS Simulator,OS=17.0,name=Apple TV 4K (3rd generation) (at 1080p)'
           - 'platform=OS X'
         exclude:
           # Don't run old macOS with new Xcode
-          - runner: macos-11
-            xcode: Xcode_14.3.1
+          - runner: macos-12
+            xcode: Xcode_15.0
           # Don't run new macOS with old Xcode
           - runner: macos-13
-            xcode: Xcode_13.2.1
-          # Don't run old iOS simulator with new Xcode
-          - destination: 'platform=iOS Simulator,OS=15.2,name=iPhone 13'
-            xcode: Xcode_14.3.1
-          # Don't run new iOS simulator with old Xcode
-          - destination: 'platform=iOS Simulator,OS=16.4,name=iPhone 14'
-            xcode: Xcode_13.2.1
+            xcode: Xcode_14.0.1
+          # Don't run old simulators with new Xcode
+          - destination: 'platform=tvOS Simulator,OS=16.0,name=Apple TV 4K (at 1080p) (2nd generation)'
+            xcode: Xcode_15.0
+          - destination: 'platform=iOS Simulator,OS=16.0,name=iPhone 13'
+            xcode: Xcode_15.0
+          # Don't run new simulators with old Xcode
+          - destination: 'platform=tvOS Simulator,OS=17.0,name=Apple TV 4K (3rd generation) (at 1080p)'
+            xcode: Xcode_14.0.1
+          - destination: 'platform=iOS Simulator,OS=17.0,name=iPhone 14'
+            xcode: Xcode_14.0.1
     steps:
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
       - name: Select smithy-swift branch
         run: |
           ORIGINAL_REPO_HEAD_REF="$GITHUB_HEAD_REF" \
-          DEPENDENCY_REPO_URL="https://github.com/awslabs/smithy-swift.git" \
+          DEPENDENCY_REPO_URL="https://github.com/smithy-lang/smithy-swift.git" \
           ./scripts/ci_steps/select_dependency_branch.sh
       - name: Checkout smithy-swift
         uses: actions/checkout@v3
         with:
-          repository: awslabs/smithy-swift
+          repository: smithy-lang/smithy-swift
           ref: ${{ env.DEPENDENCY_REPO_SHA }}
           path: smithy-swift
       - name: Move smithy-swift into place
@@ -105,20 +110,20 @@ jobs:
           - focal
           - amazonlinux2
         version:
-          - 5.5.3
-          - 5.8.1
+          - 5.7
+          - 5.9
     steps:
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
       - name: Select smithy-swift branch
         run: |
           ORIGINAL_REPO_HEAD_REF="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME:-main}}" \
-          DEPENDENCY_REPO_URL="https://github.com/awslabs/smithy-swift.git" \
+          DEPENDENCY_REPO_URL="https://github.com/smithy-lang/smithy-swift.git" \
           ./scripts/ci_steps/select_dependency_branch.sh
       - name: Checkout smithy-swift
         uses: actions/checkout@v3
         with:
-          repository: awslabs/smithy-swift
+          repository: smithy-lang/smithy-swift
           ref: ${{ env.DEPENDENCY_REPO_SHA }}
           path: smithy-swift
       - name: Move smithy-swift into place
@@ -139,10 +144,10 @@ jobs:
           path: |
             ~/Library/Caches/org.swift.swiftpm
             ~/.cache/org.swift.swiftpm
-          key: 1-${{ runner.os }}-swift5.8.1-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
+          key: 1-${{ runner.os }}-swift-${{ matrix.version }}-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
           restore-keys: |
-            1-${{ runner.os }}-swift5.8.1-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
-            1-${{ runner.os }}-swift5.8.1-spm-
+            1-${{ runner.os }}-swift-${{ matrix.version }}-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
+            1-${{ runner.os }}-swift-${{ matrix.version }}-spm-
       - name: Setup Java
         uses: actions/setup-java@v3
         with:

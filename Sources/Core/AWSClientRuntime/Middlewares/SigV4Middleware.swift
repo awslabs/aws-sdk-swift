@@ -6,8 +6,7 @@
 import ClientRuntime
 import AwsCommonRuntimeKit
 
-public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
-                              OperationStackError: HttpResponseErrorBinding>: Middleware {
+public struct SigV4Middleware<OperationStackOutput>: Middleware {
     public let id: String = "Sigv4Signer"
 
     let config: SigV4Config

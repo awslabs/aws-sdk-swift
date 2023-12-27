@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension ECRClientProtocol {
 
-    static func imageScanCompleteWaiterConfig() throws -> WaiterConfiguration<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeImageScanFindingsInput, result: Result<DescribeImageScanFindingsOutputResponse, Error>) -> Bool in
+    static func imageScanCompleteWaiterConfig() throws -> WaiterConfiguration<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeImageScanFindingsInput, result: Result<DescribeImageScanFindingsOutput, Error>) -> Bool in
                 // JMESPath expression: "imageScanStatus.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "COMPLETE"
@@ -15,7 +15,7 @@ extension ECRClientProtocol {
                 let status = imageScanStatus?.status
                 return JMESUtils.compare(status, ==, "COMPLETE")
             }),
-            .init(state: .failure, matcher: { (input: DescribeImageScanFindingsInput, result: Result<DescribeImageScanFindingsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeImageScanFindingsInput, result: Result<DescribeImageScanFindingsOutput, Error>) -> Bool in
                 // JMESPath expression: "imageScanStatus.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "FAILED"
@@ -25,7 +25,7 @@ extension ECRClientProtocol {
                 return JMESUtils.compare(status, ==, "FAILED")
             }),
         ]
-        return try WaiterConfiguration<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ImageScanComplete event on the describeImageScanFindings operation.
@@ -39,14 +39,14 @@ extension ECRClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilImageScanComplete(options: WaiterOptions, input: DescribeImageScanFindingsInput) async throws -> WaiterOutcome<DescribeImageScanFindingsOutputResponse> {
+    public func waitUntilImageScanComplete(options: WaiterOptions, input: DescribeImageScanFindingsInput) async throws -> WaiterOutcome<DescribeImageScanFindingsOutput> {
         let waiter = Waiter(config: try Self.imageScanCompleteWaiterConfig(), operation: self.describeImageScanFindings(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func lifecyclePolicyPreviewCompleteWaiterConfig() throws -> WaiterConfiguration<GetLifecyclePolicyPreviewInput, GetLifecyclePolicyPreviewOutputResponse> {
-        let acceptors: [WaiterConfiguration<GetLifecyclePolicyPreviewInput, GetLifecyclePolicyPreviewOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: GetLifecyclePolicyPreviewInput, result: Result<GetLifecyclePolicyPreviewOutputResponse, Error>) -> Bool in
+    static func lifecyclePolicyPreviewCompleteWaiterConfig() throws -> WaiterConfiguration<GetLifecyclePolicyPreviewInput, GetLifecyclePolicyPreviewOutput> {
+        let acceptors: [WaiterConfiguration<GetLifecyclePolicyPreviewInput, GetLifecyclePolicyPreviewOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: GetLifecyclePolicyPreviewInput, result: Result<GetLifecyclePolicyPreviewOutput, Error>) -> Bool in
                 // JMESPath expression: "status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "COMPLETE"
@@ -54,7 +54,7 @@ extension ECRClientProtocol {
                 let status = output.status
                 return JMESUtils.compare(status, ==, "COMPLETE")
             }),
-            .init(state: .failure, matcher: { (input: GetLifecyclePolicyPreviewInput, result: Result<GetLifecyclePolicyPreviewOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: GetLifecyclePolicyPreviewInput, result: Result<GetLifecyclePolicyPreviewOutput, Error>) -> Bool in
                 // JMESPath expression: "status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "FAILED"
@@ -63,7 +63,7 @@ extension ECRClientProtocol {
                 return JMESUtils.compare(status, ==, "FAILED")
             }),
         ]
-        return try WaiterConfiguration<GetLifecyclePolicyPreviewInput, GetLifecyclePolicyPreviewOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+        return try WaiterConfiguration<GetLifecyclePolicyPreviewInput, GetLifecyclePolicyPreviewOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the LifecyclePolicyPreviewComplete event on the getLifecyclePolicyPreview operation.
@@ -77,7 +77,7 @@ extension ECRClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilLifecyclePolicyPreviewComplete(options: WaiterOptions, input: GetLifecyclePolicyPreviewInput) async throws -> WaiterOutcome<GetLifecyclePolicyPreviewOutputResponse> {
+    public func waitUntilLifecyclePolicyPreviewComplete(options: WaiterOptions, input: GetLifecyclePolicyPreviewInput) async throws -> WaiterOutcome<GetLifecyclePolicyPreviewOutput> {
         let waiter = Waiter(config: try Self.lifecyclePolicyPreviewCompleteWaiterConfig(), operation: self.getLifecyclePolicyPreview(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

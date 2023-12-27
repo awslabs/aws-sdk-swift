@@ -723,31 +723,16 @@ extension DecryptDataInputBody: Swift.Decodable {
     }
 }
 
-public enum DecryptDataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DecryptDataOutputResponse: Swift.CustomDebugStringConvertible {
+extension DecryptDataOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DecryptDataOutputResponse(keyArn: \(Swift.String(describing: keyArn)), keyCheckValue: \(Swift.String(describing: keyCheckValue)), plainText: \"CONTENT_REDACTED\")"}
+        "DecryptDataOutput(keyArn: \(Swift.String(describing: keyArn)), keyCheckValue: \(Swift.String(describing: keyCheckValue)), plainText: \"CONTENT_REDACTED\")"}
 }
 
-extension DecryptDataOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DecryptDataOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DecryptDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DecryptDataOutputBody = try responseDecoder.decode(responseBody: data)
             self.keyArn = output.keyArn
             self.keyCheckValue = output.keyCheckValue
             self.plainText = output.plainText
@@ -759,7 +744,7 @@ extension DecryptDataOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DecryptDataOutputResponse: Swift.Equatable {
+public struct DecryptDataOutput: Swift.Equatable {
     /// The keyARN of the encryption key that Amazon Web Services Payment Cryptography uses for ciphertext decryption.
     /// This member is required.
     public var keyArn: Swift.String?
@@ -782,13 +767,13 @@ public struct DecryptDataOutputResponse: Swift.Equatable {
     }
 }
 
-struct DecryptDataOutputResponseBody: Swift.Equatable {
+struct DecryptDataOutputBody: Swift.Equatable {
     let keyArn: Swift.String?
     let keyCheckValue: Swift.String?
     let plainText: Swift.String?
 }
 
-extension DecryptDataOutputResponseBody: Swift.Decodable {
+extension DecryptDataOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyArn = "KeyArn"
         case keyCheckValue = "KeyCheckValue"
@@ -803,6 +788,21 @@ extension DecryptDataOutputResponseBody: Swift.Decodable {
         keyCheckValue = keyCheckValueDecoded
         let plainTextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .plainText)
         plainText = plainTextDecoded
+    }
+}
+
+enum DecryptDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1368,31 +1368,16 @@ extension EncryptDataInputBody: Swift.Decodable {
     }
 }
 
-public enum EncryptDataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension EncryptDataOutputResponse: Swift.CustomDebugStringConvertible {
+extension EncryptDataOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EncryptDataOutputResponse(keyArn: \(Swift.String(describing: keyArn)), keyCheckValue: \(Swift.String(describing: keyCheckValue)), cipherText: \"CONTENT_REDACTED\")"}
+        "EncryptDataOutput(keyArn: \(Swift.String(describing: keyArn)), keyCheckValue: \(Swift.String(describing: keyCheckValue)), cipherText: \"CONTENT_REDACTED\")"}
 }
 
-extension EncryptDataOutputResponse: ClientRuntime.HttpResponseBinding {
+extension EncryptDataOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: EncryptDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: EncryptDataOutputBody = try responseDecoder.decode(responseBody: data)
             self.cipherText = output.cipherText
             self.keyArn = output.keyArn
             self.keyCheckValue = output.keyCheckValue
@@ -1404,7 +1389,7 @@ extension EncryptDataOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EncryptDataOutputResponse: Swift.Equatable {
+public struct EncryptDataOutput: Swift.Equatable {
     /// The encrypted ciphertext.
     /// This member is required.
     public var cipherText: Swift.String?
@@ -1412,7 +1397,6 @@ public struct EncryptDataOutputResponse: Swift.Equatable {
     /// This member is required.
     public var keyArn: Swift.String?
     /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography calculates the KCV by using standard algorithms, typically by encrypting 8 or 16 bytes or "00" or "01" and then truncating the result to the first 3 bytes, or 6 hex digits, of the resulting cryptogram.
-    /// This member is required.
     public var keyCheckValue: Swift.String?
 
     public init(
@@ -1427,13 +1411,13 @@ public struct EncryptDataOutputResponse: Swift.Equatable {
     }
 }
 
-struct EncryptDataOutputResponseBody: Swift.Equatable {
+struct EncryptDataOutputBody: Swift.Equatable {
     let keyArn: Swift.String?
     let keyCheckValue: Swift.String?
     let cipherText: Swift.String?
 }
 
-extension EncryptDataOutputResponseBody: Swift.Decodable {
+extension EncryptDataOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cipherText = "CipherText"
         case keyArn = "KeyArn"
@@ -1448,6 +1432,21 @@ extension EncryptDataOutputResponseBody: Swift.Decodable {
         keyCheckValue = keyCheckValueDecoded
         let cipherTextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cipherText)
         cipherText = cipherTextDecoded
+    }
+}
+
+enum EncryptDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1649,26 +1648,11 @@ extension GenerateCardValidationDataInputBody: Swift.Decodable {
     }
 }
 
-public enum GenerateCardValidationDataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GenerateCardValidationDataOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GenerateCardValidationDataOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GenerateCardValidationDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GenerateCardValidationDataOutputBody = try responseDecoder.decode(responseBody: data)
             self.keyArn = output.keyArn
             self.keyCheckValue = output.keyCheckValue
             self.validationData = output.validationData
@@ -1680,7 +1664,7 @@ extension GenerateCardValidationDataOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct GenerateCardValidationDataOutputResponse: Swift.Equatable {
+public struct GenerateCardValidationDataOutput: Swift.Equatable {
     /// The keyARN of the CVK encryption key that Amazon Web Services Payment Cryptography uses to generate CVV or CSC.
     /// This member is required.
     public var keyArn: Swift.String?
@@ -1703,13 +1687,13 @@ public struct GenerateCardValidationDataOutputResponse: Swift.Equatable {
     }
 }
 
-struct GenerateCardValidationDataOutputResponseBody: Swift.Equatable {
+struct GenerateCardValidationDataOutputBody: Swift.Equatable {
     let keyArn: Swift.String?
     let keyCheckValue: Swift.String?
     let validationData: Swift.String?
 }
 
-extension GenerateCardValidationDataOutputResponseBody: Swift.Decodable {
+extension GenerateCardValidationDataOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyArn = "KeyArn"
         case keyCheckValue = "KeyCheckValue"
@@ -1725,6 +1709,26 @@ extension GenerateCardValidationDataOutputResponseBody: Swift.Decodable {
         let validationDataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .validationData)
         validationData = validationDataDecoded
     }
+}
+
+enum GenerateCardValidationDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GenerateMacInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GenerateMacInput(generationAttributes: \(Swift.String(describing: generationAttributes)), keyIdentifier: \(Swift.String(describing: keyIdentifier)), macLength: \(Swift.String(describing: macLength)), messageData: \"CONTENT_REDACTED\")"}
 }
 
 extension GenerateMacInput: Swift.Encodable {
@@ -1813,26 +1817,11 @@ extension GenerateMacInputBody: Swift.Decodable {
     }
 }
 
-public enum GenerateMacOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GenerateMacOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GenerateMacOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GenerateMacOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GenerateMacOutputBody = try responseDecoder.decode(responseBody: data)
             self.keyArn = output.keyArn
             self.keyCheckValue = output.keyCheckValue
             self.mac = output.mac
@@ -1844,7 +1833,7 @@ extension GenerateMacOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GenerateMacOutputResponse: Swift.Equatable {
+public struct GenerateMacOutput: Swift.Equatable {
     /// The keyARN of the encryption key that Amazon Web Services Payment Cryptography uses for MAC generation.
     /// This member is required.
     public var keyArn: Swift.String?
@@ -1867,13 +1856,13 @@ public struct GenerateMacOutputResponse: Swift.Equatable {
     }
 }
 
-struct GenerateMacOutputResponseBody: Swift.Equatable {
+struct GenerateMacOutputBody: Swift.Equatable {
     let keyArn: Swift.String?
     let keyCheckValue: Swift.String?
     let mac: Swift.String?
 }
 
-extension GenerateMacOutputResponseBody: Swift.Decodable {
+extension GenerateMacOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyArn = "KeyArn"
         case keyCheckValue = "KeyCheckValue"
@@ -1888,6 +1877,21 @@ extension GenerateMacOutputResponseBody: Swift.Decodable {
         keyCheckValue = keyCheckValueDecoded
         let macDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mac)
         mac = macDecoded
+    }
+}
+
+enum GenerateMacOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2008,26 +2012,11 @@ extension GeneratePinDataInputBody: Swift.Decodable {
     }
 }
 
-public enum GeneratePinDataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GeneratePinDataOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GeneratePinDataOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GeneratePinDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GeneratePinDataOutputBody = try responseDecoder.decode(responseBody: data)
             self.encryptedPinBlock = output.encryptedPinBlock
             self.encryptionKeyArn = output.encryptionKeyArn
             self.encryptionKeyCheckValue = output.encryptionKeyCheckValue
@@ -2045,7 +2034,7 @@ extension GeneratePinDataOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GeneratePinDataOutputResponse: Swift.Equatable {
+public struct GeneratePinDataOutput: Swift.Equatable {
     /// The PIN block encrypted under PEK from Amazon Web Services Payment Cryptography. The encrypted PIN block is a composite of PAN (Primary Account Number) and PIN (Personal Identification Number), generated in accordance with ISO 9564 standard.
     /// This member is required.
     public var encryptedPinBlock: Swift.String?
@@ -2083,7 +2072,7 @@ public struct GeneratePinDataOutputResponse: Swift.Equatable {
     }
 }
 
-struct GeneratePinDataOutputResponseBody: Swift.Equatable {
+struct GeneratePinDataOutputBody: Swift.Equatable {
     let generationKeyArn: Swift.String?
     let generationKeyCheckValue: Swift.String?
     let encryptionKeyArn: Swift.String?
@@ -2092,7 +2081,7 @@ struct GeneratePinDataOutputResponseBody: Swift.Equatable {
     let pinData: PaymentCryptographyDataClientTypes.PinData?
 }
 
-extension GeneratePinDataOutputResponseBody: Swift.Decodable {
+extension GeneratePinDataOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case encryptedPinBlock = "EncryptedPinBlock"
         case encryptionKeyArn = "EncryptionKeyArn"
@@ -2116,6 +2105,21 @@ extension GeneratePinDataOutputResponseBody: Swift.Decodable {
         encryptedPinBlock = encryptedPinBlockDecoded
         let pinDataDecoded = try containerValues.decodeIfPresent(PaymentCryptographyDataClientTypes.PinData.self, forKey: .pinData)
         pinData = pinDataDecoded
+    }
+}
+
+enum GeneratePinDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3146,31 +3150,16 @@ extension ReEncryptDataInputBody: Swift.Decodable {
     }
 }
 
-public enum ReEncryptDataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ReEncryptDataOutputResponse: Swift.CustomDebugStringConvertible {
+extension ReEncryptDataOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ReEncryptDataOutputResponse(keyArn: \(Swift.String(describing: keyArn)), keyCheckValue: \(Swift.String(describing: keyCheckValue)), cipherText: \"CONTENT_REDACTED\")"}
+        "ReEncryptDataOutput(keyArn: \(Swift.String(describing: keyArn)), keyCheckValue: \(Swift.String(describing: keyCheckValue)), cipherText: \"CONTENT_REDACTED\")"}
 }
 
-extension ReEncryptDataOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ReEncryptDataOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ReEncryptDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ReEncryptDataOutputBody = try responseDecoder.decode(responseBody: data)
             self.cipherText = output.cipherText
             self.keyArn = output.keyArn
             self.keyCheckValue = output.keyCheckValue
@@ -3182,7 +3171,7 @@ extension ReEncryptDataOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ReEncryptDataOutputResponse: Swift.Equatable {
+public struct ReEncryptDataOutput: Swift.Equatable {
     /// The encrypted ciphertext.
     /// This member is required.
     public var cipherText: Swift.String?
@@ -3205,13 +3194,13 @@ public struct ReEncryptDataOutputResponse: Swift.Equatable {
     }
 }
 
-struct ReEncryptDataOutputResponseBody: Swift.Equatable {
+struct ReEncryptDataOutputBody: Swift.Equatable {
     let keyArn: Swift.String?
     let keyCheckValue: Swift.String?
     let cipherText: Swift.String?
 }
 
-extension ReEncryptDataOutputResponseBody: Swift.Decodable {
+extension ReEncryptDataOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cipherText = "CipherText"
         case keyArn = "KeyArn"
@@ -3226,6 +3215,21 @@ extension ReEncryptDataOutputResponseBody: Swift.Decodable {
         keyCheckValue = keyCheckValueDecoded
         let cipherTextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cipherText)
         cipherText = cipherTextDecoded
+    }
+}
+
+enum ReEncryptDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3917,6 +3921,11 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
+extension TranslatePinDataInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TranslatePinDataInput(incomingDukptAttributes: \(Swift.String(describing: incomingDukptAttributes)), incomingKeyIdentifier: \(Swift.String(describing: incomingKeyIdentifier)), incomingTranslationAttributes: \(Swift.String(describing: incomingTranslationAttributes)), outgoingDukptAttributes: \(Swift.String(describing: outgoingDukptAttributes)), outgoingKeyIdentifier: \(Swift.String(describing: outgoingKeyIdentifier)), outgoingTranslationAttributes: \(Swift.String(describing: outgoingTranslationAttributes)), encryptedPinBlock: \"CONTENT_REDACTED\")"}
+}
+
 extension TranslatePinDataInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case encryptedPinBlock = "EncryptedPinBlock"
@@ -4041,26 +4050,11 @@ extension TranslatePinDataInputBody: Swift.Decodable {
     }
 }
 
-public enum TranslatePinDataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension TranslatePinDataOutputResponse: ClientRuntime.HttpResponseBinding {
+extension TranslatePinDataOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: TranslatePinDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: TranslatePinDataOutputBody = try responseDecoder.decode(responseBody: data)
             self.keyArn = output.keyArn
             self.keyCheckValue = output.keyCheckValue
             self.pinBlock = output.pinBlock
@@ -4072,7 +4066,7 @@ extension TranslatePinDataOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TranslatePinDataOutputResponse: Swift.Equatable {
+public struct TranslatePinDataOutput: Swift.Equatable {
     /// The keyARN of the encryption key that Amazon Web Services Payment Cryptography uses to encrypt outgoing PIN block data after translation.
     /// This member is required.
     public var keyArn: Swift.String?
@@ -4095,13 +4089,13 @@ public struct TranslatePinDataOutputResponse: Swift.Equatable {
     }
 }
 
-struct TranslatePinDataOutputResponseBody: Swift.Equatable {
+struct TranslatePinDataOutputBody: Swift.Equatable {
     let pinBlock: Swift.String?
     let keyArn: Swift.String?
     let keyCheckValue: Swift.String?
 }
 
-extension TranslatePinDataOutputResponseBody: Swift.Decodable {
+extension TranslatePinDataOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyArn = "KeyArn"
         case keyCheckValue = "KeyCheckValue"
@@ -4116,6 +4110,21 @@ extension TranslatePinDataOutputResponseBody: Swift.Decodable {
         keyArn = keyArnDecoded
         let keyCheckValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyCheckValue)
         keyCheckValue = keyCheckValueDecoded
+    }
+}
+
+enum TranslatePinDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4586,27 +4595,11 @@ extension VerifyAuthRequestCryptogramInputBody: Swift.Decodable {
     }
 }
 
-public enum VerifyAuthRequestCryptogramOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "VerificationFailedException": return try await VerificationFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension VerifyAuthRequestCryptogramOutputResponse: ClientRuntime.HttpResponseBinding {
+extension VerifyAuthRequestCryptogramOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: VerifyAuthRequestCryptogramOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: VerifyAuthRequestCryptogramOutputBody = try responseDecoder.decode(responseBody: data)
             self.authResponseValue = output.authResponseValue
             self.keyArn = output.keyArn
             self.keyCheckValue = output.keyCheckValue
@@ -4618,7 +4611,7 @@ extension VerifyAuthRequestCryptogramOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct VerifyAuthRequestCryptogramOutputResponse: Swift.Equatable {
+public struct VerifyAuthRequestCryptogramOutput: Swift.Equatable {
     /// The result for ARQC verification or ARPC generation within Amazon Web Services Payment Cryptography.
     public var authResponseValue: Swift.String?
     /// The keyARN of the major encryption key that Amazon Web Services Payment Cryptography uses for ARQC verification.
@@ -4640,13 +4633,13 @@ public struct VerifyAuthRequestCryptogramOutputResponse: Swift.Equatable {
     }
 }
 
-struct VerifyAuthRequestCryptogramOutputResponseBody: Swift.Equatable {
+struct VerifyAuthRequestCryptogramOutputBody: Swift.Equatable {
     let keyArn: Swift.String?
     let keyCheckValue: Swift.String?
     let authResponseValue: Swift.String?
 }
 
-extension VerifyAuthRequestCryptogramOutputResponseBody: Swift.Decodable {
+extension VerifyAuthRequestCryptogramOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authResponseValue = "AuthResponseValue"
         case keyArn = "KeyArn"
@@ -4661,6 +4654,22 @@ extension VerifyAuthRequestCryptogramOutputResponseBody: Swift.Decodable {
         keyCheckValue = keyCheckValueDecoded
         let authResponseValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authResponseValue)
         authResponseValue = authResponseValueDecoded
+    }
+}
+
+enum VerifyAuthRequestCryptogramOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "VerificationFailedException": return try await VerificationFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4756,27 +4765,11 @@ extension VerifyCardValidationDataInputBody: Swift.Decodable {
     }
 }
 
-public enum VerifyCardValidationDataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "VerificationFailedException": return try await VerificationFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension VerifyCardValidationDataOutputResponse: ClientRuntime.HttpResponseBinding {
+extension VerifyCardValidationDataOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: VerifyCardValidationDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: VerifyCardValidationDataOutputBody = try responseDecoder.decode(responseBody: data)
             self.keyArn = output.keyArn
             self.keyCheckValue = output.keyCheckValue
         } else {
@@ -4786,7 +4779,7 @@ extension VerifyCardValidationDataOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct VerifyCardValidationDataOutputResponse: Swift.Equatable {
+public struct VerifyCardValidationDataOutput: Swift.Equatable {
     /// The keyARN of the CVK encryption key that Amazon Web Services Payment Cryptography uses to verify CVV or CSC.
     /// This member is required.
     public var keyArn: Swift.String?
@@ -4804,12 +4797,12 @@ public struct VerifyCardValidationDataOutputResponse: Swift.Equatable {
     }
 }
 
-struct VerifyCardValidationDataOutputResponseBody: Swift.Equatable {
+struct VerifyCardValidationDataOutputBody: Swift.Equatable {
     let keyArn: Swift.String?
     let keyCheckValue: Swift.String?
 }
 
-extension VerifyCardValidationDataOutputResponseBody: Swift.Decodable {
+extension VerifyCardValidationDataOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyArn = "KeyArn"
         case keyCheckValue = "KeyCheckValue"
@@ -4822,6 +4815,27 @@ extension VerifyCardValidationDataOutputResponseBody: Swift.Decodable {
         let keyCheckValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyCheckValue)
         keyCheckValue = keyCheckValueDecoded
     }
+}
+
+enum VerifyCardValidationDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "VerificationFailedException": return try await VerificationFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension VerifyMacInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "VerifyMacInput(keyIdentifier: \(Swift.String(describing: keyIdentifier)), macLength: \(Swift.String(describing: macLength)), verificationAttributes: \(Swift.String(describing: verificationAttributes)), mac: \"CONTENT_REDACTED\", messageData: \"CONTENT_REDACTED\")"}
 }
 
 extension VerifyMacInput: Swift.Encodable {
@@ -4923,27 +4937,11 @@ extension VerifyMacInputBody: Swift.Decodable {
     }
 }
 
-public enum VerifyMacOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "VerificationFailedException": return try await VerificationFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension VerifyMacOutputResponse: ClientRuntime.HttpResponseBinding {
+extension VerifyMacOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: VerifyMacOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: VerifyMacOutputBody = try responseDecoder.decode(responseBody: data)
             self.keyArn = output.keyArn
             self.keyCheckValue = output.keyCheckValue
         } else {
@@ -4953,7 +4951,7 @@ extension VerifyMacOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct VerifyMacOutputResponse: Swift.Equatable {
+public struct VerifyMacOutput: Swift.Equatable {
     /// The keyARN of the encryption key that Amazon Web Services Payment Cryptography uses for MAC verification.
     /// This member is required.
     public var keyArn: Swift.String?
@@ -4971,12 +4969,12 @@ public struct VerifyMacOutputResponse: Swift.Equatable {
     }
 }
 
-struct VerifyMacOutputResponseBody: Swift.Equatable {
+struct VerifyMacOutputBody: Swift.Equatable {
     let keyArn: Swift.String?
     let keyCheckValue: Swift.String?
 }
 
-extension VerifyMacOutputResponseBody: Swift.Decodable {
+extension VerifyMacOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyArn = "KeyArn"
         case keyCheckValue = "KeyCheckValue"
@@ -4988,6 +4986,22 @@ extension VerifyMacOutputResponseBody: Swift.Decodable {
         keyArn = keyArnDecoded
         let keyCheckValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyCheckValue)
         keyCheckValue = keyCheckValueDecoded
+    }
+}
+
+enum VerifyMacOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "VerificationFailedException": return try await VerificationFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5133,27 +5147,11 @@ extension VerifyPinDataInputBody: Swift.Decodable {
     }
 }
 
-public enum VerifyPinDataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "VerificationFailedException": return try await VerificationFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension VerifyPinDataOutputResponse: ClientRuntime.HttpResponseBinding {
+extension VerifyPinDataOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: VerifyPinDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: VerifyPinDataOutputBody = try responseDecoder.decode(responseBody: data)
             self.encryptionKeyArn = output.encryptionKeyArn
             self.encryptionKeyCheckValue = output.encryptionKeyCheckValue
             self.verificationKeyArn = output.verificationKeyArn
@@ -5167,7 +5165,7 @@ extension VerifyPinDataOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct VerifyPinDataOutputResponse: Swift.Equatable {
+public struct VerifyPinDataOutput: Swift.Equatable {
     /// The keyARN of the PEK that Amazon Web Services Payment Cryptography uses for encrypted pin block generation.
     /// This member is required.
     public var encryptionKeyArn: Swift.String?
@@ -5195,14 +5193,14 @@ public struct VerifyPinDataOutputResponse: Swift.Equatable {
     }
 }
 
-struct VerifyPinDataOutputResponseBody: Swift.Equatable {
+struct VerifyPinDataOutputBody: Swift.Equatable {
     let verificationKeyArn: Swift.String?
     let verificationKeyCheckValue: Swift.String?
     let encryptionKeyArn: Swift.String?
     let encryptionKeyCheckValue: Swift.String?
 }
 
-extension VerifyPinDataOutputResponseBody: Swift.Decodable {
+extension VerifyPinDataOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case encryptionKeyArn = "EncryptionKeyArn"
         case encryptionKeyCheckValue = "EncryptionKeyCheckValue"
@@ -5220,6 +5218,22 @@ extension VerifyPinDataOutputResponseBody: Swift.Decodable {
         encryptionKeyArn = encryptionKeyArnDecoded
         let encryptionKeyCheckValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encryptionKeyCheckValue)
         encryptionKeyCheckValue = encryptionKeyCheckValueDecoded
+    }
+}
+
+enum VerifyPinDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "VerificationFailedException": return try await VerificationFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

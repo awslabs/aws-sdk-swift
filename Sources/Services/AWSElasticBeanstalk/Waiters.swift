@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension ElasticBeanstalkClientProtocol {
 
-    static func environmentExistsWaiterConfig() throws -> WaiterConfiguration<DescribeEnvironmentsInput, DescribeEnvironmentsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeEnvironmentsInput, DescribeEnvironmentsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeEnvironmentsInput, result: Result<DescribeEnvironmentsOutputResponse, Error>) -> Bool in
+    static func environmentExistsWaiterConfig() throws -> WaiterConfiguration<DescribeEnvironmentsInput, DescribeEnvironmentsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeEnvironmentsInput, result: Result<DescribeEnvironmentsOutput, Error>) -> Bool in
                 // JMESPath expression: "Environments[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "Ready"
@@ -18,7 +18,7 @@ extension ElasticBeanstalkClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "Ready") } ?? false)
             }),
-            .init(state: .retry, matcher: { (input: DescribeEnvironmentsInput, result: Result<DescribeEnvironmentsOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeEnvironmentsInput, result: Result<DescribeEnvironmentsOutput, Error>) -> Bool in
                 // JMESPath expression: "Environments[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "Launching"
@@ -31,7 +31,7 @@ extension ElasticBeanstalkClientProtocol {
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "Launching") } ?? false)
             }),
         ]
-        return try WaiterConfiguration<DescribeEnvironmentsInput, DescribeEnvironmentsOutputResponse>(acceptors: acceptors, minDelay: 20.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>(acceptors: acceptors, minDelay: 20.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the EnvironmentExists event on the describeEnvironments operation.
@@ -45,14 +45,14 @@ extension ElasticBeanstalkClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilEnvironmentExists(options: WaiterOptions, input: DescribeEnvironmentsInput) async throws -> WaiterOutcome<DescribeEnvironmentsOutputResponse> {
+    public func waitUntilEnvironmentExists(options: WaiterOptions, input: DescribeEnvironmentsInput) async throws -> WaiterOutcome<DescribeEnvironmentsOutput> {
         let waiter = Waiter(config: try Self.environmentExistsWaiterConfig(), operation: self.describeEnvironments(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func environmentTerminatedWaiterConfig() throws -> WaiterConfiguration<DescribeEnvironmentsInput, DescribeEnvironmentsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeEnvironmentsInput, DescribeEnvironmentsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeEnvironmentsInput, result: Result<DescribeEnvironmentsOutputResponse, Error>) -> Bool in
+    static func environmentTerminatedWaiterConfig() throws -> WaiterConfiguration<DescribeEnvironmentsInput, DescribeEnvironmentsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeEnvironmentsInput, result: Result<DescribeEnvironmentsOutput, Error>) -> Bool in
                 // JMESPath expression: "Environments[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "Terminated"
@@ -64,7 +64,7 @@ extension ElasticBeanstalkClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "Terminated") } ?? false)
             }),
-            .init(state: .retry, matcher: { (input: DescribeEnvironmentsInput, result: Result<DescribeEnvironmentsOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeEnvironmentsInput, result: Result<DescribeEnvironmentsOutput, Error>) -> Bool in
                 // JMESPath expression: "Environments[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "Terminating"
@@ -77,7 +77,7 @@ extension ElasticBeanstalkClientProtocol {
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "Terminating") } ?? false)
             }),
         ]
-        return try WaiterConfiguration<DescribeEnvironmentsInput, DescribeEnvironmentsOutputResponse>(acceptors: acceptors, minDelay: 20.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>(acceptors: acceptors, minDelay: 20.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the EnvironmentTerminated event on the describeEnvironments operation.
@@ -91,14 +91,14 @@ extension ElasticBeanstalkClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilEnvironmentTerminated(options: WaiterOptions, input: DescribeEnvironmentsInput) async throws -> WaiterOutcome<DescribeEnvironmentsOutputResponse> {
+    public func waitUntilEnvironmentTerminated(options: WaiterOptions, input: DescribeEnvironmentsInput) async throws -> WaiterOutcome<DescribeEnvironmentsOutput> {
         let waiter = Waiter(config: try Self.environmentTerminatedWaiterConfig(), operation: self.describeEnvironments(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func environmentUpdatedWaiterConfig() throws -> WaiterConfiguration<DescribeEnvironmentsInput, DescribeEnvironmentsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeEnvironmentsInput, DescribeEnvironmentsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeEnvironmentsInput, result: Result<DescribeEnvironmentsOutputResponse, Error>) -> Bool in
+    static func environmentUpdatedWaiterConfig() throws -> WaiterConfiguration<DescribeEnvironmentsInput, DescribeEnvironmentsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeEnvironmentsInput, result: Result<DescribeEnvironmentsOutput, Error>) -> Bool in
                 // JMESPath expression: "Environments[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "Ready"
@@ -110,7 +110,7 @@ extension ElasticBeanstalkClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "Ready") } ?? false)
             }),
-            .init(state: .retry, matcher: { (input: DescribeEnvironmentsInput, result: Result<DescribeEnvironmentsOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeEnvironmentsInput, result: Result<DescribeEnvironmentsOutput, Error>) -> Bool in
                 // JMESPath expression: "Environments[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "Updating"
@@ -123,7 +123,7 @@ extension ElasticBeanstalkClientProtocol {
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "Updating") } ?? false)
             }),
         ]
-        return try WaiterConfiguration<DescribeEnvironmentsInput, DescribeEnvironmentsOutputResponse>(acceptors: acceptors, minDelay: 20.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>(acceptors: acceptors, minDelay: 20.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the EnvironmentUpdated event on the describeEnvironments operation.
@@ -137,7 +137,7 @@ extension ElasticBeanstalkClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilEnvironmentUpdated(options: WaiterOptions, input: DescribeEnvironmentsInput) async throws -> WaiterOutcome<DescribeEnvironmentsOutputResponse> {
+    public func waitUntilEnvironmentUpdated(options: WaiterOptions, input: DescribeEnvironmentsInput) async throws -> WaiterOutcome<DescribeEnvironmentsOutput> {
         let waiter = Waiter(config: try Self.environmentUpdatedWaiterConfig(), operation: self.describeEnvironments(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

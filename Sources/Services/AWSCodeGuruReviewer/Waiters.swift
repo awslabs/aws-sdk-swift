@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension CodeGuruReviewerClientProtocol {
 
-    static func codeReviewCompletedWaiterConfig() throws -> WaiterConfiguration<DescribeCodeReviewInput, DescribeCodeReviewOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeCodeReviewInput, DescribeCodeReviewOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeCodeReviewInput, result: Result<DescribeCodeReviewOutputResponse, Error>) -> Bool in
+    static func codeReviewCompletedWaiterConfig() throws -> WaiterConfiguration<DescribeCodeReviewInput, DescribeCodeReviewOutput> {
+        let acceptors: [WaiterConfiguration<DescribeCodeReviewInput, DescribeCodeReviewOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeCodeReviewInput, result: Result<DescribeCodeReviewOutput, Error>) -> Bool in
                 // JMESPath expression: "CodeReview.State"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Completed"
@@ -15,7 +15,7 @@ extension CodeGuruReviewerClientProtocol {
                 let state = codeReview?.state
                 return JMESUtils.compare(state, ==, "Completed")
             }),
-            .init(state: .failure, matcher: { (input: DescribeCodeReviewInput, result: Result<DescribeCodeReviewOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeCodeReviewInput, result: Result<DescribeCodeReviewOutput, Error>) -> Bool in
                 // JMESPath expression: "CodeReview.State"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Failed"
@@ -24,7 +24,7 @@ extension CodeGuruReviewerClientProtocol {
                 let state = codeReview?.state
                 return JMESUtils.compare(state, ==, "Failed")
             }),
-            .init(state: .retry, matcher: { (input: DescribeCodeReviewInput, result: Result<DescribeCodeReviewOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeCodeReviewInput, result: Result<DescribeCodeReviewOutput, Error>) -> Bool in
                 // JMESPath expression: "CodeReview.State"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Pending"
@@ -34,7 +34,7 @@ extension CodeGuruReviewerClientProtocol {
                 return JMESUtils.compare(state, ==, "Pending")
             }),
         ]
-        return try WaiterConfiguration<DescribeCodeReviewInput, DescribeCodeReviewOutputResponse>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeCodeReviewInput, DescribeCodeReviewOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the CodeReviewCompleted event on the describeCodeReview operation.
@@ -48,14 +48,14 @@ extension CodeGuruReviewerClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilCodeReviewCompleted(options: WaiterOptions, input: DescribeCodeReviewInput) async throws -> WaiterOutcome<DescribeCodeReviewOutputResponse> {
+    public func waitUntilCodeReviewCompleted(options: WaiterOptions, input: DescribeCodeReviewInput) async throws -> WaiterOutcome<DescribeCodeReviewOutput> {
         let waiter = Waiter(config: try Self.codeReviewCompletedWaiterConfig(), operation: self.describeCodeReview(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func repositoryAssociationSucceededWaiterConfig() throws -> WaiterConfiguration<DescribeRepositoryAssociationInput, DescribeRepositoryAssociationOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeRepositoryAssociationInput, DescribeRepositoryAssociationOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeRepositoryAssociationInput, result: Result<DescribeRepositoryAssociationOutputResponse, Error>) -> Bool in
+    static func repositoryAssociationSucceededWaiterConfig() throws -> WaiterConfiguration<DescribeRepositoryAssociationInput, DescribeRepositoryAssociationOutput> {
+        let acceptors: [WaiterConfiguration<DescribeRepositoryAssociationInput, DescribeRepositoryAssociationOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeRepositoryAssociationInput, result: Result<DescribeRepositoryAssociationOutput, Error>) -> Bool in
                 // JMESPath expression: "RepositoryAssociation.State"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Associated"
@@ -64,7 +64,7 @@ extension CodeGuruReviewerClientProtocol {
                 let state = repositoryAssociation?.state
                 return JMESUtils.compare(state, ==, "Associated")
             }),
-            .init(state: .failure, matcher: { (input: DescribeRepositoryAssociationInput, result: Result<DescribeRepositoryAssociationOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeRepositoryAssociationInput, result: Result<DescribeRepositoryAssociationOutput, Error>) -> Bool in
                 // JMESPath expression: "RepositoryAssociation.State"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Failed"
@@ -73,7 +73,7 @@ extension CodeGuruReviewerClientProtocol {
                 let state = repositoryAssociation?.state
                 return JMESUtils.compare(state, ==, "Failed")
             }),
-            .init(state: .retry, matcher: { (input: DescribeRepositoryAssociationInput, result: Result<DescribeRepositoryAssociationOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeRepositoryAssociationInput, result: Result<DescribeRepositoryAssociationOutput, Error>) -> Bool in
                 // JMESPath expression: "RepositoryAssociation.State"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Associating"
@@ -83,7 +83,7 @@ extension CodeGuruReviewerClientProtocol {
                 return JMESUtils.compare(state, ==, "Associating")
             }),
         ]
-        return try WaiterConfiguration<DescribeRepositoryAssociationInput, DescribeRepositoryAssociationOutputResponse>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeRepositoryAssociationInput, DescribeRepositoryAssociationOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the RepositoryAssociationSucceeded event on the describeRepositoryAssociation operation.
@@ -97,7 +97,7 @@ extension CodeGuruReviewerClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilRepositoryAssociationSucceeded(options: WaiterOptions, input: DescribeRepositoryAssociationInput) async throws -> WaiterOutcome<DescribeRepositoryAssociationOutputResponse> {
+    public func waitUntilRepositoryAssociationSucceeded(options: WaiterOptions, input: DescribeRepositoryAssociationInput) async throws -> WaiterOutcome<DescribeRepositoryAssociationOutput> {
         let waiter = Waiter(config: try Self.repositoryAssociationSucceededWaiterConfig(), operation: self.describeRepositoryAssociation(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

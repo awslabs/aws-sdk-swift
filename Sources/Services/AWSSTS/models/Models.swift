@@ -98,7 +98,7 @@ public struct AssumeRoleInput: Swift.Equatable {
     public var policy: Swift.String?
     /// The Amazon Resource Names (ARNs) of the IAM managed policies that you want to use as managed session policies. The policies must exist in the same account as the role. This parameter is optional. You can provide up to 10 managed policy ARNs. However, the plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Services API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide.
     public var policyArns: [STSClientTypes.PolicyDescriptorType]?
-    /// Reserved for future use.
+    /// A list of previously acquired trusted context assertions in the format of a JSON array. The trusted context assertion is signed and encrypted by Amazon Web Services STS. The following is an example of a ProvidedContext value that includes a single trusted context assertion and the ARN of the context provider from which the trusted context assertion was generated. [{"ProviderArn":"arn:aws:iam::aws:contextProvider/IdentityCenter","ContextAssertion":"trusted-context-assertion"}]
     public var providedContexts: [STSClientTypes.ProvidedContext]?
     /// The Amazon Resource Name (ARN) of the role to assume.
     /// This member is required.
@@ -275,24 +275,11 @@ extension AssumeRoleInputBody: Swift.Decodable {
     }
 }
 
-public enum AssumeRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ExpiredTokenException": return try await ExpiredTokenException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "MalformedPolicyDocument": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "PackedPolicyTooLarge": return try await PackedPolicyTooLargeException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "RegionDisabledException": return try await RegionDisabledException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension AssumeRoleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension AssumeRoleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: AssumeRoleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: AssumeRoleOutputBody = try responseDecoder.decode(responseBody: data)
             self.assumedRoleUser = output.assumedRoleUser
             self.credentials = output.credentials
             self.packedPolicySize = output.packedPolicySize
@@ -307,7 +294,7 @@ extension AssumeRoleOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [AssumeRole] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
-public struct AssumeRoleOutputResponse: Swift.Equatable {
+public struct AssumeRoleOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) and the assumed role ID, which are identifiers that you can use to refer to the resulting temporary security credentials. For example, you can reference these credentials as a principal in a resource-based policy by using the ARN or assumed role ID. The ARN and ID include the RoleSessionName that you specified when you called AssumeRole.
     public var assumedRoleUser: STSClientTypes.AssumedRoleUser?
     /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token. The size of the security token that STS API operations return is not fixed. We strongly recommend that you make no assumptions about the maximum size.
@@ -331,14 +318,14 @@ public struct AssumeRoleOutputResponse: Swift.Equatable {
     }
 }
 
-struct AssumeRoleOutputResponseBody: Swift.Equatable {
+struct AssumeRoleOutputBody: Swift.Equatable {
     let credentials: STSClientTypes.Credentials?
     let assumedRoleUser: STSClientTypes.AssumedRoleUser?
     let packedPolicySize: Swift.Int?
     let sourceIdentity: Swift.String?
 }
 
-extension AssumeRoleOutputResponseBody: Swift.Decodable {
+extension AssumeRoleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case assumedRoleUser = "AssumedRoleUser"
         case credentials = "Credentials"
@@ -357,6 +344,19 @@ extension AssumeRoleOutputResponseBody: Swift.Decodable {
         packedPolicySize = packedPolicySizeDecoded
         let sourceIdentityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceIdentity)
         sourceIdentity = sourceIdentityDecoded
+    }
+}
+
+enum AssumeRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ExpiredTokenException": return try await ExpiredTokenException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "MalformedPolicyDocument": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "PackedPolicyTooLarge": return try await PackedPolicyTooLargeException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "RegionDisabledException": return try await RegionDisabledException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -494,26 +494,11 @@ extension AssumeRoleWithSAMLInputBody: Swift.Decodable {
     }
 }
 
-public enum AssumeRoleWithSAMLOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ExpiredTokenException": return try await ExpiredTokenException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "IDPRejectedClaim": return try await IDPRejectedClaimException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidIdentityToken": return try await InvalidIdentityTokenException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "MalformedPolicyDocument": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "PackedPolicyTooLarge": return try await PackedPolicyTooLargeException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "RegionDisabledException": return try await RegionDisabledException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension AssumeRoleWithSAMLOutputResponse: ClientRuntime.HttpResponseBinding {
+extension AssumeRoleWithSAMLOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: AssumeRoleWithSAMLOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: AssumeRoleWithSAMLOutputBody = try responseDecoder.decode(responseBody: data)
             self.assumedRoleUser = output.assumedRoleUser
             self.audience = output.audience
             self.credentials = output.credentials
@@ -538,7 +523,7 @@ extension AssumeRoleWithSAMLOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [AssumeRoleWithSAML] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
-public struct AssumeRoleWithSAMLOutputResponse: Swift.Equatable {
+public struct AssumeRoleWithSAMLOutput: Swift.Equatable {
     /// The identifiers for the temporary security credentials that the operation returns.
     public var assumedRoleUser: STSClientTypes.AssumedRoleUser?
     /// The value of the Recipient attribute of the SubjectConfirmationData element of the SAML assertion.
@@ -591,7 +576,7 @@ public struct AssumeRoleWithSAMLOutputResponse: Swift.Equatable {
     }
 }
 
-struct AssumeRoleWithSAMLOutputResponseBody: Swift.Equatable {
+struct AssumeRoleWithSAMLOutputBody: Swift.Equatable {
     let credentials: STSClientTypes.Credentials?
     let assumedRoleUser: STSClientTypes.AssumedRoleUser?
     let packedPolicySize: Swift.Int?
@@ -603,7 +588,7 @@ struct AssumeRoleWithSAMLOutputResponseBody: Swift.Equatable {
     let sourceIdentity: Swift.String?
 }
 
-extension AssumeRoleWithSAMLOutputResponseBody: Swift.Decodable {
+extension AssumeRoleWithSAMLOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case assumedRoleUser = "AssumedRoleUser"
         case audience = "Audience"
@@ -637,6 +622,21 @@ extension AssumeRoleWithSAMLOutputResponseBody: Swift.Decodable {
         nameQualifier = nameQualifierDecoded
         let sourceIdentityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceIdentity)
         sourceIdentity = sourceIdentityDecoded
+    }
+}
+
+enum AssumeRoleWithSAMLOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ExpiredTokenException": return try await ExpiredTokenException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IDPRejectedClaim": return try await IDPRejectedClaimException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidIdentityToken": return try await InvalidIdentityTokenException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "MalformedPolicyDocument": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "PackedPolicyTooLarge": return try await PackedPolicyTooLargeException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "RegionDisabledException": return try await RegionDisabledException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -785,27 +785,11 @@ extension AssumeRoleWithWebIdentityInputBody: Swift.Decodable {
     }
 }
 
-public enum AssumeRoleWithWebIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ExpiredTokenException": return try await ExpiredTokenException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "IDPCommunicationError": return try await IDPCommunicationErrorException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "IDPRejectedClaim": return try await IDPRejectedClaimException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidIdentityToken": return try await InvalidIdentityTokenException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "MalformedPolicyDocument": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "PackedPolicyTooLarge": return try await PackedPolicyTooLargeException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "RegionDisabledException": return try await RegionDisabledException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension AssumeRoleWithWebIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
+extension AssumeRoleWithWebIdentityOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: AssumeRoleWithWebIdentityOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: AssumeRoleWithWebIdentityOutputBody = try responseDecoder.decode(responseBody: data)
             self.assumedRoleUser = output.assumedRoleUser
             self.audience = output.audience
             self.credentials = output.credentials
@@ -826,7 +810,7 @@ extension AssumeRoleWithWebIdentityOutputResponse: ClientRuntime.HttpResponseBin
 }
 
 /// Contains the response to a successful [AssumeRoleWithWebIdentity] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
-public struct AssumeRoleWithWebIdentityOutputResponse: Swift.Equatable {
+public struct AssumeRoleWithWebIdentityOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) and the assumed role ID, which are identifiers that you can use to refer to the resulting temporary security credentials. For example, you can reference these credentials as a principal in a resource-based policy by using the ARN or assumed role ID. The ARN and ID include the RoleSessionName that you specified when you called AssumeRole.
     public var assumedRoleUser: STSClientTypes.AssumedRoleUser?
     /// The intended audience (also known as client ID) of the web identity token. This is traditionally the client identifier issued to the application that requested the web identity token.
@@ -862,7 +846,7 @@ public struct AssumeRoleWithWebIdentityOutputResponse: Swift.Equatable {
     }
 }
 
-struct AssumeRoleWithWebIdentityOutputResponseBody: Swift.Equatable {
+struct AssumeRoleWithWebIdentityOutputBody: Swift.Equatable {
     let credentials: STSClientTypes.Credentials?
     let subjectFromWebIdentityToken: Swift.String?
     let assumedRoleUser: STSClientTypes.AssumedRoleUser?
@@ -872,7 +856,7 @@ struct AssumeRoleWithWebIdentityOutputResponseBody: Swift.Equatable {
     let sourceIdentity: Swift.String?
 }
 
-extension AssumeRoleWithWebIdentityOutputResponseBody: Swift.Decodable {
+extension AssumeRoleWithWebIdentityOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case assumedRoleUser = "AssumedRoleUser"
         case audience = "Audience"
@@ -900,6 +884,22 @@ extension AssumeRoleWithWebIdentityOutputResponseBody: Swift.Decodable {
         audience = audienceDecoded
         let sourceIdentityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceIdentity)
         sourceIdentity = sourceIdentityDecoded
+    }
+}
+
+enum AssumeRoleWithWebIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ExpiredTokenException": return try await ExpiredTokenException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IDPCommunicationError": return try await IDPCommunicationErrorException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IDPRejectedClaim": return try await IDPRejectedClaimException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidIdentityToken": return try await InvalidIdentityTokenException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "MalformedPolicyDocument": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "PackedPolicyTooLarge": return try await PackedPolicyTooLargeException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "RegionDisabledException": return try await RegionDisabledException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -964,7 +964,7 @@ extension STSClientTypes.Credentials: Swift.Codable {
             try container.encode(accessKeyId, forKey: ClientRuntime.Key("AccessKeyId"))
         }
         if let expiration = expiration {
-            try container.encodeTimestamp(expiration, format: .dateTime, forKey: ClientRuntime.Key("expiration"))
+            try container.encodeTimestamp(expiration, format: .dateTime, forKey: ClientRuntime.Key("Expiration"))
         }
         if let secretAccessKey = secretAccessKey {
             try container.encode(secretAccessKey, forKey: ClientRuntime.Key("SecretAccessKey"))
@@ -1070,21 +1070,11 @@ extension DecodeAuthorizationMessageInputBody: Swift.Decodable {
     }
 }
 
-public enum DecodeAuthorizationMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidAuthorizationMessageException": return try await InvalidAuthorizationMessageException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DecodeAuthorizationMessageOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DecodeAuthorizationMessageOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DecodeAuthorizationMessageOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DecodeAuthorizationMessageOutputBody = try responseDecoder.decode(responseBody: data)
             self.decodedMessage = output.decodedMessage
         } else {
             self.decodedMessage = nil
@@ -1093,7 +1083,7 @@ extension DecodeAuthorizationMessageOutputResponse: ClientRuntime.HttpResponseBi
 }
 
 /// A document that contains additional information about the authorization status of a request from an encoded message that is returned in response to an Amazon Web Services request.
-public struct DecodeAuthorizationMessageOutputResponse: Swift.Equatable {
+public struct DecodeAuthorizationMessageOutput: Swift.Equatable {
     /// The API returns a response with the decoded message.
     public var decodedMessage: Swift.String?
 
@@ -1105,11 +1095,11 @@ public struct DecodeAuthorizationMessageOutputResponse: Swift.Equatable {
     }
 }
 
-struct DecodeAuthorizationMessageOutputResponseBody: Swift.Equatable {
+struct DecodeAuthorizationMessageOutputBody: Swift.Equatable {
     let decodedMessage: Swift.String?
 }
 
-extension DecodeAuthorizationMessageOutputResponseBody: Swift.Decodable {
+extension DecodeAuthorizationMessageOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case decodedMessage = "DecodedMessage"
     }
@@ -1119,6 +1109,16 @@ extension DecodeAuthorizationMessageOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DecodeAuthorizationMessageResult"))
         let decodedMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .decodedMessage)
         decodedMessage = decodedMessageDecoded
+    }
+}
+
+enum DecodeAuthorizationMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidAuthorizationMessageException": return try await InvalidAuthorizationMessageException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -1269,20 +1269,11 @@ extension GetAccessKeyInfoInputBody: Swift.Decodable {
     }
 }
 
-public enum GetAccessKeyInfoOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetAccessKeyInfoOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetAccessKeyInfoOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetAccessKeyInfoOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetAccessKeyInfoOutputBody = try responseDecoder.decode(responseBody: data)
             self.account = output.account
         } else {
             self.account = nil
@@ -1290,7 +1281,7 @@ extension GetAccessKeyInfoOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAccessKeyInfoOutputResponse: Swift.Equatable {
+public struct GetAccessKeyInfoOutput: Swift.Equatable {
     /// The number used to identify the Amazon Web Services account.
     public var account: Swift.String?
 
@@ -1302,11 +1293,11 @@ public struct GetAccessKeyInfoOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetAccessKeyInfoOutputResponseBody: Swift.Equatable {
+struct GetAccessKeyInfoOutputBody: Swift.Equatable {
     let account: Swift.String?
 }
 
-extension GetAccessKeyInfoOutputResponseBody: Swift.Decodable {
+extension GetAccessKeyInfoOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case account = "Account"
     }
@@ -1316,6 +1307,15 @@ extension GetAccessKeyInfoOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetAccessKeyInfoResult"))
         let accountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .account)
         account = accountDecoded
+    }
+}
+
+enum GetAccessKeyInfoOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -1347,22 +1347,21 @@ extension GetCallerIdentityInput {
                       .withSigningName(value: "sts")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetCallerIdentityInput, GetCallerIdentityOutputResponse, GetCallerIdentityOutputError>(id: "getCallerIdentity")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCallerIdentityInput, GetCallerIdentityOutputResponse, GetCallerIdentityOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCallerIdentityInput, GetCallerIdentityOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetCallerIdentityInput, GetCallerIdentityOutput>(id: "getCallerIdentity")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCallerIdentityOutputResponse, GetCallerIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCallerIdentityInput, GetCallerIdentityOutputResponse>(xmlName: "GetCallerIdentityRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCallerIdentityInput, GetCallerIdentityOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCallerIdentityOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCallerIdentityOutputResponse, GetCallerIdentityOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCallerIdentityOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCallerIdentityOutputResponse, GetCallerIdentityOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCallerIdentityOutputResponse, GetCallerIdentityOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCallerIdentityOutputResponse, GetCallerIdentityOutputError>(clientLogMode: config.clientLogMode))
-        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCallerIdentityOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCallerIdentityOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetCallerIdentityOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCallerIdentityOutput>(clientLogMode: config.clientLogMode))
+        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: GetCallerIdentityOutput(), next: ClientRuntime.NoopHandler())
         guard let builtRequest = presignedRequestBuilder?.build() else {
             return nil
         }
@@ -1381,20 +1380,11 @@ public struct GetCallerIdentityInput: Swift.Equatable {
     public init() { }
 }
 
-public enum GetCallerIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetCallerIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetCallerIdentityOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetCallerIdentityOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetCallerIdentityOutputBody = try responseDecoder.decode(responseBody: data)
             self.account = output.account
             self.arn = output.arn
             self.userId = output.userId
@@ -1407,7 +1397,7 @@ extension GetCallerIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [GetCallerIdentity] request, including information about the entity making the request.
-public struct GetCallerIdentityOutputResponse: Swift.Equatable {
+public struct GetCallerIdentityOutput: Swift.Equatable {
     /// The Amazon Web Services account ID number of the account that owns or contains the calling entity.
     public var account: Swift.String?
     /// The Amazon Web Services ARN associated with the calling entity.
@@ -1427,13 +1417,13 @@ public struct GetCallerIdentityOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetCallerIdentityOutputResponseBody: Swift.Equatable {
+struct GetCallerIdentityOutputBody: Swift.Equatable {
     let userId: Swift.String?
     let account: Swift.String?
     let arn: Swift.String?
 }
 
-extension GetCallerIdentityOutputResponseBody: Swift.Decodable {
+extension GetCallerIdentityOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case account = "Account"
         case arn = "Arn"
@@ -1449,6 +1439,15 @@ extension GetCallerIdentityOutputResponseBody: Swift.Decodable {
         account = accountDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
+    }
+}
+
+enum GetCallerIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -1594,23 +1593,11 @@ extension GetFederationTokenInputBody: Swift.Decodable {
     }
 }
 
-public enum GetFederationTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "MalformedPolicyDocument": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "PackedPolicyTooLarge": return try await PackedPolicyTooLargeException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "RegionDisabledException": return try await RegionDisabledException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetFederationTokenOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetFederationTokenOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetFederationTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetFederationTokenOutputBody = try responseDecoder.decode(responseBody: data)
             self.credentials = output.credentials
             self.federatedUser = output.federatedUser
             self.packedPolicySize = output.packedPolicySize
@@ -1623,7 +1610,7 @@ extension GetFederationTokenOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [GetFederationToken] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
-public struct GetFederationTokenOutputResponse: Swift.Equatable {
+public struct GetFederationTokenOutput: Swift.Equatable {
     /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token. The size of the security token that STS API operations return is not fixed. We strongly recommend that you make no assumptions about the maximum size.
     public var credentials: STSClientTypes.Credentials?
     /// Identifiers for the federated user associated with the credentials (such as arn:aws:sts::123456789012:federated-user/Bob or 123456789012:Bob). You can use the federated user's ARN in your resource-based policies, such as an Amazon S3 bucket policy.
@@ -1643,13 +1630,13 @@ public struct GetFederationTokenOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetFederationTokenOutputResponseBody: Swift.Equatable {
+struct GetFederationTokenOutputBody: Swift.Equatable {
     let credentials: STSClientTypes.Credentials?
     let federatedUser: STSClientTypes.FederatedUser?
     let packedPolicySize: Swift.Int?
 }
 
-extension GetFederationTokenOutputResponseBody: Swift.Decodable {
+extension GetFederationTokenOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case credentials = "Credentials"
         case federatedUser = "FederatedUser"
@@ -1665,6 +1652,18 @@ extension GetFederationTokenOutputResponseBody: Swift.Decodable {
         federatedUser = federatedUserDecoded
         let packedPolicySizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .packedPolicySize)
         packedPolicySize = packedPolicySizeDecoded
+    }
+}
+
+enum GetFederationTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "MalformedPolicyDocument": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "PackedPolicyTooLarge": return try await PackedPolicyTooLargeException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "RegionDisabledException": return try await RegionDisabledException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -1735,21 +1734,11 @@ extension GetSessionTokenInputBody: Swift.Decodable {
     }
 }
 
-public enum GetSessionTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "RegionDisabledException": return try await RegionDisabledException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetSessionTokenOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSessionTokenOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSessionTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSessionTokenOutputBody = try responseDecoder.decode(responseBody: data)
             self.credentials = output.credentials
         } else {
             self.credentials = nil
@@ -1758,7 +1747,7 @@ extension GetSessionTokenOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [GetSessionToken] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
-public struct GetSessionTokenOutputResponse: Swift.Equatable {
+public struct GetSessionTokenOutput: Swift.Equatable {
     /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token. The size of the security token that STS API operations return is not fixed. We strongly recommend that you make no assumptions about the maximum size.
     public var credentials: STSClientTypes.Credentials?
 
@@ -1770,11 +1759,11 @@ public struct GetSessionTokenOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSessionTokenOutputResponseBody: Swift.Equatable {
+struct GetSessionTokenOutputBody: Swift.Equatable {
     let credentials: STSClientTypes.Credentials?
 }
 
-extension GetSessionTokenOutputResponseBody: Swift.Decodable {
+extension GetSessionTokenOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case credentials = "Credentials"
     }
@@ -1784,6 +1773,16 @@ extension GetSessionTokenOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetSessionTokenResult"))
         let credentialsDecoded = try containerValues.decodeIfPresent(STSClientTypes.Credentials.self, forKey: .credentials)
         credentials = credentialsDecoded
+    }
+}
+
+enum GetSessionTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "RegionDisabledException": return try await RegionDisabledException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -2172,11 +2171,11 @@ extension STSClientTypes.ProvidedContext: Swift.Codable {
 }
 
 extension STSClientTypes {
-    /// Reserved for future use.
+    /// Contains information about the provided context. This includes the signed and encrypted trusted context assertion and the context provider ARN from which the trusted context assertion was generated.
     public struct ProvidedContext: Swift.Equatable {
-        /// Reserved for future use.
+        /// The signed and encrypted trusted context assertion generated by the context provider. The trusted context assertion is signed and encrypted by Amazon Web Services STS.
         public var contextAssertion: Swift.String?
-        /// Reserved for future use.
+        /// The context provider ARN from which the trusted context assertion was generated.
         public var providerArn: Swift.String?
 
         public init(

@@ -10,18 +10,12 @@ import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.awsjson.AwsJson1_0_ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSXAmzTargetMiddleware
 import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
-import software.amazon.smithy.build.MockManifest
-import software.amazon.smithy.codegen.core.SymbolProvider
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.shapes.StructureShape
-import software.amazon.smithy.swift.codegen.SwiftCodegenPlugin
-import software.amazon.smithy.swift.codegen.SwiftDelegator
-import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
 class AWSXAmzTargetMiddlewareTests {
     @Test
@@ -56,39 +50,9 @@ stack.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XA
         val context = model.newTestContext("com.test#ExampleServiceShapeName", AwsJson1_0_ProtocolGenerator()).ctx
         val sut = AWSXAmzTargetMiddleware(context.model, context.symbolProvider, context.service)
 
-        sut.render(writer, operationShape, opStackName)
+        sut.render(context, writer, operationShape, opStackName)
 
         val contents = writer.toString()
         contents.shouldContainOnlyOnce(expectedContents)
     }
-}
-
-// TODO: move to proper location once we figure out where that should be
-fun Model.newTestContext(
-    serviceShapeId: String = "com.test#Example",
-    generator: ProtocolGenerator
-): TestContext {
-    return newTestContext(MockManifest(), serviceShapeId, generator)
-}
-
-fun Model.newTestContext(
-    manifest: MockManifest,
-    serviceShapeId: String,
-    generator: ProtocolGenerator
-): TestContext {
-    val settings = SwiftSettings.from(this, TestContextGenerator.buildDefaultSwiftSettingsObjectNode("com.test#Example"))
-    val provider: SymbolProvider = SwiftCodegenPlugin.createSymbolProvider(this, settings)
-    val service = this.getShape(ShapeId.from(serviceShapeId)).get().asServiceShape().get()
-    val delegator = SwiftDelegator(settings, this, manifest, provider)
-
-    val ctx = ProtocolGenerator.GenerationContext(
-        settings,
-        this,
-        service,
-        provider,
-        listOf(),
-        generator.protocol,
-        delegator
-    )
-    return TestContext(ctx, manifest)
 }

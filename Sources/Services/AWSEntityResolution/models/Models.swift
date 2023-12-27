@@ -144,6 +144,306 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
+extension CreateIdMappingWorkflowInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case idMappingTechniques
+        case inputSourceConfig
+        case outputSourceConfig
+        case roleArn
+        case tags
+        case workflowName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let idMappingTechniques = self.idMappingTechniques {
+            try encodeContainer.encode(idMappingTechniques, forKey: .idMappingTechniques)
+        }
+        if let inputSourceConfig = inputSourceConfig {
+            var inputSourceConfigContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputSourceConfig)
+            for idmappingworkflowinputsource0 in inputSourceConfig {
+                try inputSourceConfigContainer.encode(idmappingworkflowinputsource0)
+            }
+        }
+        if let outputSourceConfig = outputSourceConfig {
+            var outputSourceConfigContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputSourceConfig)
+            for idmappingworkflowoutputsource0 in outputSourceConfig {
+                try outputSourceConfigContainer.encode(idmappingworkflowoutputsource0)
+            }
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let workflowName = self.workflowName {
+            try encodeContainer.encode(workflowName, forKey: .workflowName)
+        }
+    }
+}
+
+extension CreateIdMappingWorkflowInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/idmappingworkflows"
+    }
+}
+
+public struct CreateIdMappingWorkflowInput: Swift.Equatable {
+    /// A description of the workflow.
+    public var description: Swift.String?
+    /// An object which defines the idMappingType and the providerProperties.
+    /// This member is required.
+    public var idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques?
+    /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
+    /// This member is required.
+    public var inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]?
+    /// A list of IdMappingWorkflowOutputSource objects, each of which contains fields OutputS3Path and Output.
+    /// This member is required.
+    public var outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]?
+    /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// The tags used to organize, track, or control access for this resource.
+    public var tags: [Swift.String:Swift.String]?
+    /// The name of the workflow. There can't be multiple IdMappingWorkflows with the same name.
+    /// This member is required.
+    public var workflowName: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques? = nil,
+        inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]? = nil,
+        outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]? = nil,
+        roleArn: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        workflowName: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.idMappingTechniques = idMappingTechniques
+        self.inputSourceConfig = inputSourceConfig
+        self.outputSourceConfig = outputSourceConfig
+        self.roleArn = roleArn
+        self.tags = tags
+        self.workflowName = workflowName
+    }
+}
+
+struct CreateIdMappingWorkflowInputBody: Swift.Equatable {
+    let workflowName: Swift.String?
+    let description: Swift.String?
+    let inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]?
+    let outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]?
+    let idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques?
+    let roleArn: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateIdMappingWorkflowInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case idMappingTechniques
+        case inputSourceConfig
+        case outputSourceConfig
+        case roleArn
+        case tags
+        case workflowName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workflowNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowName)
+        workflowName = workflowNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let inputSourceConfigContainer = try containerValues.decodeIfPresent([EntityResolutionClientTypes.IdMappingWorkflowInputSource?].self, forKey: .inputSourceConfig)
+        var inputSourceConfigDecoded0:[EntityResolutionClientTypes.IdMappingWorkflowInputSource]? = nil
+        if let inputSourceConfigContainer = inputSourceConfigContainer {
+            inputSourceConfigDecoded0 = [EntityResolutionClientTypes.IdMappingWorkflowInputSource]()
+            for structure0 in inputSourceConfigContainer {
+                if let structure0 = structure0 {
+                    inputSourceConfigDecoded0?.append(structure0)
+                }
+            }
+        }
+        inputSourceConfig = inputSourceConfigDecoded0
+        let outputSourceConfigContainer = try containerValues.decodeIfPresent([EntityResolutionClientTypes.IdMappingWorkflowOutputSource?].self, forKey: .outputSourceConfig)
+        var outputSourceConfigDecoded0:[EntityResolutionClientTypes.IdMappingWorkflowOutputSource]? = nil
+        if let outputSourceConfigContainer = outputSourceConfigContainer {
+            outputSourceConfigDecoded0 = [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]()
+            for structure0 in outputSourceConfigContainer {
+                if let structure0 = structure0 {
+                    outputSourceConfigDecoded0?.append(structure0)
+                }
+            }
+        }
+        outputSourceConfig = outputSourceConfigDecoded0
+        let idMappingTechniquesDecoded = try containerValues.decodeIfPresent(EntityResolutionClientTypes.IdMappingTechniques.self, forKey: .idMappingTechniques)
+        idMappingTechniques = idMappingTechniquesDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateIdMappingWorkflowOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateIdMappingWorkflowOutputBody = try responseDecoder.decode(responseBody: data)
+            self.description = output.description
+            self.idMappingTechniques = output.idMappingTechniques
+            self.inputSourceConfig = output.inputSourceConfig
+            self.outputSourceConfig = output.outputSourceConfig
+            self.roleArn = output.roleArn
+            self.workflowArn = output.workflowArn
+            self.workflowName = output.workflowName
+        } else {
+            self.description = nil
+            self.idMappingTechniques = nil
+            self.inputSourceConfig = nil
+            self.outputSourceConfig = nil
+            self.roleArn = nil
+            self.workflowArn = nil
+            self.workflowName = nil
+        }
+    }
+}
+
+public struct CreateIdMappingWorkflowOutput: Swift.Equatable {
+    /// A description of the workflow.
+    public var description: Swift.String?
+    /// An object which defines the idMappingType and the providerProperties.
+    /// This member is required.
+    public var idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques?
+    /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
+    /// This member is required.
+    public var inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]?
+    /// A list of IdMappingWorkflowOutputSource objects, each of which contains fields OutputS3Path and Output.
+    /// This member is required.
+    public var outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]?
+    /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// The ARN (Amazon Resource Name) that Entity Resolution generated for the IDMappingWorkflow.
+    /// This member is required.
+    public var workflowArn: Swift.String?
+    /// The name of the workflow.
+    /// This member is required.
+    public var workflowName: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques? = nil,
+        inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]? = nil,
+        outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]? = nil,
+        roleArn: Swift.String? = nil,
+        workflowArn: Swift.String? = nil,
+        workflowName: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.idMappingTechniques = idMappingTechniques
+        self.inputSourceConfig = inputSourceConfig
+        self.outputSourceConfig = outputSourceConfig
+        self.roleArn = roleArn
+        self.workflowArn = workflowArn
+        self.workflowName = workflowName
+    }
+}
+
+struct CreateIdMappingWorkflowOutputBody: Swift.Equatable {
+    let workflowName: Swift.String?
+    let workflowArn: Swift.String?
+    let description: Swift.String?
+    let inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]?
+    let outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]?
+    let idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques?
+    let roleArn: Swift.String?
+}
+
+extension CreateIdMappingWorkflowOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case idMappingTechniques
+        case inputSourceConfig
+        case outputSourceConfig
+        case roleArn
+        case workflowArn
+        case workflowName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workflowNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowName)
+        workflowName = workflowNameDecoded
+        let workflowArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowArn)
+        workflowArn = workflowArnDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let inputSourceConfigContainer = try containerValues.decodeIfPresent([EntityResolutionClientTypes.IdMappingWorkflowInputSource?].self, forKey: .inputSourceConfig)
+        var inputSourceConfigDecoded0:[EntityResolutionClientTypes.IdMappingWorkflowInputSource]? = nil
+        if let inputSourceConfigContainer = inputSourceConfigContainer {
+            inputSourceConfigDecoded0 = [EntityResolutionClientTypes.IdMappingWorkflowInputSource]()
+            for structure0 in inputSourceConfigContainer {
+                if let structure0 = structure0 {
+                    inputSourceConfigDecoded0?.append(structure0)
+                }
+            }
+        }
+        inputSourceConfig = inputSourceConfigDecoded0
+        let outputSourceConfigContainer = try containerValues.decodeIfPresent([EntityResolutionClientTypes.IdMappingWorkflowOutputSource?].self, forKey: .outputSourceConfig)
+        var outputSourceConfigDecoded0:[EntityResolutionClientTypes.IdMappingWorkflowOutputSource]? = nil
+        if let outputSourceConfigContainer = outputSourceConfigContainer {
+            outputSourceConfigDecoded0 = [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]()
+            for structure0 in outputSourceConfigContainer {
+                if let structure0 = structure0 {
+                    outputSourceConfigDecoded0?.append(structure0)
+                }
+            }
+        }
+        outputSourceConfig = outputSourceConfigDecoded0
+        let idMappingTechniquesDecoded = try containerValues.decodeIfPresent(EntityResolutionClientTypes.IdMappingTechniques.self, forKey: .idMappingTechniques)
+        idMappingTechniques = idMappingTechniquesDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+    }
+}
+
+enum CreateIdMappingWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ExceedsLimitException": return try await ExceedsLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension CreateMatchingWorkflowInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description
@@ -211,15 +511,15 @@ public struct CreateMatchingWorkflowInput: Swift.Equatable {
     /// A list of OutputSource objects, each of which contains fields OutputS3Path, ApplyNormalization, and Output.
     /// This member is required.
     public var outputSourceConfig: [EntityResolutionClientTypes.OutputSource]?
-    /// An object which defines the resolutionType and the ruleBasedProperties
+    /// An object which defines the resolutionType and the ruleBasedProperties.
     /// This member is required.
     public var resolutionTechniques: EntityResolutionClientTypes.ResolutionTechniques?
-    /// The Amazon Resource Name (ARN) of the IAM role. AWS Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
+    /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
     /// This member is required.
     public var roleArn: Swift.String?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String:Swift.String]?
-    /// The name of the workflow. There cannot be multiple DataIntegrationWorkflows with the same name.
+    /// The name of the workflow. There can't be multiple MatchingWorkflows with the same name.
     /// This member is required.
     public var workflowName: Swift.String?
 
@@ -316,27 +616,11 @@ extension CreateMatchingWorkflowInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateMatchingWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ExceedsLimitException": return try await ExceedsLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateMatchingWorkflowOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateMatchingWorkflowOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateMatchingWorkflowOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateMatchingWorkflowOutputBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.incrementalRunConfig = output.incrementalRunConfig
             self.inputSourceConfig = output.inputSourceConfig
@@ -358,7 +642,7 @@ extension CreateMatchingWorkflowOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct CreateMatchingWorkflowOutputResponse: Swift.Equatable {
+public struct CreateMatchingWorkflowOutput: Swift.Equatable {
     /// A description of the workflow.
     public var description: Swift.String?
     /// An object which defines an incremental run type and has only incrementalRunType as a field.
@@ -369,10 +653,10 @@ public struct CreateMatchingWorkflowOutputResponse: Swift.Equatable {
     /// A list of OutputSource objects, each of which contains fields OutputS3Path, ApplyNormalization, and Output.
     /// This member is required.
     public var outputSourceConfig: [EntityResolutionClientTypes.OutputSource]?
-    /// An object which defines the resolutionType and the ruleBasedProperties
+    /// An object which defines the resolutionType and the ruleBasedProperties.
     /// This member is required.
     public var resolutionTechniques: EntityResolutionClientTypes.ResolutionTechniques?
-    /// The Amazon Resource Name (ARN) of the IAM role. AWS Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
+    /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
     /// This member is required.
     public var roleArn: Swift.String?
     /// The ARN (Amazon Resource Name) that Entity Resolution generated for the MatchingWorkflow.
@@ -404,7 +688,7 @@ public struct CreateMatchingWorkflowOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateMatchingWorkflowOutputResponseBody: Swift.Equatable {
+struct CreateMatchingWorkflowOutputBody: Swift.Equatable {
     let workflowName: Swift.String?
     let workflowArn: Swift.String?
     let description: Swift.String?
@@ -415,7 +699,7 @@ struct CreateMatchingWorkflowOutputResponseBody: Swift.Equatable {
     let roleArn: Swift.String?
 }
 
-extension CreateMatchingWorkflowOutputResponseBody: Swift.Decodable {
+extension CreateMatchingWorkflowOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description
         case incrementalRunConfig
@@ -466,6 +750,22 @@ extension CreateMatchingWorkflowOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum CreateMatchingWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ExceedsLimitException": return try await ExceedsLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension CreateSchemaMappingInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description
@@ -507,8 +807,9 @@ public struct CreateSchemaMappingInput: Swift.Equatable {
     /// A description of the schema.
     public var description: Swift.String?
     /// A list of MappedInputFields. Each MappedInputField corresponds to a column the source data table, and contains column name plus additional information that Entity Resolution uses for matching.
+    /// This member is required.
     public var mappedInputFields: [EntityResolutionClientTypes.SchemaInputAttribute]?
-    /// The name of the schema. There cannot be multiple SchemaMappings with the same name.
+    /// The name of the schema. There can't be multiple SchemaMappings with the same name.
     /// This member is required.
     public var schemaName: Swift.String?
     /// The tags used to organize, track, or control access for this resource.
@@ -574,27 +875,11 @@ extension CreateSchemaMappingInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateSchemaMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ExceedsLimitException": return try await ExceedsLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateSchemaMappingOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateSchemaMappingOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateSchemaMappingOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateSchemaMappingOutputBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.mappedInputFields = output.mappedInputFields
             self.schemaArn = output.schemaArn
@@ -608,7 +893,7 @@ extension CreateSchemaMappingOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSchemaMappingOutputResponse: Swift.Equatable {
+public struct CreateSchemaMappingOutput: Swift.Equatable {
     /// A description of the schema.
     /// This member is required.
     public var description: Swift.String?
@@ -636,14 +921,14 @@ public struct CreateSchemaMappingOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateSchemaMappingOutputResponseBody: Swift.Equatable {
+struct CreateSchemaMappingOutputBody: Swift.Equatable {
     let schemaName: Swift.String?
     let schemaArn: Swift.String?
     let description: Swift.String?
     let mappedInputFields: [EntityResolutionClientTypes.SchemaInputAttribute]?
 }
 
-extension CreateSchemaMappingOutputResponseBody: Swift.Decodable {
+extension CreateSchemaMappingOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description
         case mappedInputFields
@@ -670,6 +955,108 @@ extension CreateSchemaMappingOutputResponseBody: Swift.Decodable {
             }
         }
         mappedInputFields = mappedInputFieldsDecoded0
+    }
+}
+
+enum CreateSchemaMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ExceedsLimitException": return try await ExceedsLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteIdMappingWorkflowInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let workflowName = workflowName else {
+            return nil
+        }
+        return "/idmappingworkflows/\(workflowName.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteIdMappingWorkflowInput: Swift.Equatable {
+    /// The name of the workflow to be deleted.
+    /// This member is required.
+    public var workflowName: Swift.String?
+
+    public init(
+        workflowName: Swift.String? = nil
+    )
+    {
+        self.workflowName = workflowName
+    }
+}
+
+struct DeleteIdMappingWorkflowInputBody: Swift.Equatable {
+}
+
+extension DeleteIdMappingWorkflowInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteIdMappingWorkflowOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteIdMappingWorkflowOutputBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+    }
+}
+
+public struct DeleteIdMappingWorkflowOutput: Swift.Equatable {
+    /// A successful operation message.
+    /// This member is required.
+    public var message: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct DeleteIdMappingWorkflowOutputBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension DeleteIdMappingWorkflowOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+enum DeleteIdMappingWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -704,25 +1091,11 @@ extension DeleteMatchingWorkflowInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteMatchingWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteMatchingWorkflowOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteMatchingWorkflowOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteMatchingWorkflowOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteMatchingWorkflowOutputBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
             self.message = nil
@@ -730,7 +1103,7 @@ extension DeleteMatchingWorkflowOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DeleteMatchingWorkflowOutputResponse: Swift.Equatable {
+public struct DeleteMatchingWorkflowOutput: Swift.Equatable {
     /// A successful operation message.
     /// This member is required.
     public var message: Swift.String?
@@ -743,11 +1116,11 @@ public struct DeleteMatchingWorkflowOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteMatchingWorkflowOutputResponseBody: Swift.Equatable {
+struct DeleteMatchingWorkflowOutputBody: Swift.Equatable {
     let message: Swift.String?
 }
 
-extension DeleteMatchingWorkflowOutputResponseBody: Swift.Decodable {
+extension DeleteMatchingWorkflowOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
     }
@@ -756,6 +1129,20 @@ extension DeleteMatchingWorkflowOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+enum DeleteMatchingWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -790,26 +1177,11 @@ extension DeleteSchemaMappingInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteSchemaMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteSchemaMappingOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteSchemaMappingOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteSchemaMappingOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteSchemaMappingOutputBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
             self.message = nil
@@ -817,7 +1189,7 @@ extension DeleteSchemaMappingOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSchemaMappingOutputResponse: Swift.Equatable {
+public struct DeleteSchemaMappingOutput: Swift.Equatable {
     /// A successful operation message.
     /// This member is required.
     public var message: Swift.String?
@@ -830,11 +1202,11 @@ public struct DeleteSchemaMappingOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteSchemaMappingOutputResponseBody: Swift.Equatable {
+struct DeleteSchemaMappingOutputBody: Swift.Equatable {
     let message: Swift.String?
 }
 
-extension DeleteSchemaMappingOutputResponseBody: Swift.Decodable {
+extension DeleteSchemaMappingOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
     }
@@ -843,6 +1215,21 @@ extension DeleteSchemaMappingOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+enum DeleteSchemaMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -887,8 +1274,12 @@ extension ExceedsLimitException {
             let responseDecoder = decoder {
             let output: ExceedsLimitExceptionBody = try responseDecoder.decode(responseBody: data)
             self.properties.message = output.message
+            self.properties.quotaName = output.quotaName
+            self.properties.quotaValue = output.quotaValue
         } else {
             self.properties.message = nil
+            self.properties.quotaName = nil
+            self.properties.quotaValue = nil
         }
         self.httpResponse = httpResponse
         self.requestID = requestID
@@ -896,11 +1287,15 @@ extension ExceedsLimitException {
     }
 }
 
-/// The request was rejected because it attempted to create resources beyond the current AWS Entity Resolution account limits. The error message describes the limit exceeded. HTTP Status Code: 402
+/// The request was rejected because it attempted to create resources beyond the current Entity Resolution account limits. The error message describes the limit exceeded. HTTP Status Code: 402
 public struct ExceedsLimitException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
         public internal(set) var message: Swift.String? = nil
+        /// The name of the quota that has been breached.
+        public internal(set) var quotaName: Swift.String? = nil
+        /// The current quota value for the customers.
+        public internal(set) var quotaValue: Swift.Int? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -913,26 +1308,396 @@ public struct ExceedsLimitException: ClientRuntime.ModeledError, AWSClientRuntim
     public internal(set) var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        quotaName: Swift.String? = nil,
+        quotaValue: Swift.Int? = nil
     )
     {
         self.properties.message = message
+        self.properties.quotaName = quotaName
+        self.properties.quotaValue = quotaValue
     }
 }
 
 struct ExceedsLimitExceptionBody: Swift.Equatable {
     let message: Swift.String?
+    let quotaName: Swift.String?
+    let quotaValue: Swift.Int?
 }
 
 extension ExceedsLimitExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
+        case quotaName
+        case quotaValue
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+        let quotaNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .quotaName)
+        quotaName = quotaNameDecoded
+        let quotaValueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .quotaValue)
+        quotaValue = quotaValueDecoded
+    }
+}
+
+extension GetIdMappingJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let workflowName = workflowName else {
+            return nil
+        }
+        guard let jobId = jobId else {
+            return nil
+        }
+        return "/idmappingworkflows/\(workflowName.urlPercentEncoding())/jobs/\(jobId.urlPercentEncoding())"
+    }
+}
+
+public struct GetIdMappingJobInput: Swift.Equatable {
+    /// The ID of the job.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The name of the workflow.
+    /// This member is required.
+    public var workflowName: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil,
+        workflowName: Swift.String? = nil
+    )
+    {
+        self.jobId = jobId
+        self.workflowName = workflowName
+    }
+}
+
+struct GetIdMappingJobInputBody: Swift.Equatable {
+}
+
+extension GetIdMappingJobInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetIdMappingJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetIdMappingJobOutputBody = try responseDecoder.decode(responseBody: data)
+            self.endTime = output.endTime
+            self.errorDetails = output.errorDetails
+            self.jobId = output.jobId
+            self.metrics = output.metrics
+            self.startTime = output.startTime
+            self.status = output.status
+        } else {
+            self.endTime = nil
+            self.errorDetails = nil
+            self.jobId = nil
+            self.metrics = nil
+            self.startTime = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct GetIdMappingJobOutput: Swift.Equatable {
+    /// The time at which the job has finished.
+    public var endTime: ClientRuntime.Date?
+    /// An object containing an error message, if there was an error.
+    public var errorDetails: EntityResolutionClientTypes.ErrorDetails?
+    /// The ID of the job.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// Metrics associated with the execution, specifically total records processed, unique IDs generated, and records the execution skipped.
+    public var metrics: EntityResolutionClientTypes.IdMappingJobMetrics?
+    /// The time at which the job was started.
+    /// This member is required.
+    public var startTime: ClientRuntime.Date?
+    /// The current status of the job.
+    /// This member is required.
+    public var status: EntityResolutionClientTypes.JobStatus?
+
+    public init(
+        endTime: ClientRuntime.Date? = nil,
+        errorDetails: EntityResolutionClientTypes.ErrorDetails? = nil,
+        jobId: Swift.String? = nil,
+        metrics: EntityResolutionClientTypes.IdMappingJobMetrics? = nil,
+        startTime: ClientRuntime.Date? = nil,
+        status: EntityResolutionClientTypes.JobStatus? = nil
+    )
+    {
+        self.endTime = endTime
+        self.errorDetails = errorDetails
+        self.jobId = jobId
+        self.metrics = metrics
+        self.startTime = startTime
+        self.status = status
+    }
+}
+
+struct GetIdMappingJobOutputBody: Swift.Equatable {
+    let jobId: Swift.String?
+    let status: EntityResolutionClientTypes.JobStatus?
+    let startTime: ClientRuntime.Date?
+    let endTime: ClientRuntime.Date?
+    let metrics: EntityResolutionClientTypes.IdMappingJobMetrics?
+    let errorDetails: EntityResolutionClientTypes.ErrorDetails?
+}
+
+extension GetIdMappingJobOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime
+        case errorDetails
+        case jobId
+        case metrics
+        case startTime
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
+        jobId = jobIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(EntityResolutionClientTypes.JobStatus.self, forKey: .status)
+        status = statusDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+        let metricsDecoded = try containerValues.decodeIfPresent(EntityResolutionClientTypes.IdMappingJobMetrics.self, forKey: .metrics)
+        metrics = metricsDecoded
+        let errorDetailsDecoded = try containerValues.decodeIfPresent(EntityResolutionClientTypes.ErrorDetails.self, forKey: .errorDetails)
+        errorDetails = errorDetailsDecoded
+    }
+}
+
+enum GetIdMappingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetIdMappingWorkflowInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let workflowName = workflowName else {
+            return nil
+        }
+        return "/idmappingworkflows/\(workflowName.urlPercentEncoding())"
+    }
+}
+
+public struct GetIdMappingWorkflowInput: Swift.Equatable {
+    /// The name of the workflow.
+    /// This member is required.
+    public var workflowName: Swift.String?
+
+    public init(
+        workflowName: Swift.String? = nil
+    )
+    {
+        self.workflowName = workflowName
+    }
+}
+
+struct GetIdMappingWorkflowInputBody: Swift.Equatable {
+}
+
+extension GetIdMappingWorkflowInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetIdMappingWorkflowOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetIdMappingWorkflowOutputBody = try responseDecoder.decode(responseBody: data)
+            self.createdAt = output.createdAt
+            self.description = output.description
+            self.idMappingTechniques = output.idMappingTechniques
+            self.inputSourceConfig = output.inputSourceConfig
+            self.outputSourceConfig = output.outputSourceConfig
+            self.roleArn = output.roleArn
+            self.tags = output.tags
+            self.updatedAt = output.updatedAt
+            self.workflowArn = output.workflowArn
+            self.workflowName = output.workflowName
+        } else {
+            self.createdAt = nil
+            self.description = nil
+            self.idMappingTechniques = nil
+            self.inputSourceConfig = nil
+            self.outputSourceConfig = nil
+            self.roleArn = nil
+            self.tags = nil
+            self.updatedAt = nil
+            self.workflowArn = nil
+            self.workflowName = nil
+        }
+    }
+}
+
+public struct GetIdMappingWorkflowOutput: Swift.Equatable {
+    /// The timestamp of when the workflow was created.
+    /// This member is required.
+    public var createdAt: ClientRuntime.Date?
+    /// A description of the workflow.
+    public var description: Swift.String?
+    /// An object which defines the idMappingType and the providerProperties.
+    /// This member is required.
+    public var idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques?
+    /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
+    /// This member is required.
+    public var inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]?
+    /// A list of OutputSource objects, each of which contains fields OutputS3Path and KMSArn.
+    /// This member is required.
+    public var outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]?
+    /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access resources on your behalf.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// The tags used to organize, track, or control access for this resource.
+    public var tags: [Swift.String:Swift.String]?
+    /// The timestamp of when the workflow was last updated.
+    /// This member is required.
+    public var updatedAt: ClientRuntime.Date?
+    /// The ARN (Amazon Resource Name) that Entity Resolution generated for the IdMappingWorkflow .
+    /// This member is required.
+    public var workflowArn: Swift.String?
+    /// The name of the workflow.
+    /// This member is required.
+    public var workflowName: Swift.String?
+
+    public init(
+        createdAt: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques? = nil,
+        inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]? = nil,
+        outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]? = nil,
+        roleArn: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        updatedAt: ClientRuntime.Date? = nil,
+        workflowArn: Swift.String? = nil,
+        workflowName: Swift.String? = nil
+    )
+    {
+        self.createdAt = createdAt
+        self.description = description
+        self.idMappingTechniques = idMappingTechniques
+        self.inputSourceConfig = inputSourceConfig
+        self.outputSourceConfig = outputSourceConfig
+        self.roleArn = roleArn
+        self.tags = tags
+        self.updatedAt = updatedAt
+        self.workflowArn = workflowArn
+        self.workflowName = workflowName
+    }
+}
+
+struct GetIdMappingWorkflowOutputBody: Swift.Equatable {
+    let workflowName: Swift.String?
+    let workflowArn: Swift.String?
+    let description: Swift.String?
+    let inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]?
+    let outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]?
+    let idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques?
+    let createdAt: ClientRuntime.Date?
+    let updatedAt: ClientRuntime.Date?
+    let roleArn: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension GetIdMappingWorkflowOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdAt
+        case description
+        case idMappingTechniques
+        case inputSourceConfig
+        case outputSourceConfig
+        case roleArn
+        case tags
+        case updatedAt
+        case workflowArn
+        case workflowName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workflowNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowName)
+        workflowName = workflowNameDecoded
+        let workflowArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowArn)
+        workflowArn = workflowArnDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let inputSourceConfigContainer = try containerValues.decodeIfPresent([EntityResolutionClientTypes.IdMappingWorkflowInputSource?].self, forKey: .inputSourceConfig)
+        var inputSourceConfigDecoded0:[EntityResolutionClientTypes.IdMappingWorkflowInputSource]? = nil
+        if let inputSourceConfigContainer = inputSourceConfigContainer {
+            inputSourceConfigDecoded0 = [EntityResolutionClientTypes.IdMappingWorkflowInputSource]()
+            for structure0 in inputSourceConfigContainer {
+                if let structure0 = structure0 {
+                    inputSourceConfigDecoded0?.append(structure0)
+                }
+            }
+        }
+        inputSourceConfig = inputSourceConfigDecoded0
+        let outputSourceConfigContainer = try containerValues.decodeIfPresent([EntityResolutionClientTypes.IdMappingWorkflowOutputSource?].self, forKey: .outputSourceConfig)
+        var outputSourceConfigDecoded0:[EntityResolutionClientTypes.IdMappingWorkflowOutputSource]? = nil
+        if let outputSourceConfigContainer = outputSourceConfigContainer {
+            outputSourceConfigDecoded0 = [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]()
+            for structure0 in outputSourceConfigContainer {
+                if let structure0 = structure0 {
+                    outputSourceConfigDecoded0?.append(structure0)
+                }
+            }
+        }
+        outputSourceConfig = outputSourceConfigDecoded0
+        let idMappingTechniquesDecoded = try containerValues.decodeIfPresent(EntityResolutionClientTypes.IdMappingTechniques.self, forKey: .idMappingTechniques)
+        idMappingTechniques = idMappingTechniquesDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum GetIdMappingWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1009,26 +1774,11 @@ extension GetMatchIdInputBody: Swift.Decodable {
     }
 }
 
-public enum GetMatchIdOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetMatchIdOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetMatchIdOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetMatchIdOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetMatchIdOutputBody = try responseDecoder.decode(responseBody: data)
             self.matchId = output.matchId
         } else {
             self.matchId = nil
@@ -1036,7 +1786,7 @@ extension GetMatchIdOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMatchIdOutputResponse: Swift.Equatable {
+public struct GetMatchIdOutput: Swift.Equatable {
     /// The unique identifiers for this group of match records.
     public var matchId: Swift.String?
 
@@ -1048,11 +1798,11 @@ public struct GetMatchIdOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetMatchIdOutputResponseBody: Swift.Equatable {
+struct GetMatchIdOutputBody: Swift.Equatable {
     let matchId: Swift.String?
 }
 
-extension GetMatchIdOutputResponseBody: Swift.Decodable {
+extension GetMatchIdOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case matchId
     }
@@ -1061,6 +1811,21 @@ extension GetMatchIdOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let matchIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .matchId)
         matchId = matchIdDecoded
+    }
+}
+
+enum GetMatchIdOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1103,26 +1868,11 @@ extension GetMatchingJobInputBody: Swift.Decodable {
     }
 }
 
-public enum GetMatchingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetMatchingJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetMatchingJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetMatchingJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetMatchingJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.endTime = output.endTime
             self.errorDetails = output.errorDetails
             self.jobId = output.jobId
@@ -1140,7 +1890,7 @@ extension GetMatchingJobOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMatchingJobOutputResponse: Swift.Equatable {
+public struct GetMatchingJobOutput: Swift.Equatable {
     /// The time at which the job has finished.
     public var endTime: ClientRuntime.Date?
     /// An object containing an error message, if there was an error.
@@ -1153,7 +1903,7 @@ public struct GetMatchingJobOutputResponse: Swift.Equatable {
     /// The time at which the job was started.
     /// This member is required.
     public var startTime: ClientRuntime.Date?
-    /// The current status of the job. Either running, succeeded, queued, or failed.
+    /// The current status of the job.
     /// This member is required.
     public var status: EntityResolutionClientTypes.JobStatus?
 
@@ -1175,7 +1925,7 @@ public struct GetMatchingJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetMatchingJobOutputResponseBody: Swift.Equatable {
+struct GetMatchingJobOutputBody: Swift.Equatable {
     let jobId: Swift.String?
     let status: EntityResolutionClientTypes.JobStatus?
     let startTime: ClientRuntime.Date?
@@ -1184,7 +1934,7 @@ struct GetMatchingJobOutputResponseBody: Swift.Equatable {
     let errorDetails: EntityResolutionClientTypes.ErrorDetails?
 }
 
-extension GetMatchingJobOutputResponseBody: Swift.Decodable {
+extension GetMatchingJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endTime
         case errorDetails
@@ -1208,6 +1958,21 @@ extension GetMatchingJobOutputResponseBody: Swift.Decodable {
         metrics = metricsDecoded
         let errorDetailsDecoded = try containerValues.decodeIfPresent(EntityResolutionClientTypes.ErrorDetails.self, forKey: .errorDetails)
         errorDetails = errorDetailsDecoded
+    }
+}
+
+enum GetMatchingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1242,26 +2007,11 @@ extension GetMatchingWorkflowInputBody: Swift.Decodable {
     }
 }
 
-public enum GetMatchingWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetMatchingWorkflowOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetMatchingWorkflowOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetMatchingWorkflowOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetMatchingWorkflowOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdAt = output.createdAt
             self.description = output.description
             self.incrementalRunConfig = output.incrementalRunConfig
@@ -1289,7 +2039,7 @@ extension GetMatchingWorkflowOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMatchingWorkflowOutputResponse: Swift.Equatable {
+public struct GetMatchingWorkflowOutput: Swift.Equatable {
     /// The timestamp of when the workflow was created.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
@@ -1303,10 +2053,10 @@ public struct GetMatchingWorkflowOutputResponse: Swift.Equatable {
     /// A list of OutputSource objects, each of which contains fields OutputS3Path, ApplyNormalization, and Output.
     /// This member is required.
     public var outputSourceConfig: [EntityResolutionClientTypes.OutputSource]?
-    /// An object which defines the resolutionType and the ruleBasedProperties
+    /// An object which defines the resolutionType and the ruleBasedProperties.
     /// This member is required.
     public var resolutionTechniques: EntityResolutionClientTypes.ResolutionTechniques?
-    /// The Amazon Resource Name (ARN) of the IAM role. AWS Entity Resolution assumes this role to access resources on your behalf.
+    /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access resources on your behalf.
     /// This member is required.
     public var roleArn: Swift.String?
     /// The tags used to organize, track, or control access for this resource.
@@ -1349,7 +2099,7 @@ public struct GetMatchingWorkflowOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetMatchingWorkflowOutputResponseBody: Swift.Equatable {
+struct GetMatchingWorkflowOutputBody: Swift.Equatable {
     let workflowName: Swift.String?
     let workflowArn: Swift.String?
     let description: Swift.String?
@@ -1363,7 +2113,7 @@ struct GetMatchingWorkflowOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension GetMatchingWorkflowOutputResponseBody: Swift.Decodable {
+extension GetMatchingWorkflowOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdAt
         case description
@@ -1432,6 +2182,213 @@ extension GetMatchingWorkflowOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum GetMatchingWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetProviderServiceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let providerName = providerName else {
+            return nil
+        }
+        guard let providerServiceName = providerServiceName else {
+            return nil
+        }
+        return "/providerservices/\(providerName.urlPercentEncoding())/\(providerServiceName.urlPercentEncoding())"
+    }
+}
+
+public struct GetProviderServiceInput: Swift.Equatable {
+    /// The name of the provider. This name is typically the company name.
+    /// This member is required.
+    public var providerName: Swift.String?
+    /// The ARN (Amazon Resource Name) of the product that the provider service provides.
+    /// This member is required.
+    public var providerServiceName: Swift.String?
+
+    public init(
+        providerName: Swift.String? = nil,
+        providerServiceName: Swift.String? = nil
+    )
+    {
+        self.providerName = providerName
+        self.providerServiceName = providerServiceName
+    }
+}
+
+struct GetProviderServiceInputBody: Swift.Equatable {
+}
+
+extension GetProviderServiceInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetProviderServiceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetProviderServiceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.anonymizedOutput = output.anonymizedOutput
+            self.providerConfigurationDefinition = output.providerConfigurationDefinition
+            self.providerEndpointConfiguration = output.providerEndpointConfiguration
+            self.providerEntityOutputDefinition = output.providerEntityOutputDefinition
+            self.providerIntermediateDataAccessConfiguration = output.providerIntermediateDataAccessConfiguration
+            self.providerName = output.providerName
+            self.providerServiceArn = output.providerServiceArn
+            self.providerServiceDisplayName = output.providerServiceDisplayName
+            self.providerServiceName = output.providerServiceName
+            self.providerServiceType = output.providerServiceType
+        } else {
+            self.anonymizedOutput = nil
+            self.providerConfigurationDefinition = nil
+            self.providerEndpointConfiguration = nil
+            self.providerEntityOutputDefinition = nil
+            self.providerIntermediateDataAccessConfiguration = nil
+            self.providerName = nil
+            self.providerServiceArn = nil
+            self.providerServiceDisplayName = nil
+            self.providerServiceName = nil
+            self.providerServiceType = nil
+        }
+    }
+}
+
+public struct GetProviderServiceOutput: Swift.Equatable {
+    /// Specifies whether output data from the provider is anonymized. A value of TRUE means the output will be anonymized and you can't relate the data that comes back from the provider to the identifying input. A value of FALSE means the output won't be anonymized and you can relate the data that comes back from the provider to your source data.
+    /// This member is required.
+    public var anonymizedOutput: Swift.Bool?
+    /// The definition of the provider configuration.
+    public var providerConfigurationDefinition: ClientRuntime.Document?
+    /// The required configuration fields to use with the provider service.
+    /// This member is required.
+    public var providerEndpointConfiguration: EntityResolutionClientTypes.ProviderEndpointConfiguration?
+    /// The definition of the provider entity output.
+    /// This member is required.
+    public var providerEntityOutputDefinition: ClientRuntime.Document?
+    /// The Amazon Web Services accounts and the S3 permissions that are required by some providers to create an S3 bucket for intermediate data storage.
+    public var providerIntermediateDataAccessConfiguration: EntityResolutionClientTypes.ProviderIntermediateDataAccessConfiguration?
+    /// The name of the provider. This name is typically the company name.
+    /// This member is required.
+    public var providerName: Swift.String?
+    /// The ARN (Amazon Resource Name) that Entity Resolution generated for the provider service.
+    /// This member is required.
+    public var providerServiceArn: Swift.String?
+    /// The display name of the provider service.
+    /// This member is required.
+    public var providerServiceDisplayName: Swift.String?
+    /// The name of the product that the provider service provides.
+    /// This member is required.
+    public var providerServiceName: Swift.String?
+    /// The type of provider service.
+    /// This member is required.
+    public var providerServiceType: EntityResolutionClientTypes.ServiceType?
+
+    public init(
+        anonymizedOutput: Swift.Bool? = nil,
+        providerConfigurationDefinition: ClientRuntime.Document? = nil,
+        providerEndpointConfiguration: EntityResolutionClientTypes.ProviderEndpointConfiguration? = nil,
+        providerEntityOutputDefinition: ClientRuntime.Document? = nil,
+        providerIntermediateDataAccessConfiguration: EntityResolutionClientTypes.ProviderIntermediateDataAccessConfiguration? = nil,
+        providerName: Swift.String? = nil,
+        providerServiceArn: Swift.String? = nil,
+        providerServiceDisplayName: Swift.String? = nil,
+        providerServiceName: Swift.String? = nil,
+        providerServiceType: EntityResolutionClientTypes.ServiceType? = nil
+    )
+    {
+        self.anonymizedOutput = anonymizedOutput
+        self.providerConfigurationDefinition = providerConfigurationDefinition
+        self.providerEndpointConfiguration = providerEndpointConfiguration
+        self.providerEntityOutputDefinition = providerEntityOutputDefinition
+        self.providerIntermediateDataAccessConfiguration = providerIntermediateDataAccessConfiguration
+        self.providerName = providerName
+        self.providerServiceArn = providerServiceArn
+        self.providerServiceDisplayName = providerServiceDisplayName
+        self.providerServiceName = providerServiceName
+        self.providerServiceType = providerServiceType
+    }
+}
+
+struct GetProviderServiceOutputBody: Swift.Equatable {
+    let providerName: Swift.String?
+    let providerServiceName: Swift.String?
+    let providerServiceDisplayName: Swift.String?
+    let providerServiceType: EntityResolutionClientTypes.ServiceType?
+    let providerServiceArn: Swift.String?
+    let providerConfigurationDefinition: ClientRuntime.Document?
+    let providerEndpointConfiguration: EntityResolutionClientTypes.ProviderEndpointConfiguration?
+    let anonymizedOutput: Swift.Bool?
+    let providerEntityOutputDefinition: ClientRuntime.Document?
+    let providerIntermediateDataAccessConfiguration: EntityResolutionClientTypes.ProviderIntermediateDataAccessConfiguration?
+}
+
+extension GetProviderServiceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case anonymizedOutput
+        case providerConfigurationDefinition
+        case providerEndpointConfiguration
+        case providerEntityOutputDefinition
+        case providerIntermediateDataAccessConfiguration
+        case providerName
+        case providerServiceArn
+        case providerServiceDisplayName
+        case providerServiceName
+        case providerServiceType
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let providerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .providerName)
+        providerName = providerNameDecoded
+        let providerServiceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .providerServiceName)
+        providerServiceName = providerServiceNameDecoded
+        let providerServiceDisplayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .providerServiceDisplayName)
+        providerServiceDisplayName = providerServiceDisplayNameDecoded
+        let providerServiceTypeDecoded = try containerValues.decodeIfPresent(EntityResolutionClientTypes.ServiceType.self, forKey: .providerServiceType)
+        providerServiceType = providerServiceTypeDecoded
+        let providerServiceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .providerServiceArn)
+        providerServiceArn = providerServiceArnDecoded
+        let providerConfigurationDefinitionDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .providerConfigurationDefinition)
+        providerConfigurationDefinition = providerConfigurationDefinitionDecoded
+        let providerEndpointConfigurationDecoded = try containerValues.decodeIfPresent(EntityResolutionClientTypes.ProviderEndpointConfiguration.self, forKey: .providerEndpointConfiguration)
+        providerEndpointConfiguration = providerEndpointConfigurationDecoded
+        let anonymizedOutputDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .anonymizedOutput)
+        anonymizedOutput = anonymizedOutputDecoded
+        let providerEntityOutputDefinitionDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .providerEntityOutputDefinition)
+        providerEntityOutputDefinition = providerEntityOutputDefinitionDecoded
+        let providerIntermediateDataAccessConfigurationDecoded = try containerValues.decodeIfPresent(EntityResolutionClientTypes.ProviderIntermediateDataAccessConfiguration.self, forKey: .providerIntermediateDataAccessConfiguration)
+        providerIntermediateDataAccessConfiguration = providerIntermediateDataAccessConfigurationDecoded
+    }
+}
+
+enum GetProviderServiceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetSchemaMappingInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let schemaName = schemaName else {
@@ -1463,28 +2420,14 @@ extension GetSchemaMappingInputBody: Swift.Decodable {
     }
 }
 
-public enum GetSchemaMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetSchemaMappingOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSchemaMappingOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSchemaMappingOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSchemaMappingOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdAt = output.createdAt
             self.description = output.description
+            self.hasWorkflows = output.hasWorkflows
             self.mappedInputFields = output.mappedInputFields
             self.schemaArn = output.schemaArn
             self.schemaName = output.schemaName
@@ -1493,6 +2436,7 @@ extension GetSchemaMappingOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.createdAt = nil
             self.description = nil
+            self.hasWorkflows = nil
             self.mappedInputFields = nil
             self.schemaArn = nil
             self.schemaName = nil
@@ -1502,12 +2446,15 @@ extension GetSchemaMappingOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSchemaMappingOutputResponse: Swift.Equatable {
+public struct GetSchemaMappingOutput: Swift.Equatable {
     /// The timestamp of when the SchemaMapping was created.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
     /// A description of the schema.
     public var description: Swift.String?
+    /// Specifies whether the schema mapping has been applied to a workflow.
+    /// This member is required.
+    public var hasWorkflows: Swift.Bool?
     /// A list of MappedInputFields. Each MappedInputField corresponds to a column the source data table, and contains column name plus additional information Venice uses for matching.
     /// This member is required.
     public var mappedInputFields: [EntityResolutionClientTypes.SchemaInputAttribute]?
@@ -1526,6 +2473,7 @@ public struct GetSchemaMappingOutputResponse: Swift.Equatable {
     public init(
         createdAt: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
+        hasWorkflows: Swift.Bool? = nil,
         mappedInputFields: [EntityResolutionClientTypes.SchemaInputAttribute]? = nil,
         schemaArn: Swift.String? = nil,
         schemaName: Swift.String? = nil,
@@ -1535,6 +2483,7 @@ public struct GetSchemaMappingOutputResponse: Swift.Equatable {
     {
         self.createdAt = createdAt
         self.description = description
+        self.hasWorkflows = hasWorkflows
         self.mappedInputFields = mappedInputFields
         self.schemaArn = schemaArn
         self.schemaName = schemaName
@@ -1543,7 +2492,7 @@ public struct GetSchemaMappingOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSchemaMappingOutputResponseBody: Swift.Equatable {
+struct GetSchemaMappingOutputBody: Swift.Equatable {
     let schemaName: Swift.String?
     let schemaArn: Swift.String?
     let description: Swift.String?
@@ -1551,12 +2500,14 @@ struct GetSchemaMappingOutputResponseBody: Swift.Equatable {
     let createdAt: ClientRuntime.Date?
     let updatedAt: ClientRuntime.Date?
     let tags: [Swift.String:Swift.String]?
+    let hasWorkflows: Swift.Bool?
 }
 
-extension GetSchemaMappingOutputResponseBody: Swift.Decodable {
+extension GetSchemaMappingOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdAt
         case description
+        case hasWorkflows
         case mappedInputFields
         case schemaArn
         case schemaName
@@ -1598,7 +2549,317 @@ extension GetSchemaMappingOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let hasWorkflowsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hasWorkflows)
+        hasWorkflows = hasWorkflowsDecoded
     }
+}
+
+enum GetSchemaMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension EntityResolutionClientTypes.IdMappingJobMetrics: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case inputRecords
+        case recordsNotProcessed
+        case totalRecordsProcessed
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let inputRecords = self.inputRecords {
+            try encodeContainer.encode(inputRecords, forKey: .inputRecords)
+        }
+        if let recordsNotProcessed = self.recordsNotProcessed {
+            try encodeContainer.encode(recordsNotProcessed, forKey: .recordsNotProcessed)
+        }
+        if let totalRecordsProcessed = self.totalRecordsProcessed {
+            try encodeContainer.encode(totalRecordsProcessed, forKey: .totalRecordsProcessed)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let inputRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .inputRecords)
+        inputRecords = inputRecordsDecoded
+        let totalRecordsProcessedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalRecordsProcessed)
+        totalRecordsProcessed = totalRecordsProcessedDecoded
+        let recordsNotProcessedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .recordsNotProcessed)
+        recordsNotProcessed = recordsNotProcessedDecoded
+    }
+}
+
+extension EntityResolutionClientTypes {
+    /// An object containing InputRecords, TotalRecordsProcessed, MatchIDs, and RecordsNotProcessed.
+    public struct IdMappingJobMetrics: Swift.Equatable {
+        /// The total number of input records.
+        public var inputRecords: Swift.Int?
+        /// The total number of records that did not get processed.
+        public var recordsNotProcessed: Swift.Int?
+        /// The total number of records processed.
+        public var totalRecordsProcessed: Swift.Int?
+
+        public init(
+            inputRecords: Swift.Int? = nil,
+            recordsNotProcessed: Swift.Int? = nil,
+            totalRecordsProcessed: Swift.Int? = nil
+        )
+        {
+            self.inputRecords = inputRecords
+            self.recordsNotProcessed = recordsNotProcessed
+            self.totalRecordsProcessed = totalRecordsProcessed
+        }
+    }
+
+}
+
+extension EntityResolutionClientTypes.IdMappingTechniques: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case idMappingType
+        case providerProperties
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let idMappingType = self.idMappingType {
+            try encodeContainer.encode(idMappingType.rawValue, forKey: .idMappingType)
+        }
+        if let providerProperties = self.providerProperties {
+            try encodeContainer.encode(providerProperties, forKey: .providerProperties)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idMappingTypeDecoded = try containerValues.decodeIfPresent(EntityResolutionClientTypes.IdMappingType.self, forKey: .idMappingType)
+        idMappingType = idMappingTypeDecoded
+        let providerPropertiesDecoded = try containerValues.decodeIfPresent(EntityResolutionClientTypes.ProviderProperties.self, forKey: .providerProperties)
+        providerProperties = providerPropertiesDecoded
+    }
+}
+
+extension EntityResolutionClientTypes {
+    /// An object which defines the ID mapping techniques and provider configurations.
+    public struct IdMappingTechniques: Swift.Equatable {
+        /// The type of ID mapping.
+        /// This member is required.
+        public var idMappingType: EntityResolutionClientTypes.IdMappingType?
+        /// An object which defines any additional configurations required by the provider service.
+        /// This member is required.
+        public var providerProperties: EntityResolutionClientTypes.ProviderProperties?
+
+        public init(
+            idMappingType: EntityResolutionClientTypes.IdMappingType? = nil,
+            providerProperties: EntityResolutionClientTypes.ProviderProperties? = nil
+        )
+        {
+            self.idMappingType = idMappingType
+            self.providerProperties = providerProperties
+        }
+    }
+
+}
+
+extension EntityResolutionClientTypes {
+    public enum IdMappingType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case provider
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IdMappingType] {
+            return [
+                .provider,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .provider: return "PROVIDER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = IdMappingType(rawValue: rawValue) ?? IdMappingType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension EntityResolutionClientTypes.IdMappingWorkflowInputSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case inputSourceARN
+        case schemaName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let inputSourceARN = self.inputSourceARN {
+            try encodeContainer.encode(inputSourceARN, forKey: .inputSourceARN)
+        }
+        if let schemaName = self.schemaName {
+            try encodeContainer.encode(schemaName, forKey: .schemaName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let inputSourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .inputSourceARN)
+        inputSourceARN = inputSourceARNDecoded
+        let schemaNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .schemaName)
+        schemaName = schemaNameDecoded
+    }
+}
+
+extension EntityResolutionClientTypes {
+    /// An object containing InputSourceARN and SchemaName.
+    public struct IdMappingWorkflowInputSource: Swift.Equatable {
+        /// An Gluetable ARN for the input source table.
+        /// This member is required.
+        public var inputSourceARN: Swift.String?
+        /// The name of the schema to be retrieved.
+        /// This member is required.
+        public var schemaName: Swift.String?
+
+        public init(
+            inputSourceARN: Swift.String? = nil,
+            schemaName: Swift.String? = nil
+        )
+        {
+            self.inputSourceARN = inputSourceARN
+            self.schemaName = schemaName
+        }
+    }
+
+}
+
+extension EntityResolutionClientTypes.IdMappingWorkflowOutputSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kmsArn = "KMSArn"
+        case outputS3Path
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let kmsArn = self.kmsArn {
+            try encodeContainer.encode(kmsArn, forKey: .kmsArn)
+        }
+        if let outputS3Path = self.outputS3Path {
+            try encodeContainer.encode(outputS3Path, forKey: .outputS3Path)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let outputS3PathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outputS3Path)
+        outputS3Path = outputS3PathDecoded
+        let kmsArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsArn)
+        kmsArn = kmsArnDecoded
+    }
+}
+
+extension EntityResolutionClientTypes {
+    /// The output source for the ID mapping workflow.
+    public struct IdMappingWorkflowOutputSource: Swift.Equatable {
+        /// Customer KMS ARN for encryption at rest. If not provided, system will use an Entity Resolution managed KMS key.
+        public var kmsArn: Swift.String?
+        /// The S3 path to which Entity Resolution will write the output table.
+        /// This member is required.
+        public var outputS3Path: Swift.String?
+
+        public init(
+            kmsArn: Swift.String? = nil,
+            outputS3Path: Swift.String? = nil
+        )
+        {
+            self.kmsArn = kmsArn
+            self.outputS3Path = outputS3Path
+        }
+    }
+
+}
+
+extension EntityResolutionClientTypes.IdMappingWorkflowSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdAt
+        case updatedAt
+        case workflowArn
+        case workflowName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let updatedAt = self.updatedAt {
+            try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
+        }
+        if let workflowArn = self.workflowArn {
+            try encodeContainer.encode(workflowArn, forKey: .workflowArn)
+        }
+        if let workflowName = self.workflowName {
+            try encodeContainer.encode(workflowName, forKey: .workflowName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workflowNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowName)
+        workflowName = workflowNameDecoded
+        let workflowArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowArn)
+        workflowArn = workflowArnDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+    }
+}
+
+extension EntityResolutionClientTypes {
+    /// A list of IdMappingWorkflowSummary objects, each of which contain the fields WorkflowName, WorkflowArn, CreatedAt, and UpdatedAt.
+    public struct IdMappingWorkflowSummary: Swift.Equatable {
+        /// The timestamp of when the workflow was created.
+        /// This member is required.
+        public var createdAt: ClientRuntime.Date?
+        /// The timestamp of when the workflow was last updated.
+        /// This member is required.
+        public var updatedAt: ClientRuntime.Date?
+        /// The ARN (Amazon Resource Name) that Entity Resolution generated for the IdMappingWorkflow.
+        /// This member is required.
+        public var workflowArn: Swift.String?
+        /// The name of the workflow.
+        /// This member is required.
+        public var workflowName: Swift.String?
+
+        public init(
+            createdAt: ClientRuntime.Date? = nil,
+            updatedAt: ClientRuntime.Date? = nil,
+            workflowArn: Swift.String? = nil,
+            workflowName: Swift.String? = nil
+        )
+        {
+            self.createdAt = createdAt
+            self.updatedAt = updatedAt
+            self.workflowArn = workflowArn
+            self.workflowName = workflowName
+        }
+    }
+
 }
 
 extension EntityResolutionClientTypes.IncrementalRunConfig: Swift.Codable {
@@ -1722,6 +2983,42 @@ extension EntityResolutionClientTypes {
 
 }
 
+extension EntityResolutionClientTypes.IntermediateSourceConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case intermediateS3Path
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let intermediateS3Path = self.intermediateS3Path {
+            try encodeContainer.encode(intermediateS3Path, forKey: .intermediateS3Path)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let intermediateS3PathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .intermediateS3Path)
+        intermediateS3Path = intermediateS3PathDecoded
+    }
+}
+
+extension EntityResolutionClientTypes {
+    /// The Amazon S3 location that temporarily stores your data while it processes. Your information won't be saved permanently.
+    public struct IntermediateSourceConfiguration: Swift.Equatable {
+        /// The Amazon S3 location (bucket and prefix). For example: s3://provider_bucket/DOC-EXAMPLE-BUCKET
+        /// This member is required.
+        public var intermediateS3Path: Swift.String?
+
+        public init(
+            intermediateS3Path: Swift.String? = nil
+        )
+        {
+            self.intermediateS3Path = intermediateS3Path
+        }
+    }
+
+}
+
 extension InternalServerException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -1737,7 +3034,7 @@ extension InternalServerException {
     }
 }
 
-/// This exception occurs when there is an internal failure in the AWS Entity Resolution service. HTTP Status Code: 500
+/// This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1807,10 +3104,10 @@ extension EntityResolutionClientTypes.JobMetrics: Swift.Codable {
         inputRecords = inputRecordsDecoded
         let totalRecordsProcessedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalRecordsProcessed)
         totalRecordsProcessed = totalRecordsProcessedDecoded
-        let matchIDsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .matchIDs)
-        matchIDs = matchIDsDecoded
         let recordsNotProcessedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .recordsNotProcessed)
         recordsNotProcessed = recordsNotProcessedDecoded
+        let matchIDsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .matchIDs)
+        matchIDs = matchIDsDecoded
     }
 }
 
@@ -1821,7 +3118,7 @@ extension EntityResolutionClientTypes {
         public var inputRecords: Swift.Int?
         /// The total number of matchIDs generated.
         public var matchIDs: Swift.Int?
-        /// The total number of records that did not get processed,
+        /// The total number of records that did not get processed.
         public var recordsNotProcessed: Swift.Int?
         /// The total number of records processed.
         public var totalRecordsProcessed: Swift.Int?
@@ -1928,7 +3225,7 @@ extension EntityResolutionClientTypes {
         /// The time at which the job was started.
         /// This member is required.
         public var startTime: ClientRuntime.Date?
-        /// The current status of the job. Either running, succeeded, queued, or failed.
+        /// The current status of the job.
         /// This member is required.
         public var status: EntityResolutionClientTypes.JobStatus?
 
@@ -1946,6 +3243,257 @@ extension EntityResolutionClientTypes {
         }
     }
 
+}
+
+extension ListIdMappingJobsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListIdMappingJobsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let workflowName = workflowName else {
+            return nil
+        }
+        return "/idmappingworkflows/\(workflowName.urlPercentEncoding())/jobs"
+    }
+}
+
+public struct ListIdMappingJobsInput: Swift.Equatable {
+    /// The maximum number of objects returned per page.
+    public var maxResults: Swift.Int?
+    /// The pagination token from the previous API call.
+    public var nextToken: Swift.String?
+    /// The name of the workflow to be retrieved.
+    /// This member is required.
+    public var workflowName: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        workflowName: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.workflowName = workflowName
+    }
+}
+
+struct ListIdMappingJobsInputBody: Swift.Equatable {
+}
+
+extension ListIdMappingJobsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListIdMappingJobsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListIdMappingJobsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.jobs = output.jobs
+            self.nextToken = output.nextToken
+        } else {
+            self.jobs = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListIdMappingJobsOutput: Swift.Equatable {
+    /// A list of JobSummary objects.
+    public var jobs: [EntityResolutionClientTypes.JobSummary]?
+    /// The pagination token from the previous API call.
+    public var nextToken: Swift.String?
+
+    public init(
+        jobs: [EntityResolutionClientTypes.JobSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.jobs = jobs
+        self.nextToken = nextToken
+    }
+}
+
+struct ListIdMappingJobsOutputBody: Swift.Equatable {
+    let jobs: [EntityResolutionClientTypes.JobSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListIdMappingJobsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jobs
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobsContainer = try containerValues.decodeIfPresent([EntityResolutionClientTypes.JobSummary?].self, forKey: .jobs)
+        var jobsDecoded0:[EntityResolutionClientTypes.JobSummary]? = nil
+        if let jobsContainer = jobsContainer {
+            jobsDecoded0 = [EntityResolutionClientTypes.JobSummary]()
+            for structure0 in jobsContainer {
+                if let structure0 = structure0 {
+                    jobsDecoded0?.append(structure0)
+                }
+            }
+        }
+        jobs = jobsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListIdMappingJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListIdMappingWorkflowsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListIdMappingWorkflowsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/idmappingworkflows"
+    }
+}
+
+public struct ListIdMappingWorkflowsInput: Swift.Equatable {
+    /// The maximum number of objects returned per page.
+    public var maxResults: Swift.Int?
+    /// The pagination token from the previous API call.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListIdMappingWorkflowsInputBody: Swift.Equatable {
+}
+
+extension ListIdMappingWorkflowsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListIdMappingWorkflowsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListIdMappingWorkflowsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.workflowSummaries = output.workflowSummaries
+        } else {
+            self.nextToken = nil
+            self.workflowSummaries = nil
+        }
+    }
+}
+
+public struct ListIdMappingWorkflowsOutput: Swift.Equatable {
+    /// The pagination token from the previous API call.
+    public var nextToken: Swift.String?
+    /// A list of IdMappingWorkflowSummary objects.
+    public var workflowSummaries: [EntityResolutionClientTypes.IdMappingWorkflowSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        workflowSummaries: [EntityResolutionClientTypes.IdMappingWorkflowSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.workflowSummaries = workflowSummaries
+    }
+}
+
+struct ListIdMappingWorkflowsOutputBody: Swift.Equatable {
+    let workflowSummaries: [EntityResolutionClientTypes.IdMappingWorkflowSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListIdMappingWorkflowsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case workflowSummaries
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workflowSummariesContainer = try containerValues.decodeIfPresent([EntityResolutionClientTypes.IdMappingWorkflowSummary?].self, forKey: .workflowSummaries)
+        var workflowSummariesDecoded0:[EntityResolutionClientTypes.IdMappingWorkflowSummary]? = nil
+        if let workflowSummariesContainer = workflowSummariesContainer {
+            workflowSummariesDecoded0 = [EntityResolutionClientTypes.IdMappingWorkflowSummary]()
+            for structure0 in workflowSummariesContainer {
+                if let structure0 = structure0 {
+                    workflowSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        workflowSummaries = workflowSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListIdMappingWorkflowsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension ListMatchingJobsInput: ClientRuntime.QueryItemProvider {
@@ -1977,7 +3525,7 @@ extension ListMatchingJobsInput: ClientRuntime.URLPathProvider {
 public struct ListMatchingJobsInput: Swift.Equatable {
     /// The maximum number of objects returned per page.
     public var maxResults: Swift.Int?
-    /// The pagination token from the previous ListSchemaMappings API call.
+    /// The pagination token from the previous API call.
     public var nextToken: Swift.String?
     /// The name of the workflow to be retrieved.
     /// This member is required.
@@ -2004,26 +3552,11 @@ extension ListMatchingJobsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListMatchingJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListMatchingJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListMatchingJobsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListMatchingJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListMatchingJobsOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobs = output.jobs
             self.nextToken = output.nextToken
         } else {
@@ -2033,10 +3566,10 @@ extension ListMatchingJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMatchingJobsOutputResponse: Swift.Equatable {
+public struct ListMatchingJobsOutput: Swift.Equatable {
     /// A list of JobSummary objects, each of which contain the ID, status, start time, and end time of a job.
     public var jobs: [EntityResolutionClientTypes.JobSummary]?
-    /// The pagination token from the previous ListSchemaMappings API call.
+    /// The pagination token from the previous API call.
     public var nextToken: Swift.String?
 
     public init(
@@ -2049,12 +3582,12 @@ public struct ListMatchingJobsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListMatchingJobsOutputResponseBody: Swift.Equatable {
+struct ListMatchingJobsOutputBody: Swift.Equatable {
     let jobs: [EntityResolutionClientTypes.JobSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListMatchingJobsOutputResponseBody: Swift.Decodable {
+extension ListMatchingJobsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobs
         case nextToken
@@ -2075,6 +3608,21 @@ extension ListMatchingJobsOutputResponseBody: Swift.Decodable {
         jobs = jobsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListMatchingJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2104,7 +3652,7 @@ extension ListMatchingWorkflowsInput: ClientRuntime.URLPathProvider {
 public struct ListMatchingWorkflowsInput: Swift.Equatable {
     /// The maximum number of objects returned per page.
     public var maxResults: Swift.Int?
-    /// The pagination token from the previous ListSchemaMappings API call.
+    /// The pagination token from the previous API call.
     public var nextToken: Swift.String?
 
     public init(
@@ -2126,25 +3674,11 @@ extension ListMatchingWorkflowsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListMatchingWorkflowsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListMatchingWorkflowsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListMatchingWorkflowsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListMatchingWorkflowsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListMatchingWorkflowsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.workflowSummaries = output.workflowSummaries
         } else {
@@ -2154,8 +3688,8 @@ extension ListMatchingWorkflowsOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListMatchingWorkflowsOutputResponse: Swift.Equatable {
-    /// The pagination token from the previous ListSchemaMappings API call.
+public struct ListMatchingWorkflowsOutput: Swift.Equatable {
+    /// The pagination token from the previous API call.
     public var nextToken: Swift.String?
     /// A list of MatchingWorkflowSummary objects, each of which contain the fields WorkflowName, WorkflowArn, CreatedAt, and UpdatedAt.
     public var workflowSummaries: [EntityResolutionClientTypes.MatchingWorkflowSummary]?
@@ -2170,12 +3704,12 @@ public struct ListMatchingWorkflowsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListMatchingWorkflowsOutputResponseBody: Swift.Equatable {
+struct ListMatchingWorkflowsOutputBody: Swift.Equatable {
     let workflowSummaries: [EntityResolutionClientTypes.MatchingWorkflowSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListMatchingWorkflowsOutputResponseBody: Swift.Decodable {
+extension ListMatchingWorkflowsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case workflowSummaries
@@ -2196,6 +3730,149 @@ extension ListMatchingWorkflowsOutputResponseBody: Swift.Decodable {
         workflowSummaries = workflowSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListMatchingWorkflowsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListProviderServicesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let providerName = providerName {
+                let providerNameQueryItem = ClientRuntime.URLQueryItem(name: "providerName".urlPercentEncoding(), value: Swift.String(providerName).urlPercentEncoding())
+                items.append(providerNameQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListProviderServicesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/providerservices"
+    }
+}
+
+public struct ListProviderServicesInput: Swift.Equatable {
+    /// The maximum number of objects returned per page.
+    public var maxResults: Swift.Int?
+    /// The pagination token from the previous API call.
+    public var nextToken: Swift.String?
+    /// The name of the provider. This name is typically the company name.
+    public var providerName: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        providerName: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.providerName = providerName
+    }
+}
+
+struct ListProviderServicesInputBody: Swift.Equatable {
+}
+
+extension ListProviderServicesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListProviderServicesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListProviderServicesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.providerServiceSummaries = output.providerServiceSummaries
+        } else {
+            self.nextToken = nil
+            self.providerServiceSummaries = nil
+        }
+    }
+}
+
+public struct ListProviderServicesOutput: Swift.Equatable {
+    /// The pagination token from the previous API call.
+    public var nextToken: Swift.String?
+    /// A list of ProviderServices objects.
+    public var providerServiceSummaries: [EntityResolutionClientTypes.ProviderServiceSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        providerServiceSummaries: [EntityResolutionClientTypes.ProviderServiceSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.providerServiceSummaries = providerServiceSummaries
+    }
+}
+
+struct ListProviderServicesOutputBody: Swift.Equatable {
+    let providerServiceSummaries: [EntityResolutionClientTypes.ProviderServiceSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListProviderServicesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case providerServiceSummaries
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let providerServiceSummariesContainer = try containerValues.decodeIfPresent([EntityResolutionClientTypes.ProviderServiceSummary?].self, forKey: .providerServiceSummaries)
+        var providerServiceSummariesDecoded0:[EntityResolutionClientTypes.ProviderServiceSummary]? = nil
+        if let providerServiceSummariesContainer = providerServiceSummariesContainer {
+            providerServiceSummariesDecoded0 = [EntityResolutionClientTypes.ProviderServiceSummary]()
+            for structure0 in providerServiceSummariesContainer {
+                if let structure0 = structure0 {
+                    providerServiceSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        providerServiceSummaries = providerServiceSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListProviderServicesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2225,7 +3902,7 @@ extension ListSchemaMappingsInput: ClientRuntime.URLPathProvider {
 public struct ListSchemaMappingsInput: Swift.Equatable {
     /// The maximum number of objects returned per page.
     public var maxResults: Swift.Int?
-    /// The pagination token from the previous ListSchemaMappings API call.
+    /// The pagination token from the previous API call.
     public var nextToken: Swift.String?
 
     public init(
@@ -2247,25 +3924,11 @@ extension ListSchemaMappingsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListSchemaMappingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSchemaMappingsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSchemaMappingsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSchemaMappingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSchemaMappingsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.schemaList = output.schemaList
         } else {
@@ -2275,8 +3938,8 @@ extension ListSchemaMappingsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSchemaMappingsOutputResponse: Swift.Equatable {
-    /// The pagination token from the previous ListDomains API call.
+public struct ListSchemaMappingsOutput: Swift.Equatable {
+    /// The pagination token from the previous API call.
     public var nextToken: Swift.String?
     /// A list of SchemaMappingSummary objects, each of which contain the fields SchemaName, SchemaArn, CreatedAt, UpdatedAt.
     public var schemaList: [EntityResolutionClientTypes.SchemaMappingSummary]?
@@ -2291,12 +3954,12 @@ public struct ListSchemaMappingsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSchemaMappingsOutputResponseBody: Swift.Equatable {
+struct ListSchemaMappingsOutputBody: Swift.Equatable {
     let schemaList: [EntityResolutionClientTypes.SchemaMappingSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListSchemaMappingsOutputResponseBody: Swift.Decodable {
+extension ListSchemaMappingsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case schemaList
@@ -2317,6 +3980,20 @@ extension ListSchemaMappingsOutputResponseBody: Swift.Decodable {
         schemaList = schemaListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListSchemaMappingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2351,24 +4028,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -2376,7 +4040,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// The tags used to organize, track, or control access for this resource.
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
@@ -2389,11 +4053,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags
     }
@@ -2414,9 +4078,23 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension EntityResolutionClientTypes.MatchingWorkflowSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdAt
+        case resolutionType
         case updatedAt
         case workflowArn
         case workflowName
@@ -2426,6 +4104,9 @@ extension EntityResolutionClientTypes.MatchingWorkflowSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let resolutionType = self.resolutionType {
+            try encodeContainer.encode(resolutionType.rawValue, forKey: .resolutionType)
         }
         if let updatedAt = self.updatedAt {
             try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
@@ -2448,6 +4129,8 @@ extension EntityResolutionClientTypes.MatchingWorkflowSummary: Swift.Codable {
         createdAt = createdAtDecoded
         let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
         updatedAt = updatedAtDecoded
+        let resolutionTypeDecoded = try containerValues.decodeIfPresent(EntityResolutionClientTypes.ResolutionType.self, forKey: .resolutionType)
+        resolutionType = resolutionTypeDecoded
     }
 }
 
@@ -2457,6 +4140,9 @@ extension EntityResolutionClientTypes {
         /// The timestamp of when the workflow was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
+        /// The method that has been specified for data matching, either using matching provided by Entity Resolution or through a provider service.
+        /// This member is required.
+        public var resolutionType: EntityResolutionClientTypes.ResolutionType?
         /// The timestamp of when the workflow was last updated.
         /// This member is required.
         public var updatedAt: ClientRuntime.Date?
@@ -2469,12 +4155,14 @@ extension EntityResolutionClientTypes {
 
         public init(
             createdAt: ClientRuntime.Date? = nil,
+            resolutionType: EntityResolutionClientTypes.ResolutionType? = nil,
             updatedAt: ClientRuntime.Date? = nil,
             workflowArn: Swift.String? = nil,
             workflowName: Swift.String? = nil
         )
         {
             self.createdAt = createdAt
+            self.resolutionType = resolutionType
             self.updatedAt = updatedAt
             self.workflowArn = workflowArn
             self.workflowName = workflowName
@@ -2560,6 +4248,8 @@ extension EntityResolutionClientTypes.OutputSource: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let outputS3PathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outputS3Path)
         outputS3Path = outputS3PathDecoded
+        let kmsArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsArn)
+        kmsArn = kmsArnDecoded
         let outputContainer = try containerValues.decodeIfPresent([EntityResolutionClientTypes.OutputAttribute?].self, forKey: .output)
         var outputDecoded0:[EntityResolutionClientTypes.OutputAttribute]? = nil
         if let outputContainer = outputContainer {
@@ -2571,8 +4261,6 @@ extension EntityResolutionClientTypes.OutputSource: Swift.Codable {
             }
         }
         output = outputDecoded0
-        let kmsArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsArn)
-        kmsArn = kmsArnDecoded
         let applyNormalizationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyNormalization)
         applyNormalization = applyNormalizationDecoded
     }
@@ -2608,14 +4296,329 @@ extension EntityResolutionClientTypes {
 
 }
 
+extension EntityResolutionClientTypes.ProviderEndpointConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marketplaceconfiguration = "marketplaceConfiguration"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .marketplaceconfiguration(marketplaceconfiguration):
+                try container.encode(marketplaceconfiguration, forKey: .marketplaceconfiguration)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let marketplaceconfigurationDecoded = try values.decodeIfPresent(EntityResolutionClientTypes.ProviderMarketplaceConfiguration.self, forKey: .marketplaceconfiguration)
+        if let marketplaceconfiguration = marketplaceconfigurationDecoded {
+            self = .marketplaceconfiguration(marketplaceconfiguration)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension EntityResolutionClientTypes {
+    /// The required configuration fields to use with the provider service.
+    public enum ProviderEndpointConfiguration: Swift.Equatable {
+        /// The identifiers of the provider service, from Data Exchange.
+        case marketplaceconfiguration(EntityResolutionClientTypes.ProviderMarketplaceConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension EntityResolutionClientTypes.ProviderIntermediateDataAccessConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case awsAccountIds
+        case requiredBucketActions
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let awsAccountIds = awsAccountIds {
+            var awsAccountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .awsAccountIds)
+            for awsaccountid0 in awsAccountIds {
+                try awsAccountIdsContainer.encode(awsaccountid0)
+            }
+        }
+        if let requiredBucketActions = requiredBucketActions {
+            var requiredBucketActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requiredBucketActions)
+            for string0 in requiredBucketActions {
+                try requiredBucketActionsContainer.encode(string0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let awsAccountIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .awsAccountIds)
+        var awsAccountIdsDecoded0:[Swift.String]? = nil
+        if let awsAccountIdsContainer = awsAccountIdsContainer {
+            awsAccountIdsDecoded0 = [Swift.String]()
+            for string0 in awsAccountIdsContainer {
+                if let string0 = string0 {
+                    awsAccountIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        awsAccountIds = awsAccountIdsDecoded0
+        let requiredBucketActionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .requiredBucketActions)
+        var requiredBucketActionsDecoded0:[Swift.String]? = nil
+        if let requiredBucketActionsContainer = requiredBucketActionsContainer {
+            requiredBucketActionsDecoded0 = [Swift.String]()
+            for string0 in requiredBucketActionsContainer {
+                if let string0 = string0 {
+                    requiredBucketActionsDecoded0?.append(string0)
+                }
+            }
+        }
+        requiredBucketActions = requiredBucketActionsDecoded0
+    }
+}
+
+extension EntityResolutionClientTypes {
+    /// The required configuration fields to give intermediate access to a provider service.
+    public struct ProviderIntermediateDataAccessConfiguration: Swift.Equatable {
+        /// The Amazon Web Services account that provider can use to read or write data into the customer's intermediate S3 bucket.
+        public var awsAccountIds: [Swift.String]?
+        /// The S3 bucket actions that the provider requires permission for.
+        public var requiredBucketActions: [Swift.String]?
+
+        public init(
+            awsAccountIds: [Swift.String]? = nil,
+            requiredBucketActions: [Swift.String]? = nil
+        )
+        {
+            self.awsAccountIds = awsAccountIds
+            self.requiredBucketActions = requiredBucketActions
+        }
+    }
+
+}
+
+extension EntityResolutionClientTypes.ProviderMarketplaceConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assetId
+        case dataSetId
+        case listingId
+        case revisionId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let assetId = self.assetId {
+            try encodeContainer.encode(assetId, forKey: .assetId)
+        }
+        if let dataSetId = self.dataSetId {
+            try encodeContainer.encode(dataSetId, forKey: .dataSetId)
+        }
+        if let listingId = self.listingId {
+            try encodeContainer.encode(listingId, forKey: .listingId)
+        }
+        if let revisionId = self.revisionId {
+            try encodeContainer.encode(revisionId, forKey: .revisionId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataSetId)
+        dataSetId = dataSetIdDecoded
+        let revisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .revisionId)
+        revisionId = revisionIdDecoded
+        let assetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .assetId)
+        assetId = assetIdDecoded
+        let listingIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .listingId)
+        listingId = listingIdDecoded
+    }
+}
+
+extension EntityResolutionClientTypes {
+    /// The identifiers of the provider service, from Data Exchange.
+    public struct ProviderMarketplaceConfiguration: Swift.Equatable {
+        /// The asset ID on Data Exchange.
+        /// This member is required.
+        public var assetId: Swift.String?
+        /// The dataset ID on Data Exchange.
+        /// This member is required.
+        public var dataSetId: Swift.String?
+        /// The listing ID on Data Exchange.
+        /// This member is required.
+        public var listingId: Swift.String?
+        /// The revision ID on Data Exchange.
+        /// This member is required.
+        public var revisionId: Swift.String?
+
+        public init(
+            assetId: Swift.String? = nil,
+            dataSetId: Swift.String? = nil,
+            listingId: Swift.String? = nil,
+            revisionId: Swift.String? = nil
+        )
+        {
+            self.assetId = assetId
+            self.dataSetId = dataSetId
+            self.listingId = listingId
+            self.revisionId = revisionId
+        }
+    }
+
+}
+
+extension EntityResolutionClientTypes.ProviderProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case intermediateSourceConfiguration
+        case providerConfiguration
+        case providerServiceArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let intermediateSourceConfiguration = self.intermediateSourceConfiguration {
+            try encodeContainer.encode(intermediateSourceConfiguration, forKey: .intermediateSourceConfiguration)
+        }
+        if let providerConfiguration = self.providerConfiguration {
+            try encodeContainer.encode(providerConfiguration, forKey: .providerConfiguration)
+        }
+        if let providerServiceArn = self.providerServiceArn {
+            try encodeContainer.encode(providerServiceArn, forKey: .providerServiceArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let providerServiceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .providerServiceArn)
+        providerServiceArn = providerServiceArnDecoded
+        let providerConfigurationDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .providerConfiguration)
+        providerConfiguration = providerConfigurationDecoded
+        let intermediateSourceConfigurationDecoded = try containerValues.decodeIfPresent(EntityResolutionClientTypes.IntermediateSourceConfiguration.self, forKey: .intermediateSourceConfiguration)
+        intermediateSourceConfiguration = intermediateSourceConfigurationDecoded
+    }
+}
+
+extension EntityResolutionClientTypes {
+    /// An object containing the providerServiceARN, intermediateSourceConfiguration, and providerConfiguration.
+    public struct ProviderProperties: Swift.Equatable {
+        /// The Amazon S3 location that temporarily stores your data while it processes. Your information won't be saved permanently.
+        public var intermediateSourceConfiguration: EntityResolutionClientTypes.IntermediateSourceConfiguration?
+        /// The required configuration fields to use with the provider service.
+        public var providerConfiguration: ClientRuntime.Document?
+        /// The ARN of the provider service.
+        /// This member is required.
+        public var providerServiceArn: Swift.String?
+
+        public init(
+            intermediateSourceConfiguration: EntityResolutionClientTypes.IntermediateSourceConfiguration? = nil,
+            providerConfiguration: ClientRuntime.Document? = nil,
+            providerServiceArn: Swift.String? = nil
+        )
+        {
+            self.intermediateSourceConfiguration = intermediateSourceConfiguration
+            self.providerConfiguration = providerConfiguration
+            self.providerServiceArn = providerServiceArn
+        }
+    }
+
+}
+
+extension EntityResolutionClientTypes.ProviderServiceSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case providerName
+        case providerServiceArn
+        case providerServiceDisplayName
+        case providerServiceName
+        case providerServiceType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let providerName = self.providerName {
+            try encodeContainer.encode(providerName, forKey: .providerName)
+        }
+        if let providerServiceArn = self.providerServiceArn {
+            try encodeContainer.encode(providerServiceArn, forKey: .providerServiceArn)
+        }
+        if let providerServiceDisplayName = self.providerServiceDisplayName {
+            try encodeContainer.encode(providerServiceDisplayName, forKey: .providerServiceDisplayName)
+        }
+        if let providerServiceName = self.providerServiceName {
+            try encodeContainer.encode(providerServiceName, forKey: .providerServiceName)
+        }
+        if let providerServiceType = self.providerServiceType {
+            try encodeContainer.encode(providerServiceType.rawValue, forKey: .providerServiceType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let providerServiceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .providerServiceArn)
+        providerServiceArn = providerServiceArnDecoded
+        let providerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .providerName)
+        providerName = providerNameDecoded
+        let providerServiceDisplayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .providerServiceDisplayName)
+        providerServiceDisplayName = providerServiceDisplayNameDecoded
+        let providerServiceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .providerServiceName)
+        providerServiceName = providerServiceNameDecoded
+        let providerServiceTypeDecoded = try containerValues.decodeIfPresent(EntityResolutionClientTypes.ServiceType.self, forKey: .providerServiceType)
+        providerServiceType = providerServiceTypeDecoded
+    }
+}
+
+extension EntityResolutionClientTypes {
+    /// A list of ProviderService objects, each of which contain the fields providerName, providerServiceArn, providerServiceName, and providerServiceType.
+    public struct ProviderServiceSummary: Swift.Equatable {
+        /// The name of the provider. This name is typically the company name.
+        /// This member is required.
+        public var providerName: Swift.String?
+        /// The ARN (Amazon Resource Name) that Entity Resolution generated for the providerService.
+        /// This member is required.
+        public var providerServiceArn: Swift.String?
+        /// The display name of the provider service.
+        /// This member is required.
+        public var providerServiceDisplayName: Swift.String?
+        /// The name of the product that the provider service provides.
+        /// This member is required.
+        public var providerServiceName: Swift.String?
+        /// The type of provider service.
+        /// This member is required.
+        public var providerServiceType: EntityResolutionClientTypes.ServiceType?
+
+        public init(
+            providerName: Swift.String? = nil,
+            providerServiceArn: Swift.String? = nil,
+            providerServiceDisplayName: Swift.String? = nil,
+            providerServiceName: Swift.String? = nil,
+            providerServiceType: EntityResolutionClientTypes.ServiceType? = nil
+        )
+        {
+            self.providerName = providerName
+            self.providerServiceArn = providerServiceArn
+            self.providerServiceDisplayName = providerServiceDisplayName
+            self.providerServiceName = providerServiceName
+            self.providerServiceType = providerServiceType
+        }
+    }
+
+}
+
 extension EntityResolutionClientTypes.ResolutionTechniques: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case providerProperties
         case resolutionType
         case ruleBasedProperties
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let providerProperties = self.providerProperties {
+            try encodeContainer.encode(providerProperties, forKey: .providerProperties)
+        }
         if let resolutionType = self.resolutionType {
             try encodeContainer.encode(resolutionType.rawValue, forKey: .resolutionType)
         }
@@ -2630,22 +4633,29 @@ extension EntityResolutionClientTypes.ResolutionTechniques: Swift.Codable {
         resolutionType = resolutionTypeDecoded
         let ruleBasedPropertiesDecoded = try containerValues.decodeIfPresent(EntityResolutionClientTypes.RuleBasedProperties.self, forKey: .ruleBasedProperties)
         ruleBasedProperties = ruleBasedPropertiesDecoded
+        let providerPropertiesDecoded = try containerValues.decodeIfPresent(EntityResolutionClientTypes.ProviderProperties.self, forKey: .providerProperties)
+        providerProperties = providerPropertiesDecoded
     }
 }
 
 extension EntityResolutionClientTypes {
-    /// An object which defines the resolutionType and the ruleBasedProperties
+    /// An object which defines the resolutionType and the ruleBasedProperties.
     public struct ResolutionTechniques: Swift.Equatable {
-        /// There are two types of matching, RULE_MATCHING and ML_MATCHING
+        /// The properties of the provider service.
+        public var providerProperties: EntityResolutionClientTypes.ProviderProperties?
+        /// The type of matching. There are two types of matching: RULE_MATCHING and ML_MATCHING.
+        /// This member is required.
         public var resolutionType: EntityResolutionClientTypes.ResolutionType?
         /// An object which defines the list of matching rules to run and has a field Rules, which is a list of rule objects.
         public var ruleBasedProperties: EntityResolutionClientTypes.RuleBasedProperties?
 
         public init(
+            providerProperties: EntityResolutionClientTypes.ProviderProperties? = nil,
             resolutionType: EntityResolutionClientTypes.ResolutionType? = nil,
             ruleBasedProperties: EntityResolutionClientTypes.RuleBasedProperties? = nil
         )
         {
+            self.providerProperties = providerProperties
             self.resolutionType = resolutionType
             self.ruleBasedProperties = ruleBasedProperties
         }
@@ -2656,12 +4666,14 @@ extension EntityResolutionClientTypes {
 extension EntityResolutionClientTypes {
     public enum ResolutionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case mlMatching
+        case provider
         case ruleMatching
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResolutionType] {
             return [
                 .mlMatching,
+                .provider,
                 .ruleMatching,
                 .sdkUnknown("")
             ]
@@ -2673,6 +4685,7 @@ extension EntityResolutionClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .mlMatching: return "ML_MATCHING"
+            case .provider: return "PROVIDER"
             case .ruleMatching: return "RULE_MATCHING"
             case let .sdkUnknown(s): return s
             }
@@ -2839,7 +4852,7 @@ extension EntityResolutionClientTypes.RuleBasedProperties: Swift.Codable {
 extension EntityResolutionClientTypes {
     /// An object which defines the list of matching rules to run and has a field Rules, which is a list of rule objects.
     public struct RuleBasedProperties: Swift.Equatable {
-        /// You can either choose ONE_TO_ONE or MANY_TO_MANY as the AttributeMatchingModel. When choosing MANY_TO_MANY, the system can match attribute across the sub-types of an attribute type. For example, if the value of the Email field of Profile A and the value of BusinessEmail field of Profile B matches, the two profiles are matched on the Email type. When choosing ONE_TO_ONE the system can only match if the sub-types are exact matches. For example, only when the value of the Email field of Profile A and the value of the Email field of Profile B matches, the two profiles are matched on the Email type.
+        /// The comparison type. You can either choose ONE_TO_ONE or MANY_TO_MANY as the AttributeMatchingModel. When choosing MANY_TO_MANY, the system can match attributes across the sub-types of an attribute type. For example, if the value of the Email field of Profile A and the value of BusinessEmail field of Profile B matches, the two profiles are matched on the Email type. When choosing ONE_TO_ONE ,the system can only match if the sub-types are exact matches. For example, only when the value of the Email field of Profile A and the value of the Email field of Profile B matches, the two profiles are matched on the Email type.
         /// This member is required.
         public var attributeMatchingModel: EntityResolutionClientTypes.AttributeMatchingModel?
         /// A list of Rule objects, each of which have fields RuleName and MatchingKeys.
@@ -2877,6 +4890,7 @@ extension EntityResolutionClientTypes {
         case phone
         case phoneCountrycode
         case phoneNumber
+        case providerId
         case string
         case uniqueId
         case sdkUnknown(Swift.String)
@@ -2900,6 +4914,7 @@ extension EntityResolutionClientTypes {
                 .phone,
                 .phoneCountrycode,
                 .phoneNumber,
+                .providerId,
                 .string,
                 .uniqueId,
                 .sdkUnknown("")
@@ -2928,6 +4943,7 @@ extension EntityResolutionClientTypes {
             case .phone: return "PHONE"
             case .phoneCountrycode: return "PHONE_COUNTRYCODE"
             case .phoneNumber: return "PHONE_NUMBER"
+            case .providerId: return "PROVIDER_ID"
             case .string: return "STRING"
             case .uniqueId: return "UNIQUE_ID"
             case let .sdkUnknown(s): return s
@@ -2946,6 +4962,7 @@ extension EntityResolutionClientTypes.SchemaInputAttribute: Swift.Codable {
         case fieldName
         case groupName
         case matchKey
+        case subType
         case type
     }
 
@@ -2959,6 +4976,9 @@ extension EntityResolutionClientTypes.SchemaInputAttribute: Swift.Codable {
         }
         if let matchKey = self.matchKey {
             try encodeContainer.encode(matchKey, forKey: .matchKey)
+        }
+        if let subType = self.subType {
+            try encodeContainer.encode(subType, forKey: .subType)
         }
         if let type = self.type {
             try encodeContainer.encode(type.rawValue, forKey: .type)
@@ -2975,19 +4995,23 @@ extension EntityResolutionClientTypes.SchemaInputAttribute: Swift.Codable {
         groupName = groupNameDecoded
         let matchKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .matchKey)
         matchKey = matchKeyDecoded
+        let subTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subType)
+        subType = subTypeDecoded
     }
 }
 
 extension EntityResolutionClientTypes {
-    /// An object containing FieldField, Type, GroupName, and MatchKey.
+    /// An object containing FieldName, Type, GroupName, and MatchKey.
     public struct SchemaInputAttribute: Swift.Equatable {
         /// A string containing the field name.
         /// This member is required.
         public var fieldName: Swift.String?
         /// Instruct Entity Resolution to combine several columns into a unified column with the identical attribute type. For example, when working with columns such as first_name, middle_name, and last_name, assigning them a common GroupName will prompt Entity Resolution to concatenate them into a single value.
         public var groupName: Swift.String?
-        /// A key that allows grouping of multiple input attributes into a unified matching group. For example, let's consider a scenario where the source table contains various addresses, such as business_address and shipping_address. By assigning the MatchKey Address' to both attributes, Entity Resolution will match records across these fields to create a consolidated matching group. If no MatchKey is specified for a column, it won't be utilized for matching purposes but will still be included in the output table.
+        /// A key that allows grouping of multiple input attributes into a unified matching group. For example, let's consider a scenario where the source table contains various addresses, such as business_address and shipping_address. By assigning the MatchKey Address to both attributes, Entity Resolution will match records across these fields to create a consolidated matching group. If no MatchKey is specified for a column, it won't be utilized for matching purposes but will still be included in the output table.
         public var matchKey: Swift.String?
+        /// The subtype of the attribute, selected from a list of values.
+        public var subType: Swift.String?
         /// The type of the attribute, selected from a list of values.
         /// This member is required.
         public var type: EntityResolutionClientTypes.SchemaAttributeType?
@@ -2996,12 +5020,14 @@ extension EntityResolutionClientTypes {
             fieldName: Swift.String? = nil,
             groupName: Swift.String? = nil,
             matchKey: Swift.String? = nil,
+            subType: Swift.String? = nil,
             type: EntityResolutionClientTypes.SchemaAttributeType? = nil
         )
         {
             self.fieldName = fieldName
             self.groupName = groupName
             self.matchKey = matchKey
+            self.subType = subType
             self.type = type
         }
     }
@@ -3011,6 +5037,7 @@ extension EntityResolutionClientTypes {
 extension EntityResolutionClientTypes.SchemaMappingSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdAt
+        case hasWorkflows
         case schemaArn
         case schemaName
         case updatedAt
@@ -3020,6 +5047,9 @@ extension EntityResolutionClientTypes.SchemaMappingSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let hasWorkflows = self.hasWorkflows {
+            try encodeContainer.encode(hasWorkflows, forKey: .hasWorkflows)
         }
         if let schemaArn = self.schemaArn {
             try encodeContainer.encode(schemaArn, forKey: .schemaArn)
@@ -3042,6 +5072,8 @@ extension EntityResolutionClientTypes.SchemaMappingSummary: Swift.Codable {
         createdAt = createdAtDecoded
         let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
         updatedAt = updatedAtDecoded
+        let hasWorkflowsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hasWorkflows)
+        hasWorkflows = hasWorkflowsDecoded
     }
 }
 
@@ -3051,6 +5083,9 @@ extension EntityResolutionClientTypes {
         /// The timestamp of when the SchemaMapping was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
+        /// Specifies whether the schema mapping has been applied to a workflow.
+        /// This member is required.
+        public var hasWorkflows: Swift.Bool?
         /// The ARN (Amazon Resource Name) that Entity Resolution generated for the SchemaMapping.
         /// This member is required.
         public var schemaArn: Swift.String?
@@ -3063,18 +5098,141 @@ extension EntityResolutionClientTypes {
 
         public init(
             createdAt: ClientRuntime.Date? = nil,
+            hasWorkflows: Swift.Bool? = nil,
             schemaArn: Swift.String? = nil,
             schemaName: Swift.String? = nil,
             updatedAt: ClientRuntime.Date? = nil
         )
         {
             self.createdAt = createdAt
+            self.hasWorkflows = hasWorkflows
             self.schemaArn = schemaArn
             self.schemaName = schemaName
             self.updatedAt = updatedAt
         }
     }
 
+}
+
+extension EntityResolutionClientTypes {
+    public enum ServiceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case assignment
+        case idMapping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceType] {
+            return [
+                .assignment,
+                .idMapping,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .assignment: return "ASSIGNMENT"
+            case .idMapping: return "ID_MAPPING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ServiceType(rawValue: rawValue) ?? ServiceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension StartIdMappingJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let workflowName = workflowName else {
+            return nil
+        }
+        return "/idmappingworkflows/\(workflowName.urlPercentEncoding())/jobs"
+    }
+}
+
+public struct StartIdMappingJobInput: Swift.Equatable {
+    /// The name of the ID mapping job to be retrieved.
+    /// This member is required.
+    public var workflowName: Swift.String?
+
+    public init(
+        workflowName: Swift.String? = nil
+    )
+    {
+        self.workflowName = workflowName
+    }
+}
+
+struct StartIdMappingJobInputBody: Swift.Equatable {
+}
+
+extension StartIdMappingJobInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension StartIdMappingJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartIdMappingJobOutputBody = try responseDecoder.decode(responseBody: data)
+            self.jobId = output.jobId
+        } else {
+            self.jobId = nil
+        }
+    }
+}
+
+public struct StartIdMappingJobOutput: Swift.Equatable {
+    /// The ID of the job.
+    /// This member is required.
+    public var jobId: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil
+    )
+    {
+        self.jobId = jobId
+    }
+}
+
+struct StartIdMappingJobOutputBody: Swift.Equatable {
+    let jobId: Swift.String?
+}
+
+extension StartIdMappingJobOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jobId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
+        jobId = jobIdDecoded
+    }
+}
+
+enum StartIdMappingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ExceedsLimitException": return try await ExceedsLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension StartMatchingJobInput: ClientRuntime.URLPathProvider {
@@ -3108,28 +5266,11 @@ extension StartMatchingJobInputBody: Swift.Decodable {
     }
 }
 
-public enum StartMatchingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ExceedsLimitException": return try await ExceedsLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartMatchingJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartMatchingJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartMatchingJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartMatchingJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
         } else {
             self.jobId = nil
@@ -3137,7 +5278,7 @@ extension StartMatchingJobOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartMatchingJobOutputResponse: Swift.Equatable {
+public struct StartMatchingJobOutput: Swift.Equatable {
     /// The ID of the job.
     /// This member is required.
     public var jobId: Swift.String?
@@ -3150,11 +5291,11 @@ public struct StartMatchingJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartMatchingJobOutputResponseBody: Swift.Equatable {
+struct StartMatchingJobOutputBody: Swift.Equatable {
     let jobId: Swift.String?
 }
 
-extension StartMatchingJobOutputResponseBody: Swift.Decodable {
+extension StartMatchingJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId
     }
@@ -3163,6 +5304,23 @@ extension StartMatchingJobOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
+    }
+}
+
+enum StartMatchingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ExceedsLimitException": return try await ExceedsLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3234,8 +5392,18 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3245,16 +5413,6 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ThrottlingException {
@@ -3365,8 +5523,18 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3377,14 +5545,274 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+extension UpdateIdMappingWorkflowInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case idMappingTechniques
+        case inputSourceConfig
+        case outputSourceConfig
+        case roleArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let idMappingTechniques = self.idMappingTechniques {
+            try encodeContainer.encode(idMappingTechniques, forKey: .idMappingTechniques)
+        }
+        if let inputSourceConfig = inputSourceConfig {
+            var inputSourceConfigContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputSourceConfig)
+            for idmappingworkflowinputsource0 in inputSourceConfig {
+                try inputSourceConfigContainer.encode(idmappingworkflowinputsource0)
+            }
+        }
+        if let outputSourceConfig = outputSourceConfig {
+            var outputSourceConfigContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputSourceConfig)
+            for idmappingworkflowoutputsource0 in outputSourceConfig {
+                try outputSourceConfigContainer.encode(idmappingworkflowoutputsource0)
+            }
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
     }
 }
 
-public struct UntagResourceOutputResponse: Swift.Equatable {
+extension UpdateIdMappingWorkflowInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let workflowName = workflowName else {
+            return nil
+        }
+        return "/idmappingworkflows/\(workflowName.urlPercentEncoding())"
+    }
+}
 
-    public init() { }
+public struct UpdateIdMappingWorkflowInput: Swift.Equatable {
+    /// A description of the workflow.
+    public var description: Swift.String?
+    /// An object which defines the idMappingType and the providerProperties.
+    /// This member is required.
+    public var idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques?
+    /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
+    /// This member is required.
+    public var inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]?
+    /// A list of OutputSource objects, each of which contains fields OutputS3Path and KMSArn.
+    /// This member is required.
+    public var outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]?
+    /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access resources on your behalf.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// The name of the workflow.
+    /// This member is required.
+    public var workflowName: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques? = nil,
+        inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]? = nil,
+        outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]? = nil,
+        roleArn: Swift.String? = nil,
+        workflowName: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.idMappingTechniques = idMappingTechniques
+        self.inputSourceConfig = inputSourceConfig
+        self.outputSourceConfig = outputSourceConfig
+        self.roleArn = roleArn
+        self.workflowName = workflowName
+    }
+}
+
+struct UpdateIdMappingWorkflowInputBody: Swift.Equatable {
+    let description: Swift.String?
+    let inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]?
+    let outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]?
+    let idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques?
+    let roleArn: Swift.String?
+}
+
+extension UpdateIdMappingWorkflowInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case idMappingTechniques
+        case inputSourceConfig
+        case outputSourceConfig
+        case roleArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let inputSourceConfigContainer = try containerValues.decodeIfPresent([EntityResolutionClientTypes.IdMappingWorkflowInputSource?].self, forKey: .inputSourceConfig)
+        var inputSourceConfigDecoded0:[EntityResolutionClientTypes.IdMappingWorkflowInputSource]? = nil
+        if let inputSourceConfigContainer = inputSourceConfigContainer {
+            inputSourceConfigDecoded0 = [EntityResolutionClientTypes.IdMappingWorkflowInputSource]()
+            for structure0 in inputSourceConfigContainer {
+                if let structure0 = structure0 {
+                    inputSourceConfigDecoded0?.append(structure0)
+                }
+            }
+        }
+        inputSourceConfig = inputSourceConfigDecoded0
+        let outputSourceConfigContainer = try containerValues.decodeIfPresent([EntityResolutionClientTypes.IdMappingWorkflowOutputSource?].self, forKey: .outputSourceConfig)
+        var outputSourceConfigDecoded0:[EntityResolutionClientTypes.IdMappingWorkflowOutputSource]? = nil
+        if let outputSourceConfigContainer = outputSourceConfigContainer {
+            outputSourceConfigDecoded0 = [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]()
+            for structure0 in outputSourceConfigContainer {
+                if let structure0 = structure0 {
+                    outputSourceConfigDecoded0?.append(structure0)
+                }
+            }
+        }
+        outputSourceConfig = outputSourceConfigDecoded0
+        let idMappingTechniquesDecoded = try containerValues.decodeIfPresent(EntityResolutionClientTypes.IdMappingTechniques.self, forKey: .idMappingTechniques)
+        idMappingTechniques = idMappingTechniquesDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+    }
+}
+
+extension UpdateIdMappingWorkflowOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateIdMappingWorkflowOutputBody = try responseDecoder.decode(responseBody: data)
+            self.description = output.description
+            self.idMappingTechniques = output.idMappingTechniques
+            self.inputSourceConfig = output.inputSourceConfig
+            self.outputSourceConfig = output.outputSourceConfig
+            self.roleArn = output.roleArn
+            self.workflowArn = output.workflowArn
+            self.workflowName = output.workflowName
+        } else {
+            self.description = nil
+            self.idMappingTechniques = nil
+            self.inputSourceConfig = nil
+            self.outputSourceConfig = nil
+            self.roleArn = nil
+            self.workflowArn = nil
+            self.workflowName = nil
+        }
+    }
+}
+
+public struct UpdateIdMappingWorkflowOutput: Swift.Equatable {
+    /// A description of the workflow.
+    public var description: Swift.String?
+    /// An object which defines the idMappingType and the providerProperties.
+    /// This member is required.
+    public var idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques?
+    /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
+    /// This member is required.
+    public var inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]?
+    /// A list of OutputSource objects, each of which contains fields OutputS3Path and KMSArn.
+    /// This member is required.
+    public var outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]?
+    /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access resources on your behalf.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the workflow role. Entity Resolution assumes this role to access resources on your behalf.
+    /// This member is required.
+    public var workflowArn: Swift.String?
+    /// The name of the workflow.
+    /// This member is required.
+    public var workflowName: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques? = nil,
+        inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]? = nil,
+        outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]? = nil,
+        roleArn: Swift.String? = nil,
+        workflowArn: Swift.String? = nil,
+        workflowName: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.idMappingTechniques = idMappingTechniques
+        self.inputSourceConfig = inputSourceConfig
+        self.outputSourceConfig = outputSourceConfig
+        self.roleArn = roleArn
+        self.workflowArn = workflowArn
+        self.workflowName = workflowName
+    }
+}
+
+struct UpdateIdMappingWorkflowOutputBody: Swift.Equatable {
+    let workflowName: Swift.String?
+    let workflowArn: Swift.String?
+    let description: Swift.String?
+    let inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]?
+    let outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]?
+    let idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques?
+    let roleArn: Swift.String?
+}
+
+extension UpdateIdMappingWorkflowOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case idMappingTechniques
+        case inputSourceConfig
+        case outputSourceConfig
+        case roleArn
+        case workflowArn
+        case workflowName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workflowNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowName)
+        workflowName = workflowNameDecoded
+        let workflowArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowArn)
+        workflowArn = workflowArnDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let inputSourceConfigContainer = try containerValues.decodeIfPresent([EntityResolutionClientTypes.IdMappingWorkflowInputSource?].self, forKey: .inputSourceConfig)
+        var inputSourceConfigDecoded0:[EntityResolutionClientTypes.IdMappingWorkflowInputSource]? = nil
+        if let inputSourceConfigContainer = inputSourceConfigContainer {
+            inputSourceConfigDecoded0 = [EntityResolutionClientTypes.IdMappingWorkflowInputSource]()
+            for structure0 in inputSourceConfigContainer {
+                if let structure0 = structure0 {
+                    inputSourceConfigDecoded0?.append(structure0)
+                }
+            }
+        }
+        inputSourceConfig = inputSourceConfigDecoded0
+        let outputSourceConfigContainer = try containerValues.decodeIfPresent([EntityResolutionClientTypes.IdMappingWorkflowOutputSource?].self, forKey: .outputSourceConfig)
+        var outputSourceConfigDecoded0:[EntityResolutionClientTypes.IdMappingWorkflowOutputSource]? = nil
+        if let outputSourceConfigContainer = outputSourceConfigContainer {
+            outputSourceConfigDecoded0 = [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]()
+            for structure0 in outputSourceConfigContainer {
+                if let structure0 = structure0 {
+                    outputSourceConfigDecoded0?.append(structure0)
+                }
+            }
+        }
+        outputSourceConfig = outputSourceConfigDecoded0
+        let idMappingTechniquesDecoded = try containerValues.decodeIfPresent(EntityResolutionClientTypes.IdMappingTechniques.self, forKey: .idMappingTechniques)
+        idMappingTechniques = idMappingTechniquesDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+    }
+}
+
+enum UpdateIdMappingWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension UpdateMatchingWorkflowInput: Swift.Encodable {
@@ -3446,10 +5874,10 @@ public struct UpdateMatchingWorkflowInput: Swift.Equatable {
     /// A list of OutputSource objects, each of which contains fields OutputS3Path, ApplyNormalization, and Output.
     /// This member is required.
     public var outputSourceConfig: [EntityResolutionClientTypes.OutputSource]?
-    /// An object which defines the resolutionType and the ruleBasedProperties
+    /// An object which defines the resolutionType and the ruleBasedProperties.
     /// This member is required.
     public var resolutionTechniques: EntityResolutionClientTypes.ResolutionTechniques?
-    /// The Amazon Resource Name (ARN) of the IAM role. AWS Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
+    /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
     /// This member is required.
     public var roleArn: Swift.String?
     /// The name of the workflow to be retrieved.
@@ -3530,26 +5958,11 @@ extension UpdateMatchingWorkflowInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateMatchingWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateMatchingWorkflowOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateMatchingWorkflowOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateMatchingWorkflowOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateMatchingWorkflowOutputBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.incrementalRunConfig = output.incrementalRunConfig
             self.inputSourceConfig = output.inputSourceConfig
@@ -3569,7 +5982,7 @@ extension UpdateMatchingWorkflowOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct UpdateMatchingWorkflowOutputResponse: Swift.Equatable {
+public struct UpdateMatchingWorkflowOutput: Swift.Equatable {
     /// A description of the workflow.
     public var description: Swift.String?
     /// An object which defines an incremental run type and has only incrementalRunType as a field.
@@ -3583,7 +5996,7 @@ public struct UpdateMatchingWorkflowOutputResponse: Swift.Equatable {
     /// An object which defines the resolutionType and the ruleBasedProperties
     /// This member is required.
     public var resolutionTechniques: EntityResolutionClientTypes.ResolutionTechniques?
-    /// The Amazon Resource Name (ARN) of the IAM role. AWS Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
+    /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
     /// This member is required.
     public var roleArn: Swift.String?
     /// The name of the workflow.
@@ -3610,7 +6023,7 @@ public struct UpdateMatchingWorkflowOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateMatchingWorkflowOutputResponseBody: Swift.Equatable {
+struct UpdateMatchingWorkflowOutputBody: Swift.Equatable {
     let workflowName: Swift.String?
     let description: Swift.String?
     let inputSourceConfig: [EntityResolutionClientTypes.InputSource]?
@@ -3620,7 +6033,7 @@ struct UpdateMatchingWorkflowOutputResponseBody: Swift.Equatable {
     let roleArn: Swift.String?
 }
 
-extension UpdateMatchingWorkflowOutputResponseBody: Swift.Decodable {
+extension UpdateMatchingWorkflowOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description
         case incrementalRunConfig
@@ -3668,6 +6081,199 @@ extension UpdateMatchingWorkflowOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum UpdateMatchingWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateSchemaMappingInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case mappedInputFields
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let mappedInputFields = mappedInputFields {
+            var mappedInputFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mappedInputFields)
+            for schemainputattribute0 in mappedInputFields {
+                try mappedInputFieldsContainer.encode(schemainputattribute0)
+            }
+        }
+    }
+}
+
+extension UpdateSchemaMappingInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let schemaName = schemaName else {
+            return nil
+        }
+        return "/schemas/\(schemaName.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateSchemaMappingInput: Swift.Equatable {
+    /// A description of the schema.
+    public var description: Swift.String?
+    /// A list of MappedInputFields. Each MappedInputField corresponds to a column the source data table, and contains column name plus additional information that Entity Resolution uses for matching.
+    /// This member is required.
+    public var mappedInputFields: [EntityResolutionClientTypes.SchemaInputAttribute]?
+    /// The name of the schema. There can't be multiple SchemaMappings with the same name.
+    /// This member is required.
+    public var schemaName: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        mappedInputFields: [EntityResolutionClientTypes.SchemaInputAttribute]? = nil,
+        schemaName: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.mappedInputFields = mappedInputFields
+        self.schemaName = schemaName
+    }
+}
+
+struct UpdateSchemaMappingInputBody: Swift.Equatable {
+    let description: Swift.String?
+    let mappedInputFields: [EntityResolutionClientTypes.SchemaInputAttribute]?
+}
+
+extension UpdateSchemaMappingInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case mappedInputFields
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let mappedInputFieldsContainer = try containerValues.decodeIfPresent([EntityResolutionClientTypes.SchemaInputAttribute?].self, forKey: .mappedInputFields)
+        var mappedInputFieldsDecoded0:[EntityResolutionClientTypes.SchemaInputAttribute]? = nil
+        if let mappedInputFieldsContainer = mappedInputFieldsContainer {
+            mappedInputFieldsDecoded0 = [EntityResolutionClientTypes.SchemaInputAttribute]()
+            for structure0 in mappedInputFieldsContainer {
+                if let structure0 = structure0 {
+                    mappedInputFieldsDecoded0?.append(structure0)
+                }
+            }
+        }
+        mappedInputFields = mappedInputFieldsDecoded0
+    }
+}
+
+extension UpdateSchemaMappingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateSchemaMappingOutputBody = try responseDecoder.decode(responseBody: data)
+            self.description = output.description
+            self.mappedInputFields = output.mappedInputFields
+            self.schemaArn = output.schemaArn
+            self.schemaName = output.schemaName
+        } else {
+            self.description = nil
+            self.mappedInputFields = nil
+            self.schemaArn = nil
+            self.schemaName = nil
+        }
+    }
+}
+
+public struct UpdateSchemaMappingOutput: Swift.Equatable {
+    /// A description of the schema.
+    public var description: Swift.String?
+    /// A list of MappedInputFields. Each MappedInputField corresponds to a column the source data table, and contains column name plus additional information that Entity Resolution uses for matching.
+    /// This member is required.
+    public var mappedInputFields: [EntityResolutionClientTypes.SchemaInputAttribute]?
+    /// The ARN (Amazon Resource Name) that Entity Resolution generated for the SchemaMapping.
+    /// This member is required.
+    public var schemaArn: Swift.String?
+    /// The name of the schema.
+    /// This member is required.
+    public var schemaName: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        mappedInputFields: [EntityResolutionClientTypes.SchemaInputAttribute]? = nil,
+        schemaArn: Swift.String? = nil,
+        schemaName: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.mappedInputFields = mappedInputFields
+        self.schemaArn = schemaArn
+        self.schemaName = schemaName
+    }
+}
+
+struct UpdateSchemaMappingOutputBody: Swift.Equatable {
+    let schemaName: Swift.String?
+    let schemaArn: Swift.String?
+    let description: Swift.String?
+    let mappedInputFields: [EntityResolutionClientTypes.SchemaInputAttribute]?
+}
+
+extension UpdateSchemaMappingOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case mappedInputFields
+        case schemaArn
+        case schemaName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let schemaNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .schemaName)
+        schemaName = schemaNameDecoded
+        let schemaArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .schemaArn)
+        schemaArn = schemaArnDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let mappedInputFieldsContainer = try containerValues.decodeIfPresent([EntityResolutionClientTypes.SchemaInputAttribute?].self, forKey: .mappedInputFields)
+        var mappedInputFieldsDecoded0:[EntityResolutionClientTypes.SchemaInputAttribute]? = nil
+        if let mappedInputFieldsContainer = mappedInputFieldsContainer {
+            mappedInputFieldsDecoded0 = [EntityResolutionClientTypes.SchemaInputAttribute]()
+            for structure0 in mappedInputFieldsContainer {
+                if let structure0 = structure0 {
+                    mappedInputFieldsDecoded0?.append(structure0)
+                }
+            }
+        }
+        mappedInputFields = mappedInputFieldsDecoded0
+    }
+}
+
+enum UpdateSchemaMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ValidationException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -3683,7 +6289,7 @@ extension ValidationException {
     }
 }
 
-/// The input fails to satisfy the constraints specified by AWS Entity Resolution. HTTP Status Code: 400
+/// The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {

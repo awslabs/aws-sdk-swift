@@ -4,74 +4,689 @@ import ClientRuntime
 
 /// IoT TwinMaker is a service with which you can build operational digital twins of physical systems. IoT TwinMaker overlays measurements and analysis from real-world sensors, cameras, and enterprise applications so you can create data visualizations to monitor your physical factory, building, or industrial plant. You can use this real-world data to monitor operations and diagnose and repair errors.
 public protocol IoTTwinMakerClientProtocol {
+    /// Performs the `BatchPutPropertyValues` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Sets values for multiple time series properties.
-    func batchPutPropertyValues(input: BatchPutPropertyValuesInput) async throws -> BatchPutPropertyValuesOutputResponse
+    ///
+    /// - Parameter BatchPutPropertyValuesInput : [no documentation found]
+    ///
+    /// - Returns: `BatchPutPropertyValuesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func batchPutPropertyValues(input: BatchPutPropertyValuesInput) async throws -> BatchPutPropertyValuesOutput
+    /// Performs the `CancelMetadataTransferJob` operation on the `AWSIoTTwinMaker` service.
+    ///
+    /// Cancels the metadata transfer job.
+    ///
+    /// - Parameter CancelMetadataTransferJobInput : [no documentation found]
+    ///
+    /// - Returns: `CancelMetadataTransferJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func cancelMetadataTransferJob(input: CancelMetadataTransferJobInput) async throws -> CancelMetadataTransferJobOutput
+    /// Performs the `CreateComponentType` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Creates a component type.
-    func createComponentType(input: CreateComponentTypeInput) async throws -> CreateComponentTypeOutputResponse
+    ///
+    /// - Parameter CreateComponentTypeInput : [no documentation found]
+    ///
+    /// - Returns: `CreateComponentTypeOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func createComponentType(input: CreateComponentTypeInput) async throws -> CreateComponentTypeOutput
+    /// Performs the `CreateEntity` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Creates an entity.
-    func createEntity(input: CreateEntityInput) async throws -> CreateEntityOutputResponse
+    ///
+    /// - Parameter CreateEntityInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEntityOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func createEntity(input: CreateEntityInput) async throws -> CreateEntityOutput
+    /// Performs the `CreateMetadataTransferJob` operation on the `AWSIoTTwinMaker` service.
+    ///
+    /// Creates a new metadata transfer job.
+    ///
+    /// - Parameter CreateMetadataTransferJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMetadataTransferJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func createMetadataTransferJob(input: CreateMetadataTransferJobInput) async throws -> CreateMetadataTransferJobOutput
+    /// Performs the `CreateScene` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Creates a scene.
-    func createScene(input: CreateSceneInput) async throws -> CreateSceneOutputResponse
+    ///
+    /// - Parameter CreateSceneInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSceneOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func createScene(input: CreateSceneInput) async throws -> CreateSceneOutput
+    /// Performs the `CreateSyncJob` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// This action creates a SyncJob.
-    func createSyncJob(input: CreateSyncJobInput) async throws -> CreateSyncJobOutputResponse
+    ///
+    /// - Parameter CreateSyncJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSyncJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func createSyncJob(input: CreateSyncJobInput) async throws -> CreateSyncJobOutput
+    /// Performs the `CreateWorkspace` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Creates a workplace.
-    func createWorkspace(input: CreateWorkspaceInput) async throws -> CreateWorkspaceOutputResponse
+    ///
+    /// - Parameter CreateWorkspaceInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkspaceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func createWorkspace(input: CreateWorkspaceInput) async throws -> CreateWorkspaceOutput
+    /// Performs the `DeleteComponentType` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Deletes a component type.
-    func deleteComponentType(input: DeleteComponentTypeInput) async throws -> DeleteComponentTypeOutputResponse
+    ///
+    /// - Parameter DeleteComponentTypeInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteComponentTypeOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func deleteComponentType(input: DeleteComponentTypeInput) async throws -> DeleteComponentTypeOutput
+    /// Performs the `DeleteEntity` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Deletes an entity.
-    func deleteEntity(input: DeleteEntityInput) async throws -> DeleteEntityOutputResponse
+    ///
+    /// - Parameter DeleteEntityInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEntityOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func deleteEntity(input: DeleteEntityInput) async throws -> DeleteEntityOutput
+    /// Performs the `DeleteScene` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Deletes a scene.
-    func deleteScene(input: DeleteSceneInput) async throws -> DeleteSceneOutputResponse
+    ///
+    /// - Parameter DeleteSceneInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSceneOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func deleteScene(input: DeleteSceneInput) async throws -> DeleteSceneOutput
+    /// Performs the `DeleteSyncJob` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Delete the SyncJob.
-    func deleteSyncJob(input: DeleteSyncJobInput) async throws -> DeleteSyncJobOutputResponse
+    ///
+    /// - Parameter DeleteSyncJobInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSyncJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func deleteSyncJob(input: DeleteSyncJobInput) async throws -> DeleteSyncJobOutput
+    /// Performs the `DeleteWorkspace` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Deletes a workspace.
-    func deleteWorkspace(input: DeleteWorkspaceInput) async throws -> DeleteWorkspaceOutputResponse
-    /// Run queries to access information from your knowledge graph of entities within individual workspaces.
-    func executeQuery(input: ExecuteQueryInput) async throws -> ExecuteQueryOutputResponse
+    ///
+    /// - Parameter DeleteWorkspaceInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorkspaceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func deleteWorkspace(input: DeleteWorkspaceInput) async throws -> DeleteWorkspaceOutput
+    /// Performs the `ExecuteQuery` operation on the `AWSIoTTwinMaker` service.
+    ///
+    /// Run queries to access information from your knowledge graph of entities within individual workspaces. The ExecuteQuery action only works with [Amazon Web Services Java SDK2](https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/home.html). ExecuteQuery will not work with any Amazon Web Services Java SDK version < 2.x.
+    ///
+    /// - Parameter ExecuteQueryInput : [no documentation found]
+    ///
+    /// - Returns: `ExecuteQueryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `QueryTimeoutException` : The query timeout exception.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func executeQuery(input: ExecuteQueryInput) async throws -> ExecuteQueryOutput
+    /// Performs the `GetComponentType` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Retrieves information about a component type.
-    func getComponentType(input: GetComponentTypeInput) async throws -> GetComponentTypeOutputResponse
+    ///
+    /// - Parameter GetComponentTypeInput : [no documentation found]
+    ///
+    /// - Returns: `GetComponentTypeOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func getComponentType(input: GetComponentTypeInput) async throws -> GetComponentTypeOutput
+    /// Performs the `GetEntity` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Retrieves information about an entity.
-    func getEntity(input: GetEntityInput) async throws -> GetEntityOutputResponse
+    ///
+    /// - Parameter GetEntityInput : [no documentation found]
+    ///
+    /// - Returns: `GetEntityOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func getEntity(input: GetEntityInput) async throws -> GetEntityOutput
+    /// Performs the `GetMetadataTransferJob` operation on the `AWSIoTTwinMaker` service.
+    ///
+    /// Gets a nmetadata transfer job.
+    ///
+    /// - Parameter GetMetadataTransferJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetMetadataTransferJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func getMetadataTransferJob(input: GetMetadataTransferJobInput) async throws -> GetMetadataTransferJobOutput
+    /// Performs the `GetPricingPlan` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Gets the pricing plan.
-    func getPricingPlan(input: GetPricingPlanInput) async throws -> GetPricingPlanOutputResponse
+    ///
+    /// - Parameter GetPricingPlanInput : [no documentation found]
+    ///
+    /// - Returns: `GetPricingPlanOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func getPricingPlan(input: GetPricingPlanInput) async throws -> GetPricingPlanOutput
+    /// Performs the `GetPropertyValue` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Gets the property values for a component, component type, entity, or workspace. You must specify a value for either componentName, componentTypeId, entityId, or workspaceId.
-    func getPropertyValue(input: GetPropertyValueInput) async throws -> GetPropertyValueOutputResponse
+    ///
+    /// - Parameter GetPropertyValueInput : [no documentation found]
+    ///
+    /// - Returns: `GetPropertyValueOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConnectorFailureException` : The connector failed.
+    /// - `ConnectorTimeoutException` : The connector timed out.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func getPropertyValue(input: GetPropertyValueInput) async throws -> GetPropertyValueOutput
+    /// Performs the `GetPropertyValueHistory` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Retrieves information about the history of a time series property value for a component, component type, entity, or workspace. You must specify a value for workspaceId. For entity-specific queries, specify values for componentName and entityId. For cross-entity quries, specify a value for componentTypeId.
-    func getPropertyValueHistory(input: GetPropertyValueHistoryInput) async throws -> GetPropertyValueHistoryOutputResponse
+    ///
+    /// - Parameter GetPropertyValueHistoryInput : [no documentation found]
+    ///
+    /// - Returns: `GetPropertyValueHistoryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConnectorFailureException` : The connector failed.
+    /// - `ConnectorTimeoutException` : The connector timed out.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func getPropertyValueHistory(input: GetPropertyValueHistoryInput) async throws -> GetPropertyValueHistoryOutput
+    /// Performs the `GetScene` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Retrieves information about a scene.
-    func getScene(input: GetSceneInput) async throws -> GetSceneOutputResponse
+    ///
+    /// - Parameter GetSceneInput : [no documentation found]
+    ///
+    /// - Returns: `GetSceneOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func getScene(input: GetSceneInput) async throws -> GetSceneOutput
+    /// Performs the `GetSyncJob` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Gets the SyncJob.
-    func getSyncJob(input: GetSyncJobInput) async throws -> GetSyncJobOutputResponse
+    ///
+    /// - Parameter GetSyncJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetSyncJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func getSyncJob(input: GetSyncJobInput) async throws -> GetSyncJobOutput
+    /// Performs the `GetWorkspace` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Retrieves information about a workspace.
-    func getWorkspace(input: GetWorkspaceInput) async throws -> GetWorkspaceOutputResponse
+    ///
+    /// - Parameter GetWorkspaceInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkspaceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func getWorkspace(input: GetWorkspaceInput) async throws -> GetWorkspaceOutput
+    /// Performs the `ListComponents` operation on the `AWSIoTTwinMaker` service.
+    ///
+    /// This API lists the components of an entity.
+    ///
+    /// - Parameter ListComponentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListComponentsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput
+    /// Performs the `ListComponentTypes` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Lists all component types in a workspace.
-    func listComponentTypes(input: ListComponentTypesInput) async throws -> ListComponentTypesOutputResponse
+    ///
+    /// - Parameter ListComponentTypesInput : [no documentation found]
+    ///
+    /// - Returns: `ListComponentTypesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func listComponentTypes(input: ListComponentTypesInput) async throws -> ListComponentTypesOutput
+    /// Performs the `ListEntities` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Lists all entities in a workspace.
-    func listEntities(input: ListEntitiesInput) async throws -> ListEntitiesOutputResponse
+    ///
+    /// - Parameter ListEntitiesInput : [no documentation found]
+    ///
+    /// - Returns: `ListEntitiesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func listEntities(input: ListEntitiesInput) async throws -> ListEntitiesOutput
+    /// Performs the `ListMetadataTransferJobs` operation on the `AWSIoTTwinMaker` service.
+    ///
+    /// Lists the metadata transfer jobs.
+    ///
+    /// - Parameter ListMetadataTransferJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMetadataTransferJobsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func listMetadataTransferJobs(input: ListMetadataTransferJobsInput) async throws -> ListMetadataTransferJobsOutput
+    /// Performs the `ListProperties` operation on the `AWSIoTTwinMaker` service.
+    ///
+    /// This API lists the properties of a component.
+    ///
+    /// - Parameter ListPropertiesInput : [no documentation found]
+    ///
+    /// - Returns: `ListPropertiesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func listProperties(input: ListPropertiesInput) async throws -> ListPropertiesOutput
+    /// Performs the `ListScenes` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Lists all scenes in a workspace.
-    func listScenes(input: ListScenesInput) async throws -> ListScenesOutputResponse
+    ///
+    /// - Parameter ListScenesInput : [no documentation found]
+    ///
+    /// - Returns: `ListScenesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func listScenes(input: ListScenesInput) async throws -> ListScenesOutput
+    /// Performs the `ListSyncJobs` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// List all SyncJobs.
-    func listSyncJobs(input: ListSyncJobsInput) async throws -> ListSyncJobsOutputResponse
+    ///
+    /// - Parameter ListSyncJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSyncJobsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func listSyncJobs(input: ListSyncJobsInput) async throws -> ListSyncJobsOutput
+    /// Performs the `ListSyncResources` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Lists the sync resources.
-    func listSyncResources(input: ListSyncResourcesInput) async throws -> ListSyncResourcesOutputResponse
+    ///
+    /// - Parameter ListSyncResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSyncResourcesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func listSyncResources(input: ListSyncResourcesInput) async throws -> ListSyncResourcesOutput
+    /// Performs the `ListTagsForResource` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Lists all tags associated with a resource.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `ListWorkspaces` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Retrieves information about workspaces in the current account.
-    func listWorkspaces(input: ListWorkspacesInput) async throws -> ListWorkspacesOutputResponse
+    ///
+    /// - Parameter ListWorkspacesInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkspacesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func listWorkspaces(input: ListWorkspacesInput) async throws -> ListWorkspacesOutput
+    /// Performs the `TagResource` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Adds tags to a resource.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `TooManyTagsException` : The number of tags exceeds the limit.
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Removes tags from a resource.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateComponentType` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Updates information in a component type.
-    func updateComponentType(input: UpdateComponentTypeInput) async throws -> UpdateComponentTypeOutputResponse
+    ///
+    /// - Parameter UpdateComponentTypeInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateComponentTypeOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func updateComponentType(input: UpdateComponentTypeInput) async throws -> UpdateComponentTypeOutput
+    /// Performs the `UpdateEntity` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Updates an entity.
-    func updateEntity(input: UpdateEntityInput) async throws -> UpdateEntityOutputResponse
+    ///
+    /// - Parameter UpdateEntityInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEntityOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func updateEntity(input: UpdateEntityInput) async throws -> UpdateEntityOutput
+    /// Performs the `UpdatePricingPlan` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Update the pricing plan.
-    func updatePricingPlan(input: UpdatePricingPlanInput) async throws -> UpdatePricingPlanOutputResponse
+    ///
+    /// - Parameter UpdatePricingPlanInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePricingPlanOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func updatePricingPlan(input: UpdatePricingPlanInput) async throws -> UpdatePricingPlanOutput
+    /// Performs the `UpdateScene` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Updates a scene.
-    func updateScene(input: UpdateSceneInput) async throws -> UpdateSceneOutputResponse
+    ///
+    /// - Parameter UpdateSceneInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSceneOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func updateScene(input: UpdateSceneInput) async throws -> UpdateSceneOutput
+    /// Performs the `UpdateWorkspace` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Updates a workspace.
-    func updateWorkspace(input: UpdateWorkspaceInput) async throws -> UpdateWorkspaceOutputResponse
+    ///
+    /// - Parameter UpdateWorkspaceInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorkspaceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func updateWorkspace(input: UpdateWorkspaceInput) async throws -> UpdateWorkspaceOutput
 }
 
 public enum IoTTwinMakerClientTypes {}

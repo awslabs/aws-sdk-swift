@@ -4,66 +4,519 @@ import ClientRuntime
 
 /// This is the Amazon Lookout for Metrics API Reference. For an introduction to the service with tutorials for getting started, visit [Amazon Lookout for Metrics Developer Guide](https://docs.aws.amazon.com/lookoutmetrics/latest/dev).
 public protocol LookoutMetricsClientProtocol {
+    /// Performs the `ActivateAnomalyDetector` operation on the `LookoutMetrics` service.
+    ///
     /// Activates an anomaly detector.
-    func activateAnomalyDetector(input: ActivateAnomalyDetectorInput) async throws -> ActivateAnomalyDetectorOutputResponse
+    ///
+    /// - Parameter ActivateAnomalyDetectorInput : [no documentation found]
+    ///
+    /// - Returns: `ActivateAnomalyDetectorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Try your request again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func activateAnomalyDetector(input: ActivateAnomalyDetectorInput) async throws -> ActivateAnomalyDetectorOutput
+    /// Performs the `BackTestAnomalyDetector` operation on the `LookoutMetrics` service.
+    ///
     /// Runs a backtest for anomaly detection for the specified resource.
-    func backTestAnomalyDetector(input: BackTestAnomalyDetectorInput) async throws -> BackTestAnomalyDetectorOutputResponse
+    ///
+    /// - Parameter BackTestAnomalyDetectorInput : [no documentation found]
+    ///
+    /// - Returns: `BackTestAnomalyDetectorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func backTestAnomalyDetector(input: BackTestAnomalyDetectorInput) async throws -> BackTestAnomalyDetectorOutput
+    /// Performs the `CreateAlert` operation on the `LookoutMetrics` service.
+    ///
     /// Creates an alert for an anomaly detector.
-    func createAlert(input: CreateAlertInput) async throws -> CreateAlertOutputResponse
+    ///
+    /// - Parameter CreateAlertInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAlertOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Try your request again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `ServiceQuotaExceededException` : The request exceeded the service's quotas. Check the service quotas and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func createAlert(input: CreateAlertInput) async throws -> CreateAlertOutput
+    /// Performs the `CreateAnomalyDetector` operation on the `LookoutMetrics` service.
+    ///
     /// Creates an anomaly detector.
-    func createAnomalyDetector(input: CreateAnomalyDetectorInput) async throws -> CreateAnomalyDetectorOutputResponse
+    ///
+    /// - Parameter CreateAnomalyDetectorInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAnomalyDetectorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Try your request again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ServiceQuotaExceededException` : The request exceeded the service's quotas. Check the service quotas and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func createAnomalyDetector(input: CreateAnomalyDetectorInput) async throws -> CreateAnomalyDetectorOutput
+    /// Performs the `CreateMetricSet` operation on the `LookoutMetrics` service.
+    ///
     /// Creates a dataset.
-    func createMetricSet(input: CreateMetricSetInput) async throws -> CreateMetricSetOutputResponse
+    ///
+    /// - Parameter CreateMetricSetInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMetricSetOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Try your request again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `ServiceQuotaExceededException` : The request exceeded the service's quotas. Check the service quotas and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func createMetricSet(input: CreateMetricSetInput) async throws -> CreateMetricSetOutput
+    /// Performs the `DeactivateAnomalyDetector` operation on the `LookoutMetrics` service.
+    ///
     /// Deactivates an anomaly detector.
-    func deactivateAnomalyDetector(input: DeactivateAnomalyDetectorInput) async throws -> DeactivateAnomalyDetectorOutputResponse
+    ///
+    /// - Parameter DeactivateAnomalyDetectorInput : [no documentation found]
+    ///
+    /// - Returns: `DeactivateAnomalyDetectorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Try your request again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func deactivateAnomalyDetector(input: DeactivateAnomalyDetectorInput) async throws -> DeactivateAnomalyDetectorOutput
+    /// Performs the `DeleteAlert` operation on the `LookoutMetrics` service.
+    ///
     /// Deletes an alert.
-    func deleteAlert(input: DeleteAlertInput) async throws -> DeleteAlertOutputResponse
+    ///
+    /// - Parameter DeleteAlertInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAlertOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func deleteAlert(input: DeleteAlertInput) async throws -> DeleteAlertOutput
+    /// Performs the `DeleteAnomalyDetector` operation on the `LookoutMetrics` service.
+    ///
     /// Deletes a detector. Deleting an anomaly detector will delete all of its corresponding resources including any configured datasets and alerts.
-    func deleteAnomalyDetector(input: DeleteAnomalyDetectorInput) async throws -> DeleteAnomalyDetectorOutputResponse
+    ///
+    /// - Parameter DeleteAnomalyDetectorInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAnomalyDetectorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Try your request again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func deleteAnomalyDetector(input: DeleteAnomalyDetectorInput) async throws -> DeleteAnomalyDetectorOutput
+    /// Performs the `DescribeAlert` operation on the `LookoutMetrics` service.
+    ///
     /// Describes an alert. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
-    func describeAlert(input: DescribeAlertInput) async throws -> DescribeAlertOutputResponse
+    ///
+    /// - Parameter DescribeAlertInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAlertOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func describeAlert(input: DescribeAlertInput) async throws -> DescribeAlertOutput
+    /// Performs the `DescribeAnomalyDetectionExecutions` operation on the `LookoutMetrics` service.
+    ///
     /// Returns information about the status of the specified anomaly detection jobs.
-    func describeAnomalyDetectionExecutions(input: DescribeAnomalyDetectionExecutionsInput) async throws -> DescribeAnomalyDetectionExecutionsOutputResponse
+    ///
+    /// - Parameter DescribeAnomalyDetectionExecutionsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAnomalyDetectionExecutionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func describeAnomalyDetectionExecutions(input: DescribeAnomalyDetectionExecutionsInput) async throws -> DescribeAnomalyDetectionExecutionsOutput
+    /// Performs the `DescribeAnomalyDetector` operation on the `LookoutMetrics` service.
+    ///
     /// Describes a detector. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
-    func describeAnomalyDetector(input: DescribeAnomalyDetectorInput) async throws -> DescribeAnomalyDetectorOutputResponse
+    ///
+    /// - Parameter DescribeAnomalyDetectorInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAnomalyDetectorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func describeAnomalyDetector(input: DescribeAnomalyDetectorInput) async throws -> DescribeAnomalyDetectorOutput
+    /// Performs the `DescribeMetricSet` operation on the `LookoutMetrics` service.
+    ///
     /// Describes a dataset. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
-    func describeMetricSet(input: DescribeMetricSetInput) async throws -> DescribeMetricSetOutputResponse
+    ///
+    /// - Parameter DescribeMetricSetInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeMetricSetOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func describeMetricSet(input: DescribeMetricSetInput) async throws -> DescribeMetricSetOutput
+    /// Performs the `DetectMetricSetConfig` operation on the `LookoutMetrics` service.
+    ///
     /// Detects an Amazon S3 dataset's file format, interval, and offset.
-    func detectMetricSetConfig(input: DetectMetricSetConfigInput) async throws -> DetectMetricSetConfigOutputResponse
+    ///
+    /// - Parameter DetectMetricSetConfigInput : [no documentation found]
+    ///
+    /// - Returns: `DetectMetricSetConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func detectMetricSetConfig(input: DetectMetricSetConfigInput) async throws -> DetectMetricSetConfigOutput
+    /// Performs the `GetAnomalyGroup` operation on the `LookoutMetrics` service.
+    ///
     /// Returns details about a group of anomalous metrics.
-    func getAnomalyGroup(input: GetAnomalyGroupInput) async throws -> GetAnomalyGroupOutputResponse
+    ///
+    /// - Parameter GetAnomalyGroupInput : [no documentation found]
+    ///
+    /// - Returns: `GetAnomalyGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func getAnomalyGroup(input: GetAnomalyGroupInput) async throws -> GetAnomalyGroupOutput
+    /// Performs the `GetDataQualityMetrics` operation on the `LookoutMetrics` service.
+    ///
     /// Returns details about the requested data quality metrics.
-    func getDataQualityMetrics(input: GetDataQualityMetricsInput) async throws -> GetDataQualityMetricsOutputResponse
+    ///
+    /// - Parameter GetDataQualityMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `GetDataQualityMetricsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func getDataQualityMetrics(input: GetDataQualityMetricsInput) async throws -> GetDataQualityMetricsOutput
+    /// Performs the `GetFeedback` operation on the `LookoutMetrics` service.
+    ///
     /// Get feedback for an anomaly group.
-    func getFeedback(input: GetFeedbackInput) async throws -> GetFeedbackOutputResponse
+    ///
+    /// - Parameter GetFeedbackInput : [no documentation found]
+    ///
+    /// - Returns: `GetFeedbackOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func getFeedback(input: GetFeedbackInput) async throws -> GetFeedbackOutput
+    /// Performs the `GetSampleData` operation on the `LookoutMetrics` service.
+    ///
     /// Returns a selection of sample records from an Amazon S3 datasource.
-    func getSampleData(input: GetSampleDataInput) async throws -> GetSampleDataOutputResponse
+    ///
+    /// - Parameter GetSampleDataInput : [no documentation found]
+    ///
+    /// - Returns: `GetSampleDataOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func getSampleData(input: GetSampleDataInput) async throws -> GetSampleDataOutput
+    /// Performs the `ListAlerts` operation on the `LookoutMetrics` service.
+    ///
     /// Lists the alerts attached to a detector. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
-    func listAlerts(input: ListAlertsInput) async throws -> ListAlertsOutputResponse
+    ///
+    /// - Parameter ListAlertsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAlertsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func listAlerts(input: ListAlertsInput) async throws -> ListAlertsOutput
+    /// Performs the `ListAnomalyDetectors` operation on the `LookoutMetrics` service.
+    ///
     /// Lists the detectors in the current AWS Region. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
-    func listAnomalyDetectors(input: ListAnomalyDetectorsInput) async throws -> ListAnomalyDetectorsOutputResponse
+    ///
+    /// - Parameter ListAnomalyDetectorsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAnomalyDetectorsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func listAnomalyDetectors(input: ListAnomalyDetectorsInput) async throws -> ListAnomalyDetectorsOutput
+    /// Performs the `ListAnomalyGroupRelatedMetrics` operation on the `LookoutMetrics` service.
+    ///
     /// Returns a list of measures that are potential causes or effects of an anomaly group.
-    func listAnomalyGroupRelatedMetrics(input: ListAnomalyGroupRelatedMetricsInput) async throws -> ListAnomalyGroupRelatedMetricsOutputResponse
+    ///
+    /// - Parameter ListAnomalyGroupRelatedMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAnomalyGroupRelatedMetricsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func listAnomalyGroupRelatedMetrics(input: ListAnomalyGroupRelatedMetricsInput) async throws -> ListAnomalyGroupRelatedMetricsOutput
+    /// Performs the `ListAnomalyGroupSummaries` operation on the `LookoutMetrics` service.
+    ///
     /// Returns a list of anomaly groups.
-    func listAnomalyGroupSummaries(input: ListAnomalyGroupSummariesInput) async throws -> ListAnomalyGroupSummariesOutputResponse
+    ///
+    /// - Parameter ListAnomalyGroupSummariesInput : [no documentation found]
+    ///
+    /// - Returns: `ListAnomalyGroupSummariesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func listAnomalyGroupSummaries(input: ListAnomalyGroupSummariesInput) async throws -> ListAnomalyGroupSummariesOutput
+    /// Performs the `ListAnomalyGroupTimeSeries` operation on the `LookoutMetrics` service.
+    ///
     /// Gets a list of anomalous metrics for a measure in an anomaly group.
-    func listAnomalyGroupTimeSeries(input: ListAnomalyGroupTimeSeriesInput) async throws -> ListAnomalyGroupTimeSeriesOutputResponse
+    ///
+    /// - Parameter ListAnomalyGroupTimeSeriesInput : [no documentation found]
+    ///
+    /// - Returns: `ListAnomalyGroupTimeSeriesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func listAnomalyGroupTimeSeries(input: ListAnomalyGroupTimeSeriesInput) async throws -> ListAnomalyGroupTimeSeriesOutput
+    /// Performs the `ListMetricSets` operation on the `LookoutMetrics` service.
+    ///
     /// Lists the datasets in the current AWS Region. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
-    func listMetricSets(input: ListMetricSetsInput) async throws -> ListMetricSetsOutputResponse
+    ///
+    /// - Parameter ListMetricSetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMetricSetsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func listMetricSets(input: ListMetricSetsInput) async throws -> ListMetricSetsOutput
+    /// Performs the `ListTagsForResource` operation on the `LookoutMetrics` service.
+    ///
     /// Gets a list of [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html) for a detector, dataset, or alert.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `PutFeedback` operation on the `LookoutMetrics` service.
+    ///
     /// Add feedback for an anomalous metric.
-    func putFeedback(input: PutFeedbackInput) async throws -> PutFeedbackOutputResponse
+    ///
+    /// - Parameter PutFeedbackInput : [no documentation found]
+    ///
+    /// - Returns: `PutFeedbackOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func putFeedback(input: PutFeedbackInput) async throws -> PutFeedbackOutput
+    /// Performs the `TagResource` operation on the `LookoutMetrics` service.
+    ///
     /// Adds [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html) to a detector, dataset, or alert.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `LookoutMetrics` service.
+    ///
     /// Removes [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html) from a detector, dataset, or alert.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateAlert` operation on the `LookoutMetrics` service.
+    ///
     /// Make changes to an existing alert.
-    func updateAlert(input: UpdateAlertInput) async throws -> UpdateAlertOutputResponse
+    ///
+    /// - Parameter UpdateAlertInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAlertOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func updateAlert(input: UpdateAlertInput) async throws -> UpdateAlertOutput
+    /// Performs the `UpdateAnomalyDetector` operation on the `LookoutMetrics` service.
+    ///
     /// Updates a detector. After activation, you can only change a detector's ingestion delay and description.
-    func updateAnomalyDetector(input: UpdateAnomalyDetectorInput) async throws -> UpdateAnomalyDetectorOutputResponse
+    ///
+    /// - Parameter UpdateAnomalyDetectorInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAnomalyDetectorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func updateAnomalyDetector(input: UpdateAnomalyDetectorInput) async throws -> UpdateAnomalyDetectorOutput
+    /// Performs the `UpdateMetricSet` operation on the `LookoutMetrics` service.
+    ///
     /// Updates a dataset.
-    func updateMetricSet(input: UpdateMetricSetInput) async throws -> UpdateMetricSetOutputResponse
+    ///
+    /// - Parameter UpdateMetricSetInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateMetricSetOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
+    /// - `ServiceQuotaExceededException` : The request exceeded the service's quotas. Check the service quotas and try again.
+    /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
+    func updateMetricSet(input: UpdateMetricSetInput) async throws -> UpdateMetricSetOutput
 }
 
 public enum LookoutMetricsClientTypes {}

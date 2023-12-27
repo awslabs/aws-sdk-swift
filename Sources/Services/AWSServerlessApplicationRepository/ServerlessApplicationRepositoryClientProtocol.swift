@@ -6,34 +6,244 @@ import ClientRuntime
 ///
 /// * Consuming Applications – Browse for applications and view information about them, including source code and readme files. Also install, configure, and deploy applications of your choosing. Publishing Applications – Configure and upload applications to make them available to other developers, and publish new versions of applications.
 public protocol ServerlessApplicationRepositoryClientProtocol {
+    /// Performs the `CreateApplication` operation on the `ServerlessApplicationRepository` service.
+    ///
     /// Creates an application, optionally including an AWS SAM file to create the first application version in the same call.
-    func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
+    ///
+    /// - Parameter CreateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateApplicationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : One of the parameters in the request is invalid.
+    /// - `ConflictException` : The resource already exists.
+    /// - `ForbiddenException` : The client is not authenticated.
+    /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
+    /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
+    func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
+    /// Performs the `CreateApplicationVersion` operation on the `ServerlessApplicationRepository` service.
+    ///
     /// Creates an application version.
-    func createApplicationVersion(input: CreateApplicationVersionInput) async throws -> CreateApplicationVersionOutputResponse
+    ///
+    /// - Parameter CreateApplicationVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateApplicationVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : One of the parameters in the request is invalid.
+    /// - `ConflictException` : The resource already exists.
+    /// - `ForbiddenException` : The client is not authenticated.
+    /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
+    /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
+    func createApplicationVersion(input: CreateApplicationVersionInput) async throws -> CreateApplicationVersionOutput
+    /// Performs the `CreateCloudFormationChangeSet` operation on the `ServerlessApplicationRepository` service.
+    ///
     /// Creates an AWS CloudFormation change set for the given application.
-    func createCloudFormationChangeSet(input: CreateCloudFormationChangeSetInput) async throws -> CreateCloudFormationChangeSetOutputResponse
+    ///
+    /// - Parameter CreateCloudFormationChangeSetInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCloudFormationChangeSetOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : One of the parameters in the request is invalid.
+    /// - `ForbiddenException` : The client is not authenticated.
+    /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
+    /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
+    func createCloudFormationChangeSet(input: CreateCloudFormationChangeSetInput) async throws -> CreateCloudFormationChangeSetOutput
+    /// Performs the `CreateCloudFormationTemplate` operation on the `ServerlessApplicationRepository` service.
+    ///
     /// Creates an AWS CloudFormation template.
-    func createCloudFormationTemplate(input: CreateCloudFormationTemplateInput) async throws -> CreateCloudFormationTemplateOutputResponse
+    ///
+    /// - Parameter CreateCloudFormationTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCloudFormationTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : One of the parameters in the request is invalid.
+    /// - `ForbiddenException` : The client is not authenticated.
+    /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
+    /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
+    /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
+    func createCloudFormationTemplate(input: CreateCloudFormationTemplateInput) async throws -> CreateCloudFormationTemplateOutput
+    /// Performs the `DeleteApplication` operation on the `ServerlessApplicationRepository` service.
+    ///
     /// Deletes the specified application.
-    func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutputResponse
+    ///
+    /// - Parameter DeleteApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : One of the parameters in the request is invalid.
+    /// - `ConflictException` : The resource already exists.
+    /// - `ForbiddenException` : The client is not authenticated.
+    /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
+    /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
+    /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
+    func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
+    /// Performs the `GetApplication` operation on the `ServerlessApplicationRepository` service.
+    ///
     /// Gets the specified application.
-    func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutputResponse
+    ///
+    /// - Parameter GetApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `GetApplicationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : One of the parameters in the request is invalid.
+    /// - `ForbiddenException` : The client is not authenticated.
+    /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
+    /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
+    /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
+    func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput
+    /// Performs the `GetApplicationPolicy` operation on the `ServerlessApplicationRepository` service.
+    ///
     /// Retrieves the policy for the application.
-    func getApplicationPolicy(input: GetApplicationPolicyInput) async throws -> GetApplicationPolicyOutputResponse
+    ///
+    /// - Parameter GetApplicationPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetApplicationPolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : One of the parameters in the request is invalid.
+    /// - `ForbiddenException` : The client is not authenticated.
+    /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
+    /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
+    /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
+    func getApplicationPolicy(input: GetApplicationPolicyInput) async throws -> GetApplicationPolicyOutput
+    /// Performs the `GetCloudFormationTemplate` operation on the `ServerlessApplicationRepository` service.
+    ///
     /// Gets the specified AWS CloudFormation template.
-    func getCloudFormationTemplate(input: GetCloudFormationTemplateInput) async throws -> GetCloudFormationTemplateOutputResponse
+    ///
+    /// - Parameter GetCloudFormationTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetCloudFormationTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : One of the parameters in the request is invalid.
+    /// - `ForbiddenException` : The client is not authenticated.
+    /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
+    /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
+    /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
+    func getCloudFormationTemplate(input: GetCloudFormationTemplateInput) async throws -> GetCloudFormationTemplateOutput
+    /// Performs the `ListApplicationDependencies` operation on the `ServerlessApplicationRepository` service.
+    ///
     /// Retrieves the list of applications nested in the containing application.
-    func listApplicationDependencies(input: ListApplicationDependenciesInput) async throws -> ListApplicationDependenciesOutputResponse
+    ///
+    /// - Parameter ListApplicationDependenciesInput : [no documentation found]
+    ///
+    /// - Returns: `ListApplicationDependenciesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : One of the parameters in the request is invalid.
+    /// - `ForbiddenException` : The client is not authenticated.
+    /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
+    /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
+    /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
+    func listApplicationDependencies(input: ListApplicationDependenciesInput) async throws -> ListApplicationDependenciesOutput
+    /// Performs the `ListApplications` operation on the `ServerlessApplicationRepository` service.
+    ///
     /// Lists applications owned by the requester.
-    func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutputResponse
+    ///
+    /// - Parameter ListApplicationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListApplicationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : One of the parameters in the request is invalid.
+    /// - `ForbiddenException` : The client is not authenticated.
+    /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
+    /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
+    func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput
+    /// Performs the `ListApplicationVersions` operation on the `ServerlessApplicationRepository` service.
+    ///
     /// Lists versions for the specified application.
-    func listApplicationVersions(input: ListApplicationVersionsInput) async throws -> ListApplicationVersionsOutputResponse
+    ///
+    /// - Parameter ListApplicationVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListApplicationVersionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : One of the parameters in the request is invalid.
+    /// - `ForbiddenException` : The client is not authenticated.
+    /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
+    /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
+    /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
+    func listApplicationVersions(input: ListApplicationVersionsInput) async throws -> ListApplicationVersionsOutput
+    /// Performs the `PutApplicationPolicy` operation on the `ServerlessApplicationRepository` service.
+    ///
     /// Sets the permission policy for an application. For the list of actions supported for this operation, see [Application Permissions](https://docs.aws.amazon.com/serverlessrepo/latest/devguide/access-control-resource-based.html#application-permissions) .
-    func putApplicationPolicy(input: PutApplicationPolicyInput) async throws -> PutApplicationPolicyOutputResponse
+    ///
+    /// - Parameter PutApplicationPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutApplicationPolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : One of the parameters in the request is invalid.
+    /// - `ForbiddenException` : The client is not authenticated.
+    /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
+    /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
+    /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
+    func putApplicationPolicy(input: PutApplicationPolicyInput) async throws -> PutApplicationPolicyOutput
+    /// Performs the `UnshareApplication` operation on the `ServerlessApplicationRepository` service.
+    ///
     /// Unshares an application from an AWS Organization.This operation can be called only from the organization's master account.
-    func unshareApplication(input: UnshareApplicationInput) async throws -> UnshareApplicationOutputResponse
+    ///
+    /// - Parameter UnshareApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `UnshareApplicationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : One of the parameters in the request is invalid.
+    /// - `ForbiddenException` : The client is not authenticated.
+    /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
+    /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
+    /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
+    func unshareApplication(input: UnshareApplicationInput) async throws -> UnshareApplicationOutput
+    /// Performs the `UpdateApplication` operation on the `ServerlessApplicationRepository` service.
+    ///
     /// Updates the specified application.
-    func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
+    ///
+    /// - Parameter UpdateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : One of the parameters in the request is invalid.
+    /// - `ConflictException` : The resource already exists.
+    /// - `ForbiddenException` : The client is not authenticated.
+    /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
+    /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
+    /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
+    func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
 }
 
 public enum ServerlessApplicationRepositoryClientTypes {}

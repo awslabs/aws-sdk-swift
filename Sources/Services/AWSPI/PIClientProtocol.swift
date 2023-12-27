@@ -10,18 +10,201 @@ import ClientRuntime
 ///
 /// * To learn more about Performance Insights and Amazon DocumentDB clusters, go to the [ Amazon DocumentDB Developer Guide](https://docs.aws.amazon.com/documentdb/latest/developerguide/performance-insights.html) .
 public protocol PIClientProtocol {
+    /// Performs the `CreatePerformanceAnalysisReport` operation on the `PerformanceInsightsv20180227` service.
+    ///
+    /// Creates a new performance analysis report for a specific time period for the DB instance.
+    ///
+    /// - Parameter CreatePerformanceAnalysisReportInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePerformanceAnalysisReportOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
+    func createPerformanceAnalysisReport(input: CreatePerformanceAnalysisReportInput) async throws -> CreatePerformanceAnalysisReportOutput
+    /// Performs the `DeletePerformanceAnalysisReport` operation on the `PerformanceInsightsv20180227` service.
+    ///
+    /// Deletes a performance analysis report.
+    ///
+    /// - Parameter DeletePerformanceAnalysisReportInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePerformanceAnalysisReportOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
+    func deletePerformanceAnalysisReport(input: DeletePerformanceAnalysisReportInput) async throws -> DeletePerformanceAnalysisReportOutput
+    /// Performs the `DescribeDimensionKeys` operation on the `PerformanceInsightsv20180227` service.
+    ///
     /// For a specific time period, retrieve the top N dimension keys for a metric. Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements, only the first 500 bytes are returned.
-    func describeDimensionKeys(input: DescribeDimensionKeysInput) async throws -> DescribeDimensionKeysOutputResponse
+    ///
+    /// - Parameter DescribeDimensionKeysInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDimensionKeysOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
+    func describeDimensionKeys(input: DescribeDimensionKeysInput) async throws -> DescribeDimensionKeysOutput
+    /// Performs the `GetDimensionKeyDetails` operation on the `PerformanceInsightsv20180227` service.
+    ///
     /// Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID, GetDimensionKeyDetails retrieves the full text of the dimension db.sql.statement associated with this ID. This operation is useful because GetResourceMetrics and DescribeDimensionKeys don't support retrieval of large SQL statement text.
-    func getDimensionKeyDetails(input: GetDimensionKeyDetailsInput) async throws -> GetDimensionKeyDetailsOutputResponse
+    ///
+    /// - Parameter GetDimensionKeyDetailsInput : [no documentation found]
+    ///
+    /// - Returns: `GetDimensionKeyDetailsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
+    func getDimensionKeyDetails(input: GetDimensionKeyDetailsInput) async throws -> GetDimensionKeyDetailsOutput
+    /// Performs the `GetPerformanceAnalysisReport` operation on the `PerformanceInsightsv20180227` service.
+    ///
+    /// Retrieves the report including the report ID, status, time details, and the insights with recommendations. The report status can be RUNNING, SUCCEEDED, or FAILED. The insights include the description and recommendation fields.
+    ///
+    /// - Parameter GetPerformanceAnalysisReportInput : [no documentation found]
+    ///
+    /// - Returns: `GetPerformanceAnalysisReportOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
+    func getPerformanceAnalysisReport(input: GetPerformanceAnalysisReportInput) async throws -> GetPerformanceAnalysisReportOutput
+    /// Performs the `GetResourceMetadata` operation on the `PerformanceInsightsv20180227` service.
+    ///
     /// Retrieve the metadata for different features. For example, the metadata might indicate that a feature is turned on or off on a specific DB instance.
-    func getResourceMetadata(input: GetResourceMetadataInput) async throws -> GetResourceMetadataOutputResponse
+    ///
+    /// - Parameter GetResourceMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourceMetadataOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
+    func getResourceMetadata(input: GetResourceMetadataInput) async throws -> GetResourceMetadataOutput
+    /// Performs the `GetResourceMetrics` operation on the `PerformanceInsightsv20180227` service.
+    ///
     /// Retrieve Performance Insights metrics for a set of data sources over a time period. You can provide specific dimension groups and dimensions, and provide aggregation and filtering criteria for each group. Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements, only the first 500 bytes are returned.
-    func getResourceMetrics(input: GetResourceMetricsInput) async throws -> GetResourceMetricsOutputResponse
+    ///
+    /// - Parameter GetResourceMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourceMetricsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
+    func getResourceMetrics(input: GetResourceMetricsInput) async throws -> GetResourceMetricsOutput
+    /// Performs the `ListAvailableResourceDimensions` operation on the `PerformanceInsightsv20180227` service.
+    ///
     /// Retrieve the dimensions that can be queried for each specified metric type on a specified DB instance.
-    func listAvailableResourceDimensions(input: ListAvailableResourceDimensionsInput) async throws -> ListAvailableResourceDimensionsOutputResponse
+    ///
+    /// - Parameter ListAvailableResourceDimensionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAvailableResourceDimensionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
+    func listAvailableResourceDimensions(input: ListAvailableResourceDimensionsInput) async throws -> ListAvailableResourceDimensionsOutput
+    /// Performs the `ListAvailableResourceMetrics` operation on the `PerformanceInsightsv20180227` service.
+    ///
     /// Retrieve metrics of the specified types that can be queried for a specified DB instance.
-    func listAvailableResourceMetrics(input: ListAvailableResourceMetricsInput) async throws -> ListAvailableResourceMetricsOutputResponse
+    ///
+    /// - Parameter ListAvailableResourceMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAvailableResourceMetricsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
+    func listAvailableResourceMetrics(input: ListAvailableResourceMetricsInput) async throws -> ListAvailableResourceMetricsOutput
+    /// Performs the `ListPerformanceAnalysisReports` operation on the `PerformanceInsightsv20180227` service.
+    ///
+    /// Lists all the analysis reports created for the DB instance. The reports are sorted based on the start time of each report.
+    ///
+    /// - Parameter ListPerformanceAnalysisReportsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPerformanceAnalysisReportsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
+    func listPerformanceAnalysisReports(input: ListPerformanceAnalysisReportsInput) async throws -> ListPerformanceAnalysisReportsOutput
+    /// Performs the `ListTagsForResource` operation on the `PerformanceInsightsv20180227` service.
+    ///
+    /// Retrieves all the metadata tags associated with Amazon RDS Performance Insights resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `TagResource` operation on the `PerformanceInsightsv20180227` service.
+    ///
+    /// Adds metadata tags to the Amazon RDS Performance Insights resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `PerformanceInsightsv20180227` service.
+    ///
+    /// Deletes the metadata tags from the Amazon RDS Performance Insights resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
 }
 
 public enum PIClientTypes {}

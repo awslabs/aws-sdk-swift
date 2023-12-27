@@ -2,6 +2,520 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension PIClientTypes {
+    public enum AcceptLanguage: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case enUs
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AcceptLanguage] {
+            return [
+                .enUs,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .enUs: return "EN_US"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AcceptLanguage(rawValue: rawValue) ?? AcceptLanguage.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PIClientTypes.AnalysisReport: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisReportId = "AnalysisReportId"
+        case createTime = "CreateTime"
+        case endTime = "EndTime"
+        case identifier = "Identifier"
+        case insights = "Insights"
+        case serviceType = "ServiceType"
+        case startTime = "StartTime"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analysisReportId = self.analysisReportId {
+            try encodeContainer.encode(analysisReportId, forKey: .analysisReportId)
+        }
+        if let createTime = self.createTime {
+            try encodeContainer.encodeTimestamp(createTime, format: .epochSeconds, forKey: .createTime)
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let identifier = self.identifier {
+            try encodeContainer.encode(identifier, forKey: .identifier)
+        }
+        if let insights = insights {
+            var insightsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .insights)
+            for insight0 in insights {
+                try insightsContainer.encode(insight0)
+            }
+        }
+        if let serviceType = self.serviceType {
+            try encodeContainer.encode(serviceType.rawValue, forKey: .serviceType)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let analysisReportIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .analysisReportId)
+        analysisReportId = analysisReportIdDecoded
+        let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
+        identifier = identifierDecoded
+        let serviceTypeDecoded = try containerValues.decodeIfPresent(PIClientTypes.ServiceType.self, forKey: .serviceType)
+        serviceType = serviceTypeDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createTime)
+        createTime = createTimeDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(PIClientTypes.AnalysisStatus.self, forKey: .status)
+        status = statusDecoded
+        let insightsContainer = try containerValues.decodeIfPresent([PIClientTypes.Insight?].self, forKey: .insights)
+        var insightsDecoded0:[PIClientTypes.Insight]? = nil
+        if let insightsContainer = insightsContainer {
+            insightsDecoded0 = [PIClientTypes.Insight]()
+            for structure0 in insightsContainer {
+                if let structure0 = structure0 {
+                    insightsDecoded0?.append(structure0)
+                }
+            }
+        }
+        insights = insightsDecoded0
+    }
+}
+
+extension PIClientTypes {
+    /// Retrieves the summary of the performance analysis report created for a time period.
+    public struct AnalysisReport: Swift.Equatable {
+        /// The name of the analysis report.
+        /// This member is required.
+        public var analysisReportId: Swift.String?
+        /// The time you created the analysis report.
+        public var createTime: ClientRuntime.Date?
+        /// The analysis end time in the report.
+        public var endTime: ClientRuntime.Date?
+        /// The unique identifier of the analysis report.
+        public var identifier: Swift.String?
+        /// The list of identified insights in the analysis report.
+        public var insights: [PIClientTypes.Insight]?
+        /// List the tags for the Amazon Web Services service for which Performance Insights returns metrics. Valid values are as follows:
+        ///
+        /// * RDS
+        ///
+        /// * DOCDB
+        public var serviceType: PIClientTypes.ServiceType?
+        /// The analysis start time in the report.
+        public var startTime: ClientRuntime.Date?
+        /// The status of the created analysis report.
+        public var status: PIClientTypes.AnalysisStatus?
+
+        public init(
+            analysisReportId: Swift.String? = nil,
+            createTime: ClientRuntime.Date? = nil,
+            endTime: ClientRuntime.Date? = nil,
+            identifier: Swift.String? = nil,
+            insights: [PIClientTypes.Insight]? = nil,
+            serviceType: PIClientTypes.ServiceType? = nil,
+            startTime: ClientRuntime.Date? = nil,
+            status: PIClientTypes.AnalysisStatus? = nil
+        )
+        {
+            self.analysisReportId = analysisReportId
+            self.createTime = createTime
+            self.endTime = endTime
+            self.identifier = identifier
+            self.insights = insights
+            self.serviceType = serviceType
+            self.startTime = startTime
+            self.status = status
+        }
+    }
+
+}
+
+extension PIClientTypes.AnalysisReportSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisReportId = "AnalysisReportId"
+        case createTime = "CreateTime"
+        case endTime = "EndTime"
+        case startTime = "StartTime"
+        case status = "Status"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analysisReportId = self.analysisReportId {
+            try encodeContainer.encode(analysisReportId, forKey: .analysisReportId)
+        }
+        if let createTime = self.createTime {
+            try encodeContainer.encodeTimestamp(createTime, format: .epochSeconds, forKey: .createTime)
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let analysisReportIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .analysisReportId)
+        analysisReportId = analysisReportIdDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createTime)
+        createTime = createTimeDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(PIClientTypes.AnalysisStatus.self, forKey: .status)
+        status = statusDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([PIClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[PIClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [PIClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension PIClientTypes {
+    /// Retrieves the details of the performance analysis report.
+    public struct AnalysisReportSummary: Swift.Equatable {
+        /// The name of the analysis report.
+        public var analysisReportId: Swift.String?
+        /// The time you created the analysis report.
+        public var createTime: ClientRuntime.Date?
+        /// The end time of the analysis in the report.
+        public var endTime: ClientRuntime.Date?
+        /// The start time of the analysis in the report.
+        public var startTime: ClientRuntime.Date?
+        /// The status of the analysis report.
+        public var status: PIClientTypes.AnalysisStatus?
+        /// List of all the tags added to the analysis report.
+        public var tags: [PIClientTypes.Tag]?
+
+        public init(
+            analysisReportId: Swift.String? = nil,
+            createTime: ClientRuntime.Date? = nil,
+            endTime: ClientRuntime.Date? = nil,
+            startTime: ClientRuntime.Date? = nil,
+            status: PIClientTypes.AnalysisStatus? = nil,
+            tags: [PIClientTypes.Tag]? = nil
+        )
+        {
+            self.analysisReportId = analysisReportId
+            self.createTime = createTime
+            self.endTime = endTime
+            self.startTime = startTime
+            self.status = status
+            self.tags = tags
+        }
+    }
+
+}
+
+extension PIClientTypes {
+    public enum AnalysisStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case running
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalysisStatus] {
+            return [
+                .failed,
+                .running,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .running: return "RUNNING"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalysisStatus(rawValue: rawValue) ?? AnalysisStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PIClientTypes {
+    public enum ContextType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case causal
+        case contextual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContextType] {
+            return [
+                .causal,
+                .contextual,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .causal: return "CAUSAL"
+            case .contextual: return "CONTEXTUAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ContextType(rawValue: rawValue) ?? ContextType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CreatePerformanceAnalysisReportInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime = "EndTime"
+        case identifier = "Identifier"
+        case serviceType = "ServiceType"
+        case startTime = "StartTime"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let identifier = self.identifier {
+            try encodeContainer.encode(identifier, forKey: .identifier)
+        }
+        if let serviceType = self.serviceType {
+            try encodeContainer.encode(serviceType.rawValue, forKey: .serviceType)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreatePerformanceAnalysisReportInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreatePerformanceAnalysisReportInput: Swift.Equatable {
+    /// The end time defined for the analysis report.
+    /// This member is required.
+    public var endTime: ClientRuntime.Date?
+    /// An immutable, Amazon Web Services Region-unique identifier for a data source. Performance Insights gathers metrics from this data source. To use an Amazon RDS instance as a data source, you specify its DbiResourceId value. For example, specify db-ADECBTYHKTSAUMUZQYPDS2GW4A.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The Amazon Web Services service for which Performance Insights will return metrics. Valid value is RDS.
+    /// This member is required.
+    public var serviceType: PIClientTypes.ServiceType?
+    /// The start time defined for the analysis report.
+    /// This member is required.
+    public var startTime: ClientRuntime.Date?
+    /// The metadata assigned to the analysis report consisting of a key-value pair.
+    public var tags: [PIClientTypes.Tag]?
+
+    public init(
+        endTime: ClientRuntime.Date? = nil,
+        identifier: Swift.String? = nil,
+        serviceType: PIClientTypes.ServiceType? = nil,
+        startTime: ClientRuntime.Date? = nil,
+        tags: [PIClientTypes.Tag]? = nil
+    )
+    {
+        self.endTime = endTime
+        self.identifier = identifier
+        self.serviceType = serviceType
+        self.startTime = startTime
+        self.tags = tags
+    }
+}
+
+struct CreatePerformanceAnalysisReportInputBody: Swift.Equatable {
+    let serviceType: PIClientTypes.ServiceType?
+    let identifier: Swift.String?
+    let startTime: ClientRuntime.Date?
+    let endTime: ClientRuntime.Date?
+    let tags: [PIClientTypes.Tag]?
+}
+
+extension CreatePerformanceAnalysisReportInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime = "EndTime"
+        case identifier = "Identifier"
+        case serviceType = "ServiceType"
+        case startTime = "StartTime"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceTypeDecoded = try containerValues.decodeIfPresent(PIClientTypes.ServiceType.self, forKey: .serviceType)
+        serviceType = serviceTypeDecoded
+        let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
+        identifier = identifierDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([PIClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[PIClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [PIClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreatePerformanceAnalysisReportOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreatePerformanceAnalysisReportOutputBody = try responseDecoder.decode(responseBody: data)
+            self.analysisReportId = output.analysisReportId
+        } else {
+            self.analysisReportId = nil
+        }
+    }
+}
+
+public struct CreatePerformanceAnalysisReportOutput: Swift.Equatable {
+    /// A unique identifier for the created analysis report.
+    public var analysisReportId: Swift.String?
+
+    public init(
+        analysisReportId: Swift.String? = nil
+    )
+    {
+        self.analysisReportId = analysisReportId
+    }
+}
+
+struct CreatePerformanceAnalysisReportOutputBody: Swift.Equatable {
+    let analysisReportId: Swift.String?
+}
+
+extension CreatePerformanceAnalysisReportOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisReportId = "AnalysisReportId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let analysisReportIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .analysisReportId)
+        analysisReportId = analysisReportIdDecoded
+    }
+}
+
+enum CreatePerformanceAnalysisReportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension PIClientTypes.Data: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case performanceInsightsMetric = "PerformanceInsightsMetric"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let performanceInsightsMetric = self.performanceInsightsMetric {
+            try encodeContainer.encode(performanceInsightsMetric, forKey: .performanceInsightsMetric)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let performanceInsightsMetricDecoded = try containerValues.decodeIfPresent(PIClientTypes.PerformanceInsightsMetric.self, forKey: .performanceInsightsMetric)
+        performanceInsightsMetric = performanceInsightsMetricDecoded
+    }
+}
+
+extension PIClientTypes {
+    /// List of data objects which provide details about source metrics. This field can be used to determine the PI metric to render for the insight. This data type also includes static values for the metrics for the Insight that were calculated and included in text and annotations on the DB load chart.
+    public struct Data: Swift.Equatable {
+        /// This field determines the Performance Insights metric to render for the insight. The name field refers to a Performance Insights metric.
+        public var performanceInsightsMetric: PIClientTypes.PerformanceInsightsMetric?
+
+        public init(
+            performanceInsightsMetric: PIClientTypes.PerformanceInsightsMetric? = nil
+        )
+        {
+            self.performanceInsightsMetric = performanceInsightsMetric
+        }
+    }
+
+}
+
 extension PIClientTypes.DataPoint: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case timestamp = "Timestamp"
@@ -47,6 +561,103 @@ extension PIClientTypes {
         }
     }
 
+}
+
+extension DeletePerformanceAnalysisReportInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisReportId = "AnalysisReportId"
+        case identifier = "Identifier"
+        case serviceType = "ServiceType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analysisReportId = self.analysisReportId {
+            try encodeContainer.encode(analysisReportId, forKey: .analysisReportId)
+        }
+        if let identifier = self.identifier {
+            try encodeContainer.encode(identifier, forKey: .identifier)
+        }
+        if let serviceType = self.serviceType {
+            try encodeContainer.encode(serviceType.rawValue, forKey: .serviceType)
+        }
+    }
+}
+
+extension DeletePerformanceAnalysisReportInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeletePerformanceAnalysisReportInput: Swift.Equatable {
+    /// The unique identifier of the analysis report for deletion.
+    /// This member is required.
+    public var analysisReportId: Swift.String?
+    /// An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as ResourceID. When you call DescribeDBInstances, the identifier is returned as DbiResourceId. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The Amazon Web Services service for which Performance Insights will return metrics. Valid value is RDS.
+    /// This member is required.
+    public var serviceType: PIClientTypes.ServiceType?
+
+    public init(
+        analysisReportId: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        serviceType: PIClientTypes.ServiceType? = nil
+    )
+    {
+        self.analysisReportId = analysisReportId
+        self.identifier = identifier
+        self.serviceType = serviceType
+    }
+}
+
+struct DeletePerformanceAnalysisReportInputBody: Swift.Equatable {
+    let serviceType: PIClientTypes.ServiceType?
+    let identifier: Swift.String?
+    let analysisReportId: Swift.String?
+}
+
+extension DeletePerformanceAnalysisReportInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisReportId = "AnalysisReportId"
+        case identifier = "Identifier"
+        case serviceType = "ServiceType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceTypeDecoded = try containerValues.decodeIfPresent(PIClientTypes.ServiceType.self, forKey: .serviceType)
+        serviceType = serviceTypeDecoded
+        let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
+        identifier = identifierDecoded
+        let analysisReportIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .analysisReportId)
+        analysisReportId = analysisReportIdDecoded
+    }
+}
+
+extension DeletePerformanceAnalysisReportOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeletePerformanceAnalysisReportOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeletePerformanceAnalysisReportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension DescribeDimensionKeysInput: Swift.Encodable {
@@ -286,24 +897,11 @@ extension DescribeDimensionKeysInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeDimensionKeysOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeDimensionKeysOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDimensionKeysOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDimensionKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDimensionKeysOutputBody = try responseDecoder.decode(responseBody: data)
             self.alignedEndTime = output.alignedEndTime
             self.alignedStartTime = output.alignedStartTime
             self.keys = output.keys
@@ -319,7 +917,7 @@ extension DescribeDimensionKeysOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeDimensionKeysOutputResponse: Swift.Equatable {
+public struct DescribeDimensionKeysOutput: Swift.Equatable {
     /// The end time for the returned dimension keys, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedEndTime will be greater than or equal to the value of the user-specified Endtime.
     public var alignedEndTime: ClientRuntime.Date?
     /// The start time for the returned dimension keys, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedStartTime will be less than or equal to the value of the user-specified StartTime.
@@ -347,7 +945,7 @@ public struct DescribeDimensionKeysOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeDimensionKeysOutputResponseBody: Swift.Equatable {
+struct DescribeDimensionKeysOutputBody: Swift.Equatable {
     let alignedStartTime: ClientRuntime.Date?
     let alignedEndTime: ClientRuntime.Date?
     let partitionKeys: [PIClientTypes.ResponsePartitionKey]?
@@ -355,7 +953,7 @@ struct DescribeDimensionKeysOutputResponseBody: Swift.Equatable {
     let nextToken: Swift.String?
 }
 
-extension DescribeDimensionKeysOutputResponseBody: Swift.Decodable {
+extension DescribeDimensionKeysOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case alignedEndTime = "AlignedEndTime"
         case alignedStartTime = "AlignedStartTime"
@@ -394,6 +992,19 @@ extension DescribeDimensionKeysOutputResponseBody: Swift.Decodable {
         keys = keysDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeDimensionKeysOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1109,24 +1720,11 @@ extension GetDimensionKeyDetailsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetDimensionKeyDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetDimensionKeyDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetDimensionKeyDetailsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetDimensionKeyDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetDimensionKeyDetailsOutputBody = try responseDecoder.decode(responseBody: data)
             self.dimensions = output.dimensions
         } else {
             self.dimensions = nil
@@ -1134,7 +1732,7 @@ extension GetDimensionKeyDetailsOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetDimensionKeyDetailsOutputResponse: Swift.Equatable {
+public struct GetDimensionKeyDetailsOutput: Swift.Equatable {
     /// The details for the requested dimensions.
     public var dimensions: [PIClientTypes.DimensionKeyDetail]?
 
@@ -1146,11 +1744,11 @@ public struct GetDimensionKeyDetailsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetDimensionKeyDetailsOutputResponseBody: Swift.Equatable {
+struct GetDimensionKeyDetailsOutputBody: Swift.Equatable {
     let dimensions: [PIClientTypes.DimensionKeyDetail]?
 }
 
-extension GetDimensionKeyDetailsOutputResponseBody: Swift.Decodable {
+extension GetDimensionKeyDetailsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dimensions = "Dimensions"
     }
@@ -1168,6 +1766,170 @@ extension GetDimensionKeyDetailsOutputResponseBody: Swift.Decodable {
             }
         }
         dimensions = dimensionsDecoded0
+    }
+}
+
+enum GetDimensionKeyDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetPerformanceAnalysisReportInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case acceptLanguage = "AcceptLanguage"
+        case analysisReportId = "AnalysisReportId"
+        case identifier = "Identifier"
+        case serviceType = "ServiceType"
+        case textFormat = "TextFormat"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let acceptLanguage = self.acceptLanguage {
+            try encodeContainer.encode(acceptLanguage.rawValue, forKey: .acceptLanguage)
+        }
+        if let analysisReportId = self.analysisReportId {
+            try encodeContainer.encode(analysisReportId, forKey: .analysisReportId)
+        }
+        if let identifier = self.identifier {
+            try encodeContainer.encode(identifier, forKey: .identifier)
+        }
+        if let serviceType = self.serviceType {
+            try encodeContainer.encode(serviceType.rawValue, forKey: .serviceType)
+        }
+        if let textFormat = self.textFormat {
+            try encodeContainer.encode(textFormat.rawValue, forKey: .textFormat)
+        }
+    }
+}
+
+extension GetPerformanceAnalysisReportInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetPerformanceAnalysisReportInput: Swift.Equatable {
+    /// The text language in the report. The default language is EN_US (English).
+    public var acceptLanguage: PIClientTypes.AcceptLanguage?
+    /// A unique identifier of the created analysis report. For example, report-12345678901234567
+    /// This member is required.
+    public var analysisReportId: Swift.String?
+    /// An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as ResourceID. When you call DescribeDBInstances, the identifier is returned as DbiResourceId. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The Amazon Web Services service for which Performance Insights will return metrics. Valid value is RDS.
+    /// This member is required.
+    public var serviceType: PIClientTypes.ServiceType?
+    /// Indicates the text format in the report. The options are PLAIN_TEXT or MARKDOWN. The default value is plain text.
+    public var textFormat: PIClientTypes.TextFormat?
+
+    public init(
+        acceptLanguage: PIClientTypes.AcceptLanguage? = nil,
+        analysisReportId: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        serviceType: PIClientTypes.ServiceType? = nil,
+        textFormat: PIClientTypes.TextFormat? = nil
+    )
+    {
+        self.acceptLanguage = acceptLanguage
+        self.analysisReportId = analysisReportId
+        self.identifier = identifier
+        self.serviceType = serviceType
+        self.textFormat = textFormat
+    }
+}
+
+struct GetPerformanceAnalysisReportInputBody: Swift.Equatable {
+    let serviceType: PIClientTypes.ServiceType?
+    let identifier: Swift.String?
+    let analysisReportId: Swift.String?
+    let textFormat: PIClientTypes.TextFormat?
+    let acceptLanguage: PIClientTypes.AcceptLanguage?
+}
+
+extension GetPerformanceAnalysisReportInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case acceptLanguage = "AcceptLanguage"
+        case analysisReportId = "AnalysisReportId"
+        case identifier = "Identifier"
+        case serviceType = "ServiceType"
+        case textFormat = "TextFormat"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceTypeDecoded = try containerValues.decodeIfPresent(PIClientTypes.ServiceType.self, forKey: .serviceType)
+        serviceType = serviceTypeDecoded
+        let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
+        identifier = identifierDecoded
+        let analysisReportIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .analysisReportId)
+        analysisReportId = analysisReportIdDecoded
+        let textFormatDecoded = try containerValues.decodeIfPresent(PIClientTypes.TextFormat.self, forKey: .textFormat)
+        textFormat = textFormatDecoded
+        let acceptLanguageDecoded = try containerValues.decodeIfPresent(PIClientTypes.AcceptLanguage.self, forKey: .acceptLanguage)
+        acceptLanguage = acceptLanguageDecoded
+    }
+}
+
+extension GetPerformanceAnalysisReportOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetPerformanceAnalysisReportOutputBody = try responseDecoder.decode(responseBody: data)
+            self.analysisReport = output.analysisReport
+        } else {
+            self.analysisReport = nil
+        }
+    }
+}
+
+public struct GetPerformanceAnalysisReportOutput: Swift.Equatable {
+    /// The summary of the performance analysis report created for a time period.
+    public var analysisReport: PIClientTypes.AnalysisReport?
+
+    public init(
+        analysisReport: PIClientTypes.AnalysisReport? = nil
+    )
+    {
+        self.analysisReport = analysisReport
+    }
+}
+
+struct GetPerformanceAnalysisReportOutputBody: Swift.Equatable {
+    let analysisReport: PIClientTypes.AnalysisReport?
+}
+
+extension GetPerformanceAnalysisReportOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisReport = "AnalysisReport"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let analysisReportDecoded = try containerValues.decodeIfPresent(PIClientTypes.AnalysisReport.self, forKey: .analysisReport)
+        analysisReport = analysisReportDecoded
+    }
+}
+
+enum GetPerformanceAnalysisReportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1232,24 +1994,11 @@ extension GetResourceMetadataInputBody: Swift.Decodable {
     }
 }
 
-public enum GetResourceMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetResourceMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetResourceMetadataOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetResourceMetadataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetResourceMetadataOutputBody = try responseDecoder.decode(responseBody: data)
             self.features = output.features
             self.identifier = output.identifier
         } else {
@@ -1259,7 +2008,7 @@ extension GetResourceMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourceMetadataOutputResponse: Swift.Equatable {
+public struct GetResourceMetadataOutput: Swift.Equatable {
     /// The metadata for different features. For example, the metadata might indicate that a feature is turned on or off on a specific DB instance.
     public var features: [Swift.String:PIClientTypes.FeatureMetadata]?
     /// An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers metrics from this data source. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
@@ -1275,12 +2024,12 @@ public struct GetResourceMetadataOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetResourceMetadataOutputResponseBody: Swift.Equatable {
+struct GetResourceMetadataOutputBody: Swift.Equatable {
     let identifier: Swift.String?
     let features: [Swift.String:PIClientTypes.FeatureMetadata]?
 }
 
-extension GetResourceMetadataOutputResponseBody: Swift.Decodable {
+extension GetResourceMetadataOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case features = "Features"
         case identifier = "Identifier"
@@ -1301,6 +2050,19 @@ extension GetResourceMetadataOutputResponseBody: Swift.Decodable {
             }
         }
         features = featuresDecoded0
+    }
+}
+
+enum GetResourceMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1481,24 +2243,11 @@ extension GetResourceMetricsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetResourceMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetResourceMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetResourceMetricsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetResourceMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetResourceMetricsOutputBody = try responseDecoder.decode(responseBody: data)
             self.alignedEndTime = output.alignedEndTime
             self.alignedStartTime = output.alignedStartTime
             self.identifier = output.identifier
@@ -1514,7 +2263,7 @@ extension GetResourceMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourceMetricsOutputResponse: Swift.Equatable {
+public struct GetResourceMetricsOutput: Swift.Equatable {
     /// The end time for the returned metrics, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedEndTime will be greater than or equal to the value of the user-specified Endtime.
     public var alignedEndTime: ClientRuntime.Date?
     /// The start time for the returned metrics, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedStartTime will be less than or equal to the value of the user-specified StartTime.
@@ -1542,7 +2291,7 @@ public struct GetResourceMetricsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetResourceMetricsOutputResponseBody: Swift.Equatable {
+struct GetResourceMetricsOutputBody: Swift.Equatable {
     let alignedStartTime: ClientRuntime.Date?
     let alignedEndTime: ClientRuntime.Date?
     let identifier: Swift.String?
@@ -1550,7 +2299,7 @@ struct GetResourceMetricsOutputResponseBody: Swift.Equatable {
     let nextToken: Swift.String?
 }
 
-extension GetResourceMetricsOutputResponseBody: Swift.Decodable {
+extension GetResourceMetricsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case alignedEndTime = "AlignedEndTime"
         case alignedStartTime = "AlignedStartTime"
@@ -1581,6 +2330,208 @@ extension GetResourceMetricsOutputResponseBody: Swift.Decodable {
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
+}
+
+enum GetResourceMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension PIClientTypes.Insight: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case baselineData = "BaselineData"
+        case context = "Context"
+        case description = "Description"
+        case endTime = "EndTime"
+        case insightData = "InsightData"
+        case insightId = "InsightId"
+        case insightType = "InsightType"
+        case recommendations = "Recommendations"
+        case severity = "Severity"
+        case startTime = "StartTime"
+        case supportingInsights = "SupportingInsights"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let baselineData = baselineData {
+            var baselineDataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .baselineData)
+            for data0 in baselineData {
+                try baselineDataContainer.encode(data0)
+            }
+        }
+        if let context = self.context {
+            try encodeContainer.encode(context.rawValue, forKey: .context)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let insightData = insightData {
+            var insightDataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .insightData)
+            for data0 in insightData {
+                try insightDataContainer.encode(data0)
+            }
+        }
+        if let insightId = self.insightId {
+            try encodeContainer.encode(insightId, forKey: .insightId)
+        }
+        if let insightType = self.insightType {
+            try encodeContainer.encode(insightType, forKey: .insightType)
+        }
+        if let recommendations = recommendations {
+            var recommendationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recommendations)
+            for recommendation0 in recommendations {
+                try recommendationsContainer.encode(recommendation0)
+            }
+        }
+        if let severity = self.severity {
+            try encodeContainer.encode(severity.rawValue, forKey: .severity)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+        if let supportingInsights = supportingInsights {
+            var supportingInsightsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportingInsights)
+            for insight0 in supportingInsights {
+                try supportingInsightsContainer.encode(insight0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let insightIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .insightId)
+        insightId = insightIdDecoded
+        let insightTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .insightType)
+        insightType = insightTypeDecoded
+        let contextDecoded = try containerValues.decodeIfPresent(PIClientTypes.ContextType.self, forKey: .context)
+        context = contextDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+        let severityDecoded = try containerValues.decodeIfPresent(PIClientTypes.Severity.self, forKey: .severity)
+        severity = severityDecoded
+        let supportingInsightsContainer = try containerValues.decodeIfPresent([PIClientTypes.Insight?].self, forKey: .supportingInsights)
+        var supportingInsightsDecoded0:[PIClientTypes.Insight]? = nil
+        if let supportingInsightsContainer = supportingInsightsContainer {
+            supportingInsightsDecoded0 = [PIClientTypes.Insight]()
+            for structure0 in supportingInsightsContainer {
+                if let structure0 = structure0 {
+                    supportingInsightsDecoded0?.append(structure0)
+                }
+            }
+        }
+        supportingInsights = supportingInsightsDecoded0
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let recommendationsContainer = try containerValues.decodeIfPresent([PIClientTypes.Recommendation?].self, forKey: .recommendations)
+        var recommendationsDecoded0:[PIClientTypes.Recommendation]? = nil
+        if let recommendationsContainer = recommendationsContainer {
+            recommendationsDecoded0 = [PIClientTypes.Recommendation]()
+            for structure0 in recommendationsContainer {
+                if let structure0 = structure0 {
+                    recommendationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        recommendations = recommendationsDecoded0
+        let insightDataContainer = try containerValues.decodeIfPresent([PIClientTypes.Data?].self, forKey: .insightData)
+        var insightDataDecoded0:[PIClientTypes.Data]? = nil
+        if let insightDataContainer = insightDataContainer {
+            insightDataDecoded0 = [PIClientTypes.Data]()
+            for structure0 in insightDataContainer {
+                if let structure0 = structure0 {
+                    insightDataDecoded0?.append(structure0)
+                }
+            }
+        }
+        insightData = insightDataDecoded0
+        let baselineDataContainer = try containerValues.decodeIfPresent([PIClientTypes.Data?].self, forKey: .baselineData)
+        var baselineDataDecoded0:[PIClientTypes.Data]? = nil
+        if let baselineDataContainer = baselineDataContainer {
+            baselineDataDecoded0 = [PIClientTypes.Data]()
+            for structure0 in baselineDataContainer {
+                if let structure0 = structure0 {
+                    baselineDataDecoded0?.append(structure0)
+                }
+            }
+        }
+        baselineData = baselineDataDecoded0
+    }
+}
+
+extension PIClientTypes.Insight: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Insight(baselineData: \(Swift.String(describing: baselineData)), context: \(Swift.String(describing: context)), endTime: \(Swift.String(describing: endTime)), insightData: \(Swift.String(describing: insightData)), insightId: \(Swift.String(describing: insightId)), insightType: \(Swift.String(describing: insightType)), recommendations: \(Swift.String(describing: recommendations)), severity: \(Swift.String(describing: severity)), startTime: \(Swift.String(describing: startTime)), supportingInsights: \(Swift.String(describing: supportingInsights)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension PIClientTypes {
+    /// Retrieves the list of performance issues which are identified.
+    public struct Insight: Swift.Equatable {
+        /// Metric names and values from the timeframe used as baseline to generate the insight.
+        public var baselineData: [PIClientTypes.Data]?
+        /// Indicates if the insight is causal or correlated insight.
+        public var context: PIClientTypes.ContextType?
+        /// Description of the insight. For example: A high severity Insight found between 02:00 to 02:30, where there was an unusually high DB load 600x above baseline. Likely performance impact.
+        public var description: Swift.String?
+        /// The end time of the insight. For example, 2018-10-30T00:00:00Z.
+        public var endTime: ClientRuntime.Date?
+        /// List of data objects containing metrics and references from the time range while generating the insight.
+        public var insightData: [PIClientTypes.Data]?
+        /// The unique identifier for the insight. For example, insight-12345678901234567.
+        /// This member is required.
+        public var insightId: Swift.String?
+        /// The type of insight. For example, HighDBLoad, HighCPU, or DominatingSQLs.
+        public var insightType: Swift.String?
+        /// List of recommendations for the insight. For example, Investigate the following SQLs that contributed to 100% of the total DBLoad during that time period: sql-id.
+        public var recommendations: [PIClientTypes.Recommendation]?
+        /// The severity of the insight. The values are: Low, Medium, or High.
+        public var severity: PIClientTypes.Severity?
+        /// The start time of the insight. For example, 2018-10-30T00:00:00Z.
+        public var startTime: ClientRuntime.Date?
+        /// List of supporting insights that provide additional factors for the insight.
+        public var supportingInsights: [PIClientTypes.Insight]?
+
+        public init(
+            baselineData: [PIClientTypes.Data]? = nil,
+            context: PIClientTypes.ContextType? = nil,
+            description: Swift.String? = nil,
+            endTime: ClientRuntime.Date? = nil,
+            insightData: [PIClientTypes.Data]? = nil,
+            insightId: Swift.String? = nil,
+            insightType: Swift.String? = nil,
+            recommendations: [PIClientTypes.Recommendation]? = nil,
+            severity: PIClientTypes.Severity? = nil,
+            startTime: ClientRuntime.Date? = nil,
+            supportingInsights: [PIClientTypes.Insight]? = nil
+        )
+        {
+            self.baselineData = baselineData
+            self.context = context
+            self.description = description
+            self.endTime = endTime
+            self.insightData = insightData
+            self.insightId = insightId
+            self.insightType = insightType
+            self.recommendations = recommendations
+            self.severity = severity
+            self.startTime = startTime
+            self.supportingInsights = supportingInsights
+        }
+    }
+
 }
 
 extension InternalServiceError {
@@ -1803,24 +2754,11 @@ extension ListAvailableResourceDimensionsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListAvailableResourceDimensionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAvailableResourceDimensionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAvailableResourceDimensionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAvailableResourceDimensionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAvailableResourceDimensionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.metricDimensions = output.metricDimensions
             self.nextToken = output.nextToken
         } else {
@@ -1830,7 +2768,7 @@ extension ListAvailableResourceDimensionsOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct ListAvailableResourceDimensionsOutputResponse: Swift.Equatable {
+public struct ListAvailableResourceDimensionsOutput: Swift.Equatable {
     /// The dimension information returned for requested metric types.
     public var metricDimensions: [PIClientTypes.MetricDimensionGroups]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxRecords.
@@ -1846,12 +2784,12 @@ public struct ListAvailableResourceDimensionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAvailableResourceDimensionsOutputResponseBody: Swift.Equatable {
+struct ListAvailableResourceDimensionsOutputBody: Swift.Equatable {
     let metricDimensions: [PIClientTypes.MetricDimensionGroups]?
     let nextToken: Swift.String?
 }
 
-extension ListAvailableResourceDimensionsOutputResponseBody: Swift.Decodable {
+extension ListAvailableResourceDimensionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case metricDimensions = "MetricDimensions"
         case nextToken = "NextToken"
@@ -1872,6 +2810,19 @@ extension ListAvailableResourceDimensionsOutputResponseBody: Swift.Decodable {
         metricDimensions = metricDimensionsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAvailableResourceDimensionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1993,24 +2944,11 @@ extension ListAvailableResourceMetricsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListAvailableResourceMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAvailableResourceMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAvailableResourceMetricsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAvailableResourceMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAvailableResourceMetricsOutputBody = try responseDecoder.decode(responseBody: data)
             self.metrics = output.metrics
             self.nextToken = output.nextToken
         } else {
@@ -2020,7 +2958,7 @@ extension ListAvailableResourceMetricsOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct ListAvailableResourceMetricsOutputResponse: Swift.Equatable {
+public struct ListAvailableResourceMetricsOutput: Swift.Equatable {
     /// An array of metrics available to query. Each array element contains the full name, description, and unit of the metric.
     public var metrics: [PIClientTypes.ResponseResourceMetric]?
     /// A pagination token that indicates the response didn’t return all available records because MaxRecords was specified in the previous request. To get the remaining records, specify NextToken in a separate request with this value.
@@ -2036,12 +2974,12 @@ public struct ListAvailableResourceMetricsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAvailableResourceMetricsOutputResponseBody: Swift.Equatable {
+struct ListAvailableResourceMetricsOutputBody: Swift.Equatable {
     let metrics: [PIClientTypes.ResponseResourceMetric]?
     let nextToken: Swift.String?
 }
 
-extension ListAvailableResourceMetricsOutputResponseBody: Swift.Decodable {
+extension ListAvailableResourceMetricsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case metrics = "Metrics"
         case nextToken = "NextToken"
@@ -2062,6 +3000,311 @@ extension ListAvailableResourceMetricsOutputResponseBody: Swift.Decodable {
         metrics = metricsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAvailableResourceMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListPerformanceAnalysisReportsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case identifier = "Identifier"
+        case listTags = "ListTags"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case serviceType = "ServiceType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let identifier = self.identifier {
+            try encodeContainer.encode(identifier, forKey: .identifier)
+        }
+        if let listTags = self.listTags {
+            try encodeContainer.encode(listTags, forKey: .listTags)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let serviceType = self.serviceType {
+            try encodeContainer.encode(serviceType.rawValue, forKey: .serviceType)
+        }
+    }
+}
+
+extension ListPerformanceAnalysisReportsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListPerformanceAnalysisReportsInput: Swift.Equatable {
+    /// An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as ResourceID. When you call DescribeDBInstances, the identifier is returned as DbiResourceId. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// Specifies whether or not to include the list of tags in the response.
+    public var listTags: Swift.Bool?
+    /// The maximum number of items to return in the response. If more items exist than the specified MaxResults value, a pagination token is included in the response so that the remaining results can be retrieved.
+    public var maxResults: Swift.Int?
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxResults.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services service for which Performance Insights returns metrics. Valid value is RDS.
+    /// This member is required.
+    public var serviceType: PIClientTypes.ServiceType?
+
+    public init(
+        identifier: Swift.String? = nil,
+        listTags: Swift.Bool? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        serviceType: PIClientTypes.ServiceType? = nil
+    )
+    {
+        self.identifier = identifier
+        self.listTags = listTags
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.serviceType = serviceType
+    }
+}
+
+struct ListPerformanceAnalysisReportsInputBody: Swift.Equatable {
+    let serviceType: PIClientTypes.ServiceType?
+    let identifier: Swift.String?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+    let listTags: Swift.Bool?
+}
+
+extension ListPerformanceAnalysisReportsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case identifier = "Identifier"
+        case listTags = "ListTags"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case serviceType = "ServiceType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceTypeDecoded = try containerValues.decodeIfPresent(PIClientTypes.ServiceType.self, forKey: .serviceType)
+        serviceType = serviceTypeDecoded
+        let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
+        identifier = identifierDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let listTagsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .listTags)
+        listTags = listTagsDecoded
+    }
+}
+
+extension ListPerformanceAnalysisReportsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListPerformanceAnalysisReportsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.analysisReports = output.analysisReports
+            self.nextToken = output.nextToken
+        } else {
+            self.analysisReports = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListPerformanceAnalysisReportsOutput: Swift.Equatable {
+    /// List of reports including the report identifier, start and end time, creation time, and status.
+    public var analysisReports: [PIClientTypes.AnalysisReportSummary]?
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxResults.
+    public var nextToken: Swift.String?
+
+    public init(
+        analysisReports: [PIClientTypes.AnalysisReportSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.analysisReports = analysisReports
+        self.nextToken = nextToken
+    }
+}
+
+struct ListPerformanceAnalysisReportsOutputBody: Swift.Equatable {
+    let analysisReports: [PIClientTypes.AnalysisReportSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListPerformanceAnalysisReportsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisReports = "AnalysisReports"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let analysisReportsContainer = try containerValues.decodeIfPresent([PIClientTypes.AnalysisReportSummary?].self, forKey: .analysisReports)
+        var analysisReportsDecoded0:[PIClientTypes.AnalysisReportSummary]? = nil
+        if let analysisReportsContainer = analysisReportsContainer {
+            analysisReportsDecoded0 = [PIClientTypes.AnalysisReportSummary]()
+            for structure0 in analysisReportsContainer {
+                if let structure0 = structure0 {
+                    analysisReportsDecoded0?.append(structure0)
+                }
+            }
+        }
+        analysisReports = analysisReportsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListPerformanceAnalysisReportsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListTagsForResourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceARN = "ResourceARN"
+        case serviceType = "ServiceType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceARN = self.resourceARN {
+            try encodeContainer.encode(resourceARN, forKey: .resourceARN)
+        }
+        if let serviceType = self.serviceType {
+            try encodeContainer.encode(serviceType.rawValue, forKey: .serviceType)
+        }
+    }
+}
+
+extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListTagsForResourceInput: Swift.Equatable {
+    /// Lists all the tags for the Amazon RDS Performance Insights resource. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see [ Constructing an RDS Amazon Resource Name (ARN)](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.ARN.html#USER_Tagging.ARN.Constructing).
+    /// This member is required.
+    public var resourceARN: Swift.String?
+    /// List the tags for the Amazon Web Services service for which Performance Insights returns metrics. Valid value is RDS.
+    /// This member is required.
+    public var serviceType: PIClientTypes.ServiceType?
+
+    public init(
+        resourceARN: Swift.String? = nil,
+        serviceType: PIClientTypes.ServiceType? = nil
+    )
+    {
+        self.resourceARN = resourceARN
+        self.serviceType = serviceType
+    }
+}
+
+struct ListTagsForResourceInputBody: Swift.Equatable {
+    let serviceType: PIClientTypes.ServiceType?
+    let resourceARN: Swift.String?
+}
+
+extension ListTagsForResourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceARN = "ResourceARN"
+        case serviceType = "ServiceType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceTypeDecoded = try containerValues.decodeIfPresent(PIClientTypes.ServiceType.self, forKey: .serviceType)
+        serviceType = serviceTypeDecoded
+        let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
+        resourceARN = resourceARNDecoded
+    }
+}
+
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.tags = output.tags
+        } else {
+            self.tags = nil
+        }
+    }
+}
+
+public struct ListTagsForResourceOutput: Swift.Equatable {
+    /// The metadata assigned to an Amazon RDS resource consisting of a key-value pair.
+    public var tags: [PIClientTypes.Tag]?
+
+    public init(
+        tags: [PIClientTypes.Tag]? = nil
+    )
+    {
+        self.tags = tags
+    }
+}
+
+struct ListTagsForResourceOutputBody: Swift.Equatable {
+    let tags: [PIClientTypes.Tag]?
+}
+
+extension ListTagsForResourceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagsContainer = try containerValues.decodeIfPresent([PIClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[PIClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [PIClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2315,6 +3558,83 @@ extension NotAuthorizedExceptionBody: Swift.Decodable {
     }
 }
 
+extension PIClientTypes.PerformanceInsightsMetric: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dimensions = "Dimensions"
+        case displayName = "DisplayName"
+        case metric = "Metric"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dimensions = dimensions {
+            var dimensionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .dimensions)
+            for (dictKey0, descriptiveMap0) in dimensions {
+                try dimensionsContainer.encode(descriptiveMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let displayName = self.displayName {
+            try encodeContainer.encode(displayName, forKey: .displayName)
+        }
+        if let metric = self.metric {
+            try encodeContainer.encode(metric, forKey: .metric)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metricDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metric)
+        metric = metricDecoded
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
+        let dimensionsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .dimensions)
+        var dimensionsDecoded0: [Swift.String:Swift.String]? = nil
+        if let dimensionsContainer = dimensionsContainer {
+            dimensionsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, descriptivestring0) in dimensionsContainer {
+                if let descriptivestring0 = descriptivestring0 {
+                    dimensionsDecoded0?[key0] = descriptivestring0
+                }
+            }
+        }
+        dimensions = dimensionsDecoded0
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension PIClientTypes {
+    /// This data type helps to determine Performance Insights metric to render for the insight.
+    public struct PerformanceInsightsMetric: Swift.Equatable {
+        /// A dimension map that contains the dimensions for this partition.
+        public var dimensions: [Swift.String:Swift.String]?
+        /// The Performance Insights metric name.
+        public var displayName: Swift.String?
+        /// The Performance Insights metric.
+        public var metric: Swift.String?
+        /// The value of the metric. For example, 9 for db.load.avg.
+        public var value: Swift.Double?
+
+        public init(
+            dimensions: [Swift.String:Swift.String]? = nil,
+            displayName: Swift.String? = nil,
+            metric: Swift.String? = nil,
+            value: Swift.Double? = nil
+        )
+        {
+            self.dimensions = dimensions
+            self.displayName = displayName
+            self.metric = metric
+            self.value = value
+        }
+    }
+
+}
+
 extension PIClientTypes {
     public enum PeriodAlignment: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case endTime
@@ -2345,6 +3665,56 @@ extension PIClientTypes {
             self = PeriodAlignment(rawValue: rawValue) ?? PeriodAlignment.sdkUnknown(rawValue)
         }
     }
+}
+
+extension PIClientTypes.Recommendation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recommendationDescription = "RecommendationDescription"
+        case recommendationId = "RecommendationId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let recommendationDescription = self.recommendationDescription {
+            try encodeContainer.encode(recommendationDescription, forKey: .recommendationDescription)
+        }
+        if let recommendationId = self.recommendationId {
+            try encodeContainer.encode(recommendationId, forKey: .recommendationId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recommendationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendationId)
+        recommendationId = recommendationIdDecoded
+        let recommendationDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendationDescription)
+        recommendationDescription = recommendationDescriptionDecoded
+    }
+}
+
+extension PIClientTypes.Recommendation: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Recommendation(recommendationId: \(Swift.String(describing: recommendationId)), recommendationDescription: \"CONTENT_REDACTED\")"}
+}
+
+extension PIClientTypes {
+    /// The list of recommendations for the insight.
+    public struct Recommendation: Swift.Equatable {
+        /// The recommendation details to help resolve the performance issue. For example, Investigate the following SQLs that contributed to 100% of the total DBLoad during that time period: sql-id
+        public var recommendationDescription: Swift.String?
+        /// The unique identifier for the recommendation.
+        public var recommendationId: Swift.String?
+
+        public init(
+            recommendationDescription: Swift.String? = nil,
+            recommendationId: Swift.String? = nil
+        )
+        {
+            self.recommendationDescription = recommendationDescription
+            self.recommendationId = recommendationId
+        }
+    }
+
 }
 
 extension PIClientTypes.ResponsePartitionKey: Swift.Codable {
@@ -2545,6 +3915,338 @@ extension PIClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ServiceType(rawValue: rawValue) ?? ServiceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PIClientTypes {
+    public enum Severity: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Severity] {
+            return [
+                .high,
+                .low,
+                .medium,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Severity(rawValue: rawValue) ?? Severity.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PIClientTypes.Tag: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key = "Key"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension PIClientTypes {
+    /// Metadata assigned to an Amazon RDS resource consisting of a key-value pair.
+    public struct Tag: Swift.Equatable {
+        /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds:. The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$").
+        /// This member is required.
+        public var key: Swift.String?
+        /// A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds:. The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$").
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
+}
+
+extension TagResourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceARN = "ResourceARN"
+        case serviceType = "ServiceType"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceARN = self.resourceARN {
+            try encodeContainer.encode(resourceARN, forKey: .resourceARN)
+        }
+        if let serviceType = self.serviceType {
+            try encodeContainer.encode(serviceType.rawValue, forKey: .serviceType)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension TagResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct TagResourceInput: Swift.Equatable {
+    /// The Amazon RDS Performance Insights resource that the tags are added to. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see [ Constructing an RDS Amazon Resource Name (ARN)](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.ARN.html#USER_Tagging.ARN.Constructing).
+    /// This member is required.
+    public var resourceARN: Swift.String?
+    /// The Amazon Web Services service for which Performance Insights returns metrics. Valid value is RDS.
+    /// This member is required.
+    public var serviceType: PIClientTypes.ServiceType?
+    /// The metadata assigned to an Amazon RDS resource consisting of a key-value pair.
+    /// This member is required.
+    public var tags: [PIClientTypes.Tag]?
+
+    public init(
+        resourceARN: Swift.String? = nil,
+        serviceType: PIClientTypes.ServiceType? = nil,
+        tags: [PIClientTypes.Tag]? = nil
+    )
+    {
+        self.resourceARN = resourceARN
+        self.serviceType = serviceType
+        self.tags = tags
+    }
+}
+
+struct TagResourceInputBody: Swift.Equatable {
+    let serviceType: PIClientTypes.ServiceType?
+    let resourceARN: Swift.String?
+    let tags: [PIClientTypes.Tag]?
+}
+
+extension TagResourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceARN = "ResourceARN"
+        case serviceType = "ServiceType"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceTypeDecoded = try containerValues.decodeIfPresent(PIClientTypes.ServiceType.self, forKey: .serviceType)
+        serviceType = serviceTypeDecoded
+        let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
+        resourceARN = resourceARNDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([PIClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[PIClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [PIClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension PIClientTypes {
+    public enum TextFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case markdown
+        case plainText
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TextFormat] {
+            return [
+                .markdown,
+                .plainText,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .markdown: return "MARKDOWN"
+            case .plainText: return "PLAIN_TEXT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TextFormat(rawValue: rawValue) ?? TextFormat.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension UntagResourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceARN = "ResourceARN"
+        case serviceType = "ServiceType"
+        case tagKeys = "TagKeys"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceARN = self.resourceARN {
+            try encodeContainer.encode(resourceARN, forKey: .resourceARN)
+        }
+        if let serviceType = self.serviceType {
+            try encodeContainer.encode(serviceType.rawValue, forKey: .serviceType)
+        }
+        if let tagKeys = tagKeys {
+            var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
+            }
+        }
+    }
+}
+
+extension UntagResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UntagResourceInput: Swift.Equatable {
+    /// The Amazon RDS Performance Insights resource that the tags are added to. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see [ Constructing an RDS Amazon Resource Name (ARN)](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.ARN.html#USER_Tagging.ARN.Constructing).
+    /// This member is required.
+    public var resourceARN: Swift.String?
+    /// List the tags for the Amazon Web Services service for which Performance Insights returns metrics. Valid value is RDS.
+    /// This member is required.
+    public var serviceType: PIClientTypes.ServiceType?
+    /// The metadata assigned to an Amazon RDS Performance Insights resource consisting of a key-value pair.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init(
+        resourceARN: Swift.String? = nil,
+        serviceType: PIClientTypes.ServiceType? = nil,
+        tagKeys: [Swift.String]? = nil
+    )
+    {
+        self.resourceARN = resourceARN
+        self.serviceType = serviceType
+        self.tagKeys = tagKeys
+    }
+}
+
+struct UntagResourceInputBody: Swift.Equatable {
+    let serviceType: PIClientTypes.ServiceType?
+    let resourceARN: Swift.String?
+    let tagKeys: [Swift.String]?
+}
+
+extension UntagResourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceARN = "ResourceARN"
+        case serviceType = "ServiceType"
+        case tagKeys = "TagKeys"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceTypeDecoded = try containerValues.decodeIfPresent(PIClientTypes.ServiceType.self, forKey: .serviceType)
+        serviceType = serviceTypeDecoded
+        let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
+        resourceARN = resourceARNDecoded
+        let tagKeysContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tagKeys)
+        var tagKeysDecoded0:[Swift.String]? = nil
+        if let tagKeysContainer = tagKeysContainer {
+            tagKeysDecoded0 = [Swift.String]()
+            for string0 in tagKeysContainer {
+                if let string0 = string0 {
+                    tagKeysDecoded0?.append(string0)
+                }
+            }
+        }
+        tagKeys = tagKeysDecoded0
+    }
+}
+
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }

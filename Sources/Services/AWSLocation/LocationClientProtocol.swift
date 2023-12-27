@@ -4,12 +4,61 @@ import ClientRuntime
 
 /// "Suite of geospatial services including Maps, Places, Routes, Tracking, and Geofencing"
 public protocol LocationClientProtocol {
+    /// Performs the `AssociateTrackerConsumer` operation on the `LocationService` service.
+    ///
     /// Creates an association between a geofence collection and a tracker resource. This allows the tracker resource to communicate location data to the linked geofence collection. You can associate up to five geofence collections to each tracker resource. Currently not supported — Cross-account configurations, such as creating associations between a tracker resource in one account and a geofence collection in another account.
-    func associateTrackerConsumer(input: AssociateTrackerConsumerInput) async throws -> AssociateTrackerConsumerOutputResponse
+    ///
+    /// - Parameter AssociateTrackerConsumerInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateTrackerConsumerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `ConflictException` : The request was unsuccessful because of a conflict.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ServiceQuotaExceededException` : The operation was denied because the request would exceed the maximum [quota](https://docs.aws.amazon.com/location/latest/developerguide/location-quotas.html) set for Amazon Location Service.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func associateTrackerConsumer(input: AssociateTrackerConsumerInput) async throws -> AssociateTrackerConsumerOutput
+    /// Performs the `BatchDeleteDevicePositionHistory` operation on the `LocationService` service.
+    ///
     /// Deletes the position history of one or more devices from a tracker resource.
-    func batchDeleteDevicePositionHistory(input: BatchDeleteDevicePositionHistoryInput) async throws -> BatchDeleteDevicePositionHistoryOutputResponse
+    ///
+    /// - Parameter BatchDeleteDevicePositionHistoryInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDeleteDevicePositionHistoryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func batchDeleteDevicePositionHistory(input: BatchDeleteDevicePositionHistoryInput) async throws -> BatchDeleteDevicePositionHistoryOutput
+    /// Performs the `BatchDeleteGeofence` operation on the `LocationService` service.
+    ///
     /// Deletes a batch of geofences from a geofence collection. This operation deletes the resource permanently.
-    func batchDeleteGeofence(input: BatchDeleteGeofenceInput) async throws -> BatchDeleteGeofenceOutputResponse
+    ///
+    /// - Parameter BatchDeleteGeofenceInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDeleteGeofenceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func batchDeleteGeofence(input: BatchDeleteGeofenceInput) async throws -> BatchDeleteGeofenceOutput
+    /// Performs the `BatchEvaluateGeofences` operation on the `LocationService` service.
+    ///
     /// Evaluates device positions against the geofence geometries from a given geofence collection. This operation always returns an empty response because geofences are asynchronously evaluated. The evaluation determines if the device has entered or exited a geofenced area, and then publishes one of the following events to Amazon EventBridge:
     ///
     /// * ENTER if Amazon Location determines that the tracked device has entered a geofenced area.
@@ -18,77 +67,563 @@ public protocol LocationClientProtocol {
     ///
     ///
     /// The last geofence that a device was observed within is tracked for 30 days after the most recent device position update. Geofence evaluation uses the given device position. It does not account for the optional Accuracy of a DevicePositionUpdate. The DeviceID is used as a string to represent the device. You do not need to have a Tracker associated with the DeviceID.
-    func batchEvaluateGeofences(input: BatchEvaluateGeofencesInput) async throws -> BatchEvaluateGeofencesOutputResponse
+    ///
+    /// - Parameter BatchEvaluateGeofencesInput : [no documentation found]
+    ///
+    /// - Returns: `BatchEvaluateGeofencesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func batchEvaluateGeofences(input: BatchEvaluateGeofencesInput) async throws -> BatchEvaluateGeofencesOutput
+    /// Performs the `BatchGetDevicePosition` operation on the `LocationService` service.
+    ///
     /// Lists the latest device positions for requested devices.
-    func batchGetDevicePosition(input: BatchGetDevicePositionInput) async throws -> BatchGetDevicePositionOutputResponse
+    ///
+    /// - Parameter BatchGetDevicePositionInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetDevicePositionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func batchGetDevicePosition(input: BatchGetDevicePositionInput) async throws -> BatchGetDevicePositionOutput
+    /// Performs the `BatchPutGeofence` operation on the `LocationService` service.
+    ///
     /// A batch request for storing geofence geometries into a given geofence collection, or updates the geometry of an existing geofence if a geofence ID is included in the request.
-    func batchPutGeofence(input: BatchPutGeofenceInput) async throws -> BatchPutGeofenceOutputResponse
+    ///
+    /// - Parameter BatchPutGeofenceInput : [no documentation found]
+    ///
+    /// - Returns: `BatchPutGeofenceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func batchPutGeofence(input: BatchPutGeofenceInput) async throws -> BatchPutGeofenceOutput
+    /// Performs the `BatchUpdateDevicePosition` operation on the `LocationService` service.
+    ///
     /// Uploads position update data for one or more devices to a tracker resource (up to 10 devices per batch). Amazon Location uses the data when it reports the last known device position and position history. Amazon Location retains location data for 30 days. Position updates are handled based on the PositionFiltering property of the tracker. When PositionFiltering is set to TimeBased, updates are evaluated against linked geofence collections, and location data is stored at a maximum of one position per 30 second interval. If your update frequency is more often than every 30 seconds, only one update per 30 seconds is stored for each unique device ID. When PositionFiltering is set to DistanceBased filtering, location data is stored and evaluated against linked geofence collections only if the device has moved more than 30 m (98.4 ft). When PositionFiltering is set to AccuracyBased filtering, location data is stored and evaluated against linked geofence collections only if the device has moved more than the measured accuracy. For example, if two consecutive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is neither stored or evaluated if the device has moved less than 15 m. If PositionFiltering is set to AccuracyBased filtering, Amazon Location uses the default value { "Horizontal": 0} when accuracy is not provided on a DevicePositionUpdate.
-    func batchUpdateDevicePosition(input: BatchUpdateDevicePositionInput) async throws -> BatchUpdateDevicePositionOutputResponse
+    ///
+    /// - Parameter BatchUpdateDevicePositionInput : [no documentation found]
+    ///
+    /// - Returns: `BatchUpdateDevicePositionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func batchUpdateDevicePosition(input: BatchUpdateDevicePositionInput) async throws -> BatchUpdateDevicePositionOutput
+    /// Performs the `CalculateRoute` operation on the `LocationService` service.
+    ///
     /// [Calculates a route](https://docs.aws.amazon.com/location/latest/developerguide/calculate-route.html) given the following required parameters: DeparturePosition and DestinationPosition. Requires that you first [create a route calculator resource](https://docs.aws.amazon.com/location-routes/latest/APIReference/API_CreateRouteCalculator.html). By default, a request that doesn't specify a departure time uses the best time of day to travel with the best traffic conditions when calculating the route. Additional options include:
     ///
     /// * [Specifying a departure time](https://docs.aws.amazon.com/location/latest/developerguide/departure-time.html) using either DepartureTime or DepartNow. This calculates a route based on predictive traffic data at the given time. You can't specify both DepartureTime and DepartNow in a single request. Specifying both parameters returns a validation error.
     ///
     /// * [Specifying a travel mode](https://docs.aws.amazon.com/location/latest/developerguide/travel-mode.html) using TravelMode sets the transportation mode used to calculate the routes. This also lets you specify additional route preferences in CarModeOptions if traveling by Car, or TruckModeOptions if traveling by Truck. If you specify walking for the travel mode and your data provider is Esri, the start and destination must be within 40km.
-    func calculateRoute(input: CalculateRouteInput) async throws -> CalculateRouteOutputResponse
+    ///
+    /// - Parameter CalculateRouteInput : [no documentation found]
+    ///
+    /// - Returns: `CalculateRouteOutput` : Returns the result of the route calculation. Metadata includes legs and route summary.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func calculateRoute(input: CalculateRouteInput) async throws -> CalculateRouteOutput
+    /// Performs the `CalculateRouteMatrix` operation on the `LocationService` service.
+    ///
     /// [ Calculates a route matrix](https://docs.aws.amazon.com/location/latest/developerguide/calculate-route-matrix.html) given the following required parameters: DeparturePositions and DestinationPositions. CalculateRouteMatrix calculates routes and returns the travel time and travel distance from each departure position to each destination position in the request. For example, given departure positions A and B, and destination positions X and Y, CalculateRouteMatrix will return time and distance for routes from A to X, A to Y, B to X, and B to Y (in that order). The number of results returned (and routes calculated) will be the number of DeparturePositions times the number of DestinationPositions. Your account is charged for each route calculated, not the number of requests. Requires that you first [create a route calculator resource](https://docs.aws.amazon.com/location-routes/latest/APIReference/API_CreateRouteCalculator.html). By default, a request that doesn't specify a departure time uses the best time of day to travel with the best traffic conditions when calculating routes. Additional options include:
     ///
     /// * [Specifying a departure time](https://docs.aws.amazon.com/location/latest/developerguide/departure-time.html) using either DepartureTime or DepartNow. This calculates routes based on predictive traffic data at the given time. You can't specify both DepartureTime and DepartNow in a single request. Specifying both parameters returns a validation error.
     ///
     /// * [Specifying a travel mode](https://docs.aws.amazon.com/location/latest/developerguide/travel-mode.html) using TravelMode sets the transportation mode used to calculate the routes. This also lets you specify additional route preferences in CarModeOptions if traveling by Car, or TruckModeOptions if traveling by Truck.
-    func calculateRouteMatrix(input: CalculateRouteMatrixInput) async throws -> CalculateRouteMatrixOutputResponse
+    ///
+    /// - Parameter CalculateRouteMatrixInput : [no documentation found]
+    ///
+    /// - Returns: `CalculateRouteMatrixOutput` : Returns the result of the route matrix calculation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func calculateRouteMatrix(input: CalculateRouteMatrixInput) async throws -> CalculateRouteMatrixOutput
+    /// Performs the `CreateGeofenceCollection` operation on the `LocationService` service.
+    ///
     /// Creates a geofence collection, which manages and stores geofences.
-    func createGeofenceCollection(input: CreateGeofenceCollectionInput) async throws -> CreateGeofenceCollectionOutputResponse
+    ///
+    /// - Parameter CreateGeofenceCollectionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateGeofenceCollectionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `ConflictException` : The request was unsuccessful because of a conflict.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ServiceQuotaExceededException` : The operation was denied because the request would exceed the maximum [quota](https://docs.aws.amazon.com/location/latest/developerguide/location-quotas.html) set for Amazon Location Service.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func createGeofenceCollection(input: CreateGeofenceCollectionInput) async throws -> CreateGeofenceCollectionOutput
+    /// Performs the `CreateKey` operation on the `LocationService` service.
+    ///
     /// Creates an API key resource in your Amazon Web Services account, which lets you grant actions for Amazon Location resources to the API key bearer. For more information, see [Using API keys](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html).
-    func createKey(input: CreateKeyInput) async throws -> CreateKeyOutputResponse
+    ///
+    /// - Parameter CreateKeyInput : [no documentation found]
+    ///
+    /// - Returns: `CreateKeyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `ConflictException` : The request was unsuccessful because of a conflict.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ServiceQuotaExceededException` : The operation was denied because the request would exceed the maximum [quota](https://docs.aws.amazon.com/location/latest/developerguide/location-quotas.html) set for Amazon Location Service.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func createKey(input: CreateKeyInput) async throws -> CreateKeyOutput
+    /// Performs the `CreateMap` operation on the `LocationService` service.
+    ///
     /// Creates a map resource in your Amazon Web Services account, which provides map tiles of different styles sourced from global location data providers. If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the [Amazon Web Services service terms](http://aws.amazon.com/service-terms) for more details.
-    func createMap(input: CreateMapInput) async throws -> CreateMapOutputResponse
+    ///
+    /// - Parameter CreateMapInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMapOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `ConflictException` : The request was unsuccessful because of a conflict.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ServiceQuotaExceededException` : The operation was denied because the request would exceed the maximum [quota](https://docs.aws.amazon.com/location/latest/developerguide/location-quotas.html) set for Amazon Location Service.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func createMap(input: CreateMapInput) async throws -> CreateMapOutput
+    /// Performs the `CreatePlaceIndex` operation on the `LocationService` service.
+    ///
     /// Creates a place index resource in your Amazon Web Services account. Use a place index resource to geocode addresses and other text queries by using the SearchPlaceIndexForText operation, and reverse geocode coordinates by using the SearchPlaceIndexForPosition operation, and enable autosuggestions by using the SearchPlaceIndexForSuggestions operation. If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the [Amazon Web Services service terms](http://aws.amazon.com/service-terms) for more details.
-    func createPlaceIndex(input: CreatePlaceIndexInput) async throws -> CreatePlaceIndexOutputResponse
+    ///
+    /// - Parameter CreatePlaceIndexInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePlaceIndexOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `ConflictException` : The request was unsuccessful because of a conflict.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ServiceQuotaExceededException` : The operation was denied because the request would exceed the maximum [quota](https://docs.aws.amazon.com/location/latest/developerguide/location-quotas.html) set for Amazon Location Service.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func createPlaceIndex(input: CreatePlaceIndexInput) async throws -> CreatePlaceIndexOutput
+    /// Performs the `CreateRouteCalculator` operation on the `LocationService` service.
+    ///
     /// Creates a route calculator resource in your Amazon Web Services account. You can send requests to a route calculator resource to estimate travel time, distance, and get directions. A route calculator sources traffic and road network data from your chosen data provider. If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the [Amazon Web Services service terms](http://aws.amazon.com/service-terms) for more details.
-    func createRouteCalculator(input: CreateRouteCalculatorInput) async throws -> CreateRouteCalculatorOutputResponse
+    ///
+    /// - Parameter CreateRouteCalculatorInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRouteCalculatorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `ConflictException` : The request was unsuccessful because of a conflict.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ServiceQuotaExceededException` : The operation was denied because the request would exceed the maximum [quota](https://docs.aws.amazon.com/location/latest/developerguide/location-quotas.html) set for Amazon Location Service.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func createRouteCalculator(input: CreateRouteCalculatorInput) async throws -> CreateRouteCalculatorOutput
+    /// Performs the `CreateTracker` operation on the `LocationService` service.
+    ///
     /// Creates a tracker resource in your Amazon Web Services account, which lets you retrieve current and historical location of devices.
-    func createTracker(input: CreateTrackerInput) async throws -> CreateTrackerOutputResponse
+    ///
+    /// - Parameter CreateTrackerInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTrackerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `ConflictException` : The request was unsuccessful because of a conflict.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ServiceQuotaExceededException` : The operation was denied because the request would exceed the maximum [quota](https://docs.aws.amazon.com/location/latest/developerguide/location-quotas.html) set for Amazon Location Service.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func createTracker(input: CreateTrackerInput) async throws -> CreateTrackerOutput
+    /// Performs the `DeleteGeofenceCollection` operation on the `LocationService` service.
+    ///
     /// Deletes a geofence collection from your Amazon Web Services account. This operation deletes the resource permanently. If the geofence collection is the target of a tracker resource, the devices will no longer be monitored.
-    func deleteGeofenceCollection(input: DeleteGeofenceCollectionInput) async throws -> DeleteGeofenceCollectionOutputResponse
+    ///
+    /// - Parameter DeleteGeofenceCollectionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteGeofenceCollectionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func deleteGeofenceCollection(input: DeleteGeofenceCollectionInput) async throws -> DeleteGeofenceCollectionOutput
+    /// Performs the `DeleteKey` operation on the `LocationService` service.
+    ///
     /// Deletes the specified API key. The API key must have been deactivated more than 90 days previously.
-    func deleteKey(input: DeleteKeyInput) async throws -> DeleteKeyOutputResponse
+    ///
+    /// - Parameter DeleteKeyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteKeyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func deleteKey(input: DeleteKeyInput) async throws -> DeleteKeyOutput
+    /// Performs the `DeleteMap` operation on the `LocationService` service.
+    ///
     /// Deletes a map resource from your Amazon Web Services account. This operation deletes the resource permanently. If the map is being used in an application, the map may not render.
-    func deleteMap(input: DeleteMapInput) async throws -> DeleteMapOutputResponse
+    ///
+    /// - Parameter DeleteMapInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMapOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func deleteMap(input: DeleteMapInput) async throws -> DeleteMapOutput
+    /// Performs the `DeletePlaceIndex` operation on the `LocationService` service.
+    ///
     /// Deletes a place index resource from your Amazon Web Services account. This operation deletes the resource permanently.
-    func deletePlaceIndex(input: DeletePlaceIndexInput) async throws -> DeletePlaceIndexOutputResponse
+    ///
+    /// - Parameter DeletePlaceIndexInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePlaceIndexOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func deletePlaceIndex(input: DeletePlaceIndexInput) async throws -> DeletePlaceIndexOutput
+    /// Performs the `DeleteRouteCalculator` operation on the `LocationService` service.
+    ///
     /// Deletes a route calculator resource from your Amazon Web Services account. This operation deletes the resource permanently.
-    func deleteRouteCalculator(input: DeleteRouteCalculatorInput) async throws -> DeleteRouteCalculatorOutputResponse
+    ///
+    /// - Parameter DeleteRouteCalculatorInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRouteCalculatorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func deleteRouteCalculator(input: DeleteRouteCalculatorInput) async throws -> DeleteRouteCalculatorOutput
+    /// Performs the `DeleteTracker` operation on the `LocationService` service.
+    ///
     /// Deletes a tracker resource from your Amazon Web Services account. This operation deletes the resource permanently. If the tracker resource is in use, you may encounter an error. Make sure that the target resource isn't a dependency for your applications.
-    func deleteTracker(input: DeleteTrackerInput) async throws -> DeleteTrackerOutputResponse
+    ///
+    /// - Parameter DeleteTrackerInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTrackerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func deleteTracker(input: DeleteTrackerInput) async throws -> DeleteTrackerOutput
+    /// Performs the `DescribeGeofenceCollection` operation on the `LocationService` service.
+    ///
     /// Retrieves the geofence collection details.
-    func describeGeofenceCollection(input: DescribeGeofenceCollectionInput) async throws -> DescribeGeofenceCollectionOutputResponse
+    ///
+    /// - Parameter DescribeGeofenceCollectionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeGeofenceCollectionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func describeGeofenceCollection(input: DescribeGeofenceCollectionInput) async throws -> DescribeGeofenceCollectionOutput
+    /// Performs the `DescribeKey` operation on the `LocationService` service.
+    ///
     /// Retrieves the API key resource details.
-    func describeKey(input: DescribeKeyInput) async throws -> DescribeKeyOutputResponse
+    ///
+    /// - Parameter DescribeKeyInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeKeyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func describeKey(input: DescribeKeyInput) async throws -> DescribeKeyOutput
+    /// Performs the `DescribeMap` operation on the `LocationService` service.
+    ///
     /// Retrieves the map resource details.
-    func describeMap(input: DescribeMapInput) async throws -> DescribeMapOutputResponse
+    ///
+    /// - Parameter DescribeMapInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeMapOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func describeMap(input: DescribeMapInput) async throws -> DescribeMapOutput
+    /// Performs the `DescribePlaceIndex` operation on the `LocationService` service.
+    ///
     /// Retrieves the place index resource details.
-    func describePlaceIndex(input: DescribePlaceIndexInput) async throws -> DescribePlaceIndexOutputResponse
+    ///
+    /// - Parameter DescribePlaceIndexInput : [no documentation found]
+    ///
+    /// - Returns: `DescribePlaceIndexOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func describePlaceIndex(input: DescribePlaceIndexInput) async throws -> DescribePlaceIndexOutput
+    /// Performs the `DescribeRouteCalculator` operation on the `LocationService` service.
+    ///
     /// Retrieves the route calculator resource details.
-    func describeRouteCalculator(input: DescribeRouteCalculatorInput) async throws -> DescribeRouteCalculatorOutputResponse
+    ///
+    /// - Parameter DescribeRouteCalculatorInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeRouteCalculatorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func describeRouteCalculator(input: DescribeRouteCalculatorInput) async throws -> DescribeRouteCalculatorOutput
+    /// Performs the `DescribeTracker` operation on the `LocationService` service.
+    ///
     /// Retrieves the tracker resource details.
-    func describeTracker(input: DescribeTrackerInput) async throws -> DescribeTrackerOutputResponse
+    ///
+    /// - Parameter DescribeTrackerInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeTrackerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func describeTracker(input: DescribeTrackerInput) async throws -> DescribeTrackerOutput
+    /// Performs the `DisassociateTrackerConsumer` operation on the `LocationService` service.
+    ///
     /// Removes the association between a tracker resource and a geofence collection. Once you unlink a tracker resource from a geofence collection, the tracker positions will no longer be automatically evaluated against geofences.
-    func disassociateTrackerConsumer(input: DisassociateTrackerConsumerInput) async throws -> DisassociateTrackerConsumerOutputResponse
+    ///
+    /// - Parameter DisassociateTrackerConsumerInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateTrackerConsumerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func disassociateTrackerConsumer(input: DisassociateTrackerConsumerInput) async throws -> DisassociateTrackerConsumerOutput
+    /// Performs the `GetDevicePosition` operation on the `LocationService` service.
+    ///
     /// Retrieves a device's most recent position according to its sample time. Device positions are deleted after 30 days.
-    func getDevicePosition(input: GetDevicePositionInput) async throws -> GetDevicePositionOutputResponse
+    ///
+    /// - Parameter GetDevicePositionInput : [no documentation found]
+    ///
+    /// - Returns: `GetDevicePositionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func getDevicePosition(input: GetDevicePositionInput) async throws -> GetDevicePositionOutput
+    /// Performs the `GetDevicePositionHistory` operation on the `LocationService` service.
+    ///
     /// Retrieves the device position history from a tracker resource within a specified range of time. Device positions are deleted after 30 days.
-    func getDevicePositionHistory(input: GetDevicePositionHistoryInput) async throws -> GetDevicePositionHistoryOutputResponse
+    ///
+    /// - Parameter GetDevicePositionHistoryInput : [no documentation found]
+    ///
+    /// - Returns: `GetDevicePositionHistoryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func getDevicePositionHistory(input: GetDevicePositionHistoryInput) async throws -> GetDevicePositionHistoryOutput
+    /// Performs the `GetGeofence` operation on the `LocationService` service.
+    ///
     /// Retrieves the geofence details from a geofence collection.
-    func getGeofence(input: GetGeofenceInput) async throws -> GetGeofenceOutputResponse
+    ///
+    /// - Parameter GetGeofenceInput : [no documentation found]
+    ///
+    /// - Returns: `GetGeofenceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func getGeofence(input: GetGeofenceInput) async throws -> GetGeofenceOutput
+    /// Performs the `GetMapGlyphs` operation on the `LocationService` service.
+    ///
     /// Retrieves glyphs used to display labels on a map.
-    func getMapGlyphs(input: GetMapGlyphsInput) async throws -> GetMapGlyphsOutputResponse
+    ///
+    /// - Parameter GetMapGlyphsInput : [no documentation found]
+    ///
+    /// - Returns: `GetMapGlyphsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func getMapGlyphs(input: GetMapGlyphsInput) async throws -> GetMapGlyphsOutput
+    /// Performs the `GetMapSprites` operation on the `LocationService` service.
+    ///
     /// Retrieves the sprite sheet corresponding to a map resource. The sprite sheet is a PNG image paired with a JSON document describing the offsets of individual icons that will be displayed on a rendered map.
-    func getMapSprites(input: GetMapSpritesInput) async throws -> GetMapSpritesOutputResponse
+    ///
+    /// - Parameter GetMapSpritesInput : [no documentation found]
+    ///
+    /// - Returns: `GetMapSpritesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func getMapSprites(input: GetMapSpritesInput) async throws -> GetMapSpritesOutput
+    /// Performs the `GetMapStyleDescriptor` operation on the `LocationService` service.
+    ///
     /// Retrieves the map style descriptor from a map resource. The style descriptor contains speciﬁcations on how features render on a map. For example, what data to display, what order to display the data in, and the style for the data. Style descriptors follow the Mapbox Style Specification.
-    func getMapStyleDescriptor(input: GetMapStyleDescriptorInput) async throws -> GetMapStyleDescriptorOutputResponse
+    ///
+    /// - Parameter GetMapStyleDescriptorInput : [no documentation found]
+    ///
+    /// - Returns: `GetMapStyleDescriptorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func getMapStyleDescriptor(input: GetMapStyleDescriptorInput) async throws -> GetMapStyleDescriptorOutput
+    /// Performs the `GetMapTile` operation on the `LocationService` service.
+    ///
     /// Retrieves a vector data tile from the map resource. Map tiles are used by clients to render a map. they're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level. The origin (0, 0) is the top left of the map. Increasing the zoom level by 1 doubles both the X and Y dimensions, so a tile containing data for the entire world at (0/0/0) will be split into 4 tiles at zoom 1 (1/0/0, 1/0/1, 1/1/0, 1/1/1).
-    func getMapTile(input: GetMapTileInput) async throws -> GetMapTileOutputResponse
+    ///
+    /// - Parameter GetMapTileInput : [no documentation found]
+    ///
+    /// - Returns: `GetMapTileOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func getMapTile(input: GetMapTileInput) async throws -> GetMapTileOutput
+    /// Performs the `GetPlace` operation on the `LocationService` service.
+    ///
     /// Finds a place by its unique ID. A PlaceId is returned by other search operations. A PlaceId is valid only if all of the following are the same in the original search request and the call to GetPlace.
     ///
     /// * Customer Amazon Web Services account
@@ -96,51 +631,388 @@ public protocol LocationClientProtocol {
     /// * Amazon Web Services Region
     ///
     /// * Data provider specified in the place index resource
-    func getPlace(input: GetPlaceInput) async throws -> GetPlaceOutputResponse
+    ///
+    /// - Parameter GetPlaceInput : [no documentation found]
+    ///
+    /// - Returns: `GetPlaceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func getPlace(input: GetPlaceInput) async throws -> GetPlaceOutput
+    /// Performs the `ListDevicePositions` operation on the `LocationService` service.
+    ///
     /// A batch request to retrieve all device positions.
-    func listDevicePositions(input: ListDevicePositionsInput) async throws -> ListDevicePositionsOutputResponse
+    ///
+    /// - Parameter ListDevicePositionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDevicePositionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func listDevicePositions(input: ListDevicePositionsInput) async throws -> ListDevicePositionsOutput
+    /// Performs the `ListGeofenceCollections` operation on the `LocationService` service.
+    ///
     /// Lists geofence collections in your Amazon Web Services account.
-    func listGeofenceCollections(input: ListGeofenceCollectionsInput) async throws -> ListGeofenceCollectionsOutputResponse
+    ///
+    /// - Parameter ListGeofenceCollectionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListGeofenceCollectionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func listGeofenceCollections(input: ListGeofenceCollectionsInput) async throws -> ListGeofenceCollectionsOutput
+    /// Performs the `ListGeofences` operation on the `LocationService` service.
+    ///
     /// Lists geofences stored in a given geofence collection.
-    func listGeofences(input: ListGeofencesInput) async throws -> ListGeofencesOutputResponse
+    ///
+    /// - Parameter ListGeofencesInput : [no documentation found]
+    ///
+    /// - Returns: `ListGeofencesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func listGeofences(input: ListGeofencesInput) async throws -> ListGeofencesOutput
+    /// Performs the `ListKeys` operation on the `LocationService` service.
+    ///
     /// Lists API key resources in your Amazon Web Services account.
-    func listKeys(input: ListKeysInput) async throws -> ListKeysOutputResponse
+    ///
+    /// - Parameter ListKeysInput : [no documentation found]
+    ///
+    /// - Returns: `ListKeysOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func listKeys(input: ListKeysInput) async throws -> ListKeysOutput
+    /// Performs the `ListMaps` operation on the `LocationService` service.
+    ///
     /// Lists map resources in your Amazon Web Services account.
-    func listMaps(input: ListMapsInput) async throws -> ListMapsOutputResponse
+    ///
+    /// - Parameter ListMapsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMapsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func listMaps(input: ListMapsInput) async throws -> ListMapsOutput
+    /// Performs the `ListPlaceIndexes` operation on the `LocationService` service.
+    ///
     /// Lists place index resources in your Amazon Web Services account.
-    func listPlaceIndexes(input: ListPlaceIndexesInput) async throws -> ListPlaceIndexesOutputResponse
+    ///
+    /// - Parameter ListPlaceIndexesInput : [no documentation found]
+    ///
+    /// - Returns: `ListPlaceIndexesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func listPlaceIndexes(input: ListPlaceIndexesInput) async throws -> ListPlaceIndexesOutput
+    /// Performs the `ListRouteCalculators` operation on the `LocationService` service.
+    ///
     /// Lists route calculator resources in your Amazon Web Services account.
-    func listRouteCalculators(input: ListRouteCalculatorsInput) async throws -> ListRouteCalculatorsOutputResponse
+    ///
+    /// - Parameter ListRouteCalculatorsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRouteCalculatorsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func listRouteCalculators(input: ListRouteCalculatorsInput) async throws -> ListRouteCalculatorsOutput
+    /// Performs the `ListTagsForResource` operation on the `LocationService` service.
+    ///
     /// Returns a list of tags that are applied to the specified Amazon Location resource.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `ListTrackerConsumers` operation on the `LocationService` service.
+    ///
     /// Lists geofence collections currently associated to the given tracker resource.
-    func listTrackerConsumers(input: ListTrackerConsumersInput) async throws -> ListTrackerConsumersOutputResponse
+    ///
+    /// - Parameter ListTrackerConsumersInput : [no documentation found]
+    ///
+    /// - Returns: `ListTrackerConsumersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func listTrackerConsumers(input: ListTrackerConsumersInput) async throws -> ListTrackerConsumersOutput
+    /// Performs the `ListTrackers` operation on the `LocationService` service.
+    ///
     /// Lists tracker resources in your Amazon Web Services account.
-    func listTrackers(input: ListTrackersInput) async throws -> ListTrackersOutputResponse
+    ///
+    /// - Parameter ListTrackersInput : [no documentation found]
+    ///
+    /// - Returns: `ListTrackersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func listTrackers(input: ListTrackersInput) async throws -> ListTrackersOutput
+    /// Performs the `PutGeofence` operation on the `LocationService` service.
+    ///
     /// Stores a geofence geometry in a given geofence collection, or updates the geometry of an existing geofence if a geofence ID is included in the request.
-    func putGeofence(input: PutGeofenceInput) async throws -> PutGeofenceOutputResponse
+    ///
+    /// - Parameter PutGeofenceInput : [no documentation found]
+    ///
+    /// - Returns: `PutGeofenceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `ConflictException` : The request was unsuccessful because of a conflict.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func putGeofence(input: PutGeofenceInput) async throws -> PutGeofenceOutput
+    /// Performs the `SearchPlaceIndexForPosition` operation on the `LocationService` service.
+    ///
     /// Reverse geocodes a given coordinate and returns a legible address. Allows you to search for Places or points of interest near a given position.
-    func searchPlaceIndexForPosition(input: SearchPlaceIndexForPositionInput) async throws -> SearchPlaceIndexForPositionOutputResponse
+    ///
+    /// - Parameter SearchPlaceIndexForPositionInput : [no documentation found]
+    ///
+    /// - Returns: `SearchPlaceIndexForPositionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func searchPlaceIndexForPosition(input: SearchPlaceIndexForPositionInput) async throws -> SearchPlaceIndexForPositionOutput
+    /// Performs the `SearchPlaceIndexForSuggestions` operation on the `LocationService` service.
+    ///
     /// Generates suggestions for addresses and points of interest based on partial or misspelled free-form text. This operation is also known as autocomplete, autosuggest, or fuzzy matching. Optional parameters let you narrow your search results by bounding box or country, or bias your search toward a specific position on the globe. You can search for suggested place names near a specified position by using BiasPosition, or filter results within a bounding box by using FilterBBox. These parameters are mutually exclusive; using both BiasPosition and FilterBBox in the same command returns an error.
-    func searchPlaceIndexForSuggestions(input: SearchPlaceIndexForSuggestionsInput) async throws -> SearchPlaceIndexForSuggestionsOutputResponse
+    ///
+    /// - Parameter SearchPlaceIndexForSuggestionsInput : [no documentation found]
+    ///
+    /// - Returns: `SearchPlaceIndexForSuggestionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func searchPlaceIndexForSuggestions(input: SearchPlaceIndexForSuggestionsInput) async throws -> SearchPlaceIndexForSuggestionsOutput
+    /// Performs the `SearchPlaceIndexForText` operation on the `LocationService` service.
+    ///
     /// Geocodes free-form text, such as an address, name, city, or region to allow you to search for Places or points of interest. Optional parameters let you narrow your search results by bounding box or country, or bias your search toward a specific position on the globe. You can search for places near a given position using BiasPosition, or filter results within a bounding box using FilterBBox. Providing both parameters simultaneously returns an error. Search results are returned in order of highest to lowest relevance.
-    func searchPlaceIndexForText(input: SearchPlaceIndexForTextInput) async throws -> SearchPlaceIndexForTextOutputResponse
+    ///
+    /// - Parameter SearchPlaceIndexForTextInput : [no documentation found]
+    ///
+    /// - Returns: `SearchPlaceIndexForTextOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func searchPlaceIndexForText(input: SearchPlaceIndexForTextInput) async throws -> SearchPlaceIndexForTextOutput
+    /// Performs the `TagResource` operation on the `LocationService` service.
+    ///
     /// Assigns one or more tags (key-value pairs) to the specified Amazon Location Service resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with an Amazon Location Service resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the tags already associated with the resource. If you specify a tag key that's already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate up to 50 tags with a resource.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `LocationService` service.
+    ///
     /// Removes one or more tags from the specified Amazon Location resource.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateGeofenceCollection` operation on the `LocationService` service.
+    ///
     /// Updates the specified properties of a given geofence collection.
-    func updateGeofenceCollection(input: UpdateGeofenceCollectionInput) async throws -> UpdateGeofenceCollectionOutputResponse
+    ///
+    /// - Parameter UpdateGeofenceCollectionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateGeofenceCollectionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func updateGeofenceCollection(input: UpdateGeofenceCollectionInput) async throws -> UpdateGeofenceCollectionOutput
+    /// Performs the `UpdateKey` operation on the `LocationService` service.
+    ///
     /// Updates the specified properties of a given API key resource.
-    func updateKey(input: UpdateKeyInput) async throws -> UpdateKeyOutputResponse
+    ///
+    /// - Parameter UpdateKeyInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateKeyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func updateKey(input: UpdateKeyInput) async throws -> UpdateKeyOutput
+    /// Performs the `UpdateMap` operation on the `LocationService` service.
+    ///
     /// Updates the specified properties of a given map resource.
-    func updateMap(input: UpdateMapInput) async throws -> UpdateMapOutputResponse
+    ///
+    /// - Parameter UpdateMapInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateMapOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func updateMap(input: UpdateMapInput) async throws -> UpdateMapOutput
+    /// Performs the `UpdatePlaceIndex` operation on the `LocationService` service.
+    ///
     /// Updates the specified properties of a given place index resource.
-    func updatePlaceIndex(input: UpdatePlaceIndexInput) async throws -> UpdatePlaceIndexOutputResponse
+    ///
+    /// - Parameter UpdatePlaceIndexInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePlaceIndexOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func updatePlaceIndex(input: UpdatePlaceIndexInput) async throws -> UpdatePlaceIndexOutput
+    /// Performs the `UpdateRouteCalculator` operation on the `LocationService` service.
+    ///
     /// Updates the specified properties for a given route calculator resource.
-    func updateRouteCalculator(input: UpdateRouteCalculatorInput) async throws -> UpdateRouteCalculatorOutputResponse
+    ///
+    /// - Parameter UpdateRouteCalculatorInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRouteCalculatorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func updateRouteCalculator(input: UpdateRouteCalculatorInput) async throws -> UpdateRouteCalculatorOutput
+    /// Performs the `UpdateTracker` operation on the `LocationService` service.
+    ///
     /// Updates the specified properties of a given tracker resource.
-    func updateTracker(input: UpdateTrackerInput) async throws -> UpdateTrackerOutputResponse
+    ///
+    /// - Parameter UpdateTrackerInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTrackerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
+    /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
+    func updateTracker(input: UpdateTrackerInput) async throws -> UpdateTrackerOutput
 }
 
 public enum LocationClientTypes {}

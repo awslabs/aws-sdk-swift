@@ -7,6 +7,7 @@
 
 import AwsCommonRuntimeKit
 import ClientRuntime
+import SmithyTimestamps
 import XCTest
 
 @testable import AWSClientRuntime

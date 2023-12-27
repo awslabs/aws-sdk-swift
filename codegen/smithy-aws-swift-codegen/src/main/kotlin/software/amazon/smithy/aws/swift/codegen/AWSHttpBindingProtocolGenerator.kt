@@ -52,6 +52,8 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
     val requestTestBuilder = HttpProtocolUnitTestRequestGenerator.Builder()
     val responseTestBuilder = HttpProtocolUnitTestResponseGenerator.Builder()
     val errorTestBuilder = HttpProtocolUnitTestErrorGenerator.Builder()
+    open val testsToIgnore: Set<String> = setOf()
+    open val tagsToIgnore: Set<String> = setOf()
 
     override val shouldRenderDecodableBodyStructForInputShapes = true
     override val shouldRenderCodingKeysForEncodable = true
@@ -68,6 +70,8 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
             getProtocolHttpBindingResolver(ctx, defaultContentType),
             serdeContext,
             imports,
+            testsToIgnore,
+            tagsToIgnore,
         ).generateProtocolTests() + renderEndpointsTests(ctx)
     }
 
@@ -96,8 +100,9 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
         members: List<MemberShape>,
         writer: SwiftWriter,
         defaultTimestampFormat: TimestampFormatTrait.Format,
+        path: String?
     ) {
-        val encodeGenerator = StructEncodeGenerator(ctx, members, writer, defaultTimestampFormat)
+        val encodeGenerator = StructEncodeGenerator(ctx, members, writer, defaultTimestampFormat, path)
         encodeGenerator.render()
     }
 
@@ -106,9 +111,10 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
         shapeMetaData: Map<ShapeMetadata, Any>,
         members: List<MemberShape>,
         writer: SwiftWriter,
-        defaultTimestampFormat: TimestampFormatTrait.Format
+        defaultTimestampFormat: TimestampFormatTrait.Format,
+        path: String
     ) {
-        val decoder = StructDecodeGenerator(ctx, members, writer, defaultTimestampFormat)
+        val decoder = StructDecodeGenerator(ctx, members, writer, defaultTimestampFormat, path)
         decoder.render()
     }
 

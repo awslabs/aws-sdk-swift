@@ -160,6 +160,35 @@ extension AthenaClientTypes {
 
 }
 
+extension AthenaClientTypes {
+    public enum AuthenticationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case directoryIdentity
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AuthenticationType] {
+            return [
+                .directoryIdentity,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .directoryIdentity: return "DIRECTORY_IDENTITY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AuthenticationType(rawValue: rawValue) ?? AuthenticationType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension BatchGetNamedQueryInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case namedQueryIds = "NamedQueryIds"
@@ -221,23 +250,11 @@ extension BatchGetNamedQueryInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchGetNamedQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchGetNamedQueryOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchGetNamedQueryOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchGetNamedQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchGetNamedQueryOutputBody = try responseDecoder.decode(responseBody: data)
             self.namedQueries = output.namedQueries
             self.unprocessedNamedQueryIds = output.unprocessedNamedQueryIds
         } else {
@@ -247,7 +264,7 @@ extension BatchGetNamedQueryOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetNamedQueryOutputResponse: Swift.Equatable {
+public struct BatchGetNamedQueryOutput: Swift.Equatable {
     /// Information about the named query IDs submitted.
     public var namedQueries: [AthenaClientTypes.NamedQuery]?
     /// Information about provided query IDs.
@@ -263,12 +280,12 @@ public struct BatchGetNamedQueryOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchGetNamedQueryOutputResponseBody: Swift.Equatable {
+struct BatchGetNamedQueryOutputBody: Swift.Equatable {
     let namedQueries: [AthenaClientTypes.NamedQuery]?
     let unprocessedNamedQueryIds: [AthenaClientTypes.UnprocessedNamedQueryId]?
 }
 
-extension BatchGetNamedQueryOutputResponseBody: Swift.Decodable {
+extension BatchGetNamedQueryOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case namedQueries = "NamedQueries"
         case unprocessedNamedQueryIds = "UnprocessedNamedQueryIds"
@@ -298,6 +315,18 @@ extension BatchGetNamedQueryOutputResponseBody: Swift.Decodable {
             }
         }
         unprocessedNamedQueryIds = unprocessedNamedQueryIdsDecoded0
+    }
+}
+
+enum BatchGetNamedQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -374,23 +403,11 @@ extension BatchGetPreparedStatementInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchGetPreparedStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchGetPreparedStatementOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchGetPreparedStatementOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchGetPreparedStatementOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchGetPreparedStatementOutputBody = try responseDecoder.decode(responseBody: data)
             self.preparedStatements = output.preparedStatements
             self.unprocessedPreparedStatementNames = output.unprocessedPreparedStatementNames
         } else {
@@ -400,7 +417,7 @@ extension BatchGetPreparedStatementOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct BatchGetPreparedStatementOutputResponse: Swift.Equatable {
+public struct BatchGetPreparedStatementOutput: Swift.Equatable {
     /// The list of prepared statements returned.
     public var preparedStatements: [AthenaClientTypes.PreparedStatement]?
     /// A list of one or more prepared statements that were requested but could not be returned.
@@ -416,12 +433,12 @@ public struct BatchGetPreparedStatementOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchGetPreparedStatementOutputResponseBody: Swift.Equatable {
+struct BatchGetPreparedStatementOutputBody: Swift.Equatable {
     let preparedStatements: [AthenaClientTypes.PreparedStatement]?
     let unprocessedPreparedStatementNames: [AthenaClientTypes.UnprocessedPreparedStatementName]?
 }
 
-extension BatchGetPreparedStatementOutputResponseBody: Swift.Decodable {
+extension BatchGetPreparedStatementOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case preparedStatements = "PreparedStatements"
         case unprocessedPreparedStatementNames = "UnprocessedPreparedStatementNames"
@@ -451,6 +468,18 @@ extension BatchGetPreparedStatementOutputResponseBody: Swift.Decodable {
             }
         }
         unprocessedPreparedStatementNames = unprocessedPreparedStatementNamesDecoded0
+    }
+}
+
+enum BatchGetPreparedStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -515,23 +544,11 @@ extension BatchGetQueryExecutionInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchGetQueryExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchGetQueryExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchGetQueryExecutionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchGetQueryExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchGetQueryExecutionOutputBody = try responseDecoder.decode(responseBody: data)
             self.queryExecutions = output.queryExecutions
             self.unprocessedQueryExecutionIds = output.unprocessedQueryExecutionIds
         } else {
@@ -541,7 +558,7 @@ extension BatchGetQueryExecutionOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct BatchGetQueryExecutionOutputResponse: Swift.Equatable {
+public struct BatchGetQueryExecutionOutput: Swift.Equatable {
     /// Information about a query execution.
     public var queryExecutions: [AthenaClientTypes.QueryExecution]?
     /// Information about the query executions that failed to run.
@@ -557,12 +574,12 @@ public struct BatchGetQueryExecutionOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchGetQueryExecutionOutputResponseBody: Swift.Equatable {
+struct BatchGetQueryExecutionOutputBody: Swift.Equatable {
     let queryExecutions: [AthenaClientTypes.QueryExecution]?
     let unprocessedQueryExecutionIds: [AthenaClientTypes.UnprocessedQueryExecutionId]?
 }
 
-extension BatchGetQueryExecutionOutputResponseBody: Swift.Decodable {
+extension BatchGetQueryExecutionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case queryExecutions = "QueryExecutions"
         case unprocessedQueryExecutionIds = "UnprocessedQueryExecutionIds"
@@ -592,6 +609,18 @@ extension BatchGetQueryExecutionOutputResponseBody: Swift.Decodable {
             }
         }
         unprocessedQueryExecutionIds = unprocessedQueryExecutionIdsDecoded0
+    }
+}
+
+enum BatchGetQueryExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -958,8 +987,18 @@ extension CancelCapacityReservationInputBody: Swift.Decodable {
     }
 }
 
-public enum CancelCapacityReservationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CancelCapacityReservationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CancelCapacityReservationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CancelCapacityReservationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -968,16 +1007,6 @@ public enum CancelCapacityReservationOutputError: ClientRuntime.HttpResponseErro
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension CancelCapacityReservationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CancelCapacityReservationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension AthenaClientTypes.CapacityAllocation: Swift.Codable {
@@ -1471,7 +1500,7 @@ extension AthenaClientTypes {
         /// The name of the column.
         /// This member is required.
         public var name: Swift.String?
-        /// Indicates the column's nullable status.
+        /// Unsupported constraint. This value always shows as UNKNOWN.
         public var nullable: AthenaClientTypes.ColumnNullable?
         /// For DECIMAL data types, specifies the total number of digits, up to 38. For performance reasons, we recommend up to 18 digits.
         public var precision: Swift.Int
@@ -1633,8 +1662,18 @@ extension CreateCapacityReservationInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateCapacityReservationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateCapacityReservationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CreateCapacityReservationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CreateCapacityReservationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1643,16 +1682,6 @@ public enum CreateCapacityReservationOutputError: ClientRuntime.HttpResponseErro
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension CreateCapacityReservationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CreateCapacityReservationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CreateDataCatalogInput: Swift.Encodable {
@@ -1718,10 +1747,6 @@ public struct CreateDataCatalogInput: Swift.Equatable {
     /// * The GLUE type takes a catalog ID parameter and is required. The  catalog_id  is the account ID of the Amazon Web Services account to which the Glue Data Catalog belongs. catalog-id=catalog_id
     ///
     /// * The GLUE data catalog type also applies to the default AwsDataCatalog that already exists in your account, of which you can have only one and cannot modify.
-    ///
-    /// * Queries that specify a Glue Data Catalog other than the default AwsDataCatalog must be run on Athena engine version 2.
-    ///
-    /// * In Regions where Athena engine version 2 is not available, creating new Glue data catalogs results in an INVALID_INPUT error.
     public var parameters: [Swift.String:Swift.String]?
     /// A list of comma separated tags to add to the data catalog that is created.
     public var tags: [AthenaClientTypes.Tag]?
@@ -1795,8 +1820,18 @@ extension CreateDataCatalogInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateDataCatalogOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateDataCatalogOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CreateDataCatalogOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CreateDataCatalogOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1805,16 +1840,6 @@ public enum CreateDataCatalogOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension CreateDataCatalogOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CreateDataCatalogOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CreateNamedQueryInput: Swift.Encodable {
@@ -1927,23 +1952,11 @@ extension CreateNamedQueryInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateNamedQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateNamedQueryOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateNamedQueryOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateNamedQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateNamedQueryOutputBody = try responseDecoder.decode(responseBody: data)
             self.namedQueryId = output.namedQueryId
         } else {
             self.namedQueryId = nil
@@ -1951,7 +1964,7 @@ extension CreateNamedQueryOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateNamedQueryOutputResponse: Swift.Equatable {
+public struct CreateNamedQueryOutput: Swift.Equatable {
     /// The unique ID of the query.
     public var namedQueryId: Swift.String?
 
@@ -1963,11 +1976,11 @@ public struct CreateNamedQueryOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateNamedQueryOutputResponseBody: Swift.Equatable {
+struct CreateNamedQueryOutputBody: Swift.Equatable {
     let namedQueryId: Swift.String?
 }
 
-extension CreateNamedQueryOutputResponseBody: Swift.Decodable {
+extension CreateNamedQueryOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case namedQueryId = "NamedQueryId"
     }
@@ -1976,6 +1989,18 @@ extension CreateNamedQueryOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let namedQueryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namedQueryId)
         namedQueryId = namedQueryIdDecoded
+    }
+}
+
+enum CreateNamedQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2052,24 +2077,11 @@ extension CreateNotebookInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateNotebookOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateNotebookOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateNotebookOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateNotebookOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateNotebookOutputBody = try responseDecoder.decode(responseBody: data)
             self.notebookId = output.notebookId
         } else {
             self.notebookId = nil
@@ -2077,7 +2089,7 @@ extension CreateNotebookOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateNotebookOutputResponse: Swift.Equatable {
+public struct CreateNotebookOutput: Swift.Equatable {
     /// A unique identifier for the notebook.
     public var notebookId: Swift.String?
 
@@ -2089,11 +2101,11 @@ public struct CreateNotebookOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateNotebookOutputResponseBody: Swift.Equatable {
+struct CreateNotebookOutputBody: Swift.Equatable {
     let notebookId: Swift.String?
 }
 
-extension CreateNotebookOutputResponseBody: Swift.Decodable {
+extension CreateNotebookOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case notebookId = "NotebookId"
     }
@@ -2102,6 +2114,19 @@ extension CreateNotebookOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let notebookIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notebookId)
         notebookId = notebookIdDecoded
+    }
+}
+
+enum CreateNotebookOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2191,8 +2216,18 @@ extension CreatePreparedStatementInputBody: Swift.Decodable {
     }
 }
 
-public enum CreatePreparedStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreatePreparedStatementOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CreatePreparedStatementOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CreatePreparedStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2201,16 +2236,6 @@ public enum CreatePreparedStatementOutputError: ClientRuntime.HttpResponseErrorB
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension CreatePreparedStatementOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CreatePreparedStatementOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CreatePresignedNotebookUrlInput: Swift.Encodable {
@@ -2261,24 +2286,11 @@ extension CreatePresignedNotebookUrlInputBody: Swift.Decodable {
     }
 }
 
-public enum CreatePresignedNotebookUrlOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreatePresignedNotebookUrlOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreatePresignedNotebookUrlOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreatePresignedNotebookUrlOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreatePresignedNotebookUrlOutputBody = try responseDecoder.decode(responseBody: data)
             self.authToken = output.authToken
             self.authTokenExpirationTime = output.authTokenExpirationTime
             self.notebookUrl = output.notebookUrl
@@ -2290,7 +2302,7 @@ extension CreatePresignedNotebookUrlOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct CreatePresignedNotebookUrlOutputResponse: Swift.Equatable {
+public struct CreatePresignedNotebookUrlOutput: Swift.Equatable {
     /// The authentication token for the notebook.
     /// This member is required.
     public var authToken: Swift.String?
@@ -2313,13 +2325,13 @@ public struct CreatePresignedNotebookUrlOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreatePresignedNotebookUrlOutputResponseBody: Swift.Equatable {
+struct CreatePresignedNotebookUrlOutputBody: Swift.Equatable {
     let notebookUrl: Swift.String?
     let authToken: Swift.String?
     let authTokenExpirationTime: Swift.Int?
 }
 
-extension CreatePresignedNotebookUrlOutputResponseBody: Swift.Decodable {
+extension CreatePresignedNotebookUrlOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authToken = "AuthToken"
         case authTokenExpirationTime = "AuthTokenExpirationTime"
@@ -2334,6 +2346,19 @@ extension CreatePresignedNotebookUrlOutputResponseBody: Swift.Decodable {
         authToken = authTokenDecoded
         let authTokenExpirationTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .authTokenExpirationTime)
         authTokenExpirationTime = authTokenExpirationTimeDecoded
+    }
+}
+
+enum CreatePresignedNotebookUrlOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2433,8 +2458,18 @@ extension CreateWorkGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateWorkGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateWorkGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CreateWorkGroupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CreateWorkGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2443,16 +2478,6 @@ public enum CreateWorkGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension CreateWorkGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CreateWorkGroupOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension AthenaClientTypes.CustomerContentEncryptionConfiguration: Swift.Codable {
@@ -2475,9 +2500,9 @@ extension AthenaClientTypes.CustomerContentEncryptionConfiguration: Swift.Codabl
 }
 
 extension AthenaClientTypes {
-    /// Specifies the KMS key that is used to encrypt the user's data stores in Athena. This setting does not apply to Athena SQL workgroups.
+    /// Specifies the customer managed KMS key that is used to encrypt the user's data stores in Athena. When an Amazon Web Services managed key is used, this value is null. This setting does not apply to Athena SQL workgroups.
     public struct CustomerContentEncryptionConfiguration: Swift.Equatable {
-        /// The KMS key that is used to encrypt the user's data stores in Athena.
+        /// The customer managed KMS key that is used to encrypt the user's data stores in Athena.
         /// This member is required.
         public var kmsKey: Swift.String?
 
@@ -2564,8 +2589,6 @@ extension AthenaClientTypes {
         /// * The GLUE type takes a catalog ID parameter and is required. The  catalog_id  is the account ID of the Amazon Web Services account to which the Glue catalog belongs. catalog-id=catalog_id
         ///
         /// * The GLUE data catalog type also applies to the default AwsDataCatalog that already exists in your account, of which you can have only one and cannot modify.
-        ///
-        /// * Queries that specify a Glue Data Catalog other than the default AwsDataCatalog must be run on Athena engine version 2.
         public var parameters: [Swift.String:Swift.String]?
         /// The type of data catalog to create: LAMBDA for a federated catalog, HIVE for an external hive metastore, or GLUE for an Glue Data Catalog.
         /// This member is required.
@@ -2818,8 +2841,18 @@ extension DeleteCapacityReservationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteCapacityReservationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteCapacityReservationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteCapacityReservationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteCapacityReservationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2828,16 +2861,6 @@ public enum DeleteCapacityReservationOutputError: ClientRuntime.HttpResponseErro
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteCapacityReservationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteCapacityReservationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteDataCatalogInput: Swift.Encodable {
@@ -2888,8 +2911,18 @@ extension DeleteDataCatalogInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteDataCatalogOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteDataCatalogOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteDataCatalogOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteDataCatalogOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2898,16 +2931,6 @@ public enum DeleteDataCatalogOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteDataCatalogOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteDataCatalogOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteNamedQueryInput: Swift.Encodable {
@@ -2958,8 +2981,18 @@ extension DeleteNamedQueryInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteNamedQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteNamedQueryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteNamedQueryOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteNamedQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2968,16 +3001,6 @@ public enum DeleteNamedQueryOutputError: ClientRuntime.HttpResponseErrorBinding 
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteNamedQueryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteNamedQueryOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteNotebookInput: Swift.Encodable {
@@ -3028,8 +3051,18 @@ extension DeleteNotebookInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteNotebookOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteNotebookOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteNotebookOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteNotebookOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3039,16 +3072,6 @@ public enum DeleteNotebookOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteNotebookOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteNotebookOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeletePreparedStatementInput: Swift.Encodable {
@@ -3112,8 +3135,18 @@ extension DeletePreparedStatementInputBody: Swift.Decodable {
     }
 }
 
-public enum DeletePreparedStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeletePreparedStatementOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeletePreparedStatementOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeletePreparedStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3123,16 +3156,6 @@ public enum DeletePreparedStatementOutputError: ClientRuntime.HttpResponseErrorB
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeletePreparedStatementOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeletePreparedStatementOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteWorkGroupInput: Swift.Encodable {
@@ -3195,8 +3218,18 @@ extension DeleteWorkGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteWorkGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteWorkGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteWorkGroupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteWorkGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3205,16 +3238,6 @@ public enum DeleteWorkGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteWorkGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteWorkGroupOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension AthenaClientTypes.EncryptionConfiguration: Swift.Codable {
@@ -3321,7 +3344,7 @@ extension AthenaClientTypes.EngineConfiguration: Swift.Codable {
         if let defaultExecutorDpuSize = self.defaultExecutorDpuSize {
             try encodeContainer.encode(defaultExecutorDpuSize, forKey: .defaultExecutorDpuSize)
         }
-        if maxConcurrentDpus != 0 {
+        if let maxConcurrentDpus = self.maxConcurrentDpus {
             try encodeContainer.encode(maxConcurrentDpus, forKey: .maxConcurrentDpus)
         }
         if let sparkProperties = sparkProperties {
@@ -3336,7 +3359,7 @@ extension AthenaClientTypes.EngineConfiguration: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let coordinatorDpuSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .coordinatorDpuSize)
         coordinatorDpuSize = coordinatorDpuSizeDecoded
-        let maxConcurrentDpusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxConcurrentDpus) ?? 0
+        let maxConcurrentDpusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxConcurrentDpus)
         maxConcurrentDpus = maxConcurrentDpusDecoded
         let defaultExecutorDpuSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .defaultExecutorDpuSize)
         defaultExecutorDpuSize = defaultExecutorDpuSizeDecoded
@@ -3376,7 +3399,7 @@ extension AthenaClientTypes {
         public var defaultExecutorDpuSize: Swift.Int?
         /// The maximum number of DPUs that can run concurrently.
         /// This member is required.
-        public var maxConcurrentDpus: Swift.Int
+        public var maxConcurrentDpus: Swift.Int?
         /// Specifies custom jar files and Spark properties for use cases like cluster encryption, table formats, and general Spark tuning.
         public var sparkProperties: [Swift.String:Swift.String]?
 
@@ -3384,7 +3407,7 @@ extension AthenaClientTypes {
             additionalConfigs: [Swift.String:Swift.String]? = nil,
             coordinatorDpuSize: Swift.Int? = nil,
             defaultExecutorDpuSize: Swift.Int? = nil,
-            maxConcurrentDpus: Swift.Int = 0,
+            maxConcurrentDpus: Swift.Int? = nil,
             sparkProperties: [Swift.String:Swift.String]? = nil
         )
         {
@@ -3656,24 +3679,11 @@ extension ExportNotebookInputBody: Swift.Decodable {
     }
 }
 
-public enum ExportNotebookOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ExportNotebookOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ExportNotebookOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ExportNotebookOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ExportNotebookOutputBody = try responseDecoder.decode(responseBody: data)
             self.notebookMetadata = output.notebookMetadata
             self.payload = output.payload
         } else {
@@ -3683,7 +3693,7 @@ extension ExportNotebookOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExportNotebookOutputResponse: Swift.Equatable {
+public struct ExportNotebookOutput: Swift.Equatable {
     /// The notebook metadata, including notebook ID, notebook name, and workgroup name.
     public var notebookMetadata: AthenaClientTypes.NotebookMetadata?
     /// The content of the exported notebook.
@@ -3699,12 +3709,12 @@ public struct ExportNotebookOutputResponse: Swift.Equatable {
     }
 }
 
-struct ExportNotebookOutputResponseBody: Swift.Equatable {
+struct ExportNotebookOutputBody: Swift.Equatable {
     let notebookMetadata: AthenaClientTypes.NotebookMetadata?
     let payload: Swift.String?
 }
 
-extension ExportNotebookOutputResponseBody: Swift.Decodable {
+extension ExportNotebookOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case notebookMetadata = "NotebookMetadata"
         case payload = "Payload"
@@ -3716,6 +3726,19 @@ extension ExportNotebookOutputResponseBody: Swift.Decodable {
         notebookMetadata = notebookMetadataDecoded
         let payloadDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .payload)
         payload = payloadDecoded
+    }
+}
+
+enum ExportNotebookOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3802,24 +3825,11 @@ extension GetCalculationExecutionCodeInputBody: Swift.Decodable {
     }
 }
 
-public enum GetCalculationExecutionCodeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetCalculationExecutionCodeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetCalculationExecutionCodeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetCalculationExecutionCodeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetCalculationExecutionCodeOutputBody = try responseDecoder.decode(responseBody: data)
             self.codeBlock = output.codeBlock
         } else {
             self.codeBlock = nil
@@ -3827,7 +3837,7 @@ extension GetCalculationExecutionCodeOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct GetCalculationExecutionCodeOutputResponse: Swift.Equatable {
+public struct GetCalculationExecutionCodeOutput: Swift.Equatable {
     /// The unencrypted code that was executed for the calculation.
     public var codeBlock: Swift.String?
 
@@ -3839,11 +3849,11 @@ public struct GetCalculationExecutionCodeOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetCalculationExecutionCodeOutputResponseBody: Swift.Equatable {
+struct GetCalculationExecutionCodeOutputBody: Swift.Equatable {
     let codeBlock: Swift.String?
 }
 
-extension GetCalculationExecutionCodeOutputResponseBody: Swift.Decodable {
+extension GetCalculationExecutionCodeOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case codeBlock = "CodeBlock"
     }
@@ -3852,6 +3862,19 @@ extension GetCalculationExecutionCodeOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeBlockDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .codeBlock)
         codeBlock = codeBlockDecoded
+    }
+}
+
+enum GetCalculationExecutionCodeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3903,24 +3926,11 @@ extension GetCalculationExecutionInputBody: Swift.Decodable {
     }
 }
 
-public enum GetCalculationExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetCalculationExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetCalculationExecutionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetCalculationExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetCalculationExecutionOutputBody = try responseDecoder.decode(responseBody: data)
             self.calculationExecutionId = output.calculationExecutionId
             self.description = output.description
             self.result = output.result
@@ -3940,7 +3950,7 @@ extension GetCalculationExecutionOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetCalculationExecutionOutputResponse: Swift.Equatable {
+public struct GetCalculationExecutionOutput: Swift.Equatable {
     /// The calculation execution UUID.
     public var calculationExecutionId: Swift.String?
     /// The description of the calculation execution.
@@ -3976,7 +3986,7 @@ public struct GetCalculationExecutionOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetCalculationExecutionOutputResponseBody: Swift.Equatable {
+struct GetCalculationExecutionOutputBody: Swift.Equatable {
     let calculationExecutionId: Swift.String?
     let sessionId: Swift.String?
     let description: Swift.String?
@@ -3986,7 +3996,7 @@ struct GetCalculationExecutionOutputResponseBody: Swift.Equatable {
     let result: AthenaClientTypes.CalculationResult?
 }
 
-extension GetCalculationExecutionOutputResponseBody: Swift.Decodable {
+extension GetCalculationExecutionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case calculationExecutionId = "CalculationExecutionId"
         case description = "Description"
@@ -4013,6 +4023,19 @@ extension GetCalculationExecutionOutputResponseBody: Swift.Decodable {
         statistics = statisticsDecoded
         let resultDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CalculationResult.self, forKey: .result)
         result = resultDecoded
+    }
+}
+
+enum GetCalculationExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4064,24 +4087,11 @@ extension GetCalculationExecutionStatusInputBody: Swift.Decodable {
     }
 }
 
-public enum GetCalculationExecutionStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetCalculationExecutionStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetCalculationExecutionStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetCalculationExecutionStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetCalculationExecutionStatusOutputBody = try responseDecoder.decode(responseBody: data)
             self.statistics = output.statistics
             self.status = output.status
         } else {
@@ -4091,7 +4101,7 @@ extension GetCalculationExecutionStatusOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct GetCalculationExecutionStatusOutputResponse: Swift.Equatable {
+public struct GetCalculationExecutionStatusOutput: Swift.Equatable {
     /// Contains information about the DPU execution time and progress.
     public var statistics: AthenaClientTypes.CalculationStatistics?
     /// Contains information about the calculation execution status.
@@ -4107,12 +4117,12 @@ public struct GetCalculationExecutionStatusOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetCalculationExecutionStatusOutputResponseBody: Swift.Equatable {
+struct GetCalculationExecutionStatusOutputBody: Swift.Equatable {
     let status: AthenaClientTypes.CalculationStatus?
     let statistics: AthenaClientTypes.CalculationStatistics?
 }
 
-extension GetCalculationExecutionStatusOutputResponseBody: Swift.Decodable {
+extension GetCalculationExecutionStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case statistics = "Statistics"
         case status = "Status"
@@ -4124,6 +4134,19 @@ extension GetCalculationExecutionStatusOutputResponseBody: Swift.Decodable {
         status = statusDecoded
         let statisticsDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CalculationStatistics.self, forKey: .statistics)
         statistics = statisticsDecoded
+    }
+}
+
+enum GetCalculationExecutionStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4175,23 +4198,11 @@ extension GetCapacityAssignmentConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum GetCapacityAssignmentConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetCapacityAssignmentConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetCapacityAssignmentConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetCapacityAssignmentConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetCapacityAssignmentConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
             self.capacityAssignmentConfiguration = output.capacityAssignmentConfiguration
         } else {
             self.capacityAssignmentConfiguration = nil
@@ -4199,7 +4210,7 @@ extension GetCapacityAssignmentConfigurationOutputResponse: ClientRuntime.HttpRe
     }
 }
 
-public struct GetCapacityAssignmentConfigurationOutputResponse: Swift.Equatable {
+public struct GetCapacityAssignmentConfigurationOutput: Swift.Equatable {
     /// The requested capacity assignment configuration for the specified capacity reservation.
     /// This member is required.
     public var capacityAssignmentConfiguration: AthenaClientTypes.CapacityAssignmentConfiguration?
@@ -4212,11 +4223,11 @@ public struct GetCapacityAssignmentConfigurationOutputResponse: Swift.Equatable 
     }
 }
 
-struct GetCapacityAssignmentConfigurationOutputResponseBody: Swift.Equatable {
+struct GetCapacityAssignmentConfigurationOutputBody: Swift.Equatable {
     let capacityAssignmentConfiguration: AthenaClientTypes.CapacityAssignmentConfiguration?
 }
 
-extension GetCapacityAssignmentConfigurationOutputResponseBody: Swift.Decodable {
+extension GetCapacityAssignmentConfigurationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case capacityAssignmentConfiguration = "CapacityAssignmentConfiguration"
     }
@@ -4225,6 +4236,18 @@ extension GetCapacityAssignmentConfigurationOutputResponseBody: Swift.Decodable 
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let capacityAssignmentConfigurationDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CapacityAssignmentConfiguration.self, forKey: .capacityAssignmentConfiguration)
         capacityAssignmentConfiguration = capacityAssignmentConfigurationDecoded
+    }
+}
+
+enum GetCapacityAssignmentConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4276,23 +4299,11 @@ extension GetCapacityReservationInputBody: Swift.Decodable {
     }
 }
 
-public enum GetCapacityReservationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetCapacityReservationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetCapacityReservationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetCapacityReservationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetCapacityReservationOutputBody = try responseDecoder.decode(responseBody: data)
             self.capacityReservation = output.capacityReservation
         } else {
             self.capacityReservation = nil
@@ -4300,7 +4311,7 @@ extension GetCapacityReservationOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetCapacityReservationOutputResponse: Swift.Equatable {
+public struct GetCapacityReservationOutput: Swift.Equatable {
     /// The requested capacity reservation structure.
     /// This member is required.
     public var capacityReservation: AthenaClientTypes.CapacityReservation?
@@ -4313,11 +4324,11 @@ public struct GetCapacityReservationOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetCapacityReservationOutputResponseBody: Swift.Equatable {
+struct GetCapacityReservationOutputBody: Swift.Equatable {
     let capacityReservation: AthenaClientTypes.CapacityReservation?
 }
 
-extension GetCapacityReservationOutputResponseBody: Swift.Decodable {
+extension GetCapacityReservationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case capacityReservation = "CapacityReservation"
     }
@@ -4329,15 +4340,31 @@ extension GetCapacityReservationOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum GetCapacityReservationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetDataCatalogInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
+        case workGroup = "WorkGroup"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let workGroup = self.workGroup {
+            try encodeContainer.encode(workGroup, forKey: .workGroup)
         }
     }
 }
@@ -4352,48 +4379,44 @@ public struct GetDataCatalogInput: Swift.Equatable {
     /// The name of the data catalog to return.
     /// This member is required.
     public var name: Swift.String?
+    /// The name of the workgroup. Required if making an IAM Identity Center request.
+    public var workGroup: Swift.String?
 
     public init(
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        workGroup: Swift.String? = nil
     )
     {
         self.name = name
+        self.workGroup = workGroup
     }
 }
 
 struct GetDataCatalogInputBody: Swift.Equatable {
     let name: Swift.String?
+    let workGroup: Swift.String?
 }
 
 extension GetDataCatalogInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
+        case workGroup = "WorkGroup"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let workGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workGroup)
+        workGroup = workGroupDecoded
     }
 }
 
-public enum GetDataCatalogOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetDataCatalogOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetDataCatalogOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetDataCatalogOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetDataCatalogOutputBody = try responseDecoder.decode(responseBody: data)
             self.dataCatalog = output.dataCatalog
         } else {
             self.dataCatalog = nil
@@ -4401,7 +4424,7 @@ extension GetDataCatalogOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDataCatalogOutputResponse: Swift.Equatable {
+public struct GetDataCatalogOutput: Swift.Equatable {
     /// The data catalog returned.
     public var dataCatalog: AthenaClientTypes.DataCatalog?
 
@@ -4413,11 +4436,11 @@ public struct GetDataCatalogOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetDataCatalogOutputResponseBody: Swift.Equatable {
+struct GetDataCatalogOutputBody: Swift.Equatable {
     let dataCatalog: AthenaClientTypes.DataCatalog?
 }
 
-extension GetDataCatalogOutputResponseBody: Swift.Decodable {
+extension GetDataCatalogOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataCatalog = "DataCatalog"
     }
@@ -4429,10 +4452,23 @@ extension GetDataCatalogOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum GetDataCatalogOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetDatabaseInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogName = "CatalogName"
         case databaseName = "DatabaseName"
+        case workGroup = "WorkGroup"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -4442,6 +4478,9 @@ extension GetDatabaseInput: Swift.Encodable {
         }
         if let databaseName = self.databaseName {
             try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let workGroup = self.workGroup {
+            try encodeContainer.encode(workGroup, forKey: .workGroup)
         }
     }
 }
@@ -4459,26 +4498,32 @@ public struct GetDatabaseInput: Swift.Equatable {
     /// The name of the database to return.
     /// This member is required.
     public var databaseName: Swift.String?
+    /// The name of the workgroup for which the metadata is being fetched. Required if requesting an IAM Identity Center enabled Glue Data Catalog.
+    public var workGroup: Swift.String?
 
     public init(
         catalogName: Swift.String? = nil,
-        databaseName: Swift.String? = nil
+        databaseName: Swift.String? = nil,
+        workGroup: Swift.String? = nil
     )
     {
         self.catalogName = catalogName
         self.databaseName = databaseName
+        self.workGroup = workGroup
     }
 }
 
 struct GetDatabaseInputBody: Swift.Equatable {
     let catalogName: Swift.String?
     let databaseName: Swift.String?
+    let workGroup: Swift.String?
 }
 
 extension GetDatabaseInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogName = "CatalogName"
         case databaseName = "DatabaseName"
+        case workGroup = "WorkGroup"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -4487,27 +4532,16 @@ extension GetDatabaseInputBody: Swift.Decodable {
         catalogName = catalogNameDecoded
         let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
         databaseName = databaseNameDecoded
+        let workGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workGroup)
+        workGroup = workGroupDecoded
     }
 }
 
-public enum GetDatabaseOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MetadataException": return try await MetadataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetDatabaseOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetDatabaseOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetDatabaseOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetDatabaseOutputBody = try responseDecoder.decode(responseBody: data)
             self.database = output.database
         } else {
             self.database = nil
@@ -4515,7 +4549,7 @@ extension GetDatabaseOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDatabaseOutputResponse: Swift.Equatable {
+public struct GetDatabaseOutput: Swift.Equatable {
     /// The database returned.
     public var database: AthenaClientTypes.Database?
 
@@ -4527,11 +4561,11 @@ public struct GetDatabaseOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetDatabaseOutputResponseBody: Swift.Equatable {
+struct GetDatabaseOutputBody: Swift.Equatable {
     let database: AthenaClientTypes.Database?
 }
 
-extension GetDatabaseOutputResponseBody: Swift.Decodable {
+extension GetDatabaseOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case database = "Database"
     }
@@ -4540,6 +4574,19 @@ extension GetDatabaseOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let databaseDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.Database.self, forKey: .database)
         database = databaseDecoded
+    }
+}
+
+enum GetDatabaseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MetadataException": return try await MetadataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4591,23 +4638,11 @@ extension GetNamedQueryInputBody: Swift.Decodable {
     }
 }
 
-public enum GetNamedQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetNamedQueryOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetNamedQueryOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetNamedQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetNamedQueryOutputBody = try responseDecoder.decode(responseBody: data)
             self.namedQuery = output.namedQuery
         } else {
             self.namedQuery = nil
@@ -4615,7 +4650,7 @@ extension GetNamedQueryOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetNamedQueryOutputResponse: Swift.Equatable {
+public struct GetNamedQueryOutput: Swift.Equatable {
     /// Information about the query.
     public var namedQuery: AthenaClientTypes.NamedQuery?
 
@@ -4627,11 +4662,11 @@ public struct GetNamedQueryOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetNamedQueryOutputResponseBody: Swift.Equatable {
+struct GetNamedQueryOutputBody: Swift.Equatable {
     let namedQuery: AthenaClientTypes.NamedQuery?
 }
 
-extension GetNamedQueryOutputResponseBody: Swift.Decodable {
+extension GetNamedQueryOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case namedQuery = "NamedQuery"
     }
@@ -4640,6 +4675,18 @@ extension GetNamedQueryOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let namedQueryDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.NamedQuery.self, forKey: .namedQuery)
         namedQuery = namedQueryDecoded
+    }
+}
+
+enum GetNamedQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4691,24 +4738,11 @@ extension GetNotebookMetadataInputBody: Swift.Decodable {
     }
 }
 
-public enum GetNotebookMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetNotebookMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetNotebookMetadataOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetNotebookMetadataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetNotebookMetadataOutputBody = try responseDecoder.decode(responseBody: data)
             self.notebookMetadata = output.notebookMetadata
         } else {
             self.notebookMetadata = nil
@@ -4716,7 +4750,7 @@ extension GetNotebookMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetNotebookMetadataOutputResponse: Swift.Equatable {
+public struct GetNotebookMetadataOutput: Swift.Equatable {
     /// The metadata that is returned for the specified notebook ID.
     public var notebookMetadata: AthenaClientTypes.NotebookMetadata?
 
@@ -4728,11 +4762,11 @@ public struct GetNotebookMetadataOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetNotebookMetadataOutputResponseBody: Swift.Equatable {
+struct GetNotebookMetadataOutputBody: Swift.Equatable {
     let notebookMetadata: AthenaClientTypes.NotebookMetadata?
 }
 
-extension GetNotebookMetadataOutputResponseBody: Swift.Decodable {
+extension GetNotebookMetadataOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case notebookMetadata = "NotebookMetadata"
     }
@@ -4741,6 +4775,19 @@ extension GetNotebookMetadataOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let notebookMetadataDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.NotebookMetadata.self, forKey: .notebookMetadata)
         notebookMetadata = notebookMetadataDecoded
+    }
+}
+
+enum GetNotebookMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4805,24 +4852,11 @@ extension GetPreparedStatementInputBody: Swift.Decodable {
     }
 }
 
-public enum GetPreparedStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetPreparedStatementOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPreparedStatementOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetPreparedStatementOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetPreparedStatementOutputBody = try responseDecoder.decode(responseBody: data)
             self.preparedStatement = output.preparedStatement
         } else {
             self.preparedStatement = nil
@@ -4830,7 +4864,7 @@ extension GetPreparedStatementOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetPreparedStatementOutputResponse: Swift.Equatable {
+public struct GetPreparedStatementOutput: Swift.Equatable {
     /// The name of the prepared statement that was retrieved.
     public var preparedStatement: AthenaClientTypes.PreparedStatement?
 
@@ -4842,11 +4876,11 @@ public struct GetPreparedStatementOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPreparedStatementOutputResponseBody: Swift.Equatable {
+struct GetPreparedStatementOutputBody: Swift.Equatable {
     let preparedStatement: AthenaClientTypes.PreparedStatement?
 }
 
-extension GetPreparedStatementOutputResponseBody: Swift.Decodable {
+extension GetPreparedStatementOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case preparedStatement = "PreparedStatement"
     }
@@ -4855,6 +4889,19 @@ extension GetPreparedStatementOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let preparedStatementDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.PreparedStatement.self, forKey: .preparedStatement)
         preparedStatement = preparedStatementDecoded
+    }
+}
+
+enum GetPreparedStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4906,23 +4953,11 @@ extension GetQueryExecutionInputBody: Swift.Decodable {
     }
 }
 
-public enum GetQueryExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetQueryExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetQueryExecutionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetQueryExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetQueryExecutionOutputBody = try responseDecoder.decode(responseBody: data)
             self.queryExecution = output.queryExecution
         } else {
             self.queryExecution = nil
@@ -4930,7 +4965,7 @@ extension GetQueryExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetQueryExecutionOutputResponse: Swift.Equatable {
+public struct GetQueryExecutionOutput: Swift.Equatable {
     /// Information about the query execution.
     public var queryExecution: AthenaClientTypes.QueryExecution?
 
@@ -4942,11 +4977,11 @@ public struct GetQueryExecutionOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetQueryExecutionOutputResponseBody: Swift.Equatable {
+struct GetQueryExecutionOutputBody: Swift.Equatable {
     let queryExecution: AthenaClientTypes.QueryExecution?
 }
 
-extension GetQueryExecutionOutputResponseBody: Swift.Decodable {
+extension GetQueryExecutionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case queryExecution = "QueryExecution"
     }
@@ -4955,6 +4990,18 @@ extension GetQueryExecutionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryExecutionDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.QueryExecution.self, forKey: .queryExecution)
         queryExecution = queryExecutionDecoded
+    }
+}
+
+enum GetQueryExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5030,24 +5077,11 @@ extension GetQueryResultsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetQueryResultsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetQueryResultsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetQueryResultsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetQueryResultsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetQueryResultsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.resultSet = output.resultSet
             self.updateCount = output.updateCount
@@ -5059,7 +5093,7 @@ extension GetQueryResultsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetQueryResultsOutputResponse: Swift.Equatable {
+public struct GetQueryResultsOutput: Swift.Equatable {
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
     public var nextToken: Swift.String?
     /// The results of the query execution.
@@ -5079,13 +5113,13 @@ public struct GetQueryResultsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetQueryResultsOutputResponseBody: Swift.Equatable {
+struct GetQueryResultsOutputBody: Swift.Equatable {
     let updateCount: Swift.Int?
     let resultSet: AthenaClientTypes.ResultSet?
     let nextToken: Swift.String?
 }
 
-extension GetQueryResultsOutputResponseBody: Swift.Decodable {
+extension GetQueryResultsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case resultSet = "ResultSet"
@@ -5100,6 +5134,19 @@ extension GetQueryResultsOutputResponseBody: Swift.Decodable {
         resultSet = resultSetDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum GetQueryResultsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5151,23 +5198,11 @@ extension GetQueryRuntimeStatisticsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetQueryRuntimeStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetQueryRuntimeStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetQueryRuntimeStatisticsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetQueryRuntimeStatisticsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetQueryRuntimeStatisticsOutputBody = try responseDecoder.decode(responseBody: data)
             self.queryRuntimeStatistics = output.queryRuntimeStatistics
         } else {
             self.queryRuntimeStatistics = nil
@@ -5175,7 +5210,7 @@ extension GetQueryRuntimeStatisticsOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct GetQueryRuntimeStatisticsOutputResponse: Swift.Equatable {
+public struct GetQueryRuntimeStatisticsOutput: Swift.Equatable {
     /// Runtime statistics about the query execution.
     public var queryRuntimeStatistics: AthenaClientTypes.QueryRuntimeStatistics?
 
@@ -5187,11 +5222,11 @@ public struct GetQueryRuntimeStatisticsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetQueryRuntimeStatisticsOutputResponseBody: Swift.Equatable {
+struct GetQueryRuntimeStatisticsOutputBody: Swift.Equatable {
     let queryRuntimeStatistics: AthenaClientTypes.QueryRuntimeStatistics?
 }
 
-extension GetQueryRuntimeStatisticsOutputResponseBody: Swift.Decodable {
+extension GetQueryRuntimeStatisticsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case queryRuntimeStatistics = "QueryRuntimeStatistics"
     }
@@ -5200,6 +5235,18 @@ extension GetQueryRuntimeStatisticsOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryRuntimeStatisticsDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.QueryRuntimeStatistics.self, forKey: .queryRuntimeStatistics)
         queryRuntimeStatistics = queryRuntimeStatisticsDecoded
+    }
+}
+
+enum GetQueryRuntimeStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5251,24 +5298,11 @@ extension GetSessionInputBody: Swift.Decodable {
     }
 }
 
-public enum GetSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetSessionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSessionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSessionOutputBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.engineConfiguration = output.engineConfiguration
             self.engineVersion = output.engineVersion
@@ -5292,7 +5326,7 @@ extension GetSessionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSessionOutputResponse: Swift.Equatable {
+public struct GetSessionOutput: Swift.Equatable {
     /// The session description.
     public var description: Swift.String?
     /// Contains engine configuration information like DPU usage.
@@ -5336,7 +5370,7 @@ public struct GetSessionOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSessionOutputResponseBody: Swift.Equatable {
+struct GetSessionOutputBody: Swift.Equatable {
     let sessionId: Swift.String?
     let description: Swift.String?
     let workGroup: Swift.String?
@@ -5348,7 +5382,7 @@ struct GetSessionOutputResponseBody: Swift.Equatable {
     let statistics: AthenaClientTypes.SessionStatistics?
 }
 
-extension GetSessionOutputResponseBody: Swift.Decodable {
+extension GetSessionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
         case engineConfiguration = "EngineConfiguration"
@@ -5381,6 +5415,19 @@ extension GetSessionOutputResponseBody: Swift.Decodable {
         status = statusDecoded
         let statisticsDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.SessionStatistics.self, forKey: .statistics)
         statistics = statisticsDecoded
+    }
+}
+
+enum GetSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5432,24 +5479,11 @@ extension GetSessionStatusInputBody: Swift.Decodable {
     }
 }
 
-public enum GetSessionStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetSessionStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSessionStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSessionStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSessionStatusOutputBody = try responseDecoder.decode(responseBody: data)
             self.sessionId = output.sessionId
             self.status = output.status
         } else {
@@ -5459,7 +5493,7 @@ extension GetSessionStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSessionStatusOutputResponse: Swift.Equatable {
+public struct GetSessionStatusOutput: Swift.Equatable {
     /// The session ID.
     public var sessionId: Swift.String?
     /// Contains information about the status of the session.
@@ -5475,12 +5509,12 @@ public struct GetSessionStatusOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSessionStatusOutputResponseBody: Swift.Equatable {
+struct GetSessionStatusOutputBody: Swift.Equatable {
     let sessionId: Swift.String?
     let status: AthenaClientTypes.SessionStatus?
 }
 
-extension GetSessionStatusOutputResponseBody: Swift.Decodable {
+extension GetSessionStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case sessionId = "SessionId"
         case status = "Status"
@@ -5495,11 +5529,25 @@ extension GetSessionStatusOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum GetSessionStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetTableMetadataInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogName = "CatalogName"
         case databaseName = "DatabaseName"
         case tableName = "TableName"
+        case workGroup = "WorkGroup"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -5512,6 +5560,9 @@ extension GetTableMetadataInput: Swift.Encodable {
         }
         if let tableName = self.tableName {
             try encodeContainer.encode(tableName, forKey: .tableName)
+        }
+        if let workGroup = self.workGroup {
+            try encodeContainer.encode(workGroup, forKey: .workGroup)
         }
     }
 }
@@ -5532,16 +5583,20 @@ public struct GetTableMetadataInput: Swift.Equatable {
     /// The name of the table for which metadata is returned.
     /// This member is required.
     public var tableName: Swift.String?
+    /// The name of the workgroup for which the metadata is being fetched. Required if requesting an IAM Identity Center enabled Glue Data Catalog.
+    public var workGroup: Swift.String?
 
     public init(
         catalogName: Swift.String? = nil,
         databaseName: Swift.String? = nil,
-        tableName: Swift.String? = nil
+        tableName: Swift.String? = nil,
+        workGroup: Swift.String? = nil
     )
     {
         self.catalogName = catalogName
         self.databaseName = databaseName
         self.tableName = tableName
+        self.workGroup = workGroup
     }
 }
 
@@ -5549,6 +5604,7 @@ struct GetTableMetadataInputBody: Swift.Equatable {
     let catalogName: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
+    let workGroup: Swift.String?
 }
 
 extension GetTableMetadataInputBody: Swift.Decodable {
@@ -5556,6 +5612,7 @@ extension GetTableMetadataInputBody: Swift.Decodable {
         case catalogName = "CatalogName"
         case databaseName = "DatabaseName"
         case tableName = "TableName"
+        case workGroup = "WorkGroup"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -5566,27 +5623,16 @@ extension GetTableMetadataInputBody: Swift.Decodable {
         databaseName = databaseNameDecoded
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
+        let workGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workGroup)
+        workGroup = workGroupDecoded
     }
 }
 
-public enum GetTableMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MetadataException": return try await MetadataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetTableMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetTableMetadataOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetTableMetadataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetTableMetadataOutputBody = try responseDecoder.decode(responseBody: data)
             self.tableMetadata = output.tableMetadata
         } else {
             self.tableMetadata = nil
@@ -5594,7 +5640,7 @@ extension GetTableMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTableMetadataOutputResponse: Swift.Equatable {
+public struct GetTableMetadataOutput: Swift.Equatable {
     /// An object that contains table metadata.
     public var tableMetadata: AthenaClientTypes.TableMetadata?
 
@@ -5606,11 +5652,11 @@ public struct GetTableMetadataOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetTableMetadataOutputResponseBody: Swift.Equatable {
+struct GetTableMetadataOutputBody: Swift.Equatable {
     let tableMetadata: AthenaClientTypes.TableMetadata?
 }
 
-extension GetTableMetadataOutputResponseBody: Swift.Decodable {
+extension GetTableMetadataOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tableMetadata = "TableMetadata"
     }
@@ -5619,6 +5665,19 @@ extension GetTableMetadataOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableMetadataDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.TableMetadata.self, forKey: .tableMetadata)
         tableMetadata = tableMetadataDecoded
+    }
+}
+
+enum GetTableMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MetadataException": return try await MetadataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5670,23 +5729,11 @@ extension GetWorkGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum GetWorkGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetWorkGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetWorkGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetWorkGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetWorkGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.workGroup = output.workGroup
         } else {
             self.workGroup = nil
@@ -5694,7 +5741,7 @@ extension GetWorkGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWorkGroupOutputResponse: Swift.Equatable {
+public struct GetWorkGroupOutput: Swift.Equatable {
     /// Information about the workgroup.
     public var workGroup: AthenaClientTypes.WorkGroup?
 
@@ -5706,11 +5753,11 @@ public struct GetWorkGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetWorkGroupOutputResponseBody: Swift.Equatable {
+struct GetWorkGroupOutputBody: Swift.Equatable {
     let workGroup: AthenaClientTypes.WorkGroup?
 }
 
-extension GetWorkGroupOutputResponseBody: Swift.Decodable {
+extension GetWorkGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case workGroup = "WorkGroup"
     }
@@ -5720,6 +5767,63 @@ extension GetWorkGroupOutputResponseBody: Swift.Decodable {
         let workGroupDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.WorkGroup.self, forKey: .workGroup)
         workGroup = workGroupDecoded
     }
+}
+
+enum GetWorkGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension AthenaClientTypes.IdentityCenterConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enableIdentityCenter = "EnableIdentityCenter"
+        case identityCenterInstanceArn = "IdentityCenterInstanceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enableIdentityCenter = self.enableIdentityCenter {
+            try encodeContainer.encode(enableIdentityCenter, forKey: .enableIdentityCenter)
+        }
+        if let identityCenterInstanceArn = self.identityCenterInstanceArn {
+            try encodeContainer.encode(identityCenterInstanceArn, forKey: .identityCenterInstanceArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enableIdentityCenterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableIdentityCenter)
+        enableIdentityCenter = enableIdentityCenterDecoded
+        let identityCenterInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identityCenterInstanceArn)
+        identityCenterInstanceArn = identityCenterInstanceArnDecoded
+    }
+}
+
+extension AthenaClientTypes {
+    /// Specifies whether the workgroup is IAM Identity Center supported.
+    public struct IdentityCenterConfiguration: Swift.Equatable {
+        /// Specifies whether the workgroup is IAM Identity Center supported.
+        public var enableIdentityCenter: Swift.Bool?
+        /// The IAM Identity Center instance ARN that the workgroup associates to.
+        public var identityCenterInstanceArn: Swift.String?
+
+        public init(
+            enableIdentityCenter: Swift.Bool? = nil,
+            identityCenterInstanceArn: Swift.String? = nil
+        )
+        {
+            self.enableIdentityCenter = enableIdentityCenter
+            self.identityCenterInstanceArn = identityCenterInstanceArn
+        }
+    }
+
 }
 
 extension ImportNotebookInput: Swift.Encodable {
@@ -5821,24 +5925,11 @@ extension ImportNotebookInputBody: Swift.Decodable {
     }
 }
 
-public enum ImportNotebookOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ImportNotebookOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ImportNotebookOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ImportNotebookOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ImportNotebookOutputBody = try responseDecoder.decode(responseBody: data)
             self.notebookId = output.notebookId
         } else {
             self.notebookId = nil
@@ -5846,7 +5937,7 @@ extension ImportNotebookOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportNotebookOutputResponse: Swift.Equatable {
+public struct ImportNotebookOutput: Swift.Equatable {
     /// The ID assigned to the imported notebook.
     public var notebookId: Swift.String?
 
@@ -5858,11 +5949,11 @@ public struct ImportNotebookOutputResponse: Swift.Equatable {
     }
 }
 
-struct ImportNotebookOutputResponseBody: Swift.Equatable {
+struct ImportNotebookOutputBody: Swift.Equatable {
     let notebookId: Swift.String?
 }
 
-extension ImportNotebookOutputResponseBody: Swift.Decodable {
+extension ImportNotebookOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case notebookId = "NotebookId"
     }
@@ -5871,6 +5962,19 @@ extension ImportNotebookOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let notebookIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notebookId)
         notebookId = notebookIdDecoded
+    }
+}
+
+enum ImportNotebookOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6053,24 +6157,11 @@ extension ListApplicationDPUSizesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListApplicationDPUSizesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListApplicationDPUSizesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListApplicationDPUSizesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListApplicationDPUSizesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListApplicationDPUSizesOutputBody = try responseDecoder.decode(responseBody: data)
             self.applicationDPUSizes = output.applicationDPUSizes
             self.nextToken = output.nextToken
         } else {
@@ -6080,7 +6171,7 @@ extension ListApplicationDPUSizesOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListApplicationDPUSizesOutputResponse: Swift.Equatable {
+public struct ListApplicationDPUSizesOutput: Swift.Equatable {
     /// A list of the supported DPU sizes that the application runtime supports.
     public var applicationDPUSizes: [AthenaClientTypes.ApplicationDPUSizes]?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
@@ -6096,12 +6187,12 @@ public struct ListApplicationDPUSizesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListApplicationDPUSizesOutputResponseBody: Swift.Equatable {
+struct ListApplicationDPUSizesOutputBody: Swift.Equatable {
     let applicationDPUSizes: [AthenaClientTypes.ApplicationDPUSizes]?
     let nextToken: Swift.String?
 }
 
-extension ListApplicationDPUSizesOutputResponseBody: Swift.Decodable {
+extension ListApplicationDPUSizesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationDPUSizes = "ApplicationDPUSizes"
         case nextToken = "NextToken"
@@ -6122,6 +6213,19 @@ extension ListApplicationDPUSizesOutputResponseBody: Swift.Decodable {
         applicationDPUSizes = applicationDPUSizesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListApplicationDPUSizesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6209,24 +6313,11 @@ extension ListCalculationExecutionsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListCalculationExecutionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListCalculationExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListCalculationExecutionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListCalculationExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListCalculationExecutionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.calculations = output.calculations
             self.nextToken = output.nextToken
         } else {
@@ -6236,7 +6327,7 @@ extension ListCalculationExecutionsOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct ListCalculationExecutionsOutputResponse: Swift.Equatable {
+public struct ListCalculationExecutionsOutput: Swift.Equatable {
     /// A list of [CalculationSummary] objects.
     public var calculations: [AthenaClientTypes.CalculationSummary]?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
@@ -6252,12 +6343,12 @@ public struct ListCalculationExecutionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListCalculationExecutionsOutputResponseBody: Swift.Equatable {
+struct ListCalculationExecutionsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let calculations: [AthenaClientTypes.CalculationSummary]?
 }
 
-extension ListCalculationExecutionsOutputResponseBody: Swift.Decodable {
+extension ListCalculationExecutionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case calculations = "Calculations"
         case nextToken = "NextToken"
@@ -6278,6 +6369,19 @@ extension ListCalculationExecutionsOutputResponseBody: Swift.Decodable {
             }
         }
         calculations = calculationsDecoded0
+    }
+}
+
+enum ListCalculationExecutionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6340,23 +6444,11 @@ extension ListCapacityReservationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListCapacityReservationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListCapacityReservationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListCapacityReservationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListCapacityReservationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListCapacityReservationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.capacityReservations = output.capacityReservations
             self.nextToken = output.nextToken
         } else {
@@ -6366,7 +6458,7 @@ extension ListCapacityReservationsOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListCapacityReservationsOutputResponse: Swift.Equatable {
+public struct ListCapacityReservationsOutput: Swift.Equatable {
     /// The capacity reservations for the current account.
     /// This member is required.
     public var capacityReservations: [AthenaClientTypes.CapacityReservation]?
@@ -6383,12 +6475,12 @@ public struct ListCapacityReservationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListCapacityReservationsOutputResponseBody: Swift.Equatable {
+struct ListCapacityReservationsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let capacityReservations: [AthenaClientTypes.CapacityReservation]?
 }
 
-extension ListCapacityReservationsOutputResponseBody: Swift.Decodable {
+extension ListCapacityReservationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case capacityReservations = "CapacityReservations"
         case nextToken = "NextToken"
@@ -6412,10 +6504,23 @@ extension ListCapacityReservationsOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListCapacityReservationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListDataCatalogsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case workGroup = "WorkGroup"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -6425,6 +6530,9 @@ extension ListDataCatalogsInput: Swift.Encodable {
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let workGroup = self.workGroup {
+            try encodeContainer.encode(workGroup, forKey: .workGroup)
         }
     }
 }
@@ -6440,26 +6548,32 @@ public struct ListDataCatalogsInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
     public var nextToken: Swift.String?
+    /// The name of the workgroup. Required if making an IAM Identity Center request.
+    public var workGroup: Swift.String?
 
     public init(
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        workGroup: Swift.String? = nil
     )
     {
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.workGroup = workGroup
     }
 }
 
 struct ListDataCatalogsInputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
+    let workGroup: Swift.String?
 }
 
 extension ListDataCatalogsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case workGroup = "WorkGroup"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -6468,26 +6582,16 @@ extension ListDataCatalogsInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let workGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workGroup)
+        workGroup = workGroupDecoded
     }
 }
 
-public enum ListDataCatalogsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListDataCatalogsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListDataCatalogsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListDataCatalogsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListDataCatalogsOutputBody = try responseDecoder.decode(responseBody: data)
             self.dataCatalogsSummary = output.dataCatalogsSummary
             self.nextToken = output.nextToken
         } else {
@@ -6497,7 +6601,7 @@ extension ListDataCatalogsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDataCatalogsOutputResponse: Swift.Equatable {
+public struct ListDataCatalogsOutput: Swift.Equatable {
     /// A summary list of data catalogs.
     public var dataCatalogsSummary: [AthenaClientTypes.DataCatalogSummary]?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
@@ -6513,12 +6617,12 @@ public struct ListDataCatalogsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListDataCatalogsOutputResponseBody: Swift.Equatable {
+struct ListDataCatalogsOutputBody: Swift.Equatable {
     let dataCatalogsSummary: [AthenaClientTypes.DataCatalogSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListDataCatalogsOutputResponseBody: Swift.Decodable {
+extension ListDataCatalogsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataCatalogsSummary = "DataCatalogsSummary"
         case nextToken = "NextToken"
@@ -6542,11 +6646,24 @@ extension ListDataCatalogsOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListDataCatalogsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListDatabasesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogName = "CatalogName"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case workGroup = "WorkGroup"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -6559,6 +6676,9 @@ extension ListDatabasesInput: Swift.Encodable {
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let workGroup = self.workGroup {
+            try encodeContainer.encode(workGroup, forKey: .workGroup)
         }
     }
 }
@@ -6577,16 +6697,20 @@ public struct ListDatabasesInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
     public var nextToken: Swift.String?
+    /// The name of the workgroup for which the metadata is being fetched. Required if requesting an IAM Identity Center enabled Glue Data Catalog.
+    public var workGroup: Swift.String?
 
     public init(
         catalogName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        workGroup: Swift.String? = nil
     )
     {
         self.catalogName = catalogName
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.workGroup = workGroup
     }
 }
 
@@ -6594,6 +6718,7 @@ struct ListDatabasesInputBody: Swift.Equatable {
     let catalogName: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
+    let workGroup: Swift.String?
 }
 
 extension ListDatabasesInputBody: Swift.Decodable {
@@ -6601,6 +6726,7 @@ extension ListDatabasesInputBody: Swift.Decodable {
         case catalogName = "CatalogName"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case workGroup = "WorkGroup"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -6611,27 +6737,16 @@ extension ListDatabasesInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let workGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workGroup)
+        workGroup = workGroupDecoded
     }
 }
 
-public enum ListDatabasesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MetadataException": return try await MetadataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListDatabasesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListDatabasesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListDatabasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListDatabasesOutputBody = try responseDecoder.decode(responseBody: data)
             self.databaseList = output.databaseList
             self.nextToken = output.nextToken
         } else {
@@ -6641,7 +6756,7 @@ extension ListDatabasesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDatabasesOutputResponse: Swift.Equatable {
+public struct ListDatabasesOutput: Swift.Equatable {
     /// A list of databases from a data catalog.
     public var databaseList: [AthenaClientTypes.Database]?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
@@ -6657,12 +6772,12 @@ public struct ListDatabasesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListDatabasesOutputResponseBody: Swift.Equatable {
+struct ListDatabasesOutputBody: Swift.Equatable {
     let databaseList: [AthenaClientTypes.Database]?
     let nextToken: Swift.String?
 }
 
-extension ListDatabasesOutputResponseBody: Swift.Decodable {
+extension ListDatabasesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case databaseList = "DatabaseList"
         case nextToken = "NextToken"
@@ -6683,6 +6798,19 @@ extension ListDatabasesOutputResponseBody: Swift.Decodable {
         databaseList = databaseListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListDatabasesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MetadataException": return try await MetadataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6745,23 +6873,11 @@ extension ListEngineVersionsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListEngineVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListEngineVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListEngineVersionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListEngineVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListEngineVersionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.engineVersions = output.engineVersions
             self.nextToken = output.nextToken
         } else {
@@ -6771,7 +6887,7 @@ extension ListEngineVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEngineVersionsOutputResponse: Swift.Equatable {
+public struct ListEngineVersionsOutput: Swift.Equatable {
     /// A list of engine versions that are available to choose from.
     public var engineVersions: [AthenaClientTypes.EngineVersion]?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
@@ -6787,12 +6903,12 @@ public struct ListEngineVersionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListEngineVersionsOutputResponseBody: Swift.Equatable {
+struct ListEngineVersionsOutputBody: Swift.Equatable {
     let engineVersions: [AthenaClientTypes.EngineVersion]?
     let nextToken: Swift.String?
 }
 
-extension ListEngineVersionsOutputResponseBody: Swift.Decodable {
+extension ListEngineVersionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case engineVersions = "EngineVersions"
         case nextToken = "NextToken"
@@ -6813,6 +6929,18 @@ extension ListEngineVersionsOutputResponseBody: Swift.Decodable {
         engineVersions = engineVersionsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListEngineVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6900,24 +7028,11 @@ extension ListExecutorsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListExecutorsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListExecutorsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListExecutorsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListExecutorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListExecutorsOutputBody = try responseDecoder.decode(responseBody: data)
             self.executorsSummary = output.executorsSummary
             self.nextToken = output.nextToken
             self.sessionId = output.sessionId
@@ -6929,7 +7044,7 @@ extension ListExecutorsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListExecutorsOutputResponse: Swift.Equatable {
+public struct ListExecutorsOutput: Swift.Equatable {
     /// Contains summary information about the executor.
     public var executorsSummary: [AthenaClientTypes.ExecutorsSummary]?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
@@ -6950,13 +7065,13 @@ public struct ListExecutorsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListExecutorsOutputResponseBody: Swift.Equatable {
+struct ListExecutorsOutputBody: Swift.Equatable {
     let sessionId: Swift.String?
     let nextToken: Swift.String?
     let executorsSummary: [AthenaClientTypes.ExecutorsSummary]?
 }
 
-extension ListExecutorsOutputResponseBody: Swift.Decodable {
+extension ListExecutorsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case executorsSummary = "ExecutorsSummary"
         case nextToken = "NextToken"
@@ -6980,6 +7095,19 @@ extension ListExecutorsOutputResponseBody: Swift.Decodable {
             }
         }
         executorsSummary = executorsSummaryDecoded0
+    }
+}
+
+enum ListExecutorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7054,23 +7182,11 @@ extension ListNamedQueriesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListNamedQueriesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListNamedQueriesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListNamedQueriesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListNamedQueriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListNamedQueriesOutputBody = try responseDecoder.decode(responseBody: data)
             self.namedQueryIds = output.namedQueryIds
             self.nextToken = output.nextToken
         } else {
@@ -7080,7 +7196,7 @@ extension ListNamedQueriesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListNamedQueriesOutputResponse: Swift.Equatable {
+public struct ListNamedQueriesOutput: Swift.Equatable {
     /// The list of unique query IDs.
     public var namedQueryIds: [Swift.String]?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
@@ -7096,12 +7212,12 @@ public struct ListNamedQueriesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListNamedQueriesOutputResponseBody: Swift.Equatable {
+struct ListNamedQueriesOutputBody: Swift.Equatable {
     let namedQueryIds: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension ListNamedQueriesOutputResponseBody: Swift.Decodable {
+extension ListNamedQueriesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case namedQueryIds = "NamedQueryIds"
         case nextToken = "NextToken"
@@ -7122,6 +7238,18 @@ extension ListNamedQueriesOutputResponseBody: Swift.Decodable {
         namedQueryIds = namedQueryIdsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListNamedQueriesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7209,24 +7337,11 @@ extension ListNotebookMetadataInputBody: Swift.Decodable {
     }
 }
 
-public enum ListNotebookMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListNotebookMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListNotebookMetadataOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListNotebookMetadataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListNotebookMetadataOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.notebookMetadataList = output.notebookMetadataList
         } else {
@@ -7236,7 +7351,7 @@ extension ListNotebookMetadataOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListNotebookMetadataOutputResponse: Swift.Equatable {
+public struct ListNotebookMetadataOutput: Swift.Equatable {
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
     public var nextToken: Swift.String?
     /// The list of notebook metadata for the specified workgroup.
@@ -7252,12 +7367,12 @@ public struct ListNotebookMetadataOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListNotebookMetadataOutputResponseBody: Swift.Equatable {
+struct ListNotebookMetadataOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let notebookMetadataList: [AthenaClientTypes.NotebookMetadata]?
 }
 
-extension ListNotebookMetadataOutputResponseBody: Swift.Decodable {
+extension ListNotebookMetadataOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case notebookMetadataList = "NotebookMetadataList"
@@ -7278,6 +7393,19 @@ extension ListNotebookMetadataOutputResponseBody: Swift.Decodable {
             }
         }
         notebookMetadataList = notebookMetadataListDecoded0
+    }
+}
+
+enum ListNotebookMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7353,24 +7481,11 @@ extension ListNotebookSessionsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListNotebookSessionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListNotebookSessionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListNotebookSessionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListNotebookSessionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListNotebookSessionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.notebookSessionsList = output.notebookSessionsList
         } else {
@@ -7380,7 +7495,7 @@ extension ListNotebookSessionsOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListNotebookSessionsOutputResponse: Swift.Equatable {
+public struct ListNotebookSessionsOutput: Swift.Equatable {
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
     public var nextToken: Swift.String?
     /// A list of the sessions belonging to the notebook.
@@ -7397,12 +7512,12 @@ public struct ListNotebookSessionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListNotebookSessionsOutputResponseBody: Swift.Equatable {
+struct ListNotebookSessionsOutputBody: Swift.Equatable {
     let notebookSessionsList: [AthenaClientTypes.NotebookSessionSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListNotebookSessionsOutputResponseBody: Swift.Decodable {
+extension ListNotebookSessionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case notebookSessionsList = "NotebookSessionsList"
@@ -7423,6 +7538,19 @@ extension ListNotebookSessionsOutputResponseBody: Swift.Decodable {
         notebookSessionsList = notebookSessionsListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListNotebookSessionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7498,23 +7626,11 @@ extension ListPreparedStatementsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPreparedStatementsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListPreparedStatementsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPreparedStatementsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPreparedStatementsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPreparedStatementsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.preparedStatements = output.preparedStatements
         } else {
@@ -7524,7 +7640,7 @@ extension ListPreparedStatementsOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListPreparedStatementsOutputResponse: Swift.Equatable {
+public struct ListPreparedStatementsOutput: Swift.Equatable {
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
     public var nextToken: Swift.String?
     /// The list of prepared statements for the workgroup.
@@ -7540,12 +7656,12 @@ public struct ListPreparedStatementsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPreparedStatementsOutputResponseBody: Swift.Equatable {
+struct ListPreparedStatementsOutputBody: Swift.Equatable {
     let preparedStatements: [AthenaClientTypes.PreparedStatementSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListPreparedStatementsOutputResponseBody: Swift.Decodable {
+extension ListPreparedStatementsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case preparedStatements = "PreparedStatements"
@@ -7566,6 +7682,18 @@ extension ListPreparedStatementsOutputResponseBody: Swift.Decodable {
         preparedStatements = preparedStatementsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListPreparedStatementsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7640,23 +7768,11 @@ extension ListQueryExecutionsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListQueryExecutionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListQueryExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListQueryExecutionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListQueryExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListQueryExecutionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.queryExecutionIds = output.queryExecutionIds
         } else {
@@ -7666,7 +7782,7 @@ extension ListQueryExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListQueryExecutionsOutputResponse: Swift.Equatable {
+public struct ListQueryExecutionsOutput: Swift.Equatable {
     /// A token to be used by the next request if this request is truncated.
     public var nextToken: Swift.String?
     /// The unique IDs of each query execution as an array of strings.
@@ -7682,12 +7798,12 @@ public struct ListQueryExecutionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListQueryExecutionsOutputResponseBody: Swift.Equatable {
+struct ListQueryExecutionsOutputBody: Swift.Equatable {
     let queryExecutionIds: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension ListQueryExecutionsOutputResponseBody: Swift.Decodable {
+extension ListQueryExecutionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case queryExecutionIds = "QueryExecutionIds"
@@ -7708,6 +7824,18 @@ extension ListQueryExecutionsOutputResponseBody: Swift.Decodable {
         queryExecutionIds = queryExecutionIdsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListQueryExecutionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7795,24 +7923,11 @@ extension ListSessionsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListSessionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSessionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSessionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSessionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSessionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.sessions = output.sessions
         } else {
@@ -7822,7 +7937,7 @@ extension ListSessionsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSessionsOutputResponse: Swift.Equatable {
+public struct ListSessionsOutput: Swift.Equatable {
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
     public var nextToken: Swift.String?
     /// A list of sessions.
@@ -7838,12 +7953,12 @@ public struct ListSessionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSessionsOutputResponseBody: Swift.Equatable {
+struct ListSessionsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let sessions: [AthenaClientTypes.SessionSummary]?
 }
 
-extension ListSessionsOutputResponseBody: Swift.Decodable {
+extension ListSessionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case sessions = "Sessions"
@@ -7867,6 +7982,19 @@ extension ListSessionsOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListSessionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListTableMetadataInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogName = "CatalogName"
@@ -7874,6 +8002,7 @@ extension ListTableMetadataInput: Swift.Encodable {
         case expression = "Expression"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case workGroup = "WorkGroup"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -7892,6 +8021,9 @@ extension ListTableMetadataInput: Swift.Encodable {
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let workGroup = self.workGroup {
+            try encodeContainer.encode(workGroup, forKey: .workGroup)
         }
     }
 }
@@ -7915,13 +8047,16 @@ public struct ListTableMetadataInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
     public var nextToken: Swift.String?
+    /// The name of the workgroup for which the metadata is being fetched. Required if requesting an IAM Identity Center enabled Glue Data Catalog.
+    public var workGroup: Swift.String?
 
     public init(
         catalogName: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         expression: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        workGroup: Swift.String? = nil
     )
     {
         self.catalogName = catalogName
@@ -7929,6 +8064,7 @@ public struct ListTableMetadataInput: Swift.Equatable {
         self.expression = expression
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.workGroup = workGroup
     }
 }
 
@@ -7938,6 +8074,7 @@ struct ListTableMetadataInputBody: Swift.Equatable {
     let expression: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
+    let workGroup: Swift.String?
 }
 
 extension ListTableMetadataInputBody: Swift.Decodable {
@@ -7947,6 +8084,7 @@ extension ListTableMetadataInputBody: Swift.Decodable {
         case expression = "Expression"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case workGroup = "WorkGroup"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -7961,27 +8099,16 @@ extension ListTableMetadataInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let workGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workGroup)
+        workGroup = workGroupDecoded
     }
 }
 
-public enum ListTableMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MetadataException": return try await MetadataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTableMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTableMetadataOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTableMetadataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTableMetadataOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tableMetadataList = output.tableMetadataList
         } else {
@@ -7991,7 +8118,7 @@ extension ListTableMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTableMetadataOutputResponse: Swift.Equatable {
+public struct ListTableMetadataOutput: Swift.Equatable {
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
     public var nextToken: Swift.String?
     /// A list of table metadata.
@@ -8007,12 +8134,12 @@ public struct ListTableMetadataOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTableMetadataOutputResponseBody: Swift.Equatable {
+struct ListTableMetadataOutputBody: Swift.Equatable {
     let tableMetadataList: [AthenaClientTypes.TableMetadata]?
     let nextToken: Swift.String?
 }
 
-extension ListTableMetadataOutputResponseBody: Swift.Decodable {
+extension ListTableMetadataOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case tableMetadataList = "TableMetadataList"
@@ -8033,6 +8160,19 @@ extension ListTableMetadataOutputResponseBody: Swift.Decodable {
         tableMetadataList = tableMetadataListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListTableMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MetadataException": return try await MetadataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8108,24 +8248,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
         } else {
@@ -8135,7 +8262,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// A token to be used by the next request if this request is truncated.
     public var nextToken: Swift.String?
     /// The list of tags associated with the specified resource.
@@ -8151,12 +8278,12 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [AthenaClientTypes.Tag]?
     let nextToken: Swift.String?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case tags = "Tags"
@@ -8177,6 +8304,19 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8239,23 +8379,11 @@ extension ListWorkGroupsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListWorkGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListWorkGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListWorkGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListWorkGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListWorkGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.workGroups = output.workGroups
         } else {
@@ -8265,7 +8393,7 @@ extension ListWorkGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorkGroupsOutputResponse: Swift.Equatable {
+public struct ListWorkGroupsOutput: Swift.Equatable {
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
     public var nextToken: Swift.String?
     /// A list of [WorkGroupSummary] objects that include the names, descriptions, creation times, and states for each workgroup.
@@ -8281,12 +8409,12 @@ public struct ListWorkGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListWorkGroupsOutputResponseBody: Swift.Equatable {
+struct ListWorkGroupsOutputBody: Swift.Equatable {
     let workGroups: [AthenaClientTypes.WorkGroupSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListWorkGroupsOutputResponseBody: Swift.Decodable {
+extension ListWorkGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case workGroups = "WorkGroups"
@@ -8307,6 +8435,18 @@ extension ListWorkGroupsOutputResponseBody: Swift.Decodable {
         workGroups = workGroupsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListWorkGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8805,8 +8945,18 @@ extension PutCapacityAssignmentConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum PutCapacityAssignmentConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension PutCapacityAssignmentConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutCapacityAssignmentConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutCapacityAssignmentConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8817,16 +8967,6 @@ public enum PutCapacityAssignmentConfigurationOutputError: ClientRuntime.HttpRes
     }
 }
 
-extension PutCapacityAssignmentConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutCapacityAssignmentConfigurationOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
 extension AthenaClientTypes.QueryExecution: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case engineVersion = "EngineVersion"
@@ -8834,6 +8974,7 @@ extension AthenaClientTypes.QueryExecution: Swift.Codable {
         case query = "Query"
         case queryExecutionContext = "QueryExecutionContext"
         case queryExecutionId = "QueryExecutionId"
+        case queryResultsS3AccessGrantsConfiguration = "QueryResultsS3AccessGrantsConfiguration"
         case resultConfiguration = "ResultConfiguration"
         case resultReuseConfiguration = "ResultReuseConfiguration"
         case statementType = "StatementType"
@@ -8862,6 +9003,9 @@ extension AthenaClientTypes.QueryExecution: Swift.Codable {
         }
         if let queryExecutionId = self.queryExecutionId {
             try encodeContainer.encode(queryExecutionId, forKey: .queryExecutionId)
+        }
+        if let queryResultsS3AccessGrantsConfiguration = self.queryResultsS3AccessGrantsConfiguration {
+            try encodeContainer.encode(queryResultsS3AccessGrantsConfiguration, forKey: .queryResultsS3AccessGrantsConfiguration)
         }
         if let resultConfiguration = self.resultConfiguration {
             try encodeContainer.encode(resultConfiguration, forKey: .resultConfiguration)
@@ -8921,6 +9065,8 @@ extension AthenaClientTypes.QueryExecution: Swift.Codable {
         executionParameters = executionParametersDecoded0
         let substatementTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .substatementType)
         substatementType = substatementTypeDecoded
+        let queryResultsS3AccessGrantsConfigurationDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration.self, forKey: .queryResultsS3AccessGrantsConfiguration)
+        queryResultsS3AccessGrantsConfiguration = queryResultsS3AccessGrantsConfigurationDecoded
     }
 }
 
@@ -8937,6 +9083,8 @@ extension AthenaClientTypes {
         public var queryExecutionContext: AthenaClientTypes.QueryExecutionContext?
         /// The unique identifier for each query execution.
         public var queryExecutionId: Swift.String?
+        /// Specifies whether Amazon S3 access grants are enabled for query results.
+        public var queryResultsS3AccessGrantsConfiguration: AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration?
         /// The location in Amazon S3 where query and calculation results are stored and the encryption option, if any, used for query results. These are known as "client-side settings". If workgroup settings override client-side settings, then the query uses the location for the query results and the encryption configuration that are specified for the workgroup.
         public var resultConfiguration: AthenaClientTypes.ResultConfiguration?
         /// Specifies the query result reuse behavior that was used for the query.
@@ -8958,6 +9106,7 @@ extension AthenaClientTypes {
             query: Swift.String? = nil,
             queryExecutionContext: AthenaClientTypes.QueryExecutionContext? = nil,
             queryExecutionId: Swift.String? = nil,
+            queryResultsS3AccessGrantsConfiguration: AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration? = nil,
             resultConfiguration: AthenaClientTypes.ResultConfiguration? = nil,
             resultReuseConfiguration: AthenaClientTypes.ResultReuseConfiguration? = nil,
             statementType: AthenaClientTypes.StatementType? = nil,
@@ -8972,6 +9121,7 @@ extension AthenaClientTypes {
             self.query = query
             self.queryExecutionContext = queryExecutionContext
             self.queryExecutionId = queryExecutionId
+            self.queryResultsS3AccessGrantsConfiguration = queryResultsS3AccessGrantsConfiguration
             self.resultConfiguration = resultConfiguration
             self.resultReuseConfiguration = resultReuseConfiguration
             self.statementType = statementType
@@ -9078,6 +9228,7 @@ extension AthenaClientTypes.QueryExecutionStatistics: Swift.Codable {
         case queryPlanningTimeInMillis = "QueryPlanningTimeInMillis"
         case queryQueueTimeInMillis = "QueryQueueTimeInMillis"
         case resultReuseInformation = "ResultReuseInformation"
+        case servicePreProcessingTimeInMillis = "ServicePreProcessingTimeInMillis"
         case serviceProcessingTimeInMillis = "ServiceProcessingTimeInMillis"
         case totalExecutionTimeInMillis = "TotalExecutionTimeInMillis"
     }
@@ -9102,6 +9253,9 @@ extension AthenaClientTypes.QueryExecutionStatistics: Swift.Codable {
         if let resultReuseInformation = self.resultReuseInformation {
             try encodeContainer.encode(resultReuseInformation, forKey: .resultReuseInformation)
         }
+        if let servicePreProcessingTimeInMillis = self.servicePreProcessingTimeInMillis {
+            try encodeContainer.encode(servicePreProcessingTimeInMillis, forKey: .servicePreProcessingTimeInMillis)
+        }
         if let serviceProcessingTimeInMillis = self.serviceProcessingTimeInMillis {
             try encodeContainer.encode(serviceProcessingTimeInMillis, forKey: .serviceProcessingTimeInMillis)
         }
@@ -9122,6 +9276,8 @@ extension AthenaClientTypes.QueryExecutionStatistics: Swift.Codable {
         totalExecutionTimeInMillis = totalExecutionTimeInMillisDecoded
         let queryQueueTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .queryQueueTimeInMillis)
         queryQueueTimeInMillis = queryQueueTimeInMillisDecoded
+        let servicePreProcessingTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .servicePreProcessingTimeInMillis)
+        servicePreProcessingTimeInMillis = servicePreProcessingTimeInMillisDecoded
         let queryPlanningTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .queryPlanningTimeInMillis)
         queryPlanningTimeInMillis = queryPlanningTimeInMillisDecoded
         let serviceProcessingTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .serviceProcessingTimeInMillis)
@@ -9146,6 +9302,8 @@ extension AthenaClientTypes {
         public var queryQueueTimeInMillis: Swift.Int?
         /// Contains information about whether previous query results were reused for the query.
         public var resultReuseInformation: AthenaClientTypes.ResultReuseInformation?
+        /// The number of milliseconds that Athena took to preprocess the query before submitting the query to the query engine.
+        public var servicePreProcessingTimeInMillis: Swift.Int?
         /// The number of milliseconds that Athena took to finalize and publish the query results after the query engine finished running the query.
         public var serviceProcessingTimeInMillis: Swift.Int?
         /// The number of milliseconds that Athena took to run the query.
@@ -9158,6 +9316,7 @@ extension AthenaClientTypes {
             queryPlanningTimeInMillis: Swift.Int? = nil,
             queryQueueTimeInMillis: Swift.Int? = nil,
             resultReuseInformation: AthenaClientTypes.ResultReuseInformation? = nil,
+            servicePreProcessingTimeInMillis: Swift.Int? = nil,
             serviceProcessingTimeInMillis: Swift.Int? = nil,
             totalExecutionTimeInMillis: Swift.Int? = nil
         )
@@ -9168,6 +9327,7 @@ extension AthenaClientTypes {
             self.queryPlanningTimeInMillis = queryPlanningTimeInMillis
             self.queryQueueTimeInMillis = queryQueueTimeInMillis
             self.resultReuseInformation = resultReuseInformation
+            self.servicePreProcessingTimeInMillis = servicePreProcessingTimeInMillis
             self.serviceProcessingTimeInMillis = serviceProcessingTimeInMillis
             self.totalExecutionTimeInMillis = totalExecutionTimeInMillis
         }
@@ -9245,6 +9405,63 @@ extension AthenaClientTypes {
             self.state = state
             self.stateChangeReason = stateChangeReason
             self.submissionDateTime = submissionDateTime
+        }
+    }
+
+}
+
+extension AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authenticationType = "AuthenticationType"
+        case createUserLevelPrefix = "CreateUserLevelPrefix"
+        case enableS3AccessGrants = "EnableS3AccessGrants"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authenticationType = self.authenticationType {
+            try encodeContainer.encode(authenticationType.rawValue, forKey: .authenticationType)
+        }
+        if let createUserLevelPrefix = self.createUserLevelPrefix {
+            try encodeContainer.encode(createUserLevelPrefix, forKey: .createUserLevelPrefix)
+        }
+        if let enableS3AccessGrants = self.enableS3AccessGrants {
+            try encodeContainer.encode(enableS3AccessGrants, forKey: .enableS3AccessGrants)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enableS3AccessGrantsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableS3AccessGrants)
+        enableS3AccessGrants = enableS3AccessGrantsDecoded
+        let createUserLevelPrefixDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .createUserLevelPrefix)
+        createUserLevelPrefix = createUserLevelPrefixDecoded
+        let authenticationTypeDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.AuthenticationType.self, forKey: .authenticationType)
+        authenticationType = authenticationTypeDecoded
+    }
+}
+
+extension AthenaClientTypes {
+    /// Specifies whether Amazon S3 access grants are enabled for query results.
+    public struct QueryResultsS3AccessGrantsConfiguration: Swift.Equatable {
+        /// The authentication type used for Amazon S3 access grants. Currently, only DIRECTORY_IDENTITY is supported.
+        /// This member is required.
+        public var authenticationType: AthenaClientTypes.AuthenticationType?
+        /// When enabled, appends the user ID as an Amazon S3 path prefix to the query result output location.
+        public var createUserLevelPrefix: Swift.Bool?
+        /// Specifies whether Amazon S3 access grants are enabled for query results.
+        /// This member is required.
+        public var enableS3AccessGrants: Swift.Bool?
+
+        public init(
+            authenticationType: AthenaClientTypes.AuthenticationType? = nil,
+            createUserLevelPrefix: Swift.Bool? = nil,
+            enableS3AccessGrants: Swift.Bool? = nil
+        )
+        {
+            self.authenticationType = authenticationType
+            self.createUserLevelPrefix = createUserLevelPrefix
+            self.enableS3AccessGrants = enableS3AccessGrants
         }
     }
 
@@ -9375,6 +9592,7 @@ extension AthenaClientTypes.QueryRuntimeStatisticsTimeline: Swift.Codable {
         case engineExecutionTimeInMillis = "EngineExecutionTimeInMillis"
         case queryPlanningTimeInMillis = "QueryPlanningTimeInMillis"
         case queryQueueTimeInMillis = "QueryQueueTimeInMillis"
+        case servicePreProcessingTimeInMillis = "ServicePreProcessingTimeInMillis"
         case serviceProcessingTimeInMillis = "ServiceProcessingTimeInMillis"
         case totalExecutionTimeInMillis = "TotalExecutionTimeInMillis"
     }
@@ -9390,6 +9608,9 @@ extension AthenaClientTypes.QueryRuntimeStatisticsTimeline: Swift.Codable {
         if let queryQueueTimeInMillis = self.queryQueueTimeInMillis {
             try encodeContainer.encode(queryQueueTimeInMillis, forKey: .queryQueueTimeInMillis)
         }
+        if let servicePreProcessingTimeInMillis = self.servicePreProcessingTimeInMillis {
+            try encodeContainer.encode(servicePreProcessingTimeInMillis, forKey: .servicePreProcessingTimeInMillis)
+        }
         if let serviceProcessingTimeInMillis = self.serviceProcessingTimeInMillis {
             try encodeContainer.encode(serviceProcessingTimeInMillis, forKey: .serviceProcessingTimeInMillis)
         }
@@ -9402,6 +9623,8 @@ extension AthenaClientTypes.QueryRuntimeStatisticsTimeline: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryQueueTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .queryQueueTimeInMillis)
         queryQueueTimeInMillis = queryQueueTimeInMillisDecoded
+        let servicePreProcessingTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .servicePreProcessingTimeInMillis)
+        servicePreProcessingTimeInMillis = servicePreProcessingTimeInMillisDecoded
         let queryPlanningTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .queryPlanningTimeInMillis)
         queryPlanningTimeInMillis = queryPlanningTimeInMillisDecoded
         let engineExecutionTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .engineExecutionTimeInMillis)
@@ -9422,6 +9645,8 @@ extension AthenaClientTypes {
         public var queryPlanningTimeInMillis: Swift.Int?
         /// The number of milliseconds that the query was in your query queue waiting for resources. Note that if transient errors occur, Athena might automatically add the query back to the queue.
         public var queryQueueTimeInMillis: Swift.Int?
+        /// The number of milliseconds that Athena spends on preprocessing before it submits the query to the engine.
+        public var servicePreProcessingTimeInMillis: Swift.Int?
         /// The number of milliseconds that Athena took to finalize and publish the query results after the query engine finished running the query.
         public var serviceProcessingTimeInMillis: Swift.Int?
         /// The number of milliseconds that Athena took to run the query.
@@ -9431,6 +9656,7 @@ extension AthenaClientTypes {
             engineExecutionTimeInMillis: Swift.Int? = nil,
             queryPlanningTimeInMillis: Swift.Int? = nil,
             queryQueueTimeInMillis: Swift.Int? = nil,
+            servicePreProcessingTimeInMillis: Swift.Int? = nil,
             serviceProcessingTimeInMillis: Swift.Int? = nil,
             totalExecutionTimeInMillis: Swift.Int? = nil
         )
@@ -9438,6 +9664,7 @@ extension AthenaClientTypes {
             self.engineExecutionTimeInMillis = engineExecutionTimeInMillis
             self.queryPlanningTimeInMillis = queryPlanningTimeInMillis
             self.queryQueueTimeInMillis = queryQueueTimeInMillis
+            self.servicePreProcessingTimeInMillis = servicePreProcessingTimeInMillis
             self.serviceProcessingTimeInMillis = serviceProcessingTimeInMillis
             self.totalExecutionTimeInMillis = totalExecutionTimeInMillis
         }
@@ -10290,7 +10517,7 @@ extension AthenaClientTypes {
     public struct SessionConfiguration: Swift.Equatable {
         /// If query and calculation results are encrypted in Amazon S3, indicates the encryption option used (for example, SSE_KMS or CSE_KMS) and key information.
         public var encryptionConfiguration: AthenaClientTypes.EncryptionConfiguration?
-        /// The ARN of the execution role used for the session.
+        /// The ARN of the execution role used to access user resources for Spark sessions and Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and Identity Center enabled workgroups.
         public var executionRole: Swift.String?
         /// The idle timeout in seconds for the session.
         public var idleTimeoutSeconds: Swift.Int?
@@ -10599,7 +10826,7 @@ public struct StartCalculationExecutionInput: Swift.Equatable {
     public var calculationConfiguration: AthenaClientTypes.CalculationConfiguration?
     /// A unique case-sensitive string used to ensure the request to create the calculation is idempotent (executes only once). If another StartCalculationExecutionRequest is received, the same response is returned and another calculation is not created. If a parameter has changed, an error is returned. This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
     public var clientRequestToken: Swift.String?
-    /// A string that contains the code of the calculation.
+    /// A string that contains the code of the calculation. Use this parameter instead of [CalculationConfiguration$CodeBlock], which is deprecated.
     public var codeBlock: Swift.String?
     /// A description of the calculation.
     public var description: Swift.String?
@@ -10655,24 +10882,11 @@ extension StartCalculationExecutionInputBody: Swift.Decodable {
     }
 }
 
-public enum StartCalculationExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartCalculationExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartCalculationExecutionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartCalculationExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartCalculationExecutionOutputBody = try responseDecoder.decode(responseBody: data)
             self.calculationExecutionId = output.calculationExecutionId
             self.state = output.state
         } else {
@@ -10682,7 +10896,7 @@ extension StartCalculationExecutionOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct StartCalculationExecutionOutputResponse: Swift.Equatable {
+public struct StartCalculationExecutionOutput: Swift.Equatable {
     /// The calculation execution UUID.
     public var calculationExecutionId: Swift.String?
     /// CREATING - The calculation is in the process of being created. CREATED - The calculation has been created and is ready to run. QUEUED - The calculation has been queued for processing. RUNNING - The calculation is running. CANCELING - A request to cancel the calculation has been received and the system is working to stop it. CANCELED - The calculation is no longer running as the result of a cancel request. COMPLETED - The calculation has completed without error. FAILED - The calculation failed and is no longer running.
@@ -10698,12 +10912,12 @@ public struct StartCalculationExecutionOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartCalculationExecutionOutputResponseBody: Swift.Equatable {
+struct StartCalculationExecutionOutputBody: Swift.Equatable {
     let calculationExecutionId: Swift.String?
     let state: AthenaClientTypes.CalculationExecutionState?
 }
 
-extension StartCalculationExecutionOutputResponseBody: Swift.Decodable {
+extension StartCalculationExecutionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case calculationExecutionId = "CalculationExecutionId"
         case state = "State"
@@ -10715,6 +10929,19 @@ extension StartCalculationExecutionOutputResponseBody: Swift.Decodable {
         calculationExecutionId = calculationExecutionIdDecoded
         let stateDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CalculationExecutionState.self, forKey: .state)
         state = stateDecoded
+    }
+}
+
+enum StartCalculationExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10765,7 +10992,7 @@ extension StartQueryExecutionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartQueryExecutionInput: Swift.Equatable {
-    /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another StartQueryExecution request is received, the same response is returned and another query is not created. If a parameter has changed, for example, the QueryString, an error is returned. This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
+    /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another StartQueryExecution request is received, the same response is returned and another query is not created. An error is returned if a parameter, such as QueryString, has changed. A call to StartQueryExecution that uses a previous client request token returns the same QueryExecutionId even if the requester doesn't have permission on the tables specified in QueryString. This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
     public var clientRequestToken: Swift.String?
     /// A list of values for the parameters in a query. The values are applied sequentially to the parameters in the query in the order in which the parameters occur.
     public var executionParameters: [Swift.String]?
@@ -10850,24 +11077,11 @@ extension StartQueryExecutionInputBody: Swift.Decodable {
     }
 }
 
-public enum StartQueryExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartQueryExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartQueryExecutionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartQueryExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartQueryExecutionOutputBody = try responseDecoder.decode(responseBody: data)
             self.queryExecutionId = output.queryExecutionId
         } else {
             self.queryExecutionId = nil
@@ -10875,7 +11089,7 @@ extension StartQueryExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartQueryExecutionOutputResponse: Swift.Equatable {
+public struct StartQueryExecutionOutput: Swift.Equatable {
     /// The unique ID of the query that ran as a result of this request.
     public var queryExecutionId: Swift.String?
 
@@ -10887,11 +11101,11 @@ public struct StartQueryExecutionOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartQueryExecutionOutputResponseBody: Swift.Equatable {
+struct StartQueryExecutionOutputBody: Swift.Equatable {
     let queryExecutionId: Swift.String?
 }
 
-extension StartQueryExecutionOutputResponseBody: Swift.Decodable {
+extension StartQueryExecutionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case queryExecutionId = "QueryExecutionId"
     }
@@ -10900,6 +11114,19 @@ extension StartQueryExecutionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryExecutionId)
         queryExecutionId = queryExecutionIdDecoded
+    }
+}
+
+enum StartQueryExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11012,26 +11239,11 @@ extension StartSessionInputBody: Swift.Decodable {
     }
 }
 
-public enum StartSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "SessionAlreadyExistsException": return try await SessionAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartSessionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartSessionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartSessionOutputBody = try responseDecoder.decode(responseBody: data)
             self.sessionId = output.sessionId
             self.state = output.state
         } else {
@@ -11041,7 +11253,7 @@ extension StartSessionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartSessionOutputResponse: Swift.Equatable {
+public struct StartSessionOutput: Swift.Equatable {
     /// The session ID.
     public var sessionId: Swift.String?
     /// The state of the session. A description of each state follows. CREATING - The session is being started, including acquiring resources. CREATED - The session has been started. IDLE - The session is able to accept a calculation. BUSY - The session is processing another task and is unable to accept a calculation. TERMINATING - The session is in the process of shutting down. TERMINATED - The session and its resources are no longer running. DEGRADED - The session has no healthy coordinators. FAILED - Due to a failure, the session and its resources are no longer running.
@@ -11057,12 +11269,12 @@ public struct StartSessionOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartSessionOutputResponseBody: Swift.Equatable {
+struct StartSessionOutputBody: Swift.Equatable {
     let sessionId: Swift.String?
     let state: AthenaClientTypes.SessionState?
 }
 
-extension StartSessionOutputResponseBody: Swift.Decodable {
+extension StartSessionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case sessionId = "SessionId"
         case state = "State"
@@ -11074,6 +11286,21 @@ extension StartSessionOutputResponseBody: Swift.Decodable {
         sessionId = sessionIdDecoded
         let stateDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.SessionState.self, forKey: .state)
         state = stateDecoded
+    }
+}
+
+enum StartSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SessionAlreadyExistsException": return try await SessionAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11160,24 +11387,11 @@ extension StopCalculationExecutionInputBody: Swift.Decodable {
     }
 }
 
-public enum StopCalculationExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StopCalculationExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StopCalculationExecutionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StopCalculationExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StopCalculationExecutionOutputBody = try responseDecoder.decode(responseBody: data)
             self.state = output.state
         } else {
             self.state = nil
@@ -11185,7 +11399,7 @@ extension StopCalculationExecutionOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct StopCalculationExecutionOutputResponse: Swift.Equatable {
+public struct StopCalculationExecutionOutput: Swift.Equatable {
     /// CREATING - The calculation is in the process of being created. CREATED - The calculation has been created and is ready to run. QUEUED - The calculation has been queued for processing. RUNNING - The calculation is running. CANCELING - A request to cancel the calculation has been received and the system is working to stop it. CANCELED - The calculation is no longer running as the result of a cancel request. COMPLETED - The calculation has completed without error. FAILED - The calculation failed and is no longer running.
     public var state: AthenaClientTypes.CalculationExecutionState?
 
@@ -11197,11 +11411,11 @@ public struct StopCalculationExecutionOutputResponse: Swift.Equatable {
     }
 }
 
-struct StopCalculationExecutionOutputResponseBody: Swift.Equatable {
+struct StopCalculationExecutionOutputBody: Swift.Equatable {
     let state: AthenaClientTypes.CalculationExecutionState?
 }
 
-extension StopCalculationExecutionOutputResponseBody: Swift.Decodable {
+extension StopCalculationExecutionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case state = "State"
     }
@@ -11210,6 +11424,19 @@ extension StopCalculationExecutionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stateDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CalculationExecutionState.self, forKey: .state)
         state = stateDecoded
+    }
+}
+
+enum StopCalculationExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11261,8 +11488,18 @@ extension StopQueryExecutionInputBody: Swift.Decodable {
     }
 }
 
-public enum StopQueryExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension StopQueryExecutionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StopQueryExecutionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum StopQueryExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -11271,16 +11508,6 @@ public enum StopQueryExecutionOutputError: ClientRuntime.HttpResponseErrorBindin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension StopQueryExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct StopQueryExecutionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension AthenaClientTypes.TableMetadata: Swift.Codable {
@@ -11533,8 +11760,18 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -11544,16 +11781,6 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension TerminateSessionInput: Swift.Encodable {
@@ -11604,24 +11831,11 @@ extension TerminateSessionInputBody: Swift.Decodable {
     }
 }
 
-public enum TerminateSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension TerminateSessionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension TerminateSessionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: TerminateSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: TerminateSessionOutputBody = try responseDecoder.decode(responseBody: data)
             self.state = output.state
         } else {
             self.state = nil
@@ -11629,7 +11843,7 @@ extension TerminateSessionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TerminateSessionOutputResponse: Swift.Equatable {
+public struct TerminateSessionOutput: Swift.Equatable {
     /// The state of the session. A description of each state follows. CREATING - The session is being started, including acquiring resources. CREATED - The session has been started. IDLE - The session is able to accept a calculation. BUSY - The session is processing another task and is unable to accept a calculation. TERMINATING - The session is in the process of shutting down. TERMINATED - The session and its resources are no longer running. DEGRADED - The session has no healthy coordinators. FAILED - Due to a failure, the session and its resources are no longer running.
     public var state: AthenaClientTypes.SessionState?
 
@@ -11641,11 +11855,11 @@ public struct TerminateSessionOutputResponse: Swift.Equatable {
     }
 }
 
-struct TerminateSessionOutputResponseBody: Swift.Equatable {
+struct TerminateSessionOutputBody: Swift.Equatable {
     let state: AthenaClientTypes.SessionState?
 }
 
-extension TerminateSessionOutputResponseBody: Swift.Decodable {
+extension TerminateSessionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case state = "State"
     }
@@ -11654,6 +11868,19 @@ extension TerminateSessionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stateDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.SessionState.self, forKey: .state)
         state = stateDecoded
+    }
+}
+
+enum TerminateSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11996,8 +12223,18 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -12007,16 +12244,6 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateCapacityReservationInput: Swift.Encodable {
@@ -12080,8 +12307,18 @@ extension UpdateCapacityReservationInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateCapacityReservationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateCapacityReservationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateCapacityReservationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateCapacityReservationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -12090,16 +12327,6 @@ public enum UpdateCapacityReservationOutputError: ClientRuntime.HttpResponseErro
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateCapacityReservationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateCapacityReservationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateDataCatalogInput: Swift.Encodable {
@@ -12207,8 +12434,18 @@ extension UpdateDataCatalogInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateDataCatalogOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateDataCatalogOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateDataCatalogOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateDataCatalogOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -12217,16 +12454,6 @@ public enum UpdateDataCatalogOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateDataCatalogOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateDataCatalogOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateNamedQueryInput: Swift.Encodable {
@@ -12315,8 +12542,18 @@ extension UpdateNamedQueryInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateNamedQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateNamedQueryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateNamedQueryOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateNamedQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -12325,16 +12562,6 @@ public enum UpdateNamedQueryOutputError: ClientRuntime.HttpResponseErrorBinding 
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateNamedQueryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateNamedQueryOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateNotebookInput: Swift.Encodable {
@@ -12508,8 +12735,18 @@ extension UpdateNotebookMetadataInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateNotebookMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateNotebookMetadataOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateNotebookMetadataOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateNotebookMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -12521,18 +12758,18 @@ public enum UpdateNotebookMetadataOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension UpdateNotebookMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateNotebookOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
-public struct UpdateNotebookMetadataOutputResponse: Swift.Equatable {
+public struct UpdateNotebookOutput: Swift.Equatable {
 
     public init() { }
 }
 
-public enum UpdateNotebookOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateNotebookOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -12542,16 +12779,6 @@ public enum UpdateNotebookOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateNotebookOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateNotebookOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdatePreparedStatementInput: Swift.Encodable {
@@ -12640,8 +12867,18 @@ extension UpdatePreparedStatementInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdatePreparedStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdatePreparedStatementOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdatePreparedStatementOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdatePreparedStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -12651,16 +12888,6 @@ public enum UpdatePreparedStatementOutputError: ClientRuntime.HttpResponseErrorB
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdatePreparedStatementOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdatePreparedStatementOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateWorkGroupInput: Swift.Encodable {
@@ -12747,8 +12974,18 @@ extension UpdateWorkGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateWorkGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateWorkGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateWorkGroupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateWorkGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -12759,21 +12996,12 @@ public enum UpdateWorkGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateWorkGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateWorkGroupOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
 extension AthenaClientTypes.WorkGroup: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuration = "Configuration"
         case creationTime = "CreationTime"
         case description = "Description"
+        case identityCenterApplicationArn = "IdentityCenterApplicationArn"
         case name = "Name"
         case state = "State"
     }
@@ -12788,6 +13016,9 @@ extension AthenaClientTypes.WorkGroup: Swift.Codable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let identityCenterApplicationArn = self.identityCenterApplicationArn {
+            try encodeContainer.encode(identityCenterApplicationArn, forKey: .identityCenterApplicationArn)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -12809,6 +13040,8 @@ extension AthenaClientTypes.WorkGroup: Swift.Codable {
         description = descriptionDecoded
         let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
         creationTime = creationTimeDecoded
+        let identityCenterApplicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identityCenterApplicationArn)
+        identityCenterApplicationArn = identityCenterApplicationArnDecoded
     }
 }
 
@@ -12821,6 +13054,8 @@ extension AthenaClientTypes {
         public var creationTime: ClientRuntime.Date?
         /// The workgroup description.
         public var description: Swift.String?
+        /// The ARN of the IAM Identity Center enabled application associated with the workgroup.
+        public var identityCenterApplicationArn: Swift.String?
         /// The workgroup name.
         /// This member is required.
         public var name: Swift.String?
@@ -12831,6 +13066,7 @@ extension AthenaClientTypes {
             configuration: AthenaClientTypes.WorkGroupConfiguration? = nil,
             creationTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
+            identityCenterApplicationArn: Swift.String? = nil,
             name: Swift.String? = nil,
             state: AthenaClientTypes.WorkGroupState? = nil
         )
@@ -12838,6 +13074,7 @@ extension AthenaClientTypes {
             self.configuration = configuration
             self.creationTime = creationTime
             self.description = description
+            self.identityCenterApplicationArn = identityCenterApplicationArn
             self.name = name
             self.state = state
         }
@@ -12854,7 +13091,9 @@ extension AthenaClientTypes.WorkGroupConfiguration: Swift.Codable {
         case enforceWorkGroupConfiguration = "EnforceWorkGroupConfiguration"
         case engineVersion = "EngineVersion"
         case executionRole = "ExecutionRole"
+        case identityCenterConfiguration = "IdentityCenterConfiguration"
         case publishCloudWatchMetricsEnabled = "PublishCloudWatchMetricsEnabled"
+        case queryResultsS3AccessGrantsConfiguration = "QueryResultsS3AccessGrantsConfiguration"
         case requesterPaysEnabled = "RequesterPaysEnabled"
         case resultConfiguration = "ResultConfiguration"
     }
@@ -12882,8 +13121,14 @@ extension AthenaClientTypes.WorkGroupConfiguration: Swift.Codable {
         if let executionRole = self.executionRole {
             try encodeContainer.encode(executionRole, forKey: .executionRole)
         }
+        if let identityCenterConfiguration = self.identityCenterConfiguration {
+            try encodeContainer.encode(identityCenterConfiguration, forKey: .identityCenterConfiguration)
+        }
         if let publishCloudWatchMetricsEnabled = self.publishCloudWatchMetricsEnabled {
             try encodeContainer.encode(publishCloudWatchMetricsEnabled, forKey: .publishCloudWatchMetricsEnabled)
+        }
+        if let queryResultsS3AccessGrantsConfiguration = self.queryResultsS3AccessGrantsConfiguration {
+            try encodeContainer.encode(queryResultsS3AccessGrantsConfiguration, forKey: .queryResultsS3AccessGrantsConfiguration)
         }
         if let requesterPaysEnabled = self.requesterPaysEnabled {
             try encodeContainer.encode(requesterPaysEnabled, forKey: .requesterPaysEnabled)
@@ -12915,6 +13160,10 @@ extension AthenaClientTypes.WorkGroupConfiguration: Swift.Codable {
         customerContentEncryptionConfiguration = customerContentEncryptionConfigurationDecoded
         let enableMinimumEncryptionConfigurationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableMinimumEncryptionConfiguration)
         enableMinimumEncryptionConfiguration = enableMinimumEncryptionConfigurationDecoded
+        let identityCenterConfigurationDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.IdentityCenterConfiguration.self, forKey: .identityCenterConfiguration)
+        identityCenterConfiguration = identityCenterConfigurationDecoded
+        let queryResultsS3AccessGrantsConfigurationDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration.self, forKey: .queryResultsS3AccessGrantsConfiguration)
+        queryResultsS3AccessGrantsConfiguration = queryResultsS3AccessGrantsConfigurationDecoded
     }
 }
 
@@ -12933,10 +13182,14 @@ extension AthenaClientTypes {
         public var enforceWorkGroupConfiguration: Swift.Bool?
         /// The engine version that all queries running on the workgroup use. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
         public var engineVersion: AthenaClientTypes.EngineVersion?
-        /// Role used in a session for accessing the user's resources.
+        /// The ARN of the execution role used to access user resources for Spark sessions and Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and Identity Center enabled workgroups.
         public var executionRole: Swift.String?
+        /// Specifies whether the workgroup is IAM Identity Center supported.
+        public var identityCenterConfiguration: AthenaClientTypes.IdentityCenterConfiguration?
         /// Indicates that the Amazon CloudWatch metrics are enabled for the workgroup.
         public var publishCloudWatchMetricsEnabled: Swift.Bool?
+        /// Specifies whether Amazon S3 access grants are enabled for query results.
+        public var queryResultsS3AccessGrantsConfiguration: AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration?
         /// If set to true, allows members assigned to a workgroup to reference Amazon S3 Requester Pays buckets in queries. If set to false, workgroup members cannot query data from Requester Pays buckets, and queries that retrieve data from Requester Pays buckets cause an error. The default is false. For more information about Requester Pays buckets, see [Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html) in the Amazon Simple Storage Service Developer Guide.
         public var requesterPaysEnabled: Swift.Bool?
         /// The configuration for the workgroup, which includes the location in Amazon S3 where query and calculation results are stored and the encryption option, if any, used for query and calculation results. To run the query, you must specify the query results location using one of the ways: either in the workgroup using this setting, or for individual queries (client-side), using [ResultConfiguration$OutputLocation]. If none of them is set, Athena issues an error that no output location is provided. For more information, see [Working with query results, recent queries, and output files](https://docs.aws.amazon.com/athena/latest/ug/querying.html).
@@ -12950,7 +13203,9 @@ extension AthenaClientTypes {
             enforceWorkGroupConfiguration: Swift.Bool? = nil,
             engineVersion: AthenaClientTypes.EngineVersion? = nil,
             executionRole: Swift.String? = nil,
+            identityCenterConfiguration: AthenaClientTypes.IdentityCenterConfiguration? = nil,
             publishCloudWatchMetricsEnabled: Swift.Bool? = nil,
+            queryResultsS3AccessGrantsConfiguration: AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration? = nil,
             requesterPaysEnabled: Swift.Bool? = nil,
             resultConfiguration: AthenaClientTypes.ResultConfiguration? = nil
         )
@@ -12962,7 +13217,9 @@ extension AthenaClientTypes {
             self.enforceWorkGroupConfiguration = enforceWorkGroupConfiguration
             self.engineVersion = engineVersion
             self.executionRole = executionRole
+            self.identityCenterConfiguration = identityCenterConfiguration
             self.publishCloudWatchMetricsEnabled = publishCloudWatchMetricsEnabled
+            self.queryResultsS3AccessGrantsConfiguration = queryResultsS3AccessGrantsConfiguration
             self.requesterPaysEnabled = requesterPaysEnabled
             self.resultConfiguration = resultConfiguration
         }
@@ -12980,6 +13237,7 @@ extension AthenaClientTypes.WorkGroupConfigurationUpdates: Swift.Codable {
         case engineVersion = "EngineVersion"
         case executionRole = "ExecutionRole"
         case publishCloudWatchMetricsEnabled = "PublishCloudWatchMetricsEnabled"
+        case queryResultsS3AccessGrantsConfiguration = "QueryResultsS3AccessGrantsConfiguration"
         case removeBytesScannedCutoffPerQuery = "RemoveBytesScannedCutoffPerQuery"
         case removeCustomerContentEncryptionConfiguration = "RemoveCustomerContentEncryptionConfiguration"
         case requesterPaysEnabled = "RequesterPaysEnabled"
@@ -13011,6 +13269,9 @@ extension AthenaClientTypes.WorkGroupConfigurationUpdates: Swift.Codable {
         }
         if let publishCloudWatchMetricsEnabled = self.publishCloudWatchMetricsEnabled {
             try encodeContainer.encode(publishCloudWatchMetricsEnabled, forKey: .publishCloudWatchMetricsEnabled)
+        }
+        if let queryResultsS3AccessGrantsConfiguration = self.queryResultsS3AccessGrantsConfiguration {
+            try encodeContainer.encode(queryResultsS3AccessGrantsConfiguration, forKey: .queryResultsS3AccessGrantsConfiguration)
         }
         if let removeBytesScannedCutoffPerQuery = self.removeBytesScannedCutoffPerQuery {
             try encodeContainer.encode(removeBytesScannedCutoffPerQuery, forKey: .removeBytesScannedCutoffPerQuery)
@@ -13052,6 +13313,8 @@ extension AthenaClientTypes.WorkGroupConfigurationUpdates: Swift.Codable {
         customerContentEncryptionConfiguration = customerContentEncryptionConfigurationDecoded
         let enableMinimumEncryptionConfigurationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableMinimumEncryptionConfiguration)
         enableMinimumEncryptionConfiguration = enableMinimumEncryptionConfigurationDecoded
+        let queryResultsS3AccessGrantsConfigurationDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration.self, forKey: .queryResultsS3AccessGrantsConfiguration)
+        queryResultsS3AccessGrantsConfiguration = queryResultsS3AccessGrantsConfigurationDecoded
     }
 }
 
@@ -13062,7 +13325,7 @@ extension AthenaClientTypes {
         public var additionalConfiguration: Swift.String?
         /// The upper limit (cutoff) for the amount of bytes a single query in a workgroup is allowed to scan.
         public var bytesScannedCutoffPerQuery: Swift.Int?
-        /// Specifies the KMS key that is used to encrypt the user's data stores in Athena. This setting does not apply to Athena SQL workgroups.
+        /// Specifies the customer managed KMS key that is used to encrypt the user's data stores in Athena. When an Amazon Web Services managed key is used, this value is null. This setting does not apply to Athena SQL workgroups.
         public var customerContentEncryptionConfiguration: AthenaClientTypes.CustomerContentEncryptionConfiguration?
         /// Enforces a minimal level of encryption for the workgroup for query and calculation results that are written to Amazon S3. When enabled, workgroup users can set encryption only to the minimum level set by the administrator or higher when they submit queries. This setting does not apply to Spark-enabled workgroups. The EnforceWorkGroupConfiguration setting takes precedence over the EnableMinimumEncryptionConfiguration flag. This means that if EnforceWorkGroupConfiguration is true, the EnableMinimumEncryptionConfiguration flag is ignored, and the workgroup configuration for encryption is used.
         public var enableMinimumEncryptionConfiguration: Swift.Bool?
@@ -13070,10 +13333,12 @@ extension AthenaClientTypes {
         public var enforceWorkGroupConfiguration: Swift.Bool?
         /// The engine version requested when a workgroup is updated. After the update, all queries on the workgroup run on the requested engine version. If no value was previously set, the default is Auto. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
         public var engineVersion: AthenaClientTypes.EngineVersion?
-        /// Contains the ARN of the execution role for the workgroup
+        /// The ARN of the execution role used to access user resources for Spark sessions and Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and Identity Center enabled workgroups.
         public var executionRole: Swift.String?
         /// Indicates whether this workgroup enables publishing metrics to Amazon CloudWatch.
         public var publishCloudWatchMetricsEnabled: Swift.Bool?
+        /// Specifies whether Amazon S3 access grants are enabled for query results.
+        public var queryResultsS3AccessGrantsConfiguration: AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration?
         /// Indicates that the data usage control limit per query is removed. [WorkGroupConfiguration$BytesScannedCutoffPerQuery]
         public var removeBytesScannedCutoffPerQuery: Swift.Bool?
         /// Removes content encryption configuration from an Apache Spark-enabled Athena workgroup.
@@ -13092,6 +13357,7 @@ extension AthenaClientTypes {
             engineVersion: AthenaClientTypes.EngineVersion? = nil,
             executionRole: Swift.String? = nil,
             publishCloudWatchMetricsEnabled: Swift.Bool? = nil,
+            queryResultsS3AccessGrantsConfiguration: AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration? = nil,
             removeBytesScannedCutoffPerQuery: Swift.Bool? = nil,
             removeCustomerContentEncryptionConfiguration: Swift.Bool? = nil,
             requesterPaysEnabled: Swift.Bool? = nil,
@@ -13106,6 +13372,7 @@ extension AthenaClientTypes {
             self.engineVersion = engineVersion
             self.executionRole = executionRole
             self.publishCloudWatchMetricsEnabled = publishCloudWatchMetricsEnabled
+            self.queryResultsS3AccessGrantsConfiguration = queryResultsS3AccessGrantsConfiguration
             self.removeBytesScannedCutoffPerQuery = removeBytesScannedCutoffPerQuery
             self.removeCustomerContentEncryptionConfiguration = removeCustomerContentEncryptionConfiguration
             self.requesterPaysEnabled = requesterPaysEnabled
@@ -13152,6 +13419,7 @@ extension AthenaClientTypes.WorkGroupSummary: Swift.Codable {
         case creationTime = "CreationTime"
         case description = "Description"
         case engineVersion = "EngineVersion"
+        case identityCenterApplicationArn = "IdentityCenterApplicationArn"
         case name = "Name"
         case state = "State"
     }
@@ -13166,6 +13434,9 @@ extension AthenaClientTypes.WorkGroupSummary: Swift.Codable {
         }
         if let engineVersion = self.engineVersion {
             try encodeContainer.encode(engineVersion, forKey: .engineVersion)
+        }
+        if let identityCenterApplicationArn = self.identityCenterApplicationArn {
+            try encodeContainer.encode(identityCenterApplicationArn, forKey: .identityCenterApplicationArn)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -13187,6 +13458,8 @@ extension AthenaClientTypes.WorkGroupSummary: Swift.Codable {
         creationTime = creationTimeDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.EngineVersion.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
+        let identityCenterApplicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identityCenterApplicationArn)
+        identityCenterApplicationArn = identityCenterApplicationArnDecoded
     }
 }
 
@@ -13199,6 +13472,8 @@ extension AthenaClientTypes {
         public var description: Swift.String?
         /// The engine version setting for all queries on the workgroup. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
         public var engineVersion: AthenaClientTypes.EngineVersion?
+        /// The ARN of the IAM Identity Center enabled application associated with the workgroup.
+        public var identityCenterApplicationArn: Swift.String?
         /// The name of the workgroup.
         public var name: Swift.String?
         /// The state of the workgroup.
@@ -13208,6 +13483,7 @@ extension AthenaClientTypes {
             creationTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
             engineVersion: AthenaClientTypes.EngineVersion? = nil,
+            identityCenterApplicationArn: Swift.String? = nil,
             name: Swift.String? = nil,
             state: AthenaClientTypes.WorkGroupState? = nil
         )
@@ -13215,6 +13491,7 @@ extension AthenaClientTypes {
             self.creationTime = creationTime
             self.description = description
             self.engineVersion = engineVersion
+            self.identityCenterApplicationArn = identityCenterApplicationArn
             self.name = name
             self.state = state
         }

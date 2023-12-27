@@ -34,8 +34,18 @@ extension DeleteLexiconInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteLexiconOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteLexiconOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteLexiconOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteLexiconOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -44,16 +54,6 @@ public enum DeleteLexiconOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteLexiconOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteLexiconOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DescribeVoicesInput: ClientRuntime.QueryItemProvider {
@@ -88,7 +88,7 @@ extension DescribeVoicesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeVoicesInput: Swift.Equatable {
-    /// Specifies the engine (standard or neural) used by Amazon Polly when processing input text for speech synthesis.
+    /// Specifies the engine (standard, neural or long-form) used by Amazon Polly when processing input text for speech synthesis.
     public var engine: PollyClientTypes.Engine?
     /// Boolean value indicating whether to return any bilingual voices that use the specified language as an additional language. For instance, if you request all languages that use US English (es-US), and there is an Italian voice that speaks both Italian (it-IT) and US English, that voice will be included if you specify yes but not if you specify no.
     public var includeAdditionalLanguageCodes: Swift.Bool?
@@ -120,23 +120,11 @@ extension DescribeVoicesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeVoicesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeVoicesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeVoicesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeVoicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeVoicesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.voices = output.voices
         } else {
@@ -146,7 +134,7 @@ extension DescribeVoicesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeVoicesOutputResponse: Swift.Equatable {
+public struct DescribeVoicesOutput: Swift.Equatable {
     /// The pagination token to use in the next request to continue the listing of voices. NextToken is returned only if the response is truncated.
     public var nextToken: Swift.String?
     /// A list of voices with their properties.
@@ -162,12 +150,12 @@ public struct DescribeVoicesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeVoicesOutputResponseBody: Swift.Equatable {
+struct DescribeVoicesOutputBody: Swift.Equatable {
     let voices: [PollyClientTypes.Voice]?
     let nextToken: Swift.String?
 }
 
-extension DescribeVoicesOutputResponseBody: Swift.Decodable {
+extension DescribeVoicesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case voices = "Voices"
@@ -191,14 +179,28 @@ extension DescribeVoicesOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum DescribeVoicesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension PollyClientTypes {
     public enum Engine: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case longForm
         case neural
         case standard
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Engine] {
             return [
+                .longForm,
                 .neural,
                 .standard,
                 .sdkUnknown("")
@@ -210,6 +212,7 @@ extension PollyClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .longForm: return "long-form"
             case .neural: return "neural"
             case .standard: return "standard"
             case let .sdkUnknown(s): return s
@@ -341,23 +344,11 @@ extension GetLexiconInputBody: Swift.Decodable {
     }
 }
 
-public enum GetLexiconOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "LexiconNotFoundException": return try await LexiconNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetLexiconOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetLexiconOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetLexiconOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetLexiconOutputBody = try responseDecoder.decode(responseBody: data)
             self.lexicon = output.lexicon
             self.lexiconAttributes = output.lexiconAttributes
         } else {
@@ -367,7 +358,7 @@ extension GetLexiconOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLexiconOutputResponse: Swift.Equatable {
+public struct GetLexiconOutput: Swift.Equatable {
     /// Lexicon object that provides name and the string content of the lexicon.
     public var lexicon: PollyClientTypes.Lexicon?
     /// Metadata of the lexicon, including phonetic alphabetic used, language code, lexicon ARN, number of lexemes defined in the lexicon, and size of lexicon in bytes.
@@ -383,12 +374,12 @@ public struct GetLexiconOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetLexiconOutputResponseBody: Swift.Equatable {
+struct GetLexiconOutputBody: Swift.Equatable {
     let lexicon: PollyClientTypes.Lexicon?
     let lexiconAttributes: PollyClientTypes.LexiconAttributes?
 }
 
-extension GetLexiconOutputResponseBody: Swift.Decodable {
+extension GetLexiconOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lexicon = "Lexicon"
         case lexiconAttributes = "LexiconAttributes"
@@ -400,6 +391,18 @@ extension GetLexiconOutputResponseBody: Swift.Decodable {
         lexicon = lexiconDecoded
         let lexiconAttributesDecoded = try containerValues.decodeIfPresent(PollyClientTypes.LexiconAttributes.self, forKey: .lexiconAttributes)
         lexiconAttributes = lexiconAttributesDecoded
+    }
+}
+
+enum GetLexiconOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LexiconNotFoundException": return try await LexiconNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -434,24 +437,11 @@ extension GetSpeechSynthesisTaskInputBody: Swift.Decodable {
     }
 }
 
-public enum GetSpeechSynthesisTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidTaskIdException": return try await InvalidTaskIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "SynthesisTaskNotFoundException": return try await SynthesisTaskNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetSpeechSynthesisTaskOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSpeechSynthesisTaskOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSpeechSynthesisTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSpeechSynthesisTaskOutputBody = try responseDecoder.decode(responseBody: data)
             self.synthesisTask = output.synthesisTask
         } else {
             self.synthesisTask = nil
@@ -459,7 +449,7 @@ extension GetSpeechSynthesisTaskOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetSpeechSynthesisTaskOutputResponse: Swift.Equatable {
+public struct GetSpeechSynthesisTaskOutput: Swift.Equatable {
     /// SynthesisTask object that provides information from the requested task, including output format, creation time, task status, and so on.
     public var synthesisTask: PollyClientTypes.SynthesisTask?
 
@@ -471,11 +461,11 @@ public struct GetSpeechSynthesisTaskOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSpeechSynthesisTaskOutputResponseBody: Swift.Equatable {
+struct GetSpeechSynthesisTaskOutputBody: Swift.Equatable {
     let synthesisTask: PollyClientTypes.SynthesisTask?
 }
 
-extension GetSpeechSynthesisTaskOutputResponseBody: Swift.Decodable {
+extension GetSpeechSynthesisTaskOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case synthesisTask = "SynthesisTask"
     }
@@ -484,6 +474,19 @@ extension GetSpeechSynthesisTaskOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let synthesisTaskDecoded = try containerValues.decodeIfPresent(PollyClientTypes.SynthesisTask.self, forKey: .synthesisTask)
         synthesisTask = synthesisTaskDecoded
+    }
+}
+
+enum GetSpeechSynthesisTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidTaskIdException": return try await InvalidTaskIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SynthesisTaskNotFoundException": return try await SynthesisTaskNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1455,23 +1458,11 @@ extension ListLexiconsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListLexiconsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListLexiconsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListLexiconsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListLexiconsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListLexiconsOutputBody = try responseDecoder.decode(responseBody: data)
             self.lexicons = output.lexicons
             self.nextToken = output.nextToken
         } else {
@@ -1481,7 +1472,7 @@ extension ListLexiconsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLexiconsOutputResponse: Swift.Equatable {
+public struct ListLexiconsOutput: Swift.Equatable {
     /// A list of lexicon names and attributes.
     public var lexicons: [PollyClientTypes.LexiconDescription]?
     /// The pagination token to use in the next request to continue the listing of lexicons. NextToken is returned only if the response is truncated.
@@ -1497,12 +1488,12 @@ public struct ListLexiconsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListLexiconsOutputResponseBody: Swift.Equatable {
+struct ListLexiconsOutputBody: Swift.Equatable {
     let lexicons: [PollyClientTypes.LexiconDescription]?
     let nextToken: Swift.String?
 }
 
-extension ListLexiconsOutputResponseBody: Swift.Decodable {
+extension ListLexiconsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lexicons = "Lexicons"
         case nextToken = "NextToken"
@@ -1523,6 +1514,18 @@ extension ListLexiconsOutputResponseBody: Swift.Decodable {
         lexicons = lexiconsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListLexiconsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1582,23 +1585,11 @@ extension ListSpeechSynthesisTasksInputBody: Swift.Decodable {
     }
 }
 
-public enum ListSpeechSynthesisTasksOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSpeechSynthesisTasksOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSpeechSynthesisTasksOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSpeechSynthesisTasksOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSpeechSynthesisTasksOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.synthesisTasks = output.synthesisTasks
         } else {
@@ -1608,7 +1599,7 @@ extension ListSpeechSynthesisTasksOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListSpeechSynthesisTasksOutputResponse: Swift.Equatable {
+public struct ListSpeechSynthesisTasksOutput: Swift.Equatable {
     /// An opaque pagination token returned from the previous List operation in this request. If present, this indicates where to continue the listing.
     public var nextToken: Swift.String?
     /// List of SynthesisTask objects that provides information from the specified task in the list request, including output format, creation time, task status, and so on.
@@ -1624,12 +1615,12 @@ public struct ListSpeechSynthesisTasksOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSpeechSynthesisTasksOutputResponseBody: Swift.Equatable {
+struct ListSpeechSynthesisTasksOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let synthesisTasks: [PollyClientTypes.SynthesisTask]?
 }
 
-extension ListSpeechSynthesisTasksOutputResponseBody: Swift.Decodable {
+extension ListSpeechSynthesisTasksOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case synthesisTasks = "SynthesisTasks"
@@ -1650,6 +1641,18 @@ extension ListSpeechSynthesisTasksOutputResponseBody: Swift.Decodable {
             }
         }
         synthesisTasks = synthesisTasksDecoded0
+    }
+}
+
+enum ListSpeechSynthesisTasksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1917,8 +1920,18 @@ extension PutLexiconInputBody: Swift.Decodable {
     }
 }
 
-public enum PutLexiconOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension PutLexiconOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutLexiconOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutLexiconOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1932,16 +1945,6 @@ public enum PutLexiconOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension PutLexiconOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutLexiconOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ServiceFailureException {
@@ -2162,7 +2165,7 @@ extension StartSpeechSynthesisTaskInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartSpeechSynthesisTaskInput: Swift.Equatable {
-    /// Specifies the engine (standard or neural) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
+    /// Specifies the engine (standard, neural or long-form) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
     public var engine: PollyClientTypes.Engine?
     /// Optional language code for the Speech Synthesis request. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN). If a bilingual voice is used and no language code is specified, Amazon Polly uses the default language of the bilingual voice. The default language for any voice is the one returned by the [DescribeVoices](https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html) operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
     public var languageCode: PollyClientTypes.LanguageCode?
@@ -2176,7 +2179,7 @@ public struct StartSpeechSynthesisTaskInput: Swift.Equatable {
     public var outputS3BucketName: Swift.String?
     /// The Amazon S3 key prefix for the output speech file.
     public var outputS3KeyPrefix: Swift.String?
-    /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
+    /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
     public var sampleRate: Swift.String?
     /// ARN for the SNS topic optionally used for providing status notification for a speech synthesis task.
     public var snsTopicArn: Swift.String?
@@ -2299,8 +2302,48 @@ extension StartSpeechSynthesisTaskInputBody: Swift.Decodable {
     }
 }
 
-public enum StartSpeechSynthesisTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension StartSpeechSynthesisTaskOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartSpeechSynthesisTaskOutputBody = try responseDecoder.decode(responseBody: data)
+            self.synthesisTask = output.synthesisTask
+        } else {
+            self.synthesisTask = nil
+        }
+    }
+}
+
+public struct StartSpeechSynthesisTaskOutput: Swift.Equatable {
+    /// SynthesisTask object that provides information and attributes about a newly submitted speech synthesis task.
+    public var synthesisTask: PollyClientTypes.SynthesisTask?
+
+    public init(
+        synthesisTask: PollyClientTypes.SynthesisTask? = nil
+    )
+    {
+        self.synthesisTask = synthesisTask
+    }
+}
+
+struct StartSpeechSynthesisTaskOutputBody: Swift.Equatable {
+    let synthesisTask: PollyClientTypes.SynthesisTask?
+}
+
+extension StartSpeechSynthesisTaskOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case synthesisTask = "SynthesisTask"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let synthesisTaskDecoded = try containerValues.decodeIfPresent(PollyClientTypes.SynthesisTask.self, forKey: .synthesisTask)
+        synthesisTask = synthesisTaskDecoded
+    }
+}
+
+enum StartSpeechSynthesisTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2318,46 +2361,6 @@ public enum StartSpeechSynthesisTaskOutputError: ClientRuntime.HttpResponseError
             case "TextLengthExceededException": return try await TextLengthExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension StartSpeechSynthesisTaskOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: StartSpeechSynthesisTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.synthesisTask = output.synthesisTask
-        } else {
-            self.synthesisTask = nil
-        }
-    }
-}
-
-public struct StartSpeechSynthesisTaskOutputResponse: Swift.Equatable {
-    /// SynthesisTask object that provides information and attributes about a newly submitted speech synthesis task.
-    public var synthesisTask: PollyClientTypes.SynthesisTask?
-
-    public init(
-        synthesisTask: PollyClientTypes.SynthesisTask? = nil
-    )
-    {
-        self.synthesisTask = synthesisTask
-    }
-}
-
-struct StartSpeechSynthesisTaskOutputResponseBody: Swift.Equatable {
-    let synthesisTask: PollyClientTypes.SynthesisTask?
-}
-
-extension StartSpeechSynthesisTaskOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case synthesisTask = "SynthesisTask"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let synthesisTaskDecoded = try containerValues.decodeIfPresent(PollyClientTypes.SynthesisTask.self, forKey: .synthesisTask)
-        synthesisTask = synthesisTaskDecoded
     }
 }
 
@@ -2493,7 +2496,7 @@ extension PollyClientTypes {
     public struct SynthesisTask: Swift.Equatable {
         /// Timestamp for the time the synthesis task was started.
         public var creationTime: ClientRuntime.Date?
-        /// Specifies the engine (standard or neural) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
+        /// Specifies the engine (standard, neural or long-form) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
         public var engine: PollyClientTypes.Engine?
         /// Optional language code for a synthesis task. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN). If a bilingual voice is used and no language code is specified, Amazon Polly uses the default language of the bilingual voice. The default language for any voice is the one returned by the [DescribeVoices](https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html) operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
         public var languageCode: PollyClientTypes.LanguageCode?
@@ -2505,7 +2508,7 @@ extension PollyClientTypes {
         public var outputUri: Swift.String?
         /// Number of billable characters synthesized.
         public var requestCharacters: Swift.Int
-        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
+        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
         public var sampleRate: Swift.String?
         /// ARN for the SNS topic optionally used for providing status notification for a speech synthesis task.
         public var snsTopicArn: Swift.String?
@@ -2690,18 +2693,18 @@ extension SynthesizeSpeechInput {
                       .withSigningName(value: "polly")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(id: "synthesizeSpeech")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SynthesizeSpeechInput, SynthesizeSpeechOutput>(id: "synthesizeSpeech")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SynthesizeSpeechOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.serializeStep.intercept(position: .after, middleware: SynthesizeSpeechInputGETQueryItemMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SynthesizeSpeechOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, expiration: expiration, unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(clientLogMode: config.clientLogMode))
-        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SynthesizeSpeechOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SynthesizeSpeechOutput>(responseClosure(decoder: decoder), responseErrorClosure(SynthesizeSpeechOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SynthesizeSpeechOutput>(clientLogMode: config.clientLogMode))
+        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: SynthesizeSpeechOutput(), next: ClientRuntime.NoopHandler())
         guard let builtRequest = presignedRequestBuilder?.build(), let presignedURL = builtRequest.endpoint.url else {
             return nil
         }
@@ -2733,22 +2736,21 @@ extension SynthesizeSpeechInput {
                       .withSigningName(value: "polly")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(id: "synthesizeSpeech")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SynthesizeSpeechInput, SynthesizeSpeechOutput>(id: "synthesizeSpeech")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse>(xmlName: "SynthesizeSpeechInput"))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SynthesizeSpeechOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SynthesizeSpeechOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(clientLogMode: config.clientLogMode))
-        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SynthesizeSpeechOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SynthesizeSpeechOutput>(responseClosure(decoder: decoder), responseErrorClosure(SynthesizeSpeechOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SynthesizeSpeechOutput>(clientLogMode: config.clientLogMode))
+        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: SynthesizeSpeechOutput(), next: ClientRuntime.NoopHandler())
         guard let builtRequest = presignedRequestBuilder?.build() else {
             return nil
         }
@@ -2763,7 +2765,7 @@ public struct SynthesizeSpeechInputGETQueryItemMiddleware: ClientRuntime.Middlew
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<SynthesizeSpeechInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<SynthesizeSpeechOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<SynthesizeSpeechOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -2813,7 +2815,7 @@ public struct SynthesizeSpeechInputGETQueryItemMiddleware: ClientRuntime.Middlew
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<SynthesizeSpeechInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<SynthesizeSpeechOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<SynthesizeSpeechOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -2824,7 +2826,7 @@ extension SynthesizeSpeechInput: ClientRuntime.URLPathProvider {
 }
 
 public struct SynthesizeSpeechInput: Swift.Equatable {
-    /// Specifies the engine (standard or neural) for Amazon Polly to use when processing input text for speech synthesis. For information on Amazon Polly voices and which voices are available in standard-only, NTTS-only, and both standard and NTTS formats, see [Available Voices](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html). NTTS-only voices When using NTTS-only voices such as Kevin (en-US), this parameter is required and must be set to neural. If the engine is not specified, or is set to standard, this will result in an error. Type: String Valid Values: standard | neural Required: Yes Standard voices For standard voices, this is not required; the engine parameter defaults to standard. If the engine is not specified, or is set to standard and an NTTS-only voice is selected, this will result in an error.
+    /// Specifies the engine (standard, neural or long-form) for Amazon Polly to use when processing input text for speech synthesis. For information on Amazon Polly voices and which voices are available for each engine, see [Available Voices](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html). NTTS-only voices When using NTTS-only voices such as Kevin (en-US), this parameter is required and must be set to neural. If the engine is not specified, or is set to standard, this will result in an error. long-form-only voices When using long-form-only voices such as Danielle (en-US), this parameter is required and must be set to long-form. If the engine is not specified, or is set to standard or neural, this will result in an error. Type: String Valid Values: standard | neural | long-form Required: Yes Standard voices For standard voices, this is not required; the engine parameter defaults to standard. If the engine is not specified, or is set to standard and an NTTS-only voice is selected, this will result in an error.
     public var engine: PollyClientTypes.Engine?
     /// Optional language code for the Synthesize Speech request. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN). If a bilingual voice is used and no language code is specified, Amazon Polly uses the default language of the bilingual voice. The default language for any voice is the one returned by the [DescribeVoices](https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html) operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
     public var languageCode: PollyClientTypes.LanguageCode?
@@ -2833,7 +2835,7 @@ public struct SynthesizeSpeechInput: Swift.Equatable {
     /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json. When pcm is used, the content returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.
     /// This member is required.
     public var outputFormat: PollyClientTypes.OutputFormat?
-    /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
+    /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
     public var sampleRate: Swift.String?
     /// The type of speech marks returned for the input text.
     public var speechMarkTypes: [PollyClientTypes.SpeechMarkType]?
@@ -2936,26 +2938,7 @@ extension SynthesizeSpeechInputBody: Swift.Decodable {
     }
 }
 
-public enum SynthesizeSpeechOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "EngineNotSupportedException": return try await EngineNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidSampleRateException": return try await InvalidSampleRateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidSsmlException": return try await InvalidSsmlException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LanguageNotSupportedException": return try await LanguageNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LexiconNotFoundException": return try await LexiconNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MarksNotSupportedForFormatException": return try await MarksNotSupportedForFormatException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "SsmlMarksNotSupportedForTextTypeException": return try await SsmlMarksNotSupportedForTextTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TextLengthExceededException": return try await TextLengthExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension SynthesizeSpeechOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SynthesizeSpeechOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             self.contentType = contentTypeHeaderValue
@@ -2972,13 +2955,13 @@ extension SynthesizeSpeechOutputResponse: ClientRuntime.HttpResponseBinding {
             self.audioStream = .data(data)
         case .stream(let stream):
             self.audioStream = .stream(stream)
-        case .none:
+        case .noStream:
             self.audioStream = nil
         }
     }
 }
 
-public struct SynthesizeSpeechOutputResponse: Swift.Equatable {
+public struct SynthesizeSpeechOutput: Swift.Equatable {
     /// Stream containing the synthesized speech.
     public var audioStream: ClientRuntime.ByteStream?
     /// Specifies the type audio stream. This should reflect the OutputFormat parameter in your request.
@@ -3006,11 +2989,11 @@ public struct SynthesizeSpeechOutputResponse: Swift.Equatable {
     }
 }
 
-struct SynthesizeSpeechOutputResponseBody: Swift.Equatable {
+struct SynthesizeSpeechOutputBody: Swift.Equatable {
     let audioStream: ClientRuntime.ByteStream?
 }
 
-extension SynthesizeSpeechOutputResponseBody: Swift.Decodable {
+extension SynthesizeSpeechOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case audioStream = "AudioStream"
     }
@@ -3019,6 +3002,25 @@ extension SynthesizeSpeechOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let audioStreamDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .audioStream)
         audioStream = audioStreamDecoded
+    }
+}
+
+enum SynthesizeSpeechOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EngineNotSupportedException": return try await EngineNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSampleRateException": return try await InvalidSampleRateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSsmlException": return try await InvalidSsmlException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LanguageNotSupportedException": return try await LanguageNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LexiconNotFoundException": return try await LexiconNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MarksNotSupportedForFormatException": return try await MarksNotSupportedForFormatException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SsmlMarksNotSupportedForTextTypeException": return try await SsmlMarksNotSupportedForTextTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TextLengthExceededException": return try await TextLengthExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3351,7 +3353,7 @@ extension PollyClientTypes {
         public var languageName: Swift.String?
         /// Name of the voice (for example, Salli, Kendra, etc.). This provides a human readable voice name that you might display in your application.
         public var name: Swift.String?
-        /// Specifies which engines (standard or neural) that are supported by a given voice.
+        /// Specifies which engines (standard, neural or long-form) are supported by a given voice.
         public var supportedEngines: [PollyClientTypes.Engine]?
 
         public init(
@@ -3397,6 +3399,7 @@ extension PollyClientTypes {
         case conchita
         case cristiano
         case daniel
+        case danielle
         case dora
         case elin
         case emma
@@ -3406,6 +3409,7 @@ extension PollyClientTypes {
         case gabrielle
         case geraint
         case giorgio
+        case gregory
         case gwyneth
         case hala
         case hannah
@@ -3468,6 +3472,7 @@ extension PollyClientTypes {
         case tomoko
         case vicki
         case vitoria
+        case zayd
         case zeina
         case zhiyu
         case sdkUnknown(Swift.String)
@@ -3493,6 +3498,7 @@ extension PollyClientTypes {
                 .conchita,
                 .cristiano,
                 .daniel,
+                .danielle,
                 .dora,
                 .elin,
                 .emma,
@@ -3502,6 +3508,7 @@ extension PollyClientTypes {
                 .gabrielle,
                 .geraint,
                 .giorgio,
+                .gregory,
                 .gwyneth,
                 .hala,
                 .hannah,
@@ -3564,6 +3571,7 @@ extension PollyClientTypes {
                 .tomoko,
                 .vicki,
                 .vitoria,
+                .zayd,
                 .zeina,
                 .zhiyu,
                 .sdkUnknown("")
@@ -3594,6 +3602,7 @@ extension PollyClientTypes {
             case .conchita: return "Conchita"
             case .cristiano: return "Cristiano"
             case .daniel: return "Daniel"
+            case .danielle: return "Danielle"
             case .dora: return "Dora"
             case .elin: return "Elin"
             case .emma: return "Emma"
@@ -3603,6 +3612,7 @@ extension PollyClientTypes {
             case .gabrielle: return "Gabrielle"
             case .geraint: return "Geraint"
             case .giorgio: return "Giorgio"
+            case .gregory: return "Gregory"
             case .gwyneth: return "Gwyneth"
             case .hala: return "Hala"
             case .hannah: return "Hannah"
@@ -3665,6 +3675,7 @@ extension PollyClientTypes {
             case .tomoko: return "Tomoko"
             case .vicki: return "Vicki"
             case .vitoria: return "Vitoria"
+            case .zayd: return "Zayd"
             case .zeina: return "Zeina"
             case .zhiyu: return "Zhiyu"
             case let .sdkUnknown(s): return s

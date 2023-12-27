@@ -30,7 +30,7 @@ extension MediaTailorClientTypes.AccessConfiguration: Swift.Codable {
 extension MediaTailorClientTypes {
     /// Access configuration parameters.
     public struct AccessConfiguration: Swift.Equatable {
-        /// The type of authentication used to access content from HttpConfiguration::BaseUrl on your source location. Accepted value: S3_SIGV4. S3_SIGV4 - AWS Signature Version 4 authentication for Amazon S3 hosted virtual-style access. If your source location base URL is an Amazon S3 bucket, MediaTailor can use AWS Signature Version 4 (SigV4) authentication to access the bucket where your source content is stored. Your MediaTailor source location baseURL must follow the S3 virtual hosted-style request URL format. For example, https://bucket-name.s3.Region.amazonaws.com/key-name. Before you can use S3_SIGV4, you must meet these requirements: • You must allow MediaTailor to access your S3 bucket by granting mediatailor.amazonaws.com principal access in IAM. For information about configuring access in IAM, see Access management in the IAM User Guide. • The mediatailor.amazonaws.com service principal must have permissions to read all top level manifests referenced by the VodSource packaging configurations. • The caller of the API must have s3:GetObject IAM permissions to read all top level manifests referenced by your MediaTailor VodSource packaging configurations.
+        /// The type of authentication used to access content from HttpConfiguration::BaseUrl on your source location. S3_SIGV4 - AWS Signature Version 4 authentication for Amazon S3 hosted virtual-style access. If your source location base URL is an Amazon S3 bucket, MediaTailor can use AWS Signature Version 4 (SigV4) authentication to access the bucket where your source content is stored. Your MediaTailor source location baseURL must follow the S3 virtual hosted-style request URL format. For example, https://bucket-name.s3.Region.amazonaws.com/key-name. Before you can use S3_SIGV4, you must meet these requirements: • You must allow MediaTailor to access your S3 bucket by granting mediatailor.amazonaws.com principal access in IAM. For information about configuring access in IAM, see Access management in the IAM User Guide. • The mediatailor.amazonaws.com service principal must have permissions to read all top level manifests referenced by the VodSource packaging configurations. • The caller of the API must have s3:GetObject IAM permissions to read all top level manifests referenced by your MediaTailor VodSource packaging configurations. AUTODETECT_SIGV4 - AWS Signature Version 4 authentication for a set of supported services: MediaPackage Version 2 and Amazon S3 hosted virtual-style access. If your source location base URL is a MediaPackage Version 2 endpoint or an Amazon S3 bucket, MediaTailor can use AWS Signature Version 4 (SigV4) authentication to access the resource where your source content is stored. Before you can use AUTODETECT_SIGV4 with a MediaPackage Version 2 endpoint, you must meet these requirements: • You must grant MediaTailor access to your MediaPackage endpoint by granting mediatailor.amazonaws.com principal access in an Origin Access policy on the endpoint. • Your MediaTailor source location base URL must be a MediaPackage V2 endpoint. • The caller of the API must have mediapackagev2:GetObject IAM permissions to read all top level manifests referenced by the MediaTailor source packaging configurations. Before you can use AUTODETECT_SIGV4 with an Amazon S3 bucket, you must meet these requirements: • You must grant MediaTailor access to your S3 bucket by granting mediatailor.amazonaws.com principal access in IAM. For more information about configuring access in IAM, see [Access management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.. • The mediatailor.amazonaws.com service principal must have permissions to read all top-level manifests referenced by the VodSource packaging configurations. • The caller of the API must have s3:GetObject IAM permissions to read all top level manifests referenced by your MediaTailor VodSource packaging configurations.
         public var accessType: MediaTailorClientTypes.AccessType?
         /// AWS Secrets Manager access token configuration parameters.
         public var secretsManagerAccessTokenConfiguration: MediaTailorClientTypes.SecretsManagerAccessTokenConfiguration?
@@ -49,12 +49,14 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
     public enum AccessType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case autodetectSigv4
         case s3Sigv4
         case secretsManagerAccessToken
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AccessType] {
             return [
+                .autodetectSigv4,
                 .s3Sigv4,
                 .secretsManagerAccessToken,
                 .sdkUnknown("")
@@ -66,6 +68,7 @@ extension MediaTailorClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .autodetectSigv4: return "AUTODETECT_SIGV4"
             case .s3Sigv4: return "S3_SIGV4"
             case .secretsManagerAccessToken: return "SECRETS_MANAGER_ACCESS_TOKEN"
             case let .sdkUnknown(s): return s
@@ -171,6 +174,42 @@ extension MediaTailorClientTypes {
             self.slate = slate
             self.spliceInsertMessage = spliceInsertMessage
             self.timeSignalMessage = timeSignalMessage
+        }
+    }
+
+}
+
+extension MediaTailorClientTypes.AdBreakOpportunity: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case offsetMillis = "OffsetMillis"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let offsetMillis = self.offsetMillis {
+            try encodeContainer.encode(offsetMillis, forKey: .offsetMillis)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let offsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .offsetMillis)
+        offsetMillis = offsetMillisDecoded
+    }
+}
+
+extension MediaTailorClientTypes {
+    /// A location at which a zero-duration ad marker was detected in a VOD source manifest.
+    public struct AdBreakOpportunity: Swift.Equatable {
+        /// The offset in milliseconds from the start of the VOD source at which an ad marker was detected.
+        /// This member is required.
+        public var offsetMillis: Swift.Int?
+
+        public init(
+            offsetMillis: Swift.Int? = nil
+        )
+        {
+            self.offsetMillis = offsetMillis
         }
     }
 
@@ -934,21 +973,11 @@ extension ConfigureLogsForChannelInputBody: Swift.Decodable {
     }
 }
 
-public enum ConfigureLogsForChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ConfigureLogsForChannelOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ConfigureLogsForChannelOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ConfigureLogsForChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ConfigureLogsForChannelOutputBody = try responseDecoder.decode(responseBody: data)
             self.channelName = output.channelName
             self.logTypes = output.logTypes
         } else {
@@ -958,7 +987,7 @@ extension ConfigureLogsForChannelOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ConfigureLogsForChannelOutputResponse: Swift.Equatable {
+public struct ConfigureLogsForChannelOutput: Swift.Equatable {
     /// The name of the channel.
     public var channelName: Swift.String?
     /// The types of logs collected.
@@ -974,12 +1003,12 @@ public struct ConfigureLogsForChannelOutputResponse: Swift.Equatable {
     }
 }
 
-struct ConfigureLogsForChannelOutputResponseBody: Swift.Equatable {
+struct ConfigureLogsForChannelOutputBody: Swift.Equatable {
     let channelName: Swift.String?
     let logTypes: [MediaTailorClientTypes.LogType]?
 }
 
-extension ConfigureLogsForChannelOutputResponseBody: Swift.Decodable {
+extension ConfigureLogsForChannelOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case channelName = "ChannelName"
         case logTypes = "LogTypes"
@@ -1000,6 +1029,16 @@ extension ConfigureLogsForChannelOutputResponseBody: Swift.Decodable {
             }
         }
         logTypes = logTypesDecoded0
+    }
+}
+
+enum ConfigureLogsForChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1065,21 +1104,11 @@ extension ConfigureLogsForPlaybackConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum ConfigureLogsForPlaybackConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ConfigureLogsForPlaybackConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ConfigureLogsForPlaybackConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ConfigureLogsForPlaybackConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ConfigureLogsForPlaybackConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
             self.percentEnabled = output.percentEnabled
             self.playbackConfigurationName = output.playbackConfigurationName
         } else {
@@ -1089,7 +1118,7 @@ extension ConfigureLogsForPlaybackConfigurationOutputResponse: ClientRuntime.Htt
     }
 }
 
-public struct ConfigureLogsForPlaybackConfigurationOutputResponse: Swift.Equatable {
+public struct ConfigureLogsForPlaybackConfigurationOutput: Swift.Equatable {
     /// The percentage of session logs that MediaTailor sends to your Cloudwatch Logs account.
     /// This member is required.
     public var percentEnabled: Swift.Int?
@@ -1106,12 +1135,12 @@ public struct ConfigureLogsForPlaybackConfigurationOutputResponse: Swift.Equatab
     }
 }
 
-struct ConfigureLogsForPlaybackConfigurationOutputResponseBody: Swift.Equatable {
+struct ConfigureLogsForPlaybackConfigurationOutputBody: Swift.Equatable {
     let percentEnabled: Swift.Int?
     let playbackConfigurationName: Swift.String?
 }
 
-extension ConfigureLogsForPlaybackConfigurationOutputResponseBody: Swift.Decodable {
+extension ConfigureLogsForPlaybackConfigurationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case percentEnabled = "PercentEnabled"
         case playbackConfigurationName = "PlaybackConfigurationName"
@@ -1123,6 +1152,16 @@ extension ConfigureLogsForPlaybackConfigurationOutputResponseBody: Swift.Decodab
         percentEnabled = percentEnabledDecoded
         let playbackConfigurationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .playbackConfigurationName)
         playbackConfigurationName = playbackConfigurationNameDecoded
+    }
+}
+
+enum ConfigureLogsForPlaybackConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1255,21 +1294,11 @@ extension CreateChannelInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateChannelOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateChannelOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.channelName = output.channelName
             self.channelState = output.channelState
@@ -1295,7 +1324,7 @@ extension CreateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateChannelOutputResponse: Swift.Equatable {
+public struct CreateChannelOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) to assign to the channel.
     public var arn: Swift.String?
     /// The name to assign to the channel.
@@ -1343,7 +1372,7 @@ public struct CreateChannelOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateChannelOutputResponseBody: Swift.Equatable {
+struct CreateChannelOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let channelName: Swift.String?
     let channelState: MediaTailorClientTypes.ChannelState?
@@ -1356,7 +1385,7 @@ struct CreateChannelOutputResponseBody: Swift.Equatable {
     let tier: Swift.String?
 }
 
-extension CreateChannelOutputResponseBody: Swift.Decodable {
+extension CreateChannelOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case channelName = "ChannelName"
@@ -1410,6 +1439,16 @@ extension CreateChannelOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let tierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tier)
         tier = tierDecoded
+    }
+}
+
+enum CreateChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1513,21 +1552,11 @@ extension CreateLiveSourceInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateLiveSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateLiveSourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateLiveSourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateLiveSourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateLiveSourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.httpPackageConfigurations = output.httpPackageConfigurations
@@ -1547,7 +1576,7 @@ extension CreateLiveSourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLiveSourceOutputResponse: Swift.Equatable {
+public struct CreateLiveSourceOutput: Swift.Equatable {
     /// The ARN to assign to the live source.
     public var arn: Swift.String?
     /// The time the live source was created.
@@ -1583,7 +1612,7 @@ public struct CreateLiveSourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateLiveSourceOutputResponseBody: Swift.Equatable {
+struct CreateLiveSourceOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let creationTime: ClientRuntime.Date?
     let httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]?
@@ -1593,7 +1622,7 @@ struct CreateLiveSourceOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension CreateLiveSourceOutputResponseBody: Swift.Decodable {
+extension CreateLiveSourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case creationTime = "CreationTime"
@@ -1638,6 +1667,16 @@ extension CreateLiveSourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum CreateLiveSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1730,21 +1769,11 @@ extension CreatePrefetchScheduleInputBody: Swift.Decodable {
     }
 }
 
-public enum CreatePrefetchScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreatePrefetchScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreatePrefetchScheduleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreatePrefetchScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreatePrefetchScheduleOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.consumption = output.consumption
             self.name = output.name
@@ -1762,7 +1791,7 @@ extension CreatePrefetchScheduleOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct CreatePrefetchScheduleOutputResponse: Swift.Equatable {
+public struct CreatePrefetchScheduleOutput: Swift.Equatable {
     /// The ARN to assign to the prefetch schedule.
     public var arn: Swift.String?
     /// The configuration settings for MediaTailor's consumption of the prefetched ads from the ad decision server. Each consumption configuration contains an end time and an optional start time that define the consumption window. Prefetch schedules automatically expire no earlier than seven days after the end time.
@@ -1794,7 +1823,7 @@ public struct CreatePrefetchScheduleOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreatePrefetchScheduleOutputResponseBody: Swift.Equatable {
+struct CreatePrefetchScheduleOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let consumption: MediaTailorClientTypes.PrefetchConsumption?
     let name: Swift.String?
@@ -1803,7 +1832,7 @@ struct CreatePrefetchScheduleOutputResponseBody: Swift.Equatable {
     let streamId: Swift.String?
 }
 
-extension CreatePrefetchScheduleOutputResponseBody: Swift.Decodable {
+extension CreatePrefetchScheduleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case consumption = "Consumption"
@@ -1827,6 +1856,16 @@ extension CreatePrefetchScheduleOutputResponseBody: Swift.Decodable {
         retrieval = retrievalDecoded
         let streamIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamId)
         streamId = streamIdDecoded
+    }
+}
+
+enum CreatePrefetchScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1955,21 +1994,11 @@ extension CreateProgramInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateProgramOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateProgramOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateProgramOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateProgramOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateProgramOutputBody = try responseDecoder.decode(responseBody: data)
             self.adBreaks = output.adBreaks
             self.arn = output.arn
             self.channelName = output.channelName
@@ -1997,7 +2026,7 @@ extension CreateProgramOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProgramOutputResponse: Swift.Equatable {
+public struct CreateProgramOutput: Swift.Equatable {
     /// The ad break configuration settings.
     public var adBreaks: [MediaTailorClientTypes.AdBreak]?
     /// The ARN to assign to the program.
@@ -2049,7 +2078,7 @@ public struct CreateProgramOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateProgramOutputResponseBody: Swift.Equatable {
+struct CreateProgramOutputBody: Swift.Equatable {
     let adBreaks: [MediaTailorClientTypes.AdBreak]?
     let arn: Swift.String?
     let channelName: Swift.String?
@@ -2063,7 +2092,7 @@ struct CreateProgramOutputResponseBody: Swift.Equatable {
     let durationMillis: Swift.Int?
 }
 
-extension CreateProgramOutputResponseBody: Swift.Decodable {
+extension CreateProgramOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adBreaks = "AdBreaks"
         case arn = "Arn"
@@ -2111,6 +2140,16 @@ extension CreateProgramOutputResponseBody: Swift.Decodable {
         clipRange = clipRangeDecoded
         let durationMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationMillis)
         durationMillis = durationMillisDecoded
+    }
+}
+
+enum CreateProgramOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2242,21 +2281,11 @@ extension CreateSourceLocationInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateSourceLocationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateSourceLocationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateSourceLocationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateSourceLocationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateSourceLocationOutputBody = try responseDecoder.decode(responseBody: data)
             self.accessConfiguration = output.accessConfiguration
             self.arn = output.arn
             self.creationTime = output.creationTime
@@ -2280,7 +2309,7 @@ extension CreateSourceLocationOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct CreateSourceLocationOutputResponse: Swift.Equatable {
+public struct CreateSourceLocationOutput: Swift.Equatable {
     /// Access configuration parameters. Configures the type of authentication used to access content from your source location.
     public var accessConfiguration: MediaTailorClientTypes.AccessConfiguration?
     /// The ARN to assign to the source location.
@@ -2324,7 +2353,7 @@ public struct CreateSourceLocationOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateSourceLocationOutputResponseBody: Swift.Equatable {
+struct CreateSourceLocationOutputBody: Swift.Equatable {
     let accessConfiguration: MediaTailorClientTypes.AccessConfiguration?
     let arn: Swift.String?
     let creationTime: ClientRuntime.Date?
@@ -2336,7 +2365,7 @@ struct CreateSourceLocationOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension CreateSourceLocationOutputResponseBody: Swift.Decodable {
+extension CreateSourceLocationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessConfiguration = "AccessConfiguration"
         case arn = "Arn"
@@ -2387,6 +2416,16 @@ extension CreateSourceLocationOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum CreateSourceLocationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2490,21 +2529,11 @@ extension CreateVodSourceInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateVodSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateVodSourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateVodSourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateVodSourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateVodSourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.httpPackageConfigurations = output.httpPackageConfigurations
@@ -2524,7 +2553,7 @@ extension CreateVodSourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateVodSourceOutputResponse: Swift.Equatable {
+public struct CreateVodSourceOutput: Swift.Equatable {
     /// The ARN to assign to this VOD source.
     public var arn: Swift.String?
     /// The time the VOD source was created.
@@ -2560,7 +2589,7 @@ public struct CreateVodSourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateVodSourceOutputResponseBody: Swift.Equatable {
+struct CreateVodSourceOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let creationTime: ClientRuntime.Date?
     let httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]?
@@ -2570,7 +2599,7 @@ struct CreateVodSourceOutputResponseBody: Swift.Equatable {
     let vodSourceName: Swift.String?
 }
 
-extension CreateVodSourceOutputResponseBody: Swift.Decodable {
+extension CreateVodSourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case creationTime = "CreationTime"
@@ -2615,6 +2644,16 @@ extension CreateVodSourceOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let vodSourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vodSourceName)
         vodSourceName = vodSourceNameDecoded
+    }
+}
+
+enum CreateVodSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2849,24 +2888,24 @@ extension DeleteChannelInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteChannelOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteChannelOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteChannelPolicyInput: ClientRuntime.URLPathProvider {
@@ -2900,24 +2939,24 @@ extension DeleteChannelPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteChannelPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteChannelPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteChannelPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteChannelPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteChannelPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteChannelPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteLiveSourceInput: ClientRuntime.URLPathProvider {
@@ -2959,24 +2998,24 @@ extension DeleteLiveSourceInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteLiveSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteLiveSourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteLiveSourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteLiveSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteLiveSourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteLiveSourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeletePlaybackConfigurationInput: ClientRuntime.URLPathProvider {
@@ -3010,24 +3049,24 @@ extension DeletePlaybackConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeletePlaybackConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeletePlaybackConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeletePlaybackConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeletePlaybackConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeletePlaybackConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeletePlaybackConfigurationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeletePrefetchScheduleInput: ClientRuntime.URLPathProvider {
@@ -3069,24 +3108,24 @@ extension DeletePrefetchScheduleInputBody: Swift.Decodable {
     }
 }
 
-public enum DeletePrefetchScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeletePrefetchScheduleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeletePrefetchScheduleOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeletePrefetchScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeletePrefetchScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeletePrefetchScheduleOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteProgramInput: ClientRuntime.URLPathProvider {
@@ -3128,24 +3167,24 @@ extension DeleteProgramInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteProgramOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteProgramOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteProgramOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteProgramOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteProgramOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteProgramOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteSourceLocationInput: ClientRuntime.URLPathProvider {
@@ -3179,24 +3218,24 @@ extension DeleteSourceLocationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteSourceLocationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteSourceLocationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteSourceLocationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteSourceLocationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteSourceLocationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteSourceLocationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteVodSourceInput: ClientRuntime.URLPathProvider {
@@ -3238,24 +3277,24 @@ extension DeleteVodSourceInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteVodSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteVodSourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteVodSourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteVodSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteVodSourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteVodSourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DescribeChannelInput: ClientRuntime.URLPathProvider {
@@ -3289,21 +3328,11 @@ extension DescribeChannelInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeChannelOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeChannelOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeChannelOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.channelName = output.channelName
             self.channelState = output.channelState
@@ -3331,7 +3360,7 @@ extension DescribeChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeChannelOutputResponse: Swift.Equatable {
+public struct DescribeChannelOutput: Swift.Equatable {
     /// The ARN of the channel.
     public var arn: Swift.String?
     /// The name of the channel.
@@ -3384,7 +3413,7 @@ public struct DescribeChannelOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeChannelOutputResponseBody: Swift.Equatable {
+struct DescribeChannelOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let channelName: Swift.String?
     let channelState: MediaTailorClientTypes.ChannelState?
@@ -3398,7 +3427,7 @@ struct DescribeChannelOutputResponseBody: Swift.Equatable {
     let logConfiguration: MediaTailorClientTypes.LogConfigurationForChannel?
 }
 
-extension DescribeChannelOutputResponseBody: Swift.Decodable {
+extension DescribeChannelOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case channelName = "ChannelName"
@@ -3458,6 +3487,16 @@ extension DescribeChannelOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum DescribeChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribeLiveSourceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let sourceLocationName = sourceLocationName else {
@@ -3497,21 +3536,11 @@ extension DescribeLiveSourceInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeLiveSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeLiveSourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeLiveSourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeLiveSourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeLiveSourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.httpPackageConfigurations = output.httpPackageConfigurations
@@ -3531,7 +3560,7 @@ extension DescribeLiveSourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeLiveSourceOutputResponse: Swift.Equatable {
+public struct DescribeLiveSourceOutput: Swift.Equatable {
     /// The ARN of the live source.
     public var arn: Swift.String?
     /// The timestamp that indicates when the live source was created.
@@ -3567,7 +3596,7 @@ public struct DescribeLiveSourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeLiveSourceOutputResponseBody: Swift.Equatable {
+struct DescribeLiveSourceOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let creationTime: ClientRuntime.Date?
     let httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]?
@@ -3577,7 +3606,7 @@ struct DescribeLiveSourceOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension DescribeLiveSourceOutputResponseBody: Swift.Decodable {
+extension DescribeLiveSourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case creationTime = "CreationTime"
@@ -3625,6 +3654,16 @@ extension DescribeLiveSourceOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum DescribeLiveSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribeProgramInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let channelName = channelName else {
@@ -3664,21 +3703,11 @@ extension DescribeProgramInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeProgramOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeProgramOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeProgramOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeProgramOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeProgramOutputBody = try responseDecoder.decode(responseBody: data)
             self.adBreaks = output.adBreaks
             self.arn = output.arn
             self.channelName = output.channelName
@@ -3706,7 +3735,7 @@ extension DescribeProgramOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeProgramOutputResponse: Swift.Equatable {
+public struct DescribeProgramOutput: Swift.Equatable {
     /// The ad break configuration settings.
     public var adBreaks: [MediaTailorClientTypes.AdBreak]?
     /// The ARN of the program.
@@ -3758,7 +3787,7 @@ public struct DescribeProgramOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeProgramOutputResponseBody: Swift.Equatable {
+struct DescribeProgramOutputBody: Swift.Equatable {
     let adBreaks: [MediaTailorClientTypes.AdBreak]?
     let arn: Swift.String?
     let channelName: Swift.String?
@@ -3772,7 +3801,7 @@ struct DescribeProgramOutputResponseBody: Swift.Equatable {
     let durationMillis: Swift.Int?
 }
 
-extension DescribeProgramOutputResponseBody: Swift.Decodable {
+extension DescribeProgramOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adBreaks = "AdBreaks"
         case arn = "Arn"
@@ -3823,6 +3852,16 @@ extension DescribeProgramOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum DescribeProgramOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribeSourceLocationInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let sourceLocationName = sourceLocationName else {
@@ -3854,21 +3893,11 @@ extension DescribeSourceLocationInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeSourceLocationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeSourceLocationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeSourceLocationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeSourceLocationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeSourceLocationOutputBody = try responseDecoder.decode(responseBody: data)
             self.accessConfiguration = output.accessConfiguration
             self.arn = output.arn
             self.creationTime = output.creationTime
@@ -3892,7 +3921,7 @@ extension DescribeSourceLocationOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeSourceLocationOutputResponse: Swift.Equatable {
+public struct DescribeSourceLocationOutput: Swift.Equatable {
     /// The access configuration for the source location.
     public var accessConfiguration: MediaTailorClientTypes.AccessConfiguration?
     /// The ARN of the source location.
@@ -3936,7 +3965,7 @@ public struct DescribeSourceLocationOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeSourceLocationOutputResponseBody: Swift.Equatable {
+struct DescribeSourceLocationOutputBody: Swift.Equatable {
     let accessConfiguration: MediaTailorClientTypes.AccessConfiguration?
     let arn: Swift.String?
     let creationTime: ClientRuntime.Date?
@@ -3948,7 +3977,7 @@ struct DescribeSourceLocationOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension DescribeSourceLocationOutputResponseBody: Swift.Decodable {
+extension DescribeSourceLocationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessConfiguration = "AccessConfiguration"
         case arn = "Arn"
@@ -4002,6 +4031,16 @@ extension DescribeSourceLocationOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum DescribeSourceLocationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribeVodSourceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let sourceLocationName = sourceLocationName else {
@@ -4041,21 +4080,12 @@ extension DescribeVodSourceInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeVodSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeVodSourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeVodSourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeVodSourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeVodSourceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.adBreakOpportunities = output.adBreakOpportunities
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.httpPackageConfigurations = output.httpPackageConfigurations
@@ -4064,6 +4094,7 @@ extension DescribeVodSourceOutputResponse: ClientRuntime.HttpResponseBinding {
             self.tags = output.tags
             self.vodSourceName = output.vodSourceName
         } else {
+            self.adBreakOpportunities = nil
             self.arn = nil
             self.creationTime = nil
             self.httpPackageConfigurations = nil
@@ -4075,7 +4106,9 @@ extension DescribeVodSourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeVodSourceOutputResponse: Swift.Equatable {
+public struct DescribeVodSourceOutput: Swift.Equatable {
+    /// The ad break opportunities within the VOD source.
+    public var adBreakOpportunities: [MediaTailorClientTypes.AdBreakOpportunity]?
     /// The ARN of the VOD source.
     public var arn: Swift.String?
     /// The timestamp that indicates when the VOD source was created.
@@ -4092,6 +4125,7 @@ public struct DescribeVodSourceOutputResponse: Swift.Equatable {
     public var vodSourceName: Swift.String?
 
     public init(
+        adBreakOpportunities: [MediaTailorClientTypes.AdBreakOpportunity]? = nil,
         arn: Swift.String? = nil,
         creationTime: ClientRuntime.Date? = nil,
         httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]? = nil,
@@ -4101,6 +4135,7 @@ public struct DescribeVodSourceOutputResponse: Swift.Equatable {
         vodSourceName: Swift.String? = nil
     )
     {
+        self.adBreakOpportunities = adBreakOpportunities
         self.arn = arn
         self.creationTime = creationTime
         self.httpPackageConfigurations = httpPackageConfigurations
@@ -4111,7 +4146,8 @@ public struct DescribeVodSourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeVodSourceOutputResponseBody: Swift.Equatable {
+struct DescribeVodSourceOutputBody: Swift.Equatable {
+    let adBreakOpportunities: [MediaTailorClientTypes.AdBreakOpportunity]?
     let arn: Swift.String?
     let creationTime: ClientRuntime.Date?
     let httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]?
@@ -4121,8 +4157,9 @@ struct DescribeVodSourceOutputResponseBody: Swift.Equatable {
     let vodSourceName: Swift.String?
 }
 
-extension DescribeVodSourceOutputResponseBody: Swift.Decodable {
+extension DescribeVodSourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case adBreakOpportunities = "AdBreakOpportunities"
         case arn = "Arn"
         case creationTime = "CreationTime"
         case httpPackageConfigurations = "HttpPackageConfigurations"
@@ -4134,6 +4171,17 @@ extension DescribeVodSourceOutputResponseBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let adBreakOpportunitiesContainer = try containerValues.decodeIfPresent([MediaTailorClientTypes.AdBreakOpportunity?].self, forKey: .adBreakOpportunities)
+        var adBreakOpportunitiesDecoded0:[MediaTailorClientTypes.AdBreakOpportunity]? = nil
+        if let adBreakOpportunitiesContainer = adBreakOpportunitiesContainer {
+            adBreakOpportunitiesDecoded0 = [MediaTailorClientTypes.AdBreakOpportunity]()
+            for structure0 in adBreakOpportunitiesContainer {
+                if let structure0 = structure0 {
+                    adBreakOpportunitiesDecoded0?.append(structure0)
+                }
+            }
+        }
+        adBreakOpportunities = adBreakOpportunitiesDecoded0
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
         let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
@@ -4166,6 +4214,16 @@ extension DescribeVodSourceOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let vodSourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vodSourceName)
         vodSourceName = vodSourceNameDecoded
+    }
+}
+
+enum DescribeVodSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4232,21 +4290,11 @@ extension GetChannelPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum GetChannelPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetChannelPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetChannelPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetChannelPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetChannelPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
             self.policy = nil
@@ -4254,7 +4302,7 @@ extension GetChannelPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetChannelPolicyOutputResponse: Swift.Equatable {
+public struct GetChannelPolicyOutput: Swift.Equatable {
     /// The IAM policy for the channel. IAM policies are used to control access to your channel.
     public var policy: Swift.String?
 
@@ -4266,11 +4314,11 @@ public struct GetChannelPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetChannelPolicyOutputResponseBody: Swift.Equatable {
+struct GetChannelPolicyOutputBody: Swift.Equatable {
     let policy: Swift.String?
 }
 
-extension GetChannelPolicyOutputResponseBody: Swift.Decodable {
+extension GetChannelPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy = "Policy"
     }
@@ -4279,6 +4327,16 @@ extension GetChannelPolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
         policy = policyDecoded
+    }
+}
+
+enum GetChannelPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4346,21 +4404,11 @@ extension GetChannelScheduleInputBody: Swift.Decodable {
     }
 }
 
-public enum GetChannelScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetChannelScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetChannelScheduleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetChannelScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetChannelScheduleOutputBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
         } else {
@@ -4370,7 +4418,7 @@ extension GetChannelScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetChannelScheduleOutputResponse: Swift.Equatable {
+public struct GetChannelScheduleOutput: Swift.Equatable {
     /// A list of schedule entries for the channel.
     public var items: [MediaTailorClientTypes.ScheduleEntry]?
     /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
@@ -4386,12 +4434,12 @@ public struct GetChannelScheduleOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetChannelScheduleOutputResponseBody: Swift.Equatable {
+struct GetChannelScheduleOutputBody: Swift.Equatable {
     let items: [MediaTailorClientTypes.ScheduleEntry]?
     let nextToken: Swift.String?
 }
 
-extension GetChannelScheduleOutputResponseBody: Swift.Decodable {
+extension GetChannelScheduleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case items = "Items"
         case nextToken = "NextToken"
@@ -4412,6 +4460,16 @@ extension GetChannelScheduleOutputResponseBody: Swift.Decodable {
         items = itemsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum GetChannelScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4446,21 +4504,11 @@ extension GetPlaybackConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum GetPlaybackConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetPlaybackConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPlaybackConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetPlaybackConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetPlaybackConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
             self.adDecisionServerUrl = output.adDecisionServerUrl
             self.availSuppression = output.availSuppression
             self.bumper = output.bumper
@@ -4504,7 +4552,7 @@ extension GetPlaybackConfigurationOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct GetPlaybackConfigurationOutputResponse: Swift.Equatable {
+public struct GetPlaybackConfigurationOutput: Swift.Equatable {
     /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing, you can provide a static VAST URL. The maximum length is 25,000 characters.
     public var adDecisionServerUrl: Swift.String?
     /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
@@ -4588,7 +4636,7 @@ public struct GetPlaybackConfigurationOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPlaybackConfigurationOutputResponseBody: Swift.Equatable {
+struct GetPlaybackConfigurationOutputBody: Swift.Equatable {
     let adDecisionServerUrl: Swift.String?
     let availSuppression: MediaTailorClientTypes.AvailSuppression?
     let bumper: MediaTailorClientTypes.Bumper?
@@ -4610,7 +4658,7 @@ struct GetPlaybackConfigurationOutputResponseBody: Swift.Equatable {
     let videoContentSourceUrl: Swift.String?
 }
 
-extension GetPlaybackConfigurationOutputResponseBody: Swift.Decodable {
+extension GetPlaybackConfigurationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adDecisionServerUrl = "AdDecisionServerUrl"
         case availSuppression = "AvailSuppression"
@@ -4701,6 +4749,16 @@ extension GetPlaybackConfigurationOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum GetPlaybackConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetPrefetchScheduleInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let playbackConfigurationName = playbackConfigurationName else {
@@ -4740,21 +4798,11 @@ extension GetPrefetchScheduleInputBody: Swift.Decodable {
     }
 }
 
-public enum GetPrefetchScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetPrefetchScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPrefetchScheduleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetPrefetchScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetPrefetchScheduleOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.consumption = output.consumption
             self.name = output.name
@@ -4772,7 +4820,7 @@ extension GetPrefetchScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPrefetchScheduleOutputResponse: Swift.Equatable {
+public struct GetPrefetchScheduleOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the prefetch schedule.
     public var arn: Swift.String?
     /// Consumption settings determine how, and when, MediaTailor places the prefetched ads into ad breaks. Ad consumption occurs within a span of time that you define, called a consumption window. You can designate which ad breaks that MediaTailor fills with prefetch ads by setting avail matching criteria.
@@ -4804,7 +4852,7 @@ public struct GetPrefetchScheduleOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPrefetchScheduleOutputResponseBody: Swift.Equatable {
+struct GetPrefetchScheduleOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let consumption: MediaTailorClientTypes.PrefetchConsumption?
     let name: Swift.String?
@@ -4813,7 +4861,7 @@ struct GetPrefetchScheduleOutputResponseBody: Swift.Equatable {
     let streamId: Swift.String?
 }
 
-extension GetPrefetchScheduleOutputResponseBody: Swift.Decodable {
+extension GetPrefetchScheduleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case consumption = "Consumption"
@@ -4837,6 +4885,16 @@ extension GetPrefetchScheduleOutputResponseBody: Swift.Decodable {
         retrieval = retrievalDecoded
         let streamIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamId)
         streamId = streamIdDecoded
+    }
+}
+
+enum GetPrefetchScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5132,21 +5190,11 @@ extension ListAlertsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListAlertsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAlertsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAlertsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAlertsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAlertsOutputBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
         } else {
@@ -5156,7 +5204,7 @@ extension ListAlertsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAlertsOutputResponse: Swift.Equatable {
+public struct ListAlertsOutput: Swift.Equatable {
     /// A list of alerts that are associated with this resource.
     public var items: [MediaTailorClientTypes.Alert]?
     /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
@@ -5172,12 +5220,12 @@ public struct ListAlertsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAlertsOutputResponseBody: Swift.Equatable {
+struct ListAlertsOutputBody: Swift.Equatable {
     let items: [MediaTailorClientTypes.Alert]?
     let nextToken: Swift.String?
 }
 
-extension ListAlertsOutputResponseBody: Swift.Decodable {
+extension ListAlertsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case items = "Items"
         case nextToken = "NextToken"
@@ -5198,6 +5246,16 @@ extension ListAlertsOutputResponseBody: Swift.Decodable {
         items = itemsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAlertsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5249,21 +5307,11 @@ extension ListChannelsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListChannelsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListChannelsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListChannelsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListChannelsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListChannelsOutputBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
         } else {
@@ -5273,7 +5321,7 @@ extension ListChannelsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListChannelsOutputResponse: Swift.Equatable {
+public struct ListChannelsOutput: Swift.Equatable {
     /// A list of channels that are associated with this account.
     public var items: [MediaTailorClientTypes.Channel]?
     /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
@@ -5289,12 +5337,12 @@ public struct ListChannelsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListChannelsOutputResponseBody: Swift.Equatable {
+struct ListChannelsOutputBody: Swift.Equatable {
     let items: [MediaTailorClientTypes.Channel]?
     let nextToken: Swift.String?
 }
 
-extension ListChannelsOutputResponseBody: Swift.Decodable {
+extension ListChannelsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case items = "Items"
         case nextToken = "NextToken"
@@ -5315,6 +5363,16 @@ extension ListChannelsOutputResponseBody: Swift.Decodable {
         items = itemsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListChannelsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5374,21 +5432,11 @@ extension ListLiveSourcesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListLiveSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListLiveSourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListLiveSourcesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListLiveSourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListLiveSourcesOutputBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
         } else {
@@ -5398,7 +5446,7 @@ extension ListLiveSourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLiveSourcesOutputResponse: Swift.Equatable {
+public struct ListLiveSourcesOutput: Swift.Equatable {
     /// Lists the live sources.
     public var items: [MediaTailorClientTypes.LiveSource]?
     /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
@@ -5414,12 +5462,12 @@ public struct ListLiveSourcesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListLiveSourcesOutputResponseBody: Swift.Equatable {
+struct ListLiveSourcesOutputBody: Swift.Equatable {
     let items: [MediaTailorClientTypes.LiveSource]?
     let nextToken: Swift.String?
 }
 
-extension ListLiveSourcesOutputResponseBody: Swift.Decodable {
+extension ListLiveSourcesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case items = "Items"
         case nextToken = "NextToken"
@@ -5440,6 +5488,16 @@ extension ListLiveSourcesOutputResponseBody: Swift.Decodable {
         items = itemsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListLiveSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5491,21 +5549,11 @@ extension ListPlaybackConfigurationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPlaybackConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListPlaybackConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPlaybackConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPlaybackConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPlaybackConfigurationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
         } else {
@@ -5515,7 +5563,7 @@ extension ListPlaybackConfigurationsOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct ListPlaybackConfigurationsOutputResponse: Swift.Equatable {
+public struct ListPlaybackConfigurationsOutput: Swift.Equatable {
     /// Array of playback configurations. This might be all the available configurations or a subset, depending on the settings that you provide and the total number of configurations stored.
     public var items: [MediaTailorClientTypes.PlaybackConfiguration]?
     /// Pagination token returned by the GET list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
@@ -5531,12 +5579,12 @@ public struct ListPlaybackConfigurationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPlaybackConfigurationsOutputResponseBody: Swift.Equatable {
+struct ListPlaybackConfigurationsOutputBody: Swift.Equatable {
     let items: [MediaTailorClientTypes.PlaybackConfiguration]?
     let nextToken: Swift.String?
 }
 
-extension ListPlaybackConfigurationsOutputResponseBody: Swift.Decodable {
+extension ListPlaybackConfigurationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case items = "Items"
         case nextToken = "NextToken"
@@ -5557,6 +5605,16 @@ extension ListPlaybackConfigurationsOutputResponseBody: Swift.Decodable {
         items = itemsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListPlaybackConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5639,21 +5697,11 @@ extension ListPrefetchSchedulesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPrefetchSchedulesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListPrefetchSchedulesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPrefetchSchedulesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPrefetchSchedulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPrefetchSchedulesOutputBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
         } else {
@@ -5663,7 +5711,7 @@ extension ListPrefetchSchedulesOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListPrefetchSchedulesOutputResponse: Swift.Equatable {
+public struct ListPrefetchSchedulesOutput: Swift.Equatable {
     /// Lists the prefetch schedules. An empty Items list doesn't mean there aren't more items to fetch, just that that page was empty.
     public var items: [MediaTailorClientTypes.PrefetchSchedule]?
     /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
@@ -5679,12 +5727,12 @@ public struct ListPrefetchSchedulesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPrefetchSchedulesOutputResponseBody: Swift.Equatable {
+struct ListPrefetchSchedulesOutputBody: Swift.Equatable {
     let items: [MediaTailorClientTypes.PrefetchSchedule]?
     let nextToken: Swift.String?
 }
 
-extension ListPrefetchSchedulesOutputResponseBody: Swift.Decodable {
+extension ListPrefetchSchedulesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case items = "Items"
         case nextToken = "NextToken"
@@ -5705,6 +5753,16 @@ extension ListPrefetchSchedulesOutputResponseBody: Swift.Decodable {
         items = itemsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListPrefetchSchedulesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5756,21 +5814,11 @@ extension ListSourceLocationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListSourceLocationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSourceLocationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSourceLocationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSourceLocationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSourceLocationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
         } else {
@@ -5780,7 +5828,7 @@ extension ListSourceLocationsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSourceLocationsOutputResponse: Swift.Equatable {
+public struct ListSourceLocationsOutput: Swift.Equatable {
     /// A list of source locations.
     public var items: [MediaTailorClientTypes.SourceLocation]?
     /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
@@ -5796,12 +5844,12 @@ public struct ListSourceLocationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSourceLocationsOutputResponseBody: Swift.Equatable {
+struct ListSourceLocationsOutputBody: Swift.Equatable {
     let items: [MediaTailorClientTypes.SourceLocation]?
     let nextToken: Swift.String?
 }
 
-extension ListSourceLocationsOutputResponseBody: Swift.Decodable {
+extension ListSourceLocationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case items = "Items"
         case nextToken = "NextToken"
@@ -5822,6 +5870,16 @@ extension ListSourceLocationsOutputResponseBody: Swift.Decodable {
         items = itemsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListSourceLocationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5856,22 +5914,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -5879,7 +5926,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// The tags associated with this resource. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
     public var tags: [Swift.String:Swift.String]?
 
@@ -5891,11 +5938,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "tags"
     }
@@ -5913,6 +5960,17 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5972,21 +6030,11 @@ extension ListVodSourcesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListVodSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListVodSourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListVodSourcesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListVodSourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListVodSourcesOutputBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
         } else {
@@ -5996,7 +6044,7 @@ extension ListVodSourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListVodSourcesOutputResponse: Swift.Equatable {
+public struct ListVodSourcesOutput: Swift.Equatable {
     /// Lists the VOD sources.
     public var items: [MediaTailorClientTypes.VodSource]?
     /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
@@ -6012,12 +6060,12 @@ public struct ListVodSourcesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListVodSourcesOutputResponseBody: Swift.Equatable {
+struct ListVodSourcesOutputBody: Swift.Equatable {
     let items: [MediaTailorClientTypes.VodSource]?
     let nextToken: Swift.String?
 }
 
-extension ListVodSourcesOutputResponseBody: Swift.Decodable {
+extension ListVodSourcesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case items = "Items"
         case nextToken = "NextToken"
@@ -6038,6 +6086,16 @@ extension ListVodSourcesOutputResponseBody: Swift.Decodable {
         items = itemsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListVodSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7047,24 +7105,24 @@ extension PutChannelPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum PutChannelPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension PutChannelPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutChannelPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutChannelPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension PutChannelPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutChannelPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension PutPlaybackConfigurationInput: Swift.Encodable {
@@ -7305,21 +7363,11 @@ extension PutPlaybackConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum PutPlaybackConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension PutPlaybackConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PutPlaybackConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PutPlaybackConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PutPlaybackConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
             self.adDecisionServerUrl = output.adDecisionServerUrl
             self.availSuppression = output.availSuppression
             self.bumper = output.bumper
@@ -7363,7 +7411,7 @@ extension PutPlaybackConfigurationOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct PutPlaybackConfigurationOutputResponse: Swift.Equatable {
+public struct PutPlaybackConfigurationOutput: Swift.Equatable {
     /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
     public var adDecisionServerUrl: Swift.String?
     /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
@@ -7447,7 +7495,7 @@ public struct PutPlaybackConfigurationOutputResponse: Swift.Equatable {
     }
 }
 
-struct PutPlaybackConfigurationOutputResponseBody: Swift.Equatable {
+struct PutPlaybackConfigurationOutputBody: Swift.Equatable {
     let adDecisionServerUrl: Swift.String?
     let availSuppression: MediaTailorClientTypes.AvailSuppression?
     let bumper: MediaTailorClientTypes.Bumper?
@@ -7469,7 +7517,7 @@ struct PutPlaybackConfigurationOutputResponseBody: Swift.Equatable {
     let videoContentSourceUrl: Swift.String?
 }
 
-extension PutPlaybackConfigurationOutputResponseBody: Swift.Decodable {
+extension PutPlaybackConfigurationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adDecisionServerUrl = "AdDecisionServerUrl"
         case availSuppression = "AvailSuppression"
@@ -7557,6 +7605,16 @@ extension PutPlaybackConfigurationOutputResponseBody: Swift.Decodable {
         transcodeProfileName = transcodeProfileNameDecoded
         let videoContentSourceUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .videoContentSourceUrl)
         videoContentSourceUrl = videoContentSourceUrlDecoded
+    }
+}
+
+enum PutPlaybackConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8509,24 +8567,24 @@ extension StartChannelInputBody: Swift.Decodable {
     }
 }
 
-public enum StartChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension StartChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StartChannelOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum StartChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension StartChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct StartChannelOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension StopChannelInput: ClientRuntime.URLPathProvider {
@@ -8560,24 +8618,24 @@ extension StopChannelInputBody: Swift.Decodable {
     }
 }
 
-public enum StopChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension StopChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StopChannelOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum StopChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension StopChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct StopChannelOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension TagResourceInput: Swift.Encodable {
@@ -8648,8 +8706,18 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8657,16 +8725,6 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension MediaTailorClientTypes {
@@ -8910,8 +8968,18 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8919,16 +8987,6 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateChannelInput: Swift.Encodable {
@@ -9011,21 +9069,11 @@ extension UpdateChannelInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateChannelOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateChannelOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.channelName = output.channelName
             self.channelState = output.channelState
@@ -9051,7 +9099,7 @@ extension UpdateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateChannelOutputResponse: Swift.Equatable {
+public struct UpdateChannelOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) associated with the channel.
     public var arn: Swift.String?
     /// The name of the channel.
@@ -9099,7 +9147,7 @@ public struct UpdateChannelOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateChannelOutputResponseBody: Swift.Equatable {
+struct UpdateChannelOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let channelName: Swift.String?
     let channelState: MediaTailorClientTypes.ChannelState?
@@ -9112,7 +9160,7 @@ struct UpdateChannelOutputResponseBody: Swift.Equatable {
     let tier: Swift.String?
 }
 
-extension UpdateChannelOutputResponseBody: Swift.Decodable {
+extension UpdateChannelOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case channelName = "ChannelName"
@@ -9166,6 +9214,16 @@ extension UpdateChannelOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let tierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tier)
         tier = tierDecoded
+    }
+}
+
+enum UpdateChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9245,21 +9303,11 @@ extension UpdateLiveSourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateLiveSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateLiveSourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateLiveSourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateLiveSourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateLiveSourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.httpPackageConfigurations = output.httpPackageConfigurations
@@ -9279,7 +9327,7 @@ extension UpdateLiveSourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLiveSourceOutputResponse: Swift.Equatable {
+public struct UpdateLiveSourceOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) associated with this live source.
     public var arn: Swift.String?
     /// The timestamp that indicates when the live source was created.
@@ -9315,7 +9363,7 @@ public struct UpdateLiveSourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateLiveSourceOutputResponseBody: Swift.Equatable {
+struct UpdateLiveSourceOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let creationTime: ClientRuntime.Date?
     let httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]?
@@ -9325,7 +9373,7 @@ struct UpdateLiveSourceOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension UpdateLiveSourceOutputResponseBody: Swift.Decodable {
+extension UpdateLiveSourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case creationTime = "CreationTime"
@@ -9370,6 +9418,16 @@ extension UpdateLiveSourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum UpdateLiveSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9461,21 +9519,11 @@ extension UpdateProgramInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateProgramOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateProgramOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateProgramOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateProgramOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateProgramOutputBody = try responseDecoder.decode(responseBody: data)
             self.adBreaks = output.adBreaks
             self.arn = output.arn
             self.channelName = output.channelName
@@ -9503,7 +9551,7 @@ extension UpdateProgramOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateProgramOutputResponse: Swift.Equatable {
+public struct UpdateProgramOutput: Swift.Equatable {
     /// The ad break configuration settings.
     public var adBreaks: [MediaTailorClientTypes.AdBreak]?
     /// The ARN to assign to the program.
@@ -9555,7 +9603,7 @@ public struct UpdateProgramOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateProgramOutputResponseBody: Swift.Equatable {
+struct UpdateProgramOutputBody: Swift.Equatable {
     let adBreaks: [MediaTailorClientTypes.AdBreak]?
     let arn: Swift.String?
     let channelName: Swift.String?
@@ -9569,7 +9617,7 @@ struct UpdateProgramOutputResponseBody: Swift.Equatable {
     let scheduledStartTime: ClientRuntime.Date?
 }
 
-extension UpdateProgramOutputResponseBody: Swift.Decodable {
+extension UpdateProgramOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adBreaks = "AdBreaks"
         case arn = "Arn"
@@ -9617,6 +9665,16 @@ extension UpdateProgramOutputResponseBody: Swift.Decodable {
         durationMillis = durationMillisDecoded
         let scheduledStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .scheduledStartTime)
         scheduledStartTime = scheduledStartTimeDecoded
+    }
+}
+
+enum UpdateProgramOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9814,21 +9872,11 @@ extension UpdateSourceLocationInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateSourceLocationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateSourceLocationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateSourceLocationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateSourceLocationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateSourceLocationOutputBody = try responseDecoder.decode(responseBody: data)
             self.accessConfiguration = output.accessConfiguration
             self.arn = output.arn
             self.creationTime = output.creationTime
@@ -9852,7 +9900,7 @@ extension UpdateSourceLocationOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct UpdateSourceLocationOutputResponse: Swift.Equatable {
+public struct UpdateSourceLocationOutput: Swift.Equatable {
     /// Access configuration parameters. Configures the type of authentication used to access content from your source location.
     public var accessConfiguration: MediaTailorClientTypes.AccessConfiguration?
     /// The Amazon Resource Name (ARN) associated with the source location.
@@ -9896,7 +9944,7 @@ public struct UpdateSourceLocationOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateSourceLocationOutputResponseBody: Swift.Equatable {
+struct UpdateSourceLocationOutputBody: Swift.Equatable {
     let accessConfiguration: MediaTailorClientTypes.AccessConfiguration?
     let arn: Swift.String?
     let creationTime: ClientRuntime.Date?
@@ -9908,7 +9956,7 @@ struct UpdateSourceLocationOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension UpdateSourceLocationOutputResponseBody: Swift.Decodable {
+extension UpdateSourceLocationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessConfiguration = "AccessConfiguration"
         case arn = "Arn"
@@ -9959,6 +10007,16 @@ extension UpdateSourceLocationOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum UpdateSourceLocationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10038,21 +10096,11 @@ extension UpdateVodSourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateVodSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateVodSourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateVodSourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateVodSourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateVodSourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.httpPackageConfigurations = output.httpPackageConfigurations
@@ -10072,7 +10120,7 @@ extension UpdateVodSourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateVodSourceOutputResponse: Swift.Equatable {
+public struct UpdateVodSourceOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) associated with the VOD source.
     public var arn: Swift.String?
     /// The timestamp that indicates when the VOD source was created.
@@ -10108,7 +10156,7 @@ public struct UpdateVodSourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateVodSourceOutputResponseBody: Swift.Equatable {
+struct UpdateVodSourceOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let creationTime: ClientRuntime.Date?
     let httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]?
@@ -10118,7 +10166,7 @@ struct UpdateVodSourceOutputResponseBody: Swift.Equatable {
     let vodSourceName: Swift.String?
 }
 
-extension UpdateVodSourceOutputResponseBody: Swift.Decodable {
+extension UpdateVodSourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case creationTime = "CreationTime"
@@ -10163,6 +10211,16 @@ extension UpdateVodSourceOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let vodSourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vodSourceName)
         vodSourceName = vodSourceNameDecoded
+    }
+}
+
+enum UpdateVodSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

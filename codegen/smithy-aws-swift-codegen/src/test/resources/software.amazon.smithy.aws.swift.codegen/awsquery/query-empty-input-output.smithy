@@ -17,6 +17,7 @@ service AwsQuery {
     ]
 }
 
+@documentation("This is a very cool operation.")
 operation NoInputAndOutput {
     input: NoInputAndOutputInput,
     output: NoInputAndOutputOutput

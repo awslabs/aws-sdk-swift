@@ -4,72 +4,583 @@ import ClientRuntime
 
 /// Amazon Web Services Mainframe Modernization provides tools and resources to help you plan and implement migration and modernization from mainframes to Amazon Web Services managed runtime environments. It provides tools for analyzing existing mainframe applications, developing or updating mainframe applications using COBOL or PL/I, and implementing an automated pipeline for continuous integration and continuous delivery (CI/CD) of the applications.
 public protocol M2ClientProtocol {
+    /// Performs the `CancelBatchJobExecution` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Cancels the running of a specific batch job execution.
-    func cancelBatchJobExecution(input: CancelBatchJobExecutionInput) async throws -> CancelBatchJobExecutionOutputResponse
+    ///
+    /// - Parameter CancelBatchJobExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `CancelBatchJobExecutionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func cancelBatchJobExecution(input: CancelBatchJobExecutionInput) async throws -> CancelBatchJobExecutionOutput
+    /// Performs the `CreateApplication` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Creates a new application with given parameters. Requires an existing runtime environment and application definition file.
-    func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
+    ///
+    /// - Parameter CreateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateApplicationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ServiceQuotaExceededException` : One or more quotas for Amazon Web Services Mainframe Modernization exceeds the limit.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
+    /// Performs the `CreateDataSetImportTask` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Starts a data set import task for a specific application.
-    func createDataSetImportTask(input: CreateDataSetImportTaskInput) async throws -> CreateDataSetImportTaskOutputResponse
+    ///
+    /// - Parameter CreateDataSetImportTaskInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDataSetImportTaskOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : One or more quotas for Amazon Web Services Mainframe Modernization exceeds the limit.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func createDataSetImportTask(input: CreateDataSetImportTaskInput) async throws -> CreateDataSetImportTaskOutput
+    /// Performs the `CreateDeployment` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Creates and starts a deployment to deploy an application into a runtime environment.
-    func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutputResponse
+    ///
+    /// - Parameter CreateDeploymentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDeploymentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : One or more quotas for Amazon Web Services Mainframe Modernization exceeds the limit.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput
+    /// Performs the `CreateEnvironment` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Creates a runtime environment for a given runtime engine.
-    func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutputResponse
+    ///
+    /// - Parameter CreateEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEnvironmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ServiceQuotaExceededException` : One or more quotas for Amazon Web Services Mainframe Modernization exceeds the limit.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput
+    /// Performs the `DeleteApplication` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Deletes a specific application. You cannot delete a running application.
-    func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutputResponse
+    ///
+    /// - Parameter DeleteApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
+    /// Performs the `DeleteApplicationFromEnvironment` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Deletes a specific application from the specific runtime environment where it was previously deployed. You cannot delete a runtime environment using DeleteEnvironment if any application has ever been deployed to it. This API removes the association of the application with the runtime environment so you can delete the environment smoothly.
-    func deleteApplicationFromEnvironment(input: DeleteApplicationFromEnvironmentInput) async throws -> DeleteApplicationFromEnvironmentOutputResponse
+    ///
+    /// - Parameter DeleteApplicationFromEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApplicationFromEnvironmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func deleteApplicationFromEnvironment(input: DeleteApplicationFromEnvironmentInput) async throws -> DeleteApplicationFromEnvironmentOutput
+    /// Performs the `DeleteEnvironment` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Deletes a specific runtime environment. The environment cannot contain deployed applications. If it does, you must delete those applications before you delete the environment.
-    func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutputResponse
+    ///
+    /// - Parameter DeleteEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEnvironmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput
+    /// Performs the `GetApplication` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Describes the details of a specific application.
-    func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutputResponse
+    ///
+    /// - Parameter GetApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `GetApplicationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput
+    /// Performs the `GetApplicationVersion` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Returns details about a specific version of a specific application.
-    func getApplicationVersion(input: GetApplicationVersionInput) async throws -> GetApplicationVersionOutputResponse
+    ///
+    /// - Parameter GetApplicationVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetApplicationVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func getApplicationVersion(input: GetApplicationVersionInput) async throws -> GetApplicationVersionOutput
+    /// Performs the `GetBatchJobExecution` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Gets the details of a specific batch job execution for a specific application.
-    func getBatchJobExecution(input: GetBatchJobExecutionInput) async throws -> GetBatchJobExecutionOutputResponse
+    ///
+    /// - Parameter GetBatchJobExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `GetBatchJobExecutionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func getBatchJobExecution(input: GetBatchJobExecutionInput) async throws -> GetBatchJobExecutionOutput
+    /// Performs the `GetDataSetDetails` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Gets the details of a specific data set.
-    func getDataSetDetails(input: GetDataSetDetailsInput) async throws -> GetDataSetDetailsOutputResponse
+    ///
+    /// - Parameter GetDataSetDetailsInput : [no documentation found]
+    ///
+    /// - Returns: `GetDataSetDetailsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `ExecutionTimeoutException` : Failed to connect to server, or didn’t receive response within expected time period.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceUnavailableException` : Server cannot process the request at the moment.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func getDataSetDetails(input: GetDataSetDetailsInput) async throws -> GetDataSetDetailsOutput
+    /// Performs the `GetDataSetImportTask` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Gets the status of a data set import task initiated with the [CreateDataSetImportTask] operation.
-    func getDataSetImportTask(input: GetDataSetImportTaskInput) async throws -> GetDataSetImportTaskOutputResponse
+    ///
+    /// - Parameter GetDataSetImportTaskInput : [no documentation found]
+    ///
+    /// - Returns: `GetDataSetImportTaskOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func getDataSetImportTask(input: GetDataSetImportTaskInput) async throws -> GetDataSetImportTaskOutput
+    /// Performs the `GetDeployment` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Gets details of a specific deployment with a given deployment identifier.
-    func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutputResponse
+    ///
+    /// - Parameter GetDeploymentInput : [no documentation found]
+    ///
+    /// - Returns: `GetDeploymentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput
+    /// Performs the `GetEnvironment` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Describes a specific runtime environment.
-    func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutputResponse
+    ///
+    /// - Parameter GetEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `GetEnvironmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutput
+    /// Performs the `GetSignedBluinsightsUrl` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Gets a single sign-on URL that can be used to connect to AWS Blu Insights.
-    func getSignedBluinsightsUrl(input: GetSignedBluinsightsUrlInput) async throws -> GetSignedBluinsightsUrlOutputResponse
+    ///
+    /// - Parameter GetSignedBluinsightsUrlInput : [no documentation found]
+    ///
+    /// - Returns: `GetSignedBluinsightsUrlOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    func getSignedBluinsightsUrl(input: GetSignedBluinsightsUrlInput) async throws -> GetSignedBluinsightsUrlOutput
+    /// Performs the `ListApplications` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Lists the applications associated with a specific Amazon Web Services account. You can provide the unique identifier of a specific runtime environment in a query parameter to see all applications associated with that environment.
-    func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutputResponse
+    ///
+    /// - Parameter ListApplicationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListApplicationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput
+    /// Performs the `ListApplicationVersions` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Returns a list of the application versions for a specific application.
-    func listApplicationVersions(input: ListApplicationVersionsInput) async throws -> ListApplicationVersionsOutputResponse
+    ///
+    /// - Parameter ListApplicationVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListApplicationVersionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func listApplicationVersions(input: ListApplicationVersionsInput) async throws -> ListApplicationVersionsOutput
+    /// Performs the `ListBatchJobDefinitions` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Lists all the available batch job definitions based on the batch job resources uploaded during the application creation. You can use the batch job definitions in the list to start a batch job.
-    func listBatchJobDefinitions(input: ListBatchJobDefinitionsInput) async throws -> ListBatchJobDefinitionsOutputResponse
+    ///
+    /// - Parameter ListBatchJobDefinitionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBatchJobDefinitionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func listBatchJobDefinitions(input: ListBatchJobDefinitionsInput) async throws -> ListBatchJobDefinitionsOutput
+    /// Performs the `ListBatchJobExecutions` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Lists historical, current, and scheduled batch job executions for a specific application.
-    func listBatchJobExecutions(input: ListBatchJobExecutionsInput) async throws -> ListBatchJobExecutionsOutputResponse
+    ///
+    /// - Parameter ListBatchJobExecutionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBatchJobExecutionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func listBatchJobExecutions(input: ListBatchJobExecutionsInput) async throws -> ListBatchJobExecutionsOutput
+    /// Performs the `ListDataSetImportHistory` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Lists the data set imports for the specified application.
-    func listDataSetImportHistory(input: ListDataSetImportHistoryInput) async throws -> ListDataSetImportHistoryOutputResponse
+    ///
+    /// - Parameter ListDataSetImportHistoryInput : [no documentation found]
+    ///
+    /// - Returns: `ListDataSetImportHistoryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func listDataSetImportHistory(input: ListDataSetImportHistoryInput) async throws -> ListDataSetImportHistoryOutput
+    /// Performs the `ListDataSets` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Lists the data sets imported for a specific application. In Amazon Web Services Mainframe Modernization, data sets are associated with applications deployed on runtime environments. This is known as importing data sets. Currently, Amazon Web Services Mainframe Modernization can import data sets into catalogs using [CreateDataSetImportTask](https://docs.aws.amazon.com/m2/latest/APIReference/API_CreateDataSetImportTask.html).
-    func listDataSets(input: ListDataSetsInput) async throws -> ListDataSetsOutputResponse
+    ///
+    /// - Parameter ListDataSetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDataSetsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `ExecutionTimeoutException` : Failed to connect to server, or didn’t receive response within expected time period.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceUnavailableException` : Server cannot process the request at the moment.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func listDataSets(input: ListDataSetsInput) async throws -> ListDataSetsOutput
+    /// Performs the `ListDeployments` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Returns a list of all deployments of a specific application. A deployment is a combination of a specific application and a specific version of that application. Each deployment is mapped to a particular application version.
-    func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutputResponse
+    ///
+    /// - Parameter ListDeploymentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDeploymentsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutput
+    /// Performs the `ListEngineVersions` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Lists the available engine versions.
-    func listEngineVersions(input: ListEngineVersionsInput) async throws -> ListEngineVersionsOutputResponse
+    ///
+    /// - Parameter ListEngineVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEngineVersionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func listEngineVersions(input: ListEngineVersionsInput) async throws -> ListEngineVersionsOutput
+    /// Performs the `ListEnvironments` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Lists the runtime environments.
-    func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutputResponse
+    ///
+    /// - Parameter ListEnvironmentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEnvironmentsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutput
+    /// Performs the `ListTagsForResource` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Lists the tags for the specified resource.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `StartApplication` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Starts an application that is currently stopped.
-    func startApplication(input: StartApplicationInput) async throws -> StartApplicationOutputResponse
+    ///
+    /// - Parameter StartApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `StartApplicationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func startApplication(input: StartApplicationInput) async throws -> StartApplicationOutput
+    /// Performs the `StartBatchJob` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Starts a batch job and returns the unique identifier of this execution of the batch job. The associated application must be running in order to start the batch job.
-    func startBatchJob(input: StartBatchJobInput) async throws -> StartBatchJobOutputResponse
+    ///
+    /// - Parameter StartBatchJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartBatchJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func startBatchJob(input: StartBatchJobInput) async throws -> StartBatchJobOutput
+    /// Performs the `StopApplication` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Stops a running application.
-    func stopApplication(input: StopApplicationInput) async throws -> StopApplicationOutputResponse
+    ///
+    /// - Parameter StopApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `StopApplicationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func stopApplication(input: StopApplicationInput) async throws -> StopApplicationOutput
+    /// Performs the `TagResource` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Adds one or more tags to the specified resource.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : One or more quotas for Amazon Web Services Mainframe Modernization exceeds the limit.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Removes one or more tags from the specified resource.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateApplication` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Updates an application and creates a new version.
-    func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
+    ///
+    /// - Parameter UpdateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
+    /// Performs the `UpdateEnvironment` operation on the `AwsSupernovaControlPlaneService` service.
+    ///
     /// Updates the configuration details for a specific runtime environment.
-    func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutputResponse
+    ///
+    /// - Parameter UpdateEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEnvironmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : One or more quotas for Amazon Web Services Mainframe Modernization exceeds the limit.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
+    func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput
 }
 
 public enum M2ClientTypes {}

@@ -30,6 +30,7 @@ val enabledProtocols = listOf(
     ProtocolTest("aws-json-10", "aws.protocoltests.json10#JsonRpc10", "AWSJson1_0TestSDK"),
     ProtocolTest("aws-json-11", "aws.protocoltests.json#JsonProtocol", "AWSJson1_1TestSDK"),
     ProtocolTest("aws-restjson", "aws.protocoltests.restjson#RestJson", "AWSRestJsonTestSDK"),
+    ProtocolTest("aws-restjson-validation", "aws.protocoltests.restjson.validation#RestJsonValidation", "AWSRestJsonValidationTestSDK"),
     ProtocolTest("rest-xml", "aws.protocoltests.restxml#RestXml", "RestXmlTestSDK"),
     ProtocolTest("rest-xml-xmlns", "aws.protocoltests.restxml.xmlns#RestXmlWithNamespace", "RestXmlWithNamespaceTestSDK"),
     ProtocolTest("aws-query", "aws.protocoltests.query#AwsQuery", "AWSQueryTestSDK"),
@@ -112,7 +113,7 @@ fun generateSmithyBuild(tests: List<ProtocolTest>): String {
                   "gitRepo": "https://github.com/aws-amplify/smithy-swift.git",
                   "author": "Amazon Web Services",
                   "homepage": "https://docs.amplify.aws/",
-                  "swiftVersion": "5.5.0"
+                  "swiftVersion": "5.7.0"
                 }
               }
             }"""

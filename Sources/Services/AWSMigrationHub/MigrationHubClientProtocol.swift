@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// The AWS Migration Hub API methods help to obtain server and application migration status and integrate your resource-specific migration tool by providing a programmatic interface to Migration Hub. Remember that you must set your AWS Migration Hub home region before you call any of these APIs, or a HomeRegionNotSetException error will be returned. Also, you must make the API calls while in your home region.
 public protocol MigrationHubClientProtocol {
+    /// Performs the `AssociateCreatedArtifact` operation on the `AWSMigrationHub` service.
+    ///
     /// Associates a created artifact of an AWS cloud resource, the target receiving the migration, with the migration task performed by a migration tool. This API has the following traits:
     ///
     /// * Migration tools can call the AssociateCreatedArtifact operation to indicate which AWS artifact is associated with a migration task.
@@ -11,11 +13,68 @@ public protocol MigrationHubClientProtocol {
     /// * The created artifact name must be provided in ARN (Amazon Resource Name) format which will contain information about type and region; for example: arn:aws:ec2:us-east-1:488216288981:image/ami-6d0ba87b.
     ///
     /// * Examples of the AWS resource behind the created artifact are, AMI's, EC2 instance, or DMS endpoint, etc.
-    func associateCreatedArtifact(input: AssociateCreatedArtifactInput) async throws -> AssociateCreatedArtifactOutputResponse
+    ///
+    /// - Parameter AssociateCreatedArtifactInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateCreatedArtifactOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DryRunOperation` : Exception raised to indicate a successfully authorized action when the DryRun flag is set to "true".
+    /// - `HomeRegionNotSetException` : The home region is not set. Set the home region to continue.
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `ResourceNotFoundException` : Exception raised when the request references a resource (Application Discovery Service configuration, update stream, migration task, etc.) that does not exist in Application Discovery Service (Application Discovery Service) or in Migration Hub's repository.
+    /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
+    func associateCreatedArtifact(input: AssociateCreatedArtifactInput) async throws -> AssociateCreatedArtifactOutput
+    /// Performs the `AssociateDiscoveredResource` operation on the `AWSMigrationHub` service.
+    ///
     /// Associates a discovered resource ID from Application Discovery Service with a migration task.
-    func associateDiscoveredResource(input: AssociateDiscoveredResourceInput) async throws -> AssociateDiscoveredResourceOutputResponse
+    ///
+    /// - Parameter AssociateDiscoveredResourceInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateDiscoveredResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DryRunOperation` : Exception raised to indicate a successfully authorized action when the DryRun flag is set to "true".
+    /// - `HomeRegionNotSetException` : The home region is not set. Set the home region to continue.
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `PolicyErrorException` : Exception raised when there are problems accessing Application Discovery Service (Application Discovery Service); most likely due to a misconfigured policy or the migrationhub-discovery role is missing or not configured correctly.
+    /// - `ResourceNotFoundException` : Exception raised when the request references a resource (Application Discovery Service configuration, update stream, migration task, etc.) that does not exist in Application Discovery Service (Application Discovery Service) or in Migration Hub's repository.
+    /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
+    func associateDiscoveredResource(input: AssociateDiscoveredResourceInput) async throws -> AssociateDiscoveredResourceOutput
+    /// Performs the `CreateProgressUpdateStream` operation on the `AWSMigrationHub` service.
+    ///
     /// Creates a progress update stream which is an AWS resource used for access control as well as a namespace for migration task names that is implicitly linked to your AWS account. It must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account.
-    func createProgressUpdateStream(input: CreateProgressUpdateStreamInput) async throws -> CreateProgressUpdateStreamOutputResponse
+    ///
+    /// - Parameter CreateProgressUpdateStreamInput : [no documentation found]
+    ///
+    /// - Returns: `CreateProgressUpdateStreamOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DryRunOperation` : Exception raised to indicate a successfully authorized action when the DryRun flag is set to "true".
+    /// - `HomeRegionNotSetException` : The home region is not set. Set the home region to continue.
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
+    func createProgressUpdateStream(input: CreateProgressUpdateStreamInput) async throws -> CreateProgressUpdateStreamOutput
+    /// Performs the `DeleteProgressUpdateStream` operation on the `AWSMigrationHub` service.
+    ///
     /// Deletes a progress update stream, including all of its tasks, which was previously created as an AWS resource used for access control. This API has the following traits:
     ///
     /// * The only parameter needed for DeleteProgressUpdateStream is the stream name (same as a CreateProgressUpdateStream call).
@@ -27,11 +86,65 @@ public protocol MigrationHubClientProtocol {
     /// * CreateProgressUpdateStream, ImportMigrationTask, NotifyMigrationTaskState, and all Associate[*] APIs related to the tasks belonging to the stream will throw "InvalidInputException" if the stream of the same name is in the process of being deleted.
     ///
     /// * Once the stream and all of its resources are deleted, CreateProgressUpdateStream for a stream of the same name will succeed, and that stream will be an entirely new logical resource (without any resources associated with the old stream).
-    func deleteProgressUpdateStream(input: DeleteProgressUpdateStreamInput) async throws -> DeleteProgressUpdateStreamOutputResponse
+    ///
+    /// - Parameter DeleteProgressUpdateStreamInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteProgressUpdateStreamOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DryRunOperation` : Exception raised to indicate a successfully authorized action when the DryRun flag is set to "true".
+    /// - `HomeRegionNotSetException` : The home region is not set. Set the home region to continue.
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `ResourceNotFoundException` : Exception raised when the request references a resource (Application Discovery Service configuration, update stream, migration task, etc.) that does not exist in Application Discovery Service (Application Discovery Service) or in Migration Hub's repository.
+    /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
+    func deleteProgressUpdateStream(input: DeleteProgressUpdateStreamInput) async throws -> DeleteProgressUpdateStreamOutput
+    /// Performs the `DescribeApplicationState` operation on the `AWSMigrationHub` service.
+    ///
     /// Gets the migration status of an application.
-    func describeApplicationState(input: DescribeApplicationStateInput) async throws -> DescribeApplicationStateOutputResponse
+    ///
+    /// - Parameter DescribeApplicationStateInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeApplicationStateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `HomeRegionNotSetException` : The home region is not set. Set the home region to continue.
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `PolicyErrorException` : Exception raised when there are problems accessing Application Discovery Service (Application Discovery Service); most likely due to a misconfigured policy or the migrationhub-discovery role is missing or not configured correctly.
+    /// - `ResourceNotFoundException` : Exception raised when the request references a resource (Application Discovery Service configuration, update stream, migration task, etc.) that does not exist in Application Discovery Service (Application Discovery Service) or in Migration Hub's repository.
+    /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    func describeApplicationState(input: DescribeApplicationStateInput) async throws -> DescribeApplicationStateOutput
+    /// Performs the `DescribeMigrationTask` operation on the `AWSMigrationHub` service.
+    ///
     /// Retrieves a list of all attributes associated with a specific migration task.
-    func describeMigrationTask(input: DescribeMigrationTaskInput) async throws -> DescribeMigrationTaskOutputResponse
+    ///
+    /// - Parameter DescribeMigrationTaskInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeMigrationTaskOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `HomeRegionNotSetException` : The home region is not set. Set the home region to continue.
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `ResourceNotFoundException` : Exception raised when the request references a resource (Application Discovery Service configuration, update stream, migration task, etc.) that does not exist in Application Discovery Service (Application Discovery Service) or in Migration Hub's repository.
+    /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    func describeMigrationTask(input: DescribeMigrationTaskInput) async throws -> DescribeMigrationTaskOutput
+    /// Performs the `DisassociateCreatedArtifact` operation on the `AWSMigrationHub` service.
+    ///
     /// Disassociates a created artifact of an AWS resource with a migration task performed by a migration tool that was previously associated. This API has the following traits:
     ///
     /// * A migration user can call the DisassociateCreatedArtifacts operation to disassociate a created AWS Artifact from a migration task.
@@ -39,13 +152,86 @@ public protocol MigrationHubClientProtocol {
     /// * The created artifact name must be provided in ARN (Amazon Resource Name) format which will contain information about type and region; for example: arn:aws:ec2:us-east-1:488216288981:image/ami-6d0ba87b.
     ///
     /// * Examples of the AWS resource behind the created artifact are, AMI's, EC2 instance, or RDS instance, etc.
-    func disassociateCreatedArtifact(input: DisassociateCreatedArtifactInput) async throws -> DisassociateCreatedArtifactOutputResponse
+    ///
+    /// - Parameter DisassociateCreatedArtifactInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateCreatedArtifactOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DryRunOperation` : Exception raised to indicate a successfully authorized action when the DryRun flag is set to "true".
+    /// - `HomeRegionNotSetException` : The home region is not set. Set the home region to continue.
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `ResourceNotFoundException` : Exception raised when the request references a resource (Application Discovery Service configuration, update stream, migration task, etc.) that does not exist in Application Discovery Service (Application Discovery Service) or in Migration Hub's repository.
+    /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
+    func disassociateCreatedArtifact(input: DisassociateCreatedArtifactInput) async throws -> DisassociateCreatedArtifactOutput
+    /// Performs the `DisassociateDiscoveredResource` operation on the `AWSMigrationHub` service.
+    ///
     /// Disassociate an Application Discovery Service discovered resource from a migration task.
-    func disassociateDiscoveredResource(input: DisassociateDiscoveredResourceInput) async throws -> DisassociateDiscoveredResourceOutputResponse
+    ///
+    /// - Parameter DisassociateDiscoveredResourceInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateDiscoveredResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DryRunOperation` : Exception raised to indicate a successfully authorized action when the DryRun flag is set to "true".
+    /// - `HomeRegionNotSetException` : The home region is not set. Set the home region to continue.
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `ResourceNotFoundException` : Exception raised when the request references a resource (Application Discovery Service configuration, update stream, migration task, etc.) that does not exist in Application Discovery Service (Application Discovery Service) or in Migration Hub's repository.
+    /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
+    func disassociateDiscoveredResource(input: DisassociateDiscoveredResourceInput) async throws -> DisassociateDiscoveredResourceOutput
+    /// Performs the `ImportMigrationTask` operation on the `AWSMigrationHub` service.
+    ///
     /// Registers a new migration task which represents a server, database, etc., being migrated to AWS by a migration tool. This API is a prerequisite to calling the NotifyMigrationTaskState API as the migration tool must first register the migration task with Migration Hub.
-    func importMigrationTask(input: ImportMigrationTaskInput) async throws -> ImportMigrationTaskOutputResponse
+    ///
+    /// - Parameter ImportMigrationTaskInput : [no documentation found]
+    ///
+    /// - Returns: `ImportMigrationTaskOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DryRunOperation` : Exception raised to indicate a successfully authorized action when the DryRun flag is set to "true".
+    /// - `HomeRegionNotSetException` : The home region is not set. Set the home region to continue.
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `ResourceNotFoundException` : Exception raised when the request references a resource (Application Discovery Service configuration, update stream, migration task, etc.) that does not exist in Application Discovery Service (Application Discovery Service) or in Migration Hub's repository.
+    /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
+    func importMigrationTask(input: ImportMigrationTaskInput) async throws -> ImportMigrationTaskOutput
+    /// Performs the `ListApplicationStates` operation on the `AWSMigrationHub` service.
+    ///
     /// Lists all the migration statuses for your applications. If you use the optional ApplicationIds parameter, only the migration statuses for those applications will be returned.
-    func listApplicationStates(input: ListApplicationStatesInput) async throws -> ListApplicationStatesOutputResponse
+    ///
+    /// - Parameter ListApplicationStatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListApplicationStatesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `HomeRegionNotSetException` : The home region is not set. Set the home region to continue.
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    func listApplicationStates(input: ListApplicationStatesInput) async throws -> ListApplicationStatesOutput
+    /// Performs the `ListCreatedArtifacts` operation on the `AWSMigrationHub` service.
+    ///
     /// Lists the created artifacts attached to a given migration task in an update stream. This API has the following traits:
     ///
     /// * Gets the list of the created artifacts while migration is taking place.
@@ -53,9 +239,43 @@ public protocol MigrationHubClientProtocol {
     /// * Shows the artifacts created by the migration tool that was associated by the AssociateCreatedArtifact API.
     ///
     /// * Lists created artifacts in a paginated interface.
-    func listCreatedArtifacts(input: ListCreatedArtifactsInput) async throws -> ListCreatedArtifactsOutputResponse
+    ///
+    /// - Parameter ListCreatedArtifactsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCreatedArtifactsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `HomeRegionNotSetException` : The home region is not set. Set the home region to continue.
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `ResourceNotFoundException` : Exception raised when the request references a resource (Application Discovery Service configuration, update stream, migration task, etc.) that does not exist in Application Discovery Service (Application Discovery Service) or in Migration Hub's repository.
+    /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    func listCreatedArtifacts(input: ListCreatedArtifactsInput) async throws -> ListCreatedArtifactsOutput
+    /// Performs the `ListDiscoveredResources` operation on the `AWSMigrationHub` service.
+    ///
     /// Lists discovered resources associated with the given MigrationTask.
-    func listDiscoveredResources(input: ListDiscoveredResourcesInput) async throws -> ListDiscoveredResourcesOutputResponse
+    ///
+    /// - Parameter ListDiscoveredResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListDiscoveredResourcesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `HomeRegionNotSetException` : The home region is not set. Set the home region to continue.
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `ResourceNotFoundException` : Exception raised when the request references a resource (Application Discovery Service configuration, update stream, migration task, etc.) that does not exist in Application Discovery Service (Application Discovery Service) or in Migration Hub's repository.
+    /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    func listDiscoveredResources(input: ListDiscoveredResourcesInput) async throws -> ListDiscoveredResourcesOutput
+    /// Performs the `ListMigrationTasks` operation on the `AWSMigrationHub` service.
+    ///
     /// Lists all, or filtered by resource name, migration tasks associated with the user account making this call. This API has the following traits:
     ///
     /// * Can show a summary list of the most recent migration tasks.
@@ -63,11 +283,65 @@ public protocol MigrationHubClientProtocol {
     /// * Can show a summary list of migration tasks associated with a given discovered resource.
     ///
     /// * Lists migration tasks in a paginated interface.
-    func listMigrationTasks(input: ListMigrationTasksInput) async throws -> ListMigrationTasksOutputResponse
+    ///
+    /// - Parameter ListMigrationTasksInput : [no documentation found]
+    ///
+    /// - Returns: `ListMigrationTasksOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `HomeRegionNotSetException` : The home region is not set. Set the home region to continue.
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `PolicyErrorException` : Exception raised when there are problems accessing Application Discovery Service (Application Discovery Service); most likely due to a misconfigured policy or the migrationhub-discovery role is missing or not configured correctly.
+    /// - `ResourceNotFoundException` : Exception raised when the request references a resource (Application Discovery Service configuration, update stream, migration task, etc.) that does not exist in Application Discovery Service (Application Discovery Service) or in Migration Hub's repository.
+    /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    func listMigrationTasks(input: ListMigrationTasksInput) async throws -> ListMigrationTasksOutput
+    /// Performs the `ListProgressUpdateStreams` operation on the `AWSMigrationHub` service.
+    ///
     /// Lists progress update streams associated with the user account making this call.
-    func listProgressUpdateStreams(input: ListProgressUpdateStreamsInput) async throws -> ListProgressUpdateStreamsOutputResponse
+    ///
+    /// - Parameter ListProgressUpdateStreamsInput : [no documentation found]
+    ///
+    /// - Returns: `ListProgressUpdateStreamsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `HomeRegionNotSetException` : The home region is not set. Set the home region to continue.
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    func listProgressUpdateStreams(input: ListProgressUpdateStreamsInput) async throws -> ListProgressUpdateStreamsOutput
+    /// Performs the `NotifyApplicationState` operation on the `AWSMigrationHub` service.
+    ///
     /// Sets the migration state of an application. For a given application identified by the value passed to ApplicationId, its status is set or updated by passing one of three values to Status: NOT_STARTED | IN_PROGRESS | COMPLETED.
-    func notifyApplicationState(input: NotifyApplicationStateInput) async throws -> NotifyApplicationStateOutputResponse
+    ///
+    /// - Parameter NotifyApplicationStateInput : [no documentation found]
+    ///
+    /// - Returns: `NotifyApplicationStateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DryRunOperation` : Exception raised to indicate a successfully authorized action when the DryRun flag is set to "true".
+    /// - `HomeRegionNotSetException` : The home region is not set. Set the home region to continue.
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `PolicyErrorException` : Exception raised when there are problems accessing Application Discovery Service (Application Discovery Service); most likely due to a misconfigured policy or the migrationhub-discovery role is missing or not configured correctly.
+    /// - `ResourceNotFoundException` : Exception raised when the request references a resource (Application Discovery Service configuration, update stream, migration task, etc.) that does not exist in Application Discovery Service (Application Discovery Service) or in Migration Hub's repository.
+    /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
+    func notifyApplicationState(input: NotifyApplicationStateInput) async throws -> NotifyApplicationStateOutput
+    /// Performs the `NotifyMigrationTaskState` operation on the `AWSMigrationHub` service.
+    ///
     /// Notifies Migration Hub of the current status, progress, or other detail regarding a migration task. This API has the following traits:
     ///
     /// * Migration tools will call the NotifyMigrationTaskState API to share the latest progress and status.
@@ -75,7 +349,26 @@ public protocol MigrationHubClientProtocol {
     /// * MigrationTaskName is used for addressing updates to the correct target.
     ///
     /// * ProgressUpdateStream is used for access control and to provide a namespace for each migration tool.
-    func notifyMigrationTaskState(input: NotifyMigrationTaskStateInput) async throws -> NotifyMigrationTaskStateOutputResponse
+    ///
+    /// - Parameter NotifyMigrationTaskStateInput : [no documentation found]
+    ///
+    /// - Returns: `NotifyMigrationTaskStateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DryRunOperation` : Exception raised to indicate a successfully authorized action when the DryRun flag is set to "true".
+    /// - `HomeRegionNotSetException` : The home region is not set. Set the home region to continue.
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `ResourceNotFoundException` : Exception raised when the request references a resource (Application Discovery Service configuration, update stream, migration task, etc.) that does not exist in Application Discovery Service (Application Discovery Service) or in Migration Hub's repository.
+    /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
+    func notifyMigrationTaskState(input: NotifyMigrationTaskStateInput) async throws -> NotifyMigrationTaskStateOutput
+    /// Performs the `PutResourceAttributes` operation on the `AWSMigrationHub` service.
+    ///
     /// Provides identifying details of the resource being migrated so that it can be associated in the Application Discovery Service repository. This association occurs asynchronously after PutResourceAttributes returns.
     ///
     /// * Keep in mind that subsequent calls to PutResourceAttributes will override previously stored attributes. For example, if it is first called with a MAC address, but later, it is desired to add an IP address, it will then be required to call it with both the IP and MAC addresses to prevent overriding the MAC address.
@@ -84,7 +377,24 @@ public protocol MigrationHubClientProtocol {
     ///
     ///
     /// Because this is an asynchronous call, it will always return 200, whether an association occurs or not. To confirm if an association was found based on the provided details, call ListDiscoveredResources.
-    func putResourceAttributes(input: PutResourceAttributesInput) async throws -> PutResourceAttributesOutputResponse
+    ///
+    /// - Parameter PutResourceAttributesInput : [no documentation found]
+    ///
+    /// - Returns: `PutResourceAttributesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DryRunOperation` : Exception raised to indicate a successfully authorized action when the DryRun flag is set to "true".
+    /// - `HomeRegionNotSetException` : The home region is not set. Set the home region to continue.
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `ResourceNotFoundException` : Exception raised when the request references a resource (Application Discovery Service configuration, update stream, migration task, etc.) that does not exist in Application Discovery Service (Application Discovery Service) or in Migration Hub's repository.
+    /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
+    func putResourceAttributes(input: PutResourceAttributesInput) async throws -> PutResourceAttributesOutput
 }
 
 public enum MigrationHubClientTypes {}

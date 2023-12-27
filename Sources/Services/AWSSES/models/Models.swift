@@ -82,12 +82,12 @@ extension SESClientTypes.AddHeaderAction: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// When included in a receipt rule, this action adds a header to the received email. For information about adding a header using a receipt rule, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-add-header.html).
+    /// When included in a receipt rule, this action adds a header to the received email. For information about adding a header using a receipt rule, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-add-header.html).
     public struct AddHeaderAction: Swift.Equatable {
-        /// The name of the header to add. Must be between 1 and 50 characters, inclusive, and consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes only.
+        /// The name of the header to add to the incoming message. The name must contain at least one character, and can contain up to 50 characters. It consists of alphanumeric (a–z, A–Z, 0–9) characters and dashes.
         /// This member is required.
         public var headerName: Swift.String?
-        /// Must be less than 2048 characters, and must not contain newline characters ("\r" or "\n").
+        /// The content to include in the header. This value can contain up to 2048 characters. It can't contain newline (\n) or carriage return (\r) characters.
         /// This member is required.
         public var headerValue: Swift.String?
 
@@ -288,12 +288,12 @@ extension SESClientTypes.BounceAction: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// When included in a receipt rule, this action rejects the received email by returning a bounce response to the sender and, optionally, publishes a notification to Amazon Simple Notification Service (Amazon SNS). For information about sending a bounce message in response to a received email, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-bounce.html).
+    /// When included in a receipt rule, this action rejects the received email by returning a bounce response to the sender and, optionally, publishes a notification to Amazon Simple Notification Service (Amazon SNS). For information about sending a bounce message in response to a received email, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-bounce.html).
     public struct BounceAction: Swift.Equatable {
         /// Human-readable text to include in the bounce message.
         /// This member is required.
         public var message: Swift.String?
-        /// The email address of the sender of the bounced email. This is the address from which the bounce message will be sent.
+        /// The email address of the sender of the bounced email. This is the address from which the bounce message is sent.
         /// This member is required.
         public var sender: Swift.String?
         /// The SMTP reply code, as defined by [RFC 5321](https://tools.ietf.org/html/rfc5321).
@@ -301,7 +301,7 @@ extension SESClientTypes {
         public var smtpReplyCode: Swift.String?
         /// The SMTP enhanced status code, as defined by [RFC 3463](https://tools.ietf.org/html/rfc3463).
         public var statusCode: Swift.String?
-        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the bounce action is taken. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the [Amazon SNS Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html).
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the bounce action is taken. You can find the ARN of a topic by using the [ListTopics](https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html) operation in Amazon SNS. For more information about Amazon SNS topics, see the [Amazon SNS Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html).
         public var topicArn: Swift.String?
 
         public init(
@@ -404,14 +404,14 @@ extension SESClientTypes.BouncedRecipientInfo: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// Recipient-related information to include in the Delivery Status Notification (DSN) when an email that Amazon SES receives on your behalf bounces. For information about receiving email through Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email.html).
+    /// Recipient-related information to include in the Delivery Status Notification (DSN) when an email that Amazon SES receives on your behalf bounces. For information about receiving email through Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html).
     public struct BouncedRecipientInfo: Swift.Equatable {
         /// The reason for the bounce. You must provide either this parameter or RecipientDsnFields.
         public var bounceType: SESClientTypes.BounceType?
         /// The email address of the recipient of the bounced email.
         /// This member is required.
         public var recipient: Swift.String?
-        /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to receive email for the recipient of the bounced email. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
+        /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to receive email for the recipient of the bounced email. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
         public var recipientArn: Swift.String?
         /// Recipient-related DSN fields, most of which would normally be filled in automatically when provided with a BounceType. You must provide either this parameter or BounceType.
         public var recipientDsnFields: SESClientTypes.RecipientDsnFields?
@@ -492,7 +492,7 @@ extension SESClientTypes.BulkEmailDestination: Swift.Codable {
 extension SESClientTypes {
     /// An array that contains one or more Destinations, as well as the tags and replacement data associated with each of those Destinations.
     public struct BulkEmailDestination: Swift.Equatable {
-        /// Represents the destination of the message, consisting of To:, CC:, and BCC: fields. Amazon SES does not support the SMTPUTF8 extension, as described in [RFC6531](https://tools.ietf.org/html/rfc6531). For this reason, the local part of a destination email address (the part of the email address that precedes the @ sign) may only contain [7-bit ASCII characters](https://en.wikipedia.org/wiki/Email_address#Local-part). If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in [RFC3492](https://tools.ietf.org/html/rfc3492.html).
+        /// Represents the destination of the message, consisting of To:, CC:, and BCC: fields. Amazon SES does not support the SMTPUTF8 extension, as described in [RFC6531](https://tools.ietf.org/html/rfc6531). For this reason, the email address string must be 7-bit ASCII. If you want to send to or from email addresses that contain Unicode characters in the domain part of an address, you must encode the domain using Punycode. Punycode is not permitted in the local part of the email address (the part before the @ sign) nor in the "friendly from" name. If you want to use Unicode characters in the "friendly from" name, you must encode the "friendly from" name using MIME encoded-word syntax, as described in [Sending raw email using the Amazon SES API](https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html). For more information about Punycode, see [RFC 3492](http://tools.ietf.org/html/rfc3492).
         /// This member is required.
         public var destination: SESClientTypes.Destination?
         /// A list of tags, in the form of name/value pairs, to apply to an email that you send using SendBulkTemplatedEmail. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
@@ -554,7 +554,7 @@ extension SESClientTypes {
         public var messageId: Swift.String?
         /// The status of a message sent using the SendBulkTemplatedEmail operation. Possible values for this parameter include:
         ///
-        /// * Success: Amazon SES accepted the message, and will attempt to deliver it to the recipients.
+        /// * Success: Amazon SES accepted the message, and attempts to deliver it to the recipients.
         ///
         /// * MessageRejected: The message was rejected because it contained a virus.
         ///
@@ -749,18 +749,18 @@ extension CloneReceiptRuleSetInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to create a receipt rule set by cloning an existing one. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-concepts.html).
+/// Represents a request to create a receipt rule set by cloning an existing one. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
 public struct CloneReceiptRuleSetInput: Swift.Equatable {
     /// The name of the rule set to clone.
     /// This member is required.
     public var originalRuleSetName: Swift.String?
-    /// The name of the rule set to create. The name must:
+    /// The name of the rule set to create. The name must meet the following requirements:
     ///
-    /// * This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+    /// * Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
     ///
     /// * Start and end with a letter or number.
     ///
-    /// * Contain less than 64 characters.
+    /// * Contain 64 characters or fewer.
     /// This member is required.
     public var ruleSetName: Swift.String?
 
@@ -794,8 +794,19 @@ extension CloneReceiptRuleSetInputBody: Swift.Decodable {
     }
 }
 
-public enum CloneReceiptRuleSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CloneReceiptRuleSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty element returned on a successful request.
+public struct CloneReceiptRuleSetOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CloneReceiptRuleSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AlreadyExists": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -804,17 +815,6 @@ public enum CloneReceiptRuleSetOutputError: ClientRuntime.HttpResponseErrorBindi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension CloneReceiptRuleSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty element returned on a successful request.
-public struct CloneReceiptRuleSetOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension SESClientTypes.CloudWatchDestination: Swift.Codable {
@@ -863,7 +863,7 @@ extension SESClientTypes.CloudWatchDestination: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// Contains information associated with an Amazon CloudWatch event destination to which email sending events are published. Event destinations, such as Amazon CloudWatch, are associated with configuration sets, which enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html).
+    /// Contains information associated with an Amazon CloudWatch event destination to which email sending events are published. Event destinations, such as Amazon CloudWatch, are associated with configuration sets, which enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
     public struct CloudWatchDestination: Swift.Equatable {
         /// A list of dimensions upon which to categorize your emails when you publish email sending events to Amazon CloudWatch.
         /// This member is required.
@@ -911,23 +911,23 @@ extension SESClientTypes.CloudWatchDimensionConfiguration: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// Contains the dimension configuration to use when you publish email sending events to Amazon CloudWatch. For information about publishing email sending events to Amazon CloudWatch, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html).
+    /// Contains the dimension configuration to use when you publish email sending events to Amazon CloudWatch. For information about publishing email sending events to Amazon CloudWatch, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
     public struct CloudWatchDimensionConfiguration: Swift.Equatable {
-        /// The default value of the dimension that is published to Amazon CloudWatch if you do not provide the value of the dimension when you send an email. The default value must:
+        /// The default value of the dimension that is published to Amazon CloudWatch if you do not provide the value of the dimension when you send an email. The default value must meet the following requirements:
         ///
-        /// * This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+        /// * Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), dashes (-), at signs (@), or periods (.).
         ///
-        /// * Contain less than 256 characters.
+        /// * Contain 256 characters or fewer.
         /// This member is required.
         public var defaultDimensionValue: Swift.String?
-        /// The name of an Amazon CloudWatch dimension associated with an email sending metric. The name must:
+        /// The name of an Amazon CloudWatch dimension associated with an email sending metric. The name must meet the following requirements:
         ///
-        /// * This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+        /// * Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), dashes (-), or colons (:).
         ///
-        /// * Contain less than 256 characters.
+        /// * Contain 256 characters or fewer.
         /// This member is required.
         public var dimensionName: Swift.String?
-        /// The place where Amazon SES finds the value of a dimension to publish to Amazon CloudWatch. If you want Amazon SES to use the message tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail/SendRawEmail API, choose messageTag. If you want Amazon SES to use your own email headers, choose emailHeader.
+        /// The place where Amazon SES finds the value of a dimension to publish to Amazon CloudWatch. To use the message tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail/SendRawEmail API, specify messageTag. To use your own email headers, specify emailHeader. To put a custom tag on any link included in your email, specify linkTag.
         /// This member is required.
         public var dimensionValueSource: SESClientTypes.DimensionValueSource?
 
@@ -965,7 +965,7 @@ extension SESClientTypes.ConfigurationSet: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// The name of the configuration set. Configuration sets let you create groups of rules that you can apply to the emails you send using Amazon SES. For more information about using configuration sets, see [Using Amazon SES Configuration Sets](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/using-configuration-sets.html) in the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/).
+    /// The name of the configuration set. Configuration sets let you create groups of rules that you can apply to the emails you send using Amazon SES. For more information about using configuration sets, see [Using Amazon SES Configuration Sets](https://docs.aws.amazon.com/ses/latest/dg/using-configuration-sets.html) in the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/).
     public struct ConfigurationSet: Swift.Equatable {
         /// The name of the configuration set. The name must meet the following requirements:
         ///
@@ -1281,12 +1281,12 @@ extension CreateConfigurationSetEventDestinationInput: ClientRuntime.URLPathProv
     }
 }
 
-/// Represents a request to create a configuration set event destination. A configuration set event destination, which can be either Amazon CloudWatch or Amazon Kinesis Firehose, describes an AWS service in which Amazon SES publishes the email sending events associated with a configuration set. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html).
+/// Represents a request to create a configuration set event destination. A configuration set event destination, which can be either Amazon CloudWatch or Amazon Kinesis Firehose, describes an Amazon Web Services service in which Amazon SES publishes the email sending events associated with a configuration set. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
 public struct CreateConfigurationSetEventDestinationInput: Swift.Equatable {
     /// The name of the configuration set that the event destination should be associated with.
     /// This member is required.
     public var configurationSetName: Swift.String?
-    /// An object that describes the AWS service that email sending event information will be published to.
+    /// An object that describes the Amazon Web Services service that email sending event where information is published.
     /// This member is required.
     public var eventDestination: SESClientTypes.EventDestination?
 
@@ -1320,8 +1320,19 @@ extension CreateConfigurationSetEventDestinationInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateConfigurationSetEventDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateConfigurationSetEventDestinationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty element returned on a successful request.
+public struct CreateConfigurationSetEventDestinationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CreateConfigurationSetEventDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConfigurationSetDoesNotExist": return try await ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1333,17 +1344,6 @@ public enum CreateConfigurationSetEventDestinationOutputError: ClientRuntime.Htt
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension CreateConfigurationSetEventDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty element returned on a successful request.
-public struct CreateConfigurationSetEventDestinationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CreateConfigurationSetInput: Swift.Encodable {
@@ -1363,7 +1363,7 @@ extension CreateConfigurationSetInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to create a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html).
+/// Represents a request to create a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
 public struct CreateConfigurationSetInput: Swift.Equatable {
     /// A data structure that contains the name of the configuration set.
     /// This member is required.
@@ -1393,8 +1393,19 @@ extension CreateConfigurationSetInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateConfigurationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateConfigurationSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty element returned on a successful request.
+public struct CreateConfigurationSetOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CreateConfigurationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConfigurationSetAlreadyExists": return try await ConfigurationSetAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1403,17 +1414,6 @@ public enum CreateConfigurationSetOutputError: ClientRuntime.HttpResponseErrorBi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension CreateConfigurationSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty element returned on a successful request.
-public struct CreateConfigurationSetOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CreateConfigurationSetTrackingOptionsInput: Swift.Encodable {
@@ -1441,7 +1441,7 @@ public struct CreateConfigurationSetTrackingOptionsInput: Swift.Equatable {
     /// The name of the configuration set that the tracking options should be associated with.
     /// This member is required.
     public var configurationSetName: Swift.String?
-    /// A domain that is used to redirect email recipients to an Amazon SES-operated domain. This domain captures open and click events generated by Amazon SES emails. For more information, see [Configuring Custom Domains to Handle Open and Click Tracking](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/configure-custom-open-click-domains.html) in the Amazon SES Developer Guide.
+    /// A domain that is used to redirect email recipients to an Amazon SES-operated domain. This domain captures open and click events generated by Amazon SES emails. For more information, see [Configuring Custom Domains to Handle Open and Click Tracking](https://docs.aws.amazon.com/ses/latest/dg/configure-custom-open-click-domains.html) in the Amazon SES Developer Guide.
     /// This member is required.
     public var trackingOptions: SESClientTypes.TrackingOptions?
 
@@ -1475,8 +1475,19 @@ extension CreateConfigurationSetTrackingOptionsInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateConfigurationSetTrackingOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateConfigurationSetTrackingOptionsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty element returned on a successful request.
+public struct CreateConfigurationSetTrackingOptionsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CreateConfigurationSetTrackingOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConfigurationSetDoesNotExist": return try await ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1485,17 +1496,6 @@ public enum CreateConfigurationSetTrackingOptionsOutputError: ClientRuntime.Http
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension CreateConfigurationSetTrackingOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty element returned on a successful request.
-public struct CreateConfigurationSetTrackingOptionsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CreateCustomVerificationEmailTemplateInput: Swift.Encodable {
@@ -1541,7 +1541,7 @@ public struct CreateCustomVerificationEmailTemplateInput: Swift.Equatable {
     /// The URL that the recipient of the verification email is sent to if his or her address is successfully verified.
     /// This member is required.
     public var successRedirectionURL: Swift.String?
-    /// The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see [Custom Verification Email Frequently Asked Questions](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/custom-verification-emails.html#custom-verification-emails-faq) in the Amazon SES Developer Guide.
+    /// The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see [Custom Verification Email Frequently Asked Questions](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide.
     /// This member is required.
     public var templateContent: Swift.String?
     /// The name of the custom verification email template.
@@ -1605,8 +1605,18 @@ extension CreateCustomVerificationEmailTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateCustomVerificationEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateCustomVerificationEmailTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CreateCustomVerificationEmailTemplateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CreateCustomVerificationEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CustomVerificationEmailInvalidContent": return try await CustomVerificationEmailInvalidContentException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1616,16 +1626,6 @@ public enum CreateCustomVerificationEmailTemplateOutputError: ClientRuntime.Http
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension CreateCustomVerificationEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CreateCustomVerificationEmailTemplateOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CreateReceiptFilterInput: Swift.Encodable {
@@ -1645,7 +1645,7 @@ extension CreateReceiptFilterInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to create a new IP address filter. You use IP address filters when you receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-concepts.html).
+/// Represents a request to create a new IP address filter. You use IP address filters when you receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
 public struct CreateReceiptFilterInput: Swift.Equatable {
     /// A data structure that describes the IP address filter to create, which consists of a name, an IP address range, and whether to allow or block mail from it.
     /// This member is required.
@@ -1675,8 +1675,19 @@ extension CreateReceiptFilterInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateReceiptFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateReceiptFilterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty element returned on a successful request.
+public struct CreateReceiptFilterOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CreateReceiptFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AlreadyExists": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1684,17 +1695,6 @@ public enum CreateReceiptFilterOutputError: ClientRuntime.HttpResponseErrorBindi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension CreateReceiptFilterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty element returned on a successful request.
-public struct CreateReceiptFilterOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CreateReceiptRuleInput: Swift.Encodable {
@@ -1720,14 +1720,14 @@ extension CreateReceiptRuleInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to create a receipt rule. You use receipt rules to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-concepts.html).
+/// Represents a request to create a receipt rule. You use receipt rules to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
 public struct CreateReceiptRuleInput: Swift.Equatable {
-    /// The name of an existing rule after which the new rule will be placed. If this parameter is null, the new rule will be inserted at the beginning of the rule list.
+    /// The name of an existing rule after which the new rule is placed. If this parameter is null, the new rule is inserted at the beginning of the rule list.
     public var after: Swift.String?
     /// A data structure that contains the specified rule's name, actions, recipients, domains, enabled status, scan status, and TLS policy.
     /// This member is required.
     public var rule: SESClientTypes.ReceiptRule?
-    /// The name of the rule set that the receipt rule will be added to.
+    /// The name of the rule set where the receipt rule is added.
     /// This member is required.
     public var ruleSetName: Swift.String?
 
@@ -1767,8 +1767,19 @@ extension CreateReceiptRuleInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateReceiptRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateReceiptRuleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty element returned on a successful request.
+public struct CreateReceiptRuleOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CreateReceiptRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AlreadyExists": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1781,17 +1792,6 @@ public enum CreateReceiptRuleOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension CreateReceiptRuleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty element returned on a successful request.
-public struct CreateReceiptRuleOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CreateReceiptRuleSetInput: Swift.Encodable {
@@ -1811,15 +1811,15 @@ extension CreateReceiptRuleSetInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to create an empty receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-concepts.html).
+/// Represents a request to create an empty receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
 public struct CreateReceiptRuleSetInput: Swift.Equatable {
-    /// The name of the rule set to create. The name must:
+    /// The name of the rule set to create. The name must meet the following requirements:
     ///
-    /// * This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+    /// * Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
     ///
     /// * Start and end with a letter or number.
     ///
-    /// * Contain less than 64 characters.
+    /// * Contain 64 characters or fewer.
     /// This member is required.
     public var ruleSetName: Swift.String?
 
@@ -1847,8 +1847,19 @@ extension CreateReceiptRuleSetInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateReceiptRuleSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateReceiptRuleSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty element returned on a successful request.
+public struct CreateReceiptRuleSetOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CreateReceiptRuleSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AlreadyExists": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1856,17 +1867,6 @@ public enum CreateReceiptRuleSetOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension CreateReceiptRuleSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty element returned on a successful request.
-public struct CreateReceiptRuleSetOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CreateTemplateInput: Swift.Encodable {
@@ -1886,9 +1886,9 @@ extension CreateTemplateInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to create an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
+/// Represents a request to create an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html).
 public struct CreateTemplateInput: Swift.Equatable {
-    /// The content of the email, composed of a subject line, an HTML part, and a text-only part.
+    /// The content of the email, composed of a subject line and either an HTML part or a text-only part.
     /// This member is required.
     public var template: SESClientTypes.Template?
 
@@ -1916,8 +1916,18 @@ extension CreateTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CreateTemplateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CreateTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AlreadyExists": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1926,16 +1936,6 @@ public enum CreateTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension CreateTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CreateTemplateOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension SESClientTypes {
@@ -2253,7 +2253,7 @@ extension DeleteConfigurationSetEventDestinationInput: ClientRuntime.URLPathProv
     }
 }
 
-/// Represents a request to delete a configuration set event destination. Configuration set event destinations are associated with configuration sets, which enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html).
+/// Represents a request to delete a configuration set event destination. Configuration set event destinations are associated with configuration sets, which enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
 public struct DeleteConfigurationSetEventDestinationInput: Swift.Equatable {
     /// The name of the configuration set from which to delete the event destination.
     /// This member is required.
@@ -2292,8 +2292,19 @@ extension DeleteConfigurationSetEventDestinationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteConfigurationSetEventDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteConfigurationSetEventDestinationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty element returned on a successful request.
+public struct DeleteConfigurationSetEventDestinationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteConfigurationSetEventDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConfigurationSetDoesNotExist": return try await ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2301,17 +2312,6 @@ public enum DeleteConfigurationSetEventDestinationOutputError: ClientRuntime.Htt
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteConfigurationSetEventDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty element returned on a successful request.
-public struct DeleteConfigurationSetEventDestinationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteConfigurationSetInput: Swift.Encodable {
@@ -2331,7 +2331,7 @@ extension DeleteConfigurationSetInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to delete a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html).
+/// Represents a request to delete a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
 public struct DeleteConfigurationSetInput: Swift.Equatable {
     /// The name of the configuration set to delete.
     /// This member is required.
@@ -2361,25 +2361,25 @@ extension DeleteConfigurationSetInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteConfigurationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteConfigurationSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty element returned on a successful request.
+public struct DeleteConfigurationSetOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteConfigurationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConfigurationSetDoesNotExist": return try await ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteConfigurationSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty element returned on a successful request.
-public struct DeleteConfigurationSetOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteConfigurationSetTrackingOptionsInput: Swift.Encodable {
@@ -2401,7 +2401,7 @@ extension DeleteConfigurationSetTrackingOptionsInput: ClientRuntime.URLPathProvi
 
 /// Represents a request to delete open and click tracking options in a configuration set.
 public struct DeleteConfigurationSetTrackingOptionsInput: Swift.Equatable {
-    /// The name of the configuration set from which you want to delete the tracking options.
+    /// The name of the configuration set.
     /// This member is required.
     public var configurationSetName: Swift.String?
 
@@ -2429,8 +2429,19 @@ extension DeleteConfigurationSetTrackingOptionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteConfigurationSetTrackingOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteConfigurationSetTrackingOptionsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty element returned on a successful request.
+public struct DeleteConfigurationSetTrackingOptionsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteConfigurationSetTrackingOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConfigurationSetDoesNotExist": return try await ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2438,17 +2449,6 @@ public enum DeleteConfigurationSetTrackingOptionsOutputError: ClientRuntime.Http
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteConfigurationSetTrackingOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty element returned on a successful request.
-public struct DeleteConfigurationSetTrackingOptionsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteCustomVerificationEmailTemplateInput: Swift.Encodable {
@@ -2470,7 +2470,7 @@ extension DeleteCustomVerificationEmailTemplateInput: ClientRuntime.URLPathProvi
 
 /// Represents a request to delete an existing custom verification email template.
 public struct DeleteCustomVerificationEmailTemplateInput: Swift.Equatable {
-    /// The name of the custom verification email template that you want to delete.
+    /// The name of the custom verification email template to delete.
     /// This member is required.
     public var templateName: Swift.String?
 
@@ -2498,23 +2498,23 @@ extension DeleteCustomVerificationEmailTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteCustomVerificationEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteCustomVerificationEmailTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteCustomVerificationEmailTemplateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteCustomVerificationEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteCustomVerificationEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteCustomVerificationEmailTemplateOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteIdentityInput: Swift.Encodable {
@@ -2536,7 +2536,7 @@ extension DeleteIdentityInput: ClientRuntime.URLPathProvider {
 
 /// Represents a request to delete one of your Amazon SES identities (an email address or domain).
 public struct DeleteIdentityInput: Swift.Equatable {
-    /// The identity to be removed from the list of identities for the AWS Account.
+    /// The identity to be removed from the list of identities for the Amazon Web Services account.
     /// This member is required.
     public var identity: Swift.String?
 
@@ -2564,24 +2564,24 @@ extension DeleteIdentityInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteIdentityOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An empty element returned on a successful request.
-public struct DeleteIdentityOutputResponse: Swift.Equatable {
+public struct DeleteIdentityOutput: Swift.Equatable {
 
     public init() { }
+}
+
+enum DeleteIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
 }
 
 extension DeleteIdentityPolicyInput: Swift.Encodable {
@@ -2604,9 +2604,9 @@ extension DeleteIdentityPolicyInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to delete a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
+/// Represents a request to delete a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
 public struct DeleteIdentityPolicyInput: Swift.Equatable {
-    /// The identity that is associated with the policy that you want to delete. You can specify the identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
+    /// The identity that is associated with the policy to delete. You can specify the identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this operation, you must own the identity.
     /// This member is required.
     public var identity: Swift.String?
     /// The name of the policy to be deleted.
@@ -2643,24 +2643,24 @@ extension DeleteIdentityPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteIdentityPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteIdentityPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteIdentityPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An empty element returned on a successful request.
-public struct DeleteIdentityPolicyOutputResponse: Swift.Equatable {
+public struct DeleteIdentityPolicyOutput: Swift.Equatable {
 
     public init() { }
+}
+
+enum DeleteIdentityPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
 }
 
 extension DeleteReceiptFilterInput: Swift.Encodable {
@@ -2680,7 +2680,7 @@ extension DeleteReceiptFilterInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to delete an IP address filter. You use IP address filters when you receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-concepts.html).
+/// Represents a request to delete an IP address filter. You use IP address filters when you receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
 public struct DeleteReceiptFilterInput: Swift.Equatable {
     /// The name of the IP address filter to delete.
     /// This member is required.
@@ -2710,24 +2710,24 @@ extension DeleteReceiptFilterInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteReceiptFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteReceiptFilterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteReceiptFilterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An empty element returned on a successful request.
-public struct DeleteReceiptFilterOutputResponse: Swift.Equatable {
+public struct DeleteReceiptFilterOutput: Swift.Equatable {
 
     public init() { }
+}
+
+enum DeleteReceiptFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
 }
 
 extension DeleteReceiptRuleInput: Swift.Encodable {
@@ -2750,7 +2750,7 @@ extension DeleteReceiptRuleInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to delete a receipt rule. You use receipt rules to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-concepts.html).
+/// Represents a request to delete a receipt rule. You use receipt rules to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
 public struct DeleteReceiptRuleInput: Swift.Equatable {
     /// The name of the receipt rule to delete.
     /// This member is required.
@@ -2789,25 +2789,25 @@ extension DeleteReceiptRuleInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteReceiptRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteReceiptRuleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty element returned on a successful request.
+public struct DeleteReceiptRuleOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteReceiptRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "RuleSetDoesNotExist": return try await RuleSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteReceiptRuleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty element returned on a successful request.
-public struct DeleteReceiptRuleOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteReceiptRuleSetInput: Swift.Encodable {
@@ -2827,7 +2827,7 @@ extension DeleteReceiptRuleSetInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to delete a receipt rule set and all of the receipt rules it contains. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-concepts.html).
+/// Represents a request to delete a receipt rule set and all of the receipt rules it contains. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
 public struct DeleteReceiptRuleSetInput: Swift.Equatable {
     /// The name of the receipt rule set to delete.
     /// This member is required.
@@ -2857,25 +2857,25 @@ extension DeleteReceiptRuleSetInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteReceiptRuleSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteReceiptRuleSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty element returned on a successful request.
+public struct DeleteReceiptRuleSetOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteReceiptRuleSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CannotDelete": return try await CannotDeleteException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteReceiptRuleSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty element returned on a successful request.
-public struct DeleteReceiptRuleSetOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteTemplateInput: Swift.Encodable {
@@ -2895,7 +2895,7 @@ extension DeleteTemplateInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to delete an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
+/// Represents a request to delete an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html).
 public struct DeleteTemplateInput: Swift.Equatable {
     /// The name of the template to be deleted.
     /// This member is required.
@@ -2925,23 +2925,23 @@ extension DeleteTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteTemplateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteTemplateOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteVerifiedEmailAddressInput: Swift.Encodable {
@@ -2961,7 +2961,7 @@ extension DeleteVerifiedEmailAddressInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to delete an email address from the list of email addresses you have attempted to verify under your AWS account.
+/// Represents a request to delete an email address from the list of email addresses you have attempted to verify under your Amazon Web Services account.
 public struct DeleteVerifiedEmailAddressInput: Swift.Equatable {
     /// An email address to be removed from the list of verified addresses.
     /// This member is required.
@@ -2991,23 +2991,23 @@ extension DeleteVerifiedEmailAddressInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteVerifiedEmailAddressOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteVerifiedEmailAddressOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteVerifiedEmailAddressOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteVerifiedEmailAddressOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteVerifiedEmailAddressOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteVerifiedEmailAddressOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension SESClientTypes.DeliveryOptions: Swift.Codable {
@@ -3059,26 +3059,17 @@ extension DescribeActiveReceiptRuleSetInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to return the metadata and receipt rules for the receipt rule set that is currently active. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-concepts.html).
+/// Represents a request to return the metadata and receipt rules for the receipt rule set that is currently active. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
 public struct DescribeActiveReceiptRuleSetInput: Swift.Equatable {
 
     public init() { }
 }
 
-public enum DescribeActiveReceiptRuleSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeActiveReceiptRuleSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeActiveReceiptRuleSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeActiveReceiptRuleSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeActiveReceiptRuleSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.metadata = output.metadata
             self.rules = output.rules
         } else {
@@ -3089,7 +3080,7 @@ extension DescribeActiveReceiptRuleSetOutputResponse: ClientRuntime.HttpResponse
 }
 
 /// Represents the metadata and receipt rules for the receipt rule set that is currently active.
-public struct DescribeActiveReceiptRuleSetOutputResponse: Swift.Equatable {
+public struct DescribeActiveReceiptRuleSetOutput: Swift.Equatable {
     /// The metadata for the currently active receipt rule set. The metadata consists of the rule set name and a timestamp of when the rule set was created.
     public var metadata: SESClientTypes.ReceiptRuleSetMetadata?
     /// The receipt rules that belong to the active rule set.
@@ -3105,12 +3096,12 @@ public struct DescribeActiveReceiptRuleSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeActiveReceiptRuleSetOutputResponseBody: Swift.Equatable {
+struct DescribeActiveReceiptRuleSetOutputBody: Swift.Equatable {
     let metadata: SESClientTypes.ReceiptRuleSetMetadata?
     let rules: [SESClientTypes.ReceiptRule]?
 }
 
-extension DescribeActiveReceiptRuleSetOutputResponseBody: Swift.Decodable {
+extension DescribeActiveReceiptRuleSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case metadata = "Metadata"
         case rules = "Rules"
@@ -3139,6 +3130,15 @@ extension DescribeActiveReceiptRuleSetOutputResponseBody: Swift.Decodable {
             }
         } else {
             rules = nil
+        }
+    }
+}
+
+enum DescribeActiveReceiptRuleSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -3172,7 +3172,7 @@ extension DescribeConfigurationSetInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to return the details of a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html).
+/// Represents a request to return the details of a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
 public struct DescribeConfigurationSetInput: Swift.Equatable {
     /// A list of configuration set attributes to return.
     public var configurationSetAttributeNames: [SESClientTypes.ConfigurationSetAttribute]?
@@ -3213,8 +3213,8 @@ extension DescribeConfigurationSetInputBody: Swift.Decodable {
                 var configurationSetAttributeNamesBuffer:[SESClientTypes.ConfigurationSetAttribute]? = nil
                 if let configurationSetAttributeNamesContainer = configurationSetAttributeNamesContainer {
                     configurationSetAttributeNamesBuffer = [SESClientTypes.ConfigurationSetAttribute]()
-                    for stringContainer0 in configurationSetAttributeNamesContainer {
-                        configurationSetAttributeNamesBuffer?.append(stringContainer0)
+                    for enumContainer0 in configurationSetAttributeNamesContainer {
+                        configurationSetAttributeNamesBuffer?.append(enumContainer0)
                     }
                 }
                 configurationSetAttributeNames = configurationSetAttributeNamesBuffer
@@ -3227,21 +3227,11 @@ extension DescribeConfigurationSetInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeConfigurationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ConfigurationSetDoesNotExist": return try await ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeConfigurationSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeConfigurationSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeConfigurationSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeConfigurationSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.configurationSet = output.configurationSet
             self.deliveryOptions = output.deliveryOptions
             self.eventDestinations = output.eventDestinations
@@ -3257,8 +3247,8 @@ extension DescribeConfigurationSetOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-/// Represents the details of a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html).
-public struct DescribeConfigurationSetOutputResponse: Swift.Equatable {
+/// Represents the details of a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
+public struct DescribeConfigurationSetOutput: Swift.Equatable {
     /// The configuration set object associated with the specified configuration set.
     public var configurationSet: SESClientTypes.ConfigurationSet?
     /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS).
@@ -3286,7 +3276,7 @@ public struct DescribeConfigurationSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeConfigurationSetOutputResponseBody: Swift.Equatable {
+struct DescribeConfigurationSetOutputBody: Swift.Equatable {
     let configurationSet: SESClientTypes.ConfigurationSet?
     let eventDestinations: [SESClientTypes.EventDestination]?
     let trackingOptions: SESClientTypes.TrackingOptions?
@@ -3294,7 +3284,7 @@ struct DescribeConfigurationSetOutputResponseBody: Swift.Equatable {
     let reputationOptions: SESClientTypes.ReputationOptions?
 }
 
-extension DescribeConfigurationSetOutputResponseBody: Swift.Decodable {
+extension DescribeConfigurationSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configurationSet = "ConfigurationSet"
         case deliveryOptions = "DeliveryOptions"
@@ -3336,6 +3326,16 @@ extension DescribeConfigurationSetOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum DescribeConfigurationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ConfigurationSetDoesNotExist": return try await ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension DescribeReceiptRuleInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -3356,7 +3356,7 @@ extension DescribeReceiptRuleInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to return the details of a receipt rule. You use receipt rules to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-concepts.html).
+/// Represents a request to return the details of a receipt rule. You use receipt rules to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
 public struct DescribeReceiptRuleInput: Swift.Equatable {
     /// The name of the receipt rule.
     /// This member is required.
@@ -3395,22 +3395,11 @@ extension DescribeReceiptRuleInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeReceiptRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "RuleDoesNotExist": return try await RuleDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "RuleSetDoesNotExist": return try await RuleSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeReceiptRuleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeReceiptRuleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeReceiptRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeReceiptRuleOutputBody = try responseDecoder.decode(responseBody: data)
             self.rule = output.rule
         } else {
             self.rule = nil
@@ -3419,7 +3408,7 @@ extension DescribeReceiptRuleOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the details of a receipt rule.
-public struct DescribeReceiptRuleOutputResponse: Swift.Equatable {
+public struct DescribeReceiptRuleOutput: Swift.Equatable {
     /// A data structure that contains the specified receipt rule's name, actions, recipients, domains, enabled status, scan status, and Transport Layer Security (TLS) policy.
     public var rule: SESClientTypes.ReceiptRule?
 
@@ -3431,11 +3420,11 @@ public struct DescribeReceiptRuleOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeReceiptRuleOutputResponseBody: Swift.Equatable {
+struct DescribeReceiptRuleOutputBody: Swift.Equatable {
     let rule: SESClientTypes.ReceiptRule?
 }
 
-extension DescribeReceiptRuleOutputResponseBody: Swift.Decodable {
+extension DescribeReceiptRuleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case rule = "Rule"
     }
@@ -3445,6 +3434,17 @@ extension DescribeReceiptRuleOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeReceiptRuleResult"))
         let ruleDecoded = try containerValues.decodeIfPresent(SESClientTypes.ReceiptRule.self, forKey: .rule)
         rule = ruleDecoded
+    }
+}
+
+enum DescribeReceiptRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "RuleDoesNotExist": return try await RuleDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "RuleSetDoesNotExist": return try await RuleSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -3465,7 +3465,7 @@ extension DescribeReceiptRuleSetInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to return the details of a receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-concepts.html).
+/// Represents a request to return the details of a receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
 public struct DescribeReceiptRuleSetInput: Swift.Equatable {
     /// The name of the receipt rule set to describe.
     /// This member is required.
@@ -3495,21 +3495,11 @@ extension DescribeReceiptRuleSetInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeReceiptRuleSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "RuleSetDoesNotExist": return try await RuleSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeReceiptRuleSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeReceiptRuleSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeReceiptRuleSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeReceiptRuleSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.metadata = output.metadata
             self.rules = output.rules
         } else {
@@ -3520,7 +3510,7 @@ extension DescribeReceiptRuleSetOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 /// Represents the details of the specified receipt rule set.
-public struct DescribeReceiptRuleSetOutputResponse: Swift.Equatable {
+public struct DescribeReceiptRuleSetOutput: Swift.Equatable {
     /// The metadata for the receipt rule set, which consists of the rule set name and the timestamp of when the rule set was created.
     public var metadata: SESClientTypes.ReceiptRuleSetMetadata?
     /// A list of the receipt rules that belong to the specified receipt rule set.
@@ -3536,12 +3526,12 @@ public struct DescribeReceiptRuleSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeReceiptRuleSetOutputResponseBody: Swift.Equatable {
+struct DescribeReceiptRuleSetOutputBody: Swift.Equatable {
     let metadata: SESClientTypes.ReceiptRuleSetMetadata?
     let rules: [SESClientTypes.ReceiptRule]?
 }
 
-extension DescribeReceiptRuleSetOutputResponseBody: Swift.Decodable {
+extension DescribeReceiptRuleSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case metadata = "Metadata"
         case rules = "Rules"
@@ -3570,6 +3560,16 @@ extension DescribeReceiptRuleSetOutputResponseBody: Swift.Decodable {
             }
         } else {
             rules = nil
+        }
+    }
+}
+
+enum DescribeReceiptRuleSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "RuleSetDoesNotExist": return try await RuleSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -3684,7 +3684,7 @@ extension SESClientTypes.Destination: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// Represents the destination of the message, consisting of To:, CC:, and BCC: fields. Amazon SES does not support the SMTPUTF8 extension, as described in [RFC6531](https://tools.ietf.org/html/rfc6531). For this reason, the local part of a destination email address (the part of the email address that precedes the @ sign) may only contain [7-bit ASCII characters](https://en.wikipedia.org/wiki/Email_address#Local-part). If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in [RFC3492](https://tools.ietf.org/html/rfc3492.html).
+    /// Represents the destination of the message, consisting of To:, CC:, and BCC: fields. Amazon SES does not support the SMTPUTF8 extension, as described in [RFC6531](https://tools.ietf.org/html/rfc6531). For this reason, the email address string must be 7-bit ASCII. If you want to send to or from email addresses that contain Unicode characters in the domain part of an address, you must encode the domain using Punycode. Punycode is not permitted in the local part of the email address (the part before the @ sign) nor in the "friendly from" name. If you want to use Unicode characters in the "friendly from" name, you must encode the "friendly from" name using MIME encoded-word syntax, as described in [Sending raw email using the Amazon SES API](https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html). For more information about Punycode, see [RFC 3492](http://tools.ietf.org/html/rfc3492).
     public struct Destination: Swift.Equatable {
         /// The recipients to place on the BCC: line of the message.
         public var bccAddresses: [Swift.String]?
@@ -3828,7 +3828,7 @@ extension SESClientTypes.EventDestination: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
-        let enabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .enabled)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
         enabled = enabledDecoded
         if containerValues.contains(.matchingEventTypes) {
             struct KeyVal0{struct member{}}
@@ -3838,8 +3838,8 @@ extension SESClientTypes.EventDestination: Swift.Codable {
                 var matchingEventTypesBuffer:[SESClientTypes.EventType]? = nil
                 if let matchingEventTypesContainer = matchingEventTypesContainer {
                     matchingEventTypesBuffer = [SESClientTypes.EventType]()
-                    for stringContainer0 in matchingEventTypesContainer {
-                        matchingEventTypesBuffer?.append(stringContainer0)
+                    for enumContainer0 in matchingEventTypesContainer {
+                        matchingEventTypesBuffer?.append(enumContainer0)
                     }
                 }
                 matchingEventTypes = matchingEventTypesBuffer
@@ -3859,7 +3859,7 @@ extension SESClientTypes.EventDestination: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// Contains information about the event destination that the specified email sending events will be published to. When you create or update an event destination, you must provide one, and only one, destination. The destination can be Amazon CloudWatch, Amazon Kinesis Firehose or Amazon Simple Notification Service (Amazon SNS). Event destinations are associated with configuration sets, which enable you to publish email sending events to Amazon CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS). For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html).
+    /// Contains information about an event destination. When you create or update an event destination, you must provide one, and only one, destination. The destination can be Amazon CloudWatch, Amazon Kinesis Firehose or Amazon Simple Notification Service (Amazon SNS). Event destinations are associated with configuration sets, which enable you to publish email sending events to Amazon CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS). For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
     public struct EventDestination: Swift.Equatable {
         /// An object that contains the names, default values, and sources of the dimensions associated with an Amazon CloudWatch event destination.
         public var cloudWatchDestination: SESClientTypes.CloudWatchDestination?
@@ -3868,13 +3868,29 @@ extension SESClientTypes {
         /// An object that contains the delivery stream ARN and the IAM role ARN associated with an Amazon Kinesis Firehose event destination.
         public var kinesisFirehoseDestination: SESClientTypes.KinesisFirehoseDestination?
         /// The type of email sending events to publish to the event destination.
+        ///
+        /// * send - The call was successful and Amazon SES is attempting to deliver the email.
+        ///
+        /// * reject - Amazon SES determined that the email contained a virus and rejected it.
+        ///
+        /// * bounce - The recipient's mail server permanently rejected the email. This corresponds to a hard bounce.
+        ///
+        /// * complaint - The recipient marked the email as spam.
+        ///
+        /// * delivery - Amazon SES successfully delivered the email to the recipient's mail server.
+        ///
+        /// * open - The recipient received the email and opened it in their email client.
+        ///
+        /// * click - The recipient clicked one or more links in the email.
+        ///
+        /// * renderingFailure - Amazon SES did not send the email because of a template rendering issue.
         /// This member is required.
         public var matchingEventTypes: [SESClientTypes.EventType]?
-        /// The name of the event destination. The name must:
+        /// The name of the event destination. The name must meet the following requirements:
         ///
-        /// * This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+        /// * Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
         ///
-        /// * Contain less than 64 characters.
+        /// * Contain 64 characters or fewer.
         /// This member is required.
         public var name: Swift.String?
         /// An object that contains the topic ARN associated with an Amazon Simple Notification Service (Amazon SNS) event destination.
@@ -4124,12 +4140,12 @@ extension SESClientTypes.ExtensionField: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// Additional X-headers to include in the Delivery Status Notification (DSN) when an email that Amazon SES receives on your behalf bounces. For information about receiving email through Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email.html).
+    /// Additional X-headers to include in the Delivery Status Notification (DSN) when an email that Amazon SES receives on your behalf bounces. For information about receiving email through Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html).
     public struct ExtensionField: Swift.Equatable {
         /// The name of the header to add. Must be between 1 and 50 characters, inclusive, and consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes only.
         /// This member is required.
         public var name: Swift.String?
-        /// The value of the header to add. Must be less than 2048 characters, and must not contain newline characters ("\r" or "\n").
+        /// The value of the header to add. Must contain 2048 characters or fewer, and must not contain newline characters ("\r" or "\n").
         /// This member is required.
         public var value: Swift.String?
 
@@ -4228,20 +4244,11 @@ public struct GetAccountSendingEnabledInput: Swift.Equatable {
     public init() { }
 }
 
-public enum GetAccountSendingEnabledOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetAccountSendingEnabledOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetAccountSendingEnabledOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetAccountSendingEnabledOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetAccountSendingEnabledOutputBody = try responseDecoder.decode(responseBody: data)
             self.enabled = output.enabled
         } else {
             self.enabled = false
@@ -4249,9 +4256,9 @@ extension GetAccountSendingEnabledOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-/// Represents a request to return the email sending status for your Amazon SES account in the current AWS Region.
-public struct GetAccountSendingEnabledOutputResponse: Swift.Equatable {
-    /// Describes whether email sending is enabled or disabled for your Amazon SES account in the current AWS Region.
+/// Represents a request to return the email sending status for your Amazon SES account in the current Amazon Web Services Region.
+public struct GetAccountSendingEnabledOutput: Swift.Equatable {
+    /// Describes whether email sending is enabled or disabled for your Amazon SES account in the current Amazon Web Services Region.
     public var enabled: Swift.Bool
 
     public init(
@@ -4262,11 +4269,11 @@ public struct GetAccountSendingEnabledOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetAccountSendingEnabledOutputResponseBody: Swift.Equatable {
+struct GetAccountSendingEnabledOutputBody: Swift.Equatable {
     let enabled: Swift.Bool
 }
 
-extension GetAccountSendingEnabledOutputResponseBody: Swift.Decodable {
+extension GetAccountSendingEnabledOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enabled = "Enabled"
     }
@@ -4274,8 +4281,17 @@ extension GetAccountSendingEnabledOutputResponseBody: Swift.Decodable {
     public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetAccountSendingEnabledResult"))
-        let enabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .enabled)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
         enabled = enabledDecoded
+    }
+}
+
+enum GetAccountSendingEnabledOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -4298,7 +4314,7 @@ extension GetCustomVerificationEmailTemplateInput: ClientRuntime.URLPathProvider
 
 /// Represents a request to retrieve an existing custom verification email template.
 public struct GetCustomVerificationEmailTemplateInput: Swift.Equatable {
-    /// The name of the custom verification email template that you want to retrieve.
+    /// The name of the custom verification email template to retrieve.
     /// This member is required.
     public var templateName: Swift.String?
 
@@ -4326,21 +4342,11 @@ extension GetCustomVerificationEmailTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum GetCustomVerificationEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "CustomVerificationEmailTemplateDoesNotExist": return try await CustomVerificationEmailTemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetCustomVerificationEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetCustomVerificationEmailTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetCustomVerificationEmailTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetCustomVerificationEmailTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.failureRedirectionURL = output.failureRedirectionURL
             self.fromEmailAddress = output.fromEmailAddress
             self.successRedirectionURL = output.successRedirectionURL
@@ -4359,7 +4365,7 @@ extension GetCustomVerificationEmailTemplateOutputResponse: ClientRuntime.HttpRe
 }
 
 /// The content of the custom verification email template.
-public struct GetCustomVerificationEmailTemplateOutputResponse: Swift.Equatable {
+public struct GetCustomVerificationEmailTemplateOutput: Swift.Equatable {
     /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
     public var failureRedirectionURL: Swift.String?
     /// The email address that the custom verification email is sent from.
@@ -4391,7 +4397,7 @@ public struct GetCustomVerificationEmailTemplateOutputResponse: Swift.Equatable 
     }
 }
 
-struct GetCustomVerificationEmailTemplateOutputResponseBody: Swift.Equatable {
+struct GetCustomVerificationEmailTemplateOutputBody: Swift.Equatable {
     let templateName: Swift.String?
     let fromEmailAddress: Swift.String?
     let templateSubject: Swift.String?
@@ -4400,7 +4406,7 @@ struct GetCustomVerificationEmailTemplateOutputResponseBody: Swift.Equatable {
     let failureRedirectionURL: Swift.String?
 }
 
-extension GetCustomVerificationEmailTemplateOutputResponseBody: Swift.Decodable {
+extension GetCustomVerificationEmailTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case failureRedirectionURL = "FailureRedirectionURL"
         case fromEmailAddress = "FromEmailAddress"
@@ -4425,6 +4431,16 @@ extension GetCustomVerificationEmailTemplateOutputResponseBody: Swift.Decodable 
         successRedirectionURL = successRedirectionURLDecoded
         let failureRedirectionURLDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureRedirectionURL)
         failureRedirectionURL = failureRedirectionURLDecoded
+    }
+}
+
+enum GetCustomVerificationEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CustomVerificationEmailTemplateDoesNotExist": return try await CustomVerificationEmailTemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -4454,7 +4470,7 @@ extension GetIdentityDkimAttributesInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request for the status of Amazon SES Easy DKIM signing for an identity. For domain identities, this request also returns the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES successfully verified that these tokens were published. For more information about Easy DKIM, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html).
+/// Represents a request for the status of Amazon SES Easy DKIM signing for an identity. For domain identities, this request also returns the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES successfully verified that these tokens were published. For more information about Easy DKIM, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html).
 public struct GetIdentityDkimAttributesInput: Swift.Equatable {
     /// A list of one or more verified identities - email addresses, domains, or both.
     /// This member is required.
@@ -4501,20 +4517,11 @@ extension GetIdentityDkimAttributesInputBody: Swift.Decodable {
     }
 }
 
-public enum GetIdentityDkimAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetIdentityDkimAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetIdentityDkimAttributesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetIdentityDkimAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetIdentityDkimAttributesOutputBody = try responseDecoder.decode(responseBody: data)
             self.dkimAttributes = output.dkimAttributes
         } else {
             self.dkimAttributes = nil
@@ -4523,7 +4530,7 @@ extension GetIdentityDkimAttributesOutputResponse: ClientRuntime.HttpResponseBin
 }
 
 /// Represents the status of Amazon SES Easy DKIM signing for an identity. For domain identities, this response also contains the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES successfully verified that these tokens were published.
-public struct GetIdentityDkimAttributesOutputResponse: Swift.Equatable {
+public struct GetIdentityDkimAttributesOutput: Swift.Equatable {
     /// The DKIM attributes for an email address or a domain.
     /// This member is required.
     public var dkimAttributes: [Swift.String:SESClientTypes.IdentityDkimAttributes]?
@@ -4536,11 +4543,11 @@ public struct GetIdentityDkimAttributesOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetIdentityDkimAttributesOutputResponseBody: Swift.Equatable {
+struct GetIdentityDkimAttributesOutputBody: Swift.Equatable {
     let dkimAttributes: [Swift.String:SESClientTypes.IdentityDkimAttributes]?
 }
 
-extension GetIdentityDkimAttributesOutputResponseBody: Swift.Decodable {
+extension GetIdentityDkimAttributesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dkimAttributes = "DkimAttributes"
     }
@@ -4566,6 +4573,15 @@ extension GetIdentityDkimAttributesOutputResponseBody: Swift.Decodable {
             }
         } else {
             dkimAttributes = nil
+        }
+    }
+}
+
+enum GetIdentityDkimAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -4596,7 +4612,7 @@ extension GetIdentityMailFromDomainAttributesInput: ClientRuntime.URLPathProvide
     }
 }
 
-/// Represents a request to return the Amazon SES custom MAIL FROM attributes for a list of identities. For information about using a custom MAIL FROM domain, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/mail-from.html).
+/// Represents a request to return the Amazon SES custom MAIL FROM attributes for a list of identities. For information about using a custom MAIL FROM domain, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/mail-from.html).
 public struct GetIdentityMailFromDomainAttributesInput: Swift.Equatable {
     /// A list of one or more identities.
     /// This member is required.
@@ -4643,20 +4659,11 @@ extension GetIdentityMailFromDomainAttributesInputBody: Swift.Decodable {
     }
 }
 
-public enum GetIdentityMailFromDomainAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetIdentityMailFromDomainAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetIdentityMailFromDomainAttributesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetIdentityMailFromDomainAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetIdentityMailFromDomainAttributesOutputBody = try responseDecoder.decode(responseBody: data)
             self.mailFromDomainAttributes = output.mailFromDomainAttributes
         } else {
             self.mailFromDomainAttributes = nil
@@ -4665,7 +4672,7 @@ extension GetIdentityMailFromDomainAttributesOutputResponse: ClientRuntime.HttpR
 }
 
 /// Represents the custom MAIL FROM attributes for a list of identities.
-public struct GetIdentityMailFromDomainAttributesOutputResponse: Swift.Equatable {
+public struct GetIdentityMailFromDomainAttributesOutput: Swift.Equatable {
     /// A map of identities to custom MAIL FROM attributes.
     /// This member is required.
     public var mailFromDomainAttributes: [Swift.String:SESClientTypes.IdentityMailFromDomainAttributes]?
@@ -4678,11 +4685,11 @@ public struct GetIdentityMailFromDomainAttributesOutputResponse: Swift.Equatable
     }
 }
 
-struct GetIdentityMailFromDomainAttributesOutputResponseBody: Swift.Equatable {
+struct GetIdentityMailFromDomainAttributesOutputBody: Swift.Equatable {
     let mailFromDomainAttributes: [Swift.String:SESClientTypes.IdentityMailFromDomainAttributes]?
 }
 
-extension GetIdentityMailFromDomainAttributesOutputResponseBody: Swift.Decodable {
+extension GetIdentityMailFromDomainAttributesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case mailFromDomainAttributes = "MailFromDomainAttributes"
     }
@@ -4708,6 +4715,15 @@ extension GetIdentityMailFromDomainAttributesOutputResponseBody: Swift.Decodable
             }
         } else {
             mailFromDomainAttributes = nil
+        }
+    }
+}
+
+enum GetIdentityMailFromDomainAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -4738,7 +4754,7 @@ extension GetIdentityNotificationAttributesInput: ClientRuntime.URLPathProvider 
     }
 }
 
-/// Represents a request to return the notification attributes for a list of identities you verified with Amazon SES. For information about Amazon SES notifications, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notifications.html).
+/// Represents a request to return the notification attributes for a list of identities you verified with Amazon SES. For information about Amazon SES notifications, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications.html).
 public struct GetIdentityNotificationAttributesInput: Swift.Equatable {
     /// A list of one or more identities. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com.
     /// This member is required.
@@ -4785,20 +4801,11 @@ extension GetIdentityNotificationAttributesInputBody: Swift.Decodable {
     }
 }
 
-public enum GetIdentityNotificationAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetIdentityNotificationAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetIdentityNotificationAttributesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetIdentityNotificationAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetIdentityNotificationAttributesOutputBody = try responseDecoder.decode(responseBody: data)
             self.notificationAttributes = output.notificationAttributes
         } else {
             self.notificationAttributes = nil
@@ -4807,7 +4814,7 @@ extension GetIdentityNotificationAttributesOutputResponse: ClientRuntime.HttpRes
 }
 
 /// Represents the notification attributes for a list of identities.
-public struct GetIdentityNotificationAttributesOutputResponse: Swift.Equatable {
+public struct GetIdentityNotificationAttributesOutput: Swift.Equatable {
     /// A map of Identity to IdentityNotificationAttributes.
     /// This member is required.
     public var notificationAttributes: [Swift.String:SESClientTypes.IdentityNotificationAttributes]?
@@ -4820,11 +4827,11 @@ public struct GetIdentityNotificationAttributesOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetIdentityNotificationAttributesOutputResponseBody: Swift.Equatable {
+struct GetIdentityNotificationAttributesOutputBody: Swift.Equatable {
     let notificationAttributes: [Swift.String:SESClientTypes.IdentityNotificationAttributes]?
 }
 
-extension GetIdentityNotificationAttributesOutputResponseBody: Swift.Decodable {
+extension GetIdentityNotificationAttributesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case notificationAttributes = "NotificationAttributes"
     }
@@ -4850,6 +4857,15 @@ extension GetIdentityNotificationAttributesOutputResponseBody: Swift.Decodable {
             }
         } else {
             notificationAttributes = nil
+        }
+    }
+}
+
+enum GetIdentityNotificationAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -4883,9 +4899,9 @@ extension GetIdentityPoliciesInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to return the requested sending authorization policies for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
+/// Represents a request to return the requested sending authorization policies for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
 public struct GetIdentityPoliciesInput: Swift.Equatable {
-    /// The identity for which the policies will be retrieved. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
+    /// The identity for which the policies are retrieved. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this operation, you must own the identity.
     /// This member is required.
     public var identity: Swift.String?
     /// A list of the names of policies to be retrieved. You can retrieve a maximum of 20 policies at a time. If you do not know the names of the policies that are attached to the identity, you can use ListIdentityPolicies.
@@ -4939,20 +4955,11 @@ extension GetIdentityPoliciesInputBody: Swift.Decodable {
     }
 }
 
-public enum GetIdentityPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetIdentityPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetIdentityPoliciesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetIdentityPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetIdentityPoliciesOutputBody = try responseDecoder.decode(responseBody: data)
             self.policies = output.policies
         } else {
             self.policies = nil
@@ -4961,7 +4968,7 @@ extension GetIdentityPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the requested sending authorization policies.
-public struct GetIdentityPoliciesOutputResponse: Swift.Equatable {
+public struct GetIdentityPoliciesOutput: Swift.Equatable {
     /// A map of policy names to policies.
     /// This member is required.
     public var policies: [Swift.String:Swift.String]?
@@ -4974,11 +4981,11 @@ public struct GetIdentityPoliciesOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetIdentityPoliciesOutputResponseBody: Swift.Equatable {
+struct GetIdentityPoliciesOutputBody: Swift.Equatable {
     let policies: [Swift.String:Swift.String]?
 }
 
-extension GetIdentityPoliciesOutputResponseBody: Swift.Decodable {
+extension GetIdentityPoliciesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policies = "Policies"
     }
@@ -5004,6 +5011,15 @@ extension GetIdentityPoliciesOutputResponseBody: Swift.Decodable {
             }
         } else {
             policies = nil
+        }
+    }
+}
+
+enum GetIdentityPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -5034,7 +5050,7 @@ extension GetIdentityVerificationAttributesInput: ClientRuntime.URLPathProvider 
     }
 }
 
-/// Represents a request to return the Amazon SES verification status of a list of identities. For domain identities, this request also returns the verification token. For information about verifying identities with Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html).
+/// Represents a request to return the Amazon SES verification status of a list of identities. For domain identities, this request also returns the verification token. For information about verifying identities with Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html).
 public struct GetIdentityVerificationAttributesInput: Swift.Equatable {
     /// A list of identities.
     /// This member is required.
@@ -5081,20 +5097,11 @@ extension GetIdentityVerificationAttributesInputBody: Swift.Decodable {
     }
 }
 
-public enum GetIdentityVerificationAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetIdentityVerificationAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetIdentityVerificationAttributesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetIdentityVerificationAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetIdentityVerificationAttributesOutputBody = try responseDecoder.decode(responseBody: data)
             self.verificationAttributes = output.verificationAttributes
         } else {
             self.verificationAttributes = nil
@@ -5103,7 +5110,7 @@ extension GetIdentityVerificationAttributesOutputResponse: ClientRuntime.HttpRes
 }
 
 /// The Amazon SES verification status of a list of identities. For domain identities, this response also contains the verification token.
-public struct GetIdentityVerificationAttributesOutputResponse: Swift.Equatable {
+public struct GetIdentityVerificationAttributesOutput: Swift.Equatable {
     /// A map of Identities to IdentityVerificationAttributes objects.
     /// This member is required.
     public var verificationAttributes: [Swift.String:SESClientTypes.IdentityVerificationAttributes]?
@@ -5116,11 +5123,11 @@ public struct GetIdentityVerificationAttributesOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetIdentityVerificationAttributesOutputResponseBody: Swift.Equatable {
+struct GetIdentityVerificationAttributesOutputBody: Swift.Equatable {
     let verificationAttributes: [Swift.String:SESClientTypes.IdentityVerificationAttributes]?
 }
 
-extension GetIdentityVerificationAttributesOutputResponseBody: Swift.Decodable {
+extension GetIdentityVerificationAttributesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case verificationAttributes = "VerificationAttributes"
     }
@@ -5150,6 +5157,15 @@ extension GetIdentityVerificationAttributesOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum GetIdentityVerificationAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension GetSendQuotaInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -5169,20 +5185,11 @@ public struct GetSendQuotaInput: Swift.Equatable {
     public init() { }
 }
 
-public enum GetSendQuotaOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetSendQuotaOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSendQuotaOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSendQuotaOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSendQuotaOutputBody = try responseDecoder.decode(responseBody: data)
             self.max24HourSend = output.max24HourSend
             self.maxSendRate = output.maxSendRate
             self.sentLast24Hours = output.sentLast24Hours
@@ -5195,7 +5202,7 @@ extension GetSendQuotaOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents your Amazon SES daily sending quota, maximum send rate, and the number of emails you have sent in the last 24 hours.
-public struct GetSendQuotaOutputResponse: Swift.Equatable {
+public struct GetSendQuotaOutput: Swift.Equatable {
     /// The maximum number of emails the user is allowed to send in a 24-hour interval. A value of -1 signifies an unlimited quota.
     public var max24HourSend: Swift.Double
     /// The maximum number of emails that Amazon SES can accept from the user's account per second. The rate at which Amazon SES accepts the user's messages might be less than the maximum send rate.
@@ -5215,13 +5222,13 @@ public struct GetSendQuotaOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSendQuotaOutputResponseBody: Swift.Equatable {
+struct GetSendQuotaOutputBody: Swift.Equatable {
     let max24HourSend: Swift.Double
     let maxSendRate: Swift.Double
     let sentLast24Hours: Swift.Double
 }
 
-extension GetSendQuotaOutputResponseBody: Swift.Decodable {
+extension GetSendQuotaOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case max24HourSend = "Max24HourSend"
         case maxSendRate = "MaxSendRate"
@@ -5231,12 +5238,21 @@ extension GetSendQuotaOutputResponseBody: Swift.Decodable {
     public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetSendQuotaResult"))
-        let max24HourSendDecoded = try containerValues.decode(Swift.Double.self, forKey: .max24HourSend)
+        let max24HourSendDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .max24HourSend) ?? 0
         max24HourSend = max24HourSendDecoded
-        let maxSendRateDecoded = try containerValues.decode(Swift.Double.self, forKey: .maxSendRate)
+        let maxSendRateDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .maxSendRate) ?? 0
         maxSendRate = maxSendRateDecoded
-        let sentLast24HoursDecoded = try containerValues.decode(Swift.Double.self, forKey: .sentLast24Hours)
+        let sentLast24HoursDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .sentLast24Hours) ?? 0
         sentLast24Hours = sentLast24HoursDecoded
+    }
+}
+
+enum GetSendQuotaOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -5259,20 +5275,11 @@ public struct GetSendStatisticsInput: Swift.Equatable {
     public init() { }
 }
 
-public enum GetSendStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetSendStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSendStatisticsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSendStatisticsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSendStatisticsOutputBody = try responseDecoder.decode(responseBody: data)
             self.sendDataPoints = output.sendDataPoints
         } else {
             self.sendDataPoints = nil
@@ -5281,7 +5288,7 @@ extension GetSendStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a list of data points. This list contains aggregated data from the previous two weeks of your sending activity with Amazon SES.
-public struct GetSendStatisticsOutputResponse: Swift.Equatable {
+public struct GetSendStatisticsOutput: Swift.Equatable {
     /// A list of data points, each of which represents 15 minutes of activity.
     public var sendDataPoints: [SESClientTypes.SendDataPoint]?
 
@@ -5293,11 +5300,11 @@ public struct GetSendStatisticsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSendStatisticsOutputResponseBody: Swift.Equatable {
+struct GetSendStatisticsOutputBody: Swift.Equatable {
     let sendDataPoints: [SESClientTypes.SendDataPoint]?
 }
 
-extension GetSendStatisticsOutputResponseBody: Swift.Decodable {
+extension GetSendStatisticsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case sendDataPoints = "SendDataPoints"
     }
@@ -5327,6 +5334,15 @@ extension GetSendStatisticsOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum GetSendStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension GetTemplateInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -5345,7 +5361,7 @@ extension GetTemplateInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetTemplateInput: Swift.Equatable {
-    /// The name of the template you want to retrieve.
+    /// The name of the template to retrieve.
     /// This member is required.
     public var templateName: Swift.String?
 
@@ -5373,21 +5389,11 @@ extension GetTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum GetTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "TemplateDoesNotExist": return try await TemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.template = output.template
         } else {
             self.template = nil
@@ -5395,8 +5401,8 @@ extension GetTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTemplateOutputResponse: Swift.Equatable {
-    /// The content of the email, composed of a subject line, an HTML part, and a text-only part.
+public struct GetTemplateOutput: Swift.Equatable {
+    /// The content of the email, composed of a subject line and either an HTML part or a text-only part.
     public var template: SESClientTypes.Template?
 
     public init(
@@ -5407,11 +5413,11 @@ public struct GetTemplateOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetTemplateOutputResponseBody: Swift.Equatable {
+struct GetTemplateOutputBody: Swift.Equatable {
     let template: SESClientTypes.Template?
 }
 
-extension GetTemplateOutputResponseBody: Swift.Decodable {
+extension GetTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case template = "Template"
     }
@@ -5421,6 +5427,16 @@ extension GetTemplateOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetTemplateResult"))
         let templateDecoded = try containerValues.decodeIfPresent(SESClientTypes.Template.self, forKey: .template)
         template = templateDecoded
+    }
+}
+
+enum GetTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "TemplateDoesNotExist": return try await TemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -5455,7 +5471,7 @@ extension SESClientTypes.IdentityDkimAttributes: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let dkimEnabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .dkimEnabled)
+        let dkimEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dkimEnabled) ?? false
         dkimEnabled = dkimEnabledDecoded
         let dkimVerificationStatusDecoded = try containerValues.decodeIfPresent(SESClientTypes.VerificationStatus.self, forKey: .dkimVerificationStatus)
         dkimVerificationStatus = dkimVerificationStatusDecoded
@@ -5487,7 +5503,7 @@ extension SESClientTypes {
         /// Is true if DKIM signing is enabled for email sent from the identity. It's false otherwise. The default value is true.
         /// This member is required.
         public var dkimEnabled: Swift.Bool
-        /// A set of character strings that represent the domain's identity. Using these tokens, you need to create DNS CNAME records that point to DKIM public keys that are hosted by Amazon SES. Amazon Web Services eventually detects that you've updated your DNS records. This detection process might take up to 72 hours. After successful detection, Amazon SES is able to DKIM-sign email originating from that domain. (This only applies to domain identities, not email address identities.) For more information about creating DNS records using DKIM tokens, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html).
+        /// A set of character strings that represent the domain's identity. Using these tokens, you need to create DNS CNAME records that point to DKIM public keys that are hosted by Amazon SES. Amazon Web Services eventually detects that you've updated your DNS records. This detection process might take up to 72 hours. After successful detection, Amazon SES is able to DKIM-sign email originating from that domain. (This only applies to domain identities, not email address identities.) For more information about creating DNS records using DKIM tokens, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html).
         public var dkimTokens: [Swift.String]?
         /// Describes whether Amazon SES has successfully verified the DKIM DNS records (tokens) published in the domain name's DNS. (This only applies to domain identities, not email address identities.)
         /// This member is required.
@@ -5609,13 +5625,13 @@ extension SESClientTypes.IdentityNotificationAttributes: Swift.Codable {
         complaintTopic = complaintTopicDecoded
         let deliveryTopicDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryTopic)
         deliveryTopic = deliveryTopicDecoded
-        let forwardingEnabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .forwardingEnabled)
+        let forwardingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forwardingEnabled) ?? false
         forwardingEnabled = forwardingEnabledDecoded
-        let headersInBounceNotificationsEnabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .headersInBounceNotificationsEnabled)
+        let headersInBounceNotificationsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .headersInBounceNotificationsEnabled) ?? false
         headersInBounceNotificationsEnabled = headersInBounceNotificationsEnabledDecoded
-        let headersInComplaintNotificationsEnabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .headersInComplaintNotificationsEnabled)
+        let headersInComplaintNotificationsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .headersInComplaintNotificationsEnabled) ?? false
         headersInComplaintNotificationsEnabled = headersInComplaintNotificationsEnabledDecoded
-        let headersInDeliveryNotificationsEnabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .headersInDeliveryNotificationsEnabled)
+        let headersInDeliveryNotificationsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .headersInDeliveryNotificationsEnabled) ?? false
         headersInDeliveryNotificationsEnabled = headersInDeliveryNotificationsEnabledDecoded
     }
 }
@@ -5623,23 +5639,23 @@ extension SESClientTypes.IdentityNotificationAttributes: Swift.Codable {
 extension SESClientTypes {
     /// Represents the notification attributes of an identity, including whether an identity has Amazon Simple Notification Service (Amazon SNS) topics set for bounce, complaint, and/or delivery notifications, and whether feedback forwarding is enabled for bounce and complaint notifications.
     public struct IdentityNotificationAttributes: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES will publish bounce notifications.
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES publishes bounce notifications.
         /// This member is required.
         public var bounceTopic: Swift.String?
-        /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES will publish complaint notifications.
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES publishes complaint notifications.
         /// This member is required.
         public var complaintTopic: Swift.String?
-        /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES will publish delivery notifications.
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES publishes delivery notifications.
         /// This member is required.
         public var deliveryTopic: Swift.String?
-        /// Describes whether Amazon SES will forward bounce and complaint notifications as email. true indicates that Amazon SES will forward bounce and complaint notifications as email, while false indicates that bounce and complaint notifications will be published only to the specified bounce and complaint Amazon SNS topics.
+        /// Describes whether Amazon SES forwards bounce and complaint notifications as email. true indicates that Amazon SES forwards bounce and complaint notifications as email, while false indicates that bounce and complaint notifications are published only to the specified bounce and complaint Amazon SNS topics.
         /// This member is required.
         public var forwardingEnabled: Swift.Bool
-        /// Describes whether Amazon SES includes the original email headers in Amazon SNS notifications of type Bounce. A value of true specifies that Amazon SES will include headers in bounce notifications, and a value of false specifies that Amazon SES will not include headers in bounce notifications.
+        /// Describes whether Amazon SES includes the original email headers in Amazon SNS notifications of type Bounce. A value of true specifies that Amazon SES includes headers in bounce notifications, and a value of false specifies that Amazon SES does not include headers in bounce notifications.
         public var headersInBounceNotificationsEnabled: Swift.Bool
-        /// Describes whether Amazon SES includes the original email headers in Amazon SNS notifications of type Complaint. A value of true specifies that Amazon SES will include headers in complaint notifications, and a value of false specifies that Amazon SES will not include headers in complaint notifications.
+        /// Describes whether Amazon SES includes the original email headers in Amazon SNS notifications of type Complaint. A value of true specifies that Amazon SES includes headers in complaint notifications, and a value of false specifies that Amazon SES does not include headers in complaint notifications.
         public var headersInComplaintNotificationsEnabled: Swift.Bool
-        /// Describes whether Amazon SES includes the original email headers in Amazon SNS notifications of type Delivery. A value of true specifies that Amazon SES will include headers in delivery notifications, and a value of false specifies that Amazon SES will not include headers in delivery notifications.
+        /// Describes whether Amazon SES includes the original email headers in Amazon SNS notifications of type Delivery. A value of true specifies that Amazon SES includes headers in delivery notifications, and a value of false specifies that Amazon SES does not include headers in delivery notifications.
         public var headersInDeliveryNotificationsEnabled: Swift.Bool
 
         public init(
@@ -6014,7 +6030,7 @@ extension InvalidLambdaFunctionException {
     }
 }
 
-/// Indicates that the provided AWS Lambda function is invalid, or that Amazon SES could not execute the provided function, possibly due to permissions issues. For information about giving permissions, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-permissions.html).
+/// Indicates that the provided Amazon Web Services Lambda function is invalid, or that Amazon SES could not execute the provided function, possibly due to permissions issues. For information about giving permissions, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-permissions.html).
 public struct InvalidLambdaFunctionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -6195,7 +6211,7 @@ extension InvalidS3ConfigurationException {
     }
 }
 
-/// Indicates that the provided Amazon S3 bucket or AWS KMS encryption key is invalid, or that Amazon SES could not publish to the bucket, possibly due to permissions issues. For information about giving permissions, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-permissions.html).
+/// Indicates that the provided Amazon S3 bucket or Amazon Web Services KMS encryption key is invalid, or that Amazon SES could not publish to the bucket, possibly due to permissions issues. For information about giving permissions, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-permissions.html).
 public struct InvalidS3ConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -6560,7 +6576,7 @@ extension SESClientTypes.KinesisFirehoseDestination: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// Contains the delivery stream ARN and the IAM role ARN associated with an Amazon Kinesis Firehose event destination. Event destinations, such as Amazon Kinesis Firehose, are associated with configuration sets, which enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html).
+    /// Contains the delivery stream ARN and the IAM role ARN associated with an Amazon Kinesis Firehose event destination. Event destinations, such as Amazon Kinesis Firehose, are associated with configuration sets, which enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
     public struct KinesisFirehoseDestination: Swift.Equatable {
         /// The ARN of the Amazon Kinesis Firehose stream that email sending events should be published to.
         /// This member is required.
@@ -6613,14 +6629,14 @@ extension SESClientTypes.LambdaAction: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// When included in a receipt rule, this action calls an AWS Lambda function and, optionally, publishes a notification to Amazon Simple Notification Service (Amazon SNS). To enable Amazon SES to call your AWS Lambda function or to publish to an Amazon SNS topic of another account, Amazon SES must have permission to access those resources. For information about giving permissions, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-permissions.html). For information about using AWS Lambda actions in receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-lambda.html).
+    /// When included in a receipt rule, this action calls an Amazon Web Services Lambda function and, optionally, publishes a notification to Amazon Simple Notification Service (Amazon SNS). To enable Amazon SES to call your Amazon Web Services Lambda function or to publish to an Amazon SNS topic of another account, Amazon SES must have permission to access those resources. For information about giving permissions, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-permissions.html). For information about using Amazon Web Services Lambda actions in receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-lambda.html).
     public struct LambdaAction: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the AWS Lambda function. An example of an AWS Lambda function ARN is arn:aws:lambda:us-west-2:account-id:function:MyFunction. For more information about AWS Lambda, see the [AWS Lambda Developer Guide](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html).
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Lambda function. An example of an Amazon Web Services Lambda function ARN is arn:aws:lambda:us-west-2:account-id:function:MyFunction. For more information about Amazon Web Services Lambda, see the [Amazon Web Services Lambda Developer Guide](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html).
         /// This member is required.
         public var functionArn: Swift.String?
-        /// The invocation type of the AWS Lambda function. An invocation type of RequestResponse means that the execution of the function will immediately result in a response, and a value of Event means that the function will be invoked asynchronously. The default value is Event. For information about AWS Lambda invocation types, see the [AWS Lambda Developer Guide](https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html). There is a 30-second timeout on RequestResponse invocations. You should use Event invocation in most cases. Use RequestResponse only when you want to make a mail flow decision, such as whether to stop the receipt rule or the receipt rule set.
+        /// The invocation type of the Amazon Web Services Lambda function. An invocation type of RequestResponse means that the execution of the function immediately results in a response, and a value of Event means that the function is invoked asynchronously. The default value is Event. For information about Amazon Web Services Lambda invocation types, see the [Amazon Web Services Lambda Developer Guide](https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html). There is a 30-second timeout on RequestResponse invocations. You should use Event invocation in most cases. Use RequestResponse only to make a mail flow decision, such as whether to stop the receipt rule or the receipt rule set.
         public var invocationType: SESClientTypes.InvocationType?
-        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the Lambda action is taken. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the [Amazon SNS Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html).
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the Lambda action is executed. You can find the ARN of a topic by using the [ListTopics](https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html) operation in Amazon SNS. For more information about Amazon SNS topics, see the [Amazon SNS Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html).
         public var topicArn: Swift.String?
 
         public init(
@@ -6711,7 +6727,7 @@ extension ListConfigurationSetsInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to list the configuration sets associated with your AWS account. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html).
+/// Represents a request to list the configuration sets associated with your Amazon Web Services account. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
 public struct ListConfigurationSetsInput: Swift.Equatable {
     /// The number of configuration sets to return.
     public var maxItems: Swift.Int?
@@ -6748,20 +6764,11 @@ extension ListConfigurationSetsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListConfigurationSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListConfigurationSetsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListConfigurationSetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListConfigurationSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListConfigurationSetsOutputBody = try responseDecoder.decode(responseBody: data)
             self.configurationSets = output.configurationSets
             self.nextToken = output.nextToken
         } else {
@@ -6771,8 +6778,8 @@ extension ListConfigurationSetsOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-/// A list of configuration sets associated with your AWS account. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html).
-public struct ListConfigurationSetsOutputResponse: Swift.Equatable {
+/// A list of configuration sets associated with your Amazon Web Services account. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
+public struct ListConfigurationSetsOutput: Swift.Equatable {
     /// A list of configuration sets.
     public var configurationSets: [SESClientTypes.ConfigurationSet]?
     /// A token indicating that there are additional configuration sets available to be listed. Pass this token to successive calls of ListConfigurationSets.
@@ -6788,12 +6795,12 @@ public struct ListConfigurationSetsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListConfigurationSetsOutputResponseBody: Swift.Equatable {
+struct ListConfigurationSetsOutputBody: Swift.Equatable {
     let configurationSets: [SESClientTypes.ConfigurationSet]?
     let nextToken: Swift.String?
 }
 
-extension ListConfigurationSetsOutputResponseBody: Swift.Decodable {
+extension ListConfigurationSetsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configurationSets = "ConfigurationSets"
         case nextToken = "NextToken"
@@ -6826,6 +6833,15 @@ extension ListConfigurationSetsOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListConfigurationSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension ListCustomVerificationEmailTemplatesInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -6846,9 +6862,9 @@ extension ListCustomVerificationEmailTemplatesInput: ClientRuntime.URLPathProvid
     }
 }
 
-/// Represents a request to list the existing custom verification email templates for your account. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/custom-verification-emails.html) in the Amazon SES Developer Guide.
+/// Represents a request to list the existing custom verification email templates for your account. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide.
 public struct ListCustomVerificationEmailTemplatesInput: Swift.Equatable {
-    /// The maximum number of custom verification email templates to return. This value must be at least 1 and less than or equal to 50. If you do not specify a value, or if you specify a value less than 1 or greater than 50, the operation will return up to 50 results.
+    /// The maximum number of custom verification email templates to return. This value must be at least 1 and less than or equal to 50. If you do not specify a value, or if you specify a value less than 1 or greater than 50, the operation returns up to 50 results.
     public var maxResults: Swift.Int?
     /// An array the contains the name and creation time stamp for each template in your Amazon SES account.
     public var nextToken: Swift.String?
@@ -6883,20 +6899,11 @@ extension ListCustomVerificationEmailTemplatesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListCustomVerificationEmailTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListCustomVerificationEmailTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListCustomVerificationEmailTemplatesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListCustomVerificationEmailTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListCustomVerificationEmailTemplatesOutputBody = try responseDecoder.decode(responseBody: data)
             self.customVerificationEmailTemplates = output.customVerificationEmailTemplates
             self.nextToken = output.nextToken
         } else {
@@ -6907,7 +6914,7 @@ extension ListCustomVerificationEmailTemplatesOutputResponse: ClientRuntime.Http
 }
 
 /// A paginated list of custom verification email templates.
-public struct ListCustomVerificationEmailTemplatesOutputResponse: Swift.Equatable {
+public struct ListCustomVerificationEmailTemplatesOutput: Swift.Equatable {
     /// A list of the custom verification email templates that exist in your account.
     public var customVerificationEmailTemplates: [SESClientTypes.CustomVerificationEmailTemplate]?
     /// A token indicating that there are additional custom verification email templates available to be listed. Pass this token to a subsequent call to ListTemplates to retrieve the next 50 custom verification email templates.
@@ -6923,12 +6930,12 @@ public struct ListCustomVerificationEmailTemplatesOutputResponse: Swift.Equatabl
     }
 }
 
-struct ListCustomVerificationEmailTemplatesOutputResponseBody: Swift.Equatable {
+struct ListCustomVerificationEmailTemplatesOutputBody: Swift.Equatable {
     let customVerificationEmailTemplates: [SESClientTypes.CustomVerificationEmailTemplate]?
     let nextToken: Swift.String?
 }
 
-extension ListCustomVerificationEmailTemplatesOutputResponseBody: Swift.Decodable {
+extension ListCustomVerificationEmailTemplatesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case customVerificationEmailTemplates = "CustomVerificationEmailTemplates"
         case nextToken = "NextToken"
@@ -6961,6 +6968,15 @@ extension ListCustomVerificationEmailTemplatesOutputResponseBody: Swift.Decodabl
     }
 }
 
+enum ListCustomVerificationEmailTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension ListIdentitiesInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -6984,9 +7000,9 @@ extension ListIdentitiesInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to return a list of all identities (email addresses and domains) that you have attempted to verify under your AWS account, regardless of verification status.
+/// Represents a request to return a list of all identities (email addresses and domains) that you have attempted to verify under your Amazon Web Services account, regardless of verification status.
 public struct ListIdentitiesInput: Swift.Equatable {
-    /// The type of the identities to list. Possible values are "EmailAddress" and "Domain". If this parameter is omitted, then all identities will be listed.
+    /// The type of the identities to list. Possible values are "EmailAddress" and "Domain". If this parameter is omitted, then all identities are listed.
     public var identityType: SESClientTypes.IdentityType?
     /// The maximum number of identities per page. Possible values are 1-1000 inclusive.
     public var maxItems: Swift.Int?
@@ -7029,20 +7045,11 @@ extension ListIdentitiesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListIdentitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListIdentitiesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListIdentitiesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListIdentitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListIdentitiesOutputBody = try responseDecoder.decode(responseBody: data)
             self.identities = output.identities
             self.nextToken = output.nextToken
         } else {
@@ -7052,8 +7059,8 @@ extension ListIdentitiesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-/// A list of all identities that you have attempted to verify under your AWS account, regardless of verification status.
-public struct ListIdentitiesOutputResponse: Swift.Equatable {
+/// A list of all identities that you have attempted to verify under your Amazon Web Services account, regardless of verification status.
+public struct ListIdentitiesOutput: Swift.Equatable {
     /// A list of identities.
     /// This member is required.
     public var identities: [Swift.String]?
@@ -7070,12 +7077,12 @@ public struct ListIdentitiesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListIdentitiesOutputResponseBody: Swift.Equatable {
+struct ListIdentitiesOutputBody: Swift.Equatable {
     let identities: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension ListIdentitiesOutputResponseBody: Swift.Decodable {
+extension ListIdentitiesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case identities = "Identities"
         case nextToken = "NextToken"
@@ -7108,6 +7115,15 @@ extension ListIdentitiesOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListIdentitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension ListIdentityPoliciesInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -7125,9 +7141,9 @@ extension ListIdentityPoliciesInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to return a list of sending authorization policies that are attached to an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
+/// Represents a request to return a list of sending authorization policies that are attached to an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
 public struct ListIdentityPoliciesInput: Swift.Equatable {
-    /// The identity that is associated with the policy for which the policies will be listed. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
+    /// The identity that is associated with the policy for which the policies are listed. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this operation, you must own the identity.
     /// This member is required.
     public var identity: Swift.String?
 
@@ -7155,20 +7171,11 @@ extension ListIdentityPoliciesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListIdentityPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListIdentityPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListIdentityPoliciesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListIdentityPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListIdentityPoliciesOutputBody = try responseDecoder.decode(responseBody: data)
             self.policyNames = output.policyNames
         } else {
             self.policyNames = nil
@@ -7177,7 +7184,7 @@ extension ListIdentityPoliciesOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 /// A list of names of sending authorization policies that apply to an identity.
-public struct ListIdentityPoliciesOutputResponse: Swift.Equatable {
+public struct ListIdentityPoliciesOutput: Swift.Equatable {
     /// A list of names of policies that apply to the specified identity.
     /// This member is required.
     public var policyNames: [Swift.String]?
@@ -7190,11 +7197,11 @@ public struct ListIdentityPoliciesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListIdentityPoliciesOutputResponseBody: Swift.Equatable {
+struct ListIdentityPoliciesOutputBody: Swift.Equatable {
     let policyNames: [Swift.String]?
 }
 
-extension ListIdentityPoliciesOutputResponseBody: Swift.Decodable {
+extension ListIdentityPoliciesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policyNames = "PolicyNames"
     }
@@ -7224,6 +7231,15 @@ extension ListIdentityPoliciesOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListIdentityPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension ListReceiptFiltersInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -7238,26 +7254,17 @@ extension ListReceiptFiltersInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to list the IP address filters that exist under your AWS account. You use IP address filters when you receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-concepts.html).
+/// Represents a request to list the IP address filters that exist under your Amazon Web Services account. You use IP address filters when you receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
 public struct ListReceiptFiltersInput: Swift.Equatable {
 
     public init() { }
 }
 
-public enum ListReceiptFiltersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListReceiptFiltersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListReceiptFiltersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListReceiptFiltersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListReceiptFiltersOutputBody = try responseDecoder.decode(responseBody: data)
             self.filters = output.filters
         } else {
             self.filters = nil
@@ -7265,8 +7272,8 @@ extension ListReceiptFiltersOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-/// A list of IP address filters that exist under your AWS account.
-public struct ListReceiptFiltersOutputResponse: Swift.Equatable {
+/// A list of IP address filters that exist under your Amazon Web Services account.
+public struct ListReceiptFiltersOutput: Swift.Equatable {
     /// A list of IP address filter data structures, which each consist of a name, an IP address range, and whether to allow or block mail from it.
     public var filters: [SESClientTypes.ReceiptFilter]?
 
@@ -7278,11 +7285,11 @@ public struct ListReceiptFiltersOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListReceiptFiltersOutputResponseBody: Swift.Equatable {
+struct ListReceiptFiltersOutputBody: Swift.Equatable {
     let filters: [SESClientTypes.ReceiptFilter]?
 }
 
-extension ListReceiptFiltersOutputResponseBody: Swift.Decodable {
+extension ListReceiptFiltersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filters = "Filters"
     }
@@ -7312,6 +7319,15 @@ extension ListReceiptFiltersOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListReceiptFiltersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension ListReceiptRuleSetsInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -7329,7 +7345,7 @@ extension ListReceiptRuleSetsInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to list the receipt rule sets that exist under your AWS account. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-concepts.html).
+/// Represents a request to list the receipt rule sets that exist under your Amazon Web Services account. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
 public struct ListReceiptRuleSetsInput: Swift.Equatable {
     /// A token returned from a previous call to ListReceiptRuleSets to indicate the position in the receipt rule set list.
     public var nextToken: Swift.String?
@@ -7358,20 +7374,11 @@ extension ListReceiptRuleSetsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListReceiptRuleSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListReceiptRuleSetsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListReceiptRuleSetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListReceiptRuleSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListReceiptRuleSetsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.ruleSets = output.ruleSets
         } else {
@@ -7381,8 +7388,8 @@ extension ListReceiptRuleSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-/// A list of receipt rule sets that exist under your AWS account.
-public struct ListReceiptRuleSetsOutputResponse: Swift.Equatable {
+/// A list of receipt rule sets that exist under your Amazon Web Services account.
+public struct ListReceiptRuleSetsOutput: Swift.Equatable {
     /// A token indicating that there are additional receipt rule sets available to be listed. Pass this token to successive calls of ListReceiptRuleSets to retrieve up to 100 receipt rule sets at a time.
     public var nextToken: Swift.String?
     /// The metadata for the currently active receipt rule set. The metadata consists of the rule set name and the timestamp of when the rule set was created.
@@ -7398,12 +7405,12 @@ public struct ListReceiptRuleSetsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListReceiptRuleSetsOutputResponseBody: Swift.Equatable {
+struct ListReceiptRuleSetsOutputBody: Swift.Equatable {
     let ruleSets: [SESClientTypes.ReceiptRuleSetMetadata]?
     let nextToken: Swift.String?
 }
 
-extension ListReceiptRuleSetsOutputResponseBody: Swift.Decodable {
+extension ListReceiptRuleSetsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case ruleSets = "RuleSets"
@@ -7436,6 +7443,15 @@ extension ListReceiptRuleSetsOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListReceiptRuleSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension ListTemplatesInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -7457,7 +7473,7 @@ extension ListTemplatesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListTemplatesInput: Swift.Equatable {
-    /// The maximum number of templates to return. This value must be at least 1 and less than or equal to 10. If you do not specify a value, or if you specify a value less than 1 or greater than 10, the operation will return up to 10 results.
+    /// The maximum number of templates to return. This value must be at least 1 and less than or equal to 100. If more than 100 items are requested, the page size will automatically set to 100. If you do not specify a value, 10 is the default page size.
     public var maxItems: Swift.Int?
     /// A token returned from a previous call to ListTemplates to indicate the position in the list of email templates.
     public var nextToken: Swift.String?
@@ -7492,20 +7508,11 @@ extension ListTemplatesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTemplatesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTemplatesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.templatesMetadata = output.templatesMetadata
         } else {
@@ -7515,8 +7522,8 @@ extension ListTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTemplatesOutputResponse: Swift.Equatable {
-    /// A token indicating that there are additional email templates available to be listed. Pass this token to a subsequent call to ListTemplates to retrieve the next 50 email templates.
+public struct ListTemplatesOutput: Swift.Equatable {
+    /// A token indicating that there are additional email templates available to be listed. Pass this token to a subsequent call to ListTemplates to retrieve the next set of email templates within your page size.
     public var nextToken: Swift.String?
     /// An array the contains the name and creation time stamp for each template in your Amazon SES account.
     public var templatesMetadata: [SESClientTypes.TemplateMetadata]?
@@ -7531,12 +7538,12 @@ public struct ListTemplatesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTemplatesOutputResponseBody: Swift.Equatable {
+struct ListTemplatesOutputBody: Swift.Equatable {
     let templatesMetadata: [SESClientTypes.TemplateMetadata]?
     let nextToken: Swift.String?
 }
 
-extension ListTemplatesOutputResponseBody: Swift.Decodable {
+extension ListTemplatesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case templatesMetadata = "TemplatesMetadata"
@@ -7569,6 +7576,15 @@ extension ListTemplatesOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension ListVerifiedEmailAddressesInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -7588,20 +7604,11 @@ public struct ListVerifiedEmailAddressesInput: Swift.Equatable {
     public init() { }
 }
 
-public enum ListVerifiedEmailAddressesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListVerifiedEmailAddressesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListVerifiedEmailAddressesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListVerifiedEmailAddressesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListVerifiedEmailAddressesOutputBody = try responseDecoder.decode(responseBody: data)
             self.verifiedEmailAddresses = output.verifiedEmailAddresses
         } else {
             self.verifiedEmailAddresses = nil
@@ -7609,8 +7616,8 @@ extension ListVerifiedEmailAddressesOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-/// A list of email addresses that you have verified with Amazon SES under your AWS account.
-public struct ListVerifiedEmailAddressesOutputResponse: Swift.Equatable {
+/// A list of email addresses that you have verified with Amazon SES under your Amazon Web Services account.
+public struct ListVerifiedEmailAddressesOutput: Swift.Equatable {
     /// A list of email addresses that have been verified.
     public var verifiedEmailAddresses: [Swift.String]?
 
@@ -7622,11 +7629,11 @@ public struct ListVerifiedEmailAddressesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListVerifiedEmailAddressesOutputResponseBody: Swift.Equatable {
+struct ListVerifiedEmailAddressesOutputBody: Swift.Equatable {
     let verifiedEmailAddresses: [Swift.String]?
 }
 
-extension ListVerifiedEmailAddressesOutputResponseBody: Swift.Decodable {
+extension ListVerifiedEmailAddressesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case verifiedEmailAddresses = "VerifiedEmailAddresses"
     }
@@ -7652,6 +7659,15 @@ extension ListVerifiedEmailAddressesOutputResponseBody: Swift.Decodable {
             }
         } else {
             verifiedEmailAddresses = nil
+        }
+    }
+}
+
+enum ListVerifiedEmailAddressesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -7741,7 +7757,7 @@ extension SESClientTypes {
         /// The message body.
         /// This member is required.
         public var body: SESClientTypes.Body?
-        /// The subject of the message: A short summary of the content, which will appear in the recipient's inbox.
+        /// The subject of the message: A short summary of the content, which appears in the recipient's inbox.
         /// This member is required.
         public var subject: SESClientTypes.Content?
 
@@ -7767,7 +7783,7 @@ extension SESClientTypes.MessageDsn: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let arrivalDate = arrivalDate {
-            try container.encodeTimestamp(arrivalDate, format: .dateTime, forKey: ClientRuntime.Key("arrivalDate"))
+            try container.encodeTimestamp(arrivalDate, format: .dateTime, forKey: ClientRuntime.Key("ArrivalDate"))
         }
         if let extensionFields = extensionFields {
             if !extensionFields.isEmpty {
@@ -7815,7 +7831,7 @@ extension SESClientTypes.MessageDsn: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// Message-related information to include in the Delivery Status Notification (DSN) when an email that Amazon SES receives on your behalf bounces. For information about receiving email through Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email.html).
+    /// Message-related information to include in the Delivery Status Notification (DSN) when an email that Amazon SES receives on your behalf bounces. For information about receiving email through Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html).
     public struct MessageDsn: Swift.Equatable {
         /// When the message was received by the reporting mail transfer agent (MTA), in [RFC 822](https://www.ietf.org/rfc/rfc0822.txt) date-time format.
         public var arrivalDate: ClientRuntime.Date?
@@ -7919,20 +7935,20 @@ extension SESClientTypes.MessageTag: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// Contains the name and value of a tag that you can provide to SendEmail or SendRawEmail to apply to an email. Message tags, which you use with configuration sets, enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html).
+    /// Contains the name and value of a tag that you can provide to SendEmail or SendRawEmail to apply to an email. Message tags, which you use with configuration sets, enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
     public struct MessageTag: Swift.Equatable {
-        /// The name of the tag. The name must:
+        /// The name of the tag. The name must meet the following requirements:
         ///
-        /// * This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+        /// * Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
         ///
-        /// * Contain less than 256 characters.
+        /// * Contain 256 characters or fewer.
         /// This member is required.
         public var name: Swift.String?
-        /// The value of the tag. The value must:
+        /// The value of the tag. The value must meet the following requirements:
         ///
-        /// * This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+        /// * Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
         ///
-        /// * Contain less than 256 characters.
+        /// * Contain 256 characters or fewer.
         /// This member is required.
         public var value: Swift.String?
 
@@ -8122,7 +8138,7 @@ extension PutConfigurationSetDeliveryOptionsInput: ClientRuntime.URLPathProvider
 
 /// A request to modify the delivery options for a configuration set.
 public struct PutConfigurationSetDeliveryOptionsInput: Swift.Equatable {
-    /// The name of the configuration set that you want to specify the delivery options for.
+    /// The name of the configuration set.
     /// This member is required.
     public var configurationSetName: Swift.String?
     /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS).
@@ -8158,8 +8174,19 @@ extension PutConfigurationSetDeliveryOptionsInputBody: Swift.Decodable {
     }
 }
 
-public enum PutConfigurationSetDeliveryOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension PutConfigurationSetDeliveryOptionsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the request fails.
+public struct PutConfigurationSetDeliveryOptionsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutConfigurationSetDeliveryOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConfigurationSetDoesNotExist": return try await ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8167,17 +8194,6 @@ public enum PutConfigurationSetDeliveryOptionsOutputError: ClientRuntime.HttpRes
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension PutConfigurationSetDeliveryOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutConfigurationSetDeliveryOptionsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension PutIdentityPolicyInput: Swift.Encodable {
@@ -8203,12 +8219,12 @@ extension PutIdentityPolicyInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to add or update a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
+/// Represents a request to add or update a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
 public struct PutIdentityPolicyInput: Swift.Equatable {
-    /// The identity that the policy will apply to. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
+    /// The identity to which that the policy applies. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this operation, you must own the identity.
     /// This member is required.
     public var identity: Swift.String?
-    /// The text of the policy in JSON format. The policy cannot exceed 4 KB. For information about the syntax of sending authorization policies, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-policies.html).
+    /// The text of the policy in JSON format. The policy cannot exceed 4 KB. For information about the syntax of sending authorization policies, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization-policies.html).
     /// This member is required.
     public var policy: Swift.String?
     /// The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
@@ -8251,25 +8267,25 @@ extension PutIdentityPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum PutIdentityPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension PutIdentityPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty element returned on a successful request.
+public struct PutIdentityPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutIdentityPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidPolicy": return try await InvalidPolicyException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension PutIdentityPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty element returned on a successful request.
-public struct PutIdentityPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension SESClientTypes.RawMessage: Swift.Codable {
@@ -8302,7 +8318,7 @@ extension SESClientTypes.RawMessage: Swift.Codable {
 extension SESClientTypes {
     /// Represents the raw data of the message.
     public struct RawMessage: Swift.Equatable {
-        /// The raw data of the message. This data needs to base64-encoded if you are accessing Amazon SES directly through the HTTPS interface. If you are accessing Amazon SES using an AWS SDK, the SDK takes care of the base 64-encoding for you. In all cases, the client must ensure that the message format complies with Internet email standards regarding email header fields, MIME types, and MIME encoding. The To:, CC:, and BCC: headers in the raw message can contain a group list. If you are using SendRawEmail with sending authorization, you can include X-headers in the raw message to specify the "Source," "From," and "Return-Path" addresses. For more information, see the documentation for SendRawEmail. Do not include these X-headers in the DKIM signature, because they are removed by Amazon SES before sending the email. For more information, go to the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-raw.html).
+        /// The raw data of the message. This data needs to base64-encoded if you are accessing Amazon SES directly through the HTTPS interface. If you are accessing Amazon SES using an Amazon Web Services SDK, the SDK takes care of the base 64-encoding for you. In all cases, the client must ensure that the message format complies with Internet email standards regarding email header fields, MIME types, and MIME encoding. The To:, CC:, and BCC: headers in the raw message can contain a group list. If you are using SendRawEmail with sending authorization, you can include X-headers in the raw message to specify the "Source," "From," and "Return-Path" addresses. For more information, see the documentation for SendRawEmail. Do not include these X-headers in the DKIM signature, because they are removed by Amazon SES before sending the email. For more information, go to the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html).
         /// This member is required.
         public var data: ClientRuntime.Data?
 
@@ -8372,13 +8388,13 @@ extension SESClientTypes.ReceiptAction: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// An action that Amazon SES can take when it receives an email on behalf of one or more email addresses or domains that you own. An instance of this data type can represent only one action. For information about setting up receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rules.html).
+    /// An action that Amazon SES can take when it receives an email on behalf of one or more email addresses or domains that you own. An instance of this data type can represent only one action. For information about setting up receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html).
     public struct ReceiptAction: Swift.Equatable {
         /// Adds a header to the received email.
         public var addHeaderAction: SESClientTypes.AddHeaderAction?
         /// Rejects the received email by returning a bounce response to the sender and, optionally, publishes a notification to Amazon Simple Notification Service (Amazon SNS).
         public var bounceAction: SESClientTypes.BounceAction?
-        /// Calls an AWS Lambda function, and optionally, publishes a notification to Amazon SNS.
+        /// Calls an Amazon Web Services Lambda function, and optionally, publishes a notification to Amazon SNS.
         public var lambdaAction: SESClientTypes.LambdaAction?
         /// Saves the received message to an Amazon Simple Storage Service (Amazon S3) bucket and, optionally, publishes a notification to Amazon SNS.
         public var s3Action: SESClientTypes.S3Action?
@@ -8437,18 +8453,18 @@ extension SESClientTypes.ReceiptFilter: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// A receipt IP address filter enables you to specify whether to accept or reject mail originating from an IP address or range of IP addresses. For information about setting up IP address filters, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-ip-filters.html).
+    /// A receipt IP address filter enables you to specify whether to accept or reject mail originating from an IP address or range of IP addresses. For information about setting up IP address filters, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-ip-filtering-console-walkthrough.html).
     public struct ReceiptFilter: Swift.Equatable {
         /// A structure that provides the IP addresses to block or allow, and whether to block or allow incoming mail from them.
         /// This member is required.
         public var ipFilter: SESClientTypes.ReceiptIpFilter?
-        /// The name of the IP address filter. The name must:
+        /// The name of the IP address filter. The name must meet the following requirements:
         ///
-        /// * This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+        /// * Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
         ///
         /// * Start and end with a letter or number.
         ///
-        /// * Contain less than 64 characters.
+        /// * Contain 64 characters or fewer.
         /// This member is required.
         public var name: Swift.String?
 
@@ -8522,9 +8538,9 @@ extension SESClientTypes.ReceiptIpFilter: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// A receipt IP address filter enables you to specify whether to accept or reject mail originating from an IP address or range of IP addresses. For information about setting up IP address filters, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-ip-filters.html).
+    /// A receipt IP address filter enables you to specify whether to accept or reject mail originating from an IP address or range of IP addresses. For information about setting up IP address filters, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-ip-filtering-console-walkthrough.html).
     public struct ReceiptIpFilter: Swift.Equatable {
-        /// A single IP address or a range of IP addresses that you want to block or allow, specified in Classless Inter-Domain Routing (CIDR) notation. An example of a single email address is 10.0.0.1. An example of a range of IP addresses is 10.0.0.1/24. For more information about CIDR notation, see [RFC 2317](https://tools.ietf.org/html/rfc2317).
+        /// A single IP address or a range of IP addresses to block or allow, specified in Classless Inter-Domain Routing (CIDR) notation. An example of a single email address is 10.0.0.1. An example of a range of IP addresses is 10.0.0.1/24. For more information about CIDR notation, see [RFC 2317](https://tools.ietf.org/html/rfc2317).
         /// This member is required.
         public var cidr: Swift.String?
         /// Indicates whether to block or allow incoming mail from the specified IP addresses.
@@ -8597,7 +8613,7 @@ extension SESClientTypes.ReceiptRule: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
-        let enabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .enabled)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
         enabled = enabledDecoded
         let tlsPolicyDecoded = try containerValues.decodeIfPresent(SESClientTypes.TlsPolicy.self, forKey: .tlsPolicy)
         tlsPolicy = tlsPolicyDecoded
@@ -8639,32 +8655,32 @@ extension SESClientTypes.ReceiptRule: Swift.Codable {
         } else {
             actions = nil
         }
-        let scanEnabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .scanEnabled)
+        let scanEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .scanEnabled) ?? false
         scanEnabled = scanEnabledDecoded
     }
 }
 
 extension SESClientTypes {
-    /// Receipt rules enable you to specify which actions Amazon SES should take when it receives mail on behalf of one or more email addresses or domains that you own. Each receipt rule defines a set of email addresses or domains that it applies to. If the email addresses or domains match at least one recipient address of the message, Amazon SES executes all of the receipt rule's actions on the message. For information about setting up receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rules.html).
+    /// Receipt rules enable you to specify which actions Amazon SES should take when it receives mail on behalf of one or more email addresses or domains that you own. Each receipt rule defines a set of email addresses or domains that it applies to. If the email addresses or domains match at least one recipient address of the message, Amazon SES executes all of the receipt rule's actions on the message. For information about setting up receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html).
     public struct ReceiptRule: Swift.Equatable {
         /// An ordered list of actions to perform on messages that match at least one of the recipient email addresses or domains specified in the receipt rule.
         public var actions: [SESClientTypes.ReceiptAction]?
         /// If true, the receipt rule is active. The default value is false.
         public var enabled: Swift.Bool
-        /// The name of the receipt rule. The name must:
+        /// The name of the receipt rule. The name must meet the following requirements:
         ///
-        /// * This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+        /// * Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), dashes (-), or periods (.).
         ///
         /// * Start and end with a letter or number.
         ///
-        /// * Contain less than 64 characters.
+        /// * Contain 64 characters or fewer.
         /// This member is required.
         public var name: Swift.String?
-        /// The recipient domains and email addresses that the receipt rule applies to. If this field is not specified, this rule will match all recipients under all verified domains.
+        /// The recipient domains and email addresses that the receipt rule applies to. If this field is not specified, this rule matches all recipients on all verified domains.
         public var recipients: [Swift.String]?
         /// If true, then messages that this receipt rule applies to are scanned for spam and viruses. The default value is false.
         public var scanEnabled: Swift.Bool
-        /// Specifies whether Amazon SES should require that incoming email is delivered over a connection encrypted with Transport Layer Security (TLS). If this parameter is set to Require, Amazon SES will bounce emails that are not received over TLS. The default is Optional.
+        /// Specifies whether Amazon SES should require that incoming email is delivered over a connection encrypted with Transport Layer Security (TLS). If this parameter is set to Require, Amazon SES bounces emails that are not received over TLS. The default is Optional.
         public var tlsPolicy: SESClientTypes.TlsPolicy?
 
         public init(
@@ -8696,7 +8712,7 @@ extension SESClientTypes.ReceiptRuleSetMetadata: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let createdTimestamp = createdTimestamp {
-            try container.encodeTimestamp(createdTimestamp, format: .dateTime, forKey: ClientRuntime.Key("createdTimestamp"))
+            try container.encodeTimestamp(createdTimestamp, format: .dateTime, forKey: ClientRuntime.Key("CreatedTimestamp"))
         }
         if let name = name {
             try container.encode(name, forKey: ClientRuntime.Key("Name"))
@@ -8713,17 +8729,17 @@ extension SESClientTypes.ReceiptRuleSetMetadata: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// Information about a receipt rule set. A receipt rule set is a collection of rules that specify what Amazon SES should do with mail it receives on behalf of your account's verified domains. For information about setting up receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rule-set.html).
+    /// Information about a receipt rule set. A receipt rule set is a collection of rules that specify what Amazon SES should do with mail it receives on behalf of your account's verified domains. For information about setting up receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html#receiving-email-concepts-rules).
     public struct ReceiptRuleSetMetadata: Swift.Equatable {
         /// The date and time the receipt rule set was created.
         public var createdTimestamp: ClientRuntime.Date?
-        /// The name of the receipt rule set. The name must:
+        /// The name of the receipt rule set. The name must meet the following requirements:
         ///
-        /// * This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+        /// * Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
         ///
         /// * Start and end with a letter or number.
         ///
-        /// * Contain less than 64 characters.
+        /// * Contain 64 characters or fewer.
         public var name: Swift.String?
 
         public init(
@@ -8773,7 +8789,7 @@ extension SESClientTypes.RecipientDsnFields: Swift.Codable {
             try container.encode(finalRecipient, forKey: ClientRuntime.Key("FinalRecipient"))
         }
         if let lastAttemptDate = lastAttemptDate {
-            try container.encodeTimestamp(lastAttemptDate, format: .dateTime, forKey: ClientRuntime.Key("lastAttemptDate"))
+            try container.encodeTimestamp(lastAttemptDate, format: .dateTime, forKey: ClientRuntime.Key("LastAttemptDate"))
         }
         if let remoteMta = remoteMta {
             try container.encode(remoteMta, forKey: ClientRuntime.Key("RemoteMta"))
@@ -8820,7 +8836,7 @@ extension SESClientTypes.RecipientDsnFields: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// Recipient-related information to include in the Delivery Status Notification (DSN) when an email that Amazon SES receives on your behalf bounces. For information about receiving email through Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email.html).
+    /// Recipient-related information to include in the Delivery Status Notification (DSN) when an email that Amazon SES receives on your behalf bounces. For information about receiving email through Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html).
     public struct RecipientDsnFields: Swift.Equatable {
         /// The action performed by the reporting mail transfer agent (MTA) as a result of its attempt to deliver the message to the recipient address. This is required by [RFC 3464](https://tools.ietf.org/html/rfc3464).
         /// This member is required.
@@ -8829,7 +8845,7 @@ extension SESClientTypes {
         public var diagnosticCode: Swift.String?
         /// Additional X-headers to include in the DSN.
         public var extensionFields: [SESClientTypes.ExtensionField]?
-        /// The email address that the message was ultimately delivered to. This corresponds to the Final-Recipient in the DSN. If not specified, FinalRecipient will be set to the Recipient specified in the BouncedRecipientInfo structure. Either FinalRecipient or the recipient in BouncedRecipientInfo must be a recipient of the original bounced message. Do not prepend the FinalRecipient email address with rfc 822;, as described in [RFC 3798](https://tools.ietf.org/html/rfc3798).
+        /// The email address that the message was ultimately delivered to. This corresponds to the Final-Recipient in the DSN. If not specified, FinalRecipient is set to the Recipient specified in the BouncedRecipientInfo structure. Either FinalRecipient or the recipient in BouncedRecipientInfo must be a recipient of the original bounced message. Do not prepend the FinalRecipient email address with rfc 822;, as described in [RFC 3798](https://tools.ietf.org/html/rfc3798).
         public var finalRecipient: Swift.String?
         /// The time the final delivery attempt was made, in [RFC 822](https://www.ietf.org/rfc/rfc0822.txt) date-time format.
         public var lastAttemptDate: ClientRuntime.Date?
@@ -8890,9 +8906,9 @@ extension ReorderReceiptRuleSetInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to reorder the receipt rules within a receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-concepts.html).
+/// Represents a request to reorder the receipt rules within a receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
 public struct ReorderReceiptRuleSetInput: Swift.Equatable {
-    /// A list of the specified receipt rule set's receipt rules in the order that you want to put them.
+    /// The specified receipt rule set's receipt rules, in order.
     /// This member is required.
     public var ruleNames: [Swift.String]?
     /// The name of the receipt rule set to reorder.
@@ -8946,8 +8962,19 @@ extension ReorderReceiptRuleSetInputBody: Swift.Decodable {
     }
 }
 
-public enum ReorderReceiptRuleSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension ReorderReceiptRuleSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty element returned on a successful request.
+public struct ReorderReceiptRuleSetOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum ReorderReceiptRuleSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "RuleDoesNotExist": return try await RuleDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8955,17 +8982,6 @@ public enum ReorderReceiptRuleSetOutputError: ClientRuntime.HttpResponseErrorBin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension ReorderReceiptRuleSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty element returned on a successful request.
-public struct ReorderReceiptRuleSetOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension SESClientTypes.ReputationOptions: Swift.Codable {
@@ -8978,7 +8994,7 @@ extension SESClientTypes.ReputationOptions: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let lastFreshStart = lastFreshStart {
-            try container.encodeTimestamp(lastFreshStart, format: .dateTime, forKey: ClientRuntime.Key("lastFreshStart"))
+            try container.encodeTimestamp(lastFreshStart, format: .dateTime, forKey: ClientRuntime.Key("LastFreshStart"))
         }
         if reputationMetricsEnabled != false {
             try container.encode(reputationMetricsEnabled, forKey: ClientRuntime.Key("ReputationMetricsEnabled"))
@@ -8990,9 +9006,9 @@ extension SESClientTypes.ReputationOptions: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sendingEnabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .sendingEnabled)
+        let sendingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sendingEnabled) ?? false
         sendingEnabled = sendingEnabledDecoded
-        let reputationMetricsEnabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .reputationMetricsEnabled)
+        let reputationMetricsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .reputationMetricsEnabled) ?? false
         reputationMetricsEnabled = reputationMetricsEnabledDecoded
         let lastFreshStartDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastFreshStart)
         lastFreshStart = lastFreshStartDecoded
@@ -9006,7 +9022,7 @@ extension SESClientTypes {
         public var lastFreshStart: ClientRuntime.Date?
         /// Describes whether or not Amazon SES publishes reputation metrics for the configuration set, such as bounce and complaint rates, to Amazon CloudWatch. If the value is true, reputation metrics are published. If the value is false, reputation metrics are not published. The default value is false.
         public var reputationMetricsEnabled: Swift.Bool
-        /// Describes whether email sending is enabled or disabled for the configuration set. If the value is true, then Amazon SES will send emails that use the configuration set. If the value is false, Amazon SES will not send emails that use the configuration set. The default value is true. You can change this setting using [UpdateConfigurationSetSendingEnabled].
+        /// Describes whether email sending is enabled or disabled for the configuration set. If the value is true, then Amazon SES sends emails that use the configuration set. If the value is false, Amazon SES does not send emails that use the configuration set. The default value is true. You can change this setting using [UpdateConfigurationSetSendingEnabled].
         public var sendingEnabled: Swift.Bool
 
         public init(
@@ -9189,23 +9205,23 @@ extension SESClientTypes.S3Action: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// When included in a receipt rule, this action saves the received message to an Amazon Simple Storage Service (Amazon S3) bucket and, optionally, publishes a notification to Amazon Simple Notification Service (Amazon SNS). To enable Amazon SES to write emails to your Amazon S3 bucket, use an AWS KMS key to encrypt your emails, or publish to an Amazon SNS topic of another account, Amazon SES must have permission to access those resources. For information about giving permissions, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-permissions.html). When you save your emails to an Amazon S3 bucket, the maximum email size (including headers) is 30 MB. Emails larger than that will bounce. For information about specifying Amazon S3 actions in receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-s3.html).
+    /// When included in a receipt rule, this action saves the received message to an Amazon Simple Storage Service (Amazon S3) bucket and, optionally, publishes a notification to Amazon Simple Notification Service (Amazon SNS). To enable Amazon SES to write emails to your Amazon S3 bucket, use an Amazon Web Services KMS key to encrypt your emails, or publish to an Amazon SNS topic of another account, Amazon SES must have permission to access those resources. For information about granting permissions, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-permissions.html). When you save your emails to an Amazon S3 bucket, the maximum email size (including headers) is 40 MB. Emails larger than that bounces. For information about specifying Amazon S3 actions in receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-s3.html).
     public struct S3Action: Swift.Equatable {
-        /// The name of the Amazon S3 bucket that incoming email will be saved to.
+        /// The name of the Amazon S3 bucket for incoming email.
         /// This member is required.
         public var bucketName: Swift.String?
-        /// The customer master key that Amazon SES should use to encrypt your emails before saving them to the Amazon S3 bucket. You can use the default master key or a custom master key you created in AWS KMS as follows:
+        /// The customer master key that Amazon SES should use to encrypt your emails before saving them to the Amazon S3 bucket. You can use the default master key or a custom master key that you created in Amazon Web Services KMS as follows:
         ///
-        /// * To use the default master key, provide an ARN in the form of arn:aws:kms:REGION:ACCOUNT-ID-WITHOUT-HYPHENS:alias/aws/ses. For example, if your AWS account ID is 123456789012 and you want to use the default master key in the US West (Oregon) region, the ARN of the default master key would be arn:aws:kms:us-west-2:123456789012:alias/aws/ses. If you use the default master key, you don't need to perform any extra steps to give Amazon SES permission to use the key.
+        /// * To use the default master key, provide an ARN in the form of arn:aws:kms:REGION:ACCOUNT-ID-WITHOUT-HYPHENS:alias/aws/ses. For example, if your Amazon Web Services account ID is 123456789012 and you want to use the default master key in the US West (Oregon) Region, the ARN of the default master key would be arn:aws:kms:us-west-2:123456789012:alias/aws/ses. If you use the default master key, you don't need to perform any extra steps to give Amazon SES permission to use the key.
         ///
-        /// * To use a custom master key you created in AWS KMS, provide the ARN of the master key and ensure that you add a statement to your key's policy to give Amazon SES permission to use it. For more information about giving permissions, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-permissions.html).
+        /// * To use a custom master key that you created in Amazon Web Services KMS, provide the ARN of the master key and ensure that you add a statement to your key's policy to give Amazon SES permission to use it. For more information about giving permissions, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-permissions.html).
         ///
         ///
-        /// For more information about key policies, see the [AWS KMS Developer Guide](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html). If you do not specify a master key, Amazon SES will not encrypt your emails. Your mail is encrypted by Amazon SES using the Amazon S3 encryption client before the mail is submitted to Amazon S3 for storage. It is not encrypted using Amazon S3 server-side encryption. This means that you must use the Amazon S3 encryption client to decrypt the email after retrieving it from Amazon S3, as the service has no access to use your AWS KMS keys for decryption. This encryption client is currently available with the [AWS SDK for Java](http://aws.amazon.com/sdk-for-java/) and [AWS SDK for Ruby](http://aws.amazon.com/sdk-for-ruby/) only. For more information about client-side encryption using AWS KMS master keys, see the [Amazon S3 Developer Guide](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html).
+        /// For more information about key policies, see the [Amazon Web Services KMS Developer Guide](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html). If you do not specify a master key, Amazon SES does not encrypt your emails. Your mail is encrypted by Amazon SES using the Amazon S3 encryption client before the mail is submitted to Amazon S3 for storage. It is not encrypted using Amazon S3 server-side encryption. This means that you must use the Amazon S3 encryption client to decrypt the email after retrieving it from Amazon S3, as the service has no access to use your Amazon Web Services KMS keys for decryption. This encryption client is currently available with the [Amazon Web Services SDK for Java](http://aws.amazon.com/sdk-for-java/) and [Amazon Web Services SDK for Ruby](http://aws.amazon.com/sdk-for-ruby/) only. For more information about client-side encryption using Amazon Web Services KMS master keys, see the [Amazon S3 Developer Guide](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html).
         public var kmsKeyArn: Swift.String?
         /// The key prefix of the Amazon S3 bucket. The key prefix is similar to a directory name that enables you to store similar data under the same directory in a bucket.
         public var objectKeyPrefix: Swift.String?
-        /// The ARN of the Amazon SNS topic to notify when the message is saved to the Amazon S3 bucket. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the [Amazon SNS Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html).
+        /// The ARN of the Amazon SNS topic to notify when the message is saved to the Amazon S3 bucket. You can find the ARN of a topic by using the [ListTopics](https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html) operation in Amazon SNS. For more information about Amazon SNS topics, see the [Amazon SNS Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html).
         public var topicArn: Swift.String?
 
         public init(
@@ -9250,11 +9266,11 @@ extension SESClientTypes.SNSAction: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// When included in a receipt rule, this action publishes a notification to Amazon Simple Notification Service (Amazon SNS). This action includes a complete copy of the email content in the Amazon SNS notifications. Amazon SNS notifications for all other actions simply provide information about the email. They do not include the email content itself. If you own the Amazon SNS topic, you don't need to do anything to give Amazon SES permission to publish emails to it. However, if you don't own the Amazon SNS topic, you need to attach a policy to the topic to give Amazon SES permissions to access it. For information about giving permissions, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-permissions.html). You can only publish emails that are 150 KB or less (including the header) to Amazon SNS. Larger emails will bounce. If you anticipate emails larger than 150 KB, use the S3 action instead. For information about using a receipt rule to publish an Amazon SNS notification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-sns.html).
+    /// When included in a receipt rule, this action publishes a notification to Amazon Simple Notification Service (Amazon SNS). This action includes a complete copy of the email content in the Amazon SNS notifications. Amazon SNS notifications for all other actions simply provide information about the email. They do not include the email content itself. If you own the Amazon SNS topic, you don't need to do anything to give Amazon SES permission to publish emails to it. However, if you don't own the Amazon SNS topic, you need to attach a policy to the topic to give Amazon SES permissions to access it. For information about giving permissions, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-permissions.html). You can only publish emails that are 150 KB or less (including the header) to Amazon SNS. Larger emails bounce. If you anticipate emails larger than 150 KB, use the S3 action instead. For information about using a receipt rule to publish an Amazon SNS notification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-sns.html).
     public struct SNSAction: Swift.Equatable {
         /// The encoding to use for the email within the Amazon SNS notification. UTF-8 is easier to use, but may not preserve all special characters when a message was encoded with a different encoding format. Base64 preserves all special characters. The default value is UTF-8.
         public var encoding: SESClientTypes.SNSActionEncoding?
-        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the [Amazon SNS Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html).
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify. You can find the ARN of a topic by using the [ListTopics](https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html) operation in Amazon SNS. For more information about Amazon SNS topics, see the [Amazon SNS Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html).
         /// This member is required.
         public var topicArn: Swift.String?
 
@@ -9322,9 +9338,9 @@ extension SESClientTypes.SNSDestination: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// Contains the topic ARN associated with an Amazon Simple Notification Service (Amazon SNS) event destination. Event destinations, such as Amazon SNS, are associated with configuration sets, which enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html).
+    /// Contains the topic ARN associated with an Amazon Simple Notification Service (Amazon SNS) event destination. Event destinations, such as Amazon SNS, are associated with configuration sets, which enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
     public struct SNSDestination: Swift.Equatable {
-        /// The ARN of the Amazon SNS topic that email sending events will be published to. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the [Amazon SNS Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html).
+        /// The ARN of the Amazon SNS topic for email sending events. You can find the ARN of a topic by using the [ListTopics](https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html) Amazon SNS operation. For more information about Amazon SNS topics, see the [Amazon SNS Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html).
         /// This member is required.
         public var topicARN: Swift.String?
 
@@ -9384,14 +9400,14 @@ public struct SendBounceInput: Swift.Equatable {
     /// The address to use in the "From" header of the bounce message. This must be an identity that you have verified with Amazon SES.
     /// This member is required.
     public var bounceSender: Swift.String?
-    /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the address in the "From" header of the bounce. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
+    /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the address in the "From" header of the bounce. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
     public var bounceSenderArn: Swift.String?
     /// A list of recipients of the bounced message, including the information required to create the Delivery Status Notifications (DSNs) for the recipients. You must specify at least one BouncedRecipientInfo in the list.
     /// This member is required.
     public var bouncedRecipientInfoList: [SESClientTypes.BouncedRecipientInfo]?
-    /// Human-readable text for the bounce message to explain the failure. If not specified, the text will be auto-generated based on the bounced recipient information.
+    /// Human-readable text for the bounce message to explain the failure. If not specified, the text is auto-generated based on the bounced recipient information.
     public var explanation: Swift.String?
-    /// Message-related DSN fields. If not specified, Amazon SES will choose the values.
+    /// Message-related DSN fields. If not specified, Amazon SES chooses the values.
     public var messageDsn: SESClientTypes.MessageDsn?
     /// The message ID of the message to be bounced.
     /// This member is required.
@@ -9468,21 +9484,11 @@ extension SendBounceInputBody: Swift.Decodable {
     }
 }
 
-public enum SendBounceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "MessageRejected": return try await MessageRejected(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension SendBounceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SendBounceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SendBounceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SendBounceOutputBody = try responseDecoder.decode(responseBody: data)
             self.messageId = output.messageId
         } else {
             self.messageId = nil
@@ -9491,7 +9497,7 @@ extension SendBounceOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a unique message ID.
-public struct SendBounceOutputResponse: Swift.Equatable {
+public struct SendBounceOutput: Swift.Equatable {
     /// The message ID of the bounce message.
     public var messageId: Swift.String?
 
@@ -9503,11 +9509,11 @@ public struct SendBounceOutputResponse: Swift.Equatable {
     }
 }
 
-struct SendBounceOutputResponseBody: Swift.Equatable {
+struct SendBounceOutputBody: Swift.Equatable {
     let messageId: Swift.String?
 }
 
-extension SendBounceOutputResponseBody: Swift.Decodable {
+extension SendBounceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case messageId = "MessageId"
     }
@@ -9517,6 +9523,16 @@ extension SendBounceOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("SendBounceResult"))
         let messageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageId)
         messageId = messageIdDecoded
+    }
+}
+
+enum SendBounceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "MessageRejected": return try await MessageRejected(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -9594,7 +9610,7 @@ extension SendBulkTemplatedEmailInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to send a templated email to multiple destinations using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
+/// Represents a request to send a templated email to multiple destinations using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html).
 public struct SendBulkTemplatedEmailInput: Swift.Equatable {
     /// The name of the configuration set to use when you send an email using SendBulkTemplatedEmail.
     public var configurationSetName: Swift.String?
@@ -9602,19 +9618,19 @@ public struct SendBulkTemplatedEmailInput: Swift.Equatable {
     public var defaultTags: [SESClientTypes.MessageTag]?
     /// A list of replacement values to apply to the template when replacement data is not specified in a Destination object. These values act as a default or fallback option when no other data is available. The template data is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
     public var defaultTemplateData: Swift.String?
-    /// One or more Destination objects. All of the recipients in a Destination will receive the same version of the email. You can specify up to 50 Destination objects within a Destinations array.
+    /// One or more Destination objects. All of the recipients in a Destination receive the same version of the email. You can specify up to 50 Destination objects within a Destinations array.
     /// This member is required.
     public var destinations: [SESClientTypes.BulkEmailDestination]?
-    /// The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address will receive the reply.
+    /// The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address receives the reply.
     public var replyToAddresses: [Swift.String]?
-    /// The email address that bounces and complaints will be forwarded to when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message will be returned from the recipient's ISP; this message will then be forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
+    /// The email address that bounces and complaints are forwarded to when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message is returned from the recipient's ISP; this message is forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
     public var returnPath: Swift.String?
-    /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the ReturnPath to be feedback@example.com. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
+    /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the ReturnPath to be feedback@example.com. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
     public var returnPathArn: Swift.String?
-    /// The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html). If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html). Amazon SES does not support the SMTPUTF8 extension, as described in [RFC6531](https://tools.ietf.org/html/rfc6531). For this reason, the local part of a source email address (the part of the email address that precedes the @ sign) may only contain [7-bit ASCII characters](https://en.wikipedia.org/wiki/Email_address#Local-part). If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in [RFC3492](https://tools.ietf.org/html/rfc3492.html). The sender name (also known as the friendly name) may contain non-ASCII characters. These characters must be encoded using MIME encoded-word syntax, as described in [RFC 2047](https://tools.ietf.org/html/rfc2047). MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?=.
+    /// The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html). If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html). Amazon SES does not support the SMTPUTF8 extension, as described in [RFC6531](https://tools.ietf.org/html/rfc6531). For this reason, the email address string must be 7-bit ASCII. If you want to send to or from email addresses that contain Unicode characters in the domain part of an address, you must encode the domain using Punycode. Punycode is not permitted in the local part of the email address (the part before the @ sign) nor in the "friendly from" name. If you want to use Unicode characters in the "friendly from" name, you must encode the "friendly from" name using MIME encoded-word syntax, as described in [Sending raw email using the Amazon SES API](https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html). For more information about Punycode, see [RFC 3492](http://tools.ietf.org/html/rfc3492).
     /// This member is required.
     public var source: Swift.String?
-    /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to send from user@example.com, then you would specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the Source to be user@example.com. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
+    /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to send from user@example.com, then you would specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the Source to be user@example.com. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
     public var sourceArn: Swift.String?
     /// The template to use when sending this email.
     /// This member is required.
@@ -9757,26 +9773,11 @@ extension SendBulkTemplatedEmailInputBody: Swift.Decodable {
     }
 }
 
-public enum SendBulkTemplatedEmailOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccountSendingPausedException": return try await AccountSendingPausedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ConfigurationSetDoesNotExist": return try await ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ConfigurationSetSendingPausedException": return try await ConfigurationSetSendingPausedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "MailFromDomainNotVerifiedException": return try await MailFromDomainNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "MessageRejected": return try await MessageRejected(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TemplateDoesNotExist": return try await TemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension SendBulkTemplatedEmailOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SendBulkTemplatedEmailOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SendBulkTemplatedEmailOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SendBulkTemplatedEmailOutputBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
         } else {
             self.status = nil
@@ -9784,8 +9785,8 @@ extension SendBulkTemplatedEmailOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct SendBulkTemplatedEmailOutputResponse: Swift.Equatable {
-    /// The unique message identifier returned from the SendBulkTemplatedEmail action.
+public struct SendBulkTemplatedEmailOutput: Swift.Equatable {
+    /// One object per intended recipient. Check each response object and retry any messages with a failure status. (Note that order of responses will be respective to order of destinations in the request.)Receipt rules enable you to specify which actions
     /// This member is required.
     public var status: [SESClientTypes.BulkEmailDestinationStatus]?
 
@@ -9797,11 +9798,11 @@ public struct SendBulkTemplatedEmailOutputResponse: Swift.Equatable {
     }
 }
 
-struct SendBulkTemplatedEmailOutputResponseBody: Swift.Equatable {
+struct SendBulkTemplatedEmailOutputBody: Swift.Equatable {
     let status: [SESClientTypes.BulkEmailDestinationStatus]?
 }
 
-extension SendBulkTemplatedEmailOutputResponseBody: Swift.Decodable {
+extension SendBulkTemplatedEmailOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case status = "Status"
     }
@@ -9827,6 +9828,21 @@ extension SendBulkTemplatedEmailOutputResponseBody: Swift.Decodable {
             }
         } else {
             status = nil
+        }
+    }
+}
+
+enum SendBulkTemplatedEmailOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccountSendingPausedException": return try await AccountSendingPausedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ConfigurationSetDoesNotExist": return try await ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ConfigurationSetSendingPausedException": return try await ConfigurationSetSendingPausedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "MailFromDomainNotVerifiedException": return try await MailFromDomainNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "MessageRejected": return try await MessageRejected(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TemplateDoesNotExist": return try await TemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -9901,25 +9917,11 @@ extension SendCustomVerificationEmailInputBody: Swift.Decodable {
     }
 }
 
-public enum SendCustomVerificationEmailOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ConfigurationSetDoesNotExist": return try await ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "CustomVerificationEmailTemplateDoesNotExist": return try await CustomVerificationEmailTemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "FromEmailAddressNotVerified": return try await FromEmailAddressNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "MessageRejected": return try await MessageRejected(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ProductionAccessNotGranted": return try await ProductionAccessNotGrantedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension SendCustomVerificationEmailOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SendCustomVerificationEmailOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SendCustomVerificationEmailOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SendCustomVerificationEmailOutputBody = try responseDecoder.decode(responseBody: data)
             self.messageId = output.messageId
         } else {
             self.messageId = nil
@@ -9928,7 +9930,7 @@ extension SendCustomVerificationEmailOutputResponse: ClientRuntime.HttpResponseB
 }
 
 /// The response received when attempting to send the custom verification email.
-public struct SendCustomVerificationEmailOutputResponse: Swift.Equatable {
+public struct SendCustomVerificationEmailOutput: Swift.Equatable {
     /// The unique message identifier returned from the SendCustomVerificationEmail operation.
     public var messageId: Swift.String?
 
@@ -9940,11 +9942,11 @@ public struct SendCustomVerificationEmailOutputResponse: Swift.Equatable {
     }
 }
 
-struct SendCustomVerificationEmailOutputResponseBody: Swift.Equatable {
+struct SendCustomVerificationEmailOutputBody: Swift.Equatable {
     let messageId: Swift.String?
 }
 
-extension SendCustomVerificationEmailOutputResponseBody: Swift.Decodable {
+extension SendCustomVerificationEmailOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case messageId = "MessageId"
     }
@@ -9954,6 +9956,20 @@ extension SendCustomVerificationEmailOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("SendCustomVerificationEmailResult"))
         let messageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageId)
         messageId = messageIdDecoded
+    }
+}
+
+enum SendCustomVerificationEmailOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ConfigurationSetDoesNotExist": return try await ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CustomVerificationEmailTemplateDoesNotExist": return try await CustomVerificationEmailTemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "FromEmailAddressNotVerified": return try await FromEmailAddressNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "MessageRejected": return try await MessageRejected(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ProductionAccessNotGranted": return try await ProductionAccessNotGrantedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -9981,7 +9997,7 @@ extension SESClientTypes.SendDataPoint: Swift.Codable {
             try container.encode(rejects, forKey: ClientRuntime.Key("Rejects"))
         }
         if let timestamp = timestamp {
-            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("timestamp"))
+            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("Timestamp"))
         }
     }
 
@@ -9989,13 +10005,13 @@ extension SESClientTypes.SendDataPoint: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .timestamp)
         timestamp = timestampDecoded
-        let deliveryAttemptsDecoded = try containerValues.decode(Swift.Int.self, forKey: .deliveryAttempts)
+        let deliveryAttemptsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .deliveryAttempts) ?? 0
         deliveryAttempts = deliveryAttemptsDecoded
-        let bouncesDecoded = try containerValues.decode(Swift.Int.self, forKey: .bounces)
+        let bouncesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bounces) ?? 0
         bounces = bouncesDecoded
-        let complaintsDecoded = try containerValues.decode(Swift.Int.self, forKey: .complaints)
+        let complaintsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .complaints) ?? 0
         complaints = complaintsDecoded
-        let rejectsDecoded = try containerValues.decode(Swift.Int.self, forKey: .rejects)
+        let rejectsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rejects) ?? 0
         rejects = rejectsDecoded
     }
 }
@@ -10091,7 +10107,7 @@ extension SendEmailInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to send a single formatted email using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-formatted.html).
+/// Represents a request to send a single formatted email using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-formatted.html).
 public struct SendEmailInput: Swift.Equatable {
     /// The name of the configuration set to use when you send an email using SendEmail.
     public var configurationSetName: Swift.String?
@@ -10101,16 +10117,16 @@ public struct SendEmailInput: Swift.Equatable {
     /// The message to be sent.
     /// This member is required.
     public var message: SESClientTypes.Message?
-    /// The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address will receive the reply.
+    /// The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address receives the reply.
     public var replyToAddresses: [Swift.String]?
-    /// The email address that bounces and complaints will be forwarded to when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message will be returned from the recipient's ISP; this message will then be forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
+    /// The email address that bounces and complaints are forwarded to when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message is returned from the recipient's ISP; this message is forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
     public var returnPath: Swift.String?
-    /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the ReturnPath to be feedback@example.com. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
+    /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the ReturnPath to be feedback@example.com. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
     public var returnPathArn: Swift.String?
-    /// The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html). If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html). Amazon SES does not support the SMTPUTF8 extension, as described in [RFC6531](https://tools.ietf.org/html/rfc6531). For this reason, the local part of a source email address (the part of the email address that precedes the @ sign) may only contain [7-bit ASCII characters](https://en.wikipedia.org/wiki/Email_address#Local-part). If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in [RFC3492](https://tools.ietf.org/html/rfc3492.html). The sender name (also known as the friendly name) may contain non-ASCII characters. These characters must be encoded using MIME encoded-word syntax, as described in [RFC 2047](https://tools.ietf.org/html/rfc2047). MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?=.
+    /// The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html). If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html). Amazon SES does not support the SMTPUTF8 extension, as described in [RFC6531](https://tools.ietf.org/html/rfc6531). For this reason, the email address string must be 7-bit ASCII. If you want to send to or from email addresses that contain Unicode characters in the domain part of an address, you must encode the domain using Punycode. Punycode is not permitted in the local part of the email address (the part before the @ sign) nor in the "friendly from" name. If you want to use Unicode characters in the "friendly from" name, you must encode the "friendly from" name using MIME encoded-word syntax, as described in [Sending raw email using the Amazon SES API](https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html). For more information about Punycode, see [RFC 3492](http://tools.ietf.org/html/rfc3492).
     /// This member is required.
     public var source: Swift.String?
-    /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to send from user@example.com, then you would specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the Source to be user@example.com. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
+    /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to send from user@example.com, then you would specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the Source to be user@example.com. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
     public var sourceArn: Swift.String?
     /// A list of tags, in the form of name/value pairs, to apply to an email that you send using SendEmail. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
     public var tags: [SESClientTypes.MessageTag]?
@@ -10221,25 +10237,11 @@ extension SendEmailInputBody: Swift.Decodable {
     }
 }
 
-public enum SendEmailOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccountSendingPausedException": return try await AccountSendingPausedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ConfigurationSetDoesNotExist": return try await ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ConfigurationSetSendingPausedException": return try await ConfigurationSetSendingPausedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "MailFromDomainNotVerifiedException": return try await MailFromDomainNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "MessageRejected": return try await MessageRejected(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension SendEmailOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SendEmailOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SendEmailOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SendEmailOutputBody = try responseDecoder.decode(responseBody: data)
             self.messageId = output.messageId
         } else {
             self.messageId = nil
@@ -10248,7 +10250,7 @@ extension SendEmailOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a unique message ID.
-public struct SendEmailOutputResponse: Swift.Equatable {
+public struct SendEmailOutput: Swift.Equatable {
     /// The unique message identifier returned from the SendEmail action.
     /// This member is required.
     public var messageId: Swift.String?
@@ -10261,11 +10263,11 @@ public struct SendEmailOutputResponse: Swift.Equatable {
     }
 }
 
-struct SendEmailOutputResponseBody: Swift.Equatable {
+struct SendEmailOutputBody: Swift.Equatable {
     let messageId: Swift.String?
 }
 
-extension SendEmailOutputResponseBody: Swift.Decodable {
+extension SendEmailOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case messageId = "MessageId"
     }
@@ -10275,6 +10277,20 @@ extension SendEmailOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("SendEmailResult"))
         let messageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageId)
         messageId = messageIdDecoded
+    }
+}
+
+enum SendEmailOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccountSendingPausedException": return try await AccountSendingPausedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ConfigurationSetDoesNotExist": return try await ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ConfigurationSetSendingPausedException": return try await ConfigurationSetSendingPausedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "MailFromDomainNotVerifiedException": return try await MailFromDomainNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "MessageRejected": return try await MessageRejected(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -10334,13 +10350,13 @@ extension SendRawEmailInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to send a single raw email using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-raw.html).
+/// Represents a request to send a single raw email using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html).
 public struct SendRawEmailInput: Swift.Equatable {
     /// The name of the configuration set to use when you send an email using SendRawEmail.
     public var configurationSetName: Swift.String?
     /// A list of destinations for the message, consisting of To:, CC:, and BCC: addresses.
     public var destinations: [Swift.String]?
-    /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to specify a particular "From" address in the header of the raw email. Instead of using this parameter, you can use the X-header X-SES-FROM-ARN in the raw message of the email. If you use both the FromArn parameter and the corresponding X-header, Amazon SES uses the value of the FromArn parameter. For information about when to use this parameter, see the description of SendRawEmail in this guide, or see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-delegate-sender-tasks-email.html).
+    /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to specify a particular "From" address in the header of the raw email. Instead of using this parameter, you can use the X-header X-SES-FROM-ARN in the raw message of the email. If you use both the FromArn parameter and the corresponding X-header, Amazon SES uses the value of the FromArn parameter. For information about when to use this parameter, see the description of SendRawEmail in this guide, or see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization-delegate-sender-tasks-email.html).
     public var fromArn: Swift.String?
     /// The raw email message itself. The message has to meet the following criteria:
     ///
@@ -10350,20 +10366,20 @@ public struct SendRawEmailInput: Swift.Equatable {
     ///
     /// * Each part of a multipart MIME message must be formatted properly.
     ///
-    /// * Attachments must be of a content type that Amazon SES supports. For a list on unsupported content types, see [Unsupported Attachment Types](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/mime-types.html) in the Amazon SES Developer Guide.
+    /// * Attachments must be of a content type that Amazon SES supports. For a list on unsupported content types, see [Unsupported Attachment Types](https://docs.aws.amazon.com/ses/latest/dg/mime-types.html) in the Amazon SES Developer Guide.
     ///
     /// * The entire message must be base64-encoded.
     ///
-    /// * If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, we highly recommend that you encode that content. For more information, see [Sending Raw Email](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-raw.html) in the Amazon SES Developer Guide.
+    /// * If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, we highly recommend that you encode that content. For more information, see [Sending Raw Email](https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html) in the Amazon SES Developer Guide.
     ///
     /// * Per [RFC 5321](https://tools.ietf.org/html/rfc5321#section-4.5.3.1.6), the maximum length of each line of text, including the , must not exceed 1,000 characters.
     /// This member is required.
     public var rawMessage: SESClientTypes.RawMessage?
-    /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the ReturnPath to be feedback@example.com. Instead of using this parameter, you can use the X-header X-SES-RETURN-PATH-ARN in the raw message of the email. If you use both the ReturnPathArn parameter and the corresponding X-header, Amazon SES uses the value of the ReturnPathArn parameter. For information about when to use this parameter, see the description of SendRawEmail in this guide, or see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-delegate-sender-tasks-email.html).
+    /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the ReturnPath to be feedback@example.com. Instead of using this parameter, you can use the X-header X-SES-RETURN-PATH-ARN in the raw message of the email. If you use both the ReturnPathArn parameter and the corresponding X-header, Amazon SES uses the value of the ReturnPathArn parameter. For information about when to use this parameter, see the description of SendRawEmail in this guide, or see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization-delegate-sender-tasks-email.html).
     public var returnPathArn: Swift.String?
-    /// The identity's email address. If you do not provide a value for this parameter, you must specify a "From" address in the raw text of the message. (You can also specify both.) Amazon SES does not support the SMTPUTF8 extension, as described in[RFC6531](https://tools.ietf.org/html/rfc6531). For this reason, the local part of a source email address (the part of the email address that precedes the @ sign) may only contain [7-bit ASCII characters](https://en.wikipedia.org/wiki/Email_address#Local-part). If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in [RFC3492](https://tools.ietf.org/html/rfc3492.html). The sender name (also known as the friendly name) may contain non-ASCII characters. These characters must be encoded using MIME encoded-word syntax, as described in [RFC 2047](https://tools.ietf.org/html/rfc2047). MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?=. If you specify the Source parameter and have feedback forwarding enabled, then bounces and complaints will be sent to this email address. This takes precedence over any Return-Path header that you might include in the raw text of the message.
+    /// The identity's email address. If you do not provide a value for this parameter, you must specify a "From" address in the raw text of the message. (You can also specify both.) Amazon SES does not support the SMTPUTF8 extension, as described in[RFC6531](https://tools.ietf.org/html/rfc6531). For this reason, the email address string must be 7-bit ASCII. If you want to send to or from email addresses that contain Unicode characters in the domain part of an address, you must encode the domain using Punycode. Punycode is not permitted in the local part of the email address (the part before the @ sign) nor in the "friendly from" name. If you want to use Unicode characters in the "friendly from" name, you must encode the "friendly from" name using MIME encoded-word syntax, as described in [Sending raw email using the Amazon SES API](https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html). For more information about Punycode, see [RFC 3492](http://tools.ietf.org/html/rfc3492). If you specify the Source parameter and have feedback forwarding enabled, then bounces and complaints are sent to this email address. This takes precedence over any Return-Path header that you might include in the raw text of the message.
     public var source: Swift.String?
-    /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to send from user@example.com, then you would specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the Source to be user@example.com. Instead of using this parameter, you can use the X-header X-SES-SOURCE-ARN in the raw message of the email. If you use both the SourceArn parameter and the corresponding X-header, Amazon SES uses the value of the SourceArn parameter. For information about when to use this parameter, see the description of SendRawEmail in this guide, or see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-delegate-sender-tasks-email.html).
+    /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to send from user@example.com, then you would specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the Source to be user@example.com. Instead of using this parameter, you can use the X-header X-SES-SOURCE-ARN in the raw message of the email. If you use both the SourceArn parameter and the corresponding X-header, Amazon SES uses the value of the SourceArn parameter. For information about when to use this parameter, see the description of SendRawEmail in this guide, or see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization-delegate-sender-tasks-email.html).
     public var sourceArn: Swift.String?
     /// A list of tags, in the form of name/value pairs, to apply to an email that you send using SendRawEmail. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
     public var tags: [SESClientTypes.MessageTag]?
@@ -10468,25 +10484,11 @@ extension SendRawEmailInputBody: Swift.Decodable {
     }
 }
 
-public enum SendRawEmailOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccountSendingPausedException": return try await AccountSendingPausedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ConfigurationSetDoesNotExist": return try await ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ConfigurationSetSendingPausedException": return try await ConfigurationSetSendingPausedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "MailFromDomainNotVerifiedException": return try await MailFromDomainNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "MessageRejected": return try await MessageRejected(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension SendRawEmailOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SendRawEmailOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SendRawEmailOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SendRawEmailOutputBody = try responseDecoder.decode(responseBody: data)
             self.messageId = output.messageId
         } else {
             self.messageId = nil
@@ -10495,7 +10497,7 @@ extension SendRawEmailOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a unique message ID.
-public struct SendRawEmailOutputResponse: Swift.Equatable {
+public struct SendRawEmailOutput: Swift.Equatable {
     /// The unique message identifier returned from the SendRawEmail action.
     /// This member is required.
     public var messageId: Swift.String?
@@ -10508,11 +10510,11 @@ public struct SendRawEmailOutputResponse: Swift.Equatable {
     }
 }
 
-struct SendRawEmailOutputResponseBody: Swift.Equatable {
+struct SendRawEmailOutputBody: Swift.Equatable {
     let messageId: Swift.String?
 }
 
-extension SendRawEmailOutputResponseBody: Swift.Decodable {
+extension SendRawEmailOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case messageId = "MessageId"
     }
@@ -10522,6 +10524,20 @@ extension SendRawEmailOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("SendRawEmailResult"))
         let messageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageId)
         messageId = messageIdDecoded
+    }
+}
+
+enum SendRawEmailOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccountSendingPausedException": return try await AccountSendingPausedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ConfigurationSetDoesNotExist": return try await ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ConfigurationSetSendingPausedException": return try await ConfigurationSetSendingPausedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "MailFromDomainNotVerifiedException": return try await MailFromDomainNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "MessageRejected": return try await MessageRejected(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -10590,23 +10606,23 @@ extension SendTemplatedEmailInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to send a templated email using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
+/// Represents a request to send a templated email using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html).
 public struct SendTemplatedEmailInput: Swift.Equatable {
     /// The name of the configuration set to use when you send an email using SendTemplatedEmail.
     public var configurationSetName: Swift.String?
     /// The destination for this email, composed of To:, CC:, and BCC: fields. A Destination can include up to 50 recipients across these three fields.
     /// This member is required.
     public var destination: SESClientTypes.Destination?
-    /// The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address will receive the reply.
+    /// The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address receives the reply.
     public var replyToAddresses: [Swift.String]?
-    /// The email address that bounces and complaints will be forwarded to when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message will be returned from the recipient's ISP; this message will then be forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
+    /// The email address that bounces and complaints are forwarded to when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message is returned from the recipient's ISP; this message is forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
     public var returnPath: Swift.String?
-    /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the ReturnPath to be feedback@example.com. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
+    /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the ReturnPath to be feedback@example.com. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
     public var returnPathArn: Swift.String?
-    /// The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html). If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html). Amazon SES does not support the SMTPUTF8 extension, as described in [RFC6531](https://tools.ietf.org/html/rfc6531). For this reason, the local part of a source email address (the part of the email address that precedes the @ sign) may only contain [7-bit ASCII characters](https://en.wikipedia.org/wiki/Email_address#Local-part). If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in [RFC3492](https://tools.ietf.org/html/rfc3492.html). The sender name (also known as the friendly name) may contain non-ASCII characters. These characters must be encoded using MIME encoded-word syntax, as described in[RFC 2047](https://tools.ietf.org/html/rfc2047). MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?=.
+    /// The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html). If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html). Amazon SES does not support the SMTPUTF8 extension, as described in [RFC6531](https://tools.ietf.org/html/rfc6531). for this reason, The email address string must be 7-bit ASCII. If you want to send to or from email addresses that contain Unicode characters in the domain part of an address, you must encode the domain using Punycode. Punycode is not permitted in the local part of the email address (the part before the @ sign) nor in the "friendly from" name. If you want to use Unicode characters in the "friendly from" name, you must encode the "friendly from" name using MIME encoded-word syntax, as described in [Sending raw email using the Amazon SES API](https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html). For more information about Punycode, see [RFC 3492](http://tools.ietf.org/html/rfc3492).
     /// This member is required.
     public var source: Swift.String?
-    /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to send from user@example.com, then you would specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the Source to be user@example.com. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
+    /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to send from user@example.com, then you would specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the Source to be user@example.com. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
     public var sourceArn: Swift.String?
     /// A list of tags, in the form of name/value pairs, to apply to an email that you send using SendTemplatedEmail. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
     public var tags: [SESClientTypes.MessageTag]?
@@ -10737,26 +10753,11 @@ extension SendTemplatedEmailInputBody: Swift.Decodable {
     }
 }
 
-public enum SendTemplatedEmailOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccountSendingPausedException": return try await AccountSendingPausedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ConfigurationSetDoesNotExist": return try await ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ConfigurationSetSendingPausedException": return try await ConfigurationSetSendingPausedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "MailFromDomainNotVerifiedException": return try await MailFromDomainNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "MessageRejected": return try await MessageRejected(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TemplateDoesNotExist": return try await TemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension SendTemplatedEmailOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SendTemplatedEmailOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SendTemplatedEmailOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SendTemplatedEmailOutputBody = try responseDecoder.decode(responseBody: data)
             self.messageId = output.messageId
         } else {
             self.messageId = nil
@@ -10764,7 +10765,7 @@ extension SendTemplatedEmailOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendTemplatedEmailOutputResponse: Swift.Equatable {
+public struct SendTemplatedEmailOutput: Swift.Equatable {
     /// The unique message identifier returned from the SendTemplatedEmail action.
     /// This member is required.
     public var messageId: Swift.String?
@@ -10777,11 +10778,11 @@ public struct SendTemplatedEmailOutputResponse: Swift.Equatable {
     }
 }
 
-struct SendTemplatedEmailOutputResponseBody: Swift.Equatable {
+struct SendTemplatedEmailOutputBody: Swift.Equatable {
     let messageId: Swift.String?
 }
 
-extension SendTemplatedEmailOutputResponseBody: Swift.Decodable {
+extension SendTemplatedEmailOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case messageId = "MessageId"
     }
@@ -10791,6 +10792,21 @@ extension SendTemplatedEmailOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("SendTemplatedEmailResult"))
         let messageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageId)
         messageId = messageIdDecoded
+    }
+}
+
+enum SendTemplatedEmailOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccountSendingPausedException": return try await AccountSendingPausedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ConfigurationSetDoesNotExist": return try await ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ConfigurationSetSendingPausedException": return try await ConfigurationSetSendingPausedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "MailFromDomainNotVerifiedException": return try await MailFromDomainNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "MessageRejected": return try await MessageRejected(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TemplateDoesNotExist": return try await TemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -10811,7 +10827,7 @@ extension SetActiveReceiptRuleSetInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to set a receipt rule set as the active receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-concepts.html).
+/// Represents a request to set a receipt rule set as the active receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
 public struct SetActiveReceiptRuleSetInput: Swift.Equatable {
     /// The name of the receipt rule set to make active. Setting this value to null disables all email receiving.
     public var ruleSetName: Swift.String?
@@ -10840,8 +10856,19 @@ extension SetActiveReceiptRuleSetInputBody: Swift.Decodable {
     }
 }
 
-public enum SetActiveReceiptRuleSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension SetActiveReceiptRuleSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty element returned on a successful request.
+public struct SetActiveReceiptRuleSetOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum SetActiveReceiptRuleSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "RuleSetDoesNotExist": return try await RuleSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -10850,21 +10877,10 @@ public enum SetActiveReceiptRuleSetOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension SetActiveReceiptRuleSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty element returned on a successful request.
-public struct SetActiveReceiptRuleSetOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
 extension SetIdentityDkimEnabledInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if dkimEnabled != false {
+        if let dkimEnabled = dkimEnabled {
             try container.encode(dkimEnabled, forKey: ClientRuntime.Key("DkimEnabled"))
         }
         if let identity = identity {
@@ -10881,17 +10897,17 @@ extension SetIdentityDkimEnabledInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to enable or disable Amazon SES Easy DKIM signing for an identity. For more information about setting up Easy DKIM, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html).
+/// Represents a request to enable or disable Amazon SES Easy DKIM signing for an identity. For more information about setting up Easy DKIM, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html).
 public struct SetIdentityDkimEnabledInput: Swift.Equatable {
     /// Sets whether DKIM signing is enabled for an identity. Set to true to enable DKIM signing for this identity; false to disable it.
     /// This member is required.
-    public var dkimEnabled: Swift.Bool
+    public var dkimEnabled: Swift.Bool?
     /// The identity for which DKIM signing should be enabled or disabled.
     /// This member is required.
     public var identity: Swift.String?
 
     public init(
-        dkimEnabled: Swift.Bool = false,
+        dkimEnabled: Swift.Bool? = nil,
         identity: Swift.String? = nil
     )
     {
@@ -10902,7 +10918,7 @@ public struct SetIdentityDkimEnabledInput: Swift.Equatable {
 
 struct SetIdentityDkimEnabledInputBody: Swift.Equatable {
     let identity: Swift.String?
-    let dkimEnabled: Swift.Bool
+    let dkimEnabled: Swift.Bool?
 }
 
 extension SetIdentityDkimEnabledInputBody: Swift.Decodable {
@@ -10915,13 +10931,24 @@ extension SetIdentityDkimEnabledInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identity)
         identity = identityDecoded
-        let dkimEnabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .dkimEnabled)
+        let dkimEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dkimEnabled) ?? false
         dkimEnabled = dkimEnabledDecoded
     }
 }
 
-public enum SetIdentityDkimEnabledOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension SetIdentityDkimEnabledOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty element returned on a successful request.
+public struct SetIdentityDkimEnabledOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum SetIdentityDkimEnabledOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -10929,21 +10956,10 @@ public enum SetIdentityDkimEnabledOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension SetIdentityDkimEnabledOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty element returned on a successful request.
-public struct SetIdentityDkimEnabledOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
 extension SetIdentityFeedbackForwardingEnabledInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if forwardingEnabled != false {
+        if let forwardingEnabled = forwardingEnabled {
             try container.encode(forwardingEnabled, forKey: ClientRuntime.Key("ForwardingEnabled"))
         }
         if let identity = identity {
@@ -10960,17 +10976,17 @@ extension SetIdentityFeedbackForwardingEnabledInput: ClientRuntime.URLPathProvid
     }
 }
 
-/// Represents a request to enable or disable whether Amazon SES forwards you bounce and complaint notifications through email. For information about email feedback forwarding, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notifications-via-email.html).
+/// Represents a request to enable or disable whether Amazon SES forwards you bounce and complaint notifications through email. For information about email feedback forwarding, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications-email.html).
 public struct SetIdentityFeedbackForwardingEnabledInput: Swift.Equatable {
-    /// Sets whether Amazon SES will forward bounce and complaint notifications as email. true specifies that Amazon SES will forward bounce and complaint notifications as email, in addition to any Amazon SNS topic publishing otherwise specified. false specifies that Amazon SES will publish bounce and complaint notifications only through Amazon SNS. This value can only be set to false when Amazon SNS topics are set for both Bounce and Complaint notification types.
+    /// Sets whether Amazon SES forwards bounce and complaint notifications as email. true specifies that Amazon SES forwards bounce and complaint notifications as email, in addition to any Amazon SNS topic publishing otherwise specified. false specifies that Amazon SES publishes bounce and complaint notifications only through Amazon SNS. This value can only be set to false when Amazon SNS topics are set for both Bounce and Complaint notification types.
     /// This member is required.
-    public var forwardingEnabled: Swift.Bool
+    public var forwardingEnabled: Swift.Bool?
     /// The identity for which to set bounce and complaint notification forwarding. Examples: user@example.com, example.com.
     /// This member is required.
     public var identity: Swift.String?
 
     public init(
-        forwardingEnabled: Swift.Bool = false,
+        forwardingEnabled: Swift.Bool? = nil,
         identity: Swift.String? = nil
     )
     {
@@ -10981,7 +10997,7 @@ public struct SetIdentityFeedbackForwardingEnabledInput: Swift.Equatable {
 
 struct SetIdentityFeedbackForwardingEnabledInputBody: Swift.Equatable {
     let identity: Swift.String?
-    let forwardingEnabled: Swift.Bool
+    let forwardingEnabled: Swift.Bool?
 }
 
 extension SetIdentityFeedbackForwardingEnabledInputBody: Swift.Decodable {
@@ -10994,13 +11010,24 @@ extension SetIdentityFeedbackForwardingEnabledInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identity)
         identity = identityDecoded
-        let forwardingEnabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .forwardingEnabled)
+        let forwardingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forwardingEnabled) ?? false
         forwardingEnabled = forwardingEnabledDecoded
     }
 }
 
-public enum SetIdentityFeedbackForwardingEnabledOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension SetIdentityFeedbackForwardingEnabledOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty element returned on a successful request.
+public struct SetIdentityFeedbackForwardingEnabledOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum SetIdentityFeedbackForwardingEnabledOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -11008,21 +11035,10 @@ public enum SetIdentityFeedbackForwardingEnabledOutputError: ClientRuntime.HttpR
     }
 }
 
-extension SetIdentityFeedbackForwardingEnabledOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty element returned on a successful request.
-public struct SetIdentityFeedbackForwardingEnabledOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
 extension SetIdentityHeadersInNotificationsEnabledInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if enabled != false {
+        if let enabled = enabled {
             try container.encode(enabled, forKey: ClientRuntime.Key("Enabled"))
         }
         if let identity = identity {
@@ -11042,11 +11058,11 @@ extension SetIdentityHeadersInNotificationsEnabledInput: ClientRuntime.URLPathPr
     }
 }
 
-/// Represents a request to set whether Amazon SES includes the original email headers in the Amazon SNS notifications of a specified type. For information about notifications, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notifications-via-sns.html).
+/// Represents a request to set whether Amazon SES includes the original email headers in the Amazon SNS notifications of a specified type. For information about notifications, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications-sns.html).
 public struct SetIdentityHeadersInNotificationsEnabledInput: Swift.Equatable {
-    /// Sets whether Amazon SES includes the original email headers in Amazon SNS notifications of the specified notification type. A value of true specifies that Amazon SES will include headers in notifications, and a value of false specifies that Amazon SES will not include headers in notifications. This value can only be set when NotificationType is already set to use a particular Amazon SNS topic.
+    /// Sets whether Amazon SES includes the original email headers in Amazon SNS notifications of the specified notification type. A value of true specifies that Amazon SES includes headers in notifications, and a value of false specifies that Amazon SES does not include headers in notifications. This value can only be set when NotificationType is already set to use a particular Amazon SNS topic.
     /// This member is required.
-    public var enabled: Swift.Bool
+    public var enabled: Swift.Bool?
     /// The identity for which to enable or disable headers in notifications. Examples: user@example.com, example.com.
     /// This member is required.
     public var identity: Swift.String?
@@ -11055,7 +11071,7 @@ public struct SetIdentityHeadersInNotificationsEnabledInput: Swift.Equatable {
     public var notificationType: SESClientTypes.NotificationType?
 
     public init(
-        enabled: Swift.Bool = false,
+        enabled: Swift.Bool? = nil,
         identity: Swift.String? = nil,
         notificationType: SESClientTypes.NotificationType? = nil
     )
@@ -11069,7 +11085,7 @@ public struct SetIdentityHeadersInNotificationsEnabledInput: Swift.Equatable {
 struct SetIdentityHeadersInNotificationsEnabledInputBody: Swift.Equatable {
     let identity: Swift.String?
     let notificationType: SESClientTypes.NotificationType?
-    let enabled: Swift.Bool
+    let enabled: Swift.Bool?
 }
 
 extension SetIdentityHeadersInNotificationsEnabledInputBody: Swift.Decodable {
@@ -11085,29 +11101,29 @@ extension SetIdentityHeadersInNotificationsEnabledInputBody: Swift.Decodable {
         identity = identityDecoded
         let notificationTypeDecoded = try containerValues.decodeIfPresent(SESClientTypes.NotificationType.self, forKey: .notificationType)
         notificationType = notificationTypeDecoded
-        let enabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .enabled)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
         enabled = enabledDecoded
     }
 }
 
-public enum SetIdentityHeadersInNotificationsEnabledOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension SetIdentityHeadersInNotificationsEnabledOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SetIdentityHeadersInNotificationsEnabledOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An empty element returned on a successful request.
-public struct SetIdentityHeadersInNotificationsEnabledOutputResponse: Swift.Equatable {
+public struct SetIdentityHeadersInNotificationsEnabledOutput: Swift.Equatable {
 
     public init() { }
+}
+
+enum SetIdentityHeadersInNotificationsEnabledOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
 }
 
 extension SetIdentityMailFromDomainInput: Swift.Encodable {
@@ -11133,14 +11149,14 @@ extension SetIdentityMailFromDomainInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to enable or disable the Amazon SES custom MAIL FROM domain setup for a verified identity. For information about using a custom MAIL FROM domain, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/mail-from.html).
+/// Represents a request to enable or disable the Amazon SES custom MAIL FROM domain setup for a verified identity. For information about using a custom MAIL FROM domain, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/mail-from.html).
 public struct SetIdentityMailFromDomainInput: Swift.Equatable {
-    /// The action that you want Amazon SES to take if it cannot successfully read the required MX record when you send an email. If you choose UseDefaultValue, Amazon SES will use amazonses.com (or a subdomain of that) as the MAIL FROM domain. If you choose RejectMessage, Amazon SES will return a MailFromDomainNotVerified error and not send the email. The action specified in BehaviorOnMXFailure is taken when the custom MAIL FROM domain setup is in the Pending, Failed, and TemporaryFailure states.
+    /// The action for Amazon SES to take if it cannot successfully read the required MX record when you send an email. If you choose UseDefaultValue, Amazon SES uses amazonses.com (or a subdomain of that) as the MAIL FROM domain. If you choose RejectMessage, Amazon SES returns a MailFromDomainNotVerified error and not send the email. The action specified in BehaviorOnMXFailure is taken when the custom MAIL FROM domain setup is in the Pending, Failed, and TemporaryFailure states.
     public var behaviorOnMXFailure: SESClientTypes.BehaviorOnMXFailure?
-    /// The verified identity for which you want to enable or disable the specified custom MAIL FROM domain.
+    /// The verified identity.
     /// This member is required.
     public var identity: Swift.String?
-    /// The custom MAIL FROM domain that you want the verified identity to use. The MAIL FROM domain must 1) be a subdomain of the verified identity, 2) not be used in a "From" address if the MAIL FROM domain is the destination of email feedback forwarding (for more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/mail-from.html)), and 3) not be used to receive emails. A value of null disables the custom MAIL FROM setting for the identity.
+    /// The custom MAIL FROM domain for the verified identity to use. The MAIL FROM domain must 1) be a subdomain of the verified identity, 2) not be used in a "From" address if the MAIL FROM domain is the destination of email feedback forwarding (for more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/mail-from.html)), and 3) not be used to receive emails. A value of null disables the custom MAIL FROM setting for the identity.
     public var mailFromDomain: Swift.String?
 
     public init(
@@ -11179,24 +11195,24 @@ extension SetIdentityMailFromDomainInputBody: Swift.Decodable {
     }
 }
 
-public enum SetIdentityMailFromDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension SetIdentityMailFromDomainOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SetIdentityMailFromDomainOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An empty element returned on a successful request.
-public struct SetIdentityMailFromDomainOutputResponse: Swift.Equatable {
+public struct SetIdentityMailFromDomainOutput: Swift.Equatable {
 
     public init() { }
+}
+
+enum SetIdentityMailFromDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
 }
 
 extension SetIdentityNotificationTopicInput: Swift.Encodable {
@@ -11222,12 +11238,12 @@ extension SetIdentityNotificationTopicInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to specify the Amazon SNS topic to which Amazon SES will publish bounce, complaint, or delivery notifications for emails sent with that identity as the Source. For information about Amazon SES notifications, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notifications-via-sns.html).
+/// Represents a request to specify the Amazon SNS topic to which Amazon SES publishes bounce, complaint, or delivery notifications for emails sent with that identity as the source. For information about Amazon SES notifications, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications-sns.html).
 public struct SetIdentityNotificationTopicInput: Swift.Equatable {
-    /// The identity (email address or domain) that you want to set the Amazon SNS topic for. You can only specify a verified identity for this parameter. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). The following examples are all valid identities: sender@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com.
+    /// The identity (email address or domain) for the Amazon SNS topic. You can only specify a verified identity for this parameter. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). The following examples are all valid identities: sender@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com.
     /// This member is required.
     public var identity: Swift.String?
-    /// The type of notifications that will be published to the specified Amazon SNS topic.
+    /// The type of notifications that are published to the specified Amazon SNS topic.
     /// This member is required.
     public var notificationType: SESClientTypes.NotificationType?
     /// The Amazon Resource Name (ARN) of the Amazon SNS topic. If the parameter is omitted from the request or a null value is passed, SnsTopic is cleared and publishing is disabled.
@@ -11269,24 +11285,24 @@ extension SetIdentityNotificationTopicInputBody: Swift.Decodable {
     }
 }
 
-public enum SetIdentityNotificationTopicOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension SetIdentityNotificationTopicOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SetIdentityNotificationTopicOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An empty element returned on a successful request.
-public struct SetIdentityNotificationTopicOutputResponse: Swift.Equatable {
+public struct SetIdentityNotificationTopicOutput: Swift.Equatable {
 
     public init() { }
+}
+
+enum SetIdentityNotificationTopicOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
 }
 
 extension SetReceiptRulePositionInput: Swift.Encodable {
@@ -11312,7 +11328,7 @@ extension SetReceiptRulePositionInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to set the position of a receipt rule in a receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-concepts.html).
+/// Represents a request to set the position of a receipt rule in a receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
 public struct SetReceiptRulePositionInput: Swift.Equatable {
     /// The name of the receipt rule after which to place the specified receipt rule.
     public var after: Swift.String?
@@ -11359,8 +11375,19 @@ extension SetReceiptRulePositionInputBody: Swift.Decodable {
     }
 }
 
-public enum SetReceiptRulePositionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension SetReceiptRulePositionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty element returned on a successful request.
+public struct SetReceiptRulePositionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum SetReceiptRulePositionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "RuleDoesNotExist": return try await RuleDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11368,17 +11395,6 @@ public enum SetReceiptRulePositionOutputError: ClientRuntime.HttpResponseErrorBi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension SetReceiptRulePositionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty element returned on a successful request.
-public struct SetReceiptRulePositionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension SESClientTypes.StopAction: Swift.Codable {
@@ -11407,12 +11423,12 @@ extension SESClientTypes.StopAction: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// When included in a receipt rule, this action terminates the evaluation of the receipt rule set and, optionally, publishes a notification to Amazon Simple Notification Service (Amazon SNS). For information about setting a stop action in a receipt rule, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-stop.html).
+    /// When included in a receipt rule, this action terminates the evaluation of the receipt rule set and, optionally, publishes a notification to Amazon Simple Notification Service (Amazon SNS). For information about setting a stop action in a receipt rule, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-stop.html).
     public struct StopAction: Swift.Equatable {
         /// The scope of the StopAction. The only acceptable value is RuleSet.
         /// This member is required.
         public var scope: SESClientTypes.StopScope?
-        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the stop action is taken. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the [Amazon SNS Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html).
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the stop action is taken. You can find the ARN of a topic by using the [ListTopics](https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html) Amazon SNS operation. For more information about Amazon SNS topics, see the [Amazon SNS Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html).
         public var topicArn: Swift.String?
 
         public init(
@@ -11494,16 +11510,16 @@ extension SESClientTypes.Template: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// The content of the email, composed of a subject line, an HTML part, and a text-only part.
+    /// The content of the email, composed of a subject line and either an HTML part or a text-only part.
     public struct Template: Swift.Equatable {
         /// The HTML body of the email.
         public var htmlPart: Swift.String?
         /// The subject line of the email.
         public var subjectPart: Swift.String?
-        /// The name of the template. You will refer to this name when you send email using the SendTemplatedEmail or SendBulkTemplatedEmail operations.
+        /// The name of the template. You use this name when you send email using the SendTemplatedEmail or SendBulkTemplatedEmail operations.
         /// This member is required.
         public var templateName: Swift.String?
-        /// The email body that will be visible to recipients whose email clients do not display HTML.
+        /// The email body that is visible to recipients whose email clients do not display HTML content.
         public var textPart: Swift.String?
 
         public init(
@@ -11594,7 +11610,7 @@ extension SESClientTypes.TemplateMetadata: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let createdTimestamp = createdTimestamp {
-            try container.encodeTimestamp(createdTimestamp, format: .dateTime, forKey: ClientRuntime.Key("createdTimestamp"))
+            try container.encodeTimestamp(createdTimestamp, format: .dateTime, forKey: ClientRuntime.Key("CreatedTimestamp"))
         }
         if let name = name {
             try container.encode(name, forKey: ClientRuntime.Key("Name"))
@@ -11654,7 +11670,7 @@ public struct TestRenderTemplateInput: Swift.Equatable {
     /// A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
     /// This member is required.
     public var templateData: Swift.String?
-    /// The name of the template that you want to render.
+    /// The name of the template to render.
     /// This member is required.
     public var templateName: Swift.String?
 
@@ -11688,23 +11704,11 @@ extension TestRenderTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum TestRenderTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidRenderingParameter": return try await InvalidRenderingParameterException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "MissingRenderingAttribute": return try await MissingRenderingAttributeException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TemplateDoesNotExist": return try await TemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension TestRenderTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension TestRenderTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: TestRenderTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: TestRenderTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.renderedTemplate = output.renderedTemplate
         } else {
             self.renderedTemplate = nil
@@ -11712,7 +11716,7 @@ extension TestRenderTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TestRenderTemplateOutputResponse: Swift.Equatable {
+public struct TestRenderTemplateOutput: Swift.Equatable {
     /// The complete MIME message rendered by applying the data in the TemplateData parameter to the template specified in the TemplateName parameter.
     public var renderedTemplate: Swift.String?
 
@@ -11724,11 +11728,11 @@ public struct TestRenderTemplateOutputResponse: Swift.Equatable {
     }
 }
 
-struct TestRenderTemplateOutputResponseBody: Swift.Equatable {
+struct TestRenderTemplateOutputBody: Swift.Equatable {
     let renderedTemplate: Swift.String?
 }
 
-extension TestRenderTemplateOutputResponseBody: Swift.Decodable {
+extension TestRenderTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case renderedTemplate = "RenderedTemplate"
     }
@@ -11738,6 +11742,18 @@ extension TestRenderTemplateOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("TestRenderTemplateResult"))
         let renderedTemplateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .renderedTemplate)
         renderedTemplate = renderedTemplateDecoded
+    }
+}
+
+enum TestRenderTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidRenderingParameter": return try await InvalidRenderingParameterException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "MissingRenderingAttribute": return try await MissingRenderingAttributeException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TemplateDoesNotExist": return try await TemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -11793,9 +11809,9 @@ extension SESClientTypes.TrackingOptions: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// A domain that is used to redirect email recipients to an Amazon SES-operated domain. This domain captures open and click events generated by Amazon SES emails. For more information, see [Configuring Custom Domains to Handle Open and Click Tracking](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/configure-custom-open-click-domains.html) in the Amazon SES Developer Guide.
+    /// A domain that is used to redirect email recipients to an Amazon SES-operated domain. This domain captures open and click events generated by Amazon SES emails. For more information, see [Configuring Custom Domains to Handle Open and Click Tracking](https://docs.aws.amazon.com/ses/latest/dg/configure-custom-open-click-domains.html) in the Amazon SES Developer Guide.
     public struct TrackingOptions: Swift.Equatable {
-        /// The custom subdomain that will be used to redirect email recipients to the Amazon SES event tracking domain.
+        /// The custom subdomain that is used to redirect email recipients to the Amazon SES event tracking domain.
         public var customRedirectDomain: Swift.String?
 
         public init(
@@ -11939,7 +11955,7 @@ extension TrackingOptionsDoesNotExistExceptionBody: Swift.Decodable {
 extension UpdateAccountSendingEnabledInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if enabled != false {
+        if let enabled = enabled {
             try container.encode(enabled, forKey: ClientRuntime.Key("Enabled"))
         }
         try container.encode("UpdateAccountSendingEnabled", forKey:ClientRuntime.Key("Action"))
@@ -11955,11 +11971,11 @@ extension UpdateAccountSendingEnabledInput: ClientRuntime.URLPathProvider {
 
 /// Represents a request to enable or disable the email sending capabilities for your entire Amazon SES account.
 public struct UpdateAccountSendingEnabledInput: Swift.Equatable {
-    /// Describes whether email sending is enabled or disabled for your Amazon SES account in the current AWS Region.
-    public var enabled: Swift.Bool
+    /// Describes whether email sending is enabled or disabled for your Amazon SES account in the current Amazon Web Services Region.
+    public var enabled: Swift.Bool?
 
     public init(
-        enabled: Swift.Bool = false
+        enabled: Swift.Bool? = nil
     )
     {
         self.enabled = enabled
@@ -11967,7 +11983,7 @@ public struct UpdateAccountSendingEnabledInput: Swift.Equatable {
 }
 
 struct UpdateAccountSendingEnabledInputBody: Swift.Equatable {
-    let enabled: Swift.Bool
+    let enabled: Swift.Bool?
 }
 
 extension UpdateAccountSendingEnabledInputBody: Swift.Decodable {
@@ -11977,28 +11993,28 @@ extension UpdateAccountSendingEnabledInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .enabled)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
         enabled = enabledDecoded
     }
 }
 
-public enum UpdateAccountSendingEnabledOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateAccountSendingEnabledOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateAccountSendingEnabledOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateAccountSendingEnabledOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UpdateAccountSendingEnabledOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateAccountSendingEnabledOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateConfigurationSetEventDestinationInput: Swift.Encodable {
@@ -12021,12 +12037,12 @@ extension UpdateConfigurationSetEventDestinationInput: ClientRuntime.URLPathProv
     }
 }
 
-/// Represents a request to update the event destination of a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html).
+/// Represents a request to update the event destination of a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
 public struct UpdateConfigurationSetEventDestinationInput: Swift.Equatable {
-    /// The name of the configuration set that contains the event destination that you want to update.
+    /// The name of the configuration set that contains the event destination.
     /// This member is required.
     public var configurationSetName: Swift.String?
-    /// The event destination object that you want to apply to the specified configuration set.
+    /// The event destination object.
     /// This member is required.
     public var eventDestination: SESClientTypes.EventDestination?
 
@@ -12060,8 +12076,19 @@ extension UpdateConfigurationSetEventDestinationInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateConfigurationSetEventDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateConfigurationSetEventDestinationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty element returned on a successful request.
+public struct UpdateConfigurationSetEventDestinationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateConfigurationSetEventDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConfigurationSetDoesNotExist": return try await ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12074,24 +12101,13 @@ public enum UpdateConfigurationSetEventDestinationOutputError: ClientRuntime.Htt
     }
 }
 
-extension UpdateConfigurationSetEventDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty element returned on a successful request.
-public struct UpdateConfigurationSetEventDestinationOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
 extension UpdateConfigurationSetReputationMetricsEnabledInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let configurationSetName = configurationSetName {
             try container.encode(configurationSetName, forKey: ClientRuntime.Key("ConfigurationSetName"))
         }
-        if enabled != false {
+        if let enabled = enabled {
             try container.encode(enabled, forKey: ClientRuntime.Key("Enabled"))
         }
         try container.encode("UpdateConfigurationSetReputationMetricsEnabled", forKey:ClientRuntime.Key("Action"))
@@ -12107,16 +12123,16 @@ extension UpdateConfigurationSetReputationMetricsEnabledInput: ClientRuntime.URL
 
 /// Represents a request to modify the reputation metric publishing settings for a configuration set.
 public struct UpdateConfigurationSetReputationMetricsEnabledInput: Swift.Equatable {
-    /// The name of the configuration set that you want to update.
+    /// The name of the configuration set to update.
     /// This member is required.
     public var configurationSetName: Swift.String?
-    /// Describes whether or not Amazon SES will publish reputation metrics for the configuration set, such as bounce and complaint rates, to Amazon CloudWatch.
+    /// Describes whether or not Amazon SES publishes reputation metrics for the configuration set, such as bounce and complaint rates, to Amazon CloudWatch.
     /// This member is required.
-    public var enabled: Swift.Bool
+    public var enabled: Swift.Bool?
 
     public init(
         configurationSetName: Swift.String? = nil,
-        enabled: Swift.Bool = false
+        enabled: Swift.Bool? = nil
     )
     {
         self.configurationSetName = configurationSetName
@@ -12126,7 +12142,7 @@ public struct UpdateConfigurationSetReputationMetricsEnabledInput: Swift.Equatab
 
 struct UpdateConfigurationSetReputationMetricsEnabledInputBody: Swift.Equatable {
     let configurationSetName: Swift.String?
-    let enabled: Swift.Bool
+    let enabled: Swift.Bool?
 }
 
 extension UpdateConfigurationSetReputationMetricsEnabledInputBody: Swift.Decodable {
@@ -12139,13 +12155,23 @@ extension UpdateConfigurationSetReputationMetricsEnabledInputBody: Swift.Decodab
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationSetName)
         configurationSetName = configurationSetNameDecoded
-        let enabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .enabled)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
         enabled = enabledDecoded
     }
 }
 
-public enum UpdateConfigurationSetReputationMetricsEnabledOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateConfigurationSetReputationMetricsEnabledOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateConfigurationSetReputationMetricsEnabledOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateConfigurationSetReputationMetricsEnabledOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConfigurationSetDoesNotExist": return try await ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12154,23 +12180,13 @@ public enum UpdateConfigurationSetReputationMetricsEnabledOutputError: ClientRun
     }
 }
 
-extension UpdateConfigurationSetReputationMetricsEnabledOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateConfigurationSetReputationMetricsEnabledOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
 extension UpdateConfigurationSetSendingEnabledInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let configurationSetName = configurationSetName {
             try container.encode(configurationSetName, forKey: ClientRuntime.Key("ConfigurationSetName"))
         }
-        if enabled != false {
+        if let enabled = enabled {
             try container.encode(enabled, forKey: ClientRuntime.Key("Enabled"))
         }
         try container.encode("UpdateConfigurationSetSendingEnabled", forKey:ClientRuntime.Key("Action"))
@@ -12186,16 +12202,16 @@ extension UpdateConfigurationSetSendingEnabledInput: ClientRuntime.URLPathProvid
 
 /// Represents a request to enable or disable the email sending capabilities for a specific configuration set.
 public struct UpdateConfigurationSetSendingEnabledInput: Swift.Equatable {
-    /// The name of the configuration set that you want to update.
+    /// The name of the configuration set to update.
     /// This member is required.
     public var configurationSetName: Swift.String?
     /// Describes whether email sending is enabled or disabled for the configuration set.
     /// This member is required.
-    public var enabled: Swift.Bool
+    public var enabled: Swift.Bool?
 
     public init(
         configurationSetName: Swift.String? = nil,
-        enabled: Swift.Bool = false
+        enabled: Swift.Bool? = nil
     )
     {
         self.configurationSetName = configurationSetName
@@ -12205,7 +12221,7 @@ public struct UpdateConfigurationSetSendingEnabledInput: Swift.Equatable {
 
 struct UpdateConfigurationSetSendingEnabledInputBody: Swift.Equatable {
     let configurationSetName: Swift.String?
-    let enabled: Swift.Bool
+    let enabled: Swift.Bool?
 }
 
 extension UpdateConfigurationSetSendingEnabledInputBody: Swift.Decodable {
@@ -12218,29 +12234,29 @@ extension UpdateConfigurationSetSendingEnabledInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationSetName)
         configurationSetName = configurationSetNameDecoded
-        let enabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .enabled)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
         enabled = enabledDecoded
     }
 }
 
-public enum UpdateConfigurationSetSendingEnabledOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateConfigurationSetSendingEnabledOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateConfigurationSetSendingEnabledOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateConfigurationSetSendingEnabledOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConfigurationSetDoesNotExist": return try await ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UpdateConfigurationSetSendingEnabledOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateConfigurationSetSendingEnabledOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateConfigurationSetTrackingOptionsInput: Swift.Encodable {
@@ -12265,10 +12281,10 @@ extension UpdateConfigurationSetTrackingOptionsInput: ClientRuntime.URLPathProvi
 
 /// Represents a request to update the tracking options for a configuration set.
 public struct UpdateConfigurationSetTrackingOptionsInput: Swift.Equatable {
-    /// The name of the configuration set for which you want to update the custom tracking domain.
+    /// The name of the configuration set.
     /// This member is required.
     public var configurationSetName: Swift.String?
-    /// A domain that is used to redirect email recipients to an Amazon SES-operated domain. This domain captures open and click events generated by Amazon SES emails. For more information, see [Configuring Custom Domains to Handle Open and Click Tracking](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/configure-custom-open-click-domains.html) in the Amazon SES Developer Guide.
+    /// A domain that is used to redirect email recipients to an Amazon SES-operated domain. This domain captures open and click events generated by Amazon SES emails. For more information, see [Configuring Custom Domains to Handle Open and Click Tracking](https://docs.aws.amazon.com/ses/latest/dg/configure-custom-open-click-domains.html) in the Amazon SES Developer Guide.
     /// This member is required.
     public var trackingOptions: SESClientTypes.TrackingOptions?
 
@@ -12302,8 +12318,19 @@ extension UpdateConfigurationSetTrackingOptionsInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateConfigurationSetTrackingOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateConfigurationSetTrackingOptionsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty element returned on a successful request.
+public struct UpdateConfigurationSetTrackingOptionsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateConfigurationSetTrackingOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConfigurationSetDoesNotExist": return try await ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12312,17 +12339,6 @@ public enum UpdateConfigurationSetTrackingOptionsOutputError: ClientRuntime.Http
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UpdateConfigurationSetTrackingOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty element returned on a successful request.
-public struct UpdateConfigurationSetTrackingOptionsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateCustomVerificationEmailTemplateInput: Swift.Encodable {
@@ -12365,9 +12381,9 @@ public struct UpdateCustomVerificationEmailTemplateInput: Swift.Equatable {
     public var fromEmailAddress: Swift.String?
     /// The URL that the recipient of the verification email is sent to if his or her address is successfully verified.
     public var successRedirectionURL: Swift.String?
-    /// The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see [Custom Verification Email Frequently Asked Questions](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/custom-verification-emails.html#custom-verification-emails-faq) in the Amazon SES Developer Guide.
+    /// The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see [Custom Verification Email Frequently Asked Questions](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide.
     public var templateContent: Swift.String?
-    /// The name of the custom verification email template that you want to update.
+    /// The name of the custom verification email template to update.
     /// This member is required.
     public var templateName: Swift.String?
     /// The subject line of the custom verification email.
@@ -12427,8 +12443,18 @@ extension UpdateCustomVerificationEmailTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateCustomVerificationEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateCustomVerificationEmailTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateCustomVerificationEmailTemplateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateCustomVerificationEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CustomVerificationEmailInvalidContent": return try await CustomVerificationEmailInvalidContentException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12437,16 +12463,6 @@ public enum UpdateCustomVerificationEmailTemplateOutputError: ClientRuntime.Http
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UpdateCustomVerificationEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateCustomVerificationEmailTemplateOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateReceiptRuleInput: Swift.Encodable {
@@ -12469,7 +12485,7 @@ extension UpdateReceiptRuleInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to update a receipt rule. You use receipt rules to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-concepts.html).
+/// Represents a request to update a receipt rule. You use receipt rules to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
 public struct UpdateReceiptRuleInput: Swift.Equatable {
     /// A data structure that contains the updated receipt rule information.
     /// This member is required.
@@ -12508,8 +12524,19 @@ extension UpdateReceiptRuleInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateReceiptRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateReceiptRuleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty element returned on a successful request.
+public struct UpdateReceiptRuleOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateReceiptRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidLambdaFunction": return try await InvalidLambdaFunctionException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12521,17 +12548,6 @@ public enum UpdateReceiptRuleOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UpdateReceiptRuleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty element returned on a successful request.
-public struct UpdateReceiptRuleOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateTemplateInput: Swift.Encodable {
@@ -12552,7 +12568,7 @@ extension UpdateTemplateInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateTemplateInput: Swift.Equatable {
-    /// The content of the email, composed of a subject line, an HTML part, and a text-only part.
+    /// The content of the email, composed of a subject line and either an HTML part or a text-only part.
     /// This member is required.
     public var template: SESClientTypes.Template?
 
@@ -12580,8 +12596,18 @@ extension UpdateTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateTemplateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidTemplate": return try await InvalidTemplateException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12589,16 +12615,6 @@ public enum UpdateTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UpdateTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateTemplateOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension SESClientTypes {
@@ -12659,7 +12675,7 @@ extension VerifyDomainDkimInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to generate the CNAME records needed to set up Easy DKIM with Amazon SES. For more information about setting up Easy DKIM, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html).
+/// Represents a request to generate the CNAME records needed to set up Easy DKIM with Amazon SES. For more information about setting up Easy DKIM, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html).
 public struct VerifyDomainDkimInput: Swift.Equatable {
     /// The name of the domain to be verified for Easy DKIM signing.
     /// This member is required.
@@ -12689,20 +12705,11 @@ extension VerifyDomainDkimInputBody: Swift.Decodable {
     }
 }
 
-public enum VerifyDomainDkimOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension VerifyDomainDkimOutputResponse: ClientRuntime.HttpResponseBinding {
+extension VerifyDomainDkimOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: VerifyDomainDkimOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: VerifyDomainDkimOutputBody = try responseDecoder.decode(responseBody: data)
             self.dkimTokens = output.dkimTokens
         } else {
             self.dkimTokens = nil
@@ -12711,8 +12718,8 @@ extension VerifyDomainDkimOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returns CNAME records that you must publish to the DNS server of your domain to set up Easy DKIM with Amazon SES.
-public struct VerifyDomainDkimOutputResponse: Swift.Equatable {
-    /// A set of character strings that represent the domain's identity. If the identity is an email address, the tokens represent the domain of that address. Using these tokens, you need to create DNS CNAME records that point to DKIM public keys that are hosted by Amazon SES. Amazon Web Services eventually detects that you've updated your DNS records. This detection process might take up to 72 hours. After successful detection, Amazon SES is able to DKIM-sign email originating from that domain. (This only applies to domain identities, not email address identities.) For more information about creating DNS records using DKIM tokens, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html).
+public struct VerifyDomainDkimOutput: Swift.Equatable {
+    /// A set of character strings that represent the domain's identity. If the identity is an email address, the tokens represent the domain of that address. Using these tokens, you need to create DNS CNAME records that point to DKIM public keys that are hosted by Amazon SES. Amazon Web Services eventually detects that you've updated your DNS records. This detection process might take up to 72 hours. After successful detection, Amazon SES is able to DKIM-sign email originating from that domain. (This only applies to domain identities, not email address identities.) For more information about creating DNS records using DKIM tokens, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html).
     /// This member is required.
     public var dkimTokens: [Swift.String]?
 
@@ -12724,11 +12731,11 @@ public struct VerifyDomainDkimOutputResponse: Swift.Equatable {
     }
 }
 
-struct VerifyDomainDkimOutputResponseBody: Swift.Equatable {
+struct VerifyDomainDkimOutputBody: Swift.Equatable {
     let dkimTokens: [Swift.String]?
 }
 
-extension VerifyDomainDkimOutputResponseBody: Swift.Decodable {
+extension VerifyDomainDkimOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dkimTokens = "DkimTokens"
     }
@@ -12758,6 +12765,15 @@ extension VerifyDomainDkimOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum VerifyDomainDkimOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension VerifyDomainIdentityInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -12775,7 +12791,7 @@ extension VerifyDomainIdentityInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to begin Amazon SES domain verification and to generate the TXT records that you must publish to the DNS server of your domain to complete the verification. For information about domain verification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-domains.html).
+/// Represents a request to begin Amazon SES domain verification and to generate the TXT records that you must publish to the DNS server of your domain to complete the verification. For information about domain verification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#verify-domain-procedure).
 public struct VerifyDomainIdentityInput: Swift.Equatable {
     /// The domain to be verified.
     /// This member is required.
@@ -12805,20 +12821,11 @@ extension VerifyDomainIdentityInputBody: Swift.Decodable {
     }
 }
 
-public enum VerifyDomainIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension VerifyDomainIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
+extension VerifyDomainIdentityOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: VerifyDomainIdentityOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: VerifyDomainIdentityOutputBody = try responseDecoder.decode(responseBody: data)
             self.verificationToken = output.verificationToken
         } else {
             self.verificationToken = nil
@@ -12827,8 +12834,8 @@ extension VerifyDomainIdentityOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 /// Returns a TXT record that you must publish to the DNS server of your domain to complete domain verification with Amazon SES.
-public struct VerifyDomainIdentityOutputResponse: Swift.Equatable {
-    /// A TXT record that you must place in the DNS settings of the domain to complete domain verification with Amazon SES. As Amazon SES searches for the TXT record, the domain's verification status is "Pending". When Amazon SES detects the record, the domain's verification status changes to "Success". If Amazon SES is unable to detect the record within 72 hours, the domain's verification status changes to "Failed." In that case, if you still want to verify the domain, you must restart the verification process from the beginning.
+public struct VerifyDomainIdentityOutput: Swift.Equatable {
+    /// A TXT record that you must place in the DNS settings of the domain to complete domain verification with Amazon SES. As Amazon SES searches for the TXT record, the domain's verification status is "Pending". When Amazon SES detects the record, the domain's verification status changes to "Success". If Amazon SES is unable to detect the record within 72 hours, the domain's verification status changes to "Failed." In that case, to verify the domain, you must restart the verification process from the beginning. The domain's verification status also changes to "Success" when it is DKIM verified.
     /// This member is required.
     public var verificationToken: Swift.String?
 
@@ -12840,11 +12847,11 @@ public struct VerifyDomainIdentityOutputResponse: Swift.Equatable {
     }
 }
 
-struct VerifyDomainIdentityOutputResponseBody: Swift.Equatable {
+struct VerifyDomainIdentityOutputBody: Swift.Equatable {
     let verificationToken: Swift.String?
 }
 
-extension VerifyDomainIdentityOutputResponseBody: Swift.Decodable {
+extension VerifyDomainIdentityOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case verificationToken = "VerificationToken"
     }
@@ -12854,6 +12861,15 @@ extension VerifyDomainIdentityOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("VerifyDomainIdentityResult"))
         let verificationTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .verificationToken)
         verificationToken = verificationTokenDecoded
+    }
+}
+
+enum VerifyDomainIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -12874,7 +12890,7 @@ extension VerifyEmailAddressInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to begin email address verification with Amazon SES. For information about email address verification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-email-addresses.html).
+/// Represents a request to begin email address verification with Amazon SES. For information about email address verification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#verify-email-addresses-procedure).
 public struct VerifyEmailAddressInput: Swift.Equatable {
     /// The email address to be verified.
     /// This member is required.
@@ -12904,23 +12920,23 @@ extension VerifyEmailAddressInputBody: Swift.Decodable {
     }
 }
 
-public enum VerifyEmailAddressOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension VerifyEmailAddressOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct VerifyEmailAddressOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum VerifyEmailAddressOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension VerifyEmailAddressOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct VerifyEmailAddressOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension VerifyEmailIdentityInput: Swift.Encodable {
@@ -12940,7 +12956,7 @@ extension VerifyEmailIdentityInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Represents a request to begin email address verification with Amazon SES. For information about email address verification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-email-addresses.html).
+/// Represents a request to begin email address verification with Amazon SES. For information about email address verification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#verify-email-addresses-procedure).
 public struct VerifyEmailIdentityInput: Swift.Equatable {
     /// The email address to be verified.
     /// This member is required.
@@ -12970,24 +12986,24 @@ extension VerifyEmailIdentityInputBody: Swift.Decodable {
     }
 }
 
-public enum VerifyEmailIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension VerifyEmailIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
+extension VerifyEmailIdentityOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An empty element returned on a successful request.
-public struct VerifyEmailIdentityOutputResponse: Swift.Equatable {
+public struct VerifyEmailIdentityOutput: Swift.Equatable {
 
     public init() { }
+}
+
+enum VerifyEmailIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
 }
 
 extension SESClientTypes.WorkmailAction: Swift.Codable {
@@ -13016,12 +13032,12 @@ extension SESClientTypes.WorkmailAction: Swift.Codable {
 }
 
 extension SESClientTypes {
-    /// When included in a receipt rule, this action calls Amazon WorkMail and, optionally, publishes a notification to Amazon Simple Notification Service (Amazon SNS). You will typically not use this action directly because Amazon WorkMail adds the rule automatically during its setup procedure. For information using a receipt rule to call Amazon WorkMail, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-workmail.html).
+    /// When included in a receipt rule, this action calls Amazon WorkMail and, optionally, publishes a notification to Amazon Simple Notification Service (Amazon SNS). It usually isn't necessary to set this up manually, because Amazon WorkMail adds the rule automatically during its setup procedure. For information using a receipt rule to call Amazon WorkMail, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-workmail.html).
     public struct WorkmailAction: Swift.Equatable {
-        /// The ARN of the Amazon WorkMail organization. An example of an Amazon WorkMail organization ARN is arn:aws:workmail:us-west-2:123456789012:organization/m-68755160c4cb4e29a2b2f8fb58f359d7. For information about Amazon WorkMail organizations, see the [Amazon WorkMail Administrator Guide](https://docs.aws.amazon.com/workmail/latest/adminguide/organizations_overview.html).
+        /// The Amazon Resource Name (ARN) of the Amazon WorkMail organization. Amazon WorkMail ARNs use the following format: arn:aws:workmail:::organization/ You can find the ID of your organization by using the [ListOrganizations](https://docs.aws.amazon.com/workmail/latest/APIReference/API_ListOrganizations.html) operation in Amazon WorkMail. Amazon WorkMail organization IDs begin with "m-", followed by a string of alphanumeric characters. For information about Amazon WorkMail organizations, see the [Amazon WorkMail Administrator Guide](https://docs.aws.amazon.com/workmail/latest/adminguide/organizations_overview.html).
         /// This member is required.
         public var organizationArn: Swift.String?
-        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the WorkMail action is called. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the [Amazon SNS Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html).
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the WorkMail action is called. You can find the ARN of a topic by using the [ListTopics](https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html) operation in Amazon SNS. For more information about Amazon SNS topics, see the [Amazon SNS Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html).
         public var topicArn: Swift.String?
 
         public init(

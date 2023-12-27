@@ -325,6 +325,8 @@ public struct DeleteScalingPolicyInput: Swift.Equatable {
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    ///
+    /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
     /// This member is required.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
@@ -370,6 +372,8 @@ public struct DeleteScalingPolicyInput: Swift.Equatable {
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
     /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    ///
+    /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
     /// This member is required.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
@@ -418,8 +422,18 @@ extension DeleteScalingPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteScalingPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteScalingPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteScalingPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteScalingPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -430,16 +444,6 @@ public enum DeleteScalingPolicyOutputError: ClientRuntime.HttpResponseErrorBindi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteScalingPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteScalingPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteScheduledActionInput: Swift.Encodable {
@@ -509,6 +513,8 @@ public struct DeleteScheduledActionInput: Swift.Equatable {
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    ///
+    /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
     /// This member is required.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
@@ -554,6 +560,8 @@ public struct DeleteScheduledActionInput: Swift.Equatable {
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
     /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    ///
+    /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
     /// This member is required.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The name of the scheduled action.
@@ -605,8 +613,18 @@ extension DeleteScheduledActionInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteScheduledActionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteScheduledActionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteScheduledActionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteScheduledActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -617,16 +635,6 @@ public enum DeleteScheduledActionOutputError: ClientRuntime.HttpResponseErrorBin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteScheduledActionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteScheduledActionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeregisterScalableTargetInput: Swift.Encodable {
@@ -692,6 +700,8 @@ public struct DeregisterScalableTargetInput: Swift.Equatable {
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    ///
+    /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
     /// This member is required.
     public var resourceId: Swift.String?
     /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property.
@@ -737,6 +747,8 @@ public struct DeregisterScalableTargetInput: Swift.Equatable {
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
     /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    ///
+    /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
     /// This member is required.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
@@ -779,8 +791,18 @@ extension DeregisterScalableTargetInputBody: Swift.Decodable {
     }
 }
 
-public enum DeregisterScalableTargetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeregisterScalableTargetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeregisterScalableTargetOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeregisterScalableTargetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -791,16 +813,6 @@ public enum DeregisterScalableTargetOutputError: ClientRuntime.HttpResponseError
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeregisterScalableTargetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeregisterScalableTargetOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DescribeScalableTargetsInput: Swift.Encodable {
@@ -881,6 +893,8 @@ public struct DescribeScalableTargetsInput: Swift.Equatable {
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    ///
+    /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
     public var resourceIds: [Swift.String]?
     /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.
     ///
@@ -925,6 +939,8 @@ public struct DescribeScalableTargetsInput: Swift.Equatable {
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
     /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    ///
+    /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
     /// This member is required.
@@ -987,25 +1003,11 @@ extension DescribeScalableTargetsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeScalableTargetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConcurrentUpdateException": return try await ConcurrentUpdateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeScalableTargetsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeScalableTargetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeScalableTargetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeScalableTargetsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.scalableTargets = output.scalableTargets
         } else {
@@ -1015,7 +1017,7 @@ extension DescribeScalableTargetsOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DescribeScalableTargetsOutputResponse: Swift.Equatable {
+public struct DescribeScalableTargetsOutput: Swift.Equatable {
     /// The token required to get the next set of results. This value is null if there are no more results to return.
     public var nextToken: Swift.String?
     /// The scalable targets that match the request parameters.
@@ -1031,12 +1033,12 @@ public struct DescribeScalableTargetsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeScalableTargetsOutputResponseBody: Swift.Equatable {
+struct DescribeScalableTargetsOutputBody: Swift.Equatable {
     let scalableTargets: [ApplicationAutoScalingClientTypes.ScalableTarget]?
     let nextToken: Swift.String?
 }
 
-extension DescribeScalableTargetsOutputResponseBody: Swift.Decodable {
+extension DescribeScalableTargetsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case scalableTargets = "ScalableTargets"
@@ -1057,6 +1059,20 @@ extension DescribeScalableTargetsOutputResponseBody: Swift.Decodable {
         scalableTargets = scalableTargetsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeScalableTargetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentUpdateException": return try await ConcurrentUpdateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1141,6 +1157,8 @@ public struct DescribeScalingActivitiesInput: Swift.Equatable {
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    ///
+    /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.
     ///
@@ -1185,6 +1203,8 @@ public struct DescribeScalingActivitiesInput: Swift.Equatable {
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
     /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    ///
+    /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
     /// This member is required.
@@ -1244,25 +1264,11 @@ extension DescribeScalingActivitiesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeScalingActivitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConcurrentUpdateException": return try await ConcurrentUpdateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeScalingActivitiesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeScalingActivitiesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeScalingActivitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeScalingActivitiesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.scalingActivities = output.scalingActivities
         } else {
@@ -1272,7 +1278,7 @@ extension DescribeScalingActivitiesOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribeScalingActivitiesOutputResponse: Swift.Equatable {
+public struct DescribeScalingActivitiesOutput: Swift.Equatable {
     /// The token required to get the next set of results. This value is null if there are no more results to return.
     public var nextToken: Swift.String?
     /// A list of scaling activity objects.
@@ -1288,12 +1294,12 @@ public struct DescribeScalingActivitiesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeScalingActivitiesOutputResponseBody: Swift.Equatable {
+struct DescribeScalingActivitiesOutputBody: Swift.Equatable {
     let scalingActivities: [ApplicationAutoScalingClientTypes.ScalingActivity]?
     let nextToken: Swift.String?
 }
 
-extension DescribeScalingActivitiesOutputResponseBody: Swift.Decodable {
+extension DescribeScalingActivitiesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case scalingActivities = "ScalingActivities"
@@ -1314,6 +1320,20 @@ extension DescribeScalingActivitiesOutputResponseBody: Swift.Decodable {
         scalingActivities = scalingActivitiesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeScalingActivitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentUpdateException": return try await ConcurrentUpdateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1401,6 +1421,8 @@ public struct DescribeScalingPoliciesInput: Swift.Equatable {
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    ///
+    /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.
     ///
@@ -1445,6 +1467,8 @@ public struct DescribeScalingPoliciesInput: Swift.Equatable {
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
     /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    ///
+    /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
     /// This member is required.
@@ -1513,26 +1537,11 @@ extension DescribeScalingPoliciesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeScalingPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConcurrentUpdateException": return try await ConcurrentUpdateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FailedResourceAccessException": return try await FailedResourceAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeScalingPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeScalingPoliciesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeScalingPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeScalingPoliciesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.scalingPolicies = output.scalingPolicies
         } else {
@@ -1542,7 +1551,7 @@ extension DescribeScalingPoliciesOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DescribeScalingPoliciesOutputResponse: Swift.Equatable {
+public struct DescribeScalingPoliciesOutput: Swift.Equatable {
     /// The token required to get the next set of results. This value is null if there are no more results to return.
     public var nextToken: Swift.String?
     /// Information about the scaling policies.
@@ -1558,12 +1567,12 @@ public struct DescribeScalingPoliciesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeScalingPoliciesOutputResponseBody: Swift.Equatable {
+struct DescribeScalingPoliciesOutputBody: Swift.Equatable {
     let scalingPolicies: [ApplicationAutoScalingClientTypes.ScalingPolicy]?
     let nextToken: Swift.String?
 }
 
-extension DescribeScalingPoliciesOutputResponseBody: Swift.Decodable {
+extension DescribeScalingPoliciesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case scalingPolicies = "ScalingPolicies"
@@ -1584,6 +1593,21 @@ extension DescribeScalingPoliciesOutputResponseBody: Swift.Decodable {
         scalingPolicies = scalingPoliciesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeScalingPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentUpdateException": return try await ConcurrentUpdateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FailedResourceAccessException": return try await FailedResourceAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1669,6 +1693,8 @@ public struct DescribeScheduledActionsInput: Swift.Equatable {
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    ///
+    /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.
     ///
@@ -1713,6 +1739,8 @@ public struct DescribeScheduledActionsInput: Swift.Equatable {
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
     /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    ///
+    /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The names of the scheduled actions to describe.
     public var scheduledActionNames: [Swift.String]?
@@ -1783,25 +1811,11 @@ extension DescribeScheduledActionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeScheduledActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConcurrentUpdateException": return try await ConcurrentUpdateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeScheduledActionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeScheduledActionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeScheduledActionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeScheduledActionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.scheduledActions = output.scheduledActions
         } else {
@@ -1811,7 +1825,7 @@ extension DescribeScheduledActionsOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DescribeScheduledActionsOutputResponse: Swift.Equatable {
+public struct DescribeScheduledActionsOutput: Swift.Equatable {
     /// The token required to get the next set of results. This value is null if there are no more results to return.
     public var nextToken: Swift.String?
     /// Information about the scheduled actions.
@@ -1827,12 +1841,12 @@ public struct DescribeScheduledActionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeScheduledActionsOutputResponseBody: Swift.Equatable {
+struct DescribeScheduledActionsOutputBody: Swift.Equatable {
     let scheduledActions: [ApplicationAutoScalingClientTypes.ScheduledAction]?
     let nextToken: Swift.String?
 }
 
-extension DescribeScheduledActionsOutputResponseBody: Swift.Decodable {
+extension DescribeScheduledActionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case scheduledActions = "ScheduledActions"
@@ -1853,6 +1867,20 @@ extension DescribeScheduledActionsOutputResponseBody: Swift.Decodable {
         scheduledActions = scheduledActionsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeScheduledActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentUpdateException": return try await ConcurrentUpdateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2124,22 +2152,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -2147,7 +2164,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// A list of tags. Each tag consists of a tag key and a tag value.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2159,11 +2176,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
     }
@@ -2181,6 +2198,17 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2330,6 +2358,7 @@ extension ApplicationAutoScalingClientTypes {
         case neptunereaderaveragecpuutilization
         case rdsreaderaveragecpuutilization
         case rdsreaderaveragedatabaseconnections
+        case sagemakerinferencecomponentinvocationspercopy
         case sagemakervariantinvocationsperinstance
         case sagemakervariantprovisionedconcurrencyutilization
         case sdkUnknown(Swift.String)
@@ -2357,6 +2386,7 @@ extension ApplicationAutoScalingClientTypes {
                 .neptunereaderaveragecpuutilization,
                 .rdsreaderaveragecpuutilization,
                 .rdsreaderaveragedatabaseconnections,
+                .sagemakerinferencecomponentinvocationspercopy,
                 .sagemakervariantinvocationsperinstance,
                 .sagemakervariantprovisionedconcurrencyutilization,
                 .sdkUnknown("")
@@ -2389,6 +2419,7 @@ extension ApplicationAutoScalingClientTypes {
             case .neptunereaderaveragecpuutilization: return "NeptuneReaderAverageCPUUtilization"
             case .rdsreaderaveragecpuutilization: return "RDSReaderAverageCPUUtilization"
             case .rdsreaderaveragedatabaseconnections: return "RDSReaderAverageDatabaseConnections"
+            case .sagemakerinferencecomponentinvocationspercopy: return "SageMakerInferenceComponentInvocationsPerCopy"
             case .sagemakervariantinvocationsperinstance: return "SageMakerVariantInvocationsPerInstance"
             case .sagemakervariantprovisionedconcurrencyutilization: return "SageMakerVariantProvisionedConcurrencyUtilization"
             case let .sdkUnknown(s): return s
@@ -2591,7 +2622,7 @@ extension ApplicationAutoScalingClientTypes.PredefinedMetricSpecification: Swift
 }
 
 extension ApplicationAutoScalingClientTypes {
-    /// Represents a predefined metric for a target tracking scaling policy to use with Application Auto Scaling. Only the Amazon Web Services that you're using send metrics to Amazon CloudWatch. To determine whether a desired metric already exists by looking up its namespace and dimension using the CloudWatch metrics dashboard in the console, follow the procedure in [Building dashboards with CloudWatch](https://docs.aws.amazon.com/autoscaling/application/userguide/monitoring-cloudwatch.html) in the Application Auto Scaling User Guide.
+    /// Represents a predefined metric for a target tracking scaling policy to use with Application Auto Scaling. Only the Amazon Web Services that you're using send metrics to Amazon CloudWatch. To determine whether a desired metric already exists by looking up its namespace and dimension using the CloudWatch metrics dashboard in the console, follow the procedure in [Monitor your resources using CloudWatch](https://docs.aws.amazon.com/autoscaling/application/userguide/monitoring-cloudwatch.html) in the Application Auto Scaling User Guide.
     public struct PredefinedMetricSpecification: Swift.Equatable {
         /// The metric type. The ALBRequestCountPerTarget metric type applies only to Spot Fleets and ECS services.
         /// This member is required.
@@ -2665,7 +2696,7 @@ public struct PutScalingPolicyInput: Swift.Equatable {
     /// The name of the scaling policy. You cannot change the name of a scaling policy, but you can delete the original scaling policy and create a new scaling policy with the same settings and a different name.
     /// This member is required.
     public var policyName: Swift.String?
-    /// The scaling policy type. This parameter is required if you are creating a scaling policy. The following policy types are supported: TargetTrackingScaling—Not supported for Amazon EMR StepScaling—Not supported for DynamoDB, Amazon Comprehend, Lambda, Amazon Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune. For more information, see [Target tracking scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html) and [Step scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html) in the Application Auto Scaling User Guide.
+    /// The scaling policy type. This parameter is required if you are creating a scaling policy. The following policy types are supported: TargetTrackingScaling—Not supported for Amazon EMR. StepScaling—Not supported for DynamoDB, Amazon Comprehend, Lambda, Amazon Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune. For more information, see [Target tracking scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html) and [Step scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html) in the Application Auto Scaling User Guide.
     public var policyType: ApplicationAutoScalingClientTypes.PolicyType?
     /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier.
     ///
@@ -2702,6 +2733,8 @@ public struct PutScalingPolicyInput: Swift.Equatable {
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    ///
+    /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
     /// This member is required.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
@@ -2747,6 +2780,8 @@ public struct PutScalingPolicyInput: Swift.Equatable {
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
     /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    ///
+    /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
     /// This member is required.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
@@ -2817,27 +2852,11 @@ extension PutScalingPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum PutScalingPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConcurrentUpdateException": return try await ConcurrentUpdateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FailedResourceAccessException": return try await FailedResourceAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ObjectNotFoundException": return try await ObjectNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension PutScalingPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PutScalingPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PutScalingPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PutScalingPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.alarms = output.alarms
             self.policyARN = output.policyARN
         } else {
@@ -2847,7 +2866,7 @@ extension PutScalingPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutScalingPolicyOutputResponse: Swift.Equatable {
+public struct PutScalingPolicyOutput: Swift.Equatable {
     /// The CloudWatch alarms created for the target tracking scaling policy.
     public var alarms: [ApplicationAutoScalingClientTypes.Alarm]?
     /// The Amazon Resource Name (ARN) of the resulting scaling policy.
@@ -2864,12 +2883,12 @@ public struct PutScalingPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct PutScalingPolicyOutputResponseBody: Swift.Equatable {
+struct PutScalingPolicyOutputBody: Swift.Equatable {
     let policyARN: Swift.String?
     let alarms: [ApplicationAutoScalingClientTypes.Alarm]?
 }
 
-extension PutScalingPolicyOutputResponseBody: Swift.Decodable {
+extension PutScalingPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case alarms = "Alarms"
         case policyARN = "PolicyARN"
@@ -2890,6 +2909,22 @@ extension PutScalingPolicyOutputResponseBody: Swift.Decodable {
             }
         }
         alarms = alarmsDecoded0
+    }
+}
+
+enum PutScalingPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentUpdateException": return try await ConcurrentUpdateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FailedResourceAccessException": return try await FailedResourceAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ObjectNotFoundException": return try await ObjectNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2982,6 +3017,8 @@ public struct PutScheduledActionInput: Swift.Equatable {
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    ///
+    /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
     /// This member is required.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
@@ -3027,6 +3064,8 @@ public struct PutScheduledActionInput: Swift.Equatable {
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
     /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    ///
+    /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
     /// This member is required.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The new minimum and maximum capacity. You can set both values or just one. At the scheduled time, if the current capacity is below the minimum capacity, Application Auto Scaling scales out to the minimum capacity. If the current capacity is above the maximum capacity, Application Auto Scaling scales in to the maximum capacity.
@@ -3125,8 +3164,18 @@ extension PutScheduledActionInputBody: Swift.Decodable {
     }
 }
 
-public enum PutScheduledActionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension PutScheduledActionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutScheduledActionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutScheduledActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3138,16 +3187,6 @@ public enum PutScheduledActionOutputError: ClientRuntime.HttpResponseErrorBindin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension PutScheduledActionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutScheduledActionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension RegisterScalableTargetInput: Swift.Encodable {
@@ -3261,6 +3300,8 @@ public struct RegisterScalableTargetInput: Swift.Equatable {
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    ///
+    /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
     /// This member is required.
     public var resourceId: Swift.String?
     /// This parameter is required for services that do not support service-linked roles (such as Amazon EMR), and it must specify the ARN of an IAM role that allows Application Auto Scaling to modify the scalable target on your behalf. If the service supports service-linked roles, Application Auto Scaling uses a service-linked role, which it creates if it does not yet exist. For more information, see [Application Auto Scaling IAM roles](https://docs.aws.amazon.com/autoscaling/application/userguide/security_iam_service-with-iam.html#security_iam_service-with-iam-roles).
@@ -3308,6 +3349,8 @@ public struct RegisterScalableTargetInput: Swift.Equatable {
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
     /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    ///
+    /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
     /// This member is required.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
@@ -3402,25 +3445,11 @@ extension RegisterScalableTargetInputBody: Swift.Decodable {
     }
 }
 
-public enum RegisterScalableTargetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConcurrentUpdateException": return try await ConcurrentUpdateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension RegisterScalableTargetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RegisterScalableTargetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RegisterScalableTargetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RegisterScalableTargetOutputBody = try responseDecoder.decode(responseBody: data)
             self.scalableTargetARN = output.scalableTargetARN
         } else {
             self.scalableTargetARN = nil
@@ -3428,7 +3457,7 @@ extension RegisterScalableTargetOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct RegisterScalableTargetOutputResponse: Swift.Equatable {
+public struct RegisterScalableTargetOutput: Swift.Equatable {
     /// The ARN of the scalable target.
     public var scalableTargetARN: Swift.String?
 
@@ -3440,11 +3469,11 @@ public struct RegisterScalableTargetOutputResponse: Swift.Equatable {
     }
 }
 
-struct RegisterScalableTargetOutputResponseBody: Swift.Equatable {
+struct RegisterScalableTargetOutputBody: Swift.Equatable {
     let scalableTargetARN: Swift.String?
 }
 
-extension RegisterScalableTargetOutputResponseBody: Swift.Decodable {
+extension RegisterScalableTargetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case scalableTargetARN = "ScalableTargetARN"
     }
@@ -3453,6 +3482,20 @@ extension RegisterScalableTargetOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scalableTargetARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scalableTargetARN)
         scalableTargetARN = scalableTargetARNDecoded
+    }
+}
+
+enum RegisterScalableTargetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentUpdateException": return try await ConcurrentUpdateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3542,6 +3585,7 @@ extension ApplicationAutoScalingClientTypes {
         case lambdafunctionprovisionedconcurrency
         case neptuneclusterreadreplicacount
         case rdsclusterreadreplicacount
+        case sagemakerinferencecomponentdesiredcopycount
         case sagemakervariantdesiredinstancecount
         case sagemakervariantdesiredprovisionedconcurrency
         case sdkUnknown(Swift.String)
@@ -3567,6 +3611,7 @@ extension ApplicationAutoScalingClientTypes {
                 .lambdafunctionprovisionedconcurrency,
                 .neptuneclusterreadreplicacount,
                 .rdsclusterreadreplicacount,
+                .sagemakerinferencecomponentdesiredcopycount,
                 .sagemakervariantdesiredinstancecount,
                 .sagemakervariantdesiredprovisionedconcurrency,
                 .sdkUnknown("")
@@ -3597,6 +3642,7 @@ extension ApplicationAutoScalingClientTypes {
             case .lambdafunctionprovisionedconcurrency: return "lambda:function:ProvisionedConcurrency"
             case .neptuneclusterreadreplicacount: return "neptune:cluster:ReadReplicaCount"
             case .rdsclusterreadreplicacount: return "rds:cluster:ReadReplicaCount"
+            case .sagemakerinferencecomponentdesiredcopycount: return "sagemaker:inference-component:DesiredCopyCount"
             case .sagemakervariantdesiredinstancecount: return "sagemaker:variant:DesiredInstanceCount"
             case .sagemakervariantdesiredprovisionedconcurrency: return "sagemaker:variant:DesiredProvisionedConcurrency"
             case let .sdkUnknown(s): return s
@@ -3724,6 +3770,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
         ///
         /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+        ///
+        /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
         /// This member is required.
         public var resourceId: Swift.String?
         /// The ARN of an IAM role that allows Application Auto Scaling to modify the scalable target on your behalf.
@@ -3772,6 +3820,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
         ///
         /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+        ///
+        /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
         /// This member is required.
         public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
         /// The ARN of the scalable target.
@@ -4003,6 +4053,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
         ///
         /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+        ///
+        /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
         /// This member is required.
         public var resourceId: Swift.String?
         /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
@@ -4048,6 +4100,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
         ///
         /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+        ///
+        /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
         /// This member is required.
         public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
         /// The namespace of the Amazon Web Services service that provides the resource, or a custom-resource.
@@ -4275,6 +4329,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
         ///
         /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+        ///
+        /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
         /// This member is required.
         public var resourceId: Swift.String?
         /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
@@ -4320,6 +4376,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
         ///
         /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+        ///
+        /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
         /// This member is required.
         public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
         /// The namespace of the Amazon Web Services service that provides the resource, or a custom-resource.
@@ -4480,6 +4538,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
         ///
         /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+        ///
+        /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
         /// This member is required.
         public var resourceId: Swift.String?
         /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
@@ -4525,6 +4585,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
         ///
         /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+        ///
+        /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
         public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
         /// The new minimum and maximum capacity. You can set both values or just one. At the scheduled time, if the current capacity is below the minimum capacity, Application Auto Scaling scales out to the minimum capacity. If the current capacity is above the maximum capacity, Application Auto Scaling scales in to the maximum capacity.
         public var scalableTargetAction: ApplicationAutoScalingClientTypes.ScalableTargetAction?
@@ -4783,7 +4845,7 @@ extension ApplicationAutoScalingClientTypes {
     public struct StepScalingPolicyConfiguration: Swift.Equatable {
         /// Specifies how the ScalingAdjustment value in a [StepAdjustment](https://docs.aws.amazon.com/autoscaling/application/APIReference/API_StepAdjustment.html) is interpreted (for example, an absolute number or a percentage). The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity. AdjustmentType is required if you are adding a new step scaling policy configuration.
         public var adjustmentType: ApplicationAutoScalingClientTypes.AdjustmentType?
-        /// The amount of time, in seconds, to wait for a previous scaling activity to take effect. If not specified, the default value is 300. For more information, see [Cooldown period](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html#step-scaling-cooldown) in the Application Auto Scaling User Guide.
+        /// The amount of time, in seconds, to wait for a previous scaling activity to take effect. If not specified, the default value is 300. For more information, see [Cooldown period](https://docs.aws.amazon.com/autoscaling/application/userguide/step-scaling-policy-overview.html#step-scaling-cooldown) in the Application Auto Scaling User Guide.
         public var cooldown: Swift.Int?
         /// The aggregation type for the CloudWatch metrics. Valid values are Minimum, Maximum, and Average. If the aggregation type is null, the value is treated as Average.
         public var metricAggregationType: ApplicationAutoScalingClientTypes.MetricAggregationType?
@@ -4938,8 +5000,18 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4949,16 +5021,6 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ApplicationAutoScalingClientTypes.TargetTrackingMetric: Swift.Codable {
@@ -5266,9 +5328,9 @@ extension ApplicationAutoScalingClientTypes {
         public var disableScaleIn: Swift.Bool?
         /// A predefined metric. You can specify either a predefined metric or a customized metric.
         public var predefinedMetricSpecification: ApplicationAutoScalingClientTypes.PredefinedMetricSpecification?
-        /// The amount of time, in seconds, after a scale-in activity completes before another scale-in activity can start. For more information and for default values, see [Define cooldown periods](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html#target-tracking-cooldown) in the Application Auto Scaling User Guide.
+        /// The amount of time, in seconds, after a scale-in activity completes before another scale-in activity can start. For more information and for default values, see [Define cooldown periods](https://docs.aws.amazon.com/autoscaling/application/userguide/target-tracking-scaling-policy-overview.html#target-tracking-cooldown) in the Application Auto Scaling User Guide.
         public var scaleInCooldown: Swift.Int?
-        /// The amount of time, in seconds, to wait for a previous scale-out activity to take effect. For more information and for default values, see [Define cooldown periods](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html#target-tracking-cooldown) in the Application Auto Scaling User Guide.
+        /// The amount of time, in seconds, to wait for a previous scale-out activity to take effect. For more information and for default values, see [Define cooldown periods](https://docs.aws.amazon.com/autoscaling/application/userguide/target-tracking-scaling-policy-overview.html#target-tracking-cooldown) in the Application Auto Scaling User Guide.
         public var scaleOutCooldown: Swift.Int?
         /// The target value for the metric. Although this property accepts numbers of type Double, it won't accept values that are either too small or too large. Values must be in the range of -2^360 to 2^360. The value must be a valid number based on the choice of metric. For example, if the metric is CPU utilization, then the target value is a percent value that represents how much of the CPU can be used before scaling out. If the scaling policy specifies the ALBRequestCountPerTarget predefined metric, specify the target utilization as the optimal average request count per target during any one-minute interval.
         /// This member is required.
@@ -5432,8 +5494,18 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5442,16 +5514,6 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ValidationException {

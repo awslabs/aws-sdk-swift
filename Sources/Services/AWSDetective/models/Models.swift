@@ -50,8 +50,18 @@ extension AcceptInvitationInputBody: Swift.Decodable {
     }
 }
 
-public enum AcceptInvitationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension AcceptInvitationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AcceptInvitationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum AcceptInvitationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -63,16 +73,6 @@ public enum AcceptInvitationOutputError: ClientRuntime.HttpResponseErrorBinding 
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension AcceptInvitationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct AcceptInvitationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension AccessDeniedException {
@@ -193,6 +193,11 @@ extension DetectiveClientTypes.Account: Swift.Codable {
         let emailAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .emailAddress)
         emailAddress = emailAddressDecoded
     }
+}
+
+extension DetectiveClientTypes.Account: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Account(accountId: \(Swift.String(describing: accountId)), emailAddress: \"CONTENT_REDACTED\")"}
 }
 
 extension DetectiveClientTypes {
@@ -345,25 +350,11 @@ extension BatchGetGraphMemberDatasourcesInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchGetGraphMemberDatasourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchGetGraphMemberDatasourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchGetGraphMemberDatasourcesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchGetGraphMemberDatasourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchGetGraphMemberDatasourcesOutputBody = try responseDecoder.decode(responseBody: data)
             self.memberDatasources = output.memberDatasources
             self.unprocessedAccounts = output.unprocessedAccounts
         } else {
@@ -373,7 +364,7 @@ extension BatchGetGraphMemberDatasourcesOutputResponse: ClientRuntime.HttpRespon
     }
 }
 
-public struct BatchGetGraphMemberDatasourcesOutputResponse: Swift.Equatable {
+public struct BatchGetGraphMemberDatasourcesOutput: Swift.Equatable {
     /// Details on the status of data source packages for members of the behavior graph.
     public var memberDatasources: [DetectiveClientTypes.MembershipDatasources]?
     /// Accounts that data source package information could not be retrieved for.
@@ -389,12 +380,12 @@ public struct BatchGetGraphMemberDatasourcesOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchGetGraphMemberDatasourcesOutputResponseBody: Swift.Equatable {
+struct BatchGetGraphMemberDatasourcesOutputBody: Swift.Equatable {
     let memberDatasources: [DetectiveClientTypes.MembershipDatasources]?
     let unprocessedAccounts: [DetectiveClientTypes.UnprocessedAccount]?
 }
 
-extension BatchGetGraphMemberDatasourcesOutputResponseBody: Swift.Decodable {
+extension BatchGetGraphMemberDatasourcesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case memberDatasources = "MemberDatasources"
         case unprocessedAccounts = "UnprocessedAccounts"
@@ -424,6 +415,20 @@ extension BatchGetGraphMemberDatasourcesOutputResponseBody: Swift.Decodable {
             }
         }
         unprocessedAccounts = unprocessedAccountsDecoded0
+    }
+}
+
+enum BatchGetGraphMemberDatasourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -487,25 +492,11 @@ extension BatchGetMembershipDatasourcesInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchGetMembershipDatasourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchGetMembershipDatasourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchGetMembershipDatasourcesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchGetMembershipDatasourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchGetMembershipDatasourcesOutputBody = try responseDecoder.decode(responseBody: data)
             self.membershipDatasources = output.membershipDatasources
             self.unprocessedGraphs = output.unprocessedGraphs
         } else {
@@ -515,7 +506,7 @@ extension BatchGetMembershipDatasourcesOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct BatchGetMembershipDatasourcesOutputResponse: Swift.Equatable {
+public struct BatchGetMembershipDatasourcesOutput: Swift.Equatable {
     /// Details on the data source package history for an member of the behavior graph.
     public var membershipDatasources: [DetectiveClientTypes.MembershipDatasources]?
     /// Graphs that data source package information could not be retrieved for.
@@ -531,12 +522,12 @@ public struct BatchGetMembershipDatasourcesOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchGetMembershipDatasourcesOutputResponseBody: Swift.Equatable {
+struct BatchGetMembershipDatasourcesOutputBody: Swift.Equatable {
     let membershipDatasources: [DetectiveClientTypes.MembershipDatasources]?
     let unprocessedGraphs: [DetectiveClientTypes.UnprocessedGraph]?
 }
 
-extension BatchGetMembershipDatasourcesOutputResponseBody: Swift.Decodable {
+extension BatchGetMembershipDatasourcesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case membershipDatasources = "MembershipDatasources"
         case unprocessedGraphs = "UnprocessedGraphs"
@@ -566,6 +557,20 @@ extension BatchGetMembershipDatasourcesOutputResponseBody: Swift.Decodable {
             }
         }
         unprocessedGraphs = unprocessedGraphsDecoded0
+    }
+}
+
+enum BatchGetMembershipDatasourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -683,8 +688,48 @@ extension CreateGraphInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateGraphOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateGraphOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateGraphOutputBody = try responseDecoder.decode(responseBody: data)
+            self.graphArn = output.graphArn
+        } else {
+            self.graphArn = nil
+        }
+    }
+}
+
+public struct CreateGraphOutput: Swift.Equatable {
+    /// The ARN of the new behavior graph.
+    public var graphArn: Swift.String?
+
+    public init(
+        graphArn: Swift.String? = nil
+    )
+    {
+        self.graphArn = graphArn
+    }
+}
+
+struct CreateGraphOutputBody: Swift.Equatable {
+    let graphArn: Swift.String?
+}
+
+extension CreateGraphOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case graphArn = "GraphArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let graphArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .graphArn)
+        graphArn = graphArnDecoded
+    }
+}
+
+enum CreateGraphOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -697,44 +742,9 @@ public enum CreateGraphOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension CreateGraphOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateGraphOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.graphArn = output.graphArn
-        } else {
-            self.graphArn = nil
-        }
-    }
-}
-
-public struct CreateGraphOutputResponse: Swift.Equatable {
-    /// The ARN of the new behavior graph.
-    public var graphArn: Swift.String?
-
-    public init(
-        graphArn: Swift.String? = nil
-    )
-    {
-        self.graphArn = graphArn
-    }
-}
-
-struct CreateGraphOutputResponseBody: Swift.Equatable {
-    let graphArn: Swift.String?
-}
-
-extension CreateGraphOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case graphArn = "GraphArn"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let graphArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .graphArn)
-        graphArn = graphArnDecoded
-    }
+extension CreateMembersInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateMembersInput(accounts: \(Swift.String(describing: accounts)), disableEmailNotification: \(Swift.String(describing: disableEmailNotification)), graphArn: \(Swift.String(describing: graphArn)), message: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateMembersInput: Swift.Encodable {
@@ -834,26 +844,11 @@ extension CreateMembersInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateMembersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateMembersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateMembersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateMembersOutputBody = try responseDecoder.decode(responseBody: data)
             self.members = output.members
             self.unprocessedAccounts = output.unprocessedAccounts
         } else {
@@ -863,7 +858,7 @@ extension CreateMembersOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateMembersOutputResponse: Swift.Equatable {
+public struct CreateMembersOutput: Swift.Equatable {
     /// The set of member account invitation or enablement requests that Detective was able to process. This includes accounts that are being verified, that failed verification, and that passed verification and are being sent an invitation or are being enabled.
     public var members: [DetectiveClientTypes.MemberDetail]?
     /// The list of accounts for which Detective was unable to process the invitation or enablement request. For each account, the list provides the reason why the request could not be processed. The list includes accounts that are already member accounts in the behavior graph.
@@ -879,12 +874,12 @@ public struct CreateMembersOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateMembersOutputResponseBody: Swift.Equatable {
+struct CreateMembersOutputBody: Swift.Equatable {
     let members: [DetectiveClientTypes.MemberDetail]?
     let unprocessedAccounts: [DetectiveClientTypes.UnprocessedAccount]?
 }
 
-extension CreateMembersOutputResponseBody: Swift.Decodable {
+extension CreateMembersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case members = "Members"
         case unprocessedAccounts = "UnprocessedAccounts"
@@ -914,6 +909,21 @@ extension CreateMembersOutputResponseBody: Swift.Decodable {
             }
         }
         unprocessedAccounts = unprocessedAccountsDecoded0
+    }
+}
+
+enum CreateMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1089,6 +1099,53 @@ extension DetectiveClientTypes {
 
 }
 
+extension DetectiveClientTypes.DateFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endInclusive = "EndInclusive"
+        case startInclusive = "StartInclusive"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endInclusive = self.endInclusive {
+            try encodeContainer.encodeTimestamp(endInclusive, format: .dateTime, forKey: .endInclusive)
+        }
+        if let startInclusive = self.startInclusive {
+            try encodeContainer.encodeTimestamp(startInclusive, format: .dateTime, forKey: .startInclusive)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startInclusiveDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startInclusive)
+        startInclusive = startInclusiveDecoded
+        let endInclusiveDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .endInclusive)
+        endInclusive = endInclusiveDecoded
+    }
+}
+
+extension DetectiveClientTypes {
+    /// Contains details on the time range used to filter data.
+    public struct DateFilter: Swift.Equatable {
+        /// A timestamp representing the end date of the time period until when data is filtered , including the end date.
+        /// This member is required.
+        public var endInclusive: ClientRuntime.Date?
+        /// A timestamp representing the start of the time period from when data is filtered, including the start date.
+        /// This member is required.
+        public var startInclusive: ClientRuntime.Date?
+
+        public init(
+            endInclusive: ClientRuntime.Date? = nil,
+            startInclusive: ClientRuntime.Date? = nil
+        )
+        {
+            self.endInclusive = endInclusive
+            self.startInclusive = startInclusive
+        }
+    }
+
+}
+
 extension DeleteGraphInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case graphArn = "GraphArn"
@@ -1137,8 +1194,18 @@ extension DeleteGraphInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteGraphOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteGraphOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteGraphOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteGraphOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1149,16 +1216,6 @@ public enum DeleteGraphOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteGraphOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteGraphOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteMembersInput: Swift.Encodable {
@@ -1234,26 +1291,11 @@ extension DeleteMembersInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteMembersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteMembersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteMembersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteMembersOutputBody = try responseDecoder.decode(responseBody: data)
             self.accountIds = output.accountIds
             self.unprocessedAccounts = output.unprocessedAccounts
         } else {
@@ -1263,7 +1305,7 @@ extension DeleteMembersOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMembersOutputResponse: Swift.Equatable {
+public struct DeleteMembersOutput: Swift.Equatable {
     /// The list of Amazon Web Services account identifiers for the member accounts that Detective successfully removed from the behavior graph.
     public var accountIds: [Swift.String]?
     /// The list of member accounts that Detective was not able to remove from the behavior graph. For each member account, provides the reason that the deletion could not be processed.
@@ -1279,12 +1321,12 @@ public struct DeleteMembersOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteMembersOutputResponseBody: Swift.Equatable {
+struct DeleteMembersOutputBody: Swift.Equatable {
     let accountIds: [Swift.String]?
     let unprocessedAccounts: [DetectiveClientTypes.UnprocessedAccount]?
 }
 
-extension DeleteMembersOutputResponseBody: Swift.Decodable {
+extension DeleteMembersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountIds = "AccountIds"
         case unprocessedAccounts = "UnprocessedAccounts"
@@ -1314,6 +1356,21 @@ extension DeleteMembersOutputResponseBody: Swift.Decodable {
             }
         }
         unprocessedAccounts = unprocessedAccountsDecoded0
+    }
+}
+
+enum DeleteMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1365,25 +1422,11 @@ extension DescribeOrganizationConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeOrganizationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeOrganizationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeOrganizationConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeOrganizationConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeOrganizationConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
             self.autoEnable = output.autoEnable
         } else {
             self.autoEnable = false
@@ -1391,7 +1434,7 @@ extension DescribeOrganizationConfigurationOutputResponse: ClientRuntime.HttpRes
     }
 }
 
-public struct DescribeOrganizationConfigurationOutputResponse: Swift.Equatable {
+public struct DescribeOrganizationConfigurationOutput: Swift.Equatable {
     /// Indicates whether to automatically enable new organization accounts as member accounts in the organization behavior graph.
     public var autoEnable: Swift.Bool
 
@@ -1403,11 +1446,11 @@ public struct DescribeOrganizationConfigurationOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeOrganizationConfigurationOutputResponseBody: Swift.Equatable {
+struct DescribeOrganizationConfigurationOutputBody: Swift.Equatable {
     let autoEnable: Swift.Bool
 }
 
-extension DescribeOrganizationConfigurationOutputResponseBody: Swift.Decodable {
+extension DescribeOrganizationConfigurationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoEnable = "AutoEnable"
     }
@@ -1416,6 +1459,20 @@ extension DescribeOrganizationConfigurationOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable) ?? false
         autoEnable = autoEnableDecoded
+    }
+}
+
+enum DescribeOrganizationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1439,8 +1496,18 @@ extension DisableOrganizationAdminAccountInputBody: Swift.Decodable {
     }
 }
 
-public enum DisableOrganizationAdminAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DisableOrganizationAdminAccountOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DisableOrganizationAdminAccountOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DisableOrganizationAdminAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1451,16 +1518,6 @@ public enum DisableOrganizationAdminAccountOutputError: ClientRuntime.HttpRespon
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DisableOrganizationAdminAccountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DisableOrganizationAdminAccountOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DisassociateMembershipInput: Swift.Encodable {
@@ -1511,8 +1568,18 @@ extension DisassociateMembershipInputBody: Swift.Decodable {
     }
 }
 
-public enum DisassociateMembershipOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DisassociateMembershipOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DisassociateMembershipOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DisassociateMembershipOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1524,16 +1591,6 @@ public enum DisassociateMembershipOutputError: ClientRuntime.HttpResponseErrorBi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DisassociateMembershipOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DisassociateMembershipOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension EnableOrganizationAdminAccountInput: Swift.Encodable {
@@ -1584,8 +1641,18 @@ extension EnableOrganizationAdminAccountInputBody: Swift.Decodable {
     }
 }
 
-public enum EnableOrganizationAdminAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension EnableOrganizationAdminAccountOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct EnableOrganizationAdminAccountOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum EnableOrganizationAdminAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1598,14 +1665,36 @@ public enum EnableOrganizationAdminAccountOutputError: ClientRuntime.HttpRespons
     }
 }
 
-extension EnableOrganizationAdminAccountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+extension DetectiveClientTypes {
+    public enum EntityType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case iamRole
+        case iamUser
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EntityType] {
+            return [
+                .iamRole,
+                .iamUser,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .iamRole: return "IAM_ROLE"
+            case .iamUser: return "IAM_USER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EntityType(rawValue: rawValue) ?? EntityType.sdkUnknown(rawValue)
+        }
     }
-}
-
-public struct EnableOrganizationAdminAccountOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DetectiveClientTypes {
@@ -1639,6 +1728,367 @@ extension DetectiveClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ErrorCode(rawValue: rawValue) ?? ErrorCode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DetectiveClientTypes {
+    public enum Field: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case createdTime
+        case severity
+        case status
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Field] {
+            return [
+                .createdTime,
+                .severity,
+                .status,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .createdTime: return "CREATED_TIME"
+            case .severity: return "SEVERITY"
+            case .status: return "STATUS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Field(rawValue: rawValue) ?? Field.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DetectiveClientTypes.FilterCriteria: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdTime = "CreatedTime"
+        case entityArn = "EntityArn"
+        case severity = "Severity"
+        case state = "State"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdTime = self.createdTime {
+            try encodeContainer.encode(createdTime, forKey: .createdTime)
+        }
+        if let entityArn = self.entityArn {
+            try encodeContainer.encode(entityArn, forKey: .entityArn)
+        }
+        if let severity = self.severity {
+            try encodeContainer.encode(severity, forKey: .severity)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state, forKey: .state)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let severityDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.StringFilter.self, forKey: .severity)
+        severity = severityDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.StringFilter.self, forKey: .status)
+        status = statusDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.StringFilter.self, forKey: .state)
+        state = stateDecoded
+        let entityArnDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.StringFilter.self, forKey: .entityArn)
+        entityArn = entityArnDecoded
+        let createdTimeDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.DateFilter.self, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+    }
+}
+
+extension DetectiveClientTypes {
+    /// Details on the criteria used to define the filter for investigation results.
+    public struct FilterCriteria: Swift.Equatable {
+        /// Filter the investigation results based on when the investigation was created.
+        public var createdTime: DetectiveClientTypes.DateFilter?
+        /// Filter the investigation results based on the Amazon Resource Name (ARN) of the entity.
+        public var entityArn: DetectiveClientTypes.StringFilter?
+        /// Filter the investigation results based on the severity.
+        public var severity: DetectiveClientTypes.StringFilter?
+        /// Filter the investigation results based on the state.
+        public var state: DetectiveClientTypes.StringFilter?
+        /// Filter the investigation results based on the status.
+        public var status: DetectiveClientTypes.StringFilter?
+
+        public init(
+            createdTime: DetectiveClientTypes.DateFilter? = nil,
+            entityArn: DetectiveClientTypes.StringFilter? = nil,
+            severity: DetectiveClientTypes.StringFilter? = nil,
+            state: DetectiveClientTypes.StringFilter? = nil,
+            status: DetectiveClientTypes.StringFilter? = nil
+        )
+        {
+            self.createdTime = createdTime
+            self.entityArn = entityArn
+            self.severity = severity
+            self.state = state
+            self.status = status
+        }
+    }
+
+}
+
+extension DetectiveClientTypes.FlaggedIpAddressDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ipAddress = "IpAddress"
+        case reason = "Reason"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ipAddress = self.ipAddress {
+            try encodeContainer.encode(ipAddress, forKey: .ipAddress)
+        }
+        if let reason = self.reason {
+            try encodeContainer.encode(reason.rawValue, forKey: .reason)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ipAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAddress)
+        ipAddress = ipAddressDecoded
+        let reasonDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.Reason.self, forKey: .reason)
+        reason = reasonDecoded
+    }
+}
+
+extension DetectiveClientTypes {
+    /// Contains information on suspicious IP addresses identified as indicators of compromise. This indicator is derived from Amazon Web Services threat intelligence.
+    public struct FlaggedIpAddressDetail: Swift.Equatable {
+        /// IP address of the suspicious entity.
+        public var ipAddress: Swift.String?
+        /// Details the reason the IP address was flagged as suspicious.
+        public var reason: DetectiveClientTypes.Reason?
+
+        public init(
+            ipAddress: Swift.String? = nil,
+            reason: DetectiveClientTypes.Reason? = nil
+        )
+        {
+            self.ipAddress = ipAddress
+            self.reason = reason
+        }
+    }
+
+}
+
+extension GetInvestigationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case graphArn = "GraphArn"
+        case investigationId = "InvestigationId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let graphArn = self.graphArn {
+            try encodeContainer.encode(graphArn, forKey: .graphArn)
+        }
+        if let investigationId = self.investigationId {
+            try encodeContainer.encode(investigationId, forKey: .investigationId)
+        }
+    }
+}
+
+extension GetInvestigationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/investigations/getInvestigation"
+    }
+}
+
+public struct GetInvestigationInput: Swift.Equatable {
+    /// The ARN of the behavior graph.
+    /// This member is required.
+    public var graphArn: Swift.String?
+    /// The investigation ID of the investigation report.
+    /// This member is required.
+    public var investigationId: Swift.String?
+
+    public init(
+        graphArn: Swift.String? = nil,
+        investigationId: Swift.String? = nil
+    )
+    {
+        self.graphArn = graphArn
+        self.investigationId = investigationId
+    }
+}
+
+struct GetInvestigationInputBody: Swift.Equatable {
+    let graphArn: Swift.String?
+    let investigationId: Swift.String?
+}
+
+extension GetInvestigationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case graphArn = "GraphArn"
+        case investigationId = "InvestigationId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let graphArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .graphArn)
+        graphArn = graphArnDecoded
+        let investigationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .investigationId)
+        investigationId = investigationIdDecoded
+    }
+}
+
+extension GetInvestigationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetInvestigationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.createdTime = output.createdTime
+            self.entityArn = output.entityArn
+            self.entityType = output.entityType
+            self.graphArn = output.graphArn
+            self.investigationId = output.investigationId
+            self.scopeEndTime = output.scopeEndTime
+            self.scopeStartTime = output.scopeStartTime
+            self.severity = output.severity
+            self.state = output.state
+            self.status = output.status
+        } else {
+            self.createdTime = nil
+            self.entityArn = nil
+            self.entityType = nil
+            self.graphArn = nil
+            self.investigationId = nil
+            self.scopeEndTime = nil
+            self.scopeStartTime = nil
+            self.severity = nil
+            self.state = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct GetInvestigationOutput: Swift.Equatable {
+    /// The UTC time stamp of the creation time of the investigation report.
+    public var createdTime: ClientRuntime.Date?
+    /// The unique Amazon Resource Name (ARN) of the IAM user and IAM role.
+    public var entityArn: Swift.String?
+    /// Type of entity. For example, Amazon Web Services accounts, such as IAM user and role.
+    public var entityType: DetectiveClientTypes.EntityType?
+    /// The ARN of the behavior graph.
+    public var graphArn: Swift.String?
+    /// The investigation ID of the investigation report.
+    public var investigationId: Swift.String?
+    /// The data and time when the investigation began. The value is an UTC ISO8601 formatted string. For example, 2021-08-18T16:35:56.284Z.
+    public var scopeEndTime: ClientRuntime.Date?
+    /// The start date and time for the scope time set to generate the investigation report.
+    public var scopeStartTime: ClientRuntime.Date?
+    /// Severity based on the likelihood and impact of the indicators of compromise discovered in the investigation.
+    public var severity: DetectiveClientTypes.Severity?
+    /// The current state of the investigation. An archived investigation indicates you have completed reviewing the investigation.
+    public var state: DetectiveClientTypes.State?
+    /// Status based on the completion status of the investigation.
+    public var status: DetectiveClientTypes.Status?
+
+    public init(
+        createdTime: ClientRuntime.Date? = nil,
+        entityArn: Swift.String? = nil,
+        entityType: DetectiveClientTypes.EntityType? = nil,
+        graphArn: Swift.String? = nil,
+        investigationId: Swift.String? = nil,
+        scopeEndTime: ClientRuntime.Date? = nil,
+        scopeStartTime: ClientRuntime.Date? = nil,
+        severity: DetectiveClientTypes.Severity? = nil,
+        state: DetectiveClientTypes.State? = nil,
+        status: DetectiveClientTypes.Status? = nil
+    )
+    {
+        self.createdTime = createdTime
+        self.entityArn = entityArn
+        self.entityType = entityType
+        self.graphArn = graphArn
+        self.investigationId = investigationId
+        self.scopeEndTime = scopeEndTime
+        self.scopeStartTime = scopeStartTime
+        self.severity = severity
+        self.state = state
+        self.status = status
+    }
+}
+
+struct GetInvestigationOutputBody: Swift.Equatable {
+    let graphArn: Swift.String?
+    let investigationId: Swift.String?
+    let entityArn: Swift.String?
+    let entityType: DetectiveClientTypes.EntityType?
+    let createdTime: ClientRuntime.Date?
+    let scopeStartTime: ClientRuntime.Date?
+    let scopeEndTime: ClientRuntime.Date?
+    let status: DetectiveClientTypes.Status?
+    let severity: DetectiveClientTypes.Severity?
+    let state: DetectiveClientTypes.State?
+}
+
+extension GetInvestigationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdTime = "CreatedTime"
+        case entityArn = "EntityArn"
+        case entityType = "EntityType"
+        case graphArn = "GraphArn"
+        case investigationId = "InvestigationId"
+        case scopeEndTime = "ScopeEndTime"
+        case scopeStartTime = "ScopeStartTime"
+        case severity = "Severity"
+        case state = "State"
+        case status = "Status"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let graphArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .graphArn)
+        graphArn = graphArnDecoded
+        let investigationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .investigationId)
+        investigationId = investigationIdDecoded
+        let entityArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entityArn)
+        entityArn = entityArnDecoded
+        let entityTypeDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.EntityType.self, forKey: .entityType)
+        entityType = entityTypeDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let scopeStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .scopeStartTime)
+        scopeStartTime = scopeStartTimeDecoded
+        let scopeEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .scopeEndTime)
+        scopeEndTime = scopeEndTimeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.Status.self, forKey: .status)
+        status = statusDecoded
+        let severityDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.Severity.self, forKey: .severity)
+        severity = severityDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.State.self, forKey: .state)
+        state = stateDecoded
+    }
+}
+
+enum GetInvestigationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
@@ -1716,25 +2166,11 @@ extension GetMembersInputBody: Swift.Decodable {
     }
 }
 
-public enum GetMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetMembersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetMembersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetMembersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetMembersOutputBody = try responseDecoder.decode(responseBody: data)
             self.memberDetails = output.memberDetails
             self.unprocessedAccounts = output.unprocessedAccounts
         } else {
@@ -1744,7 +2180,7 @@ extension GetMembersOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMembersOutputResponse: Swift.Equatable {
+public struct GetMembersOutput: Swift.Equatable {
     /// The member account details that Detective is returning in response to the request.
     public var memberDetails: [DetectiveClientTypes.MemberDetail]?
     /// The requested member accounts for which Detective was unable to return member details. For each account, provides the reason why the request could not be processed.
@@ -1760,12 +2196,12 @@ public struct GetMembersOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetMembersOutputResponseBody: Swift.Equatable {
+struct GetMembersOutputBody: Swift.Equatable {
     let memberDetails: [DetectiveClientTypes.MemberDetail]?
     let unprocessedAccounts: [DetectiveClientTypes.UnprocessedAccount]?
 }
 
-extension GetMembersOutputResponseBody: Swift.Decodable {
+extension GetMembersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case memberDetails = "MemberDetails"
         case unprocessedAccounts = "UnprocessedAccounts"
@@ -1795,6 +2231,20 @@ extension GetMembersOutputResponseBody: Swift.Decodable {
             }
         }
         unprocessedAccounts = unprocessedAccountsDecoded0
+    }
+}
+
+enum GetMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1841,6 +2291,281 @@ extension DetectiveClientTypes {
         }
     }
 
+}
+
+extension DetectiveClientTypes.ImpossibleTravelDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endingIpAddress = "EndingIpAddress"
+        case endingLocation = "EndingLocation"
+        case hourlyTimeDelta = "HourlyTimeDelta"
+        case startingIpAddress = "StartingIpAddress"
+        case startingLocation = "StartingLocation"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endingIpAddress = self.endingIpAddress {
+            try encodeContainer.encode(endingIpAddress, forKey: .endingIpAddress)
+        }
+        if let endingLocation = self.endingLocation {
+            try encodeContainer.encode(endingLocation, forKey: .endingLocation)
+        }
+        if let hourlyTimeDelta = self.hourlyTimeDelta {
+            try encodeContainer.encode(hourlyTimeDelta, forKey: .hourlyTimeDelta)
+        }
+        if let startingIpAddress = self.startingIpAddress {
+            try encodeContainer.encode(startingIpAddress, forKey: .startingIpAddress)
+        }
+        if let startingLocation = self.startingLocation {
+            try encodeContainer.encode(startingLocation, forKey: .startingLocation)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startingIpAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startingIpAddress)
+        startingIpAddress = startingIpAddressDecoded
+        let endingIpAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endingIpAddress)
+        endingIpAddress = endingIpAddressDecoded
+        let startingLocationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startingLocation)
+        startingLocation = startingLocationDecoded
+        let endingLocationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endingLocation)
+        endingLocation = endingLocationDecoded
+        let hourlyTimeDeltaDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .hourlyTimeDelta)
+        hourlyTimeDelta = hourlyTimeDeltaDecoded
+    }
+}
+
+extension DetectiveClientTypes {
+    /// Contains information on unusual and impossible travel in an account.
+    public struct ImpossibleTravelDetail: Swift.Equatable {
+        /// IP address where the resource was last used in the impossible travel.
+        public var endingIpAddress: Swift.String?
+        /// Location where the resource was last used in the impossible travel.
+        public var endingLocation: Swift.String?
+        /// Returns the time difference between the first and last timestamp the resource was used.
+        public var hourlyTimeDelta: Swift.Int?
+        /// IP address where the resource was first used in the impossible travel
+        public var startingIpAddress: Swift.String?
+        /// Location where the resource was first used in the impossible travel
+        public var startingLocation: Swift.String?
+
+        public init(
+            endingIpAddress: Swift.String? = nil,
+            endingLocation: Swift.String? = nil,
+            hourlyTimeDelta: Swift.Int? = nil,
+            startingIpAddress: Swift.String? = nil,
+            startingLocation: Swift.String? = nil
+        )
+        {
+            self.endingIpAddress = endingIpAddress
+            self.endingLocation = endingLocation
+            self.hourlyTimeDelta = hourlyTimeDelta
+            self.startingIpAddress = startingIpAddress
+            self.startingLocation = startingLocation
+        }
+    }
+
+}
+
+extension DetectiveClientTypes.Indicator: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case indicatorDetail = "IndicatorDetail"
+        case indicatorType = "IndicatorType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let indicatorDetail = self.indicatorDetail {
+            try encodeContainer.encode(indicatorDetail, forKey: .indicatorDetail)
+        }
+        if let indicatorType = self.indicatorType {
+            try encodeContainer.encode(indicatorType.rawValue, forKey: .indicatorType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let indicatorTypeDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.IndicatorType.self, forKey: .indicatorType)
+        indicatorType = indicatorTypeDecoded
+        let indicatorDetailDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.IndicatorDetail.self, forKey: .indicatorDetail)
+        indicatorDetail = indicatorDetailDecoded
+    }
+}
+
+extension DetectiveClientTypes {
+    /// Investigations triages indicators of compromises such as a finding and surfaces only the most critical and suspicious issues, so you can focus on high-level investigations.
+    public struct Indicator: Swift.Equatable {
+        /// Details about the indicator of compromise.
+        public var indicatorDetail: DetectiveClientTypes.IndicatorDetail?
+        /// The type of indicator.
+        public var indicatorType: DetectiveClientTypes.IndicatorType?
+
+        public init(
+            indicatorDetail: DetectiveClientTypes.IndicatorDetail? = nil,
+            indicatorType: DetectiveClientTypes.IndicatorType? = nil
+        )
+        {
+            self.indicatorDetail = indicatorDetail
+            self.indicatorType = indicatorType
+        }
+    }
+
+}
+
+extension DetectiveClientTypes.IndicatorDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flaggedIpAddressDetail = "FlaggedIpAddressDetail"
+        case impossibleTravelDetail = "ImpossibleTravelDetail"
+        case newAsoDetail = "NewAsoDetail"
+        case newGeolocationDetail = "NewGeolocationDetail"
+        case newUserAgentDetail = "NewUserAgentDetail"
+        case relatedFindingDetail = "RelatedFindingDetail"
+        case relatedFindingGroupDetail = "RelatedFindingGroupDetail"
+        case ttPsObservedDetail = "TTPsObservedDetail"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let flaggedIpAddressDetail = self.flaggedIpAddressDetail {
+            try encodeContainer.encode(flaggedIpAddressDetail, forKey: .flaggedIpAddressDetail)
+        }
+        if let impossibleTravelDetail = self.impossibleTravelDetail {
+            try encodeContainer.encode(impossibleTravelDetail, forKey: .impossibleTravelDetail)
+        }
+        if let newAsoDetail = self.newAsoDetail {
+            try encodeContainer.encode(newAsoDetail, forKey: .newAsoDetail)
+        }
+        if let newGeolocationDetail = self.newGeolocationDetail {
+            try encodeContainer.encode(newGeolocationDetail, forKey: .newGeolocationDetail)
+        }
+        if let newUserAgentDetail = self.newUserAgentDetail {
+            try encodeContainer.encode(newUserAgentDetail, forKey: .newUserAgentDetail)
+        }
+        if let relatedFindingDetail = self.relatedFindingDetail {
+            try encodeContainer.encode(relatedFindingDetail, forKey: .relatedFindingDetail)
+        }
+        if let relatedFindingGroupDetail = self.relatedFindingGroupDetail {
+            try encodeContainer.encode(relatedFindingGroupDetail, forKey: .relatedFindingGroupDetail)
+        }
+        if let ttPsObservedDetail = self.ttPsObservedDetail {
+            try encodeContainer.encode(ttPsObservedDetail, forKey: .ttPsObservedDetail)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ttPsObservedDetailDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.TTPsObservedDetail.self, forKey: .ttPsObservedDetail)
+        ttPsObservedDetail = ttPsObservedDetailDecoded
+        let impossibleTravelDetailDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.ImpossibleTravelDetail.self, forKey: .impossibleTravelDetail)
+        impossibleTravelDetail = impossibleTravelDetailDecoded
+        let flaggedIpAddressDetailDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.FlaggedIpAddressDetail.self, forKey: .flaggedIpAddressDetail)
+        flaggedIpAddressDetail = flaggedIpAddressDetailDecoded
+        let newGeolocationDetailDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.NewGeolocationDetail.self, forKey: .newGeolocationDetail)
+        newGeolocationDetail = newGeolocationDetailDecoded
+        let newAsoDetailDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.NewAsoDetail.self, forKey: .newAsoDetail)
+        newAsoDetail = newAsoDetailDecoded
+        let newUserAgentDetailDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.NewUserAgentDetail.self, forKey: .newUserAgentDetail)
+        newUserAgentDetail = newUserAgentDetailDecoded
+        let relatedFindingDetailDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.RelatedFindingDetail.self, forKey: .relatedFindingDetail)
+        relatedFindingDetail = relatedFindingDetailDecoded
+        let relatedFindingGroupDetailDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.RelatedFindingGroupDetail.self, forKey: .relatedFindingGroupDetail)
+        relatedFindingGroupDetail = relatedFindingGroupDetailDecoded
+    }
+}
+
+extension DetectiveClientTypes {
+    /// Details about the indicators of compromise which are used to determine if a resource is involved in a security incident.
+    public struct IndicatorDetail: Swift.Equatable {
+        /// Suspicious IP addresses that are flagged, which indicates critical or severe threats based on threat intelligence by Detective. This indicator is derived from AWS threat intelligence.
+        public var flaggedIpAddressDetail: DetectiveClientTypes.FlaggedIpAddressDetail?
+        /// Identifies unusual and impossible user activity for an account.
+        public var impossibleTravelDetail: DetectiveClientTypes.ImpossibleTravelDetail?
+        /// Contains details about the new Autonomous System Organization (ASO).
+        public var newAsoDetail: DetectiveClientTypes.NewAsoDetail?
+        /// Contains details about the new geographic location.
+        public var newGeolocationDetail: DetectiveClientTypes.NewGeolocationDetail?
+        /// Contains details about the new user agent.
+        public var newUserAgentDetail: DetectiveClientTypes.NewUserAgentDetail?
+        /// Contains details about related findings.
+        public var relatedFindingDetail: DetectiveClientTypes.RelatedFindingDetail?
+        /// Contains details about related finding groups.
+        public var relatedFindingGroupDetail: DetectiveClientTypes.RelatedFindingGroupDetail?
+        /// Details about the indicator of compromise.
+        public var ttPsObservedDetail: DetectiveClientTypes.TTPsObservedDetail?
+
+        public init(
+            flaggedIpAddressDetail: DetectiveClientTypes.FlaggedIpAddressDetail? = nil,
+            impossibleTravelDetail: DetectiveClientTypes.ImpossibleTravelDetail? = nil,
+            newAsoDetail: DetectiveClientTypes.NewAsoDetail? = nil,
+            newGeolocationDetail: DetectiveClientTypes.NewGeolocationDetail? = nil,
+            newUserAgentDetail: DetectiveClientTypes.NewUserAgentDetail? = nil,
+            relatedFindingDetail: DetectiveClientTypes.RelatedFindingDetail? = nil,
+            relatedFindingGroupDetail: DetectiveClientTypes.RelatedFindingGroupDetail? = nil,
+            ttPsObservedDetail: DetectiveClientTypes.TTPsObservedDetail? = nil
+        )
+        {
+            self.flaggedIpAddressDetail = flaggedIpAddressDetail
+            self.impossibleTravelDetail = impossibleTravelDetail
+            self.newAsoDetail = newAsoDetail
+            self.newGeolocationDetail = newGeolocationDetail
+            self.newUserAgentDetail = newUserAgentDetail
+            self.relatedFindingDetail = relatedFindingDetail
+            self.relatedFindingGroupDetail = relatedFindingGroupDetail
+            self.ttPsObservedDetail = ttPsObservedDetail
+        }
+    }
+
+}
+
+extension DetectiveClientTypes {
+    public enum IndicatorType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case flaggedIpAddress
+        case impossibleTravel
+        case newAso
+        case newGeolocation
+        case newUserAgent
+        case relatedFinding
+        case relatedFindingGroup
+        case ttpObserved
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IndicatorType] {
+            return [
+                .flaggedIpAddress,
+                .impossibleTravel,
+                .newAso,
+                .newGeolocation,
+                .newUserAgent,
+                .relatedFinding,
+                .relatedFindingGroup,
+                .ttpObserved,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .flaggedIpAddress: return "FLAGGED_IP_ADDRESS"
+            case .impossibleTravel: return "IMPOSSIBLE_TRAVEL"
+            case .newAso: return "NEW_ASO"
+            case .newGeolocation: return "NEW_GEOLOCATION"
+            case .newUserAgent: return "NEW_USER_AGENT"
+            case .relatedFinding: return "RELATED_FINDING"
+            case .relatedFindingGroup: return "RELATED_FINDING_GROUP"
+            case .ttpObserved: return "TTP_OBSERVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = IndicatorType(rawValue: rawValue) ?? IndicatorType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension InternalServerException {
@@ -1896,6 +2621,101 @@ extension InternalServerExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension DetectiveClientTypes.InvestigationDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdTime = "CreatedTime"
+        case entityArn = "EntityArn"
+        case entityType = "EntityType"
+        case investigationId = "InvestigationId"
+        case severity = "Severity"
+        case state = "State"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdTime = self.createdTime {
+            try encodeContainer.encodeTimestamp(createdTime, format: .dateTime, forKey: .createdTime)
+        }
+        if let entityArn = self.entityArn {
+            try encodeContainer.encode(entityArn, forKey: .entityArn)
+        }
+        if let entityType = self.entityType {
+            try encodeContainer.encode(entityType.rawValue, forKey: .entityType)
+        }
+        if let investigationId = self.investigationId {
+            try encodeContainer.encode(investigationId, forKey: .investigationId)
+        }
+        if let severity = self.severity {
+            try encodeContainer.encode(severity.rawValue, forKey: .severity)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let investigationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .investigationId)
+        investigationId = investigationIdDecoded
+        let severityDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.Severity.self, forKey: .severity)
+        severity = severityDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.Status.self, forKey: .status)
+        status = statusDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.State.self, forKey: .state)
+        state = stateDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let entityArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entityArn)
+        entityArn = entityArnDecoded
+        let entityTypeDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.EntityType.self, forKey: .entityType)
+        entityType = entityTypeDecoded
+    }
+}
+
+extension DetectiveClientTypes {
+    /// Details about the investigation related to a potential security event identified by Detective
+    public struct InvestigationDetail: Swift.Equatable {
+        /// The UTC time stamp of the creation time of the investigation report.
+        public var createdTime: ClientRuntime.Date?
+        /// The unique Amazon Resource Name (ARN) of the IAM user and IAM role.
+        public var entityArn: Swift.String?
+        /// Type of entity. For example, Amazon Web Services accounts, such as IAM user and role.
+        public var entityType: DetectiveClientTypes.EntityType?
+        /// The investigation ID of the investigation report.
+        public var investigationId: Swift.String?
+        /// Severity based on the likelihood and impact of the indicators of compromise discovered in the investigation.
+        public var severity: DetectiveClientTypes.Severity?
+        /// The current state of the investigation. An archived investigation indicates you have completed reviewing the investigation.
+        public var state: DetectiveClientTypes.State?
+        /// Status based on the completion status of the investigation.
+        public var status: DetectiveClientTypes.Status?
+
+        public init(
+            createdTime: ClientRuntime.Date? = nil,
+            entityArn: Swift.String? = nil,
+            entityType: DetectiveClientTypes.EntityType? = nil,
+            investigationId: Swift.String? = nil,
+            severity: DetectiveClientTypes.Severity? = nil,
+            state: DetectiveClientTypes.State? = nil,
+            status: DetectiveClientTypes.Status? = nil
+        )
+        {
+            self.createdTime = createdTime
+            self.entityArn = entityArn
+            self.entityType = entityType
+            self.investigationId = investigationId
+            self.severity = severity
+            self.state = state
+            self.status = status
+        }
+    }
+
 }
 
 extension DetectiveClientTypes {
@@ -2002,25 +2822,11 @@ extension ListDatasourcePackagesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListDatasourcePackagesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListDatasourcePackagesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListDatasourcePackagesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListDatasourcePackagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListDatasourcePackagesOutputBody = try responseDecoder.decode(responseBody: data)
             self.datasourcePackages = output.datasourcePackages
             self.nextToken = output.nextToken
         } else {
@@ -2030,7 +2836,7 @@ extension ListDatasourcePackagesOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListDatasourcePackagesOutputResponse: Swift.Equatable {
+public struct ListDatasourcePackagesOutput: Swift.Equatable {
     /// Details on the data source packages active in the behavior graph.
     public var datasourcePackages: [Swift.String:DetectiveClientTypes.DatasourcePackageIngestDetail]?
     /// For requests to get the next page of results, the pagination token that was returned with the previous set of results. The initial request does not include a pagination token.
@@ -2046,12 +2852,12 @@ public struct ListDatasourcePackagesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListDatasourcePackagesOutputResponseBody: Swift.Equatable {
+struct ListDatasourcePackagesOutputBody: Swift.Equatable {
     let datasourcePackages: [Swift.String:DetectiveClientTypes.DatasourcePackageIngestDetail]?
     let nextToken: Swift.String?
 }
 
-extension ListDatasourcePackagesOutputResponseBody: Swift.Decodable {
+extension ListDatasourcePackagesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case datasourcePackages = "DatasourcePackages"
         case nextToken = "NextToken"
@@ -2072,6 +2878,20 @@ extension ListDatasourcePackagesOutputResponseBody: Swift.Decodable {
         datasourcePackages = datasourcePackagesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListDatasourcePackagesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2134,24 +2954,11 @@ extension ListGraphsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListGraphsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListGraphsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListGraphsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListGraphsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListGraphsOutputBody = try responseDecoder.decode(responseBody: data)
             self.graphList = output.graphList
             self.nextToken = output.nextToken
         } else {
@@ -2161,7 +2968,7 @@ extension ListGraphsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGraphsOutputResponse: Swift.Equatable {
+public struct ListGraphsOutput: Swift.Equatable {
     /// A list of behavior graphs that the account is an administrator account for.
     public var graphList: [DetectiveClientTypes.Graph]?
     /// If there are more behavior graphs remaining in the results, then this is the pagination token to use to request the next page of behavior graphs.
@@ -2177,12 +2984,12 @@ public struct ListGraphsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListGraphsOutputResponseBody: Swift.Equatable {
+struct ListGraphsOutputBody: Swift.Equatable {
     let graphList: [DetectiveClientTypes.Graph]?
     let nextToken: Swift.String?
 }
 
-extension ListGraphsOutputResponseBody: Swift.Decodable {
+extension ListGraphsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case graphList = "GraphList"
         case nextToken = "NextToken"
@@ -2203,6 +3010,380 @@ extension ListGraphsOutputResponseBody: Swift.Decodable {
         graphList = graphListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListGraphsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListIndicatorsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case graphArn = "GraphArn"
+        case indicatorType = "IndicatorType"
+        case investigationId = "InvestigationId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let graphArn = self.graphArn {
+            try encodeContainer.encode(graphArn, forKey: .graphArn)
+        }
+        if let indicatorType = self.indicatorType {
+            try encodeContainer.encode(indicatorType.rawValue, forKey: .indicatorType)
+        }
+        if let investigationId = self.investigationId {
+            try encodeContainer.encode(investigationId, forKey: .investigationId)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListIndicatorsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/investigations/listIndicators"
+    }
+}
+
+public struct ListIndicatorsInput: Swift.Equatable {
+    /// The ARN of the behavior graph.
+    /// This member is required.
+    public var graphArn: Swift.String?
+    /// See [Detective investigations.](https://docs.aws.amazon.com/detective/latest/userguide/detective-investigations.html).
+    public var indicatorType: DetectiveClientTypes.IndicatorType?
+    /// The investigation ID of the investigation report.
+    /// This member is required.
+    public var investigationId: Swift.String?
+    /// List the maximum number of indicators in a page.
+    public var maxResults: Swift.Int?
+    /// List if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a Validation Exception error.
+    public var nextToken: Swift.String?
+
+    public init(
+        graphArn: Swift.String? = nil,
+        indicatorType: DetectiveClientTypes.IndicatorType? = nil,
+        investigationId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.graphArn = graphArn
+        self.indicatorType = indicatorType
+        self.investigationId = investigationId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListIndicatorsInputBody: Swift.Equatable {
+    let graphArn: Swift.String?
+    let investigationId: Swift.String?
+    let indicatorType: DetectiveClientTypes.IndicatorType?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListIndicatorsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case graphArn = "GraphArn"
+        case indicatorType = "IndicatorType"
+        case investigationId = "InvestigationId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let graphArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .graphArn)
+        graphArn = graphArnDecoded
+        let investigationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .investigationId)
+        investigationId = investigationIdDecoded
+        let indicatorTypeDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.IndicatorType.self, forKey: .indicatorType)
+        indicatorType = indicatorTypeDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListIndicatorsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListIndicatorsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.graphArn = output.graphArn
+            self.indicators = output.indicators
+            self.investigationId = output.investigationId
+            self.nextToken = output.nextToken
+        } else {
+            self.graphArn = nil
+            self.indicators = nil
+            self.investigationId = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListIndicatorsOutput: Swift.Equatable {
+    /// The ARN of the behavior graph.
+    public var graphArn: Swift.String?
+    /// Indicators of compromise listed based on severity.
+    public var indicators: [DetectiveClientTypes.Indicator]?
+    /// The investigation ID of the investigation report.
+    public var investigationId: Swift.String?
+    /// List if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a Validation Exception error.
+    public var nextToken: Swift.String?
+
+    public init(
+        graphArn: Swift.String? = nil,
+        indicators: [DetectiveClientTypes.Indicator]? = nil,
+        investigationId: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.graphArn = graphArn
+        self.indicators = indicators
+        self.investigationId = investigationId
+        self.nextToken = nextToken
+    }
+}
+
+struct ListIndicatorsOutputBody: Swift.Equatable {
+    let graphArn: Swift.String?
+    let investigationId: Swift.String?
+    let nextToken: Swift.String?
+    let indicators: [DetectiveClientTypes.Indicator]?
+}
+
+extension ListIndicatorsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case graphArn = "GraphArn"
+        case indicators = "Indicators"
+        case investigationId = "InvestigationId"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let graphArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .graphArn)
+        graphArn = graphArnDecoded
+        let investigationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .investigationId)
+        investigationId = investigationIdDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let indicatorsContainer = try containerValues.decodeIfPresent([DetectiveClientTypes.Indicator?].self, forKey: .indicators)
+        var indicatorsDecoded0:[DetectiveClientTypes.Indicator]? = nil
+        if let indicatorsContainer = indicatorsContainer {
+            indicatorsDecoded0 = [DetectiveClientTypes.Indicator]()
+            for structure0 in indicatorsContainer {
+                if let structure0 = structure0 {
+                    indicatorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        indicators = indicatorsDecoded0
+    }
+}
+
+enum ListIndicatorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListInvestigationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filterCriteria = "FilterCriteria"
+        case graphArn = "GraphArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case sortCriteria = "SortCriteria"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filterCriteria = self.filterCriteria {
+            try encodeContainer.encode(filterCriteria, forKey: .filterCriteria)
+        }
+        if let graphArn = self.graphArn {
+            try encodeContainer.encode(graphArn, forKey: .graphArn)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let sortCriteria = self.sortCriteria {
+            try encodeContainer.encode(sortCriteria, forKey: .sortCriteria)
+        }
+    }
+}
+
+extension ListInvestigationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/investigations/listInvestigations"
+    }
+}
+
+public struct ListInvestigationsInput: Swift.Equatable {
+    /// Filter the investigation results based on a criteria.
+    public var filterCriteria: DetectiveClientTypes.FilterCriteria?
+    /// The ARN of the behavior graph.
+    /// This member is required.
+    public var graphArn: Swift.String?
+    /// List the maximum number of investigations in a page.
+    public var maxResults: Swift.Int?
+    /// List if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a Validation Exception error.
+    public var nextToken: Swift.String?
+    /// Sorts the investigation results based on a criteria.
+    public var sortCriteria: DetectiveClientTypes.SortCriteria?
+
+    public init(
+        filterCriteria: DetectiveClientTypes.FilterCriteria? = nil,
+        graphArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortCriteria: DetectiveClientTypes.SortCriteria? = nil
+    )
+    {
+        self.filterCriteria = filterCriteria
+        self.graphArn = graphArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortCriteria = sortCriteria
+    }
+}
+
+struct ListInvestigationsInputBody: Swift.Equatable {
+    let graphArn: Swift.String?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+    let filterCriteria: DetectiveClientTypes.FilterCriteria?
+    let sortCriteria: DetectiveClientTypes.SortCriteria?
+}
+
+extension ListInvestigationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filterCriteria = "FilterCriteria"
+        case graphArn = "GraphArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case sortCriteria = "SortCriteria"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let graphArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .graphArn)
+        graphArn = graphArnDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let filterCriteriaDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.FilterCriteria.self, forKey: .filterCriteria)
+        filterCriteria = filterCriteriaDecoded
+        let sortCriteriaDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.SortCriteria.self, forKey: .sortCriteria)
+        sortCriteria = sortCriteriaDecoded
+    }
+}
+
+extension ListInvestigationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListInvestigationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.investigationDetails = output.investigationDetails
+            self.nextToken = output.nextToken
+        } else {
+            self.investigationDetails = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListInvestigationsOutput: Swift.Equatable {
+    /// Investigations details lists the summary of uncommon behavior or malicious activity which indicates a compromise.
+    public var investigationDetails: [DetectiveClientTypes.InvestigationDetail]?
+    /// List if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    public var nextToken: Swift.String?
+
+    public init(
+        investigationDetails: [DetectiveClientTypes.InvestigationDetail]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.investigationDetails = investigationDetails
+        self.nextToken = nextToken
+    }
+}
+
+struct ListInvestigationsOutputBody: Swift.Equatable {
+    let investigationDetails: [DetectiveClientTypes.InvestigationDetail]?
+    let nextToken: Swift.String?
+}
+
+extension ListInvestigationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case investigationDetails = "InvestigationDetails"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let investigationDetailsContainer = try containerValues.decodeIfPresent([DetectiveClientTypes.InvestigationDetail?].self, forKey: .investigationDetails)
+        var investigationDetailsDecoded0:[DetectiveClientTypes.InvestigationDetail]? = nil
+        if let investigationDetailsContainer = investigationDetailsContainer {
+            investigationDetailsDecoded0 = [DetectiveClientTypes.InvestigationDetail]()
+            for structure0 in investigationDetailsContainer {
+                if let structure0 = structure0 {
+                    investigationDetailsDecoded0?.append(structure0)
+                }
+            }
+        }
+        investigationDetails = investigationDetailsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListInvestigationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2265,24 +3446,11 @@ extension ListInvitationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListInvitationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListInvitationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListInvitationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListInvitationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListInvitationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.invitations = output.invitations
             self.nextToken = output.nextToken
         } else {
@@ -2292,7 +3460,7 @@ extension ListInvitationsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListInvitationsOutputResponse: Swift.Equatable {
+public struct ListInvitationsOutput: Swift.Equatable {
     /// The list of behavior graphs for which the member account has open or accepted invitations.
     public var invitations: [DetectiveClientTypes.MemberDetail]?
     /// If there are more behavior graphs remaining in the results, then this is the pagination token to use to request the next page of behavior graphs.
@@ -2308,12 +3476,12 @@ public struct ListInvitationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListInvitationsOutputResponseBody: Swift.Equatable {
+struct ListInvitationsOutputBody: Swift.Equatable {
     let invitations: [DetectiveClientTypes.MemberDetail]?
     let nextToken: Swift.String?
 }
 
-extension ListInvitationsOutputResponseBody: Swift.Decodable {
+extension ListInvitationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case invitations = "Invitations"
         case nextToken = "NextToken"
@@ -2334,6 +3502,19 @@ extension ListInvitationsOutputResponseBody: Swift.Decodable {
         invitations = invitationsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListInvitationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2409,25 +3590,11 @@ extension ListMembersInputBody: Swift.Decodable {
     }
 }
 
-public enum ListMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListMembersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListMembersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListMembersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListMembersOutputBody = try responseDecoder.decode(responseBody: data)
             self.memberDetails = output.memberDetails
             self.nextToken = output.nextToken
         } else {
@@ -2437,7 +3604,7 @@ extension ListMembersOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMembersOutputResponse: Swift.Equatable {
+public struct ListMembersOutput: Swift.Equatable {
     /// The list of member accounts in the behavior graph. For invited accounts, the results include member accounts that did not pass verification and member accounts that have not yet accepted the invitation to the behavior graph. The results do not include member accounts that were removed from the behavior graph. For the organization behavior graph, the results do not include organization accounts that the Detective administrator account has not enabled as member accounts.
     public var memberDetails: [DetectiveClientTypes.MemberDetail]?
     /// If there are more member accounts remaining in the results, then use this pagination token to request the next page of member accounts.
@@ -2453,12 +3620,12 @@ public struct ListMembersOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListMembersOutputResponseBody: Swift.Equatable {
+struct ListMembersOutputBody: Swift.Equatable {
     let memberDetails: [DetectiveClientTypes.MemberDetail]?
     let nextToken: Swift.String?
 }
 
-extension ListMembersOutputResponseBody: Swift.Decodable {
+extension ListMembersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case memberDetails = "MemberDetails"
         case nextToken = "NextToken"
@@ -2479,6 +3646,20 @@ extension ListMembersOutputResponseBody: Swift.Decodable {
         memberDetails = memberDetailsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2541,25 +3722,11 @@ extension ListOrganizationAdminAccountsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListOrganizationAdminAccountsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListOrganizationAdminAccountsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListOrganizationAdminAccountsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListOrganizationAdminAccountsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListOrganizationAdminAccountsOutputBody = try responseDecoder.decode(responseBody: data)
             self.administrators = output.administrators
             self.nextToken = output.nextToken
         } else {
@@ -2569,7 +3736,7 @@ extension ListOrganizationAdminAccountsOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct ListOrganizationAdminAccountsOutputResponse: Swift.Equatable {
+public struct ListOrganizationAdminAccountsOutput: Swift.Equatable {
     /// The list of Detective administrator accounts.
     public var administrators: [DetectiveClientTypes.Administrator]?
     /// If there are more accounts remaining in the results, then this is the pagination token to use to request the next page of accounts.
@@ -2585,12 +3752,12 @@ public struct ListOrganizationAdminAccountsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListOrganizationAdminAccountsOutputResponseBody: Swift.Equatable {
+struct ListOrganizationAdminAccountsOutputBody: Swift.Equatable {
     let administrators: [DetectiveClientTypes.Administrator]?
     let nextToken: Swift.String?
 }
 
-extension ListOrganizationAdminAccountsOutputResponseBody: Swift.Decodable {
+extension ListOrganizationAdminAccountsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case administrators = "Administrators"
         case nextToken = "NextToken"
@@ -2611,6 +3778,20 @@ extension ListOrganizationAdminAccountsOutputResponseBody: Swift.Decodable {
         administrators = administratorsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListOrganizationAdminAccountsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2645,25 +3826,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -2671,7 +3838,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// The tag values that are assigned to the behavior graph. The request returns up to 50 tag values.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2683,11 +3850,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
     }
@@ -2705,6 +3872,20 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2839,6 +4020,11 @@ extension DetectiveClientTypes.MemberDetail: Swift.Codable {
         }
         datasourcePackageIngestStates = datasourcePackageIngestStatesDecoded0
     }
+}
+
+extension DetectiveClientTypes.MemberDetail: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MemberDetail(accountId: \(Swift.String(describing: accountId)), administratorId: \(Swift.String(describing: administratorId)), datasourcePackageIngestStates: \(Swift.String(describing: datasourcePackageIngestStates)), disabledReason: \(Swift.String(describing: disabledReason)), graphArn: \(Swift.String(describing: graphArn)), invitationType: \(Swift.String(describing: invitationType)), invitedTime: \(Swift.String(describing: invitedTime)), masterId: \(Swift.String(describing: masterId)), percentOfGraphUtilization: \(Swift.String(describing: percentOfGraphUtilization)), percentOfGraphUtilizationUpdatedTime: \(Swift.String(describing: percentOfGraphUtilizationUpdatedTime)), status: \(Swift.String(describing: status)), updatedTime: \(Swift.String(describing: updatedTime)), volumeUsageByDatasourcePackage: \(Swift.String(describing: volumeUsageByDatasourcePackage)), volumeUsageInBytes: \(Swift.String(describing: volumeUsageInBytes)), volumeUsageUpdatedTime: \(Swift.String(describing: volumeUsageUpdatedTime)), emailAddress: \"CONTENT_REDACTED\")"}
 }
 
 extension DetectiveClientTypes {
@@ -3089,6 +4275,180 @@ extension DetectiveClientTypes {
 
 }
 
+extension DetectiveClientTypes.NewAsoDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aso = "Aso"
+        case isNewForEntireAccount = "IsNewForEntireAccount"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let aso = self.aso {
+            try encodeContainer.encode(aso, forKey: .aso)
+        }
+        if isNewForEntireAccount != false {
+            try encodeContainer.encode(isNewForEntireAccount, forKey: .isNewForEntireAccount)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let asoDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .aso)
+        aso = asoDecoded
+        let isNewForEntireAccountDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isNewForEntireAccount) ?? false
+        isNewForEntireAccount = isNewForEntireAccountDecoded
+    }
+}
+
+extension DetectiveClientTypes {
+    /// Details new Autonomous System Organizations (ASOs) used either at the resource or account level.
+    public struct NewAsoDetail: Swift.Equatable {
+        /// Details about the new Autonomous System Organization (ASO).
+        public var aso: Swift.String?
+        /// Checks if the ASO is for new for the entire account.
+        public var isNewForEntireAccount: Swift.Bool
+
+        public init(
+            aso: Swift.String? = nil,
+            isNewForEntireAccount: Swift.Bool = false
+        )
+        {
+            self.aso = aso
+            self.isNewForEntireAccount = isNewForEntireAccount
+        }
+    }
+
+}
+
+extension DetectiveClientTypes.NewGeolocationDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ipAddress = "IpAddress"
+        case isNewForEntireAccount = "IsNewForEntireAccount"
+        case location = "Location"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ipAddress = self.ipAddress {
+            try encodeContainer.encode(ipAddress, forKey: .ipAddress)
+        }
+        if isNewForEntireAccount != false {
+            try encodeContainer.encode(isNewForEntireAccount, forKey: .isNewForEntireAccount)
+        }
+        if let location = self.location {
+            try encodeContainer.encode(location, forKey: .location)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let locationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .location)
+        location = locationDecoded
+        let ipAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAddress)
+        ipAddress = ipAddressDecoded
+        let isNewForEntireAccountDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isNewForEntireAccount) ?? false
+        isNewForEntireAccount = isNewForEntireAccountDecoded
+    }
+}
+
+extension DetectiveClientTypes {
+    /// Details new geolocations used either at the resource or account level. For example, lists an observed geolocation that is an infrequent or unused location based on previous user activity.
+    public struct NewGeolocationDetail: Swift.Equatable {
+        /// IP address using which the resource was accessed.
+        public var ipAddress: Swift.String?
+        /// Checks if the gelocation is new for the entire account.
+        public var isNewForEntireAccount: Swift.Bool
+        /// Location where the resource was accessed.
+        public var location: Swift.String?
+
+        public init(
+            ipAddress: Swift.String? = nil,
+            isNewForEntireAccount: Swift.Bool = false,
+            location: Swift.String? = nil
+        )
+        {
+            self.ipAddress = ipAddress
+            self.isNewForEntireAccount = isNewForEntireAccount
+            self.location = location
+        }
+    }
+
+}
+
+extension DetectiveClientTypes.NewUserAgentDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case isNewForEntireAccount = "IsNewForEntireAccount"
+        case userAgent = "UserAgent"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if isNewForEntireAccount != false {
+            try encodeContainer.encode(isNewForEntireAccount, forKey: .isNewForEntireAccount)
+        }
+        if let userAgent = self.userAgent {
+            try encodeContainer.encode(userAgent, forKey: .userAgent)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userAgentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userAgent)
+        userAgent = userAgentDecoded
+        let isNewForEntireAccountDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isNewForEntireAccount) ?? false
+        isNewForEntireAccount = isNewForEntireAccountDecoded
+    }
+}
+
+extension DetectiveClientTypes {
+    /// Details new user agents used either at the resource or account level.
+    public struct NewUserAgentDetail: Swift.Equatable {
+        /// Checks if the user agent is new for the entire account.
+        public var isNewForEntireAccount: Swift.Bool
+        /// New user agent which accessed the resource.
+        public var userAgent: Swift.String?
+
+        public init(
+            isNewForEntireAccount: Swift.Bool = false,
+            userAgent: Swift.String? = nil
+        )
+        {
+            self.isNewForEntireAccount = isNewForEntireAccount
+            self.userAgent = userAgent
+        }
+    }
+
+}
+
+extension DetectiveClientTypes {
+    public enum Reason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case awsThreatIntelligence
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Reason] {
+            return [
+                .awsThreatIntelligence,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsThreatIntelligence: return "AWS_THREAT_INTELLIGENCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Reason(rawValue: rawValue) ?? Reason.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension RejectInvitationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case graphArn = "GraphArn"
@@ -3137,8 +4497,18 @@ extension RejectInvitationInputBody: Swift.Decodable {
     }
 }
 
-public enum RejectInvitationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension RejectInvitationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RejectInvitationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum RejectInvitationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3152,14 +4522,94 @@ public enum RejectInvitationOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension RejectInvitationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+extension DetectiveClientTypes.RelatedFindingDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case ipAddress = "IpAddress"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let ipAddress = self.ipAddress {
+            try encodeContainer.encode(ipAddress, forKey: .ipAddress)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+        let ipAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAddress)
+        ipAddress = ipAddressDecoded
     }
 }
 
-public struct RejectInvitationOutputResponse: Swift.Equatable {
+extension DetectiveClientTypes {
+    /// Details related activities associated with a potential security event. Lists all distinct categories of evidence that are connected to the resource or the finding group.
+    public struct RelatedFindingDetail: Swift.Equatable {
+        /// The ARN of the related finding.
+        public var arn: Swift.String?
+        /// The IP address of the finding.
+        public var ipAddress: Swift.String?
+        /// The type of finding.
+        public var type: Swift.String?
 
-    public init() { }
+        public init(
+            arn: Swift.String? = nil,
+            ipAddress: Swift.String? = nil,
+            type: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.ipAddress = ipAddress
+            self.type = type
+        }
+    }
+
+}
+
+extension DetectiveClientTypes.RelatedFindingGroupDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id = "Id"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+    }
+}
+
+extension DetectiveClientTypes {
+    /// Details multiple activities as they related to a potential security event. Detective uses graph analysis technique that infers relationships between findings and entities, and groups them together as a finding group.
+    public struct RelatedFindingGroupDetail: Swift.Equatable {
+        /// The unique identifier for the finding group.
+        public var id: Swift.String?
+
+        public init(
+            id: Swift.String? = nil
+        )
+        {
+            self.id = id
+        }
+    }
+
 }
 
 extension ResourceNotFoundException {
@@ -3297,6 +4747,266 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
     }
 }
 
+extension DetectiveClientTypes {
+    public enum Severity: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case critical
+        case high
+        case informational
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Severity] {
+            return [
+                .critical,
+                .high,
+                .informational,
+                .low,
+                .medium,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .critical: return "CRITICAL"
+            case .high: return "HIGH"
+            case .informational: return "INFORMATIONAL"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Severity(rawValue: rawValue) ?? Severity.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DetectiveClientTypes.SortCriteria: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case field = "Field"
+        case sortOrder = "SortOrder"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let field = self.field {
+            try encodeContainer.encode(field.rawValue, forKey: .field)
+        }
+        if let sortOrder = self.sortOrder {
+            try encodeContainer.encode(sortOrder.rawValue, forKey: .sortOrder)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fieldDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.Field.self, forKey: .field)
+        field = fieldDecoded
+        let sortOrderDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.SortOrder.self, forKey: .sortOrder)
+        sortOrder = sortOrderDecoded
+    }
+}
+
+extension DetectiveClientTypes {
+    /// Details about the criteria used for sorting investigations.
+    public struct SortCriteria: Swift.Equatable {
+        /// Represents the Field attribute to sort investigations.
+        public var field: DetectiveClientTypes.Field?
+        /// The order by which the sorted findings are displayed.
+        public var sortOrder: DetectiveClientTypes.SortOrder?
+
+        public init(
+            field: DetectiveClientTypes.Field? = nil,
+            sortOrder: DetectiveClientTypes.SortOrder? = nil
+        )
+        {
+            self.field = field
+            self.sortOrder = sortOrder
+        }
+    }
+
+}
+
+extension DetectiveClientTypes {
+    public enum SortOrder: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case asc
+        case desc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortOrder] {
+            return [
+                .asc,
+                .desc,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .asc: return "ASC"
+            case .desc: return "DESC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SortOrder(rawValue: rawValue) ?? SortOrder.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension StartInvestigationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case entityArn = "EntityArn"
+        case graphArn = "GraphArn"
+        case scopeEndTime = "ScopeEndTime"
+        case scopeStartTime = "ScopeStartTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let entityArn = self.entityArn {
+            try encodeContainer.encode(entityArn, forKey: .entityArn)
+        }
+        if let graphArn = self.graphArn {
+            try encodeContainer.encode(graphArn, forKey: .graphArn)
+        }
+        if let scopeEndTime = self.scopeEndTime {
+            try encodeContainer.encodeTimestamp(scopeEndTime, format: .dateTime, forKey: .scopeEndTime)
+        }
+        if let scopeStartTime = self.scopeStartTime {
+            try encodeContainer.encodeTimestamp(scopeStartTime, format: .dateTime, forKey: .scopeStartTime)
+        }
+    }
+}
+
+extension StartInvestigationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/investigations/startInvestigation"
+    }
+}
+
+public struct StartInvestigationInput: Swift.Equatable {
+    /// The unique Amazon Resource Name (ARN) of the IAM user and IAM role.
+    /// This member is required.
+    public var entityArn: Swift.String?
+    /// The ARN of the behavior graph.
+    /// This member is required.
+    public var graphArn: Swift.String?
+    /// The data and time when the investigation began. The value is an UTC ISO8601 formatted string. For example, 2021-08-18T16:35:56.284Z.
+    /// This member is required.
+    public var scopeEndTime: ClientRuntime.Date?
+    /// The data and time when the investigation began. The value is an UTC ISO8601 formatted string. For example, 2021-08-18T16:35:56.284Z.
+    /// This member is required.
+    public var scopeStartTime: ClientRuntime.Date?
+
+    public init(
+        entityArn: Swift.String? = nil,
+        graphArn: Swift.String? = nil,
+        scopeEndTime: ClientRuntime.Date? = nil,
+        scopeStartTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.entityArn = entityArn
+        self.graphArn = graphArn
+        self.scopeEndTime = scopeEndTime
+        self.scopeStartTime = scopeStartTime
+    }
+}
+
+struct StartInvestigationInputBody: Swift.Equatable {
+    let graphArn: Swift.String?
+    let entityArn: Swift.String?
+    let scopeStartTime: ClientRuntime.Date?
+    let scopeEndTime: ClientRuntime.Date?
+}
+
+extension StartInvestigationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case entityArn = "EntityArn"
+        case graphArn = "GraphArn"
+        case scopeEndTime = "ScopeEndTime"
+        case scopeStartTime = "ScopeStartTime"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let graphArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .graphArn)
+        graphArn = graphArnDecoded
+        let entityArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entityArn)
+        entityArn = entityArnDecoded
+        let scopeStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .scopeStartTime)
+        scopeStartTime = scopeStartTimeDecoded
+        let scopeEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .scopeEndTime)
+        scopeEndTime = scopeEndTimeDecoded
+    }
+}
+
+extension StartInvestigationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartInvestigationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.investigationId = output.investigationId
+        } else {
+            self.investigationId = nil
+        }
+    }
+}
+
+public struct StartInvestigationOutput: Swift.Equatable {
+    /// The investigation ID of the investigation report.
+    public var investigationId: Swift.String?
+
+    public init(
+        investigationId: Swift.String? = nil
+    )
+    {
+        self.investigationId = investigationId
+    }
+}
+
+struct StartInvestigationOutputBody: Swift.Equatable {
+    let investigationId: Swift.String?
+}
+
+extension StartInvestigationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case investigationId = "InvestigationId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let investigationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .investigationId)
+        investigationId = investigationIdDecoded
+    }
+}
+
+enum StartInvestigationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension StartMonitoringMemberInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "AccountId"
@@ -3358,8 +5068,18 @@ extension StartMonitoringMemberInputBody: Swift.Decodable {
     }
 }
 
-public enum StartMonitoringMemberOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension StartMonitoringMemberOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StartMonitoringMemberOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum StartMonitoringMemberOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3374,14 +5094,202 @@ public enum StartMonitoringMemberOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension StartMonitoringMemberOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+extension DetectiveClientTypes {
+    public enum State: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case archived
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [State] {
+            return [
+                .active,
+                .archived,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .archived: return "ARCHIVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = State(rawValue: rawValue) ?? State.sdkUnknown(rawValue)
+        }
     }
 }
 
-public struct StartMonitoringMemberOutputResponse: Swift.Equatable {
+extension DetectiveClientTypes {
+    public enum Status: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case running
+        case successful
+        case sdkUnknown(Swift.String)
 
-    public init() { }
+        public static var allCases: [Status] {
+            return [
+                .failed,
+                .running,
+                .successful,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .running: return "RUNNING"
+            case .successful: return "SUCCESSFUL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Status(rawValue: rawValue) ?? Status.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DetectiveClientTypes.StringFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension DetectiveClientTypes {
+    /// A string for filtering Detective investigations.
+    public struct StringFilter: Swift.Equatable {
+        /// The string filter value.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            value: Swift.String? = nil
+        )
+        {
+            self.value = value
+        }
+    }
+
+}
+
+extension DetectiveClientTypes.TTPsObservedDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apiFailureCount = "APIFailureCount"
+        case apiName = "APIName"
+        case apiSuccessCount = "APISuccessCount"
+        case ipAddress = "IpAddress"
+        case procedure = "Procedure"
+        case tactic = "Tactic"
+        case technique = "Technique"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if apiFailureCount != 0 {
+            try encodeContainer.encode(apiFailureCount, forKey: .apiFailureCount)
+        }
+        if let apiName = self.apiName {
+            try encodeContainer.encode(apiName, forKey: .apiName)
+        }
+        if apiSuccessCount != 0 {
+            try encodeContainer.encode(apiSuccessCount, forKey: .apiSuccessCount)
+        }
+        if let ipAddress = self.ipAddress {
+            try encodeContainer.encode(ipAddress, forKey: .ipAddress)
+        }
+        if let procedure = self.procedure {
+            try encodeContainer.encode(procedure, forKey: .procedure)
+        }
+        if let tactic = self.tactic {
+            try encodeContainer.encode(tactic, forKey: .tactic)
+        }
+        if let technique = self.technique {
+            try encodeContainer.encode(technique, forKey: .technique)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tacticDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tactic)
+        tactic = tacticDecoded
+        let techniqueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .technique)
+        technique = techniqueDecoded
+        let procedureDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .procedure)
+        procedure = procedureDecoded
+        let ipAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAddress)
+        ipAddress = ipAddressDecoded
+        let apiNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .apiName)
+        apiName = apiNameDecoded
+        let apiSuccessCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .apiSuccessCount) ?? 0
+        apiSuccessCount = apiSuccessCountDecoded
+        let apiFailureCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .apiFailureCount) ?? 0
+        apiFailureCount = apiFailureCountDecoded
+    }
+}
+
+extension DetectiveClientTypes {
+    /// Details tactics, techniques, and procedures (TTPs) used in a potential security event. Tactics are based on [MITRE ATT&CK Matrix for Enterprise](https://attack.mitre.org/matrices/enterprise/).
+    public struct TTPsObservedDetail: Swift.Equatable {
+        /// The total number of failed API requests.
+        public var apiFailureCount: Swift.Int
+        /// The name of the API where the TTP was observed.
+        public var apiName: Swift.String?
+        /// The total number of successful API requests.
+        public var apiSuccessCount: Swift.Int
+        /// The IP address where the TTP was observed.
+        public var ipAddress: Swift.String?
+        /// The procedure used, identified by the investigation.
+        public var procedure: Swift.String?
+        /// The tactic used, identified by the investigation.
+        public var tactic: Swift.String?
+        /// The technique used, identified by the investigation.
+        public var technique: Swift.String?
+
+        public init(
+            apiFailureCount: Swift.Int = 0,
+            apiName: Swift.String? = nil,
+            apiSuccessCount: Swift.Int = 0,
+            ipAddress: Swift.String? = nil,
+            procedure: Swift.String? = nil,
+            tactic: Swift.String? = nil,
+            technique: Swift.String? = nil
+        )
+        {
+            self.apiFailureCount = apiFailureCount
+            self.apiName = apiName
+            self.apiSuccessCount = apiSuccessCount
+            self.ipAddress = ipAddress
+            self.procedure = procedure
+            self.tactic = tactic
+            self.technique = technique
+        }
+    }
+
 }
 
 extension TagResourceInput: Swift.Encodable {
@@ -3452,8 +5360,18 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3464,16 +5382,6 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DetectiveClientTypes.TimestampForCollection: Swift.Codable {
@@ -3709,8 +5617,18 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3721,16 +5639,6 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateDatasourcePackagesInput: Swift.Encodable {
@@ -3806,8 +5714,18 @@ extension UpdateDatasourcePackagesInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateDatasourcePackagesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateDatasourcePackagesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateDatasourcePackagesOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateDatasourcePackagesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3821,14 +5739,103 @@ public enum UpdateDatasourcePackagesOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension UpdateDatasourcePackagesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateInvestigationStateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case graphArn = "GraphArn"
+        case investigationId = "InvestigationId"
+        case state = "State"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let graphArn = self.graphArn {
+            try encodeContainer.encode(graphArn, forKey: .graphArn)
+        }
+        if let investigationId = self.investigationId {
+            try encodeContainer.encode(investigationId, forKey: .investigationId)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+    }
+}
+
+extension UpdateInvestigationStateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/investigations/updateInvestigationState"
+    }
+}
+
+public struct UpdateInvestigationStateInput: Swift.Equatable {
+    /// The ARN of the behavior graph.
+    /// This member is required.
+    public var graphArn: Swift.String?
+    /// The investigation ID of the investigation report.
+    /// This member is required.
+    public var investigationId: Swift.String?
+    /// The current state of the investigation. An archived investigation indicates you have completed reviewing the investigation.
+    /// This member is required.
+    public var state: DetectiveClientTypes.State?
+
+    public init(
+        graphArn: Swift.String? = nil,
+        investigationId: Swift.String? = nil,
+        state: DetectiveClientTypes.State? = nil
+    )
+    {
+        self.graphArn = graphArn
+        self.investigationId = investigationId
+        self.state = state
+    }
+}
+
+struct UpdateInvestigationStateInputBody: Swift.Equatable {
+    let graphArn: Swift.String?
+    let investigationId: Swift.String?
+    let state: DetectiveClientTypes.State?
+}
+
+extension UpdateInvestigationStateInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case graphArn = "GraphArn"
+        case investigationId = "InvestigationId"
+        case state = "State"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let graphArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .graphArn)
+        graphArn = graphArnDecoded
+        let investigationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .investigationId)
+        investigationId = investigationIdDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.State.self, forKey: .state)
+        state = stateDecoded
+    }
+}
+
+extension UpdateInvestigationStateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
-public struct UpdateDatasourcePackagesOutputResponse: Swift.Equatable {
+public struct UpdateInvestigationStateOutput: Swift.Equatable {
 
     public init() { }
+}
+
+enum UpdateInvestigationStateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension UpdateOrganizationConfigurationInput: Swift.Encodable {
@@ -3891,8 +5898,18 @@ extension UpdateOrganizationConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateOrganizationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateOrganizationConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateOrganizationConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateOrganizationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3903,16 +5920,6 @@ public enum UpdateOrganizationConfigurationOutputError: ClientRuntime.HttpRespon
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateOrganizationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateOrganizationConfigurationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ValidationException {

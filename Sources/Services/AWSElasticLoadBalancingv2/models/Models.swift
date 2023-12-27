@@ -287,23 +287,11 @@ extension AddListenerCertificatesInputBody: Swift.Decodable {
     }
 }
 
-public enum AddListenerCertificatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "CertificateNotFound": return try await CertificateNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ListenerNotFound": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyCertificates": return try await TooManyCertificatesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension AddListenerCertificatesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension AddListenerCertificatesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: AddListenerCertificatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: AddListenerCertificatesOutputBody = try responseDecoder.decode(responseBody: data)
             self.certificates = output.certificates
         } else {
             self.certificates = nil
@@ -311,7 +299,7 @@ extension AddListenerCertificatesOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct AddListenerCertificatesOutputResponse: Swift.Equatable {
+public struct AddListenerCertificatesOutput: Swift.Equatable {
     /// Information about the certificates in the certificate list.
     public var certificates: [ElasticLoadBalancingv2ClientTypes.Certificate]?
 
@@ -323,11 +311,11 @@ public struct AddListenerCertificatesOutputResponse: Swift.Equatable {
     }
 }
 
-struct AddListenerCertificatesOutputResponseBody: Swift.Equatable {
+struct AddListenerCertificatesOutputBody: Swift.Equatable {
     let certificates: [ElasticLoadBalancingv2ClientTypes.Certificate]?
 }
 
-extension AddListenerCertificatesOutputResponseBody: Swift.Decodable {
+extension AddListenerCertificatesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case certificates = "Certificates"
     }
@@ -353,6 +341,18 @@ extension AddListenerCertificatesOutputResponseBody: Swift.Decodable {
             }
         } else {
             certificates = nil
+        }
+    }
+}
+
+enum AddListenerCertificatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CertificateNotFound": return try await CertificateNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ListenerNotFound": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyCertificates": return try await TooManyCertificatesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -467,8 +467,18 @@ extension AddTagsInputBody: Swift.Decodable {
     }
 }
 
-public enum AddTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension AddTagsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AddTagsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum AddTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DuplicateTagKeys": return try await DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -477,19 +487,164 @@ public enum AddTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RuleNotFound": return try await RuleNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TargetGroupNotFound": return try await TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyTags": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TrustStoreNotFound": return try await TrustStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-extension AddTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+extension AddTrustStoreRevocationsInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let revocationContents = revocationContents {
+            if !revocationContents.isEmpty {
+                var revocationContentsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("RevocationContents"))
+                for (index0, revocationcontent0) in revocationContents.enumerated() {
+                    try revocationContentsContainer.encode(revocationcontent0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var revocationContentsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("RevocationContents"))
+                try revocationContentsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let trustStoreArn = trustStoreArn {
+            try container.encode(trustStoreArn, forKey: ClientRuntime.Key("TrustStoreArn"))
+        }
+        try container.encode("AddTrustStoreRevocations", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2015-12-01", forKey:ClientRuntime.Key("Version"))
     }
 }
 
-public struct AddTagsOutputResponse: Swift.Equatable {
+extension AddTrustStoreRevocationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
 
-    public init() { }
+public struct AddTrustStoreRevocationsInput: Swift.Equatable {
+    /// The revocation file to add.
+    public var revocationContents: [ElasticLoadBalancingv2ClientTypes.RevocationContent]?
+    /// The Amazon Resource Name (ARN) of the trust store.
+    /// This member is required.
+    public var trustStoreArn: Swift.String?
+
+    public init(
+        revocationContents: [ElasticLoadBalancingv2ClientTypes.RevocationContent]? = nil,
+        trustStoreArn: Swift.String? = nil
+    )
+    {
+        self.revocationContents = revocationContents
+        self.trustStoreArn = trustStoreArn
+    }
+}
+
+struct AddTrustStoreRevocationsInputBody: Swift.Equatable {
+    let trustStoreArn: Swift.String?
+    let revocationContents: [ElasticLoadBalancingv2ClientTypes.RevocationContent]?
+}
+
+extension AddTrustStoreRevocationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case revocationContents = "RevocationContents"
+        case trustStoreArn = "TrustStoreArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trustStoreArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trustStoreArn)
+        trustStoreArn = trustStoreArnDecoded
+        if containerValues.contains(.revocationContents) {
+            struct KeyVal0{struct member{}}
+            let revocationContentsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .revocationContents)
+            if let revocationContentsWrappedContainer = revocationContentsWrappedContainer {
+                let revocationContentsContainer = try revocationContentsWrappedContainer.decodeIfPresent([ElasticLoadBalancingv2ClientTypes.RevocationContent].self, forKey: .member)
+                var revocationContentsBuffer:[ElasticLoadBalancingv2ClientTypes.RevocationContent]? = nil
+                if let revocationContentsContainer = revocationContentsContainer {
+                    revocationContentsBuffer = [ElasticLoadBalancingv2ClientTypes.RevocationContent]()
+                    for structureContainer0 in revocationContentsContainer {
+                        revocationContentsBuffer?.append(structureContainer0)
+                    }
+                }
+                revocationContents = revocationContentsBuffer
+            } else {
+                revocationContents = []
+            }
+        } else {
+            revocationContents = nil
+        }
+    }
+}
+
+extension AddTrustStoreRevocationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AddTrustStoreRevocationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.trustStoreRevocations = output.trustStoreRevocations
+        } else {
+            self.trustStoreRevocations = nil
+        }
+    }
+}
+
+public struct AddTrustStoreRevocationsOutput: Swift.Equatable {
+    /// Information about the revocation file added to the trust store.
+    public var trustStoreRevocations: [ElasticLoadBalancingv2ClientTypes.TrustStoreRevocation]?
+
+    public init(
+        trustStoreRevocations: [ElasticLoadBalancingv2ClientTypes.TrustStoreRevocation]? = nil
+    )
+    {
+        self.trustStoreRevocations = trustStoreRevocations
+    }
+}
+
+struct AddTrustStoreRevocationsOutputBody: Swift.Equatable {
+    let trustStoreRevocations: [ElasticLoadBalancingv2ClientTypes.TrustStoreRevocation]?
+}
+
+extension AddTrustStoreRevocationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case trustStoreRevocations = "TrustStoreRevocations"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("AddTrustStoreRevocationsResult"))
+        if containerValues.contains(.trustStoreRevocations) {
+            struct KeyVal0{struct member{}}
+            let trustStoreRevocationsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .trustStoreRevocations)
+            if let trustStoreRevocationsWrappedContainer = trustStoreRevocationsWrappedContainer {
+                let trustStoreRevocationsContainer = try trustStoreRevocationsWrappedContainer.decodeIfPresent([ElasticLoadBalancingv2ClientTypes.TrustStoreRevocation].self, forKey: .member)
+                var trustStoreRevocationsBuffer:[ElasticLoadBalancingv2ClientTypes.TrustStoreRevocation]? = nil
+                if let trustStoreRevocationsContainer = trustStoreRevocationsContainer {
+                    trustStoreRevocationsBuffer = [ElasticLoadBalancingv2ClientTypes.TrustStoreRevocation]()
+                    for structureContainer0 in trustStoreRevocationsContainer {
+                        trustStoreRevocationsBuffer?.append(structureContainer0)
+                    }
+                }
+                trustStoreRevocations = trustStoreRevocationsBuffer
+            } else {
+                trustStoreRevocations = []
+            }
+        } else {
+            trustStoreRevocations = nil
+        }
+    }
+}
+
+enum AddTrustStoreRevocationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidRevocationContent": return try await InvalidRevocationContentException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "RevocationContentNotFound": return try await RevocationContentNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyTrustStoreRevocationEntries": return try await TooManyTrustStoreRevocationEntriesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TrustStoreNotFound": return try await TrustStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
 }
 
 extension AllocationIdNotFoundException {
@@ -543,6 +698,83 @@ extension AllocationIdNotFoundExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.AnomalyDetection: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mitigationInEffect = "MitigationInEffect"
+        case result = "Result"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let mitigationInEffect = mitigationInEffect {
+            try container.encode(mitigationInEffect, forKey: ClientRuntime.Key("MitigationInEffect"))
+        }
+        if let result = result {
+            try container.encode(result, forKey: ClientRuntime.Key("Result"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultDecoded = try containerValues.decodeIfPresent(ElasticLoadBalancingv2ClientTypes.AnomalyResultEnum.self, forKey: .result)
+        result = resultDecoded
+        let mitigationInEffectDecoded = try containerValues.decodeIfPresent(ElasticLoadBalancingv2ClientTypes.MitigationInEffectEnum.self, forKey: .mitigationInEffect)
+        mitigationInEffect = mitigationInEffectDecoded
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+    /// Information about anomaly detection and mitigation.
+    public struct AnomalyDetection: Swift.Equatable {
+        /// Indicates whether anomaly mitigation is in progress.
+        public var mitigationInEffect: ElasticLoadBalancingv2ClientTypes.MitigationInEffectEnum?
+        /// The latest anomaly detection result.
+        public var result: ElasticLoadBalancingv2ClientTypes.AnomalyResultEnum?
+
+        public init(
+            mitigationInEffect: ElasticLoadBalancingv2ClientTypes.MitigationInEffectEnum? = nil,
+            result: ElasticLoadBalancingv2ClientTypes.AnomalyResultEnum? = nil
+        )
+        {
+            self.mitigationInEffect = mitigationInEffect
+            self.result = result
+        }
+    }
+
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+    public enum AnomalyResultEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case anomalous
+        case normal
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnomalyResultEnum] {
+            return [
+                .anomalous,
+                .normal,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .anomalous: return "anomalous"
+            case .normal: return "normal"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnomalyResultEnum(rawValue: rawValue) ?? AnomalyResultEnum.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -1083,6 +1315,60 @@ extension AvailabilityZoneNotSupportedExceptionBody: Swift.Decodable {
     }
 }
 
+extension CaCertificatesBundleNotFoundException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<CaCertificatesBundleNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The specified ca certificate bundle does not exist.
+public struct CaCertificatesBundleNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CaCertificatesBundleNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct CaCertificatesBundleNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension CaCertificatesBundleNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension ElasticLoadBalancingv2ClientTypes.Certificate: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case certificateArn = "CertificateArn"
@@ -1193,7 +1479,7 @@ extension ElasticLoadBalancingv2ClientTypes.Cipher: Swift.Codable {
         if let name = name {
             try container.encode(name, forKey: ClientRuntime.Key("Name"))
         }
-        if priority != 0 {
+        if let priority = priority {
             try container.encode(priority, forKey: ClientRuntime.Key("Priority"))
         }
     }
@@ -1202,7 +1488,7 @@ extension ElasticLoadBalancingv2ClientTypes.Cipher: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
-        let priorityDecoded = try containerValues.decode(Swift.Int.self, forKey: .priority)
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority)
         priority = priorityDecoded
     }
 }
@@ -1213,11 +1499,11 @@ extension ElasticLoadBalancingv2ClientTypes {
         /// The name of the cipher.
         public var name: Swift.String?
         /// The priority of the cipher.
-        public var priority: Swift.Int
+        public var priority: Swift.Int?
 
         public init(
             name: Swift.String? = nil,
-            priority: Swift.Int = 0
+            priority: Swift.Int? = nil
         )
         {
             self.name = name
@@ -1268,6 +1554,9 @@ extension CreateListenerInput: Swift.Encodable {
         }
         if let loadBalancerArn = loadBalancerArn {
             try container.encode(loadBalancerArn, forKey: ClientRuntime.Key("LoadBalancerArn"))
+        }
+        if let mutualAuthentication = mutualAuthentication {
+            try container.encode(mutualAuthentication, forKey: ClientRuntime.Key("MutualAuthentication"))
         }
         if let port = port {
             try container.encode(port, forKey: ClientRuntime.Key("Port"))
@@ -1325,6 +1614,8 @@ public struct CreateListenerInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the load balancer.
     /// This member is required.
     public var loadBalancerArn: Swift.String?
+    /// The mutual authentication configuration information.
+    public var mutualAuthentication: ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes?
     /// The port on which the load balancer is listening. You cannot specify a port for a Gateway Load Balancer.
     public var port: Swift.Int?
     /// The protocol for connections from clients to the load balancer. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, and TCP_UDP. You can’t specify the UDP or TCP_UDP protocol if dual-stack mode is enabled. You cannot specify a protocol for a Gateway Load Balancer.
@@ -1339,6 +1630,7 @@ public struct CreateListenerInput: Swift.Equatable {
         certificates: [ElasticLoadBalancingv2ClientTypes.Certificate]? = nil,
         defaultActions: [ElasticLoadBalancingv2ClientTypes.Action]? = nil,
         loadBalancerArn: Swift.String? = nil,
+        mutualAuthentication: ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes? = nil,
         port: Swift.Int? = nil,
         `protocol`: ElasticLoadBalancingv2ClientTypes.ProtocolEnum? = nil,
         sslPolicy: Swift.String? = nil,
@@ -1349,6 +1641,7 @@ public struct CreateListenerInput: Swift.Equatable {
         self.certificates = certificates
         self.defaultActions = defaultActions
         self.loadBalancerArn = loadBalancerArn
+        self.mutualAuthentication = mutualAuthentication
         self.port = port
         self.`protocol` = `protocol`
         self.sslPolicy = sslPolicy
@@ -1365,6 +1658,7 @@ struct CreateListenerInputBody: Swift.Equatable {
     let defaultActions: [ElasticLoadBalancingv2ClientTypes.Action]?
     let alpnPolicy: [Swift.String]?
     let tags: [ElasticLoadBalancingv2ClientTypes.Tag]?
+    let mutualAuthentication: ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes?
 }
 
 extension CreateListenerInputBody: Swift.Decodable {
@@ -1373,6 +1667,7 @@ extension CreateListenerInputBody: Swift.Decodable {
         case certificates = "Certificates"
         case defaultActions = "DefaultActions"
         case loadBalancerArn = "LoadBalancerArn"
+        case mutualAuthentication = "MutualAuthentication"
         case port = "Port"
         case `protocol` = "Protocol"
         case sslPolicy = "SslPolicy"
@@ -1465,41 +1760,16 @@ extension CreateListenerInputBody: Swift.Decodable {
         } else {
             tags = nil
         }
+        let mutualAuthenticationDecoded = try containerValues.decodeIfPresent(ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes.self, forKey: .mutualAuthentication)
+        mutualAuthentication = mutualAuthenticationDecoded
     }
 }
 
-public enum CreateListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ALPNPolicyNotFound": return try await ALPNPolicyNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "CertificateNotFound": return try await CertificateNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DuplicateListener": return try await DuplicateListenerException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "IncompatibleProtocols": return try await IncompatibleProtocolsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidLoadBalancerAction": return try await InvalidLoadBalancerActionException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "LoadBalancerNotFound": return try await LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "SSLPolicyNotFound": return try await SSLPolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TargetGroupAssociationLimit": return try await TargetGroupAssociationLimitException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TargetGroupNotFound": return try await TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyActions": return try await TooManyActionsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyCertificates": return try await TooManyCertificatesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyListeners": return try await TooManyListenersException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyRegistrationsForTargetId": return try await TooManyRegistrationsForTargetIdException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyTags": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyTargets": return try await TooManyTargetsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyUniqueTargetGroupsPerLoadBalancer": return try await TooManyUniqueTargetGroupsPerLoadBalancerException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UnsupportedProtocol": return try await UnsupportedProtocolException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateListenerOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateListenerOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateListenerOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateListenerOutputBody = try responseDecoder.decode(responseBody: data)
             self.listeners = output.listeners
         } else {
             self.listeners = nil
@@ -1507,7 +1777,7 @@ extension CreateListenerOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateListenerOutputResponse: Swift.Equatable {
+public struct CreateListenerOutput: Swift.Equatable {
     /// Information about the listener.
     public var listeners: [ElasticLoadBalancingv2ClientTypes.Listener]?
 
@@ -1519,11 +1789,11 @@ public struct CreateListenerOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateListenerOutputResponseBody: Swift.Equatable {
+struct CreateListenerOutputBody: Swift.Equatable {
     let listeners: [ElasticLoadBalancingv2ClientTypes.Listener]?
 }
 
-extension CreateListenerOutputResponseBody: Swift.Decodable {
+extension CreateListenerOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case listeners = "Listeners"
     }
@@ -1549,6 +1819,35 @@ extension CreateListenerOutputResponseBody: Swift.Decodable {
             }
         } else {
             listeners = nil
+        }
+    }
+}
+
+enum CreateListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ALPNPolicyNotFound": return try await ALPNPolicyNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CertificateNotFound": return try await CertificateNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DuplicateListener": return try await DuplicateListenerException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IncompatibleProtocols": return try await IncompatibleProtocolsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidLoadBalancerAction": return try await InvalidLoadBalancerActionException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LoadBalancerNotFound": return try await LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SSLPolicyNotFound": return try await SSLPolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TargetGroupAssociationLimit": return try await TargetGroupAssociationLimitException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TargetGroupNotFound": return try await TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyActions": return try await TooManyActionsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyCertificates": return try await TooManyCertificatesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyListeners": return try await TooManyListenersException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyRegistrationsForTargetId": return try await TooManyRegistrationsForTargetIdException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyTags": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyTargets": return try await TooManyTargetsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyUniqueTargetGroupsPerLoadBalancer": return try await TooManyUniqueTargetGroupsPerLoadBalancerException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TrustStoreNotFound": return try await TrustStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TrustStoreNotReady": return try await TrustStoreNotReadyException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedProtocol": return try await UnsupportedProtocolException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -1640,7 +1939,7 @@ public struct CreateLoadBalancerInput: Swift.Equatable {
     public var name: Swift.String?
     /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can route requests only from clients with access to the VPC for the load balancer. The default is an Internet-facing load balancer. You cannot specify a scheme for a Gateway Load Balancer.
     public var scheme: ElasticLoadBalancingv2ClientTypes.LoadBalancerSchemeEnum?
-    /// [Application Load Balancers] The IDs of the security groups for the load balancer.
+    /// [Application Load Balancers and Network Load Balancers] The IDs of the security groups for the load balancer.
     public var securityGroups: [Swift.String]?
     /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings, but not both. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones. You cannot specify Elastic IP addresses for your subnets.
     public var subnetMappings: [ElasticLoadBalancingv2ClientTypes.SubnetMapping]?
@@ -1791,33 +2090,11 @@ extension CreateLoadBalancerInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateLoadBalancerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AllocationIdNotFound": return try await AllocationIdNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AvailabilityZoneNotSupported": return try await AvailabilityZoneNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DuplicateLoadBalancerName": return try await DuplicateLoadBalancerNameException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DuplicateTagKeys": return try await DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidScheme": return try await InvalidSchemeException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidSecurityGroup": return try await InvalidSecurityGroupException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidSubnet": return try await InvalidSubnetException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ResourceInUse": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "SubnetNotFound": return try await SubnetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyLoadBalancers": return try await TooManyLoadBalancersException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyTags": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateLoadBalancerOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateLoadBalancerOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateLoadBalancerOutputBody = try responseDecoder.decode(responseBody: data)
             self.loadBalancers = output.loadBalancers
         } else {
             self.loadBalancers = nil
@@ -1825,7 +2102,7 @@ extension CreateLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLoadBalancerOutputResponse: Swift.Equatable {
+public struct CreateLoadBalancerOutput: Swift.Equatable {
     /// Information about the load balancer.
     public var loadBalancers: [ElasticLoadBalancingv2ClientTypes.LoadBalancer]?
 
@@ -1837,11 +2114,11 @@ public struct CreateLoadBalancerOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateLoadBalancerOutputResponseBody: Swift.Equatable {
+struct CreateLoadBalancerOutputBody: Swift.Equatable {
     let loadBalancers: [ElasticLoadBalancingv2ClientTypes.LoadBalancer]?
 }
 
-extension CreateLoadBalancerOutputResponseBody: Swift.Decodable {
+extension CreateLoadBalancerOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case loadBalancers = "LoadBalancers"
     }
@@ -1867,6 +2144,28 @@ extension CreateLoadBalancerOutputResponseBody: Swift.Decodable {
             }
         } else {
             loadBalancers = nil
+        }
+    }
+}
+
+enum CreateLoadBalancerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AllocationIdNotFound": return try await AllocationIdNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "AvailabilityZoneNotSupported": return try await AvailabilityZoneNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DuplicateLoadBalancerName": return try await DuplicateLoadBalancerNameException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DuplicateTagKeys": return try await DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidScheme": return try await InvalidSchemeException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSecurityGroup": return try await InvalidSecurityGroupException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSubnet": return try await InvalidSubnetException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceInUse": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubnetNotFound": return try await SubnetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyLoadBalancers": return try await TooManyLoadBalancersException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyTags": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -2042,35 +2341,11 @@ extension CreateRuleInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "IncompatibleProtocols": return try await IncompatibleProtocolsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidLoadBalancerAction": return try await InvalidLoadBalancerActionException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ListenerNotFound": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "PriorityInUse": return try await PriorityInUseException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TargetGroupAssociationLimit": return try await TargetGroupAssociationLimitException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TargetGroupNotFound": return try await TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyActions": return try await TooManyActionsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyRegistrationsForTargetId": return try await TooManyRegistrationsForTargetIdException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyRules": return try await TooManyRulesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyTags": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyTargetGroups": return try await TooManyTargetGroupsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyTargets": return try await TooManyTargetsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyUniqueTargetGroupsPerLoadBalancer": return try await TooManyUniqueTargetGroupsPerLoadBalancerException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UnsupportedProtocol": return try await UnsupportedProtocolException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateRuleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateRuleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateRuleOutputBody = try responseDecoder.decode(responseBody: data)
             self.rules = output.rules
         } else {
             self.rules = nil
@@ -2078,7 +2353,7 @@ extension CreateRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRuleOutputResponse: Swift.Equatable {
+public struct CreateRuleOutput: Swift.Equatable {
     /// Information about the rule.
     public var rules: [ElasticLoadBalancingv2ClientTypes.Rule]?
 
@@ -2090,11 +2365,11 @@ public struct CreateRuleOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateRuleOutputResponseBody: Swift.Equatable {
+struct CreateRuleOutputBody: Swift.Equatable {
     let rules: [ElasticLoadBalancingv2ClientTypes.Rule]?
 }
 
-extension CreateRuleOutputResponseBody: Swift.Decodable {
+extension CreateRuleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case rules = "Rules"
     }
@@ -2120,6 +2395,30 @@ extension CreateRuleOutputResponseBody: Swift.Decodable {
             }
         } else {
             rules = nil
+        }
+    }
+}
+
+enum CreateRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "IncompatibleProtocols": return try await IncompatibleProtocolsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidLoadBalancerAction": return try await InvalidLoadBalancerActionException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ListenerNotFound": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "PriorityInUse": return try await PriorityInUseException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TargetGroupAssociationLimit": return try await TargetGroupAssociationLimitException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TargetGroupNotFound": return try await TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyActions": return try await TooManyActionsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyRegistrationsForTargetId": return try await TooManyRegistrationsForTargetIdException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyRules": return try await TooManyRulesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyTags": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyTargetGroups": return try await TooManyTargetGroupsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyTargets": return try await TooManyTargetsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyUniqueTargetGroupsPerLoadBalancer": return try await TooManyUniqueTargetGroupsPerLoadBalancerException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedProtocol": return try await UnsupportedProtocolException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -2380,24 +2679,11 @@ extension CreateTargetGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateTargetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DuplicateTargetGroupName": return try await DuplicateTargetGroupNameException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyTags": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyTargetGroups": return try await TooManyTargetGroupsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateTargetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateTargetGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateTargetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateTargetGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.targetGroups = output.targetGroups
         } else {
             self.targetGroups = nil
@@ -2405,7 +2691,7 @@ extension CreateTargetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTargetGroupOutputResponse: Swift.Equatable {
+public struct CreateTargetGroupOutput: Swift.Equatable {
     /// Information about the target group.
     public var targetGroups: [ElasticLoadBalancingv2ClientTypes.TargetGroup]?
 
@@ -2417,11 +2703,11 @@ public struct CreateTargetGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateTargetGroupOutputResponseBody: Swift.Equatable {
+struct CreateTargetGroupOutputBody: Swift.Equatable {
     let targetGroups: [ElasticLoadBalancingv2ClientTypes.TargetGroup]?
 }
 
-extension CreateTargetGroupOutputResponseBody: Swift.Decodable {
+extension CreateTargetGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case targetGroups = "TargetGroups"
     }
@@ -2447,6 +2733,210 @@ extension CreateTargetGroupOutputResponseBody: Swift.Decodable {
             }
         } else {
             targetGroups = nil
+        }
+    }
+}
+
+enum CreateTargetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DuplicateTargetGroupName": return try await DuplicateTargetGroupNameException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyTags": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyTargetGroups": return try await TooManyTargetGroupsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension CreateTrustStoreInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let caCertificatesBundleS3Bucket = caCertificatesBundleS3Bucket {
+            try container.encode(caCertificatesBundleS3Bucket, forKey: ClientRuntime.Key("CaCertificatesBundleS3Bucket"))
+        }
+        if let caCertificatesBundleS3Key = caCertificatesBundleS3Key {
+            try container.encode(caCertificatesBundleS3Key, forKey: ClientRuntime.Key("CaCertificatesBundleS3Key"))
+        }
+        if let caCertificatesBundleS3ObjectVersion = caCertificatesBundleS3ObjectVersion {
+            try container.encode(caCertificatesBundleS3ObjectVersion, forKey: ClientRuntime.Key("CaCertificatesBundleS3ObjectVersion"))
+        }
+        if let name = name {
+            try container.encode(name, forKey: ClientRuntime.Key("Name"))
+        }
+        if let tags = tags {
+            if !tags.isEmpty {
+                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+                for (index0, tag0) in tags.enumerated() {
+                    try tagsContainer.encode(tag0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+                try tagsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        try container.encode("CreateTrustStore", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2015-12-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension CreateTrustStoreInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateTrustStoreInput: Swift.Equatable {
+    /// The Amazon S3 bucket for the ca certificates bundle.
+    /// This member is required.
+    public var caCertificatesBundleS3Bucket: Swift.String?
+    /// The Amazon S3 path for the ca certificates bundle.
+    /// This member is required.
+    public var caCertificatesBundleS3Key: Swift.String?
+    /// The Amazon S3 object version for the ca certificates bundle. If undefined the current version is used.
+    public var caCertificatesBundleS3ObjectVersion: Swift.String?
+    /// The name of the trust store. This name must be unique per region and cannot be changed after creation.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The tags to assign to the trust store.
+    public var tags: [ElasticLoadBalancingv2ClientTypes.Tag]?
+
+    public init(
+        caCertificatesBundleS3Bucket: Swift.String? = nil,
+        caCertificatesBundleS3Key: Swift.String? = nil,
+        caCertificatesBundleS3ObjectVersion: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [ElasticLoadBalancingv2ClientTypes.Tag]? = nil
+    )
+    {
+        self.caCertificatesBundleS3Bucket = caCertificatesBundleS3Bucket
+        self.caCertificatesBundleS3Key = caCertificatesBundleS3Key
+        self.caCertificatesBundleS3ObjectVersion = caCertificatesBundleS3ObjectVersion
+        self.name = name
+        self.tags = tags
+    }
+}
+
+struct CreateTrustStoreInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let caCertificatesBundleS3Bucket: Swift.String?
+    let caCertificatesBundleS3Key: Swift.String?
+    let caCertificatesBundleS3ObjectVersion: Swift.String?
+    let tags: [ElasticLoadBalancingv2ClientTypes.Tag]?
+}
+
+extension CreateTrustStoreInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case caCertificatesBundleS3Bucket = "CaCertificatesBundleS3Bucket"
+        case caCertificatesBundleS3Key = "CaCertificatesBundleS3Key"
+        case caCertificatesBundleS3ObjectVersion = "CaCertificatesBundleS3ObjectVersion"
+        case name = "Name"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let caCertificatesBundleS3BucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .caCertificatesBundleS3Bucket)
+        caCertificatesBundleS3Bucket = caCertificatesBundleS3BucketDecoded
+        let caCertificatesBundleS3KeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .caCertificatesBundleS3Key)
+        caCertificatesBundleS3Key = caCertificatesBundleS3KeyDecoded
+        let caCertificatesBundleS3ObjectVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .caCertificatesBundleS3ObjectVersion)
+        caCertificatesBundleS3ObjectVersion = caCertificatesBundleS3ObjectVersionDecoded
+        if containerValues.contains(.tags) {
+            struct KeyVal0{struct member{}}
+            let tagsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .tags)
+            if let tagsWrappedContainer = tagsWrappedContainer {
+                let tagsContainer = try tagsWrappedContainer.decodeIfPresent([ElasticLoadBalancingv2ClientTypes.Tag].self, forKey: .member)
+                var tagsBuffer:[ElasticLoadBalancingv2ClientTypes.Tag]? = nil
+                if let tagsContainer = tagsContainer {
+                    tagsBuffer = [ElasticLoadBalancingv2ClientTypes.Tag]()
+                    for structureContainer0 in tagsContainer {
+                        tagsBuffer?.append(structureContainer0)
+                    }
+                }
+                tags = tagsBuffer
+            } else {
+                tags = []
+            }
+        } else {
+            tags = nil
+        }
+    }
+}
+
+extension CreateTrustStoreOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateTrustStoreOutputBody = try responseDecoder.decode(responseBody: data)
+            self.trustStores = output.trustStores
+        } else {
+            self.trustStores = nil
+        }
+    }
+}
+
+public struct CreateTrustStoreOutput: Swift.Equatable {
+    /// Information about the trust store created.
+    public var trustStores: [ElasticLoadBalancingv2ClientTypes.TrustStore]?
+
+    public init(
+        trustStores: [ElasticLoadBalancingv2ClientTypes.TrustStore]? = nil
+    )
+    {
+        self.trustStores = trustStores
+    }
+}
+
+struct CreateTrustStoreOutputBody: Swift.Equatable {
+    let trustStores: [ElasticLoadBalancingv2ClientTypes.TrustStore]?
+}
+
+extension CreateTrustStoreOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case trustStores = "TrustStores"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateTrustStoreResult"))
+        if containerValues.contains(.trustStores) {
+            struct KeyVal0{struct member{}}
+            let trustStoresWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .trustStores)
+            if let trustStoresWrappedContainer = trustStoresWrappedContainer {
+                let trustStoresContainer = try trustStoresWrappedContainer.decodeIfPresent([ElasticLoadBalancingv2ClientTypes.TrustStore].self, forKey: .member)
+                var trustStoresBuffer:[ElasticLoadBalancingv2ClientTypes.TrustStore]? = nil
+                if let trustStoresContainer = trustStoresContainer {
+                    trustStoresBuffer = [ElasticLoadBalancingv2ClientTypes.TrustStore]()
+                    for structureContainer0 in trustStoresContainer {
+                        trustStoresBuffer?.append(structureContainer0)
+                    }
+                }
+                trustStores = trustStoresBuffer
+            } else {
+                trustStores = []
+            }
+        } else {
+            trustStores = nil
+        }
+    }
+}
+
+enum CreateTrustStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CaCertificatesBundleNotFound": return try await CaCertificatesBundleNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DuplicateTagKeys": return try await DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DuplicateTrustStoreName": return try await DuplicateTrustStoreNameException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCaCertificatesBundle": return try await InvalidCaCertificatesBundleException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyTags": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyTrustStores": return try await TooManyTrustStoresException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -2497,8 +2987,18 @@ extension DeleteListenerInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteListenerOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteListenerOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ListenerNotFound": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2506,16 +3006,6 @@ public enum DeleteListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteListenerOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteListenerOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteLoadBalancerInput: Swift.Encodable {
@@ -2564,8 +3054,18 @@ extension DeleteLoadBalancerInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteLoadBalancerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteLoadBalancerOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteLoadBalancerOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteLoadBalancerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "LoadBalancerNotFound": return try await LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2574,16 +3074,6 @@ public enum DeleteLoadBalancerOutputError: ClientRuntime.HttpResponseErrorBindin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteLoadBalancerOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteRuleInput: Swift.Encodable {
@@ -2632,8 +3122,18 @@ extension DeleteRuleInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteRuleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteRuleOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2641,16 +3141,6 @@ public enum DeleteRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteRuleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteRuleOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteTargetGroupInput: Swift.Encodable {
@@ -2699,8 +3189,18 @@ extension DeleteTargetGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteTargetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteTargetGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteTargetGroupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteTargetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceInUse": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2709,14 +3209,71 @@ public enum DeleteTargetGroupOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension DeleteTargetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteTrustStoreInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let trustStoreArn = trustStoreArn {
+            try container.encode(trustStoreArn, forKey: ClientRuntime.Key("TrustStoreArn"))
+        }
+        try container.encode("DeleteTrustStore", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2015-12-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DeleteTrustStoreInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteTrustStoreInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the trust store.
+    /// This member is required.
+    public var trustStoreArn: Swift.String?
+
+    public init(
+        trustStoreArn: Swift.String? = nil
+    )
+    {
+        self.trustStoreArn = trustStoreArn
+    }
+}
+
+struct DeleteTrustStoreInputBody: Swift.Equatable {
+    let trustStoreArn: Swift.String?
+}
+
+extension DeleteTrustStoreInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case trustStoreArn = "TrustStoreArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trustStoreArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trustStoreArn)
+        trustStoreArn = trustStoreArnDecoded
+    }
+}
+
+extension DeleteTrustStoreOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
-public struct DeleteTargetGroupOutputResponse: Swift.Equatable {
+public struct DeleteTrustStoreOutput: Swift.Equatable {
 
     public init() { }
+}
+
+enum DeleteTrustStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "TrustStoreInUse": return try await TrustStoreInUseException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TrustStoreNotFound": return try await TrustStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
 }
 
 extension DeregisterTargetsInput: Swift.Encodable {
@@ -2803,8 +3360,18 @@ extension DeregisterTargetsInputBody: Swift.Decodable {
     }
 }
 
-public enum DeregisterTargetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeregisterTargetsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeregisterTargetsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeregisterTargetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidTarget": return try await InvalidTargetException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2812,16 +3379,6 @@ public enum DeregisterTargetsOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeregisterTargetsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeregisterTargetsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DescribeAccountLimitsInput: Swift.Encodable {
@@ -2880,20 +3437,11 @@ extension DescribeAccountLimitsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeAccountLimitsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeAccountLimitsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeAccountLimitsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeAccountLimitsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeAccountLimitsOutputBody = try responseDecoder.decode(responseBody: data)
             self.limits = output.limits
             self.nextMarker = output.nextMarker
         } else {
@@ -2903,7 +3451,7 @@ extension DescribeAccountLimitsOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeAccountLimitsOutputResponse: Swift.Equatable {
+public struct DescribeAccountLimitsOutput: Swift.Equatable {
     /// Information about the limits.
     public var limits: [ElasticLoadBalancingv2ClientTypes.Limit]?
     /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
@@ -2919,12 +3467,12 @@ public struct DescribeAccountLimitsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeAccountLimitsOutputResponseBody: Swift.Equatable {
+struct DescribeAccountLimitsOutputBody: Swift.Equatable {
     let limits: [ElasticLoadBalancingv2ClientTypes.Limit]?
     let nextMarker: Swift.String?
 }
 
-extension DescribeAccountLimitsOutputResponseBody: Swift.Decodable {
+extension DescribeAccountLimitsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case limits = "Limits"
         case nextMarker = "NextMarker"
@@ -2954,6 +3502,15 @@ extension DescribeAccountLimitsOutputResponseBody: Swift.Decodable {
         }
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
+    }
+}
+
+enum DescribeAccountLimitsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -3025,21 +3582,11 @@ extension DescribeListenerCertificatesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeListenerCertificatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ListenerNotFound": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeListenerCertificatesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeListenerCertificatesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeListenerCertificatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeListenerCertificatesOutputBody = try responseDecoder.decode(responseBody: data)
             self.certificates = output.certificates
             self.nextMarker = output.nextMarker
         } else {
@@ -3049,7 +3596,7 @@ extension DescribeListenerCertificatesOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct DescribeListenerCertificatesOutputResponse: Swift.Equatable {
+public struct DescribeListenerCertificatesOutput: Swift.Equatable {
     /// Information about the certificates.
     public var certificates: [ElasticLoadBalancingv2ClientTypes.Certificate]?
     /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
@@ -3065,12 +3612,12 @@ public struct DescribeListenerCertificatesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeListenerCertificatesOutputResponseBody: Swift.Equatable {
+struct DescribeListenerCertificatesOutputBody: Swift.Equatable {
     let certificates: [ElasticLoadBalancingv2ClientTypes.Certificate]?
     let nextMarker: Swift.String?
 }
 
-extension DescribeListenerCertificatesOutputResponseBody: Swift.Decodable {
+extension DescribeListenerCertificatesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case certificates = "Certificates"
         case nextMarker = "NextMarker"
@@ -3100,6 +3647,16 @@ extension DescribeListenerCertificatesOutputResponseBody: Swift.Decodable {
         }
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
+    }
+}
+
+enum DescribeListenerCertificatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ListenerNotFound": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -3207,23 +3764,11 @@ extension DescribeListenersInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeListenersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ListenerNotFound": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "LoadBalancerNotFound": return try await LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UnsupportedProtocol": return try await UnsupportedProtocolException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeListenersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeListenersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeListenersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeListenersOutputBody = try responseDecoder.decode(responseBody: data)
             self.listeners = output.listeners
             self.nextMarker = output.nextMarker
         } else {
@@ -3233,7 +3778,7 @@ extension DescribeListenersOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeListenersOutputResponse: Swift.Equatable {
+public struct DescribeListenersOutput: Swift.Equatable {
     /// Information about the listeners.
     public var listeners: [ElasticLoadBalancingv2ClientTypes.Listener]?
     /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
@@ -3249,12 +3794,12 @@ public struct DescribeListenersOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeListenersOutputResponseBody: Swift.Equatable {
+struct DescribeListenersOutputBody: Swift.Equatable {
     let listeners: [ElasticLoadBalancingv2ClientTypes.Listener]?
     let nextMarker: Swift.String?
 }
 
-extension DescribeListenersOutputResponseBody: Swift.Decodable {
+extension DescribeListenersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case listeners = "Listeners"
         case nextMarker = "NextMarker"
@@ -3284,6 +3829,18 @@ extension DescribeListenersOutputResponseBody: Swift.Decodable {
         }
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
+    }
+}
+
+enum DescribeListenersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ListenerNotFound": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LoadBalancerNotFound": return try await LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedProtocol": return try await UnsupportedProtocolException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -3333,21 +3890,11 @@ extension DescribeLoadBalancerAttributesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeLoadBalancerAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "LoadBalancerNotFound": return try await LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeLoadBalancerAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeLoadBalancerAttributesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeLoadBalancerAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeLoadBalancerAttributesOutputBody = try responseDecoder.decode(responseBody: data)
             self.attributes = output.attributes
         } else {
             self.attributes = nil
@@ -3355,7 +3902,7 @@ extension DescribeLoadBalancerAttributesOutputResponse: ClientRuntime.HttpRespon
     }
 }
 
-public struct DescribeLoadBalancerAttributesOutputResponse: Swift.Equatable {
+public struct DescribeLoadBalancerAttributesOutput: Swift.Equatable {
     /// Information about the load balancer attributes.
     public var attributes: [ElasticLoadBalancingv2ClientTypes.LoadBalancerAttribute]?
 
@@ -3367,11 +3914,11 @@ public struct DescribeLoadBalancerAttributesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeLoadBalancerAttributesOutputResponseBody: Swift.Equatable {
+struct DescribeLoadBalancerAttributesOutputBody: Swift.Equatable {
     let attributes: [ElasticLoadBalancingv2ClientTypes.LoadBalancerAttribute]?
 }
 
-extension DescribeLoadBalancerAttributesOutputResponseBody: Swift.Decodable {
+extension DescribeLoadBalancerAttributesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attributes = "Attributes"
     }
@@ -3397,6 +3944,16 @@ extension DescribeLoadBalancerAttributesOutputResponseBody: Swift.Decodable {
             }
         } else {
             attributes = nil
+        }
+    }
+}
+
+enum DescribeLoadBalancerAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LoadBalancerNotFound": return try await LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -3531,21 +4088,11 @@ extension DescribeLoadBalancersInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeLoadBalancersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "LoadBalancerNotFound": return try await LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeLoadBalancersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeLoadBalancersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeLoadBalancersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeLoadBalancersOutputBody = try responseDecoder.decode(responseBody: data)
             self.loadBalancers = output.loadBalancers
             self.nextMarker = output.nextMarker
         } else {
@@ -3555,7 +4102,7 @@ extension DescribeLoadBalancersOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeLoadBalancersOutputResponse: Swift.Equatable {
+public struct DescribeLoadBalancersOutput: Swift.Equatable {
     /// Information about the load balancers.
     public var loadBalancers: [ElasticLoadBalancingv2ClientTypes.LoadBalancer]?
     /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
@@ -3571,12 +4118,12 @@ public struct DescribeLoadBalancersOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeLoadBalancersOutputResponseBody: Swift.Equatable {
+struct DescribeLoadBalancersOutputBody: Swift.Equatable {
     let loadBalancers: [ElasticLoadBalancingv2ClientTypes.LoadBalancer]?
     let nextMarker: Swift.String?
 }
 
-extension DescribeLoadBalancersOutputResponseBody: Swift.Decodable {
+extension DescribeLoadBalancersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case loadBalancers = "LoadBalancers"
         case nextMarker = "NextMarker"
@@ -3606,6 +4153,16 @@ extension DescribeLoadBalancersOutputResponseBody: Swift.Decodable {
         }
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
+    }
+}
+
+enum DescribeLoadBalancersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LoadBalancerNotFound": return try await LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -3713,23 +4270,11 @@ extension DescribeRulesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ListenerNotFound": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "RuleNotFound": return try await RuleNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UnsupportedProtocol": return try await UnsupportedProtocolException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeRulesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeRulesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeRulesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.rules = output.rules
         } else {
@@ -3739,7 +4284,7 @@ extension DescribeRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRulesOutputResponse: Swift.Equatable {
+public struct DescribeRulesOutput: Swift.Equatable {
     /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
     public var nextMarker: Swift.String?
     /// Information about the rules.
@@ -3755,12 +4300,12 @@ public struct DescribeRulesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeRulesOutputResponseBody: Swift.Equatable {
+struct DescribeRulesOutputBody: Swift.Equatable {
     let rules: [ElasticLoadBalancingv2ClientTypes.Rule]?
     let nextMarker: Swift.String?
 }
 
-extension DescribeRulesOutputResponseBody: Swift.Decodable {
+extension DescribeRulesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextMarker = "NextMarker"
         case rules = "Rules"
@@ -3790,6 +4335,18 @@ extension DescribeRulesOutputResponseBody: Swift.Decodable {
         }
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
+    }
+}
+
+enum DescribeRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ListenerNotFound": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "RuleNotFound": return try await RuleNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedProtocol": return try await UnsupportedProtocolException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -3897,21 +4454,11 @@ extension DescribeSSLPoliciesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeSSLPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "SSLPolicyNotFound": return try await SSLPolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeSSLPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeSSLPoliciesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeSSLPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeSSLPoliciesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.sslPolicies = output.sslPolicies
         } else {
@@ -3921,7 +4468,7 @@ extension DescribeSSLPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSSLPoliciesOutputResponse: Swift.Equatable {
+public struct DescribeSSLPoliciesOutput: Swift.Equatable {
     /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
     public var nextMarker: Swift.String?
     /// Information about the security policies.
@@ -3937,12 +4484,12 @@ public struct DescribeSSLPoliciesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeSSLPoliciesOutputResponseBody: Swift.Equatable {
+struct DescribeSSLPoliciesOutputBody: Swift.Equatable {
     let sslPolicies: [ElasticLoadBalancingv2ClientTypes.SslPolicy]?
     let nextMarker: Swift.String?
 }
 
-extension DescribeSSLPoliciesOutputResponseBody: Swift.Decodable {
+extension DescribeSSLPoliciesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextMarker = "NextMarker"
         case sslPolicies = "SslPolicies"
@@ -3972,6 +4519,16 @@ extension DescribeSSLPoliciesOutputResponseBody: Swift.Decodable {
         }
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
+    }
+}
+
+enum DescribeSSLPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "SSLPolicyNotFound": return try await SSLPolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -4047,24 +4604,11 @@ extension DescribeTagsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ListenerNotFound": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "LoadBalancerNotFound": return try await LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "RuleNotFound": return try await RuleNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TargetGroupNotFound": return try await TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeTagsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeTagsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeTagsOutputBody = try responseDecoder.decode(responseBody: data)
             self.tagDescriptions = output.tagDescriptions
         } else {
             self.tagDescriptions = nil
@@ -4072,7 +4616,7 @@ extension DescribeTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeTagsOutputResponse: Swift.Equatable {
+public struct DescribeTagsOutput: Swift.Equatable {
     /// Information about the tags.
     public var tagDescriptions: [ElasticLoadBalancingv2ClientTypes.TagDescription]?
 
@@ -4084,11 +4628,11 @@ public struct DescribeTagsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeTagsOutputResponseBody: Swift.Equatable {
+struct DescribeTagsOutputBody: Swift.Equatable {
     let tagDescriptions: [ElasticLoadBalancingv2ClientTypes.TagDescription]?
 }
 
-extension DescribeTagsOutputResponseBody: Swift.Decodable {
+extension DescribeTagsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tagDescriptions = "TagDescriptions"
     }
@@ -4114,6 +4658,20 @@ extension DescribeTagsOutputResponseBody: Swift.Decodable {
             }
         } else {
             tagDescriptions = nil
+        }
+    }
+}
+
+enum DescribeTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ListenerNotFound": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LoadBalancerNotFound": return try await LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "RuleNotFound": return try await RuleNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TargetGroupNotFound": return try await TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TrustStoreNotFound": return try await TrustStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -4164,21 +4722,11 @@ extension DescribeTargetGroupAttributesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeTargetGroupAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "TargetGroupNotFound": return try await TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeTargetGroupAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeTargetGroupAttributesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeTargetGroupAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeTargetGroupAttributesOutputBody = try responseDecoder.decode(responseBody: data)
             self.attributes = output.attributes
         } else {
             self.attributes = nil
@@ -4186,7 +4734,7 @@ extension DescribeTargetGroupAttributesOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct DescribeTargetGroupAttributesOutputResponse: Swift.Equatable {
+public struct DescribeTargetGroupAttributesOutput: Swift.Equatable {
     /// Information about the target group attributes
     public var attributes: [ElasticLoadBalancingv2ClientTypes.TargetGroupAttribute]?
 
@@ -4198,11 +4746,11 @@ public struct DescribeTargetGroupAttributesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeTargetGroupAttributesOutputResponseBody: Swift.Equatable {
+struct DescribeTargetGroupAttributesOutputBody: Swift.Equatable {
     let attributes: [ElasticLoadBalancingv2ClientTypes.TargetGroupAttribute]?
 }
 
-extension DescribeTargetGroupAttributesOutputResponseBody: Swift.Decodable {
+extension DescribeTargetGroupAttributesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attributes = "Attributes"
     }
@@ -4228,6 +4776,16 @@ extension DescribeTargetGroupAttributesOutputResponseBody: Swift.Decodable {
             }
         } else {
             attributes = nil
+        }
+    }
+}
+
+enum DescribeTargetGroupAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "TargetGroupNotFound": return try await TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -4373,22 +4931,11 @@ extension DescribeTargetGroupsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeTargetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "LoadBalancerNotFound": return try await LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TargetGroupNotFound": return try await TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeTargetGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeTargetGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeTargetGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeTargetGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.targetGroups = output.targetGroups
         } else {
@@ -4398,7 +4945,7 @@ extension DescribeTargetGroupsOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeTargetGroupsOutputResponse: Swift.Equatable {
+public struct DescribeTargetGroupsOutput: Swift.Equatable {
     /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
     public var nextMarker: Swift.String?
     /// Information about the target groups.
@@ -4414,12 +4961,12 @@ public struct DescribeTargetGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeTargetGroupsOutputResponseBody: Swift.Equatable {
+struct DescribeTargetGroupsOutputBody: Swift.Equatable {
     let targetGroups: [ElasticLoadBalancingv2ClientTypes.TargetGroup]?
     let nextMarker: Swift.String?
 }
 
-extension DescribeTargetGroupsOutputResponseBody: Swift.Decodable {
+extension DescribeTargetGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextMarker = "NextMarker"
         case targetGroups = "TargetGroups"
@@ -4452,9 +4999,32 @@ extension DescribeTargetGroupsOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum DescribeTargetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LoadBalancerNotFound": return try await LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TargetGroupNotFound": return try await TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension DescribeTargetHealthInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let include = include {
+            if !include.isEmpty {
+                var includeContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Include"))
+                for (index0, describetargethealthinputincludeenum0) in include.enumerated() {
+                    try includeContainer.encode(describetargethealthinputincludeenum0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var includeContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Include"))
+                try includeContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
         if let targetGroupArn = targetGroupArn {
             try container.encode(targetGroupArn, forKey: ClientRuntime.Key("TargetGroupArn"))
         }
@@ -4482,6 +5052,8 @@ extension DescribeTargetHealthInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeTargetHealthInput: Swift.Equatable {
+    /// Used to inclue anomaly detection information.
+    public var include: [ElasticLoadBalancingv2ClientTypes.DescribeTargetHealthInputIncludeEnum]?
     /// The Amazon Resource Name (ARN) of the target group.
     /// This member is required.
     public var targetGroupArn: Swift.String?
@@ -4489,10 +5061,12 @@ public struct DescribeTargetHealthInput: Swift.Equatable {
     public var targets: [ElasticLoadBalancingv2ClientTypes.TargetDescription]?
 
     public init(
+        include: [ElasticLoadBalancingv2ClientTypes.DescribeTargetHealthInputIncludeEnum]? = nil,
         targetGroupArn: Swift.String? = nil,
         targets: [ElasticLoadBalancingv2ClientTypes.TargetDescription]? = nil
     )
     {
+        self.include = include
         self.targetGroupArn = targetGroupArn
         self.targets = targets
     }
@@ -4501,10 +5075,12 @@ public struct DescribeTargetHealthInput: Swift.Equatable {
 struct DescribeTargetHealthInputBody: Swift.Equatable {
     let targetGroupArn: Swift.String?
     let targets: [ElasticLoadBalancingv2ClientTypes.TargetDescription]?
+    let include: [ElasticLoadBalancingv2ClientTypes.DescribeTargetHealthInputIncludeEnum]?
 }
 
 extension DescribeTargetHealthInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case include = "Include"
         case targetGroupArn = "TargetGroupArn"
         case targets = "Targets"
     }
@@ -4532,26 +5108,65 @@ extension DescribeTargetHealthInputBody: Swift.Decodable {
         } else {
             targets = nil
         }
-    }
-}
-
-public enum DescribeTargetHealthOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "HealthUnavailable": return try await HealthUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidTarget": return try await InvalidTargetException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TargetGroupNotFound": return try await TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        if containerValues.contains(.include) {
+            struct KeyVal0{struct member{}}
+            let includeWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .include)
+            if let includeWrappedContainer = includeWrappedContainer {
+                let includeContainer = try includeWrappedContainer.decodeIfPresent([ElasticLoadBalancingv2ClientTypes.DescribeTargetHealthInputIncludeEnum].self, forKey: .member)
+                var includeBuffer:[ElasticLoadBalancingv2ClientTypes.DescribeTargetHealthInputIncludeEnum]? = nil
+                if let includeContainer = includeContainer {
+                    includeBuffer = [ElasticLoadBalancingv2ClientTypes.DescribeTargetHealthInputIncludeEnum]()
+                    for enumContainer0 in includeContainer {
+                        includeBuffer?.append(enumContainer0)
+                    }
+                }
+                include = includeBuffer
+            } else {
+                include = []
+            }
+        } else {
+            include = nil
         }
     }
 }
 
-extension DescribeTargetHealthOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ElasticLoadBalancingv2ClientTypes {
+    public enum DescribeTargetHealthInputIncludeEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case all
+        case anomaly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DescribeTargetHealthInputIncludeEnum] {
+            return [
+                .all,
+                .anomaly,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "All"
+            case .anomaly: return "AnomalyDetection"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DescribeTargetHealthInputIncludeEnum(rawValue: rawValue) ?? DescribeTargetHealthInputIncludeEnum.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DescribeTargetHealthOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeTargetHealthOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeTargetHealthOutputBody = try responseDecoder.decode(responseBody: data)
             self.targetHealthDescriptions = output.targetHealthDescriptions
         } else {
             self.targetHealthDescriptions = nil
@@ -4559,7 +5174,7 @@ extension DescribeTargetHealthOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeTargetHealthOutputResponse: Swift.Equatable {
+public struct DescribeTargetHealthOutput: Swift.Equatable {
     /// Information about the health of the targets.
     public var targetHealthDescriptions: [ElasticLoadBalancingv2ClientTypes.TargetHealthDescription]?
 
@@ -4571,11 +5186,11 @@ public struct DescribeTargetHealthOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeTargetHealthOutputResponseBody: Swift.Equatable {
+struct DescribeTargetHealthOutputBody: Swift.Equatable {
     let targetHealthDescriptions: [ElasticLoadBalancingv2ClientTypes.TargetHealthDescription]?
 }
 
-extension DescribeTargetHealthOutputResponseBody: Swift.Decodable {
+extension DescribeTargetHealthOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case targetHealthDescriptions = "TargetHealthDescriptions"
     }
@@ -4601,6 +5216,621 @@ extension DescribeTargetHealthOutputResponseBody: Swift.Decodable {
             }
         } else {
             targetHealthDescriptions = nil
+        }
+    }
+}
+
+enum DescribeTargetHealthOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "HealthUnavailable": return try await HealthUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidTarget": return try await InvalidTargetException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TargetGroupNotFound": return try await TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DescribeTrustStoreAssociationsInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let marker = marker {
+            try container.encode(marker, forKey: ClientRuntime.Key("Marker"))
+        }
+        if let pageSize = pageSize {
+            try container.encode(pageSize, forKey: ClientRuntime.Key("PageSize"))
+        }
+        if let trustStoreArn = trustStoreArn {
+            try container.encode(trustStoreArn, forKey: ClientRuntime.Key("TrustStoreArn"))
+        }
+        try container.encode("DescribeTrustStoreAssociations", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2015-12-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DescribeTrustStoreAssociationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeTrustStoreAssociationsInput: Swift.Equatable {
+    /// The marker for the next set of results. (You received this marker from a previous call.)
+    public var marker: Swift.String?
+    /// The maximum number of results to return with this call.
+    public var pageSize: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the trust store.
+    /// This member is required.
+    public var trustStoreArn: Swift.String?
+
+    public init(
+        marker: Swift.String? = nil,
+        pageSize: Swift.Int? = nil,
+        trustStoreArn: Swift.String? = nil
+    )
+    {
+        self.marker = marker
+        self.pageSize = pageSize
+        self.trustStoreArn = trustStoreArn
+    }
+}
+
+struct DescribeTrustStoreAssociationsInputBody: Swift.Equatable {
+    let trustStoreArn: Swift.String?
+    let marker: Swift.String?
+    let pageSize: Swift.Int?
+}
+
+extension DescribeTrustStoreAssociationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marker = "Marker"
+        case pageSize = "PageSize"
+        case trustStoreArn = "TrustStoreArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trustStoreArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trustStoreArn)
+        trustStoreArn = trustStoreArnDecoded
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
+        pageSize = pageSizeDecoded
+    }
+}
+
+extension DescribeTrustStoreAssociationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeTrustStoreAssociationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextMarker = output.nextMarker
+            self.trustStoreAssociations = output.trustStoreAssociations
+        } else {
+            self.nextMarker = nil
+            self.trustStoreAssociations = nil
+        }
+    }
+}
+
+public struct DescribeTrustStoreAssociationsOutput: Swift.Equatable {
+    /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
+    public var nextMarker: Swift.String?
+    /// Information about the resources the trust store is associated to.
+    public var trustStoreAssociations: [ElasticLoadBalancingv2ClientTypes.TrustStoreAssociation]?
+
+    public init(
+        nextMarker: Swift.String? = nil,
+        trustStoreAssociations: [ElasticLoadBalancingv2ClientTypes.TrustStoreAssociation]? = nil
+    )
+    {
+        self.nextMarker = nextMarker
+        self.trustStoreAssociations = trustStoreAssociations
+    }
+}
+
+struct DescribeTrustStoreAssociationsOutputBody: Swift.Equatable {
+    let trustStoreAssociations: [ElasticLoadBalancingv2ClientTypes.TrustStoreAssociation]?
+    let nextMarker: Swift.String?
+}
+
+extension DescribeTrustStoreAssociationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextMarker = "NextMarker"
+        case trustStoreAssociations = "TrustStoreAssociations"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeTrustStoreAssociationsResult"))
+        if containerValues.contains(.trustStoreAssociations) {
+            struct KeyVal0{struct member{}}
+            let trustStoreAssociationsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .trustStoreAssociations)
+            if let trustStoreAssociationsWrappedContainer = trustStoreAssociationsWrappedContainer {
+                let trustStoreAssociationsContainer = try trustStoreAssociationsWrappedContainer.decodeIfPresent([ElasticLoadBalancingv2ClientTypes.TrustStoreAssociation].self, forKey: .member)
+                var trustStoreAssociationsBuffer:[ElasticLoadBalancingv2ClientTypes.TrustStoreAssociation]? = nil
+                if let trustStoreAssociationsContainer = trustStoreAssociationsContainer {
+                    trustStoreAssociationsBuffer = [ElasticLoadBalancingv2ClientTypes.TrustStoreAssociation]()
+                    for structureContainer0 in trustStoreAssociationsContainer {
+                        trustStoreAssociationsBuffer?.append(structureContainer0)
+                    }
+                }
+                trustStoreAssociations = trustStoreAssociationsBuffer
+            } else {
+                trustStoreAssociations = []
+            }
+        } else {
+            trustStoreAssociations = nil
+        }
+        let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
+        nextMarker = nextMarkerDecoded
+    }
+}
+
+enum DescribeTrustStoreAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "TrustStoreNotFound": return try await TrustStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.DescribeTrustStoreRevocation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case numberOfRevokedEntries = "NumberOfRevokedEntries"
+        case revocationId = "RevocationId"
+        case revocationType = "RevocationType"
+        case trustStoreArn = "TrustStoreArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let numberOfRevokedEntries = numberOfRevokedEntries {
+            try container.encode(numberOfRevokedEntries, forKey: ClientRuntime.Key("NumberOfRevokedEntries"))
+        }
+        if let revocationId = revocationId {
+            try container.encode(revocationId, forKey: ClientRuntime.Key("RevocationId"))
+        }
+        if let revocationType = revocationType {
+            try container.encode(revocationType, forKey: ClientRuntime.Key("RevocationType"))
+        }
+        if let trustStoreArn = trustStoreArn {
+            try container.encode(trustStoreArn, forKey: ClientRuntime.Key("TrustStoreArn"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trustStoreArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trustStoreArn)
+        trustStoreArn = trustStoreArnDecoded
+        let revocationIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .revocationId)
+        revocationId = revocationIdDecoded
+        let revocationTypeDecoded = try containerValues.decodeIfPresent(ElasticLoadBalancingv2ClientTypes.RevocationType.self, forKey: .revocationType)
+        revocationType = revocationTypeDecoded
+        let numberOfRevokedEntriesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfRevokedEntries)
+        numberOfRevokedEntries = numberOfRevokedEntriesDecoded
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+    /// Information about the revocations used by a trust store.
+    public struct DescribeTrustStoreRevocation: Swift.Equatable {
+        /// The number of revoked certificates.
+        public var numberOfRevokedEntries: Swift.Int?
+        /// The revocation ID of a revocation file in use.
+        public var revocationId: Swift.Int?
+        /// The type of revocation file.
+        public var revocationType: ElasticLoadBalancingv2ClientTypes.RevocationType?
+        /// The Amazon Resource Name (ARN) of the trust store.
+        public var trustStoreArn: Swift.String?
+
+        public init(
+            numberOfRevokedEntries: Swift.Int? = nil,
+            revocationId: Swift.Int? = nil,
+            revocationType: ElasticLoadBalancingv2ClientTypes.RevocationType? = nil,
+            trustStoreArn: Swift.String? = nil
+        )
+        {
+            self.numberOfRevokedEntries = numberOfRevokedEntries
+            self.revocationId = revocationId
+            self.revocationType = revocationType
+            self.trustStoreArn = trustStoreArn
+        }
+    }
+
+}
+
+extension DescribeTrustStoreRevocationsInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let marker = marker {
+            try container.encode(marker, forKey: ClientRuntime.Key("Marker"))
+        }
+        if let pageSize = pageSize {
+            try container.encode(pageSize, forKey: ClientRuntime.Key("PageSize"))
+        }
+        if let revocationIds = revocationIds {
+            if !revocationIds.isEmpty {
+                var revocationIdsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("RevocationIds"))
+                for (index0, revocationid0) in revocationIds.enumerated() {
+                    try revocationIdsContainer.encode(revocationid0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var revocationIdsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("RevocationIds"))
+                try revocationIdsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let trustStoreArn = trustStoreArn {
+            try container.encode(trustStoreArn, forKey: ClientRuntime.Key("TrustStoreArn"))
+        }
+        try container.encode("DescribeTrustStoreRevocations", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2015-12-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DescribeTrustStoreRevocationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeTrustStoreRevocationsInput: Swift.Equatable {
+    /// The marker for the next set of results. (You received this marker from a previous call.)
+    public var marker: Swift.String?
+    /// The maximum number of results to return with this call.
+    public var pageSize: Swift.Int?
+    /// The revocation IDs of the revocation files you want to describe.
+    public var revocationIds: [Swift.Int]?
+    /// The Amazon Resource Name (ARN) of the trust store.
+    /// This member is required.
+    public var trustStoreArn: Swift.String?
+
+    public init(
+        marker: Swift.String? = nil,
+        pageSize: Swift.Int? = nil,
+        revocationIds: [Swift.Int]? = nil,
+        trustStoreArn: Swift.String? = nil
+    )
+    {
+        self.marker = marker
+        self.pageSize = pageSize
+        self.revocationIds = revocationIds
+        self.trustStoreArn = trustStoreArn
+    }
+}
+
+struct DescribeTrustStoreRevocationsInputBody: Swift.Equatable {
+    let trustStoreArn: Swift.String?
+    let revocationIds: [Swift.Int]?
+    let marker: Swift.String?
+    let pageSize: Swift.Int?
+}
+
+extension DescribeTrustStoreRevocationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marker = "Marker"
+        case pageSize = "PageSize"
+        case revocationIds = "RevocationIds"
+        case trustStoreArn = "TrustStoreArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trustStoreArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trustStoreArn)
+        trustStoreArn = trustStoreArnDecoded
+        if containerValues.contains(.revocationIds) {
+            struct KeyVal0{struct member{}}
+            let revocationIdsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .revocationIds)
+            if let revocationIdsWrappedContainer = revocationIdsWrappedContainer {
+                let revocationIdsContainer = try revocationIdsWrappedContainer.decodeIfPresent([Swift.Int].self, forKey: .member)
+                var revocationIdsBuffer:[Swift.Int]? = nil
+                if let revocationIdsContainer = revocationIdsContainer {
+                    revocationIdsBuffer = [Swift.Int]()
+                    for longContainer0 in revocationIdsContainer {
+                        revocationIdsBuffer?.append(longContainer0)
+                    }
+                }
+                revocationIds = revocationIdsBuffer
+            } else {
+                revocationIds = []
+            }
+        } else {
+            revocationIds = nil
+        }
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
+        pageSize = pageSizeDecoded
+    }
+}
+
+extension DescribeTrustStoreRevocationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeTrustStoreRevocationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextMarker = output.nextMarker
+            self.trustStoreRevocations = output.trustStoreRevocations
+        } else {
+            self.nextMarker = nil
+            self.trustStoreRevocations = nil
+        }
+    }
+}
+
+public struct DescribeTrustStoreRevocationsOutput: Swift.Equatable {
+    /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
+    public var nextMarker: Swift.String?
+    /// Information about the revocation file in the trust store.
+    public var trustStoreRevocations: [ElasticLoadBalancingv2ClientTypes.DescribeTrustStoreRevocation]?
+
+    public init(
+        nextMarker: Swift.String? = nil,
+        trustStoreRevocations: [ElasticLoadBalancingv2ClientTypes.DescribeTrustStoreRevocation]? = nil
+    )
+    {
+        self.nextMarker = nextMarker
+        self.trustStoreRevocations = trustStoreRevocations
+    }
+}
+
+struct DescribeTrustStoreRevocationsOutputBody: Swift.Equatable {
+    let trustStoreRevocations: [ElasticLoadBalancingv2ClientTypes.DescribeTrustStoreRevocation]?
+    let nextMarker: Swift.String?
+}
+
+extension DescribeTrustStoreRevocationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextMarker = "NextMarker"
+        case trustStoreRevocations = "TrustStoreRevocations"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeTrustStoreRevocationsResult"))
+        if containerValues.contains(.trustStoreRevocations) {
+            struct KeyVal0{struct member{}}
+            let trustStoreRevocationsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .trustStoreRevocations)
+            if let trustStoreRevocationsWrappedContainer = trustStoreRevocationsWrappedContainer {
+                let trustStoreRevocationsContainer = try trustStoreRevocationsWrappedContainer.decodeIfPresent([ElasticLoadBalancingv2ClientTypes.DescribeTrustStoreRevocation].self, forKey: .member)
+                var trustStoreRevocationsBuffer:[ElasticLoadBalancingv2ClientTypes.DescribeTrustStoreRevocation]? = nil
+                if let trustStoreRevocationsContainer = trustStoreRevocationsContainer {
+                    trustStoreRevocationsBuffer = [ElasticLoadBalancingv2ClientTypes.DescribeTrustStoreRevocation]()
+                    for structureContainer0 in trustStoreRevocationsContainer {
+                        trustStoreRevocationsBuffer?.append(structureContainer0)
+                    }
+                }
+                trustStoreRevocations = trustStoreRevocationsBuffer
+            } else {
+                trustStoreRevocations = []
+            }
+        } else {
+            trustStoreRevocations = nil
+        }
+        let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
+        nextMarker = nextMarkerDecoded
+    }
+}
+
+enum DescribeTrustStoreRevocationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "RevocationIdNotFound": return try await RevocationIdNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TrustStoreNotFound": return try await TrustStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DescribeTrustStoresInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let marker = marker {
+            try container.encode(marker, forKey: ClientRuntime.Key("Marker"))
+        }
+        if let names = names {
+            if !names.isEmpty {
+                var namesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Names"))
+                for (index0, truststorename0) in names.enumerated() {
+                    try namesContainer.encode(truststorename0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var namesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Names"))
+                try namesContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let pageSize = pageSize {
+            try container.encode(pageSize, forKey: ClientRuntime.Key("PageSize"))
+        }
+        if let trustStoreArns = trustStoreArns {
+            if !trustStoreArns.isEmpty {
+                var trustStoreArnsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("TrustStoreArns"))
+                for (index0, truststorearn0) in trustStoreArns.enumerated() {
+                    try trustStoreArnsContainer.encode(truststorearn0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var trustStoreArnsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("TrustStoreArns"))
+                try trustStoreArnsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        try container.encode("DescribeTrustStores", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2015-12-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DescribeTrustStoresInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeTrustStoresInput: Swift.Equatable {
+    /// The marker for the next set of results. (You received this marker from a previous call.)
+    public var marker: Swift.String?
+    /// The names of the trust stores.
+    public var names: [Swift.String]?
+    /// The maximum number of results to return with this call.
+    public var pageSize: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the trust store.
+    public var trustStoreArns: [Swift.String]?
+
+    public init(
+        marker: Swift.String? = nil,
+        names: [Swift.String]? = nil,
+        pageSize: Swift.Int? = nil,
+        trustStoreArns: [Swift.String]? = nil
+    )
+    {
+        self.marker = marker
+        self.names = names
+        self.pageSize = pageSize
+        self.trustStoreArns = trustStoreArns
+    }
+}
+
+struct DescribeTrustStoresInputBody: Swift.Equatable {
+    let trustStoreArns: [Swift.String]?
+    let names: [Swift.String]?
+    let marker: Swift.String?
+    let pageSize: Swift.Int?
+}
+
+extension DescribeTrustStoresInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marker = "Marker"
+        case names = "Names"
+        case pageSize = "PageSize"
+        case trustStoreArns = "TrustStoreArns"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        if containerValues.contains(.trustStoreArns) {
+            struct KeyVal0{struct member{}}
+            let trustStoreArnsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .trustStoreArns)
+            if let trustStoreArnsWrappedContainer = trustStoreArnsWrappedContainer {
+                let trustStoreArnsContainer = try trustStoreArnsWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var trustStoreArnsBuffer:[Swift.String]? = nil
+                if let trustStoreArnsContainer = trustStoreArnsContainer {
+                    trustStoreArnsBuffer = [Swift.String]()
+                    for stringContainer0 in trustStoreArnsContainer {
+                        trustStoreArnsBuffer?.append(stringContainer0)
+                    }
+                }
+                trustStoreArns = trustStoreArnsBuffer
+            } else {
+                trustStoreArns = []
+            }
+        } else {
+            trustStoreArns = nil
+        }
+        if containerValues.contains(.names) {
+            struct KeyVal0{struct member{}}
+            let namesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .names)
+            if let namesWrappedContainer = namesWrappedContainer {
+                let namesContainer = try namesWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var namesBuffer:[Swift.String]? = nil
+                if let namesContainer = namesContainer {
+                    namesBuffer = [Swift.String]()
+                    for stringContainer0 in namesContainer {
+                        namesBuffer?.append(stringContainer0)
+                    }
+                }
+                names = namesBuffer
+            } else {
+                names = []
+            }
+        } else {
+            names = nil
+        }
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
+        pageSize = pageSizeDecoded
+    }
+}
+
+extension DescribeTrustStoresOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeTrustStoresOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextMarker = output.nextMarker
+            self.trustStores = output.trustStores
+        } else {
+            self.nextMarker = nil
+            self.trustStores = nil
+        }
+    }
+}
+
+public struct DescribeTrustStoresOutput: Swift.Equatable {
+    /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
+    public var nextMarker: Swift.String?
+    /// Information about the trust stores.
+    public var trustStores: [ElasticLoadBalancingv2ClientTypes.TrustStore]?
+
+    public init(
+        nextMarker: Swift.String? = nil,
+        trustStores: [ElasticLoadBalancingv2ClientTypes.TrustStore]? = nil
+    )
+    {
+        self.nextMarker = nextMarker
+        self.trustStores = trustStores
+    }
+}
+
+struct DescribeTrustStoresOutputBody: Swift.Equatable {
+    let trustStores: [ElasticLoadBalancingv2ClientTypes.TrustStore]?
+    let nextMarker: Swift.String?
+}
+
+extension DescribeTrustStoresOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextMarker = "NextMarker"
+        case trustStores = "TrustStores"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeTrustStoresResult"))
+        if containerValues.contains(.trustStores) {
+            struct KeyVal0{struct member{}}
+            let trustStoresWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .trustStores)
+            if let trustStoresWrappedContainer = trustStoresWrappedContainer {
+                let trustStoresContainer = try trustStoresWrappedContainer.decodeIfPresent([ElasticLoadBalancingv2ClientTypes.TrustStore].self, forKey: .member)
+                var trustStoresBuffer:[ElasticLoadBalancingv2ClientTypes.TrustStore]? = nil
+                if let trustStoresContainer = trustStoresContainer {
+                    trustStoresBuffer = [ElasticLoadBalancingv2ClientTypes.TrustStore]()
+                    for structureContainer0 in trustStoresContainer {
+                        trustStoresBuffer?.append(structureContainer0)
+                    }
+                }
+                trustStores = trustStoresBuffer
+            } else {
+                trustStores = []
+            }
+        } else {
+            trustStores = nil
+        }
+        let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
+        nextMarker = nextMarkerDecoded
+    }
+}
+
+enum DescribeTrustStoresOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "TrustStoreNotFound": return try await TrustStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -4821,6 +6051,92 @@ extension DuplicateTargetGroupNameExceptionBody: Swift.Decodable {
     }
 }
 
+extension DuplicateTrustStoreNameException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<DuplicateTrustStoreNameExceptionBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// A trust store with the specified name already exists.
+public struct DuplicateTrustStoreNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DuplicateTrustStoreName" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct DuplicateTrustStoreNameExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension DuplicateTrustStoreNameExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+    public enum EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case off
+        case on
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum] {
+            return [
+                .off,
+                .on,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .off: return "off"
+            case .on: return "on"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum(rawValue: rawValue) ?? EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ElasticLoadBalancingv2ClientTypes.FixedResponseActionConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contentType = "ContentType"
@@ -4946,6 +6262,213 @@ extension ElasticLoadBalancingv2ClientTypes {
         }
     }
 
+}
+
+extension GetTrustStoreCaCertificatesBundleInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let trustStoreArn = trustStoreArn {
+            try container.encode(trustStoreArn, forKey: ClientRuntime.Key("TrustStoreArn"))
+        }
+        try container.encode("GetTrustStoreCaCertificatesBundle", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2015-12-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension GetTrustStoreCaCertificatesBundleInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetTrustStoreCaCertificatesBundleInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the trust store.
+    /// This member is required.
+    public var trustStoreArn: Swift.String?
+
+    public init(
+        trustStoreArn: Swift.String? = nil
+    )
+    {
+        self.trustStoreArn = trustStoreArn
+    }
+}
+
+struct GetTrustStoreCaCertificatesBundleInputBody: Swift.Equatable {
+    let trustStoreArn: Swift.String?
+}
+
+extension GetTrustStoreCaCertificatesBundleInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case trustStoreArn = "TrustStoreArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trustStoreArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trustStoreArn)
+        trustStoreArn = trustStoreArnDecoded
+    }
+}
+
+extension GetTrustStoreCaCertificatesBundleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetTrustStoreCaCertificatesBundleOutputBody = try responseDecoder.decode(responseBody: data)
+            self.location = output.location
+        } else {
+            self.location = nil
+        }
+    }
+}
+
+public struct GetTrustStoreCaCertificatesBundleOutput: Swift.Equatable {
+    /// The ca certificate bundles Amazon S3 URI.
+    public var location: Swift.String?
+
+    public init(
+        location: Swift.String? = nil
+    )
+    {
+        self.location = location
+    }
+}
+
+struct GetTrustStoreCaCertificatesBundleOutputBody: Swift.Equatable {
+    let location: Swift.String?
+}
+
+extension GetTrustStoreCaCertificatesBundleOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case location = "Location"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetTrustStoreCaCertificatesBundleResult"))
+        let locationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .location)
+        location = locationDecoded
+    }
+}
+
+enum GetTrustStoreCaCertificatesBundleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "TrustStoreNotFound": return try await TrustStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension GetTrustStoreRevocationContentInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let revocationId = revocationId {
+            try container.encode(revocationId, forKey: ClientRuntime.Key("RevocationId"))
+        }
+        if let trustStoreArn = trustStoreArn {
+            try container.encode(trustStoreArn, forKey: ClientRuntime.Key("TrustStoreArn"))
+        }
+        try container.encode("GetTrustStoreRevocationContent", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2015-12-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension GetTrustStoreRevocationContentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetTrustStoreRevocationContentInput: Swift.Equatable {
+    /// The revocation ID of the revocation file.
+    /// This member is required.
+    public var revocationId: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the trust store.
+    /// This member is required.
+    public var trustStoreArn: Swift.String?
+
+    public init(
+        revocationId: Swift.Int? = nil,
+        trustStoreArn: Swift.String? = nil
+    )
+    {
+        self.revocationId = revocationId
+        self.trustStoreArn = trustStoreArn
+    }
+}
+
+struct GetTrustStoreRevocationContentInputBody: Swift.Equatable {
+    let trustStoreArn: Swift.String?
+    let revocationId: Swift.Int?
+}
+
+extension GetTrustStoreRevocationContentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case revocationId = "RevocationId"
+        case trustStoreArn = "TrustStoreArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trustStoreArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trustStoreArn)
+        trustStoreArn = trustStoreArnDecoded
+        let revocationIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .revocationId)
+        revocationId = revocationIdDecoded
+    }
+}
+
+extension GetTrustStoreRevocationContentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetTrustStoreRevocationContentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.location = output.location
+        } else {
+            self.location = nil
+        }
+    }
+}
+
+public struct GetTrustStoreRevocationContentOutput: Swift.Equatable {
+    /// The revocation files Amazon S3 URI.
+    public var location: Swift.String?
+
+    public init(
+        location: Swift.String? = nil
+    )
+    {
+        self.location = location
+    }
+}
+
+struct GetTrustStoreRevocationContentOutputBody: Swift.Equatable {
+    let location: Swift.String?
+}
+
+extension GetTrustStoreRevocationContentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case location = "Location"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetTrustStoreRevocationContentResult"))
+        let locationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .location)
+        location = locationDecoded
+    }
+}
+
+enum GetTrustStoreRevocationContentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "RevocationIdNotFound": return try await RevocationIdNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TrustStoreNotFound": return try await TrustStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
 }
 
 extension HealthUnavailableException {
@@ -5249,6 +6772,60 @@ extension IncompatibleProtocolsExceptionBody: Swift.Decodable {
     }
 }
 
+extension InvalidCaCertificatesBundleException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<InvalidCaCertificatesBundleExceptionBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The specified ca certificate bundle is in an invalid format, or corrupt.
+public struct InvalidCaCertificatesBundleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidCaCertificatesBundle" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct InvalidCaCertificatesBundleExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InvalidCaCertificatesBundleExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension InvalidConfigurationRequestException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -5346,6 +6923,60 @@ struct InvalidLoadBalancerActionExceptionBody: Swift.Equatable {
 }
 
 extension InvalidLoadBalancerActionExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension InvalidRevocationContentException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<InvalidRevocationContentExceptionBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The provided revocation file is an invalid format, or uses an incorrect algorithm.
+public struct InvalidRevocationContentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRevocationContent" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct InvalidRevocationContentExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InvalidRevocationContentExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message = "Message"
     }
@@ -5631,7 +7262,13 @@ extension ElasticLoadBalancingv2ClientTypes.Limit: Swift.Codable {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
-    /// Information about an Elastic Load Balancing resource limit for your Amazon Web Services account.
+    /// Information about an Elastic Load Balancing resource limit for your Amazon Web Services account. For more information, see the following:
+    ///
+    /// * [Quotas for your Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html)
+    ///
+    /// * [Quotas for your Network Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-limits.html)
+    ///
+    /// * [Quotas for your Gateway Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/quotas-limits.html)
     public struct Limit: Swift.Equatable {
         /// The maximum value of the limit.
         public var max: Swift.String?
@@ -5693,6 +7330,7 @@ extension ElasticLoadBalancingv2ClientTypes.Listener: Swift.Codable {
         case defaultActions = "DefaultActions"
         case listenerArn = "ListenerArn"
         case loadBalancerArn = "LoadBalancerArn"
+        case mutualAuthentication = "MutualAuthentication"
         case port = "Port"
         case `protocol` = "Protocol"
         case sslPolicy = "SslPolicy"
@@ -5741,6 +7379,9 @@ extension ElasticLoadBalancingv2ClientTypes.Listener: Swift.Codable {
         }
         if let loadBalancerArn = loadBalancerArn {
             try container.encode(loadBalancerArn, forKey: ClientRuntime.Key("LoadBalancerArn"))
+        }
+        if let mutualAuthentication = mutualAuthentication {
+            try container.encode(mutualAuthentication, forKey: ClientRuntime.Key("MutualAuthentication"))
         }
         if let port = port {
             try container.encode(port, forKey: ClientRuntime.Key("Port"))
@@ -5822,6 +7463,8 @@ extension ElasticLoadBalancingv2ClientTypes.Listener: Swift.Codable {
         } else {
             alpnPolicy = nil
         }
+        let mutualAuthenticationDecoded = try containerValues.decodeIfPresent(ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes.self, forKey: .mutualAuthentication)
+        mutualAuthentication = mutualAuthenticationDecoded
     }
 }
 
@@ -5838,6 +7481,8 @@ extension ElasticLoadBalancingv2ClientTypes {
         public var listenerArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the load balancer.
         public var loadBalancerArn: Swift.String?
+        /// The mutual authentication configuration information.
+        public var mutualAuthentication: ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes?
         /// The port on which the load balancer is listening.
         public var port: Swift.Int?
         /// The protocol for connections from clients to the load balancer.
@@ -5851,6 +7496,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             defaultActions: [ElasticLoadBalancingv2ClientTypes.Action]? = nil,
             listenerArn: Swift.String? = nil,
             loadBalancerArn: Swift.String? = nil,
+            mutualAuthentication: ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes? = nil,
             port: Swift.Int? = nil,
             `protocol`: ElasticLoadBalancingv2ClientTypes.ProtocolEnum? = nil,
             sslPolicy: Swift.String? = nil
@@ -5861,6 +7507,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.defaultActions = defaultActions
             self.listenerArn = listenerArn
             self.loadBalancerArn = loadBalancerArn
+            self.mutualAuthentication = mutualAuthentication
             self.port = port
             self.`protocol` = `protocol`
             self.sslPolicy = sslPolicy
@@ -5930,6 +7577,7 @@ extension ElasticLoadBalancingv2ClientTypes.LoadBalancer: Swift.Codable {
         case createdTime = "CreatedTime"
         case customerOwnedIpv4Pool = "CustomerOwnedIpv4Pool"
         case dnsName = "DNSName"
+        case enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = "EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic"
         case ipAddressType = "IpAddressType"
         case loadBalancerArn = "LoadBalancerArn"
         case loadBalancerName = "LoadBalancerName"
@@ -5958,13 +7606,16 @@ extension ElasticLoadBalancingv2ClientTypes.LoadBalancer: Swift.Codable {
             try container.encode(canonicalHostedZoneId, forKey: ClientRuntime.Key("CanonicalHostedZoneId"))
         }
         if let createdTime = createdTime {
-            try container.encodeTimestamp(createdTime, format: .dateTime, forKey: ClientRuntime.Key("createdTime"))
+            try container.encodeTimestamp(createdTime, format: .dateTime, forKey: ClientRuntime.Key("CreatedTime"))
         }
         if let customerOwnedIpv4Pool = customerOwnedIpv4Pool {
             try container.encode(customerOwnedIpv4Pool, forKey: ClientRuntime.Key("CustomerOwnedIpv4Pool"))
         }
         if let dnsName = dnsName {
             try container.encode(dnsName, forKey: ClientRuntime.Key("DNSName"))
+        }
+        if let enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTraffic {
+            try container.encode(enforceSecurityGroupInboundRulesOnPrivateLinkTraffic, forKey: ClientRuntime.Key("EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic"))
         }
         if let ipAddressType = ipAddressType {
             try container.encode(ipAddressType, forKey: ClientRuntime.Key("IpAddressType"))
@@ -6063,6 +7714,8 @@ extension ElasticLoadBalancingv2ClientTypes.LoadBalancer: Swift.Codable {
         ipAddressType = ipAddressTypeDecoded
         let customerOwnedIpv4PoolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customerOwnedIpv4Pool)
         customerOwnedIpv4Pool = customerOwnedIpv4PoolDecoded
+        let enforceSecurityGroupInboundRulesOnPrivateLinkTrafficDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .enforceSecurityGroupInboundRulesOnPrivateLinkTraffic)
+        enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTrafficDecoded
     }
 }
 
@@ -6079,6 +7732,8 @@ extension ElasticLoadBalancingv2ClientTypes {
         public var customerOwnedIpv4Pool: Swift.String?
         /// The public DNS name of the load balancer.
         public var dnsName: Swift.String?
+        /// Indicates whether to evaluate inbound security group rules for traffic sent to a Network Load Balancer through Amazon Web Services PrivateLink.
+        public var enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: Swift.String?
         /// The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
         public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
         /// The Amazon Resource Name (ARN) of the load balancer.
@@ -6102,6 +7757,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             createdTime: ClientRuntime.Date? = nil,
             customerOwnedIpv4Pool: Swift.String? = nil,
             dnsName: Swift.String? = nil,
+            enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: Swift.String? = nil,
             ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType? = nil,
             loadBalancerArn: Swift.String? = nil,
             loadBalancerName: Swift.String? = nil,
@@ -6117,6 +7773,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.createdTime = createdTime
             self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
             self.dnsName = dnsName
+            self.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTraffic
             self.ipAddressType = ipAddressType
             self.loadBalancerArn = loadBalancerArn
             self.loadBalancerName = loadBalancerName
@@ -6245,6 +7902,12 @@ extension ElasticLoadBalancingv2ClientTypes {
         ///
         /// * idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-4000 seconds. The default is 60 seconds.
         ///
+        /// * connection_logs.s3.enabled - Indicates whether connection logs are enabled. The value is true or false. The default is false.
+        ///
+        /// * connection_logs.s3.bucket - The name of the S3 bucket for the connection logs. This attribute is required if connection logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.
+        ///
+        /// * connection_logs.s3.prefix - The prefix for the location in the S3 bucket for the connection logs.
+        ///
         /// * routing.http.desync_mitigation_mode - Determines how the load balancer handles requests that might pose a security risk to your application. The possible values are monitor, defensive, and strictest. The default is defensive.
         ///
         /// * routing.http.drop_invalid_header_fields.enabled - Indicates whether HTTP headers with invalid header fields are removed by the load balancer (true) or routed to targets (false). The default is false.
@@ -6269,6 +7932,11 @@ extension ElasticLoadBalancingv2ClientTypes {
         /// * routing.http2.enabled - Indicates whether HTTP/2 is enabled. The possible values are true and false. The default is true. Elastic Load Balancing requires that message header names contain only alphanumeric characters and hyphens.
         ///
         /// * waf.fail_open.enabled - Indicates whether to allow a WAF-enabled load balancer to route requests to targets if it is unable to forward the request to Amazon Web Services WAF. The possible values are true and false. The default is false.
+        ///
+        ///
+        /// The following attributes are supported by only Network Load Balancers:
+        ///
+        /// * dns_record.client_routing_policy - Indicates how traffic is distributed among the load balancer Availability Zones. The possible values are availability_zone_affinity with 100 percent zonal affinity, partial_availability_zone_affinity with 85 percent zonal affinity, and any_availability_zone with 0 percent zonal affinity.
         public var key: Swift.String?
         /// The value of the attribute.
         public var value: Swift.String?
@@ -6534,6 +8202,38 @@ extension ElasticLoadBalancingv2ClientTypes {
 
 }
 
+extension ElasticLoadBalancingv2ClientTypes {
+    public enum MitigationInEffectEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case no
+        case yes
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MitigationInEffectEnum] {
+            return [
+                .no,
+                .yes,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .no: return "no"
+            case .yes: return "yes"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MitigationInEffectEnum(rawValue: rawValue) ?? MitigationInEffectEnum.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ModifyListenerInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -6575,6 +8275,9 @@ extension ModifyListenerInput: Swift.Encodable {
         }
         if let listenerArn = listenerArn {
             try container.encode(listenerArn, forKey: ClientRuntime.Key("ListenerArn"))
+        }
+        if let mutualAuthentication = mutualAuthentication {
+            try container.encode(mutualAuthentication, forKey: ClientRuntime.Key("MutualAuthentication"))
         }
         if let port = port {
             try container.encode(port, forKey: ClientRuntime.Key("Port"))
@@ -6619,6 +8322,8 @@ public struct ModifyListenerInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the listener.
     /// This member is required.
     public var listenerArn: Swift.String?
+    /// The mutual authentication configuration information.
+    public var mutualAuthentication: ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes?
     /// The port for connections from clients to the load balancer. You cannot specify a port for a Gateway Load Balancer.
     public var port: Swift.Int?
     /// The protocol for connections from clients to the load balancer. Application Load Balancers support the HTTP and HTTPS protocols. Network Load Balancers support the TCP, TLS, UDP, and TCP_UDP protocols. You can’t change the protocol to UDP or TCP_UDP if dual-stack mode is enabled. You cannot specify a protocol for a Gateway Load Balancer.
@@ -6631,6 +8336,7 @@ public struct ModifyListenerInput: Swift.Equatable {
         certificates: [ElasticLoadBalancingv2ClientTypes.Certificate]? = nil,
         defaultActions: [ElasticLoadBalancingv2ClientTypes.Action]? = nil,
         listenerArn: Swift.String? = nil,
+        mutualAuthentication: ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes? = nil,
         port: Swift.Int? = nil,
         `protocol`: ElasticLoadBalancingv2ClientTypes.ProtocolEnum? = nil,
         sslPolicy: Swift.String? = nil
@@ -6640,6 +8346,7 @@ public struct ModifyListenerInput: Swift.Equatable {
         self.certificates = certificates
         self.defaultActions = defaultActions
         self.listenerArn = listenerArn
+        self.mutualAuthentication = mutualAuthentication
         self.port = port
         self.`protocol` = `protocol`
         self.sslPolicy = sslPolicy
@@ -6654,6 +8361,7 @@ struct ModifyListenerInputBody: Swift.Equatable {
     let certificates: [ElasticLoadBalancingv2ClientTypes.Certificate]?
     let defaultActions: [ElasticLoadBalancingv2ClientTypes.Action]?
     let alpnPolicy: [Swift.String]?
+    let mutualAuthentication: ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes?
 }
 
 extension ModifyListenerInputBody: Swift.Decodable {
@@ -6662,6 +8370,7 @@ extension ModifyListenerInputBody: Swift.Decodable {
         case certificates = "Certificates"
         case defaultActions = "DefaultActions"
         case listenerArn = "ListenerArn"
+        case mutualAuthentication = "MutualAuthentication"
         case port = "Port"
         case `protocol` = "Protocol"
         case sslPolicy = "SslPolicy"
@@ -6734,40 +8443,16 @@ extension ModifyListenerInputBody: Swift.Decodable {
         } else {
             alpnPolicy = nil
         }
+        let mutualAuthenticationDecoded = try containerValues.decodeIfPresent(ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes.self, forKey: .mutualAuthentication)
+        mutualAuthentication = mutualAuthenticationDecoded
     }
 }
 
-public enum ModifyListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ALPNPolicyNotFound": return try await ALPNPolicyNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "CertificateNotFound": return try await CertificateNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DuplicateListener": return try await DuplicateListenerException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "IncompatibleProtocols": return try await IncompatibleProtocolsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidLoadBalancerAction": return try await InvalidLoadBalancerActionException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ListenerNotFound": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "SSLPolicyNotFound": return try await SSLPolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TargetGroupAssociationLimit": return try await TargetGroupAssociationLimitException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TargetGroupNotFound": return try await TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyActions": return try await TooManyActionsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyCertificates": return try await TooManyCertificatesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyListeners": return try await TooManyListenersException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyRegistrationsForTargetId": return try await TooManyRegistrationsForTargetIdException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyTargets": return try await TooManyTargetsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyUniqueTargetGroupsPerLoadBalancer": return try await TooManyUniqueTargetGroupsPerLoadBalancerException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UnsupportedProtocol": return try await UnsupportedProtocolException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ModifyListenerOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ModifyListenerOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ModifyListenerOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ModifyListenerOutputBody = try responseDecoder.decode(responseBody: data)
             self.listeners = output.listeners
         } else {
             self.listeners = nil
@@ -6775,7 +8460,7 @@ extension ModifyListenerOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ModifyListenerOutputResponse: Swift.Equatable {
+public struct ModifyListenerOutput: Swift.Equatable {
     /// Information about the modified listener.
     public var listeners: [ElasticLoadBalancingv2ClientTypes.Listener]?
 
@@ -6787,11 +8472,11 @@ public struct ModifyListenerOutputResponse: Swift.Equatable {
     }
 }
 
-struct ModifyListenerOutputResponseBody: Swift.Equatable {
+struct ModifyListenerOutputBody: Swift.Equatable {
     let listeners: [ElasticLoadBalancingv2ClientTypes.Listener]?
 }
 
-extension ModifyListenerOutputResponseBody: Swift.Decodable {
+extension ModifyListenerOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case listeners = "Listeners"
     }
@@ -6817,6 +8502,34 @@ extension ModifyListenerOutputResponseBody: Swift.Decodable {
             }
         } else {
             listeners = nil
+        }
+    }
+}
+
+enum ModifyListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ALPNPolicyNotFound": return try await ALPNPolicyNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CertificateNotFound": return try await CertificateNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DuplicateListener": return try await DuplicateListenerException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IncompatibleProtocols": return try await IncompatibleProtocolsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidLoadBalancerAction": return try await InvalidLoadBalancerActionException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ListenerNotFound": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SSLPolicyNotFound": return try await SSLPolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TargetGroupAssociationLimit": return try await TargetGroupAssociationLimitException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TargetGroupNotFound": return try await TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyActions": return try await TooManyActionsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyCertificates": return try await TooManyCertificatesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyListeners": return try await TooManyListenersException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyRegistrationsForTargetId": return try await TooManyRegistrationsForTargetIdException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyTargets": return try await TooManyTargetsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyUniqueTargetGroupsPerLoadBalancer": return try await TooManyUniqueTargetGroupsPerLoadBalancerException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TrustStoreNotFound": return try await TrustStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TrustStoreNotReady": return try await TrustStoreNotReadyException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedProtocol": return try await UnsupportedProtocolException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -6905,22 +8618,11 @@ extension ModifyLoadBalancerAttributesInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyLoadBalancerAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "LoadBalancerNotFound": return try await LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ModifyLoadBalancerAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ModifyLoadBalancerAttributesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ModifyLoadBalancerAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ModifyLoadBalancerAttributesOutputBody = try responseDecoder.decode(responseBody: data)
             self.attributes = output.attributes
         } else {
             self.attributes = nil
@@ -6928,7 +8630,7 @@ extension ModifyLoadBalancerAttributesOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct ModifyLoadBalancerAttributesOutputResponse: Swift.Equatable {
+public struct ModifyLoadBalancerAttributesOutput: Swift.Equatable {
     /// Information about the load balancer attributes.
     public var attributes: [ElasticLoadBalancingv2ClientTypes.LoadBalancerAttribute]?
 
@@ -6940,11 +8642,11 @@ public struct ModifyLoadBalancerAttributesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ModifyLoadBalancerAttributesOutputResponseBody: Swift.Equatable {
+struct ModifyLoadBalancerAttributesOutputBody: Swift.Equatable {
     let attributes: [ElasticLoadBalancingv2ClientTypes.LoadBalancerAttribute]?
 }
 
-extension ModifyLoadBalancerAttributesOutputResponseBody: Swift.Decodable {
+extension ModifyLoadBalancerAttributesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attributes = "Attributes"
     }
@@ -6970,6 +8672,17 @@ extension ModifyLoadBalancerAttributesOutputResponseBody: Swift.Decodable {
             }
         } else {
             attributes = nil
+        }
+    }
+}
+
+enum ModifyLoadBalancerAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LoadBalancerNotFound": return try await LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -7094,31 +8807,11 @@ extension ModifyRuleInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "IncompatibleProtocols": return try await IncompatibleProtocolsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidLoadBalancerAction": return try await InvalidLoadBalancerActionException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "RuleNotFound": return try await RuleNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TargetGroupAssociationLimit": return try await TargetGroupAssociationLimitException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TargetGroupNotFound": return try await TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyActions": return try await TooManyActionsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyRegistrationsForTargetId": return try await TooManyRegistrationsForTargetIdException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyTargets": return try await TooManyTargetsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyUniqueTargetGroupsPerLoadBalancer": return try await TooManyUniqueTargetGroupsPerLoadBalancerException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UnsupportedProtocol": return try await UnsupportedProtocolException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ModifyRuleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ModifyRuleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ModifyRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ModifyRuleOutputBody = try responseDecoder.decode(responseBody: data)
             self.rules = output.rules
         } else {
             self.rules = nil
@@ -7126,7 +8819,7 @@ extension ModifyRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ModifyRuleOutputResponse: Swift.Equatable {
+public struct ModifyRuleOutput: Swift.Equatable {
     /// Information about the modified rule.
     public var rules: [ElasticLoadBalancingv2ClientTypes.Rule]?
 
@@ -7138,11 +8831,11 @@ public struct ModifyRuleOutputResponse: Swift.Equatable {
     }
 }
 
-struct ModifyRuleOutputResponseBody: Swift.Equatable {
+struct ModifyRuleOutputBody: Swift.Equatable {
     let rules: [ElasticLoadBalancingv2ClientTypes.Rule]?
 }
 
-extension ModifyRuleOutputResponseBody: Swift.Decodable {
+extension ModifyRuleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case rules = "Rules"
     }
@@ -7168,6 +8861,26 @@ extension ModifyRuleOutputResponseBody: Swift.Decodable {
             }
         } else {
             rules = nil
+        }
+    }
+}
+
+enum ModifyRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "IncompatibleProtocols": return try await IncompatibleProtocolsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidLoadBalancerAction": return try await InvalidLoadBalancerActionException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "RuleNotFound": return try await RuleNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TargetGroupAssociationLimit": return try await TargetGroupAssociationLimitException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TargetGroupNotFound": return try await TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyActions": return try await TooManyActionsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyRegistrationsForTargetId": return try await TooManyRegistrationsForTargetIdException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyTargets": return try await TooManyTargetsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyUniqueTargetGroupsPerLoadBalancer": return try await TooManyUniqueTargetGroupsPerLoadBalancerException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedProtocol": return try await UnsupportedProtocolException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -7256,22 +8969,11 @@ extension ModifyTargetGroupAttributesInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyTargetGroupAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TargetGroupNotFound": return try await TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ModifyTargetGroupAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ModifyTargetGroupAttributesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ModifyTargetGroupAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ModifyTargetGroupAttributesOutputBody = try responseDecoder.decode(responseBody: data)
             self.attributes = output.attributes
         } else {
             self.attributes = nil
@@ -7279,7 +8981,7 @@ extension ModifyTargetGroupAttributesOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct ModifyTargetGroupAttributesOutputResponse: Swift.Equatable {
+public struct ModifyTargetGroupAttributesOutput: Swift.Equatable {
     /// Information about the attributes.
     public var attributes: [ElasticLoadBalancingv2ClientTypes.TargetGroupAttribute]?
 
@@ -7291,11 +8993,11 @@ public struct ModifyTargetGroupAttributesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ModifyTargetGroupAttributesOutputResponseBody: Swift.Equatable {
+struct ModifyTargetGroupAttributesOutputBody: Swift.Equatable {
     let attributes: [ElasticLoadBalancingv2ClientTypes.TargetGroupAttribute]?
 }
 
-extension ModifyTargetGroupAttributesOutputResponseBody: Swift.Decodable {
+extension ModifyTargetGroupAttributesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attributes = "Attributes"
     }
@@ -7321,6 +9023,17 @@ extension ModifyTargetGroupAttributesOutputResponseBody: Swift.Decodable {
             }
         } else {
             attributes = nil
+        }
+    }
+}
+
+enum ModifyTargetGroupAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TargetGroupNotFound": return try await TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -7470,22 +9183,11 @@ extension ModifyTargetGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyTargetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TargetGroupNotFound": return try await TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ModifyTargetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ModifyTargetGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ModifyTargetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ModifyTargetGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.targetGroups = output.targetGroups
         } else {
             self.targetGroups = nil
@@ -7493,7 +9195,7 @@ extension ModifyTargetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ModifyTargetGroupOutputResponse: Swift.Equatable {
+public struct ModifyTargetGroupOutput: Swift.Equatable {
     /// Information about the modified target group.
     public var targetGroups: [ElasticLoadBalancingv2ClientTypes.TargetGroup]?
 
@@ -7505,11 +9207,11 @@ public struct ModifyTargetGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct ModifyTargetGroupOutputResponseBody: Swift.Equatable {
+struct ModifyTargetGroupOutputBody: Swift.Equatable {
     let targetGroups: [ElasticLoadBalancingv2ClientTypes.TargetGroup]?
 }
 
-extension ModifyTargetGroupOutputResponseBody: Swift.Decodable {
+extension ModifyTargetGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case targetGroups = "TargetGroups"
     }
@@ -7537,6 +9239,223 @@ extension ModifyTargetGroupOutputResponseBody: Swift.Decodable {
             targetGroups = nil
         }
     }
+}
+
+enum ModifyTargetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TargetGroupNotFound": return try await TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension ModifyTrustStoreInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let caCertificatesBundleS3Bucket = caCertificatesBundleS3Bucket {
+            try container.encode(caCertificatesBundleS3Bucket, forKey: ClientRuntime.Key("CaCertificatesBundleS3Bucket"))
+        }
+        if let caCertificatesBundleS3Key = caCertificatesBundleS3Key {
+            try container.encode(caCertificatesBundleS3Key, forKey: ClientRuntime.Key("CaCertificatesBundleS3Key"))
+        }
+        if let caCertificatesBundleS3ObjectVersion = caCertificatesBundleS3ObjectVersion {
+            try container.encode(caCertificatesBundleS3ObjectVersion, forKey: ClientRuntime.Key("CaCertificatesBundleS3ObjectVersion"))
+        }
+        if let trustStoreArn = trustStoreArn {
+            try container.encode(trustStoreArn, forKey: ClientRuntime.Key("TrustStoreArn"))
+        }
+        try container.encode("ModifyTrustStore", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2015-12-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension ModifyTrustStoreInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ModifyTrustStoreInput: Swift.Equatable {
+    /// The Amazon S3 bucket for the ca certificates bundle.
+    /// This member is required.
+    public var caCertificatesBundleS3Bucket: Swift.String?
+    /// The Amazon S3 path for the ca certificates bundle.
+    /// This member is required.
+    public var caCertificatesBundleS3Key: Swift.String?
+    /// The Amazon S3 object version for the ca certificates bundle. If undefined the current version is used.
+    public var caCertificatesBundleS3ObjectVersion: Swift.String?
+    /// The Amazon Resource Name (ARN) of the trust store.
+    /// This member is required.
+    public var trustStoreArn: Swift.String?
+
+    public init(
+        caCertificatesBundleS3Bucket: Swift.String? = nil,
+        caCertificatesBundleS3Key: Swift.String? = nil,
+        caCertificatesBundleS3ObjectVersion: Swift.String? = nil,
+        trustStoreArn: Swift.String? = nil
+    )
+    {
+        self.caCertificatesBundleS3Bucket = caCertificatesBundleS3Bucket
+        self.caCertificatesBundleS3Key = caCertificatesBundleS3Key
+        self.caCertificatesBundleS3ObjectVersion = caCertificatesBundleS3ObjectVersion
+        self.trustStoreArn = trustStoreArn
+    }
+}
+
+struct ModifyTrustStoreInputBody: Swift.Equatable {
+    let trustStoreArn: Swift.String?
+    let caCertificatesBundleS3Bucket: Swift.String?
+    let caCertificatesBundleS3Key: Swift.String?
+    let caCertificatesBundleS3ObjectVersion: Swift.String?
+}
+
+extension ModifyTrustStoreInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case caCertificatesBundleS3Bucket = "CaCertificatesBundleS3Bucket"
+        case caCertificatesBundleS3Key = "CaCertificatesBundleS3Key"
+        case caCertificatesBundleS3ObjectVersion = "CaCertificatesBundleS3ObjectVersion"
+        case trustStoreArn = "TrustStoreArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trustStoreArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trustStoreArn)
+        trustStoreArn = trustStoreArnDecoded
+        let caCertificatesBundleS3BucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .caCertificatesBundleS3Bucket)
+        caCertificatesBundleS3Bucket = caCertificatesBundleS3BucketDecoded
+        let caCertificatesBundleS3KeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .caCertificatesBundleS3Key)
+        caCertificatesBundleS3Key = caCertificatesBundleS3KeyDecoded
+        let caCertificatesBundleS3ObjectVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .caCertificatesBundleS3ObjectVersion)
+        caCertificatesBundleS3ObjectVersion = caCertificatesBundleS3ObjectVersionDecoded
+    }
+}
+
+extension ModifyTrustStoreOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ModifyTrustStoreOutputBody = try responseDecoder.decode(responseBody: data)
+            self.trustStores = output.trustStores
+        } else {
+            self.trustStores = nil
+        }
+    }
+}
+
+public struct ModifyTrustStoreOutput: Swift.Equatable {
+    /// Information about the modified trust store.
+    public var trustStores: [ElasticLoadBalancingv2ClientTypes.TrustStore]?
+
+    public init(
+        trustStores: [ElasticLoadBalancingv2ClientTypes.TrustStore]? = nil
+    )
+    {
+        self.trustStores = trustStores
+    }
+}
+
+struct ModifyTrustStoreOutputBody: Swift.Equatable {
+    let trustStores: [ElasticLoadBalancingv2ClientTypes.TrustStore]?
+}
+
+extension ModifyTrustStoreOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case trustStores = "TrustStores"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyTrustStoreResult"))
+        if containerValues.contains(.trustStores) {
+            struct KeyVal0{struct member{}}
+            let trustStoresWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .trustStores)
+            if let trustStoresWrappedContainer = trustStoresWrappedContainer {
+                let trustStoresContainer = try trustStoresWrappedContainer.decodeIfPresent([ElasticLoadBalancingv2ClientTypes.TrustStore].self, forKey: .member)
+                var trustStoresBuffer:[ElasticLoadBalancingv2ClientTypes.TrustStore]? = nil
+                if let trustStoresContainer = trustStoresContainer {
+                    trustStoresBuffer = [ElasticLoadBalancingv2ClientTypes.TrustStore]()
+                    for structureContainer0 in trustStoresContainer {
+                        trustStoresBuffer?.append(structureContainer0)
+                    }
+                }
+                trustStores = trustStoresBuffer
+            } else {
+                trustStores = []
+            }
+        } else {
+            trustStores = nil
+        }
+    }
+}
+
+enum ModifyTrustStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CaCertificatesBundleNotFound": return try await CaCertificatesBundleNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCaCertificatesBundle": return try await InvalidCaCertificatesBundleException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TrustStoreNotFound": return try await TrustStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ignoreClientCertificateExpiry = "IgnoreClientCertificateExpiry"
+        case mode = "Mode"
+        case trustStoreArn = "TrustStoreArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let ignoreClientCertificateExpiry = ignoreClientCertificateExpiry {
+            try container.encode(ignoreClientCertificateExpiry, forKey: ClientRuntime.Key("IgnoreClientCertificateExpiry"))
+        }
+        if let mode = mode {
+            try container.encode(mode, forKey: ClientRuntime.Key("Mode"))
+        }
+        if let trustStoreArn = trustStoreArn {
+            try container.encode(trustStoreArn, forKey: ClientRuntime.Key("TrustStoreArn"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let modeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mode)
+        mode = modeDecoded
+        let trustStoreArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trustStoreArn)
+        trustStoreArn = trustStoreArnDecoded
+        let ignoreClientCertificateExpiryDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ignoreClientCertificateExpiry)
+        ignoreClientCertificateExpiry = ignoreClientCertificateExpiryDecoded
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+    /// Information about the mutual authentication attributes of a listener.
+    public struct MutualAuthenticationAttributes: Swift.Equatable {
+        /// Indicates whether expired client certificates are ignored.
+        public var ignoreClientCertificateExpiry: Swift.Bool?
+        /// The client certificate handling method. Options are off, passthrough or verify. The default value is off.
+        public var mode: Swift.String?
+        /// The Amazon Resource Name (ARN) of the trust store.
+        public var trustStoreArn: Swift.String?
+
+        public init(
+            ignoreClientCertificateExpiry: Swift.Bool? = nil,
+            mode: Swift.String? = nil,
+            trustStoreArn: Swift.String? = nil
+        )
+        {
+            self.ignoreClientCertificateExpiry = ignoreClientCertificateExpiry
+            self.mode = mode
+            self.trustStoreArn = trustStoreArn
+        }
+    }
+
 }
 
 extension OperationNotPermittedException {
@@ -8076,8 +9995,18 @@ extension RegisterTargetsInputBody: Swift.Decodable {
     }
 }
 
-public enum RegisterTargetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension RegisterTargetsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RegisterTargetsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum RegisterTargetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidTarget": return try await InvalidTargetException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8087,16 +10016,6 @@ public enum RegisterTargetsOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension RegisterTargetsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct RegisterTargetsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension RemoveListenerCertificatesInput: Swift.Encodable {
@@ -8183,8 +10102,18 @@ extension RemoveListenerCertificatesInputBody: Swift.Decodable {
     }
 }
 
-public enum RemoveListenerCertificatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension RemoveListenerCertificatesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RemoveListenerCertificatesOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum RemoveListenerCertificatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ListenerNotFound": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8192,16 +10121,6 @@ public enum RemoveListenerCertificatesOutputError: ClientRuntime.HttpResponseErr
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension RemoveListenerCertificatesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct RemoveListenerCertificatesOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension RemoveTagsInput: Swift.Encodable {
@@ -8314,8 +10233,18 @@ extension RemoveTagsInputBody: Swift.Decodable {
     }
 }
 
-public enum RemoveTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension RemoveTagsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RemoveTagsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum RemoveTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ListenerNotFound": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8323,19 +10252,115 @@ public enum RemoveTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RuleNotFound": return try await RuleNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TargetGroupNotFound": return try await TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyTags": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TrustStoreNotFound": return try await TrustStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-extension RemoveTagsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RemoveTrustStoreRevocationsInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let revocationIds = revocationIds {
+            if !revocationIds.isEmpty {
+                var revocationIdsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("RevocationIds"))
+                for (index0, revocationid0) in revocationIds.enumerated() {
+                    try revocationIdsContainer.encode(revocationid0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var revocationIdsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("RevocationIds"))
+                try revocationIdsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let trustStoreArn = trustStoreArn {
+            try container.encode(trustStoreArn, forKey: ClientRuntime.Key("TrustStoreArn"))
+        }
+        try container.encode("RemoveTrustStoreRevocations", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2015-12-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension RemoveTrustStoreRevocationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct RemoveTrustStoreRevocationsInput: Swift.Equatable {
+    /// The revocation IDs of the revocation files you want to remove.
+    /// This member is required.
+    public var revocationIds: [Swift.Int]?
+    /// The Amazon Resource Name (ARN) of the trust store.
+    /// This member is required.
+    public var trustStoreArn: Swift.String?
+
+    public init(
+        revocationIds: [Swift.Int]? = nil,
+        trustStoreArn: Swift.String? = nil
+    )
+    {
+        self.revocationIds = revocationIds
+        self.trustStoreArn = trustStoreArn
+    }
+}
+
+struct RemoveTrustStoreRevocationsInputBody: Swift.Equatable {
+    let trustStoreArn: Swift.String?
+    let revocationIds: [Swift.Int]?
+}
+
+extension RemoveTrustStoreRevocationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case revocationIds = "RevocationIds"
+        case trustStoreArn = "TrustStoreArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trustStoreArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trustStoreArn)
+        trustStoreArn = trustStoreArnDecoded
+        if containerValues.contains(.revocationIds) {
+            struct KeyVal0{struct member{}}
+            let revocationIdsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .revocationIds)
+            if let revocationIdsWrappedContainer = revocationIdsWrappedContainer {
+                let revocationIdsContainer = try revocationIdsWrappedContainer.decodeIfPresent([Swift.Int].self, forKey: .member)
+                var revocationIdsBuffer:[Swift.Int]? = nil
+                if let revocationIdsContainer = revocationIdsContainer {
+                    revocationIdsBuffer = [Swift.Int]()
+                    for longContainer0 in revocationIdsContainer {
+                        revocationIdsBuffer?.append(longContainer0)
+                    }
+                }
+                revocationIds = revocationIdsBuffer
+            } else {
+                revocationIds = []
+            }
+        } else {
+            revocationIds = nil
+        }
+    }
+}
+
+extension RemoveTrustStoreRevocationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
-public struct RemoveTagsOutputResponse: Swift.Equatable {
+public struct RemoveTrustStoreRevocationsOutput: Swift.Equatable {
 
     public init() { }
+}
+
+enum RemoveTrustStoreRevocationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "RevocationIdNotFound": return try await RevocationIdNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TrustStoreNotFound": return try await TrustStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
 }
 
 extension ResourceInUseException {
@@ -8392,6 +10417,208 @@ extension ResourceInUseExceptionBody: Swift.Decodable {
     }
 }
 
+extension ElasticLoadBalancingv2ClientTypes.RevocationContent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case revocationType = "RevocationType"
+        case s3Bucket = "S3Bucket"
+        case s3Key = "S3Key"
+        case s3ObjectVersion = "S3ObjectVersion"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let revocationType = revocationType {
+            try container.encode(revocationType, forKey: ClientRuntime.Key("RevocationType"))
+        }
+        if let s3Bucket = s3Bucket {
+            try container.encode(s3Bucket, forKey: ClientRuntime.Key("S3Bucket"))
+        }
+        if let s3Key = s3Key {
+            try container.encode(s3Key, forKey: ClientRuntime.Key("S3Key"))
+        }
+        if let s3ObjectVersion = s3ObjectVersion {
+            try container.encode(s3ObjectVersion, forKey: ClientRuntime.Key("S3ObjectVersion"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3BucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Bucket)
+        s3Bucket = s3BucketDecoded
+        let s3KeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Key)
+        s3Key = s3KeyDecoded
+        let s3ObjectVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3ObjectVersion)
+        s3ObjectVersion = s3ObjectVersionDecoded
+        let revocationTypeDecoded = try containerValues.decodeIfPresent(ElasticLoadBalancingv2ClientTypes.RevocationType.self, forKey: .revocationType)
+        revocationType = revocationTypeDecoded
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+    /// Information about a revocation file.
+    public struct RevocationContent: Swift.Equatable {
+        /// The type of revocation file.
+        public var revocationType: ElasticLoadBalancingv2ClientTypes.RevocationType?
+        /// The Amazon S3 bucket for the revocation file.
+        public var s3Bucket: Swift.String?
+        /// The Amazon S3 path for the revocation file.
+        public var s3Key: Swift.String?
+        /// The Amazon S3 object version of the revocation file.
+        public var s3ObjectVersion: Swift.String?
+
+        public init(
+            revocationType: ElasticLoadBalancingv2ClientTypes.RevocationType? = nil,
+            s3Bucket: Swift.String? = nil,
+            s3Key: Swift.String? = nil,
+            s3ObjectVersion: Swift.String? = nil
+        )
+        {
+            self.revocationType = revocationType
+            self.s3Bucket = s3Bucket
+            self.s3Key = s3Key
+            self.s3ObjectVersion = s3ObjectVersion
+        }
+    }
+
+}
+
+extension RevocationContentNotFoundException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<RevocationContentNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The specified revocation file does not exist.
+public struct RevocationContentNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RevocationContentNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct RevocationContentNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension RevocationContentNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension RevocationIdNotFoundException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<RevocationIdNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The specified revocation ID does not exist.
+public struct RevocationIdNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RevocationIdNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct RevocationIdNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension RevocationIdNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+    public enum RevocationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case crl
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RevocationType] {
+            return [
+                .crl,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .crl: return "CRL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RevocationType(rawValue: rawValue) ?? RevocationType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ElasticLoadBalancingv2ClientTypes.Rule: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actions = "Actions"
@@ -8427,7 +10654,7 @@ extension ElasticLoadBalancingv2ClientTypes.Rule: Swift.Codable {
                 try conditionsContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if isDefault != false {
+        if let isDefault = isDefault {
             try container.encode(isDefault, forKey: ClientRuntime.Key("IsDefault"))
         }
         if let priority = priority {
@@ -8482,7 +10709,7 @@ extension ElasticLoadBalancingv2ClientTypes.Rule: Swift.Codable {
         } else {
             actions = nil
         }
-        let isDefaultDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isDefault)
+        let isDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDefault)
         isDefault = isDefaultDecoded
     }
 }
@@ -8495,7 +10722,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         /// The conditions. Each rule can include zero or one of the following conditions: http-request-method, host-header, path-pattern, and source-ip, and zero or more of the following conditions: http-header and query-string.
         public var conditions: [ElasticLoadBalancingv2ClientTypes.RuleCondition]?
         /// Indicates whether this is the default rule.
-        public var isDefault: Swift.Bool
+        public var isDefault: Swift.Bool?
         /// The priority.
         public var priority: Swift.String?
         /// The Amazon Resource Name (ARN) of the rule.
@@ -8504,7 +10731,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public init(
             actions: [ElasticLoadBalancingv2ClientTypes.Action]? = nil,
             conditions: [ElasticLoadBalancingv2ClientTypes.RuleCondition]? = nil,
-            isDefault: Swift.Bool = false,
+            isDefault: Swift.Bool? = nil,
             priority: Swift.String? = nil,
             ruleArn: Swift.String? = nil
         )
@@ -8607,7 +10834,7 @@ extension ElasticLoadBalancingv2ClientTypes.RuleCondition: Swift.Codable {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
-    /// Information about a condition for a rule. Each rule can optionally include up to one of each of the following conditions: http-request-method, host-header, path-pattern, and source-ip. Each rule can also optionally include one or more of each of the following conditions: http-header and query-string. Note that the value for a condition cannot be empty.
+    /// Information about a condition for a rule. Each rule can optionally include up to one of each of the following conditions: http-request-method, host-header, path-pattern, and source-ip. Each rule can also optionally include one or more of each of the following conditions: http-header and query-string. Note that the value for a condition cannot be empty. For more information, see [Quotas for your Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html).
     public struct RuleCondition: Swift.Equatable {
         /// The field in the HTTP request. The following are the possible values:
         ///
@@ -8894,23 +11121,11 @@ extension SetIpAddressTypeInputBody: Swift.Decodable {
     }
 }
 
-public enum SetIpAddressTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidSubnet": return try await InvalidSubnetException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "LoadBalancerNotFound": return try await LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension SetIpAddressTypeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SetIpAddressTypeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SetIpAddressTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SetIpAddressTypeOutputBody = try responseDecoder.decode(responseBody: data)
             self.ipAddressType = output.ipAddressType
         } else {
             self.ipAddressType = nil
@@ -8918,7 +11133,7 @@ extension SetIpAddressTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetIpAddressTypeOutputResponse: Swift.Equatable {
+public struct SetIpAddressTypeOutput: Swift.Equatable {
     /// The IP address type.
     public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
 
@@ -8930,11 +11145,11 @@ public struct SetIpAddressTypeOutputResponse: Swift.Equatable {
     }
 }
 
-struct SetIpAddressTypeOutputResponseBody: Swift.Equatable {
+struct SetIpAddressTypeOutputBody: Swift.Equatable {
     let ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
 }
 
-extension SetIpAddressTypeOutputResponseBody: Swift.Decodable {
+extension SetIpAddressTypeOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ipAddressType = "IpAddressType"
     }
@@ -8944,6 +11159,18 @@ extension SetIpAddressTypeOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("SetIpAddressTypeResult"))
         let ipAddressTypeDecoded = try containerValues.decodeIfPresent(ElasticLoadBalancingv2ClientTypes.IpAddressType.self, forKey: .ipAddressType)
         ipAddressType = ipAddressTypeDecoded
+    }
+}
+
+enum SetIpAddressTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSubnet": return try await InvalidSubnetException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LoadBalancerNotFound": return try await LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -9019,23 +11246,11 @@ extension SetRulePrioritiesInputBody: Swift.Decodable {
     }
 }
 
-public enum SetRulePrioritiesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "PriorityInUse": return try await PriorityInUseException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "RuleNotFound": return try await RuleNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension SetRulePrioritiesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SetRulePrioritiesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SetRulePrioritiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SetRulePrioritiesOutputBody = try responseDecoder.decode(responseBody: data)
             self.rules = output.rules
         } else {
             self.rules = nil
@@ -9043,7 +11258,7 @@ extension SetRulePrioritiesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetRulePrioritiesOutputResponse: Swift.Equatable {
+public struct SetRulePrioritiesOutput: Swift.Equatable {
     /// Information about the rules.
     public var rules: [ElasticLoadBalancingv2ClientTypes.Rule]?
 
@@ -9055,11 +11270,11 @@ public struct SetRulePrioritiesOutputResponse: Swift.Equatable {
     }
 }
 
-struct SetRulePrioritiesOutputResponseBody: Swift.Equatable {
+struct SetRulePrioritiesOutputBody: Swift.Equatable {
     let rules: [ElasticLoadBalancingv2ClientTypes.Rule]?
 }
 
-extension SetRulePrioritiesOutputResponseBody: Swift.Decodable {
+extension SetRulePrioritiesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case rules = "Rules"
     }
@@ -9089,9 +11304,24 @@ extension SetRulePrioritiesOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum SetRulePrioritiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "PriorityInUse": return try await PriorityInUseException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "RuleNotFound": return try await RuleNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension SetSecurityGroupsInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTraffic {
+            try container.encode(enforceSecurityGroupInboundRulesOnPrivateLinkTraffic, forKey: ClientRuntime.Key("EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic"))
+        }
         if let loadBalancerArn = loadBalancerArn {
             try container.encode(loadBalancerArn, forKey: ClientRuntime.Key("LoadBalancerArn"))
         }
@@ -9119,6 +11349,8 @@ extension SetSecurityGroupsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct SetSecurityGroupsInput: Swift.Equatable {
+    /// Indicates whether to evaluate inbound security group rules for traffic sent to a Network Load Balancer through Amazon Web Services PrivateLink. The default is on.
+    public var enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: ElasticLoadBalancingv2ClientTypes.EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum?
     /// The Amazon Resource Name (ARN) of the load balancer.
     /// This member is required.
     public var loadBalancerArn: Swift.String?
@@ -9127,10 +11359,12 @@ public struct SetSecurityGroupsInput: Swift.Equatable {
     public var securityGroups: [Swift.String]?
 
     public init(
+        enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: ElasticLoadBalancingv2ClientTypes.EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum? = nil,
         loadBalancerArn: Swift.String? = nil,
         securityGroups: [Swift.String]? = nil
     )
     {
+        self.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTraffic
         self.loadBalancerArn = loadBalancerArn
         self.securityGroups = securityGroups
     }
@@ -9139,10 +11373,12 @@ public struct SetSecurityGroupsInput: Swift.Equatable {
 struct SetSecurityGroupsInputBody: Swift.Equatable {
     let loadBalancerArn: Swift.String?
     let securityGroups: [Swift.String]?
+    let enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: ElasticLoadBalancingv2ClientTypes.EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum?
 }
 
 extension SetSecurityGroupsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = "EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic"
         case loadBalancerArn = "LoadBalancerArn"
         case securityGroups = "SecurityGroups"
     }
@@ -9170,51 +11406,49 @@ extension SetSecurityGroupsInputBody: Swift.Decodable {
         } else {
             securityGroups = nil
         }
+        let enforceSecurityGroupInboundRulesOnPrivateLinkTrafficDecoded = try containerValues.decodeIfPresent(ElasticLoadBalancingv2ClientTypes.EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum.self, forKey: .enforceSecurityGroupInboundRulesOnPrivateLinkTraffic)
+        enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTrafficDecoded
     }
 }
 
-public enum SetSecurityGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidSecurityGroup": return try await InvalidSecurityGroupException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "LoadBalancerNotFound": return try await LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension SetSecurityGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SetSecurityGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SetSecurityGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SetSecurityGroupsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = output.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic
             self.securityGroupIds = output.securityGroupIds
         } else {
+            self.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = nil
             self.securityGroupIds = nil
         }
     }
 }
 
-public struct SetSecurityGroupsOutputResponse: Swift.Equatable {
+public struct SetSecurityGroupsOutput: Swift.Equatable {
+    /// Indicates whether to evaluate inbound security group rules for traffic sent to a Network Load Balancer through Amazon Web Services PrivateLink.
+    public var enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: ElasticLoadBalancingv2ClientTypes.EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum?
     /// The IDs of the security groups associated with the load balancer.
     public var securityGroupIds: [Swift.String]?
 
     public init(
+        enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: ElasticLoadBalancingv2ClientTypes.EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum? = nil,
         securityGroupIds: [Swift.String]? = nil
     )
     {
+        self.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTraffic
         self.securityGroupIds = securityGroupIds
     }
 }
 
-struct SetSecurityGroupsOutputResponseBody: Swift.Equatable {
+struct SetSecurityGroupsOutputBody: Swift.Equatable {
     let securityGroupIds: [Swift.String]?
+    let enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: ElasticLoadBalancingv2ClientTypes.EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum?
 }
 
-extension SetSecurityGroupsOutputResponseBody: Swift.Decodable {
+extension SetSecurityGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = "EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic"
         case securityGroupIds = "SecurityGroupIds"
     }
 
@@ -9239,6 +11473,20 @@ extension SetSecurityGroupsOutputResponseBody: Swift.Decodable {
             }
         } else {
             securityGroupIds = nil
+        }
+        let enforceSecurityGroupInboundRulesOnPrivateLinkTrafficDecoded = try containerValues.decodeIfPresent(ElasticLoadBalancingv2ClientTypes.EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum.self, forKey: .enforceSecurityGroupInboundRulesOnPrivateLinkTraffic)
+        enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTrafficDecoded
+    }
+}
+
+enum SetSecurityGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSecurityGroup": return try await InvalidSecurityGroupException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LoadBalancerNotFound": return try await LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -9288,14 +11536,14 @@ extension SetSubnetsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct SetSubnetsInput: Swift.Equatable {
-    /// [Network Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener. .
+    /// [Network Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener. [Gateway Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
     public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
     /// The Amazon Resource Name (ARN) of the load balancer.
     /// This member is required.
     public var loadBalancerArn: Swift.String?
-    /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet.
+    /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones.
     public var subnetMappings: [ElasticLoadBalancingv2ClientTypes.SubnetMapping]?
-    /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones.
+    /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones.
     public var subnets: [Swift.String]?
 
     public init(
@@ -9374,26 +11622,11 @@ extension SetSubnetsInputBody: Swift.Decodable {
     }
 }
 
-public enum SetSubnetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AllocationIdNotFound": return try await AllocationIdNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AvailabilityZoneNotSupported": return try await AvailabilityZoneNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidSubnet": return try await InvalidSubnetException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "LoadBalancerNotFound": return try await LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "SubnetNotFound": return try await SubnetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension SetSubnetsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SetSubnetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SetSubnetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SetSubnetsOutputBody = try responseDecoder.decode(responseBody: data)
             self.availabilityZones = output.availabilityZones
             self.ipAddressType = output.ipAddressType
         } else {
@@ -9403,10 +11636,10 @@ extension SetSubnetsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetSubnetsOutputResponse: Swift.Equatable {
+public struct SetSubnetsOutput: Swift.Equatable {
     /// Information about the subnets.
     public var availabilityZones: [ElasticLoadBalancingv2ClientTypes.AvailabilityZone]?
-    /// [Network Load Balancers] The IP address type.
+    /// [Network Load Balancers] The IP address type. [Gateway Load Balancers] The IP address type.
     public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
 
     public init(
@@ -9419,12 +11652,12 @@ public struct SetSubnetsOutputResponse: Swift.Equatable {
     }
 }
 
-struct SetSubnetsOutputResponseBody: Swift.Equatable {
+struct SetSubnetsOutputBody: Swift.Equatable {
     let availabilityZones: [ElasticLoadBalancingv2ClientTypes.AvailabilityZone]?
     let ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
 }
 
-extension SetSubnetsOutputResponseBody: Swift.Decodable {
+extension SetSubnetsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case availabilityZones = "AvailabilityZones"
         case ipAddressType = "IpAddressType"
@@ -9454,6 +11687,21 @@ extension SetSubnetsOutputResponseBody: Swift.Decodable {
         }
         let ipAddressTypeDecoded = try containerValues.decodeIfPresent(ElasticLoadBalancingv2ClientTypes.IpAddressType.self, forKey: .ipAddressType)
         ipAddressType = ipAddressTypeDecoded
+    }
+}
+
+enum SetSubnetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AllocationIdNotFound": return try await AllocationIdNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "AvailabilityZoneNotSupported": return try await AvailabilityZoneNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidConfigurationRequest": return try await InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSubnet": return try await InvalidSubnetException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LoadBalancerNotFound": return try await LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubnetNotFound": return try await SubnetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -9936,7 +12184,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         /// The ID of the target. If the target type of the target group is instance, specify an instance ID. If the target type is ip, specify an IP address. If the target type is lambda, specify the ARN of the Lambda function. If the target type is alb, specify the ARN of the Application Load Balancer target.
         /// This member is required.
         public var id: Swift.String?
-        /// The port on which the target is listening. If the target group protocol is GENEVE, the supported port is 6081. If the target type is alb, the targeted Application Load Balancer must have at least one listener whose port matches the target group port. Not used if the target is a Lambda function.
+        /// The port on which the target is listening. If the target group protocol is GENEVE, the supported port is 6081. If the target type is alb, the targeted Application Load Balancer must have at least one listener whose port matches the target group port. This parameter is not used if the target is a Lambda function.
         public var port: Swift.Int?
 
         public init(
@@ -10119,11 +12367,11 @@ extension ElasticLoadBalancingv2ClientTypes {
         public var healthyThresholdCount: Swift.Int?
         /// The type of IP address used for this target group. The possible values are ipv4 and ipv6. This is an optional parameter. If not specified, the IP address type defaults to ipv4.
         public var ipAddressType: ElasticLoadBalancingv2ClientTypes.TargetGroupIpAddressTypeEnum?
-        /// The Amazon Resource Names (ARN) of the load balancers that route traffic to this target group.
+        /// The Amazon Resource Name (ARN) of the load balancer that routes traffic to this target group. You can use each target group with only one load balancer.
         public var loadBalancerArns: [Swift.String]?
         /// The HTTP or gRPC codes to use when checking for a successful response from a target.
         public var matcher: ElasticLoadBalancingv2ClientTypes.Matcher?
-        /// The port on which the targets are listening. Not used if the target is a Lambda function.
+        /// The port on which the targets are listening. This parameter is not used if the target is a Lambda function.
         public var port: Swift.Int?
         /// The protocol to use for routing traffic to the targets.
         public var `protocol`: ElasticLoadBalancingv2ClientTypes.ProtocolEnum?
@@ -10299,7 +12547,9 @@ extension ElasticLoadBalancingv2ClientTypes {
         ///
         /// The following attributes are supported only if the load balancer is an Application Load Balancer and the target is an instance or an IP address:
         ///
-        /// * load_balancing.algorithm.type - The load balancing algorithm determines how the load balancer selects targets when routing requests. The value is round_robin or least_outstanding_requests. The default is round_robin.
+        /// * load_balancing.algorithm.type - The load balancing algorithm determines how the load balancer selects targets when routing requests. The value is round_robin, least_outstanding_requests, or weighted_random. The default is round_robin.
+        ///
+        /// * load_balancing.algorithm.anomaly_mitigation - Only available when load_balancing.algorithm.type is weighted_random. Indicates whether anomaly mitigation is enabled. The value is on or off. The default is off.
         ///
         /// * slow_start.duration_seconds - The time period, in seconds, during which a newly registered target receives an increasing share of the traffic to the target group. After this time period ends, the target receives its full share of traffic. The range is 30-900 seconds (15 minutes). The default is 0 seconds (disabled).
         ///
@@ -10317,11 +12567,13 @@ extension ElasticLoadBalancingv2ClientTypes {
         ///
         /// The following attributes are supported only by Network Load Balancers:
         ///
-        /// * deregistration_delay.connection_termination.enabled - Indicates whether the load balancer terminates connections at the end of the deregistration timeout. The value is true or false. The default is false.
+        /// * deregistration_delay.connection_termination.enabled - Indicates whether the load balancer terminates connections at the end of the deregistration timeout. The value is true or false. For new UDP/TCP_UDP target groups the default is true. Otherwise, the default is false.
         ///
         /// * preserve_client_ip.enabled - Indicates whether client IP preservation is enabled. The value is true or false. The default is disabled if the target group type is IP address and the target group protocol is TCP or TLS. Otherwise, the default is enabled. Client IP preservation cannot be disabled for UDP and TCP_UDP target groups.
         ///
         /// * proxy_protocol_v2.enabled - Indicates whether Proxy Protocol version 2 is enabled. The value is true or false. The default is false.
+        ///
+        /// * target_health_state.unhealthy.connection_termination.enabled - Indicates whether the load balancer terminates connections to unhealthy targets. The value is true or false. The default is true.
         ///
         ///
         /// The following attributes are supported only by Gateway Load Balancers:
@@ -10616,6 +12868,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
 extension ElasticLoadBalancingv2ClientTypes.TargetHealthDescription: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case anomalyDetection = "AnomalyDetection"
         case healthCheckPort = "HealthCheckPort"
         case target = "Target"
         case targetHealth = "TargetHealth"
@@ -10623,6 +12876,9 @@ extension ElasticLoadBalancingv2ClientTypes.TargetHealthDescription: Swift.Codab
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let anomalyDetection = anomalyDetection {
+            try container.encode(anomalyDetection, forKey: ClientRuntime.Key("AnomalyDetection"))
+        }
         if let healthCheckPort = healthCheckPort {
             try container.encode(healthCheckPort, forKey: ClientRuntime.Key("HealthCheckPort"))
         }
@@ -10642,12 +12898,16 @@ extension ElasticLoadBalancingv2ClientTypes.TargetHealthDescription: Swift.Codab
         healthCheckPort = healthCheckPortDecoded
         let targetHealthDecoded = try containerValues.decodeIfPresent(ElasticLoadBalancingv2ClientTypes.TargetHealth.self, forKey: .targetHealth)
         targetHealth = targetHealthDecoded
+        let anomalyDetectionDecoded = try containerValues.decodeIfPresent(ElasticLoadBalancingv2ClientTypes.AnomalyDetection.self, forKey: .anomalyDetection)
+        anomalyDetection = anomalyDetectionDecoded
     }
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
     /// Information about the health of a target.
     public struct TargetHealthDescription: Swift.Equatable {
+        /// The anomaly detection result for the target. If no anomalies were detected, the result is normal. If anomalies were detected, the result is anomalous.
+        public var anomalyDetection: ElasticLoadBalancingv2ClientTypes.AnomalyDetection?
         /// The port to use to connect with the target.
         public var healthCheckPort: Swift.String?
         /// The description of the target.
@@ -10656,11 +12916,13 @@ extension ElasticLoadBalancingv2ClientTypes {
         public var targetHealth: ElasticLoadBalancingv2ClientTypes.TargetHealth?
 
         public init(
+            anomalyDetection: ElasticLoadBalancingv2ClientTypes.AnomalyDetection? = nil,
             healthCheckPort: Swift.String? = nil,
             target: ElasticLoadBalancingv2ClientTypes.TargetDescription? = nil,
             targetHealth: ElasticLoadBalancingv2ClientTypes.TargetHealth? = nil
         )
         {
+            self.anomalyDetection = anomalyDetection
             self.healthCheckPort = healthCheckPort
             self.target = target
             self.targetHealth = targetHealth
@@ -11151,7 +13413,7 @@ extension TooManyTagsException {
     }
 }
 
-/// You've reached the limit on the number of tags per load balancer.
+/// You've reached the limit on the number of tags for this resource.
 public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -11299,6 +13561,114 @@ extension TooManyTargetsExceptionBody: Swift.Decodable {
     }
 }
 
+extension TooManyTrustStoreRevocationEntriesException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<TooManyTrustStoreRevocationEntriesExceptionBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The specified trust store has too many revocation entries.
+public struct TooManyTrustStoreRevocationEntriesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyTrustStoreRevocationEntries" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct TooManyTrustStoreRevocationEntriesExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension TooManyTrustStoreRevocationEntriesExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension TooManyTrustStoresException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<TooManyTrustStoresExceptionBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// You've reached the limit on the number of trust stores for your Amazon Web Services account.
+public struct TooManyTrustStoresException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyTrustStores" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct TooManyTrustStoresExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension TooManyTrustStoresExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension TooManyUniqueTargetGroupsPerLoadBalancerException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -11350,6 +13720,375 @@ extension TooManyUniqueTargetGroupsPerLoadBalancerExceptionBody: Swift.Decodable
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.TrustStore: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case numberOfCaCertificates = "NumberOfCaCertificates"
+        case status = "Status"
+        case totalRevokedEntries = "TotalRevokedEntries"
+        case trustStoreArn = "TrustStoreArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let name = name {
+            try container.encode(name, forKey: ClientRuntime.Key("Name"))
+        }
+        if let numberOfCaCertificates = numberOfCaCertificates {
+            try container.encode(numberOfCaCertificates, forKey: ClientRuntime.Key("NumberOfCaCertificates"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+        if let totalRevokedEntries = totalRevokedEntries {
+            try container.encode(totalRevokedEntries, forKey: ClientRuntime.Key("TotalRevokedEntries"))
+        }
+        if let trustStoreArn = trustStoreArn {
+            try container.encode(trustStoreArn, forKey: ClientRuntime.Key("TrustStoreArn"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let trustStoreArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trustStoreArn)
+        trustStoreArn = trustStoreArnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ElasticLoadBalancingv2ClientTypes.TrustStoreStatus.self, forKey: .status)
+        status = statusDecoded
+        let numberOfCaCertificatesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfCaCertificates)
+        numberOfCaCertificates = numberOfCaCertificatesDecoded
+        let totalRevokedEntriesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalRevokedEntries)
+        totalRevokedEntries = totalRevokedEntriesDecoded
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+    /// Information about a trust store.
+    public struct TrustStore: Swift.Equatable {
+        /// The name of the trust store.
+        public var name: Swift.String?
+        /// The number of ca certificates in the trust store.
+        public var numberOfCaCertificates: Swift.Int?
+        /// The current status of the trust store.
+        public var status: ElasticLoadBalancingv2ClientTypes.TrustStoreStatus?
+        /// The number of revoked certificates in the trust store.
+        public var totalRevokedEntries: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the trust store.
+        public var trustStoreArn: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            numberOfCaCertificates: Swift.Int? = nil,
+            status: ElasticLoadBalancingv2ClientTypes.TrustStoreStatus? = nil,
+            totalRevokedEntries: Swift.Int? = nil,
+            trustStoreArn: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.numberOfCaCertificates = numberOfCaCertificates
+            self.status = status
+            self.totalRevokedEntries = totalRevokedEntries
+            self.trustStoreArn = trustStoreArn
+        }
+    }
+
+}
+
+extension ElasticLoadBalancingv2ClientTypes.TrustStoreAssociation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let resourceArn = resourceArn {
+            try container.encode(resourceArn, forKey: ClientRuntime.Key("ResourceArn"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+    /// Information about the resources a trust store is associated with.
+    public struct TrustStoreAssociation: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the resource.
+        public var resourceArn: Swift.String?
+
+        public init(
+            resourceArn: Swift.String? = nil
+        )
+        {
+            self.resourceArn = resourceArn
+        }
+    }
+
+}
+
+extension TrustStoreInUseException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<TrustStoreInUseExceptionBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The specified trust store is currently in use.
+public struct TrustStoreInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TrustStoreInUse" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct TrustStoreInUseExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension TrustStoreInUseExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension TrustStoreNotFoundException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<TrustStoreNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The specified trust store does not exist.
+public struct TrustStoreNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TrustStoreNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct TrustStoreNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension TrustStoreNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension TrustStoreNotReadyException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<TrustStoreNotReadyExceptionBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The specified trust store is not active.
+public struct TrustStoreNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TrustStoreNotReady" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct TrustStoreNotReadyExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension TrustStoreNotReadyExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.TrustStoreRevocation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case numberOfRevokedEntries = "NumberOfRevokedEntries"
+        case revocationId = "RevocationId"
+        case revocationType = "RevocationType"
+        case trustStoreArn = "TrustStoreArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let numberOfRevokedEntries = numberOfRevokedEntries {
+            try container.encode(numberOfRevokedEntries, forKey: ClientRuntime.Key("NumberOfRevokedEntries"))
+        }
+        if let revocationId = revocationId {
+            try container.encode(revocationId, forKey: ClientRuntime.Key("RevocationId"))
+        }
+        if let revocationType = revocationType {
+            try container.encode(revocationType, forKey: ClientRuntime.Key("RevocationType"))
+        }
+        if let trustStoreArn = trustStoreArn {
+            try container.encode(trustStoreArn, forKey: ClientRuntime.Key("TrustStoreArn"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trustStoreArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trustStoreArn)
+        trustStoreArn = trustStoreArnDecoded
+        let revocationIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .revocationId)
+        revocationId = revocationIdDecoded
+        let revocationTypeDecoded = try containerValues.decodeIfPresent(ElasticLoadBalancingv2ClientTypes.RevocationType.self, forKey: .revocationType)
+        revocationType = revocationTypeDecoded
+        let numberOfRevokedEntriesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfRevokedEntries)
+        numberOfRevokedEntries = numberOfRevokedEntriesDecoded
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+    /// Information about a revocation file in use by a trust store.
+    public struct TrustStoreRevocation: Swift.Equatable {
+        /// The number of revoked certificates.
+        public var numberOfRevokedEntries: Swift.Int?
+        /// The revocation ID of the revocation file.
+        public var revocationId: Swift.Int?
+        /// The type of revocation file.
+        public var revocationType: ElasticLoadBalancingv2ClientTypes.RevocationType?
+        /// The Amazon Resource Name (ARN) of the trust store.
+        public var trustStoreArn: Swift.String?
+
+        public init(
+            numberOfRevokedEntries: Swift.Int? = nil,
+            revocationId: Swift.Int? = nil,
+            revocationType: ElasticLoadBalancingv2ClientTypes.RevocationType? = nil,
+            trustStoreArn: Swift.String? = nil
+        )
+        {
+            self.numberOfRevokedEntries = numberOfRevokedEntries
+            self.revocationId = revocationId
+            self.revocationType = revocationType
+            self.trustStoreArn = trustStoreArn
+        }
+    }
+
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+    public enum TrustStoreStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case creating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrustStoreStatus] {
+            return [
+                .active,
+                .creating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TrustStoreStatus(rawValue: rawValue) ?? TrustStoreStatus.sdkUnknown(rawValue)
+        }
     }
 }
 

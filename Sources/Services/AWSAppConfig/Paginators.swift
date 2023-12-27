@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension AppConfigClient {
-    /// Paginate over `[ListApplicationsOutputResponse]` results.
+    /// Paginate over `[ListApplicationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListApplicationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationsOutputResponse`
-    public func listApplicationsPaginated(input: ListApplicationsInput) -> ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutputResponse>(input: input, inputKey: \ListApplicationsInput.nextToken, outputKey: \ListApplicationsOutputResponse.nextToken, paginationFunction: self.listApplications(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationsOutput`
+    public func listApplicationsPaginated(input: ListApplicationsInput) -> ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApplications(input:))
     }
 }
 
@@ -23,17 +23,26 @@ extension ListApplicationsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListApplicationsInput, OperationStackOutput == ListApplicationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listApplicationsPaginated`
+    /// to access the nested member `[AppConfigClientTypes.Application]`
+    /// - Returns: `[AppConfigClientTypes.Application]`
+    public func items() async throws -> [AppConfigClientTypes.Application] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
 extension AppConfigClient {
-    /// Paginate over `[ListConfigurationProfilesOutputResponse]` results.
+    /// Paginate over `[ListConfigurationProfilesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListConfigurationProfilesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListConfigurationProfilesOutputResponse`
-    public func listConfigurationProfilesPaginated(input: ListConfigurationProfilesInput) -> ClientRuntime.PaginatorSequence<ListConfigurationProfilesInput, ListConfigurationProfilesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListConfigurationProfilesInput, ListConfigurationProfilesOutputResponse>(input: input, inputKey: \ListConfigurationProfilesInput.nextToken, outputKey: \ListConfigurationProfilesOutputResponse.nextToken, paginationFunction: self.listConfigurationProfiles(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListConfigurationProfilesOutput`
+    public func listConfigurationProfilesPaginated(input: ListConfigurationProfilesInput) -> ClientRuntime.PaginatorSequence<ListConfigurationProfilesInput, ListConfigurationProfilesOutput> {
+        return ClientRuntime.PaginatorSequence<ListConfigurationProfilesInput, ListConfigurationProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConfigurationProfiles(input:))
     }
 }
 
@@ -46,17 +55,26 @@ extension ListConfigurationProfilesInput: ClientRuntime.PaginateToken {
             type: self.type
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListConfigurationProfilesInput, OperationStackOutput == ListConfigurationProfilesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listConfigurationProfilesPaginated`
+    /// to access the nested member `[AppConfigClientTypes.ConfigurationProfileSummary]`
+    /// - Returns: `[AppConfigClientTypes.ConfigurationProfileSummary]`
+    public func items() async throws -> [AppConfigClientTypes.ConfigurationProfileSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
 extension AppConfigClient {
-    /// Paginate over `[ListDeploymentsOutputResponse]` results.
+    /// Paginate over `[ListDeploymentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDeploymentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDeploymentsOutputResponse`
-    public func listDeploymentsPaginated(input: ListDeploymentsInput) -> ClientRuntime.PaginatorSequence<ListDeploymentsInput, ListDeploymentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDeploymentsInput, ListDeploymentsOutputResponse>(input: input, inputKey: \ListDeploymentsInput.nextToken, outputKey: \ListDeploymentsOutputResponse.nextToken, paginationFunction: self.listDeployments(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDeploymentsOutput`
+    public func listDeploymentsPaginated(input: ListDeploymentsInput) -> ClientRuntime.PaginatorSequence<ListDeploymentsInput, ListDeploymentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDeploymentsInput, ListDeploymentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDeployments(input:))
     }
 }
 
@@ -69,17 +87,26 @@ extension ListDeploymentsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListDeploymentsInput, OperationStackOutput == ListDeploymentsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listDeploymentsPaginated`
+    /// to access the nested member `[AppConfigClientTypes.DeploymentSummary]`
+    /// - Returns: `[AppConfigClientTypes.DeploymentSummary]`
+    public func items() async throws -> [AppConfigClientTypes.DeploymentSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
 extension AppConfigClient {
-    /// Paginate over `[ListDeploymentStrategiesOutputResponse]` results.
+    /// Paginate over `[ListDeploymentStrategiesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDeploymentStrategiesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDeploymentStrategiesOutputResponse`
-    public func listDeploymentStrategiesPaginated(input: ListDeploymentStrategiesInput) -> ClientRuntime.PaginatorSequence<ListDeploymentStrategiesInput, ListDeploymentStrategiesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDeploymentStrategiesInput, ListDeploymentStrategiesOutputResponse>(input: input, inputKey: \ListDeploymentStrategiesInput.nextToken, outputKey: \ListDeploymentStrategiesOutputResponse.nextToken, paginationFunction: self.listDeploymentStrategies(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDeploymentStrategiesOutput`
+    public func listDeploymentStrategiesPaginated(input: ListDeploymentStrategiesInput) -> ClientRuntime.PaginatorSequence<ListDeploymentStrategiesInput, ListDeploymentStrategiesOutput> {
+        return ClientRuntime.PaginatorSequence<ListDeploymentStrategiesInput, ListDeploymentStrategiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDeploymentStrategies(input:))
     }
 }
 
@@ -90,17 +117,26 @@ extension ListDeploymentStrategiesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListDeploymentStrategiesInput, OperationStackOutput == ListDeploymentStrategiesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listDeploymentStrategiesPaginated`
+    /// to access the nested member `[AppConfigClientTypes.DeploymentStrategy]`
+    /// - Returns: `[AppConfigClientTypes.DeploymentStrategy]`
+    public func items() async throws -> [AppConfigClientTypes.DeploymentStrategy] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
 extension AppConfigClient {
-    /// Paginate over `[ListEnvironmentsOutputResponse]` results.
+    /// Paginate over `[ListEnvironmentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListEnvironmentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListEnvironmentsOutputResponse`
-    public func listEnvironmentsPaginated(input: ListEnvironmentsInput) -> ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutputResponse>(input: input, inputKey: \ListEnvironmentsInput.nextToken, outputKey: \ListEnvironmentsOutputResponse.nextToken, paginationFunction: self.listEnvironments(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEnvironmentsOutput`
+    public func listEnvironmentsPaginated(input: ListEnvironmentsInput) -> ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEnvironments(input:))
     }
 }
 
@@ -112,17 +148,26 @@ extension ListEnvironmentsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListEnvironmentsInput, OperationStackOutput == ListEnvironmentsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listEnvironmentsPaginated`
+    /// to access the nested member `[AppConfigClientTypes.Environment]`
+    /// - Returns: `[AppConfigClientTypes.Environment]`
+    public func items() async throws -> [AppConfigClientTypes.Environment] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
 extension AppConfigClient {
-    /// Paginate over `[ListExtensionAssociationsOutputResponse]` results.
+    /// Paginate over `[ListExtensionAssociationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListExtensionAssociationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListExtensionAssociationsOutputResponse`
-    public func listExtensionAssociationsPaginated(input: ListExtensionAssociationsInput) -> ClientRuntime.PaginatorSequence<ListExtensionAssociationsInput, ListExtensionAssociationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListExtensionAssociationsInput, ListExtensionAssociationsOutputResponse>(input: input, inputKey: \ListExtensionAssociationsInput.nextToken, outputKey: \ListExtensionAssociationsOutputResponse.nextToken, paginationFunction: self.listExtensionAssociations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListExtensionAssociationsOutput`
+    public func listExtensionAssociationsPaginated(input: ListExtensionAssociationsInput) -> ClientRuntime.PaginatorSequence<ListExtensionAssociationsInput, ListExtensionAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListExtensionAssociationsInput, ListExtensionAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExtensionAssociations(input:))
     }
 }
 
@@ -136,17 +181,26 @@ extension ListExtensionAssociationsInput: ClientRuntime.PaginateToken {
             resourceIdentifier: self.resourceIdentifier
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListExtensionAssociationsInput, OperationStackOutput == ListExtensionAssociationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listExtensionAssociationsPaginated`
+    /// to access the nested member `[AppConfigClientTypes.ExtensionAssociationSummary]`
+    /// - Returns: `[AppConfigClientTypes.ExtensionAssociationSummary]`
+    public func items() async throws -> [AppConfigClientTypes.ExtensionAssociationSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
 extension AppConfigClient {
-    /// Paginate over `[ListExtensionsOutputResponse]` results.
+    /// Paginate over `[ListExtensionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListExtensionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListExtensionsOutputResponse`
-    public func listExtensionsPaginated(input: ListExtensionsInput) -> ClientRuntime.PaginatorSequence<ListExtensionsInput, ListExtensionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListExtensionsInput, ListExtensionsOutputResponse>(input: input, inputKey: \ListExtensionsInput.nextToken, outputKey: \ListExtensionsOutputResponse.nextToken, paginationFunction: self.listExtensions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListExtensionsOutput`
+    public func listExtensionsPaginated(input: ListExtensionsInput) -> ClientRuntime.PaginatorSequence<ListExtensionsInput, ListExtensionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListExtensionsInput, ListExtensionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExtensions(input:))
     }
 }
 
@@ -158,17 +212,26 @@ extension ListExtensionsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListExtensionsInput, OperationStackOutput == ListExtensionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listExtensionsPaginated`
+    /// to access the nested member `[AppConfigClientTypes.ExtensionSummary]`
+    /// - Returns: `[AppConfigClientTypes.ExtensionSummary]`
+    public func items() async throws -> [AppConfigClientTypes.ExtensionSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
 extension AppConfigClient {
-    /// Paginate over `[ListHostedConfigurationVersionsOutputResponse]` results.
+    /// Paginate over `[ListHostedConfigurationVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListHostedConfigurationVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListHostedConfigurationVersionsOutputResponse`
-    public func listHostedConfigurationVersionsPaginated(input: ListHostedConfigurationVersionsInput) -> ClientRuntime.PaginatorSequence<ListHostedConfigurationVersionsInput, ListHostedConfigurationVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListHostedConfigurationVersionsInput, ListHostedConfigurationVersionsOutputResponse>(input: input, inputKey: \ListHostedConfigurationVersionsInput.nextToken, outputKey: \ListHostedConfigurationVersionsOutputResponse.nextToken, paginationFunction: self.listHostedConfigurationVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListHostedConfigurationVersionsOutput`
+    public func listHostedConfigurationVersionsPaginated(input: ListHostedConfigurationVersionsInput) -> ClientRuntime.PaginatorSequence<ListHostedConfigurationVersionsInput, ListHostedConfigurationVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListHostedConfigurationVersionsInput, ListHostedConfigurationVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listHostedConfigurationVersions(input:))
     }
 }
 
@@ -181,4 +244,13 @@ extension ListHostedConfigurationVersionsInput: ClientRuntime.PaginateToken {
             nextToken: token,
             versionLabel: self.versionLabel
         )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListHostedConfigurationVersionsInput, OperationStackOutput == ListHostedConfigurationVersionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listHostedConfigurationVersionsPaginated`
+    /// to access the nested member `[AppConfigClientTypes.HostedConfigurationVersionSummary]`
+    /// - Returns: `[AppConfigClientTypes.HostedConfigurationVersionSummary]`
+    public func items() async throws -> [AppConfigClientTypes.HostedConfigurationVersionSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
 }

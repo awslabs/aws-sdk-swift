@@ -4,32 +4,225 @@ import ClientRuntime
 
 /// Amazon CodeGuru Security is in preview release and is subject to change. This section provides documentation for the Amazon CodeGuru Security API operations. CodeGuru Security is a service that uses program analysis and machine learning to detect security policy violations and vulnerabilities, and recommends ways to address these security risks. By proactively detecting and providing recommendations for addressing security risks, CodeGuru Security improves the overall security of your application code. For more information about CodeGuru Security, see the [Amazon CodeGuru Security User Guide](https://docs.aws.amazon.com/codeguru/latest/security-ug/what-is-codeguru-security.html).
 public protocol CodeGuruSecurityClientProtocol {
+    /// Performs the `BatchGetFindings` operation on the `AwsCodeGuruSecurity` service.
+    ///
     /// Returns a list of all requested findings.
-    func batchGetFindings(input: BatchGetFindingsInput) async throws -> BatchGetFindingsOutputResponse
+    ///
+    /// - Parameter BatchGetFindingsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetFindingsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    func batchGetFindings(input: BatchGetFindingsInput) async throws -> BatchGetFindingsOutput
+    /// Performs the `CreateScan` operation on the `AwsCodeGuruSecurity` service.
+    ///
     /// Use to create a scan using code uploaded to an S3 bucket.
-    func createScan(input: CreateScanInput) async throws -> CreateScanOutputResponse
+    ///
+    /// - Parameter CreateScanInput : [no documentation found]
+    ///
+    /// - Returns: `CreateScanOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource specified in the request was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    func createScan(input: CreateScanInput) async throws -> CreateScanOutput
+    /// Performs the `CreateUploadUrl` operation on the `AwsCodeGuruSecurity` service.
+    ///
     /// Generates a pre-signed URL and request headers used to upload a code resource. You can upload your code resource to the URL and add the request headers using any HTTP client.
-    func createUploadUrl(input: CreateUploadUrlInput) async throws -> CreateUploadUrlOutputResponse
+    ///
+    /// - Parameter CreateUploadUrlInput : [no documentation found]
+    ///
+    /// - Returns: `CreateUploadUrlOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    func createUploadUrl(input: CreateUploadUrlInput) async throws -> CreateUploadUrlOutput
+    /// Performs the `GetAccountConfiguration` operation on the `AwsCodeGuruSecurity` service.
+    ///
     /// Use to get account level configuration.
-    func getAccountConfiguration(input: GetAccountConfigurationInput) async throws -> GetAccountConfigurationOutputResponse
+    ///
+    /// - Parameter GetAccountConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetAccountConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    func getAccountConfiguration(input: GetAccountConfigurationInput) async throws -> GetAccountConfigurationOutput
+    /// Performs the `GetFindings` operation on the `AwsCodeGuruSecurity` service.
+    ///
     /// Returns a list of all findings generated by a particular scan.
-    func getFindings(input: GetFindingsInput) async throws -> GetFindingsOutputResponse
+    ///
+    /// - Parameter GetFindingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetFindingsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource specified in the request was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    func getFindings(input: GetFindingsInput) async throws -> GetFindingsOutput
+    /// Performs the `GetMetricsSummary` operation on the `AwsCodeGuruSecurity` service.
+    ///
     /// Returns top level metrics about an account from a specified date, including number of open findings, the categories with most findings, the scans with most open findings, and scans with most open critical findings.
-    func getMetricsSummary(input: GetMetricsSummaryInput) async throws -> GetMetricsSummaryOutputResponse
+    ///
+    /// - Parameter GetMetricsSummaryInput : [no documentation found]
+    ///
+    /// - Returns: `GetMetricsSummaryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    func getMetricsSummary(input: GetMetricsSummaryInput) async throws -> GetMetricsSummaryOutput
+    /// Performs the `GetScan` operation on the `AwsCodeGuruSecurity` service.
+    ///
     /// Returns details about a scan, including whether or not a scan has completed.
-    func getScan(input: GetScanInput) async throws -> GetScanOutputResponse
+    ///
+    /// - Parameter GetScanInput : [no documentation found]
+    ///
+    /// - Returns: `GetScanOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource specified in the request was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    func getScan(input: GetScanInput) async throws -> GetScanOutput
+    /// Performs the `ListFindingsMetrics` operation on the `AwsCodeGuruSecurity` service.
+    ///
     /// Returns metrics about all findings in an account within a specified time range.
-    func listFindingsMetrics(input: ListFindingsMetricsInput) async throws -> ListFindingsMetricsOutputResponse
+    ///
+    /// - Parameter ListFindingsMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFindingsMetricsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    func listFindingsMetrics(input: ListFindingsMetricsInput) async throws -> ListFindingsMetricsOutput
+    /// Performs the `ListScans` operation on the `AwsCodeGuruSecurity` service.
+    ///
     /// Returns a list of all the standard scans in an account. Does not return express scans.
-    func listScans(input: ListScansInput) async throws -> ListScansOutputResponse
+    ///
+    /// - Parameter ListScansInput : [no documentation found]
+    ///
+    /// - Returns: `ListScansOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    func listScans(input: ListScansInput) async throws -> ListScansOutput
+    /// Performs the `ListTagsForResource` operation on the `AwsCodeGuruSecurity` service.
+    ///
     /// Returns a list of all tags associated with a scan.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource specified in the request was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `TagResource` operation on the `AwsCodeGuruSecurity` service.
+    ///
     /// Use to add one or more tags to an existing scan.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource specified in the request was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `AwsCodeGuruSecurity` service.
+    ///
     /// Use to remove one or more tags from an existing scan.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource specified in the request was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateAccountConfiguration` operation on the `AwsCodeGuruSecurity` service.
+    ///
     /// Use to update account-level configuration with an encryption key.
-    func updateAccountConfiguration(input: UpdateAccountConfigurationInput) async throws -> UpdateAccountConfigurationOutputResponse
+    ///
+    /// - Parameter UpdateAccountConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAccountConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource specified in the request was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    func updateAccountConfiguration(input: UpdateAccountConfigurationInput) async throws -> UpdateAccountConfigurationOutput
 }
 
 public enum CodeGuruSecurityClientTypes {}

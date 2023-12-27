@@ -57,6 +57,42 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+extension OSISClientTypes.BufferOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case persistentBufferEnabled = "PersistentBufferEnabled"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let persistentBufferEnabled = self.persistentBufferEnabled {
+            try encodeContainer.encode(persistentBufferEnabled, forKey: .persistentBufferEnabled)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let persistentBufferEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .persistentBufferEnabled)
+        persistentBufferEnabled = persistentBufferEnabledDecoded
+    }
+}
+
+extension OSISClientTypes {
+    /// Options that specify the configuration of a persistent buffer. To configure how OpenSearch Ingestion encrypts this data, set the EncryptionAtRestOptions.
+    public struct BufferOptions: Swift.Equatable {
+        /// Whether persistent buffering should be enabled.
+        /// This member is required.
+        public var persistentBufferEnabled: Swift.Bool?
+
+        public init(
+            persistentBufferEnabled: Swift.Bool? = nil
+        )
+        {
+            self.persistentBufferEnabled = persistentBufferEnabled
+        }
+    }
+
+}
+
 extension OSISClientTypes.ChangeProgressStage: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
@@ -368,6 +404,8 @@ extension ConflictExceptionBody: Swift.Decodable {
 
 extension CreatePipelineInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bufferOptions = "BufferOptions"
+        case encryptionAtRestOptions = "EncryptionAtRestOptions"
         case logPublishingOptions = "LogPublishingOptions"
         case maxUnits = "MaxUnits"
         case minUnits = "MinUnits"
@@ -379,6 +417,12 @@ extension CreatePipelineInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bufferOptions = self.bufferOptions {
+            try encodeContainer.encode(bufferOptions, forKey: .bufferOptions)
+        }
+        if let encryptionAtRestOptions = self.encryptionAtRestOptions {
+            try encodeContainer.encode(encryptionAtRestOptions, forKey: .encryptionAtRestOptions)
+        }
         if let logPublishingOptions = self.logPublishingOptions {
             try encodeContainer.encode(logPublishingOptions, forKey: .logPublishingOptions)
         }
@@ -413,6 +457,10 @@ extension CreatePipelineInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreatePipelineInput: Swift.Equatable {
+    /// Key-value pairs to configure persistent buffering for the pipeline.
+    public var bufferOptions: OSISClientTypes.BufferOptions?
+    /// Key-value pairs to configure encryption for data that is written to a persistent buffer.
+    public var encryptionAtRestOptions: OSISClientTypes.EncryptionAtRestOptions?
     /// Key-value pairs to configure log publishing.
     public var logPublishingOptions: OSISClientTypes.LogPublishingOptions?
     /// The maximum pipeline capacity, in Ingestion Compute Units (ICUs).
@@ -433,6 +481,8 @@ public struct CreatePipelineInput: Swift.Equatable {
     public var vpcOptions: OSISClientTypes.VpcOptions?
 
     public init(
+        bufferOptions: OSISClientTypes.BufferOptions? = nil,
+        encryptionAtRestOptions: OSISClientTypes.EncryptionAtRestOptions? = nil,
         logPublishingOptions: OSISClientTypes.LogPublishingOptions? = nil,
         maxUnits: Swift.Int? = nil,
         minUnits: Swift.Int? = nil,
@@ -442,6 +492,8 @@ public struct CreatePipelineInput: Swift.Equatable {
         vpcOptions: OSISClientTypes.VpcOptions? = nil
     )
     {
+        self.bufferOptions = bufferOptions
+        self.encryptionAtRestOptions = encryptionAtRestOptions
         self.logPublishingOptions = logPublishingOptions
         self.maxUnits = maxUnits
         self.minUnits = minUnits
@@ -459,11 +511,15 @@ struct CreatePipelineInputBody: Swift.Equatable {
     let pipelineConfigurationBody: Swift.String?
     let logPublishingOptions: OSISClientTypes.LogPublishingOptions?
     let vpcOptions: OSISClientTypes.VpcOptions?
+    let bufferOptions: OSISClientTypes.BufferOptions?
+    let encryptionAtRestOptions: OSISClientTypes.EncryptionAtRestOptions?
     let tags: [OSISClientTypes.Tag]?
 }
 
 extension CreatePipelineInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bufferOptions = "BufferOptions"
+        case encryptionAtRestOptions = "EncryptionAtRestOptions"
         case logPublishingOptions = "LogPublishingOptions"
         case maxUnits = "MaxUnits"
         case minUnits = "MinUnits"
@@ -487,6 +543,10 @@ extension CreatePipelineInputBody: Swift.Decodable {
         logPublishingOptions = logPublishingOptionsDecoded
         let vpcOptionsDecoded = try containerValues.decodeIfPresent(OSISClientTypes.VpcOptions.self, forKey: .vpcOptions)
         vpcOptions = vpcOptionsDecoded
+        let bufferOptionsDecoded = try containerValues.decodeIfPresent(OSISClientTypes.BufferOptions.self, forKey: .bufferOptions)
+        bufferOptions = bufferOptionsDecoded
+        let encryptionAtRestOptionsDecoded = try containerValues.decodeIfPresent(OSISClientTypes.EncryptionAtRestOptions.self, forKey: .encryptionAtRestOptions)
+        encryptionAtRestOptions = encryptionAtRestOptionsDecoded
         let tagsContainer = try containerValues.decodeIfPresent([OSISClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[OSISClientTypes.Tag]? = nil
         if let tagsContainer = tagsContainer {
@@ -501,26 +561,11 @@ extension CreatePipelineInputBody: Swift.Decodable {
     }
 }
 
-public enum CreatePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreatePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreatePipelineOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreatePipelineOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreatePipelineOutputBody = try responseDecoder.decode(responseBody: data)
             self.pipeline = output.pipeline
         } else {
             self.pipeline = nil
@@ -528,7 +573,7 @@ extension CreatePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePipelineOutputResponse: Swift.Equatable {
+public struct CreatePipelineOutput: Swift.Equatable {
     /// Container for information about the created pipeline.
     public var pipeline: OSISClientTypes.Pipeline?
 
@@ -540,11 +585,11 @@ public struct CreatePipelineOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreatePipelineOutputResponseBody: Swift.Equatable {
+struct CreatePipelineOutputBody: Swift.Equatable {
     let pipeline: OSISClientTypes.Pipeline?
 }
 
-extension CreatePipelineOutputResponseBody: Swift.Decodable {
+extension CreatePipelineOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case pipeline = "Pipeline"
     }
@@ -553,6 +598,22 @@ extension CreatePipelineOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineDecoded = try containerValues.decodeIfPresent(OSISClientTypes.Pipeline.self, forKey: .pipeline)
         pipeline = pipelineDecoded
+    }
+}
+
+enum CreatePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -587,8 +648,18 @@ extension DeletePipelineInputBody: Swift.Decodable {
     }
 }
 
-public enum DeletePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeletePipelineOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeletePipelineOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeletePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -602,14 +673,40 @@ public enum DeletePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeletePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+extension OSISClientTypes.EncryptionAtRestOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kmsKeyArn = "KmsKeyArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let kmsKeyArn = self.kmsKeyArn {
+            try encodeContainer.encode(kmsKeyArn, forKey: .kmsKeyArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
+        kmsKeyArn = kmsKeyArnDecoded
     }
 }
 
-public struct DeletePipelineOutputResponse: Swift.Equatable {
+extension OSISClientTypes {
+    /// Options to control how OpenSearch encrypts all data-at-rest.
+    public struct EncryptionAtRestOptions: Swift.Equatable {
+        /// The ARN of the KMS key used to encrypt data-at-rest in OpenSearch Ingestion. By default, data is encrypted using an AWS owned key.
+        /// This member is required.
+        public var kmsKeyArn: Swift.String?
 
-    public init() { }
+        public init(
+            kmsKeyArn: Swift.String? = nil
+        )
+        {
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+
 }
 
 extension GetPipelineBlueprintInput: ClientRuntime.URLPathProvider {
@@ -643,25 +740,11 @@ extension GetPipelineBlueprintInputBody: Swift.Decodable {
     }
 }
 
-public enum GetPipelineBlueprintOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetPipelineBlueprintOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPipelineBlueprintOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetPipelineBlueprintOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetPipelineBlueprintOutputBody = try responseDecoder.decode(responseBody: data)
             self.blueprint = output.blueprint
         } else {
             self.blueprint = nil
@@ -669,7 +752,7 @@ extension GetPipelineBlueprintOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetPipelineBlueprintOutputResponse: Swift.Equatable {
+public struct GetPipelineBlueprintOutput: Swift.Equatable {
     /// The requested blueprint in YAML format.
     public var blueprint: OSISClientTypes.PipelineBlueprint?
 
@@ -681,11 +764,11 @@ public struct GetPipelineBlueprintOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPipelineBlueprintOutputResponseBody: Swift.Equatable {
+struct GetPipelineBlueprintOutputBody: Swift.Equatable {
     let blueprint: OSISClientTypes.PipelineBlueprint?
 }
 
-extension GetPipelineBlueprintOutputResponseBody: Swift.Decodable {
+extension GetPipelineBlueprintOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case blueprint = "Blueprint"
     }
@@ -694,6 +777,20 @@ extension GetPipelineBlueprintOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let blueprintDecoded = try containerValues.decodeIfPresent(OSISClientTypes.PipelineBlueprint.self, forKey: .blueprint)
         blueprint = blueprintDecoded
+    }
+}
+
+enum GetPipelineBlueprintOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -728,25 +825,11 @@ extension GetPipelineChangeProgressInputBody: Swift.Decodable {
     }
 }
 
-public enum GetPipelineChangeProgressOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetPipelineChangeProgressOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPipelineChangeProgressOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetPipelineChangeProgressOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetPipelineChangeProgressOutputBody = try responseDecoder.decode(responseBody: data)
             self.changeProgressStatuses = output.changeProgressStatuses
         } else {
             self.changeProgressStatuses = nil
@@ -754,7 +837,7 @@ extension GetPipelineChangeProgressOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct GetPipelineChangeProgressOutputResponse: Swift.Equatable {
+public struct GetPipelineChangeProgressOutput: Swift.Equatable {
     /// The current status of the change happening on the pipeline.
     public var changeProgressStatuses: [OSISClientTypes.ChangeProgressStatus]?
 
@@ -766,11 +849,11 @@ public struct GetPipelineChangeProgressOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPipelineChangeProgressOutputResponseBody: Swift.Equatable {
+struct GetPipelineChangeProgressOutputBody: Swift.Equatable {
     let changeProgressStatuses: [OSISClientTypes.ChangeProgressStatus]?
 }
 
-extension GetPipelineChangeProgressOutputResponseBody: Swift.Decodable {
+extension GetPipelineChangeProgressOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case changeProgressStatuses = "ChangeProgressStatuses"
     }
@@ -788,6 +871,20 @@ extension GetPipelineChangeProgressOutputResponseBody: Swift.Decodable {
             }
         }
         changeProgressStatuses = changeProgressStatusesDecoded0
+    }
+}
+
+enum GetPipelineChangeProgressOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -822,25 +919,11 @@ extension GetPipelineInputBody: Swift.Decodable {
     }
 }
 
-public enum GetPipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetPipelineOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPipelineOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetPipelineOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetPipelineOutputBody = try responseDecoder.decode(responseBody: data)
             self.pipeline = output.pipeline
         } else {
             self.pipeline = nil
@@ -848,7 +931,7 @@ extension GetPipelineOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPipelineOutputResponse: Swift.Equatable {
+public struct GetPipelineOutput: Swift.Equatable {
     /// Detailed information about the requested pipeline.
     public var pipeline: OSISClientTypes.Pipeline?
 
@@ -860,11 +943,11 @@ public struct GetPipelineOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPipelineOutputResponseBody: Swift.Equatable {
+struct GetPipelineOutputBody: Swift.Equatable {
     let pipeline: OSISClientTypes.Pipeline?
 }
 
-extension GetPipelineOutputResponseBody: Swift.Decodable {
+extension GetPipelineOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case pipeline = "Pipeline"
     }
@@ -873,6 +956,20 @@ extension GetPipelineOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineDecoded = try containerValues.decodeIfPresent(OSISClientTypes.Pipeline.self, forKey: .pipeline)
         pipeline = pipelineDecoded
+    }
+}
+
+enum GetPipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1061,25 +1158,11 @@ extension ListPipelineBlueprintsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPipelineBlueprintsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidPaginationTokenException": return try await InvalidPaginationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListPipelineBlueprintsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPipelineBlueprintsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPipelineBlueprintsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPipelineBlueprintsOutputBody = try responseDecoder.decode(responseBody: data)
             self.blueprints = output.blueprints
         } else {
             self.blueprints = nil
@@ -1087,7 +1170,7 @@ extension ListPipelineBlueprintsOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListPipelineBlueprintsOutputResponse: Swift.Equatable {
+public struct ListPipelineBlueprintsOutput: Swift.Equatable {
     /// A list of available blueprints for Data Prepper.
     public var blueprints: [OSISClientTypes.PipelineBlueprintSummary]?
 
@@ -1099,11 +1182,11 @@ public struct ListPipelineBlueprintsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPipelineBlueprintsOutputResponseBody: Swift.Equatable {
+struct ListPipelineBlueprintsOutputBody: Swift.Equatable {
     let blueprints: [OSISClientTypes.PipelineBlueprintSummary]?
 }
 
-extension ListPipelineBlueprintsOutputResponseBody: Swift.Decodable {
+extension ListPipelineBlueprintsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case blueprints = "Blueprints"
     }
@@ -1121,6 +1204,20 @@ extension ListPipelineBlueprintsOutputResponseBody: Swift.Decodable {
             }
         }
         blueprints = blueprintsDecoded0
+    }
+}
+
+enum ListPipelineBlueprintsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPaginationTokenException": return try await InvalidPaginationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1172,25 +1269,11 @@ extension ListPipelinesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPipelinesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidPaginationTokenException": return try await InvalidPaginationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListPipelinesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPipelinesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPipelinesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPipelinesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.pipelines = output.pipelines
         } else {
@@ -1200,7 +1283,7 @@ extension ListPipelinesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPipelinesOutputResponse: Swift.Equatable {
+public struct ListPipelinesOutput: Swift.Equatable {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// A list of all existing Data Prepper pipelines.
@@ -1216,12 +1299,12 @@ public struct ListPipelinesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPipelinesOutputResponseBody: Swift.Equatable {
+struct ListPipelinesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let pipelines: [OSISClientTypes.PipelineSummary]?
 }
 
-extension ListPipelinesOutputResponseBody: Swift.Decodable {
+extension ListPipelinesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case pipelines = "Pipelines"
@@ -1242,6 +1325,20 @@ extension ListPipelinesOutputResponseBody: Swift.Decodable {
             }
         }
         pipelines = pipelinesDecoded0
+    }
+}
+
+enum ListPipelinesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPaginationTokenException": return try await InvalidPaginationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1288,25 +1385,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -1314,7 +1397,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// A list of tags associated with the given pipeline.
     public var tags: [OSISClientTypes.Tag]?
 
@@ -1326,11 +1409,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [OSISClientTypes.Tag]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
     }
@@ -1348,6 +1431,20 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1398,7 +1495,9 @@ extension OSISClientTypes {
 
 extension OSISClientTypes.Pipeline: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bufferOptions = "BufferOptions"
         case createdAt = "CreatedAt"
+        case encryptionAtRestOptions = "EncryptionAtRestOptions"
         case ingestEndpointUrls = "IngestEndpointUrls"
         case lastUpdatedAt = "LastUpdatedAt"
         case logPublishingOptions = "LogPublishingOptions"
@@ -1407,15 +1506,23 @@ extension OSISClientTypes.Pipeline: Swift.Codable {
         case pipelineArn = "PipelineArn"
         case pipelineConfigurationBody = "PipelineConfigurationBody"
         case pipelineName = "PipelineName"
+        case serviceVpcEndpoints = "ServiceVpcEndpoints"
         case status = "Status"
         case statusReason = "StatusReason"
+        case tags = "Tags"
         case vpcEndpoints = "VpcEndpoints"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bufferOptions = self.bufferOptions {
+            try encodeContainer.encode(bufferOptions, forKey: .bufferOptions)
+        }
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let encryptionAtRestOptions = self.encryptionAtRestOptions {
+            try encodeContainer.encode(encryptionAtRestOptions, forKey: .encryptionAtRestOptions)
         }
         if let ingestEndpointUrls = ingestEndpointUrls {
             var ingestEndpointUrlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ingestEndpointUrls)
@@ -1444,11 +1551,23 @@ extension OSISClientTypes.Pipeline: Swift.Codable {
         if let pipelineName = self.pipelineName {
             try encodeContainer.encode(pipelineName, forKey: .pipelineName)
         }
+        if let serviceVpcEndpoints = serviceVpcEndpoints {
+            var serviceVpcEndpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceVpcEndpoints)
+            for servicevpcendpoint0 in serviceVpcEndpoints {
+                try serviceVpcEndpointsContainer.encode(servicevpcendpoint0)
+            }
+        }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
         }
         if let statusReason = self.statusReason {
             try encodeContainer.encode(statusReason, forKey: .statusReason)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
         }
         if let vpcEndpoints = vpcEndpoints {
             var vpcEndpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcEndpoints)
@@ -1502,14 +1621,44 @@ extension OSISClientTypes.Pipeline: Swift.Codable {
             }
         }
         vpcEndpoints = vpcEndpointsDecoded0
+        let bufferOptionsDecoded = try containerValues.decodeIfPresent(OSISClientTypes.BufferOptions.self, forKey: .bufferOptions)
+        bufferOptions = bufferOptionsDecoded
+        let encryptionAtRestOptionsDecoded = try containerValues.decodeIfPresent(OSISClientTypes.EncryptionAtRestOptions.self, forKey: .encryptionAtRestOptions)
+        encryptionAtRestOptions = encryptionAtRestOptionsDecoded
+        let serviceVpcEndpointsContainer = try containerValues.decodeIfPresent([OSISClientTypes.ServiceVpcEndpoint?].self, forKey: .serviceVpcEndpoints)
+        var serviceVpcEndpointsDecoded0:[OSISClientTypes.ServiceVpcEndpoint]? = nil
+        if let serviceVpcEndpointsContainer = serviceVpcEndpointsContainer {
+            serviceVpcEndpointsDecoded0 = [OSISClientTypes.ServiceVpcEndpoint]()
+            for structure0 in serviceVpcEndpointsContainer {
+                if let structure0 = structure0 {
+                    serviceVpcEndpointsDecoded0?.append(structure0)
+                }
+            }
+        }
+        serviceVpcEndpoints = serviceVpcEndpointsDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([OSISClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[OSISClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [OSISClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
 extension OSISClientTypes {
     /// Information about an existing OpenSearch Ingestion pipeline.
     public struct Pipeline: Swift.Equatable {
+        /// Options that specify the configuration of a persistent buffer. To configure how OpenSearch Ingestion encrypts this data, set the EncryptionAtRestOptions.
+        public var bufferOptions: OSISClientTypes.BufferOptions?
         /// The date and time when the pipeline was created.
         public var createdAt: ClientRuntime.Date?
+        /// Options to control how OpenSearch encrypts all data-at-rest.
+        public var encryptionAtRestOptions: OSISClientTypes.EncryptionAtRestOptions?
         /// The ingestion endpoints for the pipeline, which you can send data to.
         public var ingestEndpointUrls: [Swift.String]?
         /// The date and time when the pipeline was last updated.
@@ -1526,15 +1675,21 @@ extension OSISClientTypes {
         public var pipelineConfigurationBody: Swift.String?
         /// The name of the pipeline.
         public var pipelineName: Swift.String?
+        /// A list of VPC endpoints that OpenSearch Ingestion has created to other AWS services.
+        public var serviceVpcEndpoints: [OSISClientTypes.ServiceVpcEndpoint]?
         /// The current status of the pipeline.
         public var status: OSISClientTypes.PipelineStatus?
         /// The reason for the current status of the pipeline.
         public var statusReason: OSISClientTypes.PipelineStatusReason?
+        /// A list of tags associated with the given pipeline.
+        public var tags: [OSISClientTypes.Tag]?
         /// The VPC interface endpoints that have access to the pipeline.
         public var vpcEndpoints: [OSISClientTypes.VpcEndpoint]?
 
         public init(
+            bufferOptions: OSISClientTypes.BufferOptions? = nil,
             createdAt: ClientRuntime.Date? = nil,
+            encryptionAtRestOptions: OSISClientTypes.EncryptionAtRestOptions? = nil,
             ingestEndpointUrls: [Swift.String]? = nil,
             lastUpdatedAt: ClientRuntime.Date? = nil,
             logPublishingOptions: OSISClientTypes.LogPublishingOptions? = nil,
@@ -1543,12 +1698,16 @@ extension OSISClientTypes {
             pipelineArn: Swift.String? = nil,
             pipelineConfigurationBody: Swift.String? = nil,
             pipelineName: Swift.String? = nil,
+            serviceVpcEndpoints: [OSISClientTypes.ServiceVpcEndpoint]? = nil,
             status: OSISClientTypes.PipelineStatus? = nil,
             statusReason: OSISClientTypes.PipelineStatusReason? = nil,
+            tags: [OSISClientTypes.Tag]? = nil,
             vpcEndpoints: [OSISClientTypes.VpcEndpoint]? = nil
         )
         {
+            self.bufferOptions = bufferOptions
             self.createdAt = createdAt
+            self.encryptionAtRestOptions = encryptionAtRestOptions
             self.ingestEndpointUrls = ingestEndpointUrls
             self.lastUpdatedAt = lastUpdatedAt
             self.logPublishingOptions = logPublishingOptions
@@ -1557,8 +1716,10 @@ extension OSISClientTypes {
             self.pipelineArn = pipelineArn
             self.pipelineConfigurationBody = pipelineConfigurationBody
             self.pipelineName = pipelineName
+            self.serviceVpcEndpoints = serviceVpcEndpoints
             self.status = status
             self.statusReason = statusReason
+            self.tags = tags
             self.vpcEndpoints = vpcEndpoints
         }
     }
@@ -1746,6 +1907,7 @@ extension OSISClientTypes.PipelineSummary: Swift.Codable {
         case pipelineName = "PipelineName"
         case status = "Status"
         case statusReason = "StatusReason"
+        case tags = "Tags"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1774,6 +1936,12 @@ extension OSISClientTypes.PipelineSummary: Swift.Codable {
         if let statusReason = self.statusReason {
             try encodeContainer.encode(statusReason, forKey: .statusReason)
         }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1794,6 +1962,17 @@ extension OSISClientTypes.PipelineSummary: Swift.Codable {
         createdAt = createdAtDecoded
         let lastUpdatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedAt)
         lastUpdatedAt = lastUpdatedAtDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([OSISClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[OSISClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [OSISClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -1816,6 +1995,8 @@ extension OSISClientTypes {
         public var status: OSISClientTypes.PipelineStatus?
         /// Information about a pipeline's current status.
         public var statusReason: OSISClientTypes.PipelineStatusReason?
+        /// A list of tags associated with the given pipeline.
+        public var tags: [OSISClientTypes.Tag]?
 
         public init(
             createdAt: ClientRuntime.Date? = nil,
@@ -1825,7 +2006,8 @@ extension OSISClientTypes {
             pipelineArn: Swift.String? = nil,
             pipelineName: Swift.String? = nil,
             status: OSISClientTypes.PipelineStatus? = nil,
-            statusReason: OSISClientTypes.PipelineStatusReason? = nil
+            statusReason: OSISClientTypes.PipelineStatusReason? = nil,
+            tags: [OSISClientTypes.Tag]? = nil
         )
         {
             self.createdAt = createdAt
@@ -1836,6 +2018,7 @@ extension OSISClientTypes {
             self.pipelineName = pipelineName
             self.status = status
             self.statusReason = statusReason
+            self.tags = tags
         }
     }
 
@@ -1951,6 +2134,51 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+extension OSISClientTypes.ServiceVpcEndpoint: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceName = "ServiceName"
+        case vpcEndpointId = "VpcEndpointId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let serviceName = self.serviceName {
+            try encodeContainer.encode(serviceName.rawValue, forKey: .serviceName)
+        }
+        if let vpcEndpointId = self.vpcEndpointId {
+            try encodeContainer.encode(vpcEndpointId, forKey: .vpcEndpointId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceNameDecoded = try containerValues.decodeIfPresent(OSISClientTypes.VpcEndpointServiceName.self, forKey: .serviceName)
+        serviceName = serviceNameDecoded
+        let vpcEndpointIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcEndpointId)
+        vpcEndpointId = vpcEndpointIdDecoded
+    }
+}
+
+extension OSISClientTypes {
+    /// A container for information about VPC endpoints that were created to other services
+    public struct ServiceVpcEndpoint: Swift.Equatable {
+        /// The name of the service for which a VPC endpoint was created.
+        public var serviceName: OSISClientTypes.VpcEndpointServiceName?
+        /// The ID of the VPC endpoint that was created.
+        public var vpcEndpointId: Swift.String?
+
+        public init(
+            serviceName: OSISClientTypes.VpcEndpointServiceName? = nil,
+            vpcEndpointId: Swift.String? = nil
+        )
+        {
+            self.serviceName = serviceName
+            self.vpcEndpointId = vpcEndpointId
+        }
+    }
+
+}
+
 extension StartPipelineInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let pipelineName = pipelineName else {
@@ -1982,26 +2210,11 @@ extension StartPipelineInputBody: Swift.Decodable {
     }
 }
 
-public enum StartPipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartPipelineOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartPipelineOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartPipelineOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartPipelineOutputBody = try responseDecoder.decode(responseBody: data)
             self.pipeline = output.pipeline
         } else {
             self.pipeline = nil
@@ -2009,7 +2222,7 @@ extension StartPipelineOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartPipelineOutputResponse: Swift.Equatable {
+public struct StartPipelineOutput: Swift.Equatable {
     /// Information about an existing OpenSearch Ingestion pipeline.
     public var pipeline: OSISClientTypes.Pipeline?
 
@@ -2021,11 +2234,11 @@ public struct StartPipelineOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartPipelineOutputResponseBody: Swift.Equatable {
+struct StartPipelineOutputBody: Swift.Equatable {
     let pipeline: OSISClientTypes.Pipeline?
 }
 
-extension StartPipelineOutputResponseBody: Swift.Decodable {
+extension StartPipelineOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case pipeline = "Pipeline"
     }
@@ -2034,6 +2247,21 @@ extension StartPipelineOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineDecoded = try containerValues.decodeIfPresent(OSISClientTypes.Pipeline.self, forKey: .pipeline)
         pipeline = pipelineDecoded
+    }
+}
+
+enum StartPipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2068,26 +2296,11 @@ extension StopPipelineInputBody: Swift.Decodable {
     }
 }
 
-public enum StopPipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StopPipelineOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StopPipelineOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StopPipelineOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StopPipelineOutputBody = try responseDecoder.decode(responseBody: data)
             self.pipeline = output.pipeline
         } else {
             self.pipeline = nil
@@ -2095,7 +2308,7 @@ extension StopPipelineOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopPipelineOutputResponse: Swift.Equatable {
+public struct StopPipelineOutput: Swift.Equatable {
     /// Information about an existing OpenSearch Ingestion pipeline.
     public var pipeline: OSISClientTypes.Pipeline?
 
@@ -2107,11 +2320,11 @@ public struct StopPipelineOutputResponse: Swift.Equatable {
     }
 }
 
-struct StopPipelineOutputResponseBody: Swift.Equatable {
+struct StopPipelineOutputBody: Swift.Equatable {
     let pipeline: OSISClientTypes.Pipeline?
 }
 
-extension StopPipelineOutputResponseBody: Swift.Decodable {
+extension StopPipelineOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case pipeline = "Pipeline"
     }
@@ -2120,6 +2333,21 @@ extension StopPipelineOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineDecoded = try containerValues.decodeIfPresent(OSISClientTypes.Pipeline.self, forKey: .pipeline)
         pipeline = pipelineDecoded
+    }
+}
+
+enum StopPipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2250,8 +2478,18 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2263,16 +2501,6 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UntagResourceInput: Swift.Encodable {
@@ -2355,8 +2583,18 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2369,18 +2607,10 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
 extension UpdatePipelineInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bufferOptions = "BufferOptions"
+        case encryptionAtRestOptions = "EncryptionAtRestOptions"
         case logPublishingOptions = "LogPublishingOptions"
         case maxUnits = "MaxUnits"
         case minUnits = "MinUnits"
@@ -2389,6 +2619,12 @@ extension UpdatePipelineInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bufferOptions = self.bufferOptions {
+            try encodeContainer.encode(bufferOptions, forKey: .bufferOptions)
+        }
+        if let encryptionAtRestOptions = self.encryptionAtRestOptions {
+            try encodeContainer.encode(encryptionAtRestOptions, forKey: .encryptionAtRestOptions)
+        }
         if let logPublishingOptions = self.logPublishingOptions {
             try encodeContainer.encode(logPublishingOptions, forKey: .logPublishingOptions)
         }
@@ -2414,6 +2650,10 @@ extension UpdatePipelineInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdatePipelineInput: Swift.Equatable {
+    /// Key-value pairs to configure persistent buffering for the pipeline.
+    public var bufferOptions: OSISClientTypes.BufferOptions?
+    /// Key-value pairs to configure encryption for data that is written to a persistent buffer.
+    public var encryptionAtRestOptions: OSISClientTypes.EncryptionAtRestOptions?
     /// Key-value pairs to configure log publishing.
     public var logPublishingOptions: OSISClientTypes.LogPublishingOptions?
     /// The maximum pipeline capacity, in Ingestion Compute Units (ICUs)
@@ -2427,6 +2667,8 @@ public struct UpdatePipelineInput: Swift.Equatable {
     public var pipelineName: Swift.String?
 
     public init(
+        bufferOptions: OSISClientTypes.BufferOptions? = nil,
+        encryptionAtRestOptions: OSISClientTypes.EncryptionAtRestOptions? = nil,
         logPublishingOptions: OSISClientTypes.LogPublishingOptions? = nil,
         maxUnits: Swift.Int? = nil,
         minUnits: Swift.Int? = nil,
@@ -2434,6 +2676,8 @@ public struct UpdatePipelineInput: Swift.Equatable {
         pipelineName: Swift.String? = nil
     )
     {
+        self.bufferOptions = bufferOptions
+        self.encryptionAtRestOptions = encryptionAtRestOptions
         self.logPublishingOptions = logPublishingOptions
         self.maxUnits = maxUnits
         self.minUnits = minUnits
@@ -2447,10 +2691,14 @@ struct UpdatePipelineInputBody: Swift.Equatable {
     let maxUnits: Swift.Int?
     let pipelineConfigurationBody: Swift.String?
     let logPublishingOptions: OSISClientTypes.LogPublishingOptions?
+    let bufferOptions: OSISClientTypes.BufferOptions?
+    let encryptionAtRestOptions: OSISClientTypes.EncryptionAtRestOptions?
 }
 
 extension UpdatePipelineInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bufferOptions = "BufferOptions"
+        case encryptionAtRestOptions = "EncryptionAtRestOptions"
         case logPublishingOptions = "LogPublishingOptions"
         case maxUnits = "MaxUnits"
         case minUnits = "MinUnits"
@@ -2467,29 +2715,18 @@ extension UpdatePipelineInputBody: Swift.Decodable {
         pipelineConfigurationBody = pipelineConfigurationBodyDecoded
         let logPublishingOptionsDecoded = try containerValues.decodeIfPresent(OSISClientTypes.LogPublishingOptions.self, forKey: .logPublishingOptions)
         logPublishingOptions = logPublishingOptionsDecoded
+        let bufferOptionsDecoded = try containerValues.decodeIfPresent(OSISClientTypes.BufferOptions.self, forKey: .bufferOptions)
+        bufferOptions = bufferOptionsDecoded
+        let encryptionAtRestOptionsDecoded = try containerValues.decodeIfPresent(OSISClientTypes.EncryptionAtRestOptions.self, forKey: .encryptionAtRestOptions)
+        encryptionAtRestOptions = encryptionAtRestOptionsDecoded
     }
 }
 
-public enum UpdatePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdatePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdatePipelineOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdatePipelineOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdatePipelineOutputBody = try responseDecoder.decode(responseBody: data)
             self.pipeline = output.pipeline
         } else {
             self.pipeline = nil
@@ -2497,7 +2734,7 @@ extension UpdatePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePipelineOutputResponse: Swift.Equatable {
+public struct UpdatePipelineOutput: Swift.Equatable {
     /// Container for information about the updated pipeline.
     public var pipeline: OSISClientTypes.Pipeline?
 
@@ -2509,11 +2746,11 @@ public struct UpdatePipelineOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdatePipelineOutputResponseBody: Swift.Equatable {
+struct UpdatePipelineOutputBody: Swift.Equatable {
     let pipeline: OSISClientTypes.Pipeline?
 }
 
-extension UpdatePipelineOutputResponseBody: Swift.Decodable {
+extension UpdatePipelineOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case pipeline = "Pipeline"
     }
@@ -2522,6 +2759,21 @@ extension UpdatePipelineOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineDecoded = try containerValues.decodeIfPresent(OSISClientTypes.Pipeline.self, forKey: .pipeline)
         pipeline = pipelineDecoded
+    }
+}
+
+enum UpdatePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2573,24 +2825,11 @@ extension ValidatePipelineInputBody: Swift.Decodable {
     }
 }
 
-public enum ValidatePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ValidatePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ValidatePipelineOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ValidatePipelineOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ValidatePipelineOutputBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
             self.isValid = output.isValid
         } else {
@@ -2600,7 +2839,7 @@ extension ValidatePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ValidatePipelineOutputResponse: Swift.Equatable {
+public struct ValidatePipelineOutput: Swift.Equatable {
     /// A list of errors if the configuration is invalid.
     public var errors: [OSISClientTypes.ValidationMessage]?
     /// A boolean indicating whether or not the pipeline configuration is valid.
@@ -2616,12 +2855,12 @@ public struct ValidatePipelineOutputResponse: Swift.Equatable {
     }
 }
 
-struct ValidatePipelineOutputResponseBody: Swift.Equatable {
+struct ValidatePipelineOutputBody: Swift.Equatable {
     let isValid: Swift.Bool?
     let errors: [OSISClientTypes.ValidationMessage]?
 }
 
-extension ValidatePipelineOutputResponseBody: Swift.Decodable {
+extension ValidatePipelineOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errors = "Errors"
         case isValid
@@ -2642,6 +2881,19 @@ extension ValidatePipelineOutputResponseBody: Swift.Decodable {
             }
         }
         errors = errorsDecoded0
+    }
+}
+
+enum ValidatePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2788,6 +3040,35 @@ extension OSISClientTypes {
         }
     }
 
+}
+
+extension OSISClientTypes {
+    public enum VpcEndpointServiceName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case opensearchServerless
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VpcEndpointServiceName] {
+            return [
+                .opensearchServerless,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .opensearchServerless: return "OPENSEARCH_SERVERLESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VpcEndpointServiceName(rawValue: rawValue) ?? VpcEndpointServiceName.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension OSISClientTypes.VpcOptions: Swift.Codable {

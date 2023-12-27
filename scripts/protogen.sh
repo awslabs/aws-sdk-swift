@@ -25,6 +25,7 @@ rm -rf codegen/protocol-test-codegen-local/build
 
 # Delete the generated Package.swift for protocol test packages so they may be seen in Xcode
 rm codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/aws-restjson/swift-codegen/Package.swift
+rm codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/aws-restjson-validation/swift-codegen/Package.swift
 rm codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/aws-json-10/swift-codegen/Package.swift
 rm codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/aws-json-11/swift-codegen/Package.swift
 rm codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/rest-xml/swift-codegen/Package.swift
@@ -37,13 +38,14 @@ rm codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/m
 rm codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/s3/swift-codegen/Package.swift
 
 # Now do the same for local protocol tests
-rm codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/aws-restjson/swift-codegen/Package.swift
 rm codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/rest_json_extras/swift-codegen/Package.swift
+rm codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/AwsQueryExtras/swift-codegen/Package.swift
+rm codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/EventStream/swift-codegen/Package.swift
 rm codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/Waiters/swift-codegen/Package.swift
 
-# Regenerate the Package.swift with protocol tests included
+# Regenerate the Package.swift with protocol tests included and services excluded
 cd AWSSDKSwiftCLI
-swift run AWSSDKSwiftCLI generate-package-manifest --include-protocol-tests ..
+swift run AWSSDKSwiftCLI generate-package-manifest --include-protocol-tests --exclude-aws-services --exclude-runtime-tests ..
 cd ..
 
 # If on Mac, reopen Xcode to the refreshed tests

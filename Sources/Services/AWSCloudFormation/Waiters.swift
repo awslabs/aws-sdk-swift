@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension CloudFormationClientProtocol {
 
-    static func changeSetCreateCompleteWaiterConfig() throws -> WaiterConfiguration<DescribeChangeSetInput, DescribeChangeSetOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeChangeSetInput, DescribeChangeSetOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeChangeSetInput, result: Result<DescribeChangeSetOutputResponse, Error>) -> Bool in
+    static func changeSetCreateCompleteWaiterConfig() throws -> WaiterConfiguration<DescribeChangeSetInput, DescribeChangeSetOutput> {
+        let acceptors: [WaiterConfiguration<DescribeChangeSetInput, DescribeChangeSetOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeChangeSetInput, result: Result<DescribeChangeSetOutput, Error>) -> Bool in
                 // JMESPath expression: "Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "CREATE_COMPLETE"
@@ -14,7 +14,7 @@ extension CloudFormationClientProtocol {
                 let status = output.status
                 return JMESUtils.compare(status, ==, "CREATE_COMPLETE")
             }),
-            .init(state: .failure, matcher: { (input: DescribeChangeSetInput, result: Result<DescribeChangeSetOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeChangeSetInput, result: Result<DescribeChangeSetOutput, Error>) -> Bool in
                 // JMESPath expression: "Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "FAILED"
@@ -22,12 +22,12 @@ extension CloudFormationClientProtocol {
                 let status = output.status
                 return JMESUtils.compare(status, ==, "FAILED")
             }),
-            .init(state: .failure, matcher: { (input: DescribeChangeSetInput, result: Result<DescribeChangeSetOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeChangeSetInput, result: Result<DescribeChangeSetOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ValidationError"
             }),
         ]
-        return try WaiterConfiguration<DescribeChangeSetInput, DescribeChangeSetOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeChangeSetInput, DescribeChangeSetOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ChangeSetCreateComplete event on the describeChangeSet operation.
@@ -41,14 +41,14 @@ extension CloudFormationClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilChangeSetCreateComplete(options: WaiterOptions, input: DescribeChangeSetInput) async throws -> WaiterOutcome<DescribeChangeSetOutputResponse> {
+    public func waitUntilChangeSetCreateComplete(options: WaiterOptions, input: DescribeChangeSetInput) async throws -> WaiterOutcome<DescribeChangeSetOutput> {
         let waiter = Waiter(config: try Self.changeSetCreateCompleteWaiterConfig(), operation: self.describeChangeSet(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func stackCreateCompleteWaiterConfig() throws -> WaiterConfiguration<DescribeStacksInput, DescribeStacksOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeStacksInput, DescribeStacksOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+    static func stackCreateCompleteWaiterConfig() throws -> WaiterConfiguration<DescribeStacksInput, DescribeStacksOutput> {
+        let acceptors: [WaiterConfiguration<DescribeStacksInput, DescribeStacksOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "CREATE_COMPLETE"
@@ -60,7 +60,103 @@ extension CloudFormationClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "CREATE_COMPLETE") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
+                // JMESPath expression: "Stacks[].StackStatus"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "UPDATE_COMPLETE"
+                guard case .success(let output) = result else { return false }
+                let stacks = output.stacks
+                let projection: [CloudFormationClientTypes.StackStatus]? = stacks?.compactMap { original in
+                    let stackStatus = original.stackStatus
+                    return stackStatus
+                }
+                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "UPDATE_COMPLETE") } ?? false)
+            }),
+            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
+                // JMESPath expression: "Stacks[].StackStatus"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "UPDATE_IN_PROGRESS"
+                guard case .success(let output) = result else { return false }
+                let stacks = output.stacks
+                let projection: [CloudFormationClientTypes.StackStatus]? = stacks?.compactMap { original in
+                    let stackStatus = original.stackStatus
+                    return stackStatus
+                }
+                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "UPDATE_IN_PROGRESS") } ?? false)
+            }),
+            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
+                // JMESPath expression: "Stacks[].StackStatus"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "UPDATE_COMPLETE_CLEANUP_IN_PROGRESS"
+                guard case .success(let output) = result else { return false }
+                let stacks = output.stacks
+                let projection: [CloudFormationClientTypes.StackStatus]? = stacks?.compactMap { original in
+                    let stackStatus = original.stackStatus
+                    return stackStatus
+                }
+                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "UPDATE_COMPLETE_CLEANUP_IN_PROGRESS") } ?? false)
+            }),
+            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
+                // JMESPath expression: "Stacks[].StackStatus"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "UPDATE_FAILED"
+                guard case .success(let output) = result else { return false }
+                let stacks = output.stacks
+                let projection: [CloudFormationClientTypes.StackStatus]? = stacks?.compactMap { original in
+                    let stackStatus = original.stackStatus
+                    return stackStatus
+                }
+                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "UPDATE_FAILED") } ?? false)
+            }),
+            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
+                // JMESPath expression: "Stacks[].StackStatus"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "UPDATE_ROLLBACK_IN_PROGRESS"
+                guard case .success(let output) = result else { return false }
+                let stacks = output.stacks
+                let projection: [CloudFormationClientTypes.StackStatus]? = stacks?.compactMap { original in
+                    let stackStatus = original.stackStatus
+                    return stackStatus
+                }
+                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_IN_PROGRESS") } ?? false)
+            }),
+            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
+                // JMESPath expression: "Stacks[].StackStatus"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "UPDATE_ROLLBACK_FAILED"
+                guard case .success(let output) = result else { return false }
+                let stacks = output.stacks
+                let projection: [CloudFormationClientTypes.StackStatus]? = stacks?.compactMap { original in
+                    let stackStatus = original.stackStatus
+                    return stackStatus
+                }
+                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_FAILED") } ?? false)
+            }),
+            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
+                // JMESPath expression: "Stacks[].StackStatus"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS"
+                guard case .success(let output) = result else { return false }
+                let stacks = output.stacks
+                let projection: [CloudFormationClientTypes.StackStatus]? = stacks?.compactMap { original in
+                    let stackStatus = original.stackStatus
+                    return stackStatus
+                }
+                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS") } ?? false)
+            }),
+            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
+                // JMESPath expression: "Stacks[].StackStatus"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "UPDATE_ROLLBACK_COMPLETE"
+                guard case .success(let output) = result else { return false }
+                let stacks = output.stacks
+                let projection: [CloudFormationClientTypes.StackStatus]? = stacks?.compactMap { original in
+                    let stackStatus = original.stackStatus
+                    return stackStatus
+                }
+                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_COMPLETE") } ?? false)
+            }),
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "CREATE_FAILED"
@@ -72,7 +168,7 @@ extension CloudFormationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "CREATE_FAILED") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "DELETE_COMPLETE"
@@ -84,7 +180,7 @@ extension CloudFormationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "DELETE_COMPLETE") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "DELETE_FAILED"
@@ -96,7 +192,7 @@ extension CloudFormationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "DELETE_FAILED") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "ROLLBACK_FAILED"
@@ -108,7 +204,7 @@ extension CloudFormationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "ROLLBACK_FAILED") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "ROLLBACK_COMPLETE"
@@ -120,12 +216,12 @@ extension CloudFormationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "ROLLBACK_COMPLETE") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ValidationError"
             }),
         ]
-        return try WaiterConfiguration<DescribeStacksInput, DescribeStacksOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeStacksInput, DescribeStacksOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the StackCreateComplete event on the describeStacks operation.
@@ -139,14 +235,14 @@ extension CloudFormationClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilStackCreateComplete(options: WaiterOptions, input: DescribeStacksInput) async throws -> WaiterOutcome<DescribeStacksOutputResponse> {
+    public func waitUntilStackCreateComplete(options: WaiterOptions, input: DescribeStacksInput) async throws -> WaiterOutcome<DescribeStacksOutput> {
         let waiter = Waiter(config: try Self.stackCreateCompleteWaiterConfig(), operation: self.describeStacks(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func stackDeleteCompleteWaiterConfig() throws -> WaiterConfiguration<DescribeStacksInput, DescribeStacksOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeStacksInput, DescribeStacksOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+    static func stackDeleteCompleteWaiterConfig() throws -> WaiterConfiguration<DescribeStacksInput, DescribeStacksOutput> {
+        let acceptors: [WaiterConfiguration<DescribeStacksInput, DescribeStacksOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "DELETE_COMPLETE"
@@ -158,11 +254,11 @@ extension CloudFormationClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "DELETE_COMPLETE") } ?? false)
             }),
-            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ValidationError"
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "DELETE_FAILED"
@@ -174,7 +270,7 @@ extension CloudFormationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "DELETE_FAILED") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "CREATE_FAILED"
@@ -186,7 +282,7 @@ extension CloudFormationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "CREATE_FAILED") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "ROLLBACK_FAILED"
@@ -198,7 +294,7 @@ extension CloudFormationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "ROLLBACK_FAILED") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "UPDATE_ROLLBACK_IN_PROGRESS"
@@ -210,7 +306,7 @@ extension CloudFormationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_IN_PROGRESS") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "UPDATE_ROLLBACK_FAILED"
@@ -222,7 +318,7 @@ extension CloudFormationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_FAILED") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "UPDATE_ROLLBACK_COMPLETE"
@@ -234,7 +330,7 @@ extension CloudFormationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_COMPLETE") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "UPDATE_COMPLETE"
@@ -247,7 +343,7 @@ extension CloudFormationClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "UPDATE_COMPLETE") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeStacksInput, DescribeStacksOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeStacksInput, DescribeStacksOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the StackDeleteComplete event on the describeStacks operation.
@@ -261,25 +357,25 @@ extension CloudFormationClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilStackDeleteComplete(options: WaiterOptions, input: DescribeStacksInput) async throws -> WaiterOutcome<DescribeStacksOutputResponse> {
+    public func waitUntilStackDeleteComplete(options: WaiterOptions, input: DescribeStacksInput) async throws -> WaiterOutcome<DescribeStacksOutput> {
         let waiter = Waiter(config: try Self.stackDeleteCompleteWaiterConfig(), operation: self.describeStacks(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func stackExistsWaiterConfig() throws -> WaiterConfiguration<DescribeStacksInput, DescribeStacksOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeStacksInput, DescribeStacksOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+    static func stackExistsWaiterConfig() throws -> WaiterConfiguration<DescribeStacksInput, DescribeStacksOutput> {
+        let acceptors: [WaiterConfiguration<DescribeStacksInput, DescribeStacksOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 switch result {
                     case .success: return true
                     case .failure: return false
                 }
             }),
-            .init(state: .retry, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ValidationError"
             }),
         ]
-        return try WaiterConfiguration<DescribeStacksInput, DescribeStacksOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeStacksInput, DescribeStacksOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the StackExists event on the describeStacks operation.
@@ -293,14 +389,14 @@ extension CloudFormationClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilStackExists(options: WaiterOptions, input: DescribeStacksInput) async throws -> WaiterOutcome<DescribeStacksOutputResponse> {
+    public func waitUntilStackExists(options: WaiterOptions, input: DescribeStacksInput) async throws -> WaiterOutcome<DescribeStacksOutput> {
         let waiter = Waiter(config: try Self.stackExistsWaiterConfig(), operation: self.describeStacks(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func stackImportCompleteWaiterConfig() throws -> WaiterConfiguration<DescribeStacksInput, DescribeStacksOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeStacksInput, DescribeStacksOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+    static func stackImportCompleteWaiterConfig() throws -> WaiterConfiguration<DescribeStacksInput, DescribeStacksOutput> {
+        let acceptors: [WaiterConfiguration<DescribeStacksInput, DescribeStacksOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "IMPORT_COMPLETE"
@@ -312,7 +408,7 @@ extension CloudFormationClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "IMPORT_COMPLETE") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "ROLLBACK_COMPLETE"
@@ -324,7 +420,7 @@ extension CloudFormationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "ROLLBACK_COMPLETE") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "ROLLBACK_FAILED"
@@ -336,7 +432,7 @@ extension CloudFormationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "ROLLBACK_FAILED") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "IMPORT_ROLLBACK_IN_PROGRESS"
@@ -348,7 +444,7 @@ extension CloudFormationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "IMPORT_ROLLBACK_IN_PROGRESS") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "IMPORT_ROLLBACK_FAILED"
@@ -360,7 +456,7 @@ extension CloudFormationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "IMPORT_ROLLBACK_FAILED") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "IMPORT_ROLLBACK_COMPLETE"
@@ -372,12 +468,12 @@ extension CloudFormationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "IMPORT_ROLLBACK_COMPLETE") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ValidationError"
             }),
         ]
-        return try WaiterConfiguration<DescribeStacksInput, DescribeStacksOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeStacksInput, DescribeStacksOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the StackImportComplete event on the describeStacks operation.
@@ -391,14 +487,14 @@ extension CloudFormationClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilStackImportComplete(options: WaiterOptions, input: DescribeStacksInput) async throws -> WaiterOutcome<DescribeStacksOutputResponse> {
+    public func waitUntilStackImportComplete(options: WaiterOptions, input: DescribeStacksInput) async throws -> WaiterOutcome<DescribeStacksOutput> {
         let waiter = Waiter(config: try Self.stackImportCompleteWaiterConfig(), operation: self.describeStacks(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func stackRollbackCompleteWaiterConfig() throws -> WaiterConfiguration<DescribeStacksInput, DescribeStacksOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeStacksInput, DescribeStacksOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+    static func stackRollbackCompleteWaiterConfig() throws -> WaiterConfiguration<DescribeStacksInput, DescribeStacksOutput> {
+        let acceptors: [WaiterConfiguration<DescribeStacksInput, DescribeStacksOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "UPDATE_ROLLBACK_COMPLETE"
@@ -410,7 +506,7 @@ extension CloudFormationClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_COMPLETE") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "UPDATE_FAILED"
@@ -422,7 +518,7 @@ extension CloudFormationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "UPDATE_FAILED") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "UPDATE_ROLLBACK_FAILED"
@@ -434,7 +530,7 @@ extension CloudFormationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_FAILED") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "DELETE_FAILED"
@@ -446,12 +542,12 @@ extension CloudFormationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "DELETE_FAILED") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ValidationError"
             }),
         ]
-        return try WaiterConfiguration<DescribeStacksInput, DescribeStacksOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeStacksInput, DescribeStacksOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the StackRollbackComplete event on the describeStacks operation.
@@ -465,14 +561,14 @@ extension CloudFormationClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilStackRollbackComplete(options: WaiterOptions, input: DescribeStacksInput) async throws -> WaiterOutcome<DescribeStacksOutputResponse> {
+    public func waitUntilStackRollbackComplete(options: WaiterOptions, input: DescribeStacksInput) async throws -> WaiterOutcome<DescribeStacksOutput> {
         let waiter = Waiter(config: try Self.stackRollbackCompleteWaiterConfig(), operation: self.describeStacks(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func stackUpdateCompleteWaiterConfig() throws -> WaiterConfiguration<DescribeStacksInput, DescribeStacksOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeStacksInput, DescribeStacksOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+    static func stackUpdateCompleteWaiterConfig() throws -> WaiterConfiguration<DescribeStacksInput, DescribeStacksOutput> {
+        let acceptors: [WaiterConfiguration<DescribeStacksInput, DescribeStacksOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "UPDATE_COMPLETE"
@@ -484,7 +580,7 @@ extension CloudFormationClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "UPDATE_COMPLETE") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "UPDATE_FAILED"
@@ -496,7 +592,7 @@ extension CloudFormationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "UPDATE_FAILED") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "UPDATE_ROLLBACK_FAILED"
@@ -508,7 +604,7 @@ extension CloudFormationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_FAILED") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "UPDATE_ROLLBACK_COMPLETE"
@@ -520,12 +616,12 @@ extension CloudFormationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_COMPLETE") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ValidationError"
             }),
         ]
-        return try WaiterConfiguration<DescribeStacksInput, DescribeStacksOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeStacksInput, DescribeStacksOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the StackUpdateComplete event on the describeStacks operation.
@@ -539,14 +635,14 @@ extension CloudFormationClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilStackUpdateComplete(options: WaiterOptions, input: DescribeStacksInput) async throws -> WaiterOutcome<DescribeStacksOutputResponse> {
+    public func waitUntilStackUpdateComplete(options: WaiterOptions, input: DescribeStacksInput) async throws -> WaiterOutcome<DescribeStacksOutput> {
         let waiter = Waiter(config: try Self.stackUpdateCompleteWaiterConfig(), operation: self.describeStacks(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func typeRegistrationCompleteWaiterConfig() throws -> WaiterConfiguration<DescribeTypeRegistrationInput, DescribeTypeRegistrationOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeTypeRegistrationInput, DescribeTypeRegistrationOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeTypeRegistrationInput, result: Result<DescribeTypeRegistrationOutputResponse, Error>) -> Bool in
+    static func typeRegistrationCompleteWaiterConfig() throws -> WaiterConfiguration<DescribeTypeRegistrationInput, DescribeTypeRegistrationOutput> {
+        let acceptors: [WaiterConfiguration<DescribeTypeRegistrationInput, DescribeTypeRegistrationOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeTypeRegistrationInput, result: Result<DescribeTypeRegistrationOutput, Error>) -> Bool in
                 // JMESPath expression: "ProgressStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "COMPLETE"
@@ -554,7 +650,7 @@ extension CloudFormationClientProtocol {
                 let progressStatus = output.progressStatus
                 return JMESUtils.compare(progressStatus, ==, "COMPLETE")
             }),
-            .init(state: .failure, matcher: { (input: DescribeTypeRegistrationInput, result: Result<DescribeTypeRegistrationOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeTypeRegistrationInput, result: Result<DescribeTypeRegistrationOutput, Error>) -> Bool in
                 // JMESPath expression: "ProgressStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "FAILED"
@@ -563,7 +659,7 @@ extension CloudFormationClientProtocol {
                 return JMESUtils.compare(progressStatus, ==, "FAILED")
             }),
         ]
-        return try WaiterConfiguration<DescribeTypeRegistrationInput, DescribeTypeRegistrationOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeTypeRegistrationInput, DescribeTypeRegistrationOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the TypeRegistrationComplete event on the describeTypeRegistration operation.
@@ -577,7 +673,7 @@ extension CloudFormationClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilTypeRegistrationComplete(options: WaiterOptions, input: DescribeTypeRegistrationInput) async throws -> WaiterOutcome<DescribeTypeRegistrationOutputResponse> {
+    public func waitUntilTypeRegistrationComplete(options: WaiterOptions, input: DescribeTypeRegistrationInput) async throws -> WaiterOutcome<DescribeTypeRegistrationOutput> {
         let waiter = Waiter(config: try Self.typeRegistrationCompleteWaiterConfig(), operation: self.describeTypeRegistration(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

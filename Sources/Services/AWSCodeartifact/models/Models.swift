@@ -279,8 +279,48 @@ extension AssociateExternalConnectionInputBody: Swift.Decodable {
     }
 }
 
-public enum AssociateExternalConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension AssociateExternalConnectionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AssociateExternalConnectionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.repository = output.repository
+        } else {
+            self.repository = nil
+        }
+    }
+}
+
+public struct AssociateExternalConnectionOutput: Swift.Equatable {
+    /// Information about the connected repository after processing the request.
+    public var repository: CodeartifactClientTypes.RepositoryDescription?
+
+    public init(
+        repository: CodeartifactClientTypes.RepositoryDescription? = nil
+    )
+    {
+        self.repository = repository
+    }
+}
+
+struct AssociateExternalConnectionOutputBody: Swift.Equatable {
+    let repository: CodeartifactClientTypes.RepositoryDescription?
+}
+
+extension AssociateExternalConnectionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case repository
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let repositoryDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.RepositoryDescription.self, forKey: .repository)
+        repository = repositoryDecoded
+    }
+}
+
+enum AssociateExternalConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -293,46 +333,6 @@ public enum AssociateExternalConnectionOutputError: ClientRuntime.HttpResponseEr
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension AssociateExternalConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: AssociateExternalConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.repository = output.repository
-        } else {
-            self.repository = nil
-        }
-    }
-}
-
-public struct AssociateExternalConnectionOutputResponse: Swift.Equatable {
-    /// Information about the connected repository after processing the request.
-    public var repository: CodeartifactClientTypes.RepositoryDescription?
-
-    public init(
-        repository: CodeartifactClientTypes.RepositoryDescription? = nil
-    )
-    {
-        self.repository = repository
-    }
-}
-
-struct AssociateExternalConnectionOutputResponseBody: Swift.Equatable {
-    let repository: CodeartifactClientTypes.RepositoryDescription?
-}
-
-extension AssociateExternalConnectionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case repository
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let repositoryDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.RepositoryDescription.self, forKey: .repository)
-        repository = repositoryDecoded
     }
 }
 
@@ -607,28 +607,11 @@ extension CopyPackageVersionsInputBody: Swift.Decodable {
     }
 }
 
-public enum CopyPackageVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CopyPackageVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CopyPackageVersionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CopyPackageVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CopyPackageVersionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.failedVersions = output.failedVersions
             self.successfulVersions = output.successfulVersions
         } else {
@@ -638,7 +621,7 @@ extension CopyPackageVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CopyPackageVersionsOutputResponse: Swift.Equatable {
+public struct CopyPackageVersionsOutput: Swift.Equatable {
     /// A map of package versions that failed to copy and their error codes. The possible error codes are in the PackageVersionError data type. They are:
     ///
     /// * ALREADY_EXISTS
@@ -666,12 +649,12 @@ public struct CopyPackageVersionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct CopyPackageVersionsOutputResponseBody: Swift.Equatable {
+struct CopyPackageVersionsOutputBody: Swift.Equatable {
     let successfulVersions: [Swift.String:CodeartifactClientTypes.SuccessfulPackageVersionInfo]?
     let failedVersions: [Swift.String:CodeartifactClientTypes.PackageVersionError]?
 }
 
-extension CopyPackageVersionsOutputResponseBody: Swift.Decodable {
+extension CopyPackageVersionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case failedVersions
         case successfulVersions
@@ -701,6 +684,23 @@ extension CopyPackageVersionsOutputResponseBody: Swift.Decodable {
             }
         }
         failedVersions = failedVersionsDecoded0
+    }
+}
+
+enum CopyPackageVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -795,8 +795,48 @@ extension CreateDomainInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateDomainOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateDomainOutputBody = try responseDecoder.decode(responseBody: data)
+            self.domain = output.domain
+        } else {
+            self.domain = nil
+        }
+    }
+}
+
+public struct CreateDomainOutput: Swift.Equatable {
+    /// Contains information about the created domain after processing the request.
+    public var domain: CodeartifactClientTypes.DomainDescription?
+
+    public init(
+        domain: CodeartifactClientTypes.DomainDescription? = nil
+    )
+    {
+        self.domain = domain
+    }
+}
+
+struct CreateDomainOutputBody: Swift.Equatable {
+    let domain: CodeartifactClientTypes.DomainDescription?
+}
+
+extension CreateDomainOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domain
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.DomainDescription.self, forKey: .domain)
+        domain = domainDecoded
+    }
+}
+
+enum CreateDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -809,46 +849,6 @@ public enum CreateDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateDomainOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.domain = output.domain
-        } else {
-            self.domain = nil
-        }
-    }
-}
-
-public struct CreateDomainOutputResponse: Swift.Equatable {
-    /// Contains information about the created domain after processing the request.
-    public var domain: CodeartifactClientTypes.DomainDescription?
-
-    public init(
-        domain: CodeartifactClientTypes.DomainDescription? = nil
-    )
-    {
-        self.domain = domain
-    }
-}
-
-struct CreateDomainOutputResponseBody: Swift.Equatable {
-    let domain: CodeartifactClientTypes.DomainDescription?
-}
-
-extension CreateDomainOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case domain
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let domainDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.DomainDescription.self, forKey: .domain)
-        domain = domainDecoded
     }
 }
 
@@ -986,8 +986,48 @@ extension CreateRepositoryInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateRepositoryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateRepositoryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.repository = output.repository
+        } else {
+            self.repository = nil
+        }
+    }
+}
+
+public struct CreateRepositoryOutput: Swift.Equatable {
+    /// Information about the created repository after processing the request.
+    public var repository: CodeartifactClientTypes.RepositoryDescription?
+
+    public init(
+        repository: CodeartifactClientTypes.RepositoryDescription? = nil
+    )
+    {
+        self.repository = repository
+    }
+}
+
+struct CreateRepositoryOutputBody: Swift.Equatable {
+    let repository: CodeartifactClientTypes.RepositoryDescription?
+}
+
+extension CreateRepositoryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case repository
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let repositoryDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.RepositoryDescription.self, forKey: .repository)
+        repository = repositoryDecoded
+    }
+}
+
+enum CreateRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1000,46 +1040,6 @@ public enum CreateRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateRepositoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.repository = output.repository
-        } else {
-            self.repository = nil
-        }
-    }
-}
-
-public struct CreateRepositoryOutputResponse: Swift.Equatable {
-    /// Information about the created repository after processing the request.
-    public var repository: CodeartifactClientTypes.RepositoryDescription?
-
-    public init(
-        repository: CodeartifactClientTypes.RepositoryDescription? = nil
-    )
-    {
-        self.repository = repository
-    }
-}
-
-struct CreateRepositoryOutputResponseBody: Swift.Equatable {
-    let repository: CodeartifactClientTypes.RepositoryDescription?
-}
-
-extension CreateRepositoryOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case repository
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let repositoryDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.RepositoryDescription.self, forKey: .repository)
-        repository = repositoryDecoded
     }
 }
 
@@ -1094,26 +1094,11 @@ extension DeleteDomainInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteDomainOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteDomainOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteDomainOutputBody = try responseDecoder.decode(responseBody: data)
             self.domain = output.domain
         } else {
             self.domain = nil
@@ -1121,7 +1106,7 @@ extension DeleteDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDomainOutputResponse: Swift.Equatable {
+public struct DeleteDomainOutput: Swift.Equatable {
     /// Contains information about the deleted domain after processing the request.
     public var domain: CodeartifactClientTypes.DomainDescription?
 
@@ -1133,11 +1118,11 @@ public struct DeleteDomainOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteDomainOutputResponseBody: Swift.Equatable {
+struct DeleteDomainOutputBody: Swift.Equatable {
     let domain: CodeartifactClientTypes.DomainDescription?
 }
 
-extension DeleteDomainOutputResponseBody: Swift.Decodable {
+extension DeleteDomainOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case domain
     }
@@ -1146,6 +1131,21 @@ extension DeleteDomainOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.DomainDescription.self, forKey: .domain)
         domain = domainDecoded
+    }
+}
+
+enum DeleteDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1208,27 +1208,11 @@ extension DeleteDomainPermissionsPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteDomainPermissionsPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteDomainPermissionsPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteDomainPermissionsPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteDomainPermissionsPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteDomainPermissionsPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
             self.policy = nil
@@ -1236,7 +1220,7 @@ extension DeleteDomainPermissionsPolicyOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct DeleteDomainPermissionsPolicyOutputResponse: Swift.Equatable {
+public struct DeleteDomainPermissionsPolicyOutput: Swift.Equatable {
     /// Information about the deleted resource policy after processing the request.
     public var policy: CodeartifactClientTypes.ResourcePolicy?
 
@@ -1248,11 +1232,11 @@ public struct DeleteDomainPermissionsPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteDomainPermissionsPolicyOutputResponseBody: Swift.Equatable {
+struct DeleteDomainPermissionsPolicyOutputBody: Swift.Equatable {
     let policy: CodeartifactClientTypes.ResourcePolicy?
 }
 
-extension DeleteDomainPermissionsPolicyOutputResponseBody: Swift.Decodable {
+extension DeleteDomainPermissionsPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy
     }
@@ -1261,6 +1245,22 @@ extension DeleteDomainPermissionsPolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.ResourcePolicy.self, forKey: .policy)
         policy = policyDecoded
+    }
+}
+
+enum DeleteDomainPermissionsPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1364,27 +1364,11 @@ extension DeletePackageInputBody: Swift.Decodable {
     }
 }
 
-public enum DeletePackageOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeletePackageOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeletePackageOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeletePackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeletePackageOutputBody = try responseDecoder.decode(responseBody: data)
             self.deletedPackage = output.deletedPackage
         } else {
             self.deletedPackage = nil
@@ -1392,7 +1376,7 @@ extension DeletePackageOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePackageOutputResponse: Swift.Equatable {
+public struct DeletePackageOutput: Swift.Equatable {
     /// Details about a package, including its format, namespace, and name.
     public var deletedPackage: CodeartifactClientTypes.PackageSummary?
 
@@ -1404,11 +1388,11 @@ public struct DeletePackageOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeletePackageOutputResponseBody: Swift.Equatable {
+struct DeletePackageOutputBody: Swift.Equatable {
     let deletedPackage: CodeartifactClientTypes.PackageSummary?
 }
 
-extension DeletePackageOutputResponseBody: Swift.Decodable {
+extension DeletePackageOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deletedPackage
     }
@@ -1417,6 +1401,22 @@ extension DeletePackageOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deletedPackageDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.PackageSummary.self, forKey: .deletedPackage)
         deletedPackage = deletedPackageDecoded
+    }
+}
+
+enum DeletePackageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1569,27 +1569,11 @@ extension DeletePackageVersionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DeletePackageVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeletePackageVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeletePackageVersionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeletePackageVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeletePackageVersionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.failedVersions = output.failedVersions
             self.successfulVersions = output.successfulVersions
         } else {
@@ -1599,7 +1583,7 @@ extension DeletePackageVersionsOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DeletePackageVersionsOutputResponse: Swift.Equatable {
+public struct DeletePackageVersionsOutput: Swift.Equatable {
     /// A PackageVersionError object that contains a map of errors codes for the deleted package that failed. The possible error codes are:
     ///
     /// * ALREADY_EXISTS
@@ -1627,12 +1611,12 @@ public struct DeletePackageVersionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeletePackageVersionsOutputResponseBody: Swift.Equatable {
+struct DeletePackageVersionsOutputBody: Swift.Equatable {
     let successfulVersions: [Swift.String:CodeartifactClientTypes.SuccessfulPackageVersionInfo]?
     let failedVersions: [Swift.String:CodeartifactClientTypes.PackageVersionError]?
 }
 
-extension DeletePackageVersionsOutputResponseBody: Swift.Decodable {
+extension DeletePackageVersionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case failedVersions
         case successfulVersions
@@ -1662,6 +1646,22 @@ extension DeletePackageVersionsOutputResponseBody: Swift.Decodable {
             }
         }
         failedVersions = failedVersionsDecoded0
+    }
+}
+
+enum DeletePackageVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1727,27 +1727,11 @@ extension DeleteRepositoryInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteRepositoryOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteRepositoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteRepositoryOutputBody = try responseDecoder.decode(responseBody: data)
             self.repository = output.repository
         } else {
             self.repository = nil
@@ -1755,7 +1739,7 @@ extension DeleteRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRepositoryOutputResponse: Swift.Equatable {
+public struct DeleteRepositoryOutput: Swift.Equatable {
     /// Information about the deleted repository after processing the request.
     public var repository: CodeartifactClientTypes.RepositoryDescription?
 
@@ -1767,11 +1751,11 @@ public struct DeleteRepositoryOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteRepositoryOutputResponseBody: Swift.Equatable {
+struct DeleteRepositoryOutputBody: Swift.Equatable {
     let repository: CodeartifactClientTypes.RepositoryDescription?
 }
 
-extension DeleteRepositoryOutputResponseBody: Swift.Decodable {
+extension DeleteRepositoryOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case repository
     }
@@ -1780,6 +1764,22 @@ extension DeleteRepositoryOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let repositoryDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.RepositoryDescription.self, forKey: .repository)
         repository = repositoryDecoded
+    }
+}
+
+enum DeleteRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1853,27 +1853,11 @@ extension DeleteRepositoryPermissionsPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteRepositoryPermissionsPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteRepositoryPermissionsPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteRepositoryPermissionsPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteRepositoryPermissionsPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteRepositoryPermissionsPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
             self.policy = nil
@@ -1881,7 +1865,7 @@ extension DeleteRepositoryPermissionsPolicyOutputResponse: ClientRuntime.HttpRes
     }
 }
 
-public struct DeleteRepositoryPermissionsPolicyOutputResponse: Swift.Equatable {
+public struct DeleteRepositoryPermissionsPolicyOutput: Swift.Equatable {
     /// Information about the deleted policy after processing the request.
     public var policy: CodeartifactClientTypes.ResourcePolicy?
 
@@ -1893,11 +1877,11 @@ public struct DeleteRepositoryPermissionsPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteRepositoryPermissionsPolicyOutputResponseBody: Swift.Equatable {
+struct DeleteRepositoryPermissionsPolicyOutputBody: Swift.Equatable {
     let policy: CodeartifactClientTypes.ResourcePolicy?
 }
 
-extension DeleteRepositoryPermissionsPolicyOutputResponseBody: Swift.Decodable {
+extension DeleteRepositoryPermissionsPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy
     }
@@ -1906,6 +1890,22 @@ extension DeleteRepositoryPermissionsPolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.ResourcePolicy.self, forKey: .policy)
         policy = policyDecoded
+    }
+}
+
+enum DeleteRepositoryPermissionsPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1960,26 +1960,11 @@ extension DescribeDomainInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeDomainOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDomainOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDomainOutputBody = try responseDecoder.decode(responseBody: data)
             self.domain = output.domain
         } else {
             self.domain = nil
@@ -1987,7 +1972,7 @@ extension DescribeDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDomainOutputResponse: Swift.Equatable {
+public struct DescribeDomainOutput: Swift.Equatable {
     /// Information about a domain. A domain is a container for repositories. When you create a domain, it is empty until you add one or more repositories.
     public var domain: CodeartifactClientTypes.DomainDescription?
 
@@ -1999,11 +1984,11 @@ public struct DescribeDomainOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeDomainOutputResponseBody: Swift.Equatable {
+struct DescribeDomainOutputBody: Swift.Equatable {
     let domain: CodeartifactClientTypes.DomainDescription?
 }
 
-extension DescribeDomainOutputResponseBody: Swift.Decodable {
+extension DescribeDomainOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case domain
     }
@@ -2012,6 +1997,21 @@ extension DescribeDomainOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.DomainDescription.self, forKey: .domain)
         domain = domainDecoded
+    }
+}
+
+enum DescribeDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2115,26 +2115,11 @@ extension DescribePackageInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribePackageOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribePackageOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribePackageOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribePackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribePackageOutputBody = try responseDecoder.decode(responseBody: data)
             self.package = output.package
         } else {
             self.package = nil
@@ -2142,7 +2127,7 @@ extension DescribePackageOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePackageOutputResponse: Swift.Equatable {
+public struct DescribePackageOutput: Swift.Equatable {
     /// A [PackageDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDescription.html) object that contains information about the requested package.
     /// This member is required.
     public var package: CodeartifactClientTypes.PackageDescription?
@@ -2155,11 +2140,11 @@ public struct DescribePackageOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribePackageOutputResponseBody: Swift.Equatable {
+struct DescribePackageOutputBody: Swift.Equatable {
     let package: CodeartifactClientTypes.PackageDescription?
 }
 
-extension DescribePackageOutputResponseBody: Swift.Decodable {
+extension DescribePackageOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case package
     }
@@ -2168,6 +2153,21 @@ extension DescribePackageOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let packageDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.PackageDescription.self, forKey: .package)
         package = packageDecoded
+    }
+}
+
+enum DescribePackageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2282,27 +2282,11 @@ extension DescribePackageVersionInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribePackageVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribePackageVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribePackageVersionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribePackageVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribePackageVersionOutputBody = try responseDecoder.decode(responseBody: data)
             self.packageVersion = output.packageVersion
         } else {
             self.packageVersion = nil
@@ -2310,7 +2294,7 @@ extension DescribePackageVersionOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribePackageVersionOutputResponse: Swift.Equatable {
+public struct DescribePackageVersionOutput: Swift.Equatable {
     /// A [PackageVersionDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionDescription.html) object that contains information about the requested package version.
     /// This member is required.
     public var packageVersion: CodeartifactClientTypes.PackageVersionDescription?
@@ -2323,11 +2307,11 @@ public struct DescribePackageVersionOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribePackageVersionOutputResponseBody: Swift.Equatable {
+struct DescribePackageVersionOutputBody: Swift.Equatable {
     let packageVersion: CodeartifactClientTypes.PackageVersionDescription?
 }
 
-extension DescribePackageVersionOutputResponseBody: Swift.Decodable {
+extension DescribePackageVersionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case packageVersion
     }
@@ -2336,6 +2320,22 @@ extension DescribePackageVersionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let packageVersionDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.PackageVersionDescription.self, forKey: .packageVersion)
         packageVersion = packageVersionDecoded
+    }
+}
+
+enum DescribePackageVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2401,26 +2401,11 @@ extension DescribeRepositoryInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeRepositoryOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeRepositoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeRepositoryOutputBody = try responseDecoder.decode(responseBody: data)
             self.repository = output.repository
         } else {
             self.repository = nil
@@ -2428,7 +2413,7 @@ extension DescribeRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRepositoryOutputResponse: Swift.Equatable {
+public struct DescribeRepositoryOutput: Swift.Equatable {
     /// A RepositoryDescription object that contains the requested repository information.
     public var repository: CodeartifactClientTypes.RepositoryDescription?
 
@@ -2440,11 +2425,11 @@ public struct DescribeRepositoryOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeRepositoryOutputResponseBody: Swift.Equatable {
+struct DescribeRepositoryOutputBody: Swift.Equatable {
     let repository: CodeartifactClientTypes.RepositoryDescription?
 }
 
-extension DescribeRepositoryOutputResponseBody: Swift.Decodable {
+extension DescribeRepositoryOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case repository
     }
@@ -2453,6 +2438,21 @@ extension DescribeRepositoryOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let repositoryDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.RepositoryDescription.self, forKey: .repository)
         repository = repositoryDecoded
+    }
+}
+
+enum DescribeRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2529,8 +2529,48 @@ extension DisassociateExternalConnectionInputBody: Swift.Decodable {
     }
 }
 
-public enum DisassociateExternalConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DisassociateExternalConnectionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DisassociateExternalConnectionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.repository = output.repository
+        } else {
+            self.repository = nil
+        }
+    }
+}
+
+public struct DisassociateExternalConnectionOutput: Swift.Equatable {
+    /// The repository associated with the removed external connection.
+    public var repository: CodeartifactClientTypes.RepositoryDescription?
+
+    public init(
+        repository: CodeartifactClientTypes.RepositoryDescription? = nil
+    )
+    {
+        self.repository = repository
+    }
+}
+
+struct DisassociateExternalConnectionOutputBody: Swift.Equatable {
+    let repository: CodeartifactClientTypes.RepositoryDescription?
+}
+
+extension DisassociateExternalConnectionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case repository
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let repositoryDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.RepositoryDescription.self, forKey: .repository)
+        repository = repositoryDecoded
+    }
+}
+
+enum DisassociateExternalConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2543,46 +2583,6 @@ public enum DisassociateExternalConnectionOutputError: ClientRuntime.HttpRespons
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DisassociateExternalConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DisassociateExternalConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.repository = output.repository
-        } else {
-            self.repository = nil
-        }
-    }
-}
-
-public struct DisassociateExternalConnectionOutputResponse: Swift.Equatable {
-    /// The repository associated with the removed external connection.
-    public var repository: CodeartifactClientTypes.RepositoryDescription?
-
-    public init(
-        repository: CodeartifactClientTypes.RepositoryDescription? = nil
-    )
-    {
-        self.repository = repository
-    }
-}
-
-struct DisassociateExternalConnectionOutputResponseBody: Swift.Equatable {
-    let repository: CodeartifactClientTypes.RepositoryDescription?
-}
-
-extension DisassociateExternalConnectionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case repository
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let repositoryDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.RepositoryDescription.self, forKey: .repository)
-        repository = repositoryDecoded
     }
 }
 
@@ -2759,27 +2759,11 @@ extension DisposePackageVersionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DisposePackageVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DisposePackageVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DisposePackageVersionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DisposePackageVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DisposePackageVersionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.failedVersions = output.failedVersions
             self.successfulVersions = output.successfulVersions
         } else {
@@ -2789,7 +2773,7 @@ extension DisposePackageVersionsOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DisposePackageVersionsOutputResponse: Swift.Equatable {
+public struct DisposePackageVersionsOutput: Swift.Equatable {
     /// A PackageVersionError object that contains a map of errors codes for the disposed package versions that failed. The possible error codes are:
     ///
     /// * ALREADY_EXISTS
@@ -2817,12 +2801,12 @@ public struct DisposePackageVersionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DisposePackageVersionsOutputResponseBody: Swift.Equatable {
+struct DisposePackageVersionsOutputBody: Swift.Equatable {
     let successfulVersions: [Swift.String:CodeartifactClientTypes.SuccessfulPackageVersionInfo]?
     let failedVersions: [Swift.String:CodeartifactClientTypes.PackageVersionError]?
 }
 
-extension DisposePackageVersionsOutputResponseBody: Swift.Decodable {
+extension DisposePackageVersionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case failedVersions
         case successfulVersions
@@ -2852,6 +2836,22 @@ extension DisposePackageVersionsOutputResponseBody: Swift.Decodable {
             }
         }
         failedVersions = failedVersionsDecoded0
+    }
+}
+
+enum DisposePackageVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3220,26 +3220,11 @@ extension GetAuthorizationTokenInputBody: Swift.Decodable {
     }
 }
 
-public enum GetAuthorizationTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetAuthorizationTokenOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetAuthorizationTokenOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetAuthorizationTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetAuthorizationTokenOutputBody = try responseDecoder.decode(responseBody: data)
             self.authorizationToken = output.authorizationToken
             self.expiration = output.expiration
         } else {
@@ -3249,7 +3234,7 @@ extension GetAuthorizationTokenOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetAuthorizationTokenOutputResponse: Swift.Equatable {
+public struct GetAuthorizationTokenOutput: Swift.Equatable {
     /// The returned authentication token.
     public var authorizationToken: Swift.String?
     /// A timestamp that specifies the date and time the authorization token expires.
@@ -3265,12 +3250,12 @@ public struct GetAuthorizationTokenOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetAuthorizationTokenOutputResponseBody: Swift.Equatable {
+struct GetAuthorizationTokenOutputBody: Swift.Equatable {
     let authorizationToken: Swift.String?
     let expiration: ClientRuntime.Date?
 }
 
-extension GetAuthorizationTokenOutputResponseBody: Swift.Decodable {
+extension GetAuthorizationTokenOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authorizationToken
         case expiration
@@ -3282,6 +3267,21 @@ extension GetAuthorizationTokenOutputResponseBody: Swift.Decodable {
         authorizationToken = authorizationTokenDecoded
         let expirationDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .expiration)
         expiration = expirationDecoded
+    }
+}
+
+enum GetAuthorizationTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3336,26 +3336,11 @@ extension GetDomainPermissionsPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum GetDomainPermissionsPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetDomainPermissionsPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetDomainPermissionsPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetDomainPermissionsPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetDomainPermissionsPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
             self.policy = nil
@@ -3363,7 +3348,7 @@ extension GetDomainPermissionsPolicyOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct GetDomainPermissionsPolicyOutputResponse: Swift.Equatable {
+public struct GetDomainPermissionsPolicyOutput: Swift.Equatable {
     /// The returned resource policy.
     public var policy: CodeartifactClientTypes.ResourcePolicy?
 
@@ -3375,11 +3360,11 @@ public struct GetDomainPermissionsPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetDomainPermissionsPolicyOutputResponseBody: Swift.Equatable {
+struct GetDomainPermissionsPolicyOutputBody: Swift.Equatable {
     let policy: CodeartifactClientTypes.ResourcePolicy?
 }
 
-extension GetDomainPermissionsPolicyOutputResponseBody: Swift.Decodable {
+extension GetDomainPermissionsPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy
     }
@@ -3388,6 +3373,21 @@ extension GetDomainPermissionsPolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.ResourcePolicy.self, forKey: .policy)
         policy = policyDecoded
+    }
+}
+
+enum GetDomainPermissionsPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3521,23 +3521,7 @@ extension GetPackageVersionAssetInputBody: Swift.Decodable {
     }
 }
 
-public enum GetPackageVersionAssetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetPackageVersionAssetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPackageVersionAssetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let assetNameHeaderValue = httpResponse.headers.value(for: "X-AssetName") {
             self.assetName = assetNameHeaderValue
@@ -3559,13 +3543,13 @@ extension GetPackageVersionAssetOutputResponse: ClientRuntime.HttpResponseBindin
             self.asset = .data(data)
         case .stream(let stream):
             self.asset = .stream(stream)
-        case .none:
+        case .noStream:
             self.asset = nil
         }
     }
 }
 
-public struct GetPackageVersionAssetOutputResponse: Swift.Equatable {
+public struct GetPackageVersionAssetOutput: Swift.Equatable {
     /// The binary file, or asset, that is downloaded.
     public var asset: ClientRuntime.ByteStream?
     /// The name of the asset that is downloaded.
@@ -3589,11 +3573,11 @@ public struct GetPackageVersionAssetOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPackageVersionAssetOutputResponseBody: Swift.Equatable {
+struct GetPackageVersionAssetOutputBody: Swift.Equatable {
     let asset: ClientRuntime.ByteStream?
 }
 
-extension GetPackageVersionAssetOutputResponseBody: Swift.Decodable {
+extension GetPackageVersionAssetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case asset
     }
@@ -3602,6 +3586,22 @@ extension GetPackageVersionAssetOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let assetDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .asset)
         asset = assetDecoded
+    }
+}
+
+enum GetPackageVersionAssetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3712,26 +3712,11 @@ extension GetPackageVersionReadmeInputBody: Swift.Decodable {
     }
 }
 
-public enum GetPackageVersionReadmeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetPackageVersionReadmeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPackageVersionReadmeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetPackageVersionReadmeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetPackageVersionReadmeOutputBody = try responseDecoder.decode(responseBody: data)
             self.format = output.format
             self.namespace = output.namespace
             self.package = output.package
@@ -3749,7 +3734,7 @@ extension GetPackageVersionReadmeOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetPackageVersionReadmeOutputResponse: Swift.Equatable {
+public struct GetPackageVersionReadmeOutput: Swift.Equatable {
     /// The format of the package with the requested readme file.
     public var format: CodeartifactClientTypes.PackageFormat?
     /// The namespace of the package version with the requested readme file. The package version component that specifies its namespace depends on its type. For example:
@@ -3787,7 +3772,7 @@ public struct GetPackageVersionReadmeOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPackageVersionReadmeOutputResponseBody: Swift.Equatable {
+struct GetPackageVersionReadmeOutputBody: Swift.Equatable {
     let format: CodeartifactClientTypes.PackageFormat?
     let namespace: Swift.String?
     let package: Swift.String?
@@ -3796,7 +3781,7 @@ struct GetPackageVersionReadmeOutputResponseBody: Swift.Equatable {
     let readme: Swift.String?
 }
 
-extension GetPackageVersionReadmeOutputResponseBody: Swift.Decodable {
+extension GetPackageVersionReadmeOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case format
         case namespace
@@ -3820,6 +3805,21 @@ extension GetPackageVersionReadmeOutputResponseBody: Swift.Decodable {
         versionRevision = versionRevisionDecoded
         let readmeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .readme)
         readme = readmeDecoded
+    }
+}
+
+enum GetPackageVersionReadmeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3896,26 +3896,11 @@ extension GetRepositoryEndpointInputBody: Swift.Decodable {
     }
 }
 
-public enum GetRepositoryEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetRepositoryEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRepositoryEndpointOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRepositoryEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRepositoryEndpointOutputBody = try responseDecoder.decode(responseBody: data)
             self.repositoryEndpoint = output.repositoryEndpoint
         } else {
             self.repositoryEndpoint = nil
@@ -3923,7 +3908,7 @@ extension GetRepositoryEndpointOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetRepositoryEndpointOutputResponse: Swift.Equatable {
+public struct GetRepositoryEndpointOutput: Swift.Equatable {
     /// A string that specifies the URL of the returned endpoint.
     public var repositoryEndpoint: Swift.String?
 
@@ -3935,11 +3920,11 @@ public struct GetRepositoryEndpointOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRepositoryEndpointOutputResponseBody: Swift.Equatable {
+struct GetRepositoryEndpointOutputBody: Swift.Equatable {
     let repositoryEndpoint: Swift.String?
 }
 
-extension GetRepositoryEndpointOutputResponseBody: Swift.Decodable {
+extension GetRepositoryEndpointOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case repositoryEndpoint
     }
@@ -3948,6 +3933,21 @@ extension GetRepositoryEndpointOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let repositoryEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryEndpoint)
         repositoryEndpoint = repositoryEndpointDecoded
+    }
+}
+
+enum GetRepositoryEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4013,26 +4013,11 @@ extension GetRepositoryPermissionsPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum GetRepositoryPermissionsPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetRepositoryPermissionsPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRepositoryPermissionsPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRepositoryPermissionsPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRepositoryPermissionsPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
             self.policy = nil
@@ -4040,7 +4025,7 @@ extension GetRepositoryPermissionsPolicyOutputResponse: ClientRuntime.HttpRespon
     }
 }
 
-public struct GetRepositoryPermissionsPolicyOutputResponse: Swift.Equatable {
+public struct GetRepositoryPermissionsPolicyOutput: Swift.Equatable {
     /// The returned resource policy.
     public var policy: CodeartifactClientTypes.ResourcePolicy?
 
@@ -4052,11 +4037,11 @@ public struct GetRepositoryPermissionsPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRepositoryPermissionsPolicyOutputResponseBody: Swift.Equatable {
+struct GetRepositoryPermissionsPolicyOutputBody: Swift.Equatable {
     let policy: CodeartifactClientTypes.ResourcePolicy?
 }
 
-extension GetRepositoryPermissionsPolicyOutputResponseBody: Swift.Decodable {
+extension GetRepositoryPermissionsPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy
     }
@@ -4065,6 +4050,21 @@ extension GetRepositoryPermissionsPolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.ResourcePolicy.self, forKey: .policy)
         policy = policyDecoded
+    }
+}
+
+enum GetRepositoryPermissionsPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4266,25 +4266,11 @@ extension ListDomainsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListDomainsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListDomainsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListDomainsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListDomainsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListDomainsOutputBody = try responseDecoder.decode(responseBody: data)
             self.domains = output.domains
             self.nextToken = output.nextToken
         } else {
@@ -4294,7 +4280,7 @@ extension ListDomainsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDomainsOutputResponse: Swift.Equatable {
+public struct ListDomainsOutput: Swift.Equatable {
     /// The returned list of [DomainSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DomainSummary.html) objects.
     public var domains: [CodeartifactClientTypes.DomainSummary]?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -4310,12 +4296,12 @@ public struct ListDomainsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListDomainsOutputResponseBody: Swift.Equatable {
+struct ListDomainsOutputBody: Swift.Equatable {
     let domains: [CodeartifactClientTypes.DomainSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListDomainsOutputResponseBody: Swift.Decodable {
+extension ListDomainsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case domains
         case nextToken
@@ -4336,6 +4322,20 @@ extension ListDomainsOutputResponseBody: Swift.Decodable {
         domains = domainsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListDomainsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4466,26 +4466,11 @@ extension ListPackageVersionAssetsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPackageVersionAssetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListPackageVersionAssetsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPackageVersionAssetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPackageVersionAssetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPackageVersionAssetsOutputBody = try responseDecoder.decode(responseBody: data)
             self.assets = output.assets
             self.format = output.format
             self.namespace = output.namespace
@@ -4505,7 +4490,7 @@ extension ListPackageVersionAssetsOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListPackageVersionAssetsOutputResponse: Swift.Equatable {
+public struct ListPackageVersionAssetsOutput: Swift.Equatable {
     /// The returned list of [AssetSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_AssetSummary.html) objects.
     public var assets: [CodeartifactClientTypes.AssetSummary]?
     /// The format of the package that contains the requested package version assets.
@@ -4547,7 +4532,7 @@ public struct ListPackageVersionAssetsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPackageVersionAssetsOutputResponseBody: Swift.Equatable {
+struct ListPackageVersionAssetsOutputBody: Swift.Equatable {
     let format: CodeartifactClientTypes.PackageFormat?
     let namespace: Swift.String?
     let package: Swift.String?
@@ -4557,7 +4542,7 @@ struct ListPackageVersionAssetsOutputResponseBody: Swift.Equatable {
     let assets: [CodeartifactClientTypes.AssetSummary]?
 }
 
-extension ListPackageVersionAssetsOutputResponseBody: Swift.Decodable {
+extension ListPackageVersionAssetsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case assets
         case format
@@ -4593,6 +4578,21 @@ extension ListPackageVersionAssetsOutputResponseBody: Swift.Decodable {
             }
         }
         assets = assetsDecoded0
+    }
+}
+
+enum ListPackageVersionAssetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4715,26 +4715,11 @@ extension ListPackageVersionDependenciesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPackageVersionDependenciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListPackageVersionDependenciesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPackageVersionDependenciesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPackageVersionDependenciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPackageVersionDependenciesOutputBody = try responseDecoder.decode(responseBody: data)
             self.dependencies = output.dependencies
             self.format = output.format
             self.namespace = output.namespace
@@ -4754,7 +4739,7 @@ extension ListPackageVersionDependenciesOutputResponse: ClientRuntime.HttpRespon
     }
 }
 
-public struct ListPackageVersionDependenciesOutputResponse: Swift.Equatable {
+public struct ListPackageVersionDependenciesOutput: Swift.Equatable {
     /// The returned list of [PackageDependency](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDependency.html) objects.
     public var dependencies: [CodeartifactClientTypes.PackageDependency]?
     /// A format that specifies the type of the package that contains the returned dependencies.
@@ -4796,7 +4781,7 @@ public struct ListPackageVersionDependenciesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPackageVersionDependenciesOutputResponseBody: Swift.Equatable {
+struct ListPackageVersionDependenciesOutputBody: Swift.Equatable {
     let format: CodeartifactClientTypes.PackageFormat?
     let namespace: Swift.String?
     let package: Swift.String?
@@ -4806,7 +4791,7 @@ struct ListPackageVersionDependenciesOutputResponseBody: Swift.Equatable {
     let dependencies: [CodeartifactClientTypes.PackageDependency]?
 }
 
-extension ListPackageVersionDependenciesOutputResponseBody: Swift.Decodable {
+extension ListPackageVersionDependenciesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dependencies
         case format
@@ -4842,6 +4827,21 @@ extension ListPackageVersionDependenciesOutputResponseBody: Swift.Decodable {
             }
         }
         dependencies = dependenciesDecoded0
+    }
+}
+
+enum ListPackageVersionDependenciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4985,26 +4985,11 @@ extension ListPackageVersionsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPackageVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListPackageVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPackageVersionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPackageVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPackageVersionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.defaultDisplayVersion = output.defaultDisplayVersion
             self.format = output.format
             self.namespace = output.namespace
@@ -5022,7 +5007,7 @@ extension ListPackageVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPackageVersionsOutputResponse: Swift.Equatable {
+public struct ListPackageVersionsOutput: Swift.Equatable {
     /// The default package version to display. This depends on the package format:
     ///
     /// * For Maven and PyPI packages, it's the most recently published package version.
@@ -5064,7 +5049,7 @@ public struct ListPackageVersionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPackageVersionsOutputResponseBody: Swift.Equatable {
+struct ListPackageVersionsOutputBody: Swift.Equatable {
     let defaultDisplayVersion: Swift.String?
     let format: CodeartifactClientTypes.PackageFormat?
     let namespace: Swift.String?
@@ -5073,7 +5058,7 @@ struct ListPackageVersionsOutputResponseBody: Swift.Equatable {
     let nextToken: Swift.String?
 }
 
-extension ListPackageVersionsOutputResponseBody: Swift.Decodable {
+extension ListPackageVersionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case defaultDisplayVersion
         case format
@@ -5106,6 +5091,21 @@ extension ListPackageVersionsOutputResponseBody: Swift.Decodable {
         versions = versionsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListPackageVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5235,26 +5235,11 @@ extension ListPackagesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPackagesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListPackagesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPackagesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPackagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPackagesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.packages = output.packages
         } else {
@@ -5264,7 +5249,7 @@ extension ListPackagesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPackagesOutputResponse: Swift.Equatable {
+public struct ListPackagesOutput: Swift.Equatable {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// The list of returned [PackageSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageSummary.html) objects.
@@ -5280,12 +5265,12 @@ public struct ListPackagesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPackagesOutputResponseBody: Swift.Equatable {
+struct ListPackagesOutputBody: Swift.Equatable {
     let packages: [CodeartifactClientTypes.PackageSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListPackagesOutputResponseBody: Swift.Decodable {
+extension ListPackagesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case packages
@@ -5306,6 +5291,21 @@ extension ListPackagesOutputResponseBody: Swift.Decodable {
         packages = packagesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListPackagesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5392,26 +5392,11 @@ extension ListRepositoriesInDomainInputBody: Swift.Decodable {
     }
 }
 
-public enum ListRepositoriesInDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRepositoriesInDomainOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRepositoriesInDomainOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRepositoriesInDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRepositoriesInDomainOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.repositories = output.repositories
         } else {
@@ -5421,7 +5406,7 @@ extension ListRepositoriesInDomainOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListRepositoriesInDomainOutputResponse: Swift.Equatable {
+public struct ListRepositoriesInDomainOutput: Swift.Equatable {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// The returned list of repositories.
@@ -5437,12 +5422,12 @@ public struct ListRepositoriesInDomainOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRepositoriesInDomainOutputResponseBody: Swift.Equatable {
+struct ListRepositoriesInDomainOutputBody: Swift.Equatable {
     let repositories: [CodeartifactClientTypes.RepositorySummary]?
     let nextToken: Swift.String?
 }
 
-extension ListRepositoriesInDomainOutputResponseBody: Swift.Decodable {
+extension ListRepositoriesInDomainOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case repositories
@@ -5463,6 +5448,21 @@ extension ListRepositoriesInDomainOutputResponseBody: Swift.Decodable {
         repositories = repositoriesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListRepositoriesInDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5522,25 +5522,11 @@ extension ListRepositoriesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListRepositoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRepositoriesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRepositoriesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRepositoriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRepositoriesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.repositories = output.repositories
         } else {
@@ -5550,7 +5536,7 @@ extension ListRepositoriesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRepositoriesOutputResponse: Swift.Equatable {
+public struct ListRepositoriesOutput: Swift.Equatable {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// The returned list of [RepositorySummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_RepositorySummary.html) objects.
@@ -5566,12 +5552,12 @@ public struct ListRepositoriesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRepositoriesOutputResponseBody: Swift.Equatable {
+struct ListRepositoriesOutputBody: Swift.Equatable {
     let repositories: [CodeartifactClientTypes.RepositorySummary]?
     let nextToken: Swift.String?
 }
 
-extension ListRepositoriesOutputResponseBody: Swift.Decodable {
+extension ListRepositoriesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case repositories
@@ -5592,6 +5578,20 @@ extension ListRepositoriesOutputResponseBody: Swift.Decodable {
         repositories = repositoriesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListRepositoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5638,25 +5638,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -5664,7 +5650,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// A list of tag key and value pairs associated with the specified resource.
     public var tags: [CodeartifactClientTypes.Tag]?
 
@@ -5676,11 +5662,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [CodeartifactClientTypes.Tag]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags
     }
@@ -5698,6 +5684,20 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5860,6 +5860,7 @@ extension CodeartifactClientTypes {
         case npm
         case nuget
         case pypi
+        case swift
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PackageFormat] {
@@ -5869,6 +5870,7 @@ extension CodeartifactClientTypes {
                 .npm,
                 .nuget,
                 .pypi,
+                .swift,
                 .sdkUnknown("")
             ]
         }
@@ -5883,6 +5885,7 @@ extension CodeartifactClientTypes {
             case .npm: return "npm"
             case .nuget: return "nuget"
             case .pypi: return "pypi"
+            case .swift: return "swift"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6545,31 +6548,6 @@ extension CodeartifactClientTypes {
 
 }
 
-public struct PublishPackageVersionInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PublishPackageVersionInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PublishPackageVersionInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PublishPackageVersionOutputResponse>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let assetContent = input.operationInput.assetContent {
-            let assetContentBody = ClientRuntime.HttpBody(byteStream: assetContent)
-            input.builder.withBody(assetContentBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PublishPackageVersionInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PublishPackageVersionOutputResponse>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension PublishPackageVersionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case assetContent
@@ -6732,28 +6710,11 @@ extension PublishPackageVersionInputBody: Swift.Decodable {
     }
 }
 
-public enum PublishPackageVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension PublishPackageVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PublishPackageVersionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PublishPackageVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PublishPackageVersionOutputBody = try responseDecoder.decode(responseBody: data)
             self.asset = output.asset
             self.format = output.format
             self.namespace = output.namespace
@@ -6773,7 +6734,7 @@ extension PublishPackageVersionOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct PublishPackageVersionOutputResponse: Swift.Equatable {
+public struct PublishPackageVersionOutput: Swift.Equatable {
     /// An [AssetSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_AssetSummary.html) for the published asset.
     public var asset: CodeartifactClientTypes.AssetSummary?
     /// The format of the package version.
@@ -6809,7 +6770,7 @@ public struct PublishPackageVersionOutputResponse: Swift.Equatable {
     }
 }
 
-struct PublishPackageVersionOutputResponseBody: Swift.Equatable {
+struct PublishPackageVersionOutputBody: Swift.Equatable {
     let format: CodeartifactClientTypes.PackageFormat?
     let namespace: Swift.String?
     let package: Swift.String?
@@ -6819,7 +6780,7 @@ struct PublishPackageVersionOutputResponseBody: Swift.Equatable {
     let asset: CodeartifactClientTypes.AssetSummary?
 }
 
-extension PublishPackageVersionOutputResponseBody: Swift.Decodable {
+extension PublishPackageVersionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case asset
         case format
@@ -6846,6 +6807,23 @@ extension PublishPackageVersionOutputResponseBody: Swift.Decodable {
         status = statusDecoded
         let assetDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.AssetSummary.self, forKey: .asset)
         asset = assetDecoded
+    }
+}
+
+enum PublishPackageVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6934,8 +6912,48 @@ extension PutDomainPermissionsPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum PutDomainPermissionsPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension PutDomainPermissionsPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutDomainPermissionsPolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.policy = output.policy
+        } else {
+            self.policy = nil
+        }
+    }
+}
+
+public struct PutDomainPermissionsPolicyOutput: Swift.Equatable {
+    /// The resource policy that was set after processing the request.
+    public var policy: CodeartifactClientTypes.ResourcePolicy?
+
+    public init(
+        policy: CodeartifactClientTypes.ResourcePolicy? = nil
+    )
+    {
+        self.policy = policy
+    }
+}
+
+struct PutDomainPermissionsPolicyOutputBody: Swift.Equatable {
+    let policy: CodeartifactClientTypes.ResourcePolicy?
+}
+
+extension PutDomainPermissionsPolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policy
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.ResourcePolicy.self, forKey: .policy)
+        policy = policyDecoded
+    }
+}
+
+enum PutDomainPermissionsPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6948,46 +6966,6 @@ public enum PutDomainPermissionsPolicyOutputError: ClientRuntime.HttpResponseErr
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension PutDomainPermissionsPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: PutDomainPermissionsPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.policy = output.policy
-        } else {
-            self.policy = nil
-        }
-    }
-}
-
-public struct PutDomainPermissionsPolicyOutputResponse: Swift.Equatable {
-    /// The resource policy that was set after processing the request.
-    public var policy: CodeartifactClientTypes.ResourcePolicy?
-
-    public init(
-        policy: CodeartifactClientTypes.ResourcePolicy? = nil
-    )
-    {
-        self.policy = policy
-    }
-}
-
-struct PutDomainPermissionsPolicyOutputResponseBody: Swift.Equatable {
-    let policy: CodeartifactClientTypes.ResourcePolicy?
-}
-
-extension PutDomainPermissionsPolicyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case policy
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let policyDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.ResourcePolicy.self, forKey: .policy)
-        policy = policyDecoded
     }
 }
 
@@ -7116,26 +7094,11 @@ extension PutPackageOriginConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum PutPackageOriginConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension PutPackageOriginConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PutPackageOriginConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PutPackageOriginConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PutPackageOriginConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
             self.originConfiguration = output.originConfiguration
         } else {
             self.originConfiguration = nil
@@ -7143,7 +7106,7 @@ extension PutPackageOriginConfigurationOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct PutPackageOriginConfigurationOutputResponse: Swift.Equatable {
+public struct PutPackageOriginConfigurationOutput: Swift.Equatable {
     /// A [PackageOriginConfiguration](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginConfiguration.html) object that describes the origin configuration set for the package. It contains a [PackageOriginRestrictions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginRestrictions.html) object that describes how new versions of the package can be introduced to the repository.
     public var originConfiguration: CodeartifactClientTypes.PackageOriginConfiguration?
 
@@ -7155,11 +7118,11 @@ public struct PutPackageOriginConfigurationOutputResponse: Swift.Equatable {
     }
 }
 
-struct PutPackageOriginConfigurationOutputResponseBody: Swift.Equatable {
+struct PutPackageOriginConfigurationOutputBody: Swift.Equatable {
     let originConfiguration: CodeartifactClientTypes.PackageOriginConfiguration?
 }
 
-extension PutPackageOriginConfigurationOutputResponseBody: Swift.Decodable {
+extension PutPackageOriginConfigurationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case originConfiguration
     }
@@ -7168,6 +7131,21 @@ extension PutPackageOriginConfigurationOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let originConfigurationDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.PackageOriginConfiguration.self, forKey: .originConfiguration)
         originConfiguration = originConfigurationDecoded
+    }
+}
+
+enum PutPackageOriginConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7270,8 +7248,48 @@ extension PutRepositoryPermissionsPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum PutRepositoryPermissionsPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension PutRepositoryPermissionsPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutRepositoryPermissionsPolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.policy = output.policy
+        } else {
+            self.policy = nil
+        }
+    }
+}
+
+public struct PutRepositoryPermissionsPolicyOutput: Swift.Equatable {
+    /// The resource policy that was set after processing the request.
+    public var policy: CodeartifactClientTypes.ResourcePolicy?
+
+    public init(
+        policy: CodeartifactClientTypes.ResourcePolicy? = nil
+    )
+    {
+        self.policy = policy
+    }
+}
+
+struct PutRepositoryPermissionsPolicyOutputBody: Swift.Equatable {
+    let policy: CodeartifactClientTypes.ResourcePolicy?
+}
+
+extension PutRepositoryPermissionsPolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policy
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.ResourcePolicy.self, forKey: .policy)
+        policy = policyDecoded
+    }
+}
+
+enum PutRepositoryPermissionsPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7284,46 +7302,6 @@ public enum PutRepositoryPermissionsPolicyOutputError: ClientRuntime.HttpRespons
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension PutRepositoryPermissionsPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: PutRepositoryPermissionsPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.policy = output.policy
-        } else {
-            self.policy = nil
-        }
-    }
-}
-
-public struct PutRepositoryPermissionsPolicyOutputResponse: Swift.Equatable {
-    /// The resource policy that was set after processing the request.
-    public var policy: CodeartifactClientTypes.ResourcePolicy?
-
-    public init(
-        policy: CodeartifactClientTypes.ResourcePolicy? = nil
-    )
-    {
-        self.policy = policy
-    }
-}
-
-struct PutRepositoryPermissionsPolicyOutputResponseBody: Swift.Equatable {
-    let policy: CodeartifactClientTypes.ResourcePolicy?
-}
-
-extension PutRepositoryPermissionsPolicyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case policy
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let policyDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.ResourcePolicy.self, forKey: .policy)
-        policy = policyDecoded
     }
 }
 
@@ -8044,8 +8022,18 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8057,16 +8045,6 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ThrottlingException {
@@ -8214,8 +8192,18 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8226,16 +8214,6 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdatePackageVersionsStatusInput: Swift.Encodable {
@@ -8424,27 +8402,11 @@ extension UpdatePackageVersionsStatusInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdatePackageVersionsStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdatePackageVersionsStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdatePackageVersionsStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdatePackageVersionsStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdatePackageVersionsStatusOutputBody = try responseDecoder.decode(responseBody: data)
             self.failedVersions = output.failedVersions
             self.successfulVersions = output.successfulVersions
         } else {
@@ -8454,7 +8416,7 @@ extension UpdatePackageVersionsStatusOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct UpdatePackageVersionsStatusOutputResponse: Swift.Equatable {
+public struct UpdatePackageVersionsStatusOutput: Swift.Equatable {
     /// A list of SuccessfulPackageVersionInfo objects, one for each package version with a status that successfully updated.
     public var failedVersions: [Swift.String:CodeartifactClientTypes.PackageVersionError]?
     /// A list of PackageVersionError objects, one for each package version with a status that failed to update.
@@ -8470,12 +8432,12 @@ public struct UpdatePackageVersionsStatusOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdatePackageVersionsStatusOutputResponseBody: Swift.Equatable {
+struct UpdatePackageVersionsStatusOutputBody: Swift.Equatable {
     let successfulVersions: [Swift.String:CodeartifactClientTypes.SuccessfulPackageVersionInfo]?
     let failedVersions: [Swift.String:CodeartifactClientTypes.PackageVersionError]?
 }
 
-extension UpdatePackageVersionsStatusOutputResponseBody: Swift.Decodable {
+extension UpdatePackageVersionsStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case failedVersions
         case successfulVersions
@@ -8505,6 +8467,22 @@ extension UpdatePackageVersionsStatusOutputResponseBody: Swift.Decodable {
             }
         }
         failedVersions = failedVersionsDecoded0
+    }
+}
+
+enum UpdatePackageVersionsStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8618,8 +8596,48 @@ extension UpdateRepositoryInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateRepositoryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateRepositoryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.repository = output.repository
+        } else {
+            self.repository = nil
+        }
+    }
+}
+
+public struct UpdateRepositoryOutput: Swift.Equatable {
+    /// The updated repository.
+    public var repository: CodeartifactClientTypes.RepositoryDescription?
+
+    public init(
+        repository: CodeartifactClientTypes.RepositoryDescription? = nil
+    )
+    {
+        self.repository = repository
+    }
+}
+
+struct UpdateRepositoryOutputBody: Swift.Equatable {
+    let repository: CodeartifactClientTypes.RepositoryDescription?
+}
+
+extension UpdateRepositoryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case repository
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let repositoryDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.RepositoryDescription.self, forKey: .repository)
+        repository = repositoryDecoded
+    }
+}
+
+enum UpdateRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8632,46 +8650,6 @@ public enum UpdateRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateRepositoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.repository = output.repository
-        } else {
-            self.repository = nil
-        }
-    }
-}
-
-public struct UpdateRepositoryOutputResponse: Swift.Equatable {
-    /// The updated repository.
-    public var repository: CodeartifactClientTypes.RepositoryDescription?
-
-    public init(
-        repository: CodeartifactClientTypes.RepositoryDescription? = nil
-    )
-    {
-        self.repository = repository
-    }
-}
-
-struct UpdateRepositoryOutputResponseBody: Swift.Equatable {
-    let repository: CodeartifactClientTypes.RepositoryDescription?
-}
-
-extension UpdateRepositoryOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case repository
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let repositoryDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.RepositoryDescription.self, forKey: .repository)
-        repository = repositoryDecoded
     }
 }
 

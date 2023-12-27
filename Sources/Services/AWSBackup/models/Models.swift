@@ -59,6 +59,41 @@ extension BackupClientTypes {
 
 }
 
+extension BackupClientTypes {
+    public enum AggregationPeriod: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fourteenDays
+        case oneDay
+        case sevenDays
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AggregationPeriod] {
+            return [
+                .fourteenDays,
+                .oneDay,
+                .sevenDays,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fourteenDays: return "FOURTEEN_DAYS"
+            case .oneDay: return "ONE_DAY"
+            case .sevenDays: return "SEVEN_DAYS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AggregationPeriod(rawValue: rawValue) ?? AggregationPeriod.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension AlreadyExistsException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -178,7 +213,9 @@ extension BackupClientTypes.BackupJob: Swift.Codable {
         case creationDate = "CreationDate"
         case expectedCompletionDate = "ExpectedCompletionDate"
         case iamRoleArn = "IamRoleArn"
+        case initiationDate = "InitiationDate"
         case isParent = "IsParent"
+        case messageCategory = "MessageCategory"
         case parentJobId = "ParentJobId"
         case percentDone = "PercentDone"
         case recoveryPointArn = "RecoveryPointArn"
@@ -234,8 +271,14 @@ extension BackupClientTypes.BackupJob: Swift.Codable {
         if let iamRoleArn = self.iamRoleArn {
             try encodeContainer.encode(iamRoleArn, forKey: .iamRoleArn)
         }
+        if let initiationDate = self.initiationDate {
+            try encodeContainer.encodeTimestamp(initiationDate, format: .epochSeconds, forKey: .initiationDate)
+        }
         if isParent != false {
             try encodeContainer.encode(isParent, forKey: .isParent)
+        }
+        if let messageCategory = self.messageCategory {
+            try encodeContainer.encode(messageCategory, forKey: .messageCategory)
         }
         if let parentJobId = self.parentJobId {
             try encodeContainer.encode(parentJobId, forKey: .parentJobId)
@@ -323,6 +366,10 @@ extension BackupClientTypes.BackupJob: Swift.Codable {
         isParent = isParentDecoded
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
+        let initiationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .initiationDate)
+        initiationDate = initiationDateDecoded
+        let messageCategoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageCategory)
+        messageCategory = messageCategoryDecoded
     }
 }
 
@@ -355,8 +402,12 @@ extension BackupClientTypes {
         public var expectedCompletionDate: ClientRuntime.Date?
         /// Specifies the IAM role ARN used to create the target recovery point. IAM roles other than the default role must include either AWSBackup or AwsBackup in the role name. For example, arn:aws:iam::123456789012:role/AWSBackupRDSAccess. Role names without those strings lack permissions to perform backup jobs.
         public var iamRoleArn: Swift.String?
+        /// This is the date on which the backup job was initiated.
+        public var initiationDate: ClientRuntime.Date?
         /// This is a boolean value indicating this is a parent (composite) backup job.
         public var isParent: Swift.Bool
+        /// This parameter is the job count for the specified message category. Example strings may include AccessDenied, SUCCESS, AGGREGATE_ALL, and INVALIDPARAMETERS. See [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) for a list of MessageCategory strings. The the value ANY returns count of all message categories. AGGREGATE_ALL aggregates job counts for all message categories and returns the sum.
+        public var messageCategory: Swift.String?
         /// This uniquely identifies a request to Backup to back up a resource. The return will be the parent (composite) job ID.
         public var parentJobId: Swift.String?
         /// Contains an estimated percentage complete of a job at the time the job status was queried.
@@ -371,7 +422,7 @@ extension BackupClientTypes {
         public var resourceType: Swift.String?
         /// Specifies the time in Unix format and Coordinated Universal Time (UTC) when a backup job must be started before it is canceled. The value is calculated by adding the start window to the scheduled time. So if the scheduled time were 6:00 PM and the start window is 2 hours, the StartBy time would be 8:00 PM on the date specified. The value of StartBy is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var startBy: ClientRuntime.Date?
-        /// The current state of a resource recovery point.
+        /// The current state of a backup job.
         public var state: BackupClientTypes.BackupJobState?
         /// A detailed message explaining the status of the job to back up a resource.
         public var statusMessage: Swift.String?
@@ -390,7 +441,9 @@ extension BackupClientTypes {
             creationDate: ClientRuntime.Date? = nil,
             expectedCompletionDate: ClientRuntime.Date? = nil,
             iamRoleArn: Swift.String? = nil,
+            initiationDate: ClientRuntime.Date? = nil,
             isParent: Swift.Bool = false,
+            messageCategory: Swift.String? = nil,
             parentJobId: Swift.String? = nil,
             percentDone: Swift.String? = nil,
             recoveryPointArn: Swift.String? = nil,
@@ -415,7 +468,9 @@ extension BackupClientTypes {
             self.creationDate = creationDate
             self.expectedCompletionDate = expectedCompletionDate
             self.iamRoleArn = iamRoleArn
+            self.initiationDate = initiationDate
             self.isParent = isParent
+            self.messageCategory = messageCategory
             self.parentJobId = parentJobId
             self.percentDone = percentDone
             self.recoveryPointArn = recoveryPointArn
@@ -481,6 +536,170 @@ extension BackupClientTypes {
             self = BackupJobState(rawValue: rawValue) ?? BackupJobState.sdkUnknown(rawValue)
         }
     }
+}
+
+extension BackupClientTypes {
+    public enum BackupJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case aborted
+        case aborting
+        case aggregateAll
+        case any
+        case completed
+        case created
+        case expired
+        case failed
+        case partial
+        case pending
+        case running
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BackupJobStatus] {
+            return [
+                .aborted,
+                .aborting,
+                .aggregateAll,
+                .any,
+                .completed,
+                .created,
+                .expired,
+                .failed,
+                .partial,
+                .pending,
+                .running,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .aborted: return "ABORTED"
+            case .aborting: return "ABORTING"
+            case .aggregateAll: return "AGGREGATE_ALL"
+            case .any: return "ANY"
+            case .completed: return "COMPLETED"
+            case .created: return "CREATED"
+            case .expired: return "EXPIRED"
+            case .failed: return "FAILED"
+            case .partial: return "PARTIAL"
+            case .pending: return "PENDING"
+            case .running: return "RUNNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BackupJobStatus(rawValue: rawValue) ?? BackupJobStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BackupClientTypes.BackupJobSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
+        case count = "Count"
+        case endTime = "EndTime"
+        case messageCategory = "MessageCategory"
+        case region = "Region"
+        case resourceType = "ResourceType"
+        case startTime = "StartTime"
+        case state = "State"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if count != 0 {
+            try encodeContainer.encode(count, forKey: .count)
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let messageCategory = self.messageCategory {
+            try encodeContainer.encode(messageCategory, forKey: .messageCategory)
+        }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType, forKey: .resourceType)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(BackupClientTypes.BackupJobStatus.self, forKey: .state)
+        state = stateDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let messageCategoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageCategory)
+        messageCategory = messageCategoryDecoded
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
+        count = countDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// This is a summary of jobs created or running within the most recent 30 days. The returned summary may contain the following: Region, Account, State, RestourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
+    public struct BackupJobSummary: Swift.Equatable {
+        /// The account ID that owns the jobs within the summary.
+        public var accountId: Swift.String?
+        /// The value as a number of jobs in a job summary.
+        public var count: Swift.Int
+        /// The value of time in number format of a job end time. This value is the time in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var endTime: ClientRuntime.Date?
+        /// This parameter is the job count for the specified message category. Example strings include AccessDenied, Success, and InvalidParameters. See [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) for a list of MessageCategory strings. The the value ANY returns count of all message categories. AGGREGATE_ALL aggregates job counts for all message categories and returns the sum.
+        public var messageCategory: Swift.String?
+        /// The Amazon Web Services Regions within the job summary.
+        public var region: Swift.String?
+        /// This value is the job count for the specified resource type. The request GetSupportedResourceTypes returns strings for supported resource types.
+        public var resourceType: Swift.String?
+        /// The value of time in number format of a job start time. This value is the time in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var startTime: ClientRuntime.Date?
+        /// This value is job count for jobs with the specified state.
+        public var state: BackupClientTypes.BackupJobStatus?
+
+        public init(
+            accountId: Swift.String? = nil,
+            count: Swift.Int = 0,
+            endTime: ClientRuntime.Date? = nil,
+            messageCategory: Swift.String? = nil,
+            region: Swift.String? = nil,
+            resourceType: Swift.String? = nil,
+            startTime: ClientRuntime.Date? = nil,
+            state: BackupClientTypes.BackupJobStatus? = nil
+        )
+        {
+            self.accountId = accountId
+            self.count = count
+            self.endTime = endTime
+            self.messageCategory = messageCategory
+            self.region = region
+            self.resourceType = resourceType
+            self.startTime = startTime
+            self.state = state
+        }
+    }
+
 }
 
 extension BackupClientTypes.BackupPlan: Swift.Codable {
@@ -827,6 +1046,7 @@ extension BackupClientTypes.BackupRule: Swift.Codable {
         case ruleId = "RuleId"
         case ruleName = "RuleName"
         case scheduleExpression = "ScheduleExpression"
+        case scheduleExpressionTimezone = "ScheduleExpressionTimezone"
         case startWindowMinutes = "StartWindowMinutes"
         case targetBackupVaultName = "TargetBackupVaultName"
     }
@@ -862,6 +1082,9 @@ extension BackupClientTypes.BackupRule: Swift.Codable {
         }
         if let scheduleExpression = self.scheduleExpression {
             try encodeContainer.encode(scheduleExpression, forKey: .scheduleExpression)
+        }
+        if let scheduleExpressionTimezone = self.scheduleExpressionTimezone {
+            try encodeContainer.encode(scheduleExpressionTimezone, forKey: .scheduleExpressionTimezone)
         }
         if let startWindowMinutes = self.startWindowMinutes {
             try encodeContainer.encode(startWindowMinutes, forKey: .startWindowMinutes)
@@ -911,12 +1134,14 @@ extension BackupClientTypes.BackupRule: Swift.Codable {
         copyActions = copyActionsDecoded0
         let enableContinuousBackupDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableContinuousBackup)
         enableContinuousBackup = enableContinuousBackupDecoded
+        let scheduleExpressionTimezoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpressionTimezone)
+        scheduleExpressionTimezone = scheduleExpressionTimezoneDecoded
     }
 }
 
 extension BackupClientTypes.BackupRule: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "BackupRule(completionWindowMinutes: \(Swift.String(describing: completionWindowMinutes)), copyActions: \(Swift.String(describing: copyActions)), enableContinuousBackup: \(Swift.String(describing: enableContinuousBackup)), lifecycle: \(Swift.String(describing: lifecycle)), ruleId: \(Swift.String(describing: ruleId)), ruleName: \(Swift.String(describing: ruleName)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), startWindowMinutes: \(Swift.String(describing: startWindowMinutes)), targetBackupVaultName: \(Swift.String(describing: targetBackupVaultName)), recoveryPointTags: \"CONTENT_REDACTED\")"}
+        "BackupRule(completionWindowMinutes: \(Swift.String(describing: completionWindowMinutes)), copyActions: \(Swift.String(describing: copyActions)), enableContinuousBackup: \(Swift.String(describing: enableContinuousBackup)), lifecycle: \(Swift.String(describing: lifecycle)), ruleId: \(Swift.String(describing: ruleId)), ruleName: \(Swift.String(describing: ruleName)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleExpressionTimezone: \(Swift.String(describing: scheduleExpressionTimezone)), startWindowMinutes: \(Swift.String(describing: startWindowMinutes)), targetBackupVaultName: \(Swift.String(describing: targetBackupVaultName)), recoveryPointTags: \"CONTENT_REDACTED\")"}
 }
 
 extension BackupClientTypes {
@@ -939,6 +1164,8 @@ extension BackupClientTypes {
         public var ruleName: Swift.String?
         /// A cron expression in UTC specifying when Backup initiates a backup job. For more information about Amazon Web Services cron expressions, see [Schedule Expressions for Rules](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html) in the Amazon CloudWatch Events User Guide.. Two examples of Amazon Web Services cron expressions are  15 * ? * * * (take a backup every hour at 15 minutes past the hour) and 0 12 * * ? * (take a backup every day at 12 noon UTC). For a table of examples, click the preceding link and scroll down the page.
         public var scheduleExpression: Swift.String?
+        /// This is the timezone in which the schedule expression is set. By default, ScheduleExpressions are in UTC. You can modify this to a specified timezone.
+        public var scheduleExpressionTimezone: Swift.String?
         /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional. If this value is included, it must be at least 60 minutes to avoid errors. During the start window, the backup job status remains in CREATED status until it has successfully begun or until the start window time has run out. If within the start window time Backup receives an error that allows the job to be retried, Backup will automatically retry to begin the job at least every 10 minutes until the backup successfully begins (the job status changes to RUNNING) or until the job status changes to EXPIRED (which is expected to occur when the start window time is over).
         public var startWindowMinutes: Swift.Int?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -954,6 +1181,7 @@ extension BackupClientTypes {
             ruleId: Swift.String? = nil,
             ruleName: Swift.String? = nil,
             scheduleExpression: Swift.String? = nil,
+            scheduleExpressionTimezone: Swift.String? = nil,
             startWindowMinutes: Swift.Int? = nil,
             targetBackupVaultName: Swift.String? = nil
         )
@@ -966,6 +1194,7 @@ extension BackupClientTypes {
             self.ruleId = ruleId
             self.ruleName = ruleName
             self.scheduleExpression = scheduleExpression
+            self.scheduleExpressionTimezone = scheduleExpressionTimezone
             self.startWindowMinutes = startWindowMinutes
             self.targetBackupVaultName = targetBackupVaultName
         }
@@ -982,6 +1211,7 @@ extension BackupClientTypes.BackupRuleInput: Swift.Codable {
         case recoveryPointTags = "RecoveryPointTags"
         case ruleName = "RuleName"
         case scheduleExpression = "ScheduleExpression"
+        case scheduleExpressionTimezone = "ScheduleExpressionTimezone"
         case startWindowMinutes = "StartWindowMinutes"
         case targetBackupVaultName = "TargetBackupVaultName"
     }
@@ -1014,6 +1244,9 @@ extension BackupClientTypes.BackupRuleInput: Swift.Codable {
         }
         if let scheduleExpression = self.scheduleExpression {
             try encodeContainer.encode(scheduleExpression, forKey: .scheduleExpression)
+        }
+        if let scheduleExpressionTimezone = self.scheduleExpressionTimezone {
+            try encodeContainer.encode(scheduleExpressionTimezone, forKey: .scheduleExpressionTimezone)
         }
         if let startWindowMinutes = self.startWindowMinutes {
             try encodeContainer.encode(startWindowMinutes, forKey: .startWindowMinutes)
@@ -1061,12 +1294,14 @@ extension BackupClientTypes.BackupRuleInput: Swift.Codable {
         copyActions = copyActionsDecoded0
         let enableContinuousBackupDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableContinuousBackup)
         enableContinuousBackup = enableContinuousBackupDecoded
+        let scheduleExpressionTimezoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpressionTimezone)
+        scheduleExpressionTimezone = scheduleExpressionTimezoneDecoded
     }
 }
 
 extension BackupClientTypes.BackupRuleInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "BackupRuleInput(completionWindowMinutes: \(Swift.String(describing: completionWindowMinutes)), copyActions: \(Swift.String(describing: copyActions)), enableContinuousBackup: \(Swift.String(describing: enableContinuousBackup)), lifecycle: \(Swift.String(describing: lifecycle)), ruleName: \(Swift.String(describing: ruleName)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), startWindowMinutes: \(Swift.String(describing: startWindowMinutes)), targetBackupVaultName: \(Swift.String(describing: targetBackupVaultName)), recoveryPointTags: \"CONTENT_REDACTED\")"}
+        "BackupRuleInput(completionWindowMinutes: \(Swift.String(describing: completionWindowMinutes)), copyActions: \(Swift.String(describing: copyActions)), enableContinuousBackup: \(Swift.String(describing: enableContinuousBackup)), lifecycle: \(Swift.String(describing: lifecycle)), ruleName: \(Swift.String(describing: ruleName)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleExpressionTimezone: \(Swift.String(describing: scheduleExpressionTimezone)), startWindowMinutes: \(Swift.String(describing: startWindowMinutes)), targetBackupVaultName: \(Swift.String(describing: targetBackupVaultName)), recoveryPointTags: \"CONTENT_REDACTED\")"}
 }
 
 extension BackupClientTypes {
@@ -1078,7 +1313,7 @@ extension BackupClientTypes {
         public var copyActions: [BackupClientTypes.CopyAction]?
         /// Specifies whether Backup creates continuous backups. True causes Backup to create continuous backups capable of point-in-time restore (PITR). False (or not specified) causes Backup to create snapshot backups.
         public var enableContinuousBackup: Swift.Bool?
-        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup will transition and expire backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage" section of the [ Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource) table. Backup ignores this expression for other resource types.
+        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup will transition and expire backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage" section of the [ Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource) table. Backup ignores this expression for other resource types. This parameter has a maximum value of 100 years (36,500 days).
         public var lifecycle: BackupClientTypes.Lifecycle?
         /// To help organize your resources, you can assign your own metadata to the resources that you create. Each tag is a key-value pair.
         public var recoveryPointTags: [Swift.String:Swift.String]?
@@ -1087,7 +1322,9 @@ extension BackupClientTypes {
         public var ruleName: Swift.String?
         /// A CRON expression in UTC specifying when Backup initiates a backup job.
         public var scheduleExpression: Swift.String?
-        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional. If this value is included, it must be at least 60 minutes to avoid errors. During the start window, the backup job status remains in CREATED status until it has successfully begun or until the start window time has run out. If within the start window time Backup receives an error that allows the job to be retried, Backup will automatically retry to begin the job at least every 10 minutes until the backup successfully begins (the job status changes to RUNNING) or until the job status changes to EXPIRED (which is expected to occur when the start window time is over).
+        /// This is the timezone in which the schedule expression is set. By default, ScheduleExpressions are in UTC. You can modify this to a specified timezone.
+        public var scheduleExpressionTimezone: Swift.String?
+        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional. If this value is included, it must be at least 60 minutes to avoid errors. This parameter has a maximum value of 100 years (52,560,000 minutes). During the start window, the backup job status remains in CREATED status until it has successfully begun or until the start window time has run out. If within the start window time Backup receives an error that allows the job to be retried, Backup will automatically retry to begin the job at least every 10 minutes until the backup successfully begins (the job status changes to RUNNING) or until the job status changes to EXPIRED (which is expected to occur when the start window time is over).
         public var startWindowMinutes: Swift.Int?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         /// This member is required.
@@ -1101,6 +1338,7 @@ extension BackupClientTypes {
             recoveryPointTags: [Swift.String:Swift.String]? = nil,
             ruleName: Swift.String? = nil,
             scheduleExpression: Swift.String? = nil,
+            scheduleExpressionTimezone: Swift.String? = nil,
             startWindowMinutes: Swift.Int? = nil,
             targetBackupVaultName: Swift.String? = nil
         )
@@ -1112,6 +1350,7 @@ extension BackupClientTypes {
             self.recoveryPointTags = recoveryPointTags
             self.ruleName = ruleName
             self.scheduleExpression = scheduleExpression
+            self.scheduleExpressionTimezone = scheduleExpressionTimezone
             self.startWindowMinutes = startWindowMinutes
             self.targetBackupVaultName = targetBackupVaultName
         }
@@ -1207,7 +1446,7 @@ extension BackupClientTypes.BackupSelection: Swift.Codable {
 extension BackupClientTypes {
     /// Used to specify a set of resources to a backup plan. Specifying your desired Conditions, ListOfTags, NotResources, and/or Resources is recommended. If none of these are specified, Backup will attempt to select all supported and opted-in storage resources, which could have unintended cost implications.
     public struct BackupSelection: Swift.Equatable {
-        /// A list of conditions that you define to assign resources to your backup plans using tags. For example, "StringEquals": { "ConditionKey": "aws:ResourceTag/CreatedByCryo", "ConditionValue": "true" },. Condition operators are case sensitive. Conditions differs from ListOfTags as follows:
+        /// A list of conditions that you define to assign resources to your backup plans using tags. For example, "StringEquals": { "Key": "aws:ResourceTag/CreatedByCryo", "Value": "true" },. Condition operators are case sensitive. Conditions differs from ListOfTags as follows:
         ///
         /// * When you specify more than one condition, you only assign the resources that match ALL conditions (using AND logic).
         ///
@@ -1216,7 +1455,7 @@ extension BackupClientTypes {
         /// The ARN of the IAM role that Backup uses to authenticate when backing up the target resource; for example, arn:aws:iam::123456789012:role/S3Access.
         /// This member is required.
         public var iamRoleArn: Swift.String?
-        /// A list of conditions that you define to assign resources to your backup plans using tags. For example, "StringEquals": { "ConditionKey": "aws:ResourceTag/CreatedByCryo", "ConditionValue": "true" },. Condition operators are case sensitive. ListOfTags differs from Conditions as follows:
+        /// A list of conditions that you define to assign resources to your backup plans using tags. For example, "StringEquals": { "Key": "aws:ResourceTag/CreatedByCryo", "Value": "true" },. Condition operators are case sensitive. ListOfTags differs from Conditions as follows:
         ///
         /// * When you specify more than one condition, you assign all resources that match AT LEAST ONE condition (using OR logic).
         ///
@@ -1641,8 +1880,18 @@ extension CancelLegalHoldInputBody: Swift.Decodable {
     }
 }
 
-public enum CancelLegalHoldOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CancelLegalHoldOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CancelLegalHoldOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CancelLegalHoldOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1654,16 +1903,6 @@ public enum CancelLegalHoldOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension CancelLegalHoldOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CancelLegalHoldOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension BackupClientTypes.Condition: Swift.Codable {
@@ -2191,6 +2430,7 @@ extension BackupClientTypes.CopyJob: Swift.Codable {
         case destinationRecoveryPointArn = "DestinationRecoveryPointArn"
         case iamRoleArn = "IamRoleArn"
         case isParent = "IsParent"
+        case messageCategory = "MessageCategory"
         case numberOfChildJobs = "NumberOfChildJobs"
         case parentJobId = "ParentJobId"
         case resourceArn = "ResourceArn"
@@ -2242,6 +2482,9 @@ extension BackupClientTypes.CopyJob: Swift.Codable {
         }
         if isParent != false {
             try encodeContainer.encode(isParent, forKey: .isParent)
+        }
+        if let messageCategory = self.messageCategory {
+            try encodeContainer.encode(messageCategory, forKey: .messageCategory)
         }
         if let numberOfChildJobs = self.numberOfChildJobs {
             try encodeContainer.encode(numberOfChildJobs, forKey: .numberOfChildJobs)
@@ -2325,6 +2568,8 @@ extension BackupClientTypes.CopyJob: Swift.Codable {
         childJobsInState = childJobsInStateDecoded0
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
+        let messageCategoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageCategory)
+        messageCategory = messageCategoryDecoded
     }
 }
 
@@ -2355,6 +2600,8 @@ extension BackupClientTypes {
         public var iamRoleArn: Swift.String?
         /// This is a boolean value indicating this is a parent (composite) copy job.
         public var isParent: Swift.Bool
+        /// This parameter is the job count for the specified message category. Example strings may include AccessDenied, SUCCESS, AGGREGATE_ALL, and InvalidParameters. See [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) for a list of MessageCategory strings. The the value ANY returns count of all message categories. AGGREGATE_ALL aggregates job counts for all message categories and returns the sum
+        public var messageCategory: Swift.String?
         /// This is the number of child (nested) copy jobs.
         public var numberOfChildJobs: Swift.Int?
         /// This uniquely identifies a request to Backup to copy a resource. The return will be the parent (composite) job ID.
@@ -2387,6 +2634,7 @@ extension BackupClientTypes {
             destinationRecoveryPointArn: Swift.String? = nil,
             iamRoleArn: Swift.String? = nil,
             isParent: Swift.Bool = false,
+            messageCategory: Swift.String? = nil,
             numberOfChildJobs: Swift.Int? = nil,
             parentJobId: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
@@ -2410,6 +2658,7 @@ extension BackupClientTypes {
             self.destinationRecoveryPointArn = destinationRecoveryPointArn
             self.iamRoleArn = iamRoleArn
             self.isParent = isParent
+            self.messageCategory = messageCategory
             self.numberOfChildJobs = numberOfChildJobs
             self.parentJobId = parentJobId
             self.resourceArn = resourceArn
@@ -2463,6 +2712,170 @@ extension BackupClientTypes {
             self = CopyJobState(rawValue: rawValue) ?? CopyJobState.sdkUnknown(rawValue)
         }
     }
+}
+
+extension BackupClientTypes {
+    public enum CopyJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case aborted
+        case aborting
+        case aggregateAll
+        case any
+        case completed
+        case completing
+        case created
+        case failed
+        case failing
+        case partial
+        case running
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CopyJobStatus] {
+            return [
+                .aborted,
+                .aborting,
+                .aggregateAll,
+                .any,
+                .completed,
+                .completing,
+                .created,
+                .failed,
+                .failing,
+                .partial,
+                .running,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .aborted: return "ABORTED"
+            case .aborting: return "ABORTING"
+            case .aggregateAll: return "AGGREGATE_ALL"
+            case .any: return "ANY"
+            case .completed: return "COMPLETED"
+            case .completing: return "COMPLETING"
+            case .created: return "CREATED"
+            case .failed: return "FAILED"
+            case .failing: return "FAILING"
+            case .partial: return "PARTIAL"
+            case .running: return "RUNNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CopyJobStatus(rawValue: rawValue) ?? CopyJobStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BackupClientTypes.CopyJobSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
+        case count = "Count"
+        case endTime = "EndTime"
+        case messageCategory = "MessageCategory"
+        case region = "Region"
+        case resourceType = "ResourceType"
+        case startTime = "StartTime"
+        case state = "State"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if count != 0 {
+            try encodeContainer.encode(count, forKey: .count)
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let messageCategory = self.messageCategory {
+            try encodeContainer.encode(messageCategory, forKey: .messageCategory)
+        }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType, forKey: .resourceType)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(BackupClientTypes.CopyJobStatus.self, forKey: .state)
+        state = stateDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let messageCategoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageCategory)
+        messageCategory = messageCategoryDecoded
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
+        count = countDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// This is a summary of copy jobs created or running within the most recent 30 days. The returned summary may contain the following: Region, Account, State, RestourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
+    public struct CopyJobSummary: Swift.Equatable {
+        /// The account ID that owns the jobs within the summary.
+        public var accountId: Swift.String?
+        /// The value as a number of jobs in a job summary.
+        public var count: Swift.Int
+        /// The value of time in number format of a job end time. This value is the time in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var endTime: ClientRuntime.Date?
+        /// This parameter is the job count for the specified message category. Example strings include AccessDenied, Success, and InvalidParameters. See [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) for a list of MessageCategory strings. The the value ANY returns count of all message categories. AGGREGATE_ALL aggregates job counts for all message categories and returns the sum.
+        public var messageCategory: Swift.String?
+        /// This is the Amazon Web Services Regions within the job summary.
+        public var region: Swift.String?
+        /// This value is the job count for the specified resource type. The request GetSupportedResourceTypes returns strings for supported resource types
+        public var resourceType: Swift.String?
+        /// The value of time in number format of a job start time. This value is the time in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var startTime: ClientRuntime.Date?
+        /// This value is job count for jobs with the specified state.
+        public var state: BackupClientTypes.CopyJobStatus?
+
+        public init(
+            accountId: Swift.String? = nil,
+            count: Swift.Int = 0,
+            endTime: ClientRuntime.Date? = nil,
+            messageCategory: Swift.String? = nil,
+            region: Swift.String? = nil,
+            resourceType: Swift.String? = nil,
+            startTime: ClientRuntime.Date? = nil,
+            state: BackupClientTypes.CopyJobStatus? = nil
+        )
+        {
+            self.accountId = accountId
+            self.count = count
+            self.endTime = endTime
+            self.messageCategory = messageCategory
+            self.region = region
+            self.resourceType = resourceType
+            self.startTime = startTime
+            self.state = state
+        }
+    }
+
 }
 
 extension CreateBackupPlanInput: Swift.CustomDebugStringConvertible {
@@ -2554,26 +2967,11 @@ extension CreateBackupPlanInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateBackupPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateBackupPlanOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateBackupPlanOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateBackupPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateBackupPlanOutputBody = try responseDecoder.decode(responseBody: data)
             self.advancedBackupSettings = output.advancedBackupSettings
             self.backupPlanArn = output.backupPlanArn
             self.backupPlanId = output.backupPlanId
@@ -2589,7 +2987,7 @@ extension CreateBackupPlanOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBackupPlanOutputResponse: Swift.Equatable {
+public struct CreateBackupPlanOutput: Swift.Equatable {
     /// A list of BackupOptions settings for a resource type. This option is only available for Windows Volume Shadow Copy Service (VSS) backup jobs.
     public var advancedBackupSettings: [BackupClientTypes.AdvancedBackupSetting]?
     /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
@@ -2617,7 +3015,7 @@ public struct CreateBackupPlanOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateBackupPlanOutputResponseBody: Swift.Equatable {
+struct CreateBackupPlanOutputBody: Swift.Equatable {
     let backupPlanId: Swift.String?
     let backupPlanArn: Swift.String?
     let creationDate: ClientRuntime.Date?
@@ -2625,7 +3023,7 @@ struct CreateBackupPlanOutputResponseBody: Swift.Equatable {
     let advancedBackupSettings: [BackupClientTypes.AdvancedBackupSetting]?
 }
 
-extension CreateBackupPlanOutputResponseBody: Swift.Decodable {
+extension CreateBackupPlanOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case advancedBackupSettings = "AdvancedBackupSettings"
         case backupPlanArn = "BackupPlanArn"
@@ -2655,6 +3053,21 @@ extension CreateBackupPlanOutputResponseBody: Swift.Decodable {
             }
         }
         advancedBackupSettings = advancedBackupSettingsDecoded0
+    }
+}
+
+enum CreateBackupPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2726,26 +3139,11 @@ extension CreateBackupSelectionInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateBackupSelectionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateBackupSelectionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateBackupSelectionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateBackupSelectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateBackupSelectionOutputBody = try responseDecoder.decode(responseBody: data)
             self.backupPlanId = output.backupPlanId
             self.creationDate = output.creationDate
             self.selectionId = output.selectionId
@@ -2757,7 +3155,7 @@ extension CreateBackupSelectionOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct CreateBackupSelectionOutputResponse: Swift.Equatable {
+public struct CreateBackupSelectionOutput: Swift.Equatable {
     /// Uniquely identifies a backup plan.
     public var backupPlanId: Swift.String?
     /// The date and time a backup selection is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -2777,13 +3175,13 @@ public struct CreateBackupSelectionOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateBackupSelectionOutputResponseBody: Swift.Equatable {
+struct CreateBackupSelectionOutputBody: Swift.Equatable {
     let selectionId: Swift.String?
     let backupPlanId: Swift.String?
     let creationDate: ClientRuntime.Date?
 }
 
-extension CreateBackupSelectionOutputResponseBody: Swift.Decodable {
+extension CreateBackupSelectionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupPlanId = "BackupPlanId"
         case creationDate = "CreationDate"
@@ -2798,6 +3196,21 @@ extension CreateBackupSelectionOutputResponseBody: Swift.Decodable {
         backupPlanId = backupPlanIdDecoded
         let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
         creationDate = creationDateDecoded
+    }
+}
+
+enum CreateBackupSelectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2897,26 +3310,11 @@ extension CreateBackupVaultInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateBackupVaultOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateBackupVaultOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateBackupVaultOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateBackupVaultOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateBackupVaultOutputBody = try responseDecoder.decode(responseBody: data)
             self.backupVaultArn = output.backupVaultArn
             self.backupVaultName = output.backupVaultName
             self.creationDate = output.creationDate
@@ -2928,7 +3326,7 @@ extension CreateBackupVaultOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBackupVaultOutputResponse: Swift.Equatable {
+public struct CreateBackupVaultOutput: Swift.Equatable {
     /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
     public var backupVaultArn: Swift.String?
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -2948,13 +3346,13 @@ public struct CreateBackupVaultOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateBackupVaultOutputResponseBody: Swift.Equatable {
+struct CreateBackupVaultOutputBody: Swift.Equatable {
     let backupVaultName: Swift.String?
     let backupVaultArn: Swift.String?
     let creationDate: ClientRuntime.Date?
 }
 
-extension CreateBackupVaultOutputResponseBody: Swift.Decodable {
+extension CreateBackupVaultOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupVaultArn = "BackupVaultArn"
         case backupVaultName = "BackupVaultName"
@@ -2969,6 +3367,21 @@ extension CreateBackupVaultOutputResponseBody: Swift.Decodable {
         backupVaultArn = backupVaultArnDecoded
         let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
         creationDate = creationDateDecoded
+    }
+}
+
+enum CreateBackupVaultOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3093,26 +3506,11 @@ extension CreateFrameworkInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateFrameworkOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateFrameworkOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateFrameworkOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateFrameworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateFrameworkOutputBody = try responseDecoder.decode(responseBody: data)
             self.frameworkArn = output.frameworkArn
             self.frameworkName = output.frameworkName
         } else {
@@ -3122,7 +3520,7 @@ extension CreateFrameworkOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFrameworkOutputResponse: Swift.Equatable {
+public struct CreateFrameworkOutput: Swift.Equatable {
     /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
     public var frameworkArn: Swift.String?
     /// The unique name of the framework. The name must be between 1 and 256 characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_).
@@ -3138,12 +3536,12 @@ public struct CreateFrameworkOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateFrameworkOutputResponseBody: Swift.Equatable {
+struct CreateFrameworkOutputBody: Swift.Equatable {
     let frameworkName: Swift.String?
     let frameworkArn: Swift.String?
 }
 
-extension CreateFrameworkOutputResponseBody: Swift.Decodable {
+extension CreateFrameworkOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case frameworkArn = "FrameworkArn"
         case frameworkName = "FrameworkName"
@@ -3155,6 +3553,21 @@ extension CreateFrameworkOutputResponseBody: Swift.Decodable {
         frameworkName = frameworkNameDecoded
         let frameworkArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .frameworkArn)
         frameworkArn = frameworkArnDecoded
+    }
+}
+
+enum CreateFrameworkOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3272,25 +3685,11 @@ extension CreateLegalHoldInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateLegalHoldOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateLegalHoldOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateLegalHoldOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateLegalHoldOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateLegalHoldOutputBody = try responseDecoder.decode(responseBody: data)
             self.creationDate = output.creationDate
             self.description = output.description
             self.legalHoldArn = output.legalHoldArn
@@ -3310,7 +3709,7 @@ extension CreateLegalHoldOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLegalHoldOutputResponse: Swift.Equatable {
+public struct CreateLegalHoldOutput: Swift.Equatable {
     /// Time in number format when legal hold was created.
     public var creationDate: ClientRuntime.Date?
     /// This is the returned string description of the legal hold.
@@ -3346,7 +3745,7 @@ public struct CreateLegalHoldOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateLegalHoldOutputResponseBody: Swift.Equatable {
+struct CreateLegalHoldOutputBody: Swift.Equatable {
     let title: Swift.String?
     let status: BackupClientTypes.LegalHoldStatus?
     let description: Swift.String?
@@ -3356,7 +3755,7 @@ struct CreateLegalHoldOutputResponseBody: Swift.Equatable {
     let recoveryPointSelection: BackupClientTypes.RecoveryPointSelection?
 }
 
-extension CreateLegalHoldOutputResponseBody: Swift.Decodable {
+extension CreateLegalHoldOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creationDate = "CreationDate"
         case description = "Description"
@@ -3383,6 +3782,216 @@ extension CreateLegalHoldOutputResponseBody: Swift.Decodable {
         creationDate = creationDateDecoded
         let recoveryPointSelectionDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RecoveryPointSelection.self, forKey: .recoveryPointSelection)
         recoveryPointSelection = recoveryPointSelectionDecoded
+    }
+}
+
+enum CreateLegalHoldOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateLogicallyAirGappedBackupVaultInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateLogicallyAirGappedBackupVaultInput(backupVaultName: \(Swift.String(describing: backupVaultName)), creatorRequestId: \(Swift.String(describing: creatorRequestId)), maxRetentionDays: \(Swift.String(describing: maxRetentionDays)), minRetentionDays: \(Swift.String(describing: minRetentionDays)), backupVaultTags: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateLogicallyAirGappedBackupVaultInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backupVaultTags = "BackupVaultTags"
+        case creatorRequestId = "CreatorRequestId"
+        case maxRetentionDays = "MaxRetentionDays"
+        case minRetentionDays = "MinRetentionDays"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let backupVaultTags = backupVaultTags {
+            var backupVaultTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .backupVaultTags)
+            for (dictKey0, tags0) in backupVaultTags {
+                try backupVaultTagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let creatorRequestId = self.creatorRequestId {
+            try encodeContainer.encode(creatorRequestId, forKey: .creatorRequestId)
+        }
+        if let maxRetentionDays = self.maxRetentionDays {
+            try encodeContainer.encode(maxRetentionDays, forKey: .maxRetentionDays)
+        }
+        if let minRetentionDays = self.minRetentionDays {
+            try encodeContainer.encode(minRetentionDays, forKey: .minRetentionDays)
+        }
+    }
+}
+
+extension CreateLogicallyAirGappedBackupVaultInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let backupVaultName = backupVaultName else {
+            return nil
+        }
+        return "/logically-air-gapped-backup-vaults/\(backupVaultName.urlPercentEncoding())"
+    }
+}
+
+public struct CreateLogicallyAirGappedBackupVaultInput: Swift.Equatable {
+    /// This is the name of the vault that is being created.
+    /// This member is required.
+    public var backupVaultName: Swift.String?
+    /// These are the tags that will be included in the newly-created vault.
+    public var backupVaultTags: [Swift.String:Swift.String]?
+    /// This is the ID of the creation request. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
+    public var creatorRequestId: Swift.String?
+    /// This is the setting that specifies the maximum retention period that the vault retains its recovery points. If this parameter is not specified, Backup does not enforce a maximum retention period on the recovery points in the vault (allowing indefinite storage). If specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or shorter than the maximum retention period. If the job retention period is longer than that maximum retention period, then the vault fails the backup or copy job, and you should either modify your lifecycle settings or use a different vault.
+    /// This member is required.
+    public var maxRetentionDays: Swift.Int?
+    /// This setting specifies the minimum retention period that the vault retains its recovery points. If this parameter is not specified, no minimum retention period is enforced. If specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or longer than the minimum retention period. If a job retention period is shorter than that minimum retention period, then the vault fails the backup or copy job, and you should either modify your lifecycle settings or use a different vault.
+    /// This member is required.
+    public var minRetentionDays: Swift.Int?
+
+    public init(
+        backupVaultName: Swift.String? = nil,
+        backupVaultTags: [Swift.String:Swift.String]? = nil,
+        creatorRequestId: Swift.String? = nil,
+        maxRetentionDays: Swift.Int? = nil,
+        minRetentionDays: Swift.Int? = nil
+    )
+    {
+        self.backupVaultName = backupVaultName
+        self.backupVaultTags = backupVaultTags
+        self.creatorRequestId = creatorRequestId
+        self.maxRetentionDays = maxRetentionDays
+        self.minRetentionDays = minRetentionDays
+    }
+}
+
+struct CreateLogicallyAirGappedBackupVaultInputBody: Swift.Equatable {
+    let backupVaultTags: [Swift.String:Swift.String]?
+    let creatorRequestId: Swift.String?
+    let minRetentionDays: Swift.Int?
+    let maxRetentionDays: Swift.Int?
+}
+
+extension CreateLogicallyAirGappedBackupVaultInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backupVaultTags = "BackupVaultTags"
+        case creatorRequestId = "CreatorRequestId"
+        case maxRetentionDays = "MaxRetentionDays"
+        case minRetentionDays = "MinRetentionDays"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let backupVaultTagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .backupVaultTags)
+        var backupVaultTagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let backupVaultTagsContainer = backupVaultTagsContainer {
+            backupVaultTagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in backupVaultTagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    backupVaultTagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        backupVaultTags = backupVaultTagsDecoded0
+        let creatorRequestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creatorRequestId)
+        creatorRequestId = creatorRequestIdDecoded
+        let minRetentionDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minRetentionDays)
+        minRetentionDays = minRetentionDaysDecoded
+        let maxRetentionDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRetentionDays)
+        maxRetentionDays = maxRetentionDaysDecoded
+    }
+}
+
+extension CreateLogicallyAirGappedBackupVaultOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateLogicallyAirGappedBackupVaultOutputBody = try responseDecoder.decode(responseBody: data)
+            self.backupVaultArn = output.backupVaultArn
+            self.backupVaultName = output.backupVaultName
+            self.creationDate = output.creationDate
+            self.vaultState = output.vaultState
+        } else {
+            self.backupVaultArn = nil
+            self.backupVaultName = nil
+            self.creationDate = nil
+            self.vaultState = nil
+        }
+    }
+}
+
+public struct CreateLogicallyAirGappedBackupVaultOutput: Swift.Equatable {
+    /// This is the ARN (Amazon Resource Name) of the vault being created.
+    public var backupVaultArn: Swift.String?
+    /// The name of a logical container where backups are stored. Logically air-gapped backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+    public var backupVaultName: Swift.String?
+    /// The date and time when the vault was created. This value is in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+    public var creationDate: ClientRuntime.Date?
+    /// This is the current state of the vault.
+    public var vaultState: BackupClientTypes.VaultState?
+
+    public init(
+        backupVaultArn: Swift.String? = nil,
+        backupVaultName: Swift.String? = nil,
+        creationDate: ClientRuntime.Date? = nil,
+        vaultState: BackupClientTypes.VaultState? = nil
+    )
+    {
+        self.backupVaultArn = backupVaultArn
+        self.backupVaultName = backupVaultName
+        self.creationDate = creationDate
+        self.vaultState = vaultState
+    }
+}
+
+struct CreateLogicallyAirGappedBackupVaultOutputBody: Swift.Equatable {
+    let backupVaultName: Swift.String?
+    let backupVaultArn: Swift.String?
+    let creationDate: ClientRuntime.Date?
+    let vaultState: BackupClientTypes.VaultState?
+}
+
+extension CreateLogicallyAirGappedBackupVaultOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backupVaultArn = "BackupVaultArn"
+        case backupVaultName = "BackupVaultName"
+        case creationDate = "CreationDate"
+        case vaultState = "VaultState"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let backupVaultNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backupVaultName)
+        backupVaultName = backupVaultNameDecoded
+        let backupVaultArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backupVaultArn)
+        backupVaultArn = backupVaultArnDecoded
+        let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
+        creationDate = creationDateDecoded
+        let vaultStateDecoded = try containerValues.decodeIfPresent(BackupClientTypes.VaultState.self, forKey: .vaultState)
+        vaultState = vaultStateDecoded
+    }
+}
+
+enum CreateLogicallyAirGappedBackupVaultOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3508,26 +4117,11 @@ extension CreateReportPlanInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateReportPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateReportPlanOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateReportPlanOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateReportPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateReportPlanOutputBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.reportPlanArn = output.reportPlanArn
             self.reportPlanName = output.reportPlanName
@@ -3539,7 +4133,7 @@ extension CreateReportPlanOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateReportPlanOutputResponse: Swift.Equatable {
+public struct CreateReportPlanOutput: Swift.Equatable {
     /// The date and time a backup vault is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var creationTime: ClientRuntime.Date?
     /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
@@ -3559,13 +4153,13 @@ public struct CreateReportPlanOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateReportPlanOutputResponseBody: Swift.Equatable {
+struct CreateReportPlanOutputBody: Swift.Equatable {
     let reportPlanName: Swift.String?
     let reportPlanArn: Swift.String?
     let creationTime: ClientRuntime.Date?
 }
 
-extension CreateReportPlanOutputResponseBody: Swift.Decodable {
+extension CreateReportPlanOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creationTime = "CreationTime"
         case reportPlanArn = "ReportPlanArn"
@@ -3580,6 +4174,354 @@ extension CreateReportPlanOutputResponseBody: Swift.Decodable {
         reportPlanArn = reportPlanArnDecoded
         let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
         creationTime = creationTimeDecoded
+    }
+}
+
+enum CreateReportPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateRestoreTestingPlanInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateRestoreTestingPlanInput(creatorRequestId: \(Swift.String(describing: creatorRequestId)), restoreTestingPlan: \(Swift.String(describing: restoreTestingPlan)), tags: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateRestoreTestingPlanInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creatorRequestId = "CreatorRequestId"
+        case restoreTestingPlan = "RestoreTestingPlan"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creatorRequestId = self.creatorRequestId {
+            try encodeContainer.encode(creatorRequestId, forKey: .creatorRequestId)
+        }
+        if let restoreTestingPlan = self.restoreTestingPlan {
+            try encodeContainer.encode(restoreTestingPlan, forKey: .restoreTestingPlan)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, sensitiveStringMap0) in tags {
+                try tagsContainer.encode(sensitiveStringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateRestoreTestingPlanInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/restore-testing/plans"
+    }
+}
+
+public struct CreateRestoreTestingPlanInput: Swift.Equatable {
+    /// This is a unique string that identifies the request and allows failed requests to be retriedwithout the risk of running the operation twice. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
+    public var creatorRequestId: Swift.String?
+    /// A restore testing plan must contain a unique RestoreTestingPlanName string you create and must contain a ScheduleExpression cron. You may optionally include a StartWindowHours integer and a CreatorRequestId string. The RestoreTestingPlanName is a unique string that is the name of the restore testing plan. This cannot be changed after creation, and it must consist of only alphanumeric characters and underscores.
+    /// This member is required.
+    public var restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForCreate?
+    /// Optional tags to include. A tag is a key-value pair you can use to manage, filter, and search for your resources. Allowed characters include UTF-8 letters,numbers, spaces, and the following characters: + - = . _ : /.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        creatorRequestId: Swift.String? = nil,
+        restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForCreate? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.creatorRequestId = creatorRequestId
+        self.restoreTestingPlan = restoreTestingPlan
+        self.tags = tags
+    }
+}
+
+struct CreateRestoreTestingPlanInputBody: Swift.Equatable {
+    let creatorRequestId: Swift.String?
+    let restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForCreate?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateRestoreTestingPlanInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creatorRequestId = "CreatorRequestId"
+        case restoreTestingPlan = "RestoreTestingPlan"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creatorRequestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creatorRequestId)
+        creatorRequestId = creatorRequestIdDecoded
+        let restoreTestingPlanDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreTestingPlanForCreate.self, forKey: .restoreTestingPlan)
+        restoreTestingPlan = restoreTestingPlanDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in tagsContainer {
+                if let string0 = string0 {
+                    tagsDecoded0?[key0] = string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateRestoreTestingPlanOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateRestoreTestingPlanOutputBody = try responseDecoder.decode(responseBody: data)
+            self.creationTime = output.creationTime
+            self.restoreTestingPlanArn = output.restoreTestingPlanArn
+            self.restoreTestingPlanName = output.restoreTestingPlanName
+        } else {
+            self.creationTime = nil
+            self.restoreTestingPlanArn = nil
+            self.restoreTestingPlanName = nil
+        }
+    }
+}
+
+public struct CreateRestoreTestingPlanOutput: Swift.Equatable {
+    /// The date and time a restore testing plan was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087AM.
+    /// This member is required.
+    public var creationTime: ClientRuntime.Date?
+    /// An Amazon Resource Name (ARN) that uniquely identifies the created restore testing plan.
+    /// This member is required.
+    public var restoreTestingPlanArn: Swift.String?
+    /// This unique string is the name of the restore testing plan. The name cannot be changed after creation. The name consists of only alphanumeric characters and underscores. Maximum length is 50.
+    /// This member is required.
+    public var restoreTestingPlanName: Swift.String?
+
+    public init(
+        creationTime: ClientRuntime.Date? = nil,
+        restoreTestingPlanArn: Swift.String? = nil,
+        restoreTestingPlanName: Swift.String? = nil
+    )
+    {
+        self.creationTime = creationTime
+        self.restoreTestingPlanArn = restoreTestingPlanArn
+        self.restoreTestingPlanName = restoreTestingPlanName
+    }
+}
+
+struct CreateRestoreTestingPlanOutputBody: Swift.Equatable {
+    let creationTime: ClientRuntime.Date?
+    let restoreTestingPlanArn: Swift.String?
+    let restoreTestingPlanName: Swift.String?
+}
+
+extension CreateRestoreTestingPlanOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case restoreTestingPlanArn = "RestoreTestingPlanArn"
+        case restoreTestingPlanName = "RestoreTestingPlanName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let restoreTestingPlanArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanArn)
+        restoreTestingPlanArn = restoreTestingPlanArnDecoded
+        let restoreTestingPlanNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanName)
+        restoreTestingPlanName = restoreTestingPlanNameDecoded
+    }
+}
+
+enum CreateRestoreTestingPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateRestoreTestingSelectionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creatorRequestId = "CreatorRequestId"
+        case restoreTestingSelection = "RestoreTestingSelection"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creatorRequestId = self.creatorRequestId {
+            try encodeContainer.encode(creatorRequestId, forKey: .creatorRequestId)
+        }
+        if let restoreTestingSelection = self.restoreTestingSelection {
+            try encodeContainer.encode(restoreTestingSelection, forKey: .restoreTestingSelection)
+        }
+    }
+}
+
+extension CreateRestoreTestingSelectionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let restoreTestingPlanName = restoreTestingPlanName else {
+            return nil
+        }
+        return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())/selections"
+    }
+}
+
+public struct CreateRestoreTestingSelectionInput: Swift.Equatable {
+    /// This is an optional unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
+    public var creatorRequestId: Swift.String?
+    /// Input the restore testing plan name that was returned from the related CreateRestoreTestingPlan request.
+    /// This member is required.
+    public var restoreTestingPlanName: Swift.String?
+    /// This consists of RestoreTestingSelectionName, ProtectedResourceType, and one of the following:
+    ///
+    /// * ProtectedResourceArns
+    ///
+    /// * ProtectedResourceConditions
+    ///
+    ///
+    /// Each protected resource type can have one single value. A restore testing selection can include a wildcard value ("*") for ProtectedResourceArns along with ProtectedResourceConditions. Alternatively, you can include up to 30 specific protected resource ARNs in ProtectedResourceArns.
+    /// This member is required.
+    public var restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForCreate?
+
+    public init(
+        creatorRequestId: Swift.String? = nil,
+        restoreTestingPlanName: Swift.String? = nil,
+        restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForCreate? = nil
+    )
+    {
+        self.creatorRequestId = creatorRequestId
+        self.restoreTestingPlanName = restoreTestingPlanName
+        self.restoreTestingSelection = restoreTestingSelection
+    }
+}
+
+struct CreateRestoreTestingSelectionInputBody: Swift.Equatable {
+    let creatorRequestId: Swift.String?
+    let restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForCreate?
+}
+
+extension CreateRestoreTestingSelectionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creatorRequestId = "CreatorRequestId"
+        case restoreTestingSelection = "RestoreTestingSelection"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creatorRequestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creatorRequestId)
+        creatorRequestId = creatorRequestIdDecoded
+        let restoreTestingSelectionDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreTestingSelectionForCreate.self, forKey: .restoreTestingSelection)
+        restoreTestingSelection = restoreTestingSelectionDecoded
+    }
+}
+
+extension CreateRestoreTestingSelectionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateRestoreTestingSelectionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.creationTime = output.creationTime
+            self.restoreTestingPlanArn = output.restoreTestingPlanArn
+            self.restoreTestingPlanName = output.restoreTestingPlanName
+            self.restoreTestingSelectionName = output.restoreTestingSelectionName
+        } else {
+            self.creationTime = nil
+            self.restoreTestingPlanArn = nil
+            self.restoreTestingPlanName = nil
+            self.restoreTestingSelectionName = nil
+        }
+    }
+}
+
+public struct CreateRestoreTestingSelectionOutput: Swift.Equatable {
+    /// This is the time the resource testing selection was created successfully.
+    /// This member is required.
+    public var creationTime: ClientRuntime.Date?
+    /// This is the ARN of the restore testing plan with which the restore testing selection is associated.
+    /// This member is required.
+    public var restoreTestingPlanArn: Swift.String?
+    /// Unique string that is the name of the restore testing plan. The name cannot be changed after creation. The name consists of only alphanumeric characters and underscores. Maximum length is 50.
+    /// This member is required.
+    public var restoreTestingPlanName: Swift.String?
+    /// This is the unique name of the restore testing selection that belongs to the related restore testing plan.
+    /// This member is required.
+    public var restoreTestingSelectionName: Swift.String?
+
+    public init(
+        creationTime: ClientRuntime.Date? = nil,
+        restoreTestingPlanArn: Swift.String? = nil,
+        restoreTestingPlanName: Swift.String? = nil,
+        restoreTestingSelectionName: Swift.String? = nil
+    )
+    {
+        self.creationTime = creationTime
+        self.restoreTestingPlanArn = restoreTestingPlanArn
+        self.restoreTestingPlanName = restoreTestingPlanName
+        self.restoreTestingSelectionName = restoreTestingSelectionName
+    }
+}
+
+struct CreateRestoreTestingSelectionOutputBody: Swift.Equatable {
+    let creationTime: ClientRuntime.Date?
+    let restoreTestingPlanArn: Swift.String?
+    let restoreTestingPlanName: Swift.String?
+    let restoreTestingSelectionName: Swift.String?
+}
+
+extension CreateRestoreTestingSelectionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case restoreTestingPlanArn = "RestoreTestingPlanArn"
+        case restoreTestingPlanName = "RestoreTestingPlanName"
+        case restoreTestingSelectionName = "RestoreTestingSelectionName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let restoreTestingPlanArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanArn)
+        restoreTestingPlanArn = restoreTestingPlanArnDecoded
+        let restoreTestingPlanNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanName)
+        restoreTestingPlanName = restoreTestingPlanNameDecoded
+        let restoreTestingSelectionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingSelectionName)
+        restoreTestingSelectionName = restoreTestingSelectionNameDecoded
+    }
+}
+
+enum CreateRestoreTestingSelectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3661,26 +4603,11 @@ extension DeleteBackupPlanInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteBackupPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteBackupPlanOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteBackupPlanOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteBackupPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteBackupPlanOutputBody = try responseDecoder.decode(responseBody: data)
             self.backupPlanArn = output.backupPlanArn
             self.backupPlanId = output.backupPlanId
             self.deletionDate = output.deletionDate
@@ -3694,7 +4621,7 @@ extension DeleteBackupPlanOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBackupPlanOutputResponse: Swift.Equatable {
+public struct DeleteBackupPlanOutput: Swift.Equatable {
     /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
     public var backupPlanArn: Swift.String?
     /// Uniquely identifies a backup plan.
@@ -3718,14 +4645,14 @@ public struct DeleteBackupPlanOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteBackupPlanOutputResponseBody: Swift.Equatable {
+struct DeleteBackupPlanOutputBody: Swift.Equatable {
     let backupPlanId: Swift.String?
     let backupPlanArn: Swift.String?
     let deletionDate: ClientRuntime.Date?
     let versionId: Swift.String?
 }
 
-extension DeleteBackupPlanOutputResponseBody: Swift.Decodable {
+extension DeleteBackupPlanOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupPlanArn = "BackupPlanArn"
         case backupPlanId = "BackupPlanId"
@@ -3743,6 +4670,21 @@ extension DeleteBackupPlanOutputResponseBody: Swift.Decodable {
         deletionDate = deletionDateDecoded
         let versionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionId)
         versionId = versionIdDecoded
+    }
+}
+
+enum DeleteBackupPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3785,8 +4727,18 @@ extension DeleteBackupSelectionInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteBackupSelectionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteBackupSelectionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteBackupSelectionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteBackupSelectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3797,16 +4749,6 @@ public enum DeleteBackupSelectionOutputError: ClientRuntime.HttpResponseErrorBin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteBackupSelectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBackupSelectionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteBackupVaultAccessPolicyInput: ClientRuntime.URLPathProvider {
@@ -3840,8 +4782,18 @@ extension DeleteBackupVaultAccessPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteBackupVaultAccessPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteBackupVaultAccessPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteBackupVaultAccessPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteBackupVaultAccessPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3852,16 +4804,6 @@ public enum DeleteBackupVaultAccessPolicyOutputError: ClientRuntime.HttpResponse
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteBackupVaultAccessPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBackupVaultAccessPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteBackupVaultInput: ClientRuntime.URLPathProvider {
@@ -3926,8 +4868,18 @@ extension DeleteBackupVaultLockConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteBackupVaultLockConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteBackupVaultLockConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteBackupVaultLockConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteBackupVaultLockConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3939,16 +4891,6 @@ public enum DeleteBackupVaultLockConfigurationOutputError: ClientRuntime.HttpRes
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteBackupVaultLockConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBackupVaultLockConfigurationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteBackupVaultNotificationsInput: ClientRuntime.URLPathProvider {
@@ -3982,8 +4924,18 @@ extension DeleteBackupVaultNotificationsInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteBackupVaultNotificationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteBackupVaultNotificationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteBackupVaultNotificationsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteBackupVaultNotificationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3996,18 +4948,18 @@ public enum DeleteBackupVaultNotificationsOutputError: ClientRuntime.HttpRespons
     }
 }
 
-extension DeleteBackupVaultNotificationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteBackupVaultOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
-public struct DeleteBackupVaultNotificationsOutputResponse: Swift.Equatable {
+public struct DeleteBackupVaultOutput: Swift.Equatable {
 
     public init() { }
 }
 
-public enum DeleteBackupVaultOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteBackupVaultOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4019,16 +4971,6 @@ public enum DeleteBackupVaultOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteBackupVaultOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBackupVaultOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteFrameworkInput: ClientRuntime.URLPathProvider {
@@ -4062,8 +5004,18 @@ extension DeleteFrameworkInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteFrameworkOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteFrameworkOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteFrameworkOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteFrameworkOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4075,16 +5027,6 @@ public enum DeleteFrameworkOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteFrameworkOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteFrameworkOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteRecoveryPointInput: ClientRuntime.URLPathProvider {
@@ -4126,8 +5068,18 @@ extension DeleteRecoveryPointInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteRecoveryPointOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteRecoveryPointOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteRecoveryPointOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteRecoveryPointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4140,16 +5092,6 @@ public enum DeleteRecoveryPointOutputError: ClientRuntime.HttpResponseErrorBindi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteRecoveryPointOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteRecoveryPointOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteReportPlanInput: ClientRuntime.URLPathProvider {
@@ -4183,8 +5125,18 @@ extension DeleteReportPlanInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteReportPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteReportPlanOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteReportPlanOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteReportPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4198,14 +5150,118 @@ public enum DeleteReportPlanOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DeleteReportPlanOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteRestoreTestingPlanInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let restoreTestingPlanName = restoreTestingPlanName else {
+            return nil
+        }
+        return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteRestoreTestingPlanInput: Swift.Equatable {
+    /// Required unique name of the restore testing plan you wish to delete.
+    /// This member is required.
+    public var restoreTestingPlanName: Swift.String?
+
+    public init(
+        restoreTestingPlanName: Swift.String? = nil
+    )
+    {
+        self.restoreTestingPlanName = restoreTestingPlanName
+    }
+}
+
+struct DeleteRestoreTestingPlanInputBody: Swift.Equatable {
+}
+
+extension DeleteRestoreTestingPlanInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteRestoreTestingPlanOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
-public struct DeleteReportPlanOutputResponse: Swift.Equatable {
+public struct DeleteRestoreTestingPlanOutput: Swift.Equatable {
 
     public init() { }
+}
+
+enum DeleteRestoreTestingPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteRestoreTestingSelectionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let restoreTestingPlanName = restoreTestingPlanName else {
+            return nil
+        }
+        guard let restoreTestingSelectionName = restoreTestingSelectionName else {
+            return nil
+        }
+        return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())/selections/\(restoreTestingSelectionName.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteRestoreTestingSelectionInput: Swift.Equatable {
+    /// Required unique name of the restore testing plan that contains the restore testing selection you wish to delete.
+    /// This member is required.
+    public var restoreTestingPlanName: Swift.String?
+    /// Required unique name of the restore testing selection you wish to delete.
+    /// This member is required.
+    public var restoreTestingSelectionName: Swift.String?
+
+    public init(
+        restoreTestingPlanName: Swift.String? = nil,
+        restoreTestingSelectionName: Swift.String? = nil
+    )
+    {
+        self.restoreTestingPlanName = restoreTestingPlanName
+        self.restoreTestingSelectionName = restoreTestingSelectionName
+    }
+}
+
+struct DeleteRestoreTestingSelectionInputBody: Swift.Equatable {
+}
+
+extension DeleteRestoreTestingSelectionInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteRestoreTestingSelectionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteRestoreTestingSelectionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteRestoreTestingSelectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension DependencyFailureException {
@@ -4323,26 +5379,11 @@ extension DescribeBackupJobInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeBackupJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyFailureException": return try await DependencyFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeBackupJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeBackupJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeBackupJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeBackupJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.accountId = output.accountId
             self.backupJobId = output.backupJobId
             self.backupOptions = output.backupOptions
@@ -4357,7 +5398,9 @@ extension DescribeBackupJobOutputResponse: ClientRuntime.HttpResponseBinding {
             self.creationDate = output.creationDate
             self.expectedCompletionDate = output.expectedCompletionDate
             self.iamRoleArn = output.iamRoleArn
+            self.initiationDate = output.initiationDate
             self.isParent = output.isParent
+            self.messageCategory = output.messageCategory
             self.numberOfChildJobs = output.numberOfChildJobs
             self.parentJobId = output.parentJobId
             self.percentDone = output.percentDone
@@ -4383,7 +5426,9 @@ extension DescribeBackupJobOutputResponse: ClientRuntime.HttpResponseBinding {
             self.creationDate = nil
             self.expectedCompletionDate = nil
             self.iamRoleArn = nil
+            self.initiationDate = nil
             self.isParent = false
+            self.messageCategory = nil
             self.numberOfChildJobs = nil
             self.parentJobId = nil
             self.percentDone = nil
@@ -4398,7 +5443,7 @@ extension DescribeBackupJobOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeBackupJobOutputResponse: Swift.Equatable {
+public struct DescribeBackupJobOutput: Swift.Equatable {
     /// Returns the account ID that owns the backup job.
     public var accountId: Swift.String?
     /// Uniquely identifies a request to Backup to back up a resource.
@@ -4427,8 +5472,12 @@ public struct DescribeBackupJobOutputResponse: Swift.Equatable {
     public var expectedCompletionDate: ClientRuntime.Date?
     /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
     public var iamRoleArn: Swift.String?
+    /// This is the date a backup job was initiated.
+    public var initiationDate: ClientRuntime.Date?
     /// This returns the boolean value that a backup job is a parent (composite) job.
     public var isParent: Swift.Bool
+    /// This is the job count for the specified message category. Example strings may include AccessDenied, SUCCESS, AGGREGATE_ALL, and INVALIDPARAMETERS. View [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) for a list of accepted MessageCategory strings.
+    public var messageCategory: Swift.String?
     /// This returns the number of child (nested) backup jobs.
     public var numberOfChildJobs: Swift.Int?
     /// This returns the parent (composite) resource backup job ID.
@@ -4445,7 +5494,7 @@ public struct DescribeBackupJobOutputResponse: Swift.Equatable {
     public var resourceType: Swift.String?
     /// Specifies the time in Unix format and Coordinated Universal Time (UTC) when a backup job must be started before it is canceled. The value is calculated by adding the start window to the scheduled time. So if the scheduled time were 6:00 PM and the start window is 2 hours, the StartBy time would be 8:00 PM on the date specified. The value of StartBy is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var startBy: ClientRuntime.Date?
-    /// The current state of a resource recovery point.
+    /// The current state of a backup job.
     public var state: BackupClientTypes.BackupJobState?
     /// A detailed message explaining the status of the job to back up a resource.
     public var statusMessage: Swift.String?
@@ -4465,7 +5514,9 @@ public struct DescribeBackupJobOutputResponse: Swift.Equatable {
         creationDate: ClientRuntime.Date? = nil,
         expectedCompletionDate: ClientRuntime.Date? = nil,
         iamRoleArn: Swift.String? = nil,
+        initiationDate: ClientRuntime.Date? = nil,
         isParent: Swift.Bool = false,
+        messageCategory: Swift.String? = nil,
         numberOfChildJobs: Swift.Int? = nil,
         parentJobId: Swift.String? = nil,
         percentDone: Swift.String? = nil,
@@ -4492,7 +5543,9 @@ public struct DescribeBackupJobOutputResponse: Swift.Equatable {
         self.creationDate = creationDate
         self.expectedCompletionDate = expectedCompletionDate
         self.iamRoleArn = iamRoleArn
+        self.initiationDate = initiationDate
         self.isParent = isParent
+        self.messageCategory = messageCategory
         self.numberOfChildJobs = numberOfChildJobs
         self.parentJobId = parentJobId
         self.percentDone = percentDone
@@ -4506,7 +5559,7 @@ public struct DescribeBackupJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeBackupJobOutputResponseBody: Swift.Equatable {
+struct DescribeBackupJobOutputBody: Swift.Equatable {
     let accountId: Swift.String?
     let backupJobId: Swift.String?
     let backupVaultName: Swift.String?
@@ -4532,9 +5585,11 @@ struct DescribeBackupJobOutputResponseBody: Swift.Equatable {
     let numberOfChildJobs: Swift.Int?
     let childJobsInState: [Swift.String:Swift.Int]?
     let resourceName: Swift.String?
+    let initiationDate: ClientRuntime.Date?
+    let messageCategory: Swift.String?
 }
 
-extension DescribeBackupJobOutputResponseBody: Swift.Decodable {
+extension DescribeBackupJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "AccountId"
         case backupJobId = "BackupJobId"
@@ -4550,7 +5605,9 @@ extension DescribeBackupJobOutputResponseBody: Swift.Decodable {
         case creationDate = "CreationDate"
         case expectedCompletionDate = "ExpectedCompletionDate"
         case iamRoleArn = "IamRoleArn"
+        case initiationDate = "InitiationDate"
         case isParent = "IsParent"
+        case messageCategory = "MessageCategory"
         case numberOfChildJobs = "NumberOfChildJobs"
         case parentJobId = "ParentJobId"
         case percentDone = "PercentDone"
@@ -4633,6 +5690,38 @@ extension DescribeBackupJobOutputResponseBody: Swift.Decodable {
         childJobsInState = childJobsInStateDecoded0
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
+        let initiationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .initiationDate)
+        initiationDate = initiationDateDecoded
+        let messageCategoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageCategory)
+        messageCategory = messageCategoryDecoded
+    }
+}
+
+enum DescribeBackupJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DependencyFailureException": return try await DependencyFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeBackupVaultInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let backupVaultAccountId = backupVaultAccountId {
+                let backupVaultAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
+                items.append(backupVaultAccountIdQueryItem)
+            }
+            return items
+        }
     }
 }
 
@@ -4646,14 +5735,18 @@ extension DescribeBackupVaultInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeBackupVaultInput: Swift.Equatable {
+    /// This is the account ID of the specified backup vault.
+    public var backupVaultAccountId: Swift.String?
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
     /// This member is required.
     public var backupVaultName: Swift.String?
 
     public init(
+        backupVaultAccountId: Swift.String? = nil,
         backupVaultName: Swift.String? = nil
     )
     {
+        self.backupVaultAccountId = backupVaultAccountId
         self.backupVaultName = backupVaultName
     }
 }
@@ -4667,25 +5760,11 @@ extension DescribeBackupVaultInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeBackupVaultOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeBackupVaultOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeBackupVaultOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeBackupVaultOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeBackupVaultOutputBody = try responseDecoder.decode(responseBody: data)
             self.backupVaultArn = output.backupVaultArn
             self.backupVaultName = output.backupVaultName
             self.creationDate = output.creationDate
@@ -4696,6 +5775,7 @@ extension DescribeBackupVaultOutputResponse: ClientRuntime.HttpResponseBinding {
             self.maxRetentionDays = output.maxRetentionDays
             self.minRetentionDays = output.minRetentionDays
             self.numberOfRecoveryPoints = output.numberOfRecoveryPoints
+            self.vaultType = output.vaultType
         } else {
             self.backupVaultArn = nil
             self.backupVaultName = nil
@@ -4707,18 +5787,19 @@ extension DescribeBackupVaultOutputResponse: ClientRuntime.HttpResponseBinding {
             self.maxRetentionDays = nil
             self.minRetentionDays = nil
             self.numberOfRecoveryPoints = 0
+            self.vaultType = nil
         }
     }
 }
 
-public struct DescribeBackupVaultOutputResponse: Swift.Equatable {
+public struct DescribeBackupVaultOutput: Swift.Equatable {
     /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
     public var backupVaultArn: Swift.String?
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens.
     public var backupVaultName: Swift.String?
     /// The date and time that a backup vault is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var creationDate: ClientRuntime.Date?
-    /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice.
+    /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
     public var creatorRequestId: Swift.String?
     /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
     public var encryptionKeyArn: Swift.String?
@@ -4732,6 +5813,8 @@ public struct DescribeBackupVaultOutputResponse: Swift.Equatable {
     public var minRetentionDays: Swift.Int?
     /// The number of recovery points that are stored in a backup vault.
     public var numberOfRecoveryPoints: Swift.Int
+    /// This is the type of vault described.
+    public var vaultType: BackupClientTypes.VaultType?
 
     public init(
         backupVaultArn: Swift.String? = nil,
@@ -4743,7 +5826,8 @@ public struct DescribeBackupVaultOutputResponse: Swift.Equatable {
         locked: Swift.Bool? = nil,
         maxRetentionDays: Swift.Int? = nil,
         minRetentionDays: Swift.Int? = nil,
-        numberOfRecoveryPoints: Swift.Int = 0
+        numberOfRecoveryPoints: Swift.Int = 0,
+        vaultType: BackupClientTypes.VaultType? = nil
     )
     {
         self.backupVaultArn = backupVaultArn
@@ -4756,12 +5840,14 @@ public struct DescribeBackupVaultOutputResponse: Swift.Equatable {
         self.maxRetentionDays = maxRetentionDays
         self.minRetentionDays = minRetentionDays
         self.numberOfRecoveryPoints = numberOfRecoveryPoints
+        self.vaultType = vaultType
     }
 }
 
-struct DescribeBackupVaultOutputResponseBody: Swift.Equatable {
+struct DescribeBackupVaultOutputBody: Swift.Equatable {
     let backupVaultName: Swift.String?
     let backupVaultArn: Swift.String?
+    let vaultType: BackupClientTypes.VaultType?
     let encryptionKeyArn: Swift.String?
     let creationDate: ClientRuntime.Date?
     let creatorRequestId: Swift.String?
@@ -4772,7 +5858,7 @@ struct DescribeBackupVaultOutputResponseBody: Swift.Equatable {
     let lockDate: ClientRuntime.Date?
 }
 
-extension DescribeBackupVaultOutputResponseBody: Swift.Decodable {
+extension DescribeBackupVaultOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupVaultArn = "BackupVaultArn"
         case backupVaultName = "BackupVaultName"
@@ -4784,6 +5870,7 @@ extension DescribeBackupVaultOutputResponseBody: Swift.Decodable {
         case maxRetentionDays = "MaxRetentionDays"
         case minRetentionDays = "MinRetentionDays"
         case numberOfRecoveryPoints = "NumberOfRecoveryPoints"
+        case vaultType = "VaultType"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -4792,6 +5879,8 @@ extension DescribeBackupVaultOutputResponseBody: Swift.Decodable {
         backupVaultName = backupVaultNameDecoded
         let backupVaultArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backupVaultArn)
         backupVaultArn = backupVaultArnDecoded
+        let vaultTypeDecoded = try containerValues.decodeIfPresent(BackupClientTypes.VaultType.self, forKey: .vaultType)
+        vaultType = vaultTypeDecoded
         let encryptionKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encryptionKeyArn)
         encryptionKeyArn = encryptionKeyArnDecoded
         let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
@@ -4808,6 +5897,20 @@ extension DescribeBackupVaultOutputResponseBody: Swift.Decodable {
         maxRetentionDays = maxRetentionDaysDecoded
         let lockDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lockDate)
         lockDate = lockDateDecoded
+    }
+}
+
+enum DescribeBackupVaultOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4842,25 +5945,11 @@ extension DescribeCopyJobInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeCopyJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeCopyJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeCopyJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeCopyJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeCopyJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.copyJob = output.copyJob
         } else {
             self.copyJob = nil
@@ -4868,7 +5957,7 @@ extension DescribeCopyJobOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeCopyJobOutputResponse: Swift.Equatable {
+public struct DescribeCopyJobOutput: Swift.Equatable {
     /// Contains detailed information about a copy job.
     public var copyJob: BackupClientTypes.CopyJob?
 
@@ -4880,11 +5969,11 @@ public struct DescribeCopyJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeCopyJobOutputResponseBody: Swift.Equatable {
+struct DescribeCopyJobOutputBody: Swift.Equatable {
     let copyJob: BackupClientTypes.CopyJob?
 }
 
-extension DescribeCopyJobOutputResponseBody: Swift.Decodable {
+extension DescribeCopyJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case copyJob = "CopyJob"
     }
@@ -4893,6 +5982,20 @@ extension DescribeCopyJobOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let copyJobDecoded = try containerValues.decodeIfPresent(BackupClientTypes.CopyJob.self, forKey: .copyJob)
         copyJob = copyJobDecoded
+    }
+}
+
+enum DescribeCopyJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4927,25 +6030,11 @@ extension DescribeFrameworkInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeFrameworkOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeFrameworkOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeFrameworkOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeFrameworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeFrameworkOutputBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.deploymentStatus = output.deploymentStatus
             self.frameworkArn = output.frameworkArn
@@ -4967,7 +6056,7 @@ extension DescribeFrameworkOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeFrameworkOutputResponse: Swift.Equatable {
+public struct DescribeFrameworkOutput: Swift.Equatable {
     /// The date and time that a framework is created, in ISO 8601 representation. The value of CreationTime is accurate to milliseconds. For example, 2020-07-10T15:00:00.000-08:00 represents the 10th of July 2020 at 3:00 PM 8 hours behind UTC.
     public var creationTime: ClientRuntime.Date?
     /// The deployment status of a framework. The statuses are: CREATE_IN_PROGRESS | UPDATE_IN_PROGRESS | DELETE_IN_PROGRESS | COMPLETED | FAILED
@@ -5015,7 +6104,7 @@ public struct DescribeFrameworkOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeFrameworkOutputResponseBody: Swift.Equatable {
+struct DescribeFrameworkOutputBody: Swift.Equatable {
     let frameworkName: Swift.String?
     let frameworkArn: Swift.String?
     let frameworkDescription: Swift.String?
@@ -5026,7 +6115,7 @@ struct DescribeFrameworkOutputResponseBody: Swift.Equatable {
     let idempotencyToken: Swift.String?
 }
 
-extension DescribeFrameworkOutputResponseBody: Swift.Decodable {
+extension DescribeFrameworkOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creationTime = "CreationTime"
         case deploymentStatus = "DeploymentStatus"
@@ -5068,6 +6157,20 @@ extension DescribeFrameworkOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum DescribeFrameworkOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribeGlobalSettingsInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/global-settings"
@@ -5088,23 +6191,11 @@ extension DescribeGlobalSettingsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeGlobalSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeGlobalSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeGlobalSettingsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeGlobalSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeGlobalSettingsOutputBody = try responseDecoder.decode(responseBody: data)
             self.globalSettings = output.globalSettings
             self.lastUpdateTime = output.lastUpdateTime
         } else {
@@ -5114,7 +6205,7 @@ extension DescribeGlobalSettingsOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeGlobalSettingsOutputResponse: Swift.Equatable {
+public struct DescribeGlobalSettingsOutput: Swift.Equatable {
     /// The status of the flag isCrossAccountBackupEnabled.
     public var globalSettings: [Swift.String:Swift.String]?
     /// The date and time that the flag isCrossAccountBackupEnabled was last updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -5130,12 +6221,12 @@ public struct DescribeGlobalSettingsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeGlobalSettingsOutputResponseBody: Swift.Equatable {
+struct DescribeGlobalSettingsOutputBody: Swift.Equatable {
     let globalSettings: [Swift.String:Swift.String]?
     let lastUpdateTime: ClientRuntime.Date?
 }
 
-extension DescribeGlobalSettingsOutputResponseBody: Swift.Decodable {
+extension DescribeGlobalSettingsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalSettings = "GlobalSettings"
         case lastUpdateTime = "LastUpdateTime"
@@ -5156,6 +6247,18 @@ extension DescribeGlobalSettingsOutputResponseBody: Swift.Decodable {
         globalSettings = globalSettingsDecoded0
         let lastUpdateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdateTime)
         lastUpdateTime = lastUpdateTimeDecoded
+    }
+}
+
+enum DescribeGlobalSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5190,31 +6293,27 @@ extension DescribeProtectedResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeProtectedResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeProtectedResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeProtectedResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeProtectedResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeProtectedResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.lastBackupTime = output.lastBackupTime
+            self.lastBackupVaultArn = output.lastBackupVaultArn
+            self.lastRecoveryPointArn = output.lastRecoveryPointArn
+            self.latestRestoreExecutionTimeMinutes = output.latestRestoreExecutionTimeMinutes
+            self.latestRestoreJobCreationDate = output.latestRestoreJobCreationDate
+            self.latestRestoreRecoveryPointCreationDate = output.latestRestoreRecoveryPointCreationDate
             self.resourceArn = output.resourceArn
             self.resourceName = output.resourceName
             self.resourceType = output.resourceType
         } else {
             self.lastBackupTime = nil
+            self.lastBackupVaultArn = nil
+            self.lastRecoveryPointArn = nil
+            self.latestRestoreExecutionTimeMinutes = nil
+            self.latestRestoreJobCreationDate = nil
+            self.latestRestoreRecoveryPointCreationDate = nil
             self.resourceArn = nil
             self.resourceName = nil
             self.resourceType = nil
@@ -5222,9 +6321,19 @@ extension DescribeProtectedResourceOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribeProtectedResourceOutputResponse: Swift.Equatable {
+public struct DescribeProtectedResourceOutput: Swift.Equatable {
     /// The date and time that a resource was last backed up, in Unix format and Coordinated Universal Time (UTC). The value of LastBackupTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var lastBackupTime: ClientRuntime.Date?
+    /// This is the ARN (Amazon Resource Name) of the backup vault that contains the most recent backup recovery point.
+    public var lastBackupVaultArn: Swift.String?
+    /// This is the ARN (Amazon Resource Name) of the most recent recovery point.
+    public var lastRecoveryPointArn: Swift.String?
+    /// This is the time in minutes the most recent restore job took to complete.
+    public var latestRestoreExecutionTimeMinutes: Swift.Int?
+    /// This is the creation date of the most recent restore job.
+    public var latestRestoreJobCreationDate: ClientRuntime.Date?
+    /// This is the date the most recent recovery point was created.
+    public var latestRestoreRecoveryPointCreationDate: ClientRuntime.Date?
     /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
     public var resourceArn: Swift.String?
     /// This is the non-unique name of the resource that belongs to the specified backup.
@@ -5234,28 +6343,48 @@ public struct DescribeProtectedResourceOutputResponse: Swift.Equatable {
 
     public init(
         lastBackupTime: ClientRuntime.Date? = nil,
+        lastBackupVaultArn: Swift.String? = nil,
+        lastRecoveryPointArn: Swift.String? = nil,
+        latestRestoreExecutionTimeMinutes: Swift.Int? = nil,
+        latestRestoreJobCreationDate: ClientRuntime.Date? = nil,
+        latestRestoreRecoveryPointCreationDate: ClientRuntime.Date? = nil,
         resourceArn: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         resourceType: Swift.String? = nil
     )
     {
         self.lastBackupTime = lastBackupTime
+        self.lastBackupVaultArn = lastBackupVaultArn
+        self.lastRecoveryPointArn = lastRecoveryPointArn
+        self.latestRestoreExecutionTimeMinutes = latestRestoreExecutionTimeMinutes
+        self.latestRestoreJobCreationDate = latestRestoreJobCreationDate
+        self.latestRestoreRecoveryPointCreationDate = latestRestoreRecoveryPointCreationDate
         self.resourceArn = resourceArn
         self.resourceName = resourceName
         self.resourceType = resourceType
     }
 }
 
-struct DescribeProtectedResourceOutputResponseBody: Swift.Equatable {
+struct DescribeProtectedResourceOutputBody: Swift.Equatable {
     let resourceArn: Swift.String?
     let resourceType: Swift.String?
     let lastBackupTime: ClientRuntime.Date?
     let resourceName: Swift.String?
+    let lastBackupVaultArn: Swift.String?
+    let lastRecoveryPointArn: Swift.String?
+    let latestRestoreExecutionTimeMinutes: Swift.Int?
+    let latestRestoreJobCreationDate: ClientRuntime.Date?
+    let latestRestoreRecoveryPointCreationDate: ClientRuntime.Date?
 }
 
-extension DescribeProtectedResourceOutputResponseBody: Swift.Decodable {
+extension DescribeProtectedResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lastBackupTime = "LastBackupTime"
+        case lastBackupVaultArn = "LastBackupVaultArn"
+        case lastRecoveryPointArn = "LastRecoveryPointArn"
+        case latestRestoreExecutionTimeMinutes = "LatestRestoreExecutionTimeMinutes"
+        case latestRestoreJobCreationDate = "LatestRestoreJobCreationDate"
+        case latestRestoreRecoveryPointCreationDate = "LatestRestoreRecoveryPointCreationDate"
         case resourceArn = "ResourceArn"
         case resourceName = "ResourceName"
         case resourceType = "ResourceType"
@@ -5271,6 +6400,43 @@ extension DescribeProtectedResourceOutputResponseBody: Swift.Decodable {
         lastBackupTime = lastBackupTimeDecoded
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
+        let lastBackupVaultArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastBackupVaultArn)
+        lastBackupVaultArn = lastBackupVaultArnDecoded
+        let lastRecoveryPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastRecoveryPointArn)
+        lastRecoveryPointArn = lastRecoveryPointArnDecoded
+        let latestRestoreExecutionTimeMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .latestRestoreExecutionTimeMinutes)
+        latestRestoreExecutionTimeMinutes = latestRestoreExecutionTimeMinutesDecoded
+        let latestRestoreJobCreationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .latestRestoreJobCreationDate)
+        latestRestoreJobCreationDate = latestRestoreJobCreationDateDecoded
+        let latestRestoreRecoveryPointCreationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .latestRestoreRecoveryPointCreationDate)
+        latestRestoreRecoveryPointCreationDate = latestRestoreRecoveryPointCreationDateDecoded
+    }
+}
+
+enum DescribeProtectedResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeRecoveryPointInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let backupVaultAccountId = backupVaultAccountId {
+                let backupVaultAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
+                items.append(backupVaultAccountIdQueryItem)
+            }
+            return items
+        }
     }
 }
 
@@ -5287,6 +6453,8 @@ extension DescribeRecoveryPointInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeRecoveryPointInput: Swift.Equatable {
+    /// This is the account ID of the specified backup vault.
+    public var backupVaultAccountId: Swift.String?
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
     /// This member is required.
     public var backupVaultName: Swift.String?
@@ -5295,10 +6463,12 @@ public struct DescribeRecoveryPointInput: Swift.Equatable {
     public var recoveryPointArn: Swift.String?
 
     public init(
+        backupVaultAccountId: Swift.String? = nil,
         backupVaultName: Swift.String? = nil,
         recoveryPointArn: Swift.String? = nil
     )
     {
+        self.backupVaultAccountId = backupVaultAccountId
         self.backupVaultName = backupVaultName
         self.recoveryPointArn = recoveryPointArn
     }
@@ -5313,25 +6483,11 @@ extension DescribeRecoveryPointInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeRecoveryPointOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeRecoveryPointOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeRecoveryPointOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeRecoveryPointOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeRecoveryPointOutputBody = try responseDecoder.decode(responseBody: data)
             self.backupSizeInBytes = output.backupSizeInBytes
             self.backupVaultArn = output.backupVaultArn
             self.backupVaultName = output.backupVaultName
@@ -5355,6 +6511,7 @@ extension DescribeRecoveryPointOutputResponse: ClientRuntime.HttpResponseBinding
             self.status = output.status
             self.statusMessage = output.statusMessage
             self.storageClass = output.storageClass
+            self.vaultType = output.vaultType
         } else {
             self.backupSizeInBytes = nil
             self.backupVaultArn = nil
@@ -5379,11 +6536,12 @@ extension DescribeRecoveryPointOutputResponse: ClientRuntime.HttpResponseBinding
             self.status = nil
             self.statusMessage = nil
             self.storageClass = nil
+            self.vaultType = nil
         }
     }
 }
 
-public struct DescribeRecoveryPointOutputResponse: Swift.Equatable {
+public struct DescribeRecoveryPointOutput: Swift.Equatable {
     /// The size, in bytes, of a backup.
     public var backupSizeInBytes: Swift.Int?
     /// An ARN that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
@@ -5430,6 +6588,8 @@ public struct DescribeRecoveryPointOutputResponse: Swift.Equatable {
     public var statusMessage: Swift.String?
     /// Specifies the storage class of the recovery point. Valid values are WARM or COLD.
     public var storageClass: BackupClientTypes.StorageClass?
+    /// This is the type of vault in which the described recovery point is stored.
+    public var vaultType: BackupClientTypes.VaultType?
 
     public init(
         backupSizeInBytes: Swift.Int? = nil,
@@ -5454,7 +6614,8 @@ public struct DescribeRecoveryPointOutputResponse: Swift.Equatable {
         sourceBackupVaultArn: Swift.String? = nil,
         status: BackupClientTypes.RecoveryPointStatus? = nil,
         statusMessage: Swift.String? = nil,
-        storageClass: BackupClientTypes.StorageClass? = nil
+        storageClass: BackupClientTypes.StorageClass? = nil,
+        vaultType: BackupClientTypes.VaultType? = nil
     )
     {
         self.backupSizeInBytes = backupSizeInBytes
@@ -5480,10 +6641,11 @@ public struct DescribeRecoveryPointOutputResponse: Swift.Equatable {
         self.status = status
         self.statusMessage = statusMessage
         self.storageClass = storageClass
+        self.vaultType = vaultType
     }
 }
 
-struct DescribeRecoveryPointOutputResponseBody: Swift.Equatable {
+struct DescribeRecoveryPointOutputBody: Swift.Equatable {
     let recoveryPointArn: Swift.String?
     let backupVaultName: Swift.String?
     let backupVaultArn: Swift.String?
@@ -5507,9 +6669,10 @@ struct DescribeRecoveryPointOutputResponseBody: Swift.Equatable {
     let compositeMemberIdentifier: Swift.String?
     let isParent: Swift.Bool
     let resourceName: Swift.String?
+    let vaultType: BackupClientTypes.VaultType?
 }
 
-extension DescribeRecoveryPointOutputResponseBody: Swift.Decodable {
+extension DescribeRecoveryPointOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupSizeInBytes = "BackupSizeInBytes"
         case backupVaultArn = "BackupVaultArn"
@@ -5534,6 +6697,7 @@ extension DescribeRecoveryPointOutputResponseBody: Swift.Decodable {
         case status = "Status"
         case statusMessage = "StatusMessage"
         case storageClass = "StorageClass"
+        case vaultType = "VaultType"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -5584,6 +6748,22 @@ extension DescribeRecoveryPointOutputResponseBody: Swift.Decodable {
         isParent = isParentDecoded
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
+        let vaultTypeDecoded = try containerValues.decodeIfPresent(BackupClientTypes.VaultType.self, forKey: .vaultType)
+        vaultType = vaultTypeDecoded
+    }
+}
+
+enum DescribeRecoveryPointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5607,22 +6787,11 @@ extension DescribeRegionSettingsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeRegionSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeRegionSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeRegionSettingsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeRegionSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeRegionSettingsOutputBody = try responseDecoder.decode(responseBody: data)
             self.resourceTypeManagementPreference = output.resourceTypeManagementPreference
             self.resourceTypeOptInPreference = output.resourceTypeOptInPreference
         } else {
@@ -5632,7 +6801,7 @@ extension DescribeRegionSettingsOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeRegionSettingsOutputResponse: Swift.Equatable {
+public struct DescribeRegionSettingsOutput: Swift.Equatable {
     /// Returns whether Backup fully manages the backups for a resource type. For the benefits of full Backup management, see [ Full Backup management](https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#full-management). For a list of resource types and whether each supports full Backup management, see the [ Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource) table. If "DynamoDB":false, you can enable full Backup management for DynamoDB backup by enabling [ Backup's advanced DynamoDB backup features](https://docs.aws.amazon.com/aws-backup/latest/devguide/advanced-ddb-backup.html#advanced-ddb-backup-enable-cli).
     public var resourceTypeManagementPreference: [Swift.String:Swift.Bool]?
     /// Returns a list of all services along with the opt-in preferences in the Region.
@@ -5648,12 +6817,12 @@ public struct DescribeRegionSettingsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeRegionSettingsOutputResponseBody: Swift.Equatable {
+struct DescribeRegionSettingsOutputBody: Swift.Equatable {
     let resourceTypeOptInPreference: [Swift.String:Swift.Bool]?
     let resourceTypeManagementPreference: [Swift.String:Swift.Bool]?
 }
 
-extension DescribeRegionSettingsOutputResponseBody: Swift.Decodable {
+extension DescribeRegionSettingsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceTypeManagementPreference = "ResourceTypeManagementPreference"
         case resourceTypeOptInPreference = "ResourceTypeOptInPreference"
@@ -5683,6 +6852,17 @@ extension DescribeRegionSettingsOutputResponseBody: Swift.Decodable {
             }
         }
         resourceTypeManagementPreference = resourceTypeManagementPreferenceDecoded0
+    }
+}
+
+enum DescribeRegionSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5717,24 +6897,11 @@ extension DescribeReportJobInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeReportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeReportJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeReportJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeReportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeReportJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.reportJob = output.reportJob
         } else {
             self.reportJob = nil
@@ -5742,7 +6909,7 @@ extension DescribeReportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeReportJobOutputResponse: Swift.Equatable {
+public struct DescribeReportJobOutput: Swift.Equatable {
     /// A list of information about a report job, including its completion and creation times, report destination, unique report job ID, Amazon Resource Name (ARN), report template, status, and status message.
     public var reportJob: BackupClientTypes.ReportJob?
 
@@ -5754,11 +6921,11 @@ public struct DescribeReportJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeReportJobOutputResponseBody: Swift.Equatable {
+struct DescribeReportJobOutputBody: Swift.Equatable {
     let reportJob: BackupClientTypes.ReportJob?
 }
 
-extension DescribeReportJobOutputResponseBody: Swift.Decodable {
+extension DescribeReportJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case reportJob = "ReportJob"
     }
@@ -5767,6 +6934,19 @@ extension DescribeReportJobOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportJobDecoded = try containerValues.decodeIfPresent(BackupClientTypes.ReportJob.self, forKey: .reportJob)
         reportJob = reportJobDecoded
+    }
+}
+
+enum DescribeReportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5801,25 +6981,11 @@ extension DescribeReportPlanInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeReportPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeReportPlanOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeReportPlanOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeReportPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeReportPlanOutputBody = try responseDecoder.decode(responseBody: data)
             self.reportPlan = output.reportPlan
         } else {
             self.reportPlan = nil
@@ -5827,7 +6993,7 @@ extension DescribeReportPlanOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeReportPlanOutputResponse: Swift.Equatable {
+public struct DescribeReportPlanOutput: Swift.Equatable {
     /// Returns details about the report plan that is specified by its name. These details include the report plan's Amazon Resource Name (ARN), description, settings, delivery channel, deployment status, creation time, and last attempted and successful run times.
     public var reportPlan: BackupClientTypes.ReportPlan?
 
@@ -5839,11 +7005,11 @@ public struct DescribeReportPlanOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeReportPlanOutputResponseBody: Swift.Equatable {
+struct DescribeReportPlanOutputBody: Swift.Equatable {
     let reportPlan: BackupClientTypes.ReportPlan?
 }
 
-extension DescribeReportPlanOutputResponseBody: Swift.Decodable {
+extension DescribeReportPlanOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case reportPlan = "ReportPlan"
     }
@@ -5852,6 +7018,20 @@ extension DescribeReportPlanOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportPlanDecoded = try containerValues.decodeIfPresent(BackupClientTypes.ReportPlan.self, forKey: .reportPlan)
         reportPlan = reportPlanDecoded
+    }
+}
+
+enum DescribeReportPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5886,68 +7066,71 @@ extension DescribeRestoreJobInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeRestoreJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyFailureException": return try await DependencyFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeRestoreJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeRestoreJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeRestoreJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeRestoreJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.accountId = output.accountId
             self.backupSizeInBytes = output.backupSizeInBytes
             self.completionDate = output.completionDate
+            self.createdBy = output.createdBy
             self.createdResourceArn = output.createdResourceArn
             self.creationDate = output.creationDate
+            self.deletionStatus = output.deletionStatus
+            self.deletionStatusMessage = output.deletionStatusMessage
             self.expectedCompletionTimeMinutes = output.expectedCompletionTimeMinutes
             self.iamRoleArn = output.iamRoleArn
             self.percentDone = output.percentDone
             self.recoveryPointArn = output.recoveryPointArn
+            self.recoveryPointCreationDate = output.recoveryPointCreationDate
             self.resourceType = output.resourceType
             self.restoreJobId = output.restoreJobId
             self.status = output.status
             self.statusMessage = output.statusMessage
+            self.validationStatus = output.validationStatus
+            self.validationStatusMessage = output.validationStatusMessage
         } else {
             self.accountId = nil
             self.backupSizeInBytes = nil
             self.completionDate = nil
+            self.createdBy = nil
             self.createdResourceArn = nil
             self.creationDate = nil
+            self.deletionStatus = nil
+            self.deletionStatusMessage = nil
             self.expectedCompletionTimeMinutes = nil
             self.iamRoleArn = nil
             self.percentDone = nil
             self.recoveryPointArn = nil
+            self.recoveryPointCreationDate = nil
             self.resourceType = nil
             self.restoreJobId = nil
             self.status = nil
             self.statusMessage = nil
+            self.validationStatus = nil
+            self.validationStatusMessage = nil
         }
     }
 }
 
-public struct DescribeRestoreJobOutputResponse: Swift.Equatable {
+public struct DescribeRestoreJobOutput: Swift.Equatable {
     /// Returns the account ID that owns the restore job.
     public var accountId: Swift.String?
     /// The size, in bytes, of the restored resource.
     public var backupSizeInBytes: Swift.Int?
     /// The date and time that a job to restore a recovery point is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var completionDate: ClientRuntime.Date?
+    /// Contains identifying information about the creation of a restore job.
+    public var createdBy: BackupClientTypes.RestoreJobCreator?
     /// An Amazon Resource Name (ARN) that uniquely identifies a resource whose recovery point is being restored. The format of the ARN depends on the resource type of the backed-up resource.
     public var createdResourceArn: Swift.String?
     /// The date and time that a restore job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var creationDate: ClientRuntime.Date?
+    /// This notes the status of the data generated by the restore test. The status may be Deleting, Failed, or Successful.
+    public var deletionStatus: BackupClientTypes.RestoreDeletionStatus?
+    /// This describes the restore job deletion status.
+    public var deletionStatusMessage: Swift.String?
     /// The amount of time in minutes that a job restoring a recovery point is expected to take.
     public var expectedCompletionTimeMinutes: Swift.Int?
     /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
@@ -5956,6 +7139,8 @@ public struct DescribeRestoreJobOutputResponse: Swift.Equatable {
     public var percentDone: Swift.String?
     /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
     public var recoveryPointArn: Swift.String?
+    /// This is the creation date of the recovery point made by the specifed restore job.
+    public var recoveryPointCreationDate: ClientRuntime.Date?
     /// Returns metadata associated with a restore job listed by resource type.
     public var resourceType: Swift.String?
     /// Uniquely identifies the job that restores a recovery point.
@@ -5964,40 +7149,56 @@ public struct DescribeRestoreJobOutputResponse: Swift.Equatable {
     public var status: BackupClientTypes.RestoreJobStatus?
     /// A message showing the status of a job to restore a recovery point.
     public var statusMessage: Swift.String?
+    /// This is the status of validation run on the indicated restore job.
+    public var validationStatus: BackupClientTypes.RestoreValidationStatus?
+    /// This describes the status of validation run on the indicated restore job.
+    public var validationStatusMessage: Swift.String?
 
     public init(
         accountId: Swift.String? = nil,
         backupSizeInBytes: Swift.Int? = nil,
         completionDate: ClientRuntime.Date? = nil,
+        createdBy: BackupClientTypes.RestoreJobCreator? = nil,
         createdResourceArn: Swift.String? = nil,
         creationDate: ClientRuntime.Date? = nil,
+        deletionStatus: BackupClientTypes.RestoreDeletionStatus? = nil,
+        deletionStatusMessage: Swift.String? = nil,
         expectedCompletionTimeMinutes: Swift.Int? = nil,
         iamRoleArn: Swift.String? = nil,
         percentDone: Swift.String? = nil,
         recoveryPointArn: Swift.String? = nil,
+        recoveryPointCreationDate: ClientRuntime.Date? = nil,
         resourceType: Swift.String? = nil,
         restoreJobId: Swift.String? = nil,
         status: BackupClientTypes.RestoreJobStatus? = nil,
-        statusMessage: Swift.String? = nil
+        statusMessage: Swift.String? = nil,
+        validationStatus: BackupClientTypes.RestoreValidationStatus? = nil,
+        validationStatusMessage: Swift.String? = nil
     )
     {
         self.accountId = accountId
         self.backupSizeInBytes = backupSizeInBytes
         self.completionDate = completionDate
+        self.createdBy = createdBy
         self.createdResourceArn = createdResourceArn
         self.creationDate = creationDate
+        self.deletionStatus = deletionStatus
+        self.deletionStatusMessage = deletionStatusMessage
         self.expectedCompletionTimeMinutes = expectedCompletionTimeMinutes
         self.iamRoleArn = iamRoleArn
         self.percentDone = percentDone
         self.recoveryPointArn = recoveryPointArn
+        self.recoveryPointCreationDate = recoveryPointCreationDate
         self.resourceType = resourceType
         self.restoreJobId = restoreJobId
         self.status = status
         self.statusMessage = statusMessage
+        self.validationStatus = validationStatus
+        self.validationStatusMessage = validationStatusMessage
     }
 }
 
-struct DescribeRestoreJobOutputResponseBody: Swift.Equatable {
+struct DescribeRestoreJobOutputBody: Swift.Equatable {
     let accountId: Swift.String?
     let restoreJobId: Swift.String?
     let recoveryPointArn: Swift.String?
@@ -6011,23 +7212,35 @@ struct DescribeRestoreJobOutputResponseBody: Swift.Equatable {
     let expectedCompletionTimeMinutes: Swift.Int?
     let createdResourceArn: Swift.String?
     let resourceType: Swift.String?
+    let recoveryPointCreationDate: ClientRuntime.Date?
+    let createdBy: BackupClientTypes.RestoreJobCreator?
+    let validationStatus: BackupClientTypes.RestoreValidationStatus?
+    let validationStatusMessage: Swift.String?
+    let deletionStatus: BackupClientTypes.RestoreDeletionStatus?
+    let deletionStatusMessage: Swift.String?
 }
 
-extension DescribeRestoreJobOutputResponseBody: Swift.Decodable {
+extension DescribeRestoreJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "AccountId"
         case backupSizeInBytes = "BackupSizeInBytes"
         case completionDate = "CompletionDate"
+        case createdBy = "CreatedBy"
         case createdResourceArn = "CreatedResourceArn"
         case creationDate = "CreationDate"
+        case deletionStatus = "DeletionStatus"
+        case deletionStatusMessage = "DeletionStatusMessage"
         case expectedCompletionTimeMinutes = "ExpectedCompletionTimeMinutes"
         case iamRoleArn = "IamRoleArn"
         case percentDone = "PercentDone"
         case recoveryPointArn = "RecoveryPointArn"
+        case recoveryPointCreationDate = "RecoveryPointCreationDate"
         case resourceType = "ResourceType"
         case restoreJobId = "RestoreJobId"
         case status = "Status"
         case statusMessage = "StatusMessage"
+        case validationStatus = "ValidationStatus"
+        case validationStatusMessage = "ValidationStatusMessage"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -6058,6 +7271,33 @@ extension DescribeRestoreJobOutputResponseBody: Swift.Decodable {
         createdResourceArn = createdResourceArnDecoded
         let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
+        let recoveryPointCreationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .recoveryPointCreationDate)
+        recoveryPointCreationDate = recoveryPointCreationDateDecoded
+        let createdByDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreJobCreator.self, forKey: .createdBy)
+        createdBy = createdByDecoded
+        let validationStatusDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreValidationStatus.self, forKey: .validationStatus)
+        validationStatus = validationStatusDecoded
+        let validationStatusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .validationStatusMessage)
+        validationStatusMessage = validationStatusMessageDecoded
+        let deletionStatusDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreDeletionStatus.self, forKey: .deletionStatus)
+        deletionStatus = deletionStatusDecoded
+        let deletionStatusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deletionStatusMessage)
+        deletionStatusMessage = deletionStatusMessageDecoded
+    }
+}
+
+enum DescribeRestoreJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DependencyFailureException": return try await DependencyFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6100,8 +7340,18 @@ extension DisassociateRecoveryPointFromParentInputBody: Swift.Decodable {
     }
 }
 
-public enum DisassociateRecoveryPointFromParentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DisassociateRecoveryPointFromParentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DisassociateRecoveryPointFromParentOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DisassociateRecoveryPointFromParentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6113,16 +7363,6 @@ public enum DisassociateRecoveryPointFromParentOutputError: ClientRuntime.HttpRe
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DisassociateRecoveryPointFromParentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DisassociateRecoveryPointFromParentOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DisassociateRecoveryPointInput: ClientRuntime.URLPathProvider {
@@ -6164,8 +7404,18 @@ extension DisassociateRecoveryPointInputBody: Swift.Decodable {
     }
 }
 
-public enum DisassociateRecoveryPointOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DisassociateRecoveryPointOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DisassociateRecoveryPointOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DisassociateRecoveryPointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6178,16 +7428,6 @@ public enum DisassociateRecoveryPointOutputError: ClientRuntime.HttpResponseErro
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DisassociateRecoveryPointOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DisassociateRecoveryPointOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ExportBackupPlanTemplateInput: ClientRuntime.URLPathProvider {
@@ -6221,25 +7461,11 @@ extension ExportBackupPlanTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum ExportBackupPlanTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ExportBackupPlanTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ExportBackupPlanTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ExportBackupPlanTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ExportBackupPlanTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.backupPlanTemplateJson = output.backupPlanTemplateJson
         } else {
             self.backupPlanTemplateJson = nil
@@ -6247,7 +7473,7 @@ extension ExportBackupPlanTemplateOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ExportBackupPlanTemplateOutputResponse: Swift.Equatable {
+public struct ExportBackupPlanTemplateOutput: Swift.Equatable {
     /// The body of a backup plan template in JSON format. This is a signed JSON document that cannot be modified before being passed to GetBackupPlanFromJSON.
     public var backupPlanTemplateJson: Swift.String?
 
@@ -6259,11 +7485,11 @@ public struct ExportBackupPlanTemplateOutputResponse: Swift.Equatable {
     }
 }
 
-struct ExportBackupPlanTemplateOutputResponseBody: Swift.Equatable {
+struct ExportBackupPlanTemplateOutputBody: Swift.Equatable {
     let backupPlanTemplateJson: Swift.String?
 }
 
-extension ExportBackupPlanTemplateOutputResponseBody: Swift.Decodable {
+extension ExportBackupPlanTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupPlanTemplateJson = "BackupPlanTemplateJson"
     }
@@ -6272,6 +7498,20 @@ extension ExportBackupPlanTemplateOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let backupPlanTemplateJsonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backupPlanTemplateJson)
         backupPlanTemplateJson = backupPlanTemplateJsonDecoded
+    }
+}
+
+enum ExportBackupPlanTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6411,7 +7651,7 @@ extension BackupClientTypes {
         /// The name of a control. This name is between 1 and 256 characters.
         /// This member is required.
         public var controlName: Swift.String?
-        /// The scope of a control. The control scope defines what the control will evaluate. Three examples of control scopes are: a specific backup plan, all backup plans with a specific tag, or all backup plans. For more information, see [ControlScope].
+        /// The scope of a control. The control scope defines what the control will evaluate. Three examples of control scopes are: a specific backup plan, all backup plans with a specific tag, or all backup plans.
         public var controlScope: BackupClientTypes.ControlScope?
 
         public init(
@@ -6476,26 +7716,11 @@ extension GetBackupPlanFromJSONInputBody: Swift.Decodable {
     }
 }
 
-public enum GetBackupPlanFromJSONOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetBackupPlanFromJSONOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetBackupPlanFromJSONOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetBackupPlanFromJSONOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetBackupPlanFromJSONOutputBody = try responseDecoder.decode(responseBody: data)
             self.backupPlan = output.backupPlan
         } else {
             self.backupPlan = nil
@@ -6503,7 +7728,7 @@ extension GetBackupPlanFromJSONOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetBackupPlanFromJSONOutputResponse: Swift.Equatable {
+public struct GetBackupPlanFromJSONOutput: Swift.Equatable {
     /// Specifies the body of a backup plan. Includes a BackupPlanName and one or more sets of Rules.
     public var backupPlan: BackupClientTypes.BackupPlan?
 
@@ -6515,11 +7740,11 @@ public struct GetBackupPlanFromJSONOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetBackupPlanFromJSONOutputResponseBody: Swift.Equatable {
+struct GetBackupPlanFromJSONOutputBody: Swift.Equatable {
     let backupPlan: BackupClientTypes.BackupPlan?
 }
 
-extension GetBackupPlanFromJSONOutputResponseBody: Swift.Decodable {
+extension GetBackupPlanFromJSONOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupPlan = "BackupPlan"
     }
@@ -6528,6 +7753,21 @@ extension GetBackupPlanFromJSONOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let backupPlanDecoded = try containerValues.decodeIfPresent(BackupClientTypes.BackupPlan.self, forKey: .backupPlan)
         backupPlan = backupPlanDecoded
+    }
+}
+
+enum GetBackupPlanFromJSONOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6562,25 +7802,11 @@ extension GetBackupPlanFromTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum GetBackupPlanFromTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetBackupPlanFromTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetBackupPlanFromTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetBackupPlanFromTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetBackupPlanFromTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.backupPlanDocument = output.backupPlanDocument
         } else {
             self.backupPlanDocument = nil
@@ -6588,7 +7814,7 @@ extension GetBackupPlanFromTemplateOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct GetBackupPlanFromTemplateOutputResponse: Swift.Equatable {
+public struct GetBackupPlanFromTemplateOutput: Swift.Equatable {
     /// Returns the body of a backup plan based on the target template, including the name, rules, and backup vault of the plan.
     public var backupPlanDocument: BackupClientTypes.BackupPlan?
 
@@ -6600,11 +7826,11 @@ public struct GetBackupPlanFromTemplateOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetBackupPlanFromTemplateOutputResponseBody: Swift.Equatable {
+struct GetBackupPlanFromTemplateOutputBody: Swift.Equatable {
     let backupPlanDocument: BackupClientTypes.BackupPlan?
 }
 
-extension GetBackupPlanFromTemplateOutputResponseBody: Swift.Decodable {
+extension GetBackupPlanFromTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupPlanDocument = "BackupPlanDocument"
     }
@@ -6613,6 +7839,20 @@ extension GetBackupPlanFromTemplateOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let backupPlanDocumentDecoded = try containerValues.decodeIfPresent(BackupClientTypes.BackupPlan.self, forKey: .backupPlanDocument)
         backupPlanDocument = backupPlanDocumentDecoded
+    }
+}
+
+enum GetBackupPlanFromTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6664,25 +7904,11 @@ extension GetBackupPlanInputBody: Swift.Decodable {
     }
 }
 
-public enum GetBackupPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetBackupPlanOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetBackupPlanOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetBackupPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetBackupPlanOutputBody = try responseDecoder.decode(responseBody: data)
             self.advancedBackupSettings = output.advancedBackupSettings
             self.backupPlan = output.backupPlan
             self.backupPlanArn = output.backupPlanArn
@@ -6706,7 +7932,7 @@ extension GetBackupPlanOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBackupPlanOutputResponse: Swift.Equatable {
+public struct GetBackupPlanOutput: Swift.Equatable {
     /// Contains a list of BackupOptions for each resource type. The list is populated only if the advanced option is set for the backup plan.
     public var advancedBackupSettings: [BackupClientTypes.AdvancedBackupSetting]?
     /// Specifies the body of a backup plan. Includes a BackupPlanName and one or more sets of Rules.
@@ -6750,7 +7976,7 @@ public struct GetBackupPlanOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetBackupPlanOutputResponseBody: Swift.Equatable {
+struct GetBackupPlanOutputBody: Swift.Equatable {
     let backupPlan: BackupClientTypes.BackupPlan?
     let backupPlanId: Swift.String?
     let backupPlanArn: Swift.String?
@@ -6762,7 +7988,7 @@ struct GetBackupPlanOutputResponseBody: Swift.Equatable {
     let advancedBackupSettings: [BackupClientTypes.AdvancedBackupSetting]?
 }
 
-extension GetBackupPlanOutputResponseBody: Swift.Decodable {
+extension GetBackupPlanOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case advancedBackupSettings = "AdvancedBackupSettings"
         case backupPlan = "BackupPlan"
@@ -6807,6 +8033,20 @@ extension GetBackupPlanOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum GetBackupPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetBackupSelectionInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let backupPlanId = backupPlanId else {
@@ -6846,25 +8086,11 @@ extension GetBackupSelectionInputBody: Swift.Decodable {
     }
 }
 
-public enum GetBackupSelectionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetBackupSelectionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetBackupSelectionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetBackupSelectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetBackupSelectionOutputBody = try responseDecoder.decode(responseBody: data)
             self.backupPlanId = output.backupPlanId
             self.backupSelection = output.backupSelection
             self.creationDate = output.creationDate
@@ -6880,7 +8106,7 @@ extension GetBackupSelectionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBackupSelectionOutputResponse: Swift.Equatable {
+public struct GetBackupSelectionOutput: Swift.Equatable {
     /// Uniquely identifies a backup plan.
     public var backupPlanId: Swift.String?
     /// Specifies the body of a request to assign a set of resources to a backup plan.
@@ -6908,7 +8134,7 @@ public struct GetBackupSelectionOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetBackupSelectionOutputResponseBody: Swift.Equatable {
+struct GetBackupSelectionOutputBody: Swift.Equatable {
     let backupSelection: BackupClientTypes.BackupSelection?
     let selectionId: Swift.String?
     let backupPlanId: Swift.String?
@@ -6916,7 +8142,7 @@ struct GetBackupSelectionOutputResponseBody: Swift.Equatable {
     let creatorRequestId: Swift.String?
 }
 
-extension GetBackupSelectionOutputResponseBody: Swift.Decodable {
+extension GetBackupSelectionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupPlanId = "BackupPlanId"
         case backupSelection = "BackupSelection"
@@ -6937,6 +8163,20 @@ extension GetBackupSelectionOutputResponseBody: Swift.Decodable {
         creationDate = creationDateDecoded
         let creatorRequestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creatorRequestId)
         creatorRequestId = creatorRequestIdDecoded
+    }
+}
+
+enum GetBackupSelectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6971,25 +8211,11 @@ extension GetBackupVaultAccessPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum GetBackupVaultAccessPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetBackupVaultAccessPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetBackupVaultAccessPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetBackupVaultAccessPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetBackupVaultAccessPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.backupVaultArn = output.backupVaultArn
             self.backupVaultName = output.backupVaultName
             self.policy = output.policy
@@ -7001,7 +8227,7 @@ extension GetBackupVaultAccessPolicyOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct GetBackupVaultAccessPolicyOutputResponse: Swift.Equatable {
+public struct GetBackupVaultAccessPolicyOutput: Swift.Equatable {
     /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
     public var backupVaultArn: Swift.String?
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -7021,13 +8247,13 @@ public struct GetBackupVaultAccessPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetBackupVaultAccessPolicyOutputResponseBody: Swift.Equatable {
+struct GetBackupVaultAccessPolicyOutputBody: Swift.Equatable {
     let backupVaultName: Swift.String?
     let backupVaultArn: Swift.String?
     let policy: Swift.String?
 }
 
-extension GetBackupVaultAccessPolicyOutputResponseBody: Swift.Decodable {
+extension GetBackupVaultAccessPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupVaultArn = "BackupVaultArn"
         case backupVaultName = "BackupVaultName"
@@ -7042,6 +8268,20 @@ extension GetBackupVaultAccessPolicyOutputResponseBody: Swift.Decodable {
         backupVaultArn = backupVaultArnDecoded
         let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
         policy = policyDecoded
+    }
+}
+
+enum GetBackupVaultAccessPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7076,25 +8316,11 @@ extension GetBackupVaultNotificationsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetBackupVaultNotificationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetBackupVaultNotificationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetBackupVaultNotificationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetBackupVaultNotificationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetBackupVaultNotificationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.backupVaultArn = output.backupVaultArn
             self.backupVaultEvents = output.backupVaultEvents
             self.backupVaultName = output.backupVaultName
@@ -7108,7 +8334,7 @@ extension GetBackupVaultNotificationsOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct GetBackupVaultNotificationsOutputResponse: Swift.Equatable {
+public struct GetBackupVaultNotificationsOutput: Swift.Equatable {
     /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
     public var backupVaultArn: Swift.String?
     /// An array of events that indicate the status of jobs to back up resources to the backup vault.
@@ -7132,14 +8358,14 @@ public struct GetBackupVaultNotificationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetBackupVaultNotificationsOutputResponseBody: Swift.Equatable {
+struct GetBackupVaultNotificationsOutputBody: Swift.Equatable {
     let backupVaultName: Swift.String?
     let backupVaultArn: Swift.String?
     let snsTopicArn: Swift.String?
     let backupVaultEvents: [BackupClientTypes.BackupVaultEvent]?
 }
 
-extension GetBackupVaultNotificationsOutputResponseBody: Swift.Decodable {
+extension GetBackupVaultNotificationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupVaultArn = "BackupVaultArn"
         case backupVaultEvents = "BackupVaultEvents"
@@ -7166,6 +8392,20 @@ extension GetBackupVaultNotificationsOutputResponseBody: Swift.Decodable {
             }
         }
         backupVaultEvents = backupVaultEventsDecoded0
+    }
+}
+
+enum GetBackupVaultNotificationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7200,25 +8440,11 @@ extension GetLegalHoldInputBody: Swift.Decodable {
     }
 }
 
-public enum GetLegalHoldOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetLegalHoldOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetLegalHoldOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetLegalHoldOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetLegalHoldOutputBody = try responseDecoder.decode(responseBody: data)
             self.cancelDescription = output.cancelDescription
             self.cancellationDate = output.cancellationDate
             self.creationDate = output.creationDate
@@ -7244,7 +8470,7 @@ extension GetLegalHoldOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLegalHoldOutputResponse: Swift.Equatable {
+public struct GetLegalHoldOutput: Swift.Equatable {
     /// String describing the reason for removing the legal hold.
     public var cancelDescription: Swift.String?
     /// Time in number when legal hold was cancelled.
@@ -7292,7 +8518,7 @@ public struct GetLegalHoldOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetLegalHoldOutputResponseBody: Swift.Equatable {
+struct GetLegalHoldOutputBody: Swift.Equatable {
     let title: Swift.String?
     let status: BackupClientTypes.LegalHoldStatus?
     let description: Swift.String?
@@ -7305,7 +8531,7 @@ struct GetLegalHoldOutputResponseBody: Swift.Equatable {
     let recoveryPointSelection: BackupClientTypes.RecoveryPointSelection?
 }
 
-extension GetLegalHoldOutputResponseBody: Swift.Decodable {
+extension GetLegalHoldOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cancelDescription = "CancelDescription"
         case cancellationDate = "CancellationDate"
@@ -7344,6 +8570,33 @@ extension GetLegalHoldOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum GetLegalHoldOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetRecoveryPointRestoreMetadataInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let backupVaultAccountId = backupVaultAccountId {
+                let backupVaultAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
+                items.append(backupVaultAccountIdQueryItem)
+            }
+            return items
+        }
+    }
+}
+
 extension GetRecoveryPointRestoreMetadataInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let backupVaultName = backupVaultName else {
@@ -7357,6 +8610,8 @@ extension GetRecoveryPointRestoreMetadataInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetRecoveryPointRestoreMetadataInput: Swift.Equatable {
+    /// This is the account ID of the specified backup vault.
+    public var backupVaultAccountId: Swift.String?
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
     /// This member is required.
     public var backupVaultName: Swift.String?
@@ -7365,10 +8620,12 @@ public struct GetRecoveryPointRestoreMetadataInput: Swift.Equatable {
     public var recoveryPointArn: Swift.String?
 
     public init(
+        backupVaultAccountId: Swift.String? = nil,
         backupVaultName: Swift.String? = nil,
         recoveryPointArn: Swift.String? = nil
     )
     {
+        self.backupVaultAccountId = backupVaultAccountId
         self.backupVaultName = backupVaultName
         self.recoveryPointArn = recoveryPointArn
     }
@@ -7383,71 +8640,65 @@ extension GetRecoveryPointRestoreMetadataInputBody: Swift.Decodable {
     }
 }
 
-public enum GetRecoveryPointRestoreMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetRecoveryPointRestoreMetadataOutputResponse: Swift.CustomDebugStringConvertible {
+extension GetRecoveryPointRestoreMetadataOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetRecoveryPointRestoreMetadataOutputResponse(backupVaultArn: \(Swift.String(describing: backupVaultArn)), recoveryPointArn: \(Swift.String(describing: recoveryPointArn)), restoreMetadata: \"CONTENT_REDACTED\")"}
+        "GetRecoveryPointRestoreMetadataOutput(backupVaultArn: \(Swift.String(describing: backupVaultArn)), recoveryPointArn: \(Swift.String(describing: recoveryPointArn)), resourceType: \(Swift.String(describing: resourceType)), restoreMetadata: \"CONTENT_REDACTED\")"}
 }
 
-extension GetRecoveryPointRestoreMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRecoveryPointRestoreMetadataOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRecoveryPointRestoreMetadataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRecoveryPointRestoreMetadataOutputBody = try responseDecoder.decode(responseBody: data)
             self.backupVaultArn = output.backupVaultArn
             self.recoveryPointArn = output.recoveryPointArn
+            self.resourceType = output.resourceType
             self.restoreMetadata = output.restoreMetadata
         } else {
             self.backupVaultArn = nil
             self.recoveryPointArn = nil
+            self.resourceType = nil
             self.restoreMetadata = nil
         }
     }
 }
 
-public struct GetRecoveryPointRestoreMetadataOutputResponse: Swift.Equatable {
+public struct GetRecoveryPointRestoreMetadataOutput: Swift.Equatable {
     /// An ARN that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
     public var backupVaultArn: Swift.String?
     /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
     public var recoveryPointArn: Swift.String?
+    /// This is the resource type associated with the recovery point.
+    public var resourceType: Swift.String?
     /// The set of metadata key-value pairs that describe the original configuration of the backed-up resource. These values vary depending on the service that is being restored.
     public var restoreMetadata: [Swift.String:Swift.String]?
 
     public init(
         backupVaultArn: Swift.String? = nil,
         recoveryPointArn: Swift.String? = nil,
+        resourceType: Swift.String? = nil,
         restoreMetadata: [Swift.String:Swift.String]? = nil
     )
     {
         self.backupVaultArn = backupVaultArn
         self.recoveryPointArn = recoveryPointArn
+        self.resourceType = resourceType
         self.restoreMetadata = restoreMetadata
     }
 }
 
-struct GetRecoveryPointRestoreMetadataOutputResponseBody: Swift.Equatable {
+struct GetRecoveryPointRestoreMetadataOutputBody: Swift.Equatable {
     let backupVaultArn: Swift.String?
     let recoveryPointArn: Swift.String?
     let restoreMetadata: [Swift.String:Swift.String]?
+    let resourceType: Swift.String?
 }
 
-extension GetRecoveryPointRestoreMetadataOutputResponseBody: Swift.Decodable {
+extension GetRecoveryPointRestoreMetadataOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupVaultArn = "BackupVaultArn"
         case recoveryPointArn = "RecoveryPointArn"
+        case resourceType = "ResourceType"
         case restoreMetadata = "RestoreMetadata"
     }
 
@@ -7468,6 +8719,433 @@ extension GetRecoveryPointRestoreMetadataOutputResponseBody: Swift.Decodable {
             }
         }
         restoreMetadata = restoreMetadataDecoded0
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+    }
+}
+
+enum GetRecoveryPointRestoreMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetRestoreJobMetadataInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let restoreJobId = restoreJobId else {
+            return nil
+        }
+        return "/restore-jobs/\(restoreJobId.urlPercentEncoding())/metadata"
+    }
+}
+
+public struct GetRestoreJobMetadataInput: Swift.Equatable {
+    /// This is a unique identifier of a restore job within Backup.
+    /// This member is required.
+    public var restoreJobId: Swift.String?
+
+    public init(
+        restoreJobId: Swift.String? = nil
+    )
+    {
+        self.restoreJobId = restoreJobId
+    }
+}
+
+struct GetRestoreJobMetadataInputBody: Swift.Equatable {
+}
+
+extension GetRestoreJobMetadataInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetRestoreJobMetadataOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetRestoreJobMetadataOutput(restoreJobId: \(Swift.String(describing: restoreJobId)), metadata: \"CONTENT_REDACTED\")"}
+}
+
+extension GetRestoreJobMetadataOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetRestoreJobMetadataOutputBody = try responseDecoder.decode(responseBody: data)
+            self.metadata = output.metadata
+            self.restoreJobId = output.restoreJobId
+        } else {
+            self.metadata = nil
+            self.restoreJobId = nil
+        }
+    }
+}
+
+public struct GetRestoreJobMetadataOutput: Swift.Equatable {
+    /// This contains the metadata of the specified backup job.
+    public var metadata: [Swift.String:Swift.String]?
+    /// This is a unique identifier of a restore job within Backup.
+    public var restoreJobId: Swift.String?
+
+    public init(
+        metadata: [Swift.String:Swift.String]? = nil,
+        restoreJobId: Swift.String? = nil
+    )
+    {
+        self.metadata = metadata
+        self.restoreJobId = restoreJobId
+    }
+}
+
+struct GetRestoreJobMetadataOutputBody: Swift.Equatable {
+    let restoreJobId: Swift.String?
+    let metadata: [Swift.String:Swift.String]?
+}
+
+extension GetRestoreJobMetadataOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metadata = "Metadata"
+        case restoreJobId = "RestoreJobId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let restoreJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreJobId)
+        restoreJobId = restoreJobIdDecoded
+        let metadataContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .metadata)
+        var metadataDecoded0: [Swift.String:Swift.String]? = nil
+        if let metadataContainer = metadataContainer {
+            metadataDecoded0 = [Swift.String:Swift.String]()
+            for (key0, metadatavalue0) in metadataContainer {
+                if let metadatavalue0 = metadatavalue0 {
+                    metadataDecoded0?[key0] = metadatavalue0
+                }
+            }
+        }
+        metadata = metadataDecoded0
+    }
+}
+
+enum GetRestoreJobMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetRestoreTestingInferredMetadataInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let backupVaultName = backupVaultName else {
+                let message = "Creating a URL Query Item failed. backupVaultName is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let backupVaultNameQueryItem = ClientRuntime.URLQueryItem(name: "BackupVaultName".urlPercentEncoding(), value: Swift.String(backupVaultName).urlPercentEncoding())
+            items.append(backupVaultNameQueryItem)
+            guard let recoveryPointArn = recoveryPointArn else {
+                let message = "Creating a URL Query Item failed. recoveryPointArn is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let recoveryPointArnQueryItem = ClientRuntime.URLQueryItem(name: "RecoveryPointArn".urlPercentEncoding(), value: Swift.String(recoveryPointArn).urlPercentEncoding())
+            items.append(recoveryPointArnQueryItem)
+            if let backupVaultAccountId = backupVaultAccountId {
+                let backupVaultAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "BackupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
+                items.append(backupVaultAccountIdQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension GetRestoreTestingInferredMetadataInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/restore-testing/inferred-metadata"
+    }
+}
+
+public struct GetRestoreTestingInferredMetadataInput: Swift.Equatable {
+    /// This is the account ID of the specified backup vault.
+    public var backupVaultAccountId: Swift.String?
+    /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web ServicesRegion where they are created. They consist of letters, numbers, and hyphens.
+    /// This member is required.
+    public var backupVaultName: Swift.String?
+    /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+    /// This member is required.
+    public var recoveryPointArn: Swift.String?
+
+    public init(
+        backupVaultAccountId: Swift.String? = nil,
+        backupVaultName: Swift.String? = nil,
+        recoveryPointArn: Swift.String? = nil
+    )
+    {
+        self.backupVaultAccountId = backupVaultAccountId
+        self.backupVaultName = backupVaultName
+        self.recoveryPointArn = recoveryPointArn
+    }
+}
+
+struct GetRestoreTestingInferredMetadataInputBody: Swift.Equatable {
+}
+
+extension GetRestoreTestingInferredMetadataInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetRestoreTestingInferredMetadataOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetRestoreTestingInferredMetadataOutputBody = try responseDecoder.decode(responseBody: data)
+            self.inferredMetadata = output.inferredMetadata
+        } else {
+            self.inferredMetadata = nil
+        }
+    }
+}
+
+public struct GetRestoreTestingInferredMetadataOutput: Swift.Equatable {
+    /// This is a string map of the metadata inferred from the request.
+    /// This member is required.
+    public var inferredMetadata: [Swift.String:Swift.String]?
+
+    public init(
+        inferredMetadata: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.inferredMetadata = inferredMetadata
+    }
+}
+
+struct GetRestoreTestingInferredMetadataOutputBody: Swift.Equatable {
+    let inferredMetadata: [Swift.String:Swift.String]?
+}
+
+extension GetRestoreTestingInferredMetadataOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case inferredMetadata = "InferredMetadata"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let inferredMetadataContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .inferredMetadata)
+        var inferredMetadataDecoded0: [Swift.String:Swift.String]? = nil
+        if let inferredMetadataContainer = inferredMetadataContainer {
+            inferredMetadataDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in inferredMetadataContainer {
+                if let string0 = string0 {
+                    inferredMetadataDecoded0?[key0] = string0
+                }
+            }
+        }
+        inferredMetadata = inferredMetadataDecoded0
+    }
+}
+
+enum GetRestoreTestingInferredMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetRestoreTestingPlanInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let restoreTestingPlanName = restoreTestingPlanName else {
+            return nil
+        }
+        return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())"
+    }
+}
+
+public struct GetRestoreTestingPlanInput: Swift.Equatable {
+    /// Required unique name of the restore testing plan.
+    /// This member is required.
+    public var restoreTestingPlanName: Swift.String?
+
+    public init(
+        restoreTestingPlanName: Swift.String? = nil
+    )
+    {
+        self.restoreTestingPlanName = restoreTestingPlanName
+    }
+}
+
+struct GetRestoreTestingPlanInputBody: Swift.Equatable {
+}
+
+extension GetRestoreTestingPlanInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetRestoreTestingPlanOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetRestoreTestingPlanOutputBody = try responseDecoder.decode(responseBody: data)
+            self.restoreTestingPlan = output.restoreTestingPlan
+        } else {
+            self.restoreTestingPlan = nil
+        }
+    }
+}
+
+public struct GetRestoreTestingPlanOutput: Swift.Equatable {
+    /// Specifies the body of a restore testing plan. Includes RestoreTestingPlanName.
+    /// This member is required.
+    public var restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForGet?
+
+    public init(
+        restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForGet? = nil
+    )
+    {
+        self.restoreTestingPlan = restoreTestingPlan
+    }
+}
+
+struct GetRestoreTestingPlanOutputBody: Swift.Equatable {
+    let restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForGet?
+}
+
+extension GetRestoreTestingPlanOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case restoreTestingPlan = "RestoreTestingPlan"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let restoreTestingPlanDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreTestingPlanForGet.self, forKey: .restoreTestingPlan)
+        restoreTestingPlan = restoreTestingPlanDecoded
+    }
+}
+
+enum GetRestoreTestingPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetRestoreTestingSelectionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let restoreTestingPlanName = restoreTestingPlanName else {
+            return nil
+        }
+        guard let restoreTestingSelectionName = restoreTestingSelectionName else {
+            return nil
+        }
+        return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())/selections/\(restoreTestingSelectionName.urlPercentEncoding())"
+    }
+}
+
+public struct GetRestoreTestingSelectionInput: Swift.Equatable {
+    /// Required unique name of the restore testing plan.
+    /// This member is required.
+    public var restoreTestingPlanName: Swift.String?
+    /// Required unique name of the restore testing selection.
+    /// This member is required.
+    public var restoreTestingSelectionName: Swift.String?
+
+    public init(
+        restoreTestingPlanName: Swift.String? = nil,
+        restoreTestingSelectionName: Swift.String? = nil
+    )
+    {
+        self.restoreTestingPlanName = restoreTestingPlanName
+        self.restoreTestingSelectionName = restoreTestingSelectionName
+    }
+}
+
+struct GetRestoreTestingSelectionInputBody: Swift.Equatable {
+}
+
+extension GetRestoreTestingSelectionInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetRestoreTestingSelectionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetRestoreTestingSelectionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.restoreTestingSelection = output.restoreTestingSelection
+        } else {
+            self.restoreTestingSelection = nil
+        }
+    }
+}
+
+public struct GetRestoreTestingSelectionOutput: Swift.Equatable {
+    /// Unique name of the restore testing selection.
+    /// This member is required.
+    public var restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForGet?
+
+    public init(
+        restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForGet? = nil
+    )
+    {
+        self.restoreTestingSelection = restoreTestingSelection
+    }
+}
+
+struct GetRestoreTestingSelectionOutputBody: Swift.Equatable {
+    let restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForGet?
+}
+
+extension GetRestoreTestingSelectionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case restoreTestingSelection = "RestoreTestingSelection"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let restoreTestingSelectionDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreTestingSelectionForGet.self, forKey: .restoreTestingSelection)
+        restoreTestingSelection = restoreTestingSelectionDecoded
+    }
+}
+
+enum GetRestoreTestingSelectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7491,22 +9169,11 @@ extension GetSupportedResourceTypesInputBody: Swift.Decodable {
     }
 }
 
-public enum GetSupportedResourceTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetSupportedResourceTypesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSupportedResourceTypesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSupportedResourceTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSupportedResourceTypesOutputBody = try responseDecoder.decode(responseBody: data)
             self.resourceTypes = output.resourceTypes
         } else {
             self.resourceTypes = nil
@@ -7514,7 +9181,7 @@ extension GetSupportedResourceTypesOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct GetSupportedResourceTypesOutputResponse: Swift.Equatable {
+public struct GetSupportedResourceTypesOutput: Swift.Equatable {
     /// Contains a string with the supported Amazon Web Services resource types:
     ///
     /// * Aurora for Amazon Aurora
@@ -7546,11 +9213,11 @@ public struct GetSupportedResourceTypesOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSupportedResourceTypesOutputResponseBody: Swift.Equatable {
+struct GetSupportedResourceTypesOutputBody: Swift.Equatable {
     let resourceTypes: [Swift.String]?
 }
 
-extension GetSupportedResourceTypesOutputResponseBody: Swift.Decodable {
+extension GetSupportedResourceTypesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceTypes = "ResourceTypes"
     }
@@ -7568,6 +9235,17 @@ extension GetSupportedResourceTypesOutputResponseBody: Swift.Decodable {
             }
         }
         resourceTypes = resourceTypesDecoded0
+    }
+}
+
+enum GetSupportedResourceTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7823,6 +9501,53 @@ extension InvalidResourceStateExceptionBody: Swift.Decodable {
     }
 }
 
+extension BackupClientTypes.KeyValue: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key = "Key"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// Pair of two related strings. Allowed characters are letters, white space, and numbers that can be represented in UTF-8 and the following characters:  + - = . _ : /
+    public struct KeyValue: Swift.Equatable {
+        /// The tag key (String). The key can't start with aws:. Length Constraints: Minimum length of 1. Maximum length of 128. Pattern: ^(?![aA]{1}[wW]{1}[sS]{1}:)([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value of the key. Length Constraints: Maximum length of 256. Pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
+}
+
 extension BackupClientTypes.LegalHold: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cancellationDate = "CancellationDate"
@@ -7960,6 +9685,7 @@ extension BackupClientTypes.Lifecycle: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deleteAfterDays = "DeleteAfterDays"
         case moveToColdStorageAfterDays = "MoveToColdStorageAfterDays"
+        case optInToArchiveForSupportedResources = "OptInToArchiveForSupportedResources"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -7970,6 +9696,9 @@ extension BackupClientTypes.Lifecycle: Swift.Codable {
         if let moveToColdStorageAfterDays = self.moveToColdStorageAfterDays {
             try encodeContainer.encode(moveToColdStorageAfterDays, forKey: .moveToColdStorageAfterDays)
         }
+        if let optInToArchiveForSupportedResources = self.optInToArchiveForSupportedResources {
+            try encodeContainer.encode(optInToArchiveForSupportedResources, forKey: .optInToArchiveForSupportedResources)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -7978,6 +9707,8 @@ extension BackupClientTypes.Lifecycle: Swift.Codable {
         moveToColdStorageAfterDays = moveToColdStorageAfterDaysDecoded
         let deleteAfterDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .deleteAfterDays)
         deleteAfterDays = deleteAfterDaysDecoded
+        let optInToArchiveForSupportedResourcesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .optInToArchiveForSupportedResources)
+        optInToArchiveForSupportedResources = optInToArchiveForSupportedResourcesDecoded
     }
 }
 
@@ -7988,14 +9719,18 @@ extension BackupClientTypes {
         public var deleteAfterDays: Swift.Int?
         /// Specifies the number of days after creation that a recovery point is moved to cold storage.
         public var moveToColdStorageAfterDays: Swift.Int?
+        /// Optional Boolean. If this is true, this setting will instruct your backup plan to transition supported resources to archive (cold) storage tier in accordance with your lifecycle settings.
+        public var optInToArchiveForSupportedResources: Swift.Bool?
 
         public init(
             deleteAfterDays: Swift.Int? = nil,
-            moveToColdStorageAfterDays: Swift.Int? = nil
+            moveToColdStorageAfterDays: Swift.Int? = nil,
+            optInToArchiveForSupportedResources: Swift.Bool? = nil
         )
         {
             self.deleteAfterDays = deleteAfterDays
             self.moveToColdStorageAfterDays = moveToColdStorageAfterDays
+            self.optInToArchiveForSupportedResources = optInToArchiveForSupportedResources
         }
     }
 
@@ -8085,14 +9820,191 @@ extension LimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
+extension ListBackupJobSummariesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let aggregationPeriod = aggregationPeriod {
+                let aggregationPeriodQueryItem = ClientRuntime.URLQueryItem(name: "AggregationPeriod".urlPercentEncoding(), value: Swift.String(aggregationPeriod.rawValue).urlPercentEncoding())
+                items.append(aggregationPeriodQueryItem)
+            }
+            if let accountId = accountId {
+                let accountIdQueryItem = ClientRuntime.URLQueryItem(name: "AccountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
+                items.append(accountIdQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let state = state {
+                let stateQueryItem = ClientRuntime.URLQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+                items.append(stateQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let resourceType = resourceType {
+                let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "ResourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
+                items.append(resourceTypeQueryItem)
+            }
+            if let messageCategory = messageCategory {
+                let messageCategoryQueryItem = ClientRuntime.URLQueryItem(name: "MessageCategory".urlPercentEncoding(), value: Swift.String(messageCategory).urlPercentEncoding())
+                items.append(messageCategoryQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListBackupJobSummariesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/audit/backup-job-summaries"
+    }
+}
+
+public struct ListBackupJobSummariesInput: Swift.Equatable {
+    /// Returns the job count for the specified account. If the request is sent from a member account or an account not part of Amazon Web Services Organizations, jobs within requestor's account will be returned. Root, admin, and delegated administrator accounts can use the value ANY to return job counts from every account in the organization. AGGREGATE_ALL aggregates job counts from all accounts within the authenticated organization, then returns the sum.
+    public var accountId: Swift.String?
+    /// This is the period that sets the boundaries for returned results. Acceptable values include
+    ///
+    /// * ONE_DAY for daily job count for the prior 14 days.
+    ///
+    /// * SEVEN_DAYS for the aggregated job count for the prior 7 days.
+    ///
+    /// * FOURTEEN_DAYS for aggregated job count for prior 14 days.
+    public var aggregationPeriod: BackupClientTypes.AggregationPeriod?
+    /// This parameter sets the maximum number of items to be returned. The value is an integer. Range of accepted values is from 1 to 500.
+    public var maxResults: Swift.Int?
+    /// This parameter returns the job count for the specified message category. Example accepted strings include AccessDenied, Success, and InvalidParameters. See [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) for a list of accepted MessageCategory strings. The the value ANY returns count of all message categories. AGGREGATE_ALL aggregates job counts for all message categories and returns the sum.
+    public var messageCategory: Swift.String?
+    /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+    /// Returns the job count for the specified resource type. Use request GetSupportedResourceTypes to obtain strings for supported resource types. The the value ANY returns count of all resource types. AGGREGATE_ALL aggregates job counts for all resource types and returns the sum. The type of Amazon Web Services resource to be backed up; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
+    public var resourceType: Swift.String?
+    /// This parameter returns the job count for jobs with the specified state. The the value ANY returns count of all states. AGGREGATE_ALL aggregates job counts for all states and returns the sum.
+    public var state: BackupClientTypes.BackupJobStatus?
+
+    public init(
+        accountId: Swift.String? = nil,
+        aggregationPeriod: BackupClientTypes.AggregationPeriod? = nil,
+        maxResults: Swift.Int? = nil,
+        messageCategory: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        resourceType: Swift.String? = nil,
+        state: BackupClientTypes.BackupJobStatus? = nil
+    )
+    {
+        self.accountId = accountId
+        self.aggregationPeriod = aggregationPeriod
+        self.maxResults = maxResults
+        self.messageCategory = messageCategory
+        self.nextToken = nextToken
+        self.resourceType = resourceType
+        self.state = state
+    }
+}
+
+struct ListBackupJobSummariesInputBody: Swift.Equatable {
+}
+
+extension ListBackupJobSummariesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListBackupJobSummariesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListBackupJobSummariesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.aggregationPeriod = output.aggregationPeriod
+            self.backupJobSummaries = output.backupJobSummaries
+            self.nextToken = output.nextToken
+        } else {
+            self.aggregationPeriod = nil
+            self.backupJobSummaries = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListBackupJobSummariesOutput: Swift.Equatable {
+    /// This is the period that sets the boundaries for returned results.
+    ///
+    /// * ONE_DAY for daily job count for the prior 14 days.
+    ///
+    /// * SEVEN_DAYS for the aggregated job count for the prior 7 days.
+    ///
+    /// * FOURTEEN_DAYS for aggregated job count for prior 14 days.
+    public var aggregationPeriod: Swift.String?
+    /// This request returns a summary that contains Region, Account, State, ResourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
+    public var backupJobSummaries: [BackupClientTypes.BackupJobSummary]?
+    /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+
+    public init(
+        aggregationPeriod: Swift.String? = nil,
+        backupJobSummaries: [BackupClientTypes.BackupJobSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.aggregationPeriod = aggregationPeriod
+        self.backupJobSummaries = backupJobSummaries
+        self.nextToken = nextToken
+    }
+}
+
+struct ListBackupJobSummariesOutputBody: Swift.Equatable {
+    let backupJobSummaries: [BackupClientTypes.BackupJobSummary]?
+    let aggregationPeriod: Swift.String?
+    let nextToken: Swift.String?
+}
+
+extension ListBackupJobSummariesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregationPeriod = "AggregationPeriod"
+        case backupJobSummaries = "BackupJobSummaries"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let backupJobSummariesContainer = try containerValues.decodeIfPresent([BackupClientTypes.BackupJobSummary?].self, forKey: .backupJobSummaries)
+        var backupJobSummariesDecoded0:[BackupClientTypes.BackupJobSummary]? = nil
+        if let backupJobSummariesContainer = backupJobSummariesContainer {
+            backupJobSummariesDecoded0 = [BackupClientTypes.BackupJobSummary]()
+            for structure0 in backupJobSummariesContainer {
+                if let structure0 = structure0 {
+                    backupJobSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        backupJobSummaries = backupJobSummariesDecoded0
+        let aggregationPeriodDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .aggregationPeriod)
+        aggregationPeriod = aggregationPeriodDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListBackupJobSummariesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListBackupJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if let byCreatedBefore = byCreatedBefore {
-                let byCreatedBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
-                items.append(byCreatedBeforeQueryItem)
-            }
             if let byResourceType = byResourceType {
                 let byResourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
                 items.append(byResourceTypeQueryItem)
@@ -8101,10 +10013,6 @@ extension ListBackupJobsInput: ClientRuntime.QueryItemProvider {
                 let byBackupVaultNameQueryItem = ClientRuntime.URLQueryItem(name: "backupVaultName".urlPercentEncoding(), value: Swift.String(byBackupVaultName).urlPercentEncoding())
                 items.append(byBackupVaultNameQueryItem)
             }
-            if let byCompleteAfter = byCompleteAfter {
-                let byCompleteAfterQueryItem = ClientRuntime.URLQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
-                items.append(byCompleteAfterQueryItem)
-            }
             if let nextToken = nextToken {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
@@ -8112,10 +10020,6 @@ extension ListBackupJobsInput: ClientRuntime.QueryItemProvider {
             if let byResourceArn = byResourceArn {
                 let byResourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
                 items.append(byResourceArnQueryItem)
-            }
-            if let byParentJobId = byParentJobId {
-                let byParentJobIdQueryItem = ClientRuntime.URLQueryItem(name: "parentJobId".urlPercentEncoding(), value: Swift.String(byParentJobId).urlPercentEncoding())
-                items.append(byParentJobIdQueryItem)
             }
             if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
@@ -8129,13 +10033,29 @@ extension ListBackupJobsInput: ClientRuntime.QueryItemProvider {
                 let byAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(byAccountId).urlPercentEncoding())
                 items.append(byAccountIdQueryItem)
             }
-            if let byCompleteBefore = byCompleteBefore {
-                let byCompleteBeforeQueryItem = ClientRuntime.URLQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
-                items.append(byCompleteBeforeQueryItem)
-            }
             if let byCreatedAfter = byCreatedAfter {
                 let byCreatedAfterQueryItem = ClientRuntime.URLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
                 items.append(byCreatedAfterQueryItem)
+            }
+            if let byCreatedBefore = byCreatedBefore {
+                let byCreatedBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
+                items.append(byCreatedBeforeQueryItem)
+            }
+            if let byCompleteAfter = byCompleteAfter {
+                let byCompleteAfterQueryItem = ClientRuntime.URLQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
+                items.append(byCompleteAfterQueryItem)
+            }
+            if let byParentJobId = byParentJobId {
+                let byParentJobIdQueryItem = ClientRuntime.URLQueryItem(name: "parentJobId".urlPercentEncoding(), value: Swift.String(byParentJobId).urlPercentEncoding())
+                items.append(byParentJobIdQueryItem)
+            }
+            if let byMessageCategory = byMessageCategory {
+                let byMessageCategoryQueryItem = ClientRuntime.URLQueryItem(name: "messageCategory".urlPercentEncoding(), value: Swift.String(byMessageCategory).urlPercentEncoding())
+                items.append(byMessageCategoryQueryItem)
+            }
+            if let byCompleteBefore = byCompleteBefore {
+                let byCompleteBeforeQueryItem = ClientRuntime.URLQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
+                items.append(byCompleteBeforeQueryItem)
             }
             return items
         }
@@ -8161,6 +10081,8 @@ public struct ListBackupJobsInput: Swift.Equatable {
     public var byCreatedAfter: ClientRuntime.Date?
     /// Returns only backup jobs that were created before the specified date.
     public var byCreatedBefore: ClientRuntime.Date?
+    /// This is an optional parameter that can be used to filter out jobs with a MessageCategory which matches the value you input. Example strings may include AccessDenied, SUCCESS, AGGREGATE_ALL, and InvalidParameters. View [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) The wildcard () returns count of all message categories. AGGREGATE_ALL aggregates job counts for all message categories and returns the sum.
+    public var byMessageCategory: Swift.String?
     /// This is a filter to list child (nested) jobs based on parent job ID.
     public var byParentJobId: Swift.String?
     /// Returns only backup jobs that match the specified resource Amazon Resource Name (ARN).
@@ -8168,6 +10090,8 @@ public struct ListBackupJobsInput: Swift.Equatable {
     /// Returns only backup jobs for the specified resources:
     ///
     /// * Aurora for Amazon Aurora
+    ///
+    /// * CloudFormation for CloudFormation
     ///
     /// * DocumentDB for Amazon DocumentDB (with MongoDB compatibility)
     ///
@@ -8183,11 +10107,17 @@ public struct ListBackupJobsInput: Swift.Equatable {
     ///
     /// * Neptune for Amazon Neptune
     ///
+    /// * Redshift for Amazon Redshift
+    ///
     /// * RDS for Amazon Relational Database Service
+    ///
+    /// * SAP HANA on Amazon EC2 for SAP HANA databases
     ///
     /// * Storage Gateway for Storage Gateway
     ///
     /// * S3 for Amazon S3
+    ///
+    /// * Timestream for Amazon Timestream
     ///
     /// * VirtualMachine for virtual machines
     public var byResourceType: Swift.String?
@@ -8195,7 +10125,7 @@ public struct ListBackupJobsInput: Swift.Equatable {
     public var byState: BackupClientTypes.BackupJobState?
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -8205,6 +10135,7 @@ public struct ListBackupJobsInput: Swift.Equatable {
         byCompleteBefore: ClientRuntime.Date? = nil,
         byCreatedAfter: ClientRuntime.Date? = nil,
         byCreatedBefore: ClientRuntime.Date? = nil,
+        byMessageCategory: Swift.String? = nil,
         byParentJobId: Swift.String? = nil,
         byResourceArn: Swift.String? = nil,
         byResourceType: Swift.String? = nil,
@@ -8219,6 +10150,7 @@ public struct ListBackupJobsInput: Swift.Equatable {
         self.byCompleteBefore = byCompleteBefore
         self.byCreatedAfter = byCreatedAfter
         self.byCreatedBefore = byCreatedBefore
+        self.byMessageCategory = byMessageCategory
         self.byParentJobId = byParentJobId
         self.byResourceArn = byResourceArn
         self.byResourceType = byResourceType
@@ -8237,23 +10169,11 @@ extension ListBackupJobsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListBackupJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListBackupJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListBackupJobsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListBackupJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListBackupJobsOutputBody = try responseDecoder.decode(responseBody: data)
             self.backupJobs = output.backupJobs
             self.nextToken = output.nextToken
         } else {
@@ -8263,10 +10183,10 @@ extension ListBackupJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBackupJobsOutputResponse: Swift.Equatable {
+public struct ListBackupJobsOutput: Swift.Equatable {
     /// An array of structures containing metadata about your backup jobs returned in JSON format.
     public var backupJobs: [BackupClientTypes.BackupJob]?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -8279,12 +10199,12 @@ public struct ListBackupJobsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListBackupJobsOutputResponseBody: Swift.Equatable {
+struct ListBackupJobsOutputBody: Swift.Equatable {
     let backupJobs: [BackupClientTypes.BackupJob]?
     let nextToken: Swift.String?
 }
 
-extension ListBackupJobsOutputResponseBody: Swift.Decodable {
+extension ListBackupJobsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupJobs = "BackupJobs"
         case nextToken = "NextToken"
@@ -8305,6 +10225,18 @@ extension ListBackupJobsOutputResponseBody: Swift.Decodable {
         backupJobs = backupJobsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListBackupJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8334,7 +10266,7 @@ extension ListBackupPlanTemplatesInput: ClientRuntime.URLPathProvider {
 public struct ListBackupPlanTemplatesInput: Swift.Equatable {
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -8356,25 +10288,11 @@ extension ListBackupPlanTemplatesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListBackupPlanTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListBackupPlanTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListBackupPlanTemplatesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListBackupPlanTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListBackupPlanTemplatesOutputBody = try responseDecoder.decode(responseBody: data)
             self.backupPlanTemplatesList = output.backupPlanTemplatesList
             self.nextToken = output.nextToken
         } else {
@@ -8384,10 +10302,10 @@ extension ListBackupPlanTemplatesOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListBackupPlanTemplatesOutputResponse: Swift.Equatable {
+public struct ListBackupPlanTemplatesOutput: Swift.Equatable {
     /// An array of template list items containing metadata about your saved templates.
     public var backupPlanTemplatesList: [BackupClientTypes.BackupPlanTemplatesListMember]?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -8400,12 +10318,12 @@ public struct ListBackupPlanTemplatesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListBackupPlanTemplatesOutputResponseBody: Swift.Equatable {
+struct ListBackupPlanTemplatesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let backupPlanTemplatesList: [BackupClientTypes.BackupPlanTemplatesListMember]?
 }
 
-extension ListBackupPlanTemplatesOutputResponseBody: Swift.Decodable {
+extension ListBackupPlanTemplatesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupPlanTemplatesList = "BackupPlanTemplatesList"
         case nextToken = "NextToken"
@@ -8426,6 +10344,20 @@ extension ListBackupPlanTemplatesOutputResponseBody: Swift.Decodable {
             }
         }
         backupPlanTemplatesList = backupPlanTemplatesListDecoded0
+    }
+}
+
+enum ListBackupPlanTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8461,7 +10393,7 @@ public struct ListBackupPlanVersionsInput: Swift.Equatable {
     public var backupPlanId: Swift.String?
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -8485,25 +10417,11 @@ extension ListBackupPlanVersionsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListBackupPlanVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListBackupPlanVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListBackupPlanVersionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListBackupPlanVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListBackupPlanVersionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.backupPlanVersionsList = output.backupPlanVersionsList
             self.nextToken = output.nextToken
         } else {
@@ -8513,10 +10431,10 @@ extension ListBackupPlanVersionsOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListBackupPlanVersionsOutputResponse: Swift.Equatable {
+public struct ListBackupPlanVersionsOutput: Swift.Equatable {
     /// An array of version list items containing metadata about your backup plans.
     public var backupPlanVersionsList: [BackupClientTypes.BackupPlansListMember]?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -8529,12 +10447,12 @@ public struct ListBackupPlanVersionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListBackupPlanVersionsOutputResponseBody: Swift.Equatable {
+struct ListBackupPlanVersionsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let backupPlanVersionsList: [BackupClientTypes.BackupPlansListMember]?
 }
 
-extension ListBackupPlanVersionsOutputResponseBody: Swift.Decodable {
+extension ListBackupPlanVersionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupPlanVersionsList = "BackupPlanVersionsList"
         case nextToken = "NextToken"
@@ -8555,6 +10473,20 @@ extension ListBackupPlanVersionsOutputResponseBody: Swift.Decodable {
             }
         }
         backupPlanVersionsList = backupPlanVersionsListDecoded0
+    }
+}
+
+enum ListBackupPlanVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8590,7 +10522,7 @@ public struct ListBackupPlansInput: Swift.Equatable {
     public var includeDeleted: Swift.Bool?
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -8614,25 +10546,11 @@ extension ListBackupPlansInputBody: Swift.Decodable {
     }
 }
 
-public enum ListBackupPlansOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListBackupPlansOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListBackupPlansOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListBackupPlansOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListBackupPlansOutputBody = try responseDecoder.decode(responseBody: data)
             self.backupPlansList = output.backupPlansList
             self.nextToken = output.nextToken
         } else {
@@ -8642,10 +10560,10 @@ extension ListBackupPlansOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBackupPlansOutputResponse: Swift.Equatable {
+public struct ListBackupPlansOutput: Swift.Equatable {
     /// An array of backup plan list items containing metadata about your saved backup plans.
     public var backupPlansList: [BackupClientTypes.BackupPlansListMember]?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -8658,12 +10576,12 @@ public struct ListBackupPlansOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListBackupPlansOutputResponseBody: Swift.Equatable {
+struct ListBackupPlansOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let backupPlansList: [BackupClientTypes.BackupPlansListMember]?
 }
 
-extension ListBackupPlansOutputResponseBody: Swift.Decodable {
+extension ListBackupPlansOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupPlansList = "BackupPlansList"
         case nextToken = "NextToken"
@@ -8684,6 +10602,20 @@ extension ListBackupPlansOutputResponseBody: Swift.Decodable {
             }
         }
         backupPlansList = backupPlansListDecoded0
+    }
+}
+
+enum ListBackupPlansOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8719,7 +10651,7 @@ public struct ListBackupSelectionsInput: Swift.Equatable {
     public var backupPlanId: Swift.String?
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -8743,25 +10675,11 @@ extension ListBackupSelectionsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListBackupSelectionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListBackupSelectionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListBackupSelectionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListBackupSelectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListBackupSelectionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.backupSelectionsList = output.backupSelectionsList
             self.nextToken = output.nextToken
         } else {
@@ -8771,10 +10689,10 @@ extension ListBackupSelectionsOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListBackupSelectionsOutputResponse: Swift.Equatable {
+public struct ListBackupSelectionsOutput: Swift.Equatable {
     /// An array of backup selection list items containing metadata about each resource in the list.
     public var backupSelectionsList: [BackupClientTypes.BackupSelectionsListMember]?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -8787,12 +10705,12 @@ public struct ListBackupSelectionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListBackupSelectionsOutputResponseBody: Swift.Equatable {
+struct ListBackupSelectionsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let backupSelectionsList: [BackupClientTypes.BackupSelectionsListMember]?
 }
 
-extension ListBackupSelectionsOutputResponseBody: Swift.Decodable {
+extension ListBackupSelectionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupSelectionsList = "BackupSelectionsList"
         case nextToken = "NextToken"
@@ -8816,6 +10734,20 @@ extension ListBackupSelectionsOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListBackupSelectionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListBackupVaultsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -8824,9 +10756,17 @@ extension ListBackupVaultsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
+            if let byShared = byShared {
+                let bySharedQueryItem = ClientRuntime.URLQueryItem(name: "shared".urlPercentEncoding(), value: Swift.String(byShared).urlPercentEncoding())
+                items.append(bySharedQueryItem)
+            }
             if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
+            }
+            if let byVaultType = byVaultType {
+                let byVaultTypeQueryItem = ClientRuntime.URLQueryItem(name: "vaultType".urlPercentEncoding(), value: Swift.String(byVaultType.rawValue).urlPercentEncoding())
+                items.append(byVaultTypeQueryItem)
             }
             return items
         }
@@ -8840,16 +10780,24 @@ extension ListBackupVaultsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListBackupVaultsInput: Swift.Equatable {
+    /// This parameter will sort the list of vaults by shared vaults.
+    public var byShared: Swift.Bool?
+    /// This parameter will sort the list of vaults by vault type.
+    public var byVaultType: BackupClientTypes.VaultType?
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
+        byShared: Swift.Bool? = nil,
+        byVaultType: BackupClientTypes.VaultType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
+        self.byShared = byShared
+        self.byVaultType = byVaultType
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -8864,25 +10812,11 @@ extension ListBackupVaultsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListBackupVaultsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListBackupVaultsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListBackupVaultsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListBackupVaultsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListBackupVaultsOutputBody = try responseDecoder.decode(responseBody: data)
             self.backupVaultList = output.backupVaultList
             self.nextToken = output.nextToken
         } else {
@@ -8892,10 +10826,10 @@ extension ListBackupVaultsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBackupVaultsOutputResponse: Swift.Equatable {
+public struct ListBackupVaultsOutput: Swift.Equatable {
     /// An array of backup vault list members containing vault metadata, including Amazon Resource Name (ARN), display name, creation date, number of saved recovery points, and encryption information if the resources saved in the backup vault are encrypted.
     public var backupVaultList: [BackupClientTypes.BackupVaultListMember]?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -8908,12 +10842,12 @@ public struct ListBackupVaultsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListBackupVaultsOutputResponseBody: Swift.Equatable {
+struct ListBackupVaultsOutputBody: Swift.Equatable {
     let backupVaultList: [BackupClientTypes.BackupVaultListMember]?
     let nextToken: Swift.String?
 }
 
-extension ListBackupVaultsOutputResponseBody: Swift.Decodable {
+extension ListBackupVaultsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupVaultList = "BackupVaultList"
         case nextToken = "NextToken"
@@ -8937,25 +10871,208 @@ extension ListBackupVaultsOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListBackupVaultsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListCopyJobSummariesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let aggregationPeriod = aggregationPeriod {
+                let aggregationPeriodQueryItem = ClientRuntime.URLQueryItem(name: "AggregationPeriod".urlPercentEncoding(), value: Swift.String(aggregationPeriod.rawValue).urlPercentEncoding())
+                items.append(aggregationPeriodQueryItem)
+            }
+            if let accountId = accountId {
+                let accountIdQueryItem = ClientRuntime.URLQueryItem(name: "AccountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
+                items.append(accountIdQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let state = state {
+                let stateQueryItem = ClientRuntime.URLQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+                items.append(stateQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let resourceType = resourceType {
+                let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "ResourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
+                items.append(resourceTypeQueryItem)
+            }
+            if let messageCategory = messageCategory {
+                let messageCategoryQueryItem = ClientRuntime.URLQueryItem(name: "MessageCategory".urlPercentEncoding(), value: Swift.String(messageCategory).urlPercentEncoding())
+                items.append(messageCategoryQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListCopyJobSummariesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/audit/copy-job-summaries"
+    }
+}
+
+public struct ListCopyJobSummariesInput: Swift.Equatable {
+    /// Returns the job count for the specified account. If the request is sent from a member account or an account not part of Amazon Web Services Organizations, jobs within requestor's account will be returned. Root, admin, and delegated administrator accounts can use the value ANY to return job counts from every account in the organization. AGGREGATE_ALL aggregates job counts from all accounts within the authenticated organization, then returns the sum.
+    public var accountId: Swift.String?
+    /// This is the period that sets the boundaries for returned results.
+    ///
+    /// * ONE_DAY for daily job count for the prior 14 days.
+    ///
+    /// * SEVEN_DAYS for the aggregated job count for the prior 7 days.
+    ///
+    /// * FOURTEEN_DAYS for aggregated job count for prior 14 days.
+    public var aggregationPeriod: BackupClientTypes.AggregationPeriod?
+    /// This parameter sets the maximum number of items to be returned. The value is an integer. Range of accepted values is from 1 to 500.
+    public var maxResults: Swift.Int?
+    /// This parameter returns the job count for the specified message category. Example accepted strings include AccessDenied, Success, and InvalidParameters. See [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) for a list of accepted MessageCategory strings. The the value ANY returns count of all message categories. AGGREGATE_ALL aggregates job counts for all message categories and returns the sum.
+    public var messageCategory: Swift.String?
+    /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+    /// Returns the job count for the specified resource type. Use request GetSupportedResourceTypes to obtain strings for supported resource types. The the value ANY returns count of all resource types. AGGREGATE_ALL aggregates job counts for all resource types and returns the sum. The type of Amazon Web Services resource to be backed up; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
+    public var resourceType: Swift.String?
+    /// This parameter returns the job count for jobs with the specified state. The the value ANY returns count of all states. AGGREGATE_ALL aggregates job counts for all states and returns the sum.
+    public var state: BackupClientTypes.CopyJobStatus?
+
+    public init(
+        accountId: Swift.String? = nil,
+        aggregationPeriod: BackupClientTypes.AggregationPeriod? = nil,
+        maxResults: Swift.Int? = nil,
+        messageCategory: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        resourceType: Swift.String? = nil,
+        state: BackupClientTypes.CopyJobStatus? = nil
+    )
+    {
+        self.accountId = accountId
+        self.aggregationPeriod = aggregationPeriod
+        self.maxResults = maxResults
+        self.messageCategory = messageCategory
+        self.nextToken = nextToken
+        self.resourceType = resourceType
+        self.state = state
+    }
+}
+
+struct ListCopyJobSummariesInputBody: Swift.Equatable {
+}
+
+extension ListCopyJobSummariesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListCopyJobSummariesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCopyJobSummariesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.aggregationPeriod = output.aggregationPeriod
+            self.copyJobSummaries = output.copyJobSummaries
+            self.nextToken = output.nextToken
+        } else {
+            self.aggregationPeriod = nil
+            self.copyJobSummaries = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListCopyJobSummariesOutput: Swift.Equatable {
+    /// This is the period that sets the boundaries for returned results.
+    ///
+    /// * ONE_DAY for daily job count for the prior 14 days.
+    ///
+    /// * SEVEN_DAYS for the aggregated job count for the prior 7 days.
+    ///
+    /// * FOURTEEN_DAYS for aggregated job count for prior 14 days.
+    public var aggregationPeriod: Swift.String?
+    /// This return shows a summary that contains Region, Account, State, ResourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
+    public var copyJobSummaries: [BackupClientTypes.CopyJobSummary]?
+    /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+
+    public init(
+        aggregationPeriod: Swift.String? = nil,
+        copyJobSummaries: [BackupClientTypes.CopyJobSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.aggregationPeriod = aggregationPeriod
+        self.copyJobSummaries = copyJobSummaries
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCopyJobSummariesOutputBody: Swift.Equatable {
+    let copyJobSummaries: [BackupClientTypes.CopyJobSummary]?
+    let aggregationPeriod: Swift.String?
+    let nextToken: Swift.String?
+}
+
+extension ListCopyJobSummariesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregationPeriod = "AggregationPeriod"
+        case copyJobSummaries = "CopyJobSummaries"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let copyJobSummariesContainer = try containerValues.decodeIfPresent([BackupClientTypes.CopyJobSummary?].self, forKey: .copyJobSummaries)
+        var copyJobSummariesDecoded0:[BackupClientTypes.CopyJobSummary]? = nil
+        if let copyJobSummariesContainer = copyJobSummariesContainer {
+            copyJobSummariesDecoded0 = [BackupClientTypes.CopyJobSummary]()
+            for structure0 in copyJobSummariesContainer {
+                if let structure0 = structure0 {
+                    copyJobSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        copyJobSummaries = copyJobSummariesDecoded0
+        let aggregationPeriodDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .aggregationPeriod)
+        aggregationPeriod = aggregationPeriodDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCopyJobSummariesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListCopyJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if let byCreatedBefore = byCreatedBefore {
-                let byCreatedBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
-                items.append(byCreatedBeforeQueryItem)
-            }
             if let byResourceType = byResourceType {
                 let byResourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
                 items.append(byResourceTypeQueryItem)
-            }
-            if let byCompleteAfter = byCompleteAfter {
-                let byCompleteAfterQueryItem = ClientRuntime.URLQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
-                items.append(byCompleteAfterQueryItem)
-            }
-            if let byDestinationVaultArn = byDestinationVaultArn {
-                let byDestinationVaultArnQueryItem = ClientRuntime.URLQueryItem(name: "destinationVaultArn".urlPercentEncoding(), value: Swift.String(byDestinationVaultArn).urlPercentEncoding())
-                items.append(byDestinationVaultArnQueryItem)
             }
             if let nextToken = nextToken {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -8964,10 +11081,6 @@ extension ListCopyJobsInput: ClientRuntime.QueryItemProvider {
             if let byResourceArn = byResourceArn {
                 let byResourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
                 items.append(byResourceArnQueryItem)
-            }
-            if let byParentJobId = byParentJobId {
-                let byParentJobIdQueryItem = ClientRuntime.URLQueryItem(name: "parentJobId".urlPercentEncoding(), value: Swift.String(byParentJobId).urlPercentEncoding())
-                items.append(byParentJobIdQueryItem)
             }
             if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
@@ -8981,13 +11094,33 @@ extension ListCopyJobsInput: ClientRuntime.QueryItemProvider {
                 let byAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(byAccountId).urlPercentEncoding())
                 items.append(byAccountIdQueryItem)
             }
-            if let byCompleteBefore = byCompleteBefore {
-                let byCompleteBeforeQueryItem = ClientRuntime.URLQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
-                items.append(byCompleteBeforeQueryItem)
-            }
             if let byCreatedAfter = byCreatedAfter {
                 let byCreatedAfterQueryItem = ClientRuntime.URLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
                 items.append(byCreatedAfterQueryItem)
+            }
+            if let byCreatedBefore = byCreatedBefore {
+                let byCreatedBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
+                items.append(byCreatedBeforeQueryItem)
+            }
+            if let byCompleteAfter = byCompleteAfter {
+                let byCompleteAfterQueryItem = ClientRuntime.URLQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
+                items.append(byCompleteAfterQueryItem)
+            }
+            if let byDestinationVaultArn = byDestinationVaultArn {
+                let byDestinationVaultArnQueryItem = ClientRuntime.URLQueryItem(name: "destinationVaultArn".urlPercentEncoding(), value: Swift.String(byDestinationVaultArn).urlPercentEncoding())
+                items.append(byDestinationVaultArnQueryItem)
+            }
+            if let byParentJobId = byParentJobId {
+                let byParentJobIdQueryItem = ClientRuntime.URLQueryItem(name: "parentJobId".urlPercentEncoding(), value: Swift.String(byParentJobId).urlPercentEncoding())
+                items.append(byParentJobIdQueryItem)
+            }
+            if let byMessageCategory = byMessageCategory {
+                let byMessageCategoryQueryItem = ClientRuntime.URLQueryItem(name: "messageCategory".urlPercentEncoding(), value: Swift.String(byMessageCategory).urlPercentEncoding())
+                items.append(byMessageCategoryQueryItem)
+            }
+            if let byCompleteBefore = byCompleteBefore {
+                let byCompleteBeforeQueryItem = ClientRuntime.URLQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
+                items.append(byCompleteBeforeQueryItem)
             }
             return items
         }
@@ -9013,6 +11146,8 @@ public struct ListCopyJobsInput: Swift.Equatable {
     public var byCreatedBefore: ClientRuntime.Date?
     /// An Amazon Resource Name (ARN) that uniquely identifies a source backup vault to copy from; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
     public var byDestinationVaultArn: Swift.String?
+    /// This is an optional parameter that can be used to filter out jobs with a MessageCategory which matches the value you input. Example strings may include AccessDenied, SUCCESS, AGGREGATE_ALL, and INVALIDPARAMETERS. View [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) for a list of accepted strings. The the value ANY returns count of all message categories. AGGREGATE_ALL aggregates job counts for all message categories and returns the sum.
+    public var byMessageCategory: Swift.String?
     /// This is a filter to list child (nested) jobs based on parent job ID.
     public var byParentJobId: Swift.String?
     /// Returns only copy jobs that match the specified resource Amazon Resource Name (ARN).
@@ -9020,6 +11155,8 @@ public struct ListCopyJobsInput: Swift.Equatable {
     /// Returns only backup jobs for the specified resources:
     ///
     /// * Aurora for Amazon Aurora
+    ///
+    /// * CloudFormation for CloudFormation
     ///
     /// * DocumentDB for Amazon DocumentDB (with MongoDB compatibility)
     ///
@@ -9035,11 +11172,17 @@ public struct ListCopyJobsInput: Swift.Equatable {
     ///
     /// * Neptune for Amazon Neptune
     ///
+    /// * Redshift for Amazon Redshift
+    ///
     /// * RDS for Amazon Relational Database Service
+    ///
+    /// * SAP HANA on Amazon EC2 for SAP HANA databases
     ///
     /// * Storage Gateway for Storage Gateway
     ///
     /// * S3 for Amazon S3
+    ///
+    /// * Timestream for Amazon Timestream
     ///
     /// * VirtualMachine for virtual machines
     public var byResourceType: Swift.String?
@@ -9047,7 +11190,7 @@ public struct ListCopyJobsInput: Swift.Equatable {
     public var byState: BackupClientTypes.CopyJobState?
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -9057,6 +11200,7 @@ public struct ListCopyJobsInput: Swift.Equatable {
         byCreatedAfter: ClientRuntime.Date? = nil,
         byCreatedBefore: ClientRuntime.Date? = nil,
         byDestinationVaultArn: Swift.String? = nil,
+        byMessageCategory: Swift.String? = nil,
         byParentJobId: Swift.String? = nil,
         byResourceArn: Swift.String? = nil,
         byResourceType: Swift.String? = nil,
@@ -9071,6 +11215,7 @@ public struct ListCopyJobsInput: Swift.Equatable {
         self.byCreatedAfter = byCreatedAfter
         self.byCreatedBefore = byCreatedBefore
         self.byDestinationVaultArn = byDestinationVaultArn
+        self.byMessageCategory = byMessageCategory
         self.byParentJobId = byParentJobId
         self.byResourceArn = byResourceArn
         self.byResourceType = byResourceType
@@ -9089,23 +11234,11 @@ extension ListCopyJobsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListCopyJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListCopyJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListCopyJobsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListCopyJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListCopyJobsOutputBody = try responseDecoder.decode(responseBody: data)
             self.copyJobs = output.copyJobs
             self.nextToken = output.nextToken
         } else {
@@ -9115,10 +11248,10 @@ extension ListCopyJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCopyJobsOutputResponse: Swift.Equatable {
+public struct ListCopyJobsOutput: Swift.Equatable {
     /// An array of structures containing metadata about your copy jobs returned in JSON format.
     public var copyJobs: [BackupClientTypes.CopyJob]?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -9131,12 +11264,12 @@ public struct ListCopyJobsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListCopyJobsOutputResponseBody: Swift.Equatable {
+struct ListCopyJobsOutputBody: Swift.Equatable {
     let copyJobs: [BackupClientTypes.CopyJob]?
     let nextToken: Swift.String?
 }
 
-extension ListCopyJobsOutputResponseBody: Swift.Decodable {
+extension ListCopyJobsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case copyJobs = "CopyJobs"
         case nextToken = "NextToken"
@@ -9157,6 +11290,18 @@ extension ListCopyJobsOutputResponseBody: Swift.Decodable {
         copyJobs = copyJobsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCopyJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9208,23 +11353,11 @@ extension ListFrameworksInputBody: Swift.Decodable {
     }
 }
 
-public enum ListFrameworksOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListFrameworksOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListFrameworksOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListFrameworksOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListFrameworksOutputBody = try responseDecoder.decode(responseBody: data)
             self.frameworks = output.frameworks
             self.nextToken = output.nextToken
         } else {
@@ -9234,7 +11367,7 @@ extension ListFrameworksOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFrameworksOutputResponse: Swift.Equatable {
+public struct ListFrameworksOutput: Swift.Equatable {
     /// A list of frameworks with details for each framework, including the framework name, Amazon Resource Name (ARN), description, number of controls, creation time, and deployment status.
     public var frameworks: [BackupClientTypes.Framework]?
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -9250,12 +11383,12 @@ public struct ListFrameworksOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListFrameworksOutputResponseBody: Swift.Equatable {
+struct ListFrameworksOutputBody: Swift.Equatable {
     let frameworks: [BackupClientTypes.Framework]?
     let nextToken: Swift.String?
 }
 
-extension ListFrameworksOutputResponseBody: Swift.Decodable {
+extension ListFrameworksOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case frameworks = "Frameworks"
         case nextToken = "NextToken"
@@ -9276,6 +11409,18 @@ extension ListFrameworksOutputResponseBody: Swift.Decodable {
         frameworks = frameworksDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListFrameworksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9305,7 +11450,7 @@ extension ListLegalHoldsInput: ClientRuntime.URLPathProvider {
 public struct ListLegalHoldsInput: Swift.Equatable {
     /// The maximum number of resource list items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned resources. For example, if a request is made to return maxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -9327,23 +11472,11 @@ extension ListLegalHoldsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListLegalHoldsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListLegalHoldsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListLegalHoldsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListLegalHoldsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListLegalHoldsOutputBody = try responseDecoder.decode(responseBody: data)
             self.legalHolds = output.legalHolds
             self.nextToken = output.nextToken
         } else {
@@ -9353,10 +11486,10 @@ extension ListLegalHoldsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLegalHoldsOutputResponse: Swift.Equatable {
+public struct ListLegalHoldsOutput: Swift.Equatable {
     /// This is an array of returned legal holds, both active and previous.
     public var legalHolds: [BackupClientTypes.LegalHold]?
-    /// The next item following a partial list of returned resources. For example, if a request is made to return maxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -9369,12 +11502,12 @@ public struct ListLegalHoldsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListLegalHoldsOutputResponseBody: Swift.Equatable {
+struct ListLegalHoldsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let legalHolds: [BackupClientTypes.LegalHold]?
 }
 
-extension ListLegalHoldsOutputResponseBody: Swift.Decodable {
+extension ListLegalHoldsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case legalHolds = "LegalHolds"
         case nextToken = "NextToken"
@@ -9395,6 +11528,154 @@ extension ListLegalHoldsOutputResponseBody: Swift.Decodable {
             }
         }
         legalHolds = legalHoldsDecoded0
+    }
+}
+
+enum ListLegalHoldsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListProtectedResourcesByBackupVaultInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let backupVaultAccountId = backupVaultAccountId {
+                let backupVaultAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
+                items.append(backupVaultAccountIdQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListProtectedResourcesByBackupVaultInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let backupVaultName = backupVaultName else {
+            return nil
+        }
+        return "/backup-vaults/\(backupVaultName.urlPercentEncoding())/resources"
+    }
+}
+
+public struct ListProtectedResourcesByBackupVaultInput: Swift.Equatable {
+    /// This is the list of protected resources by backup vault within the vault(s) you specify by account ID.
+    public var backupVaultAccountId: Swift.String?
+    /// This is the list of protected resources by backup vault within the vault(s) you specify by name.
+    /// This member is required.
+    public var backupVaultName: Swift.String?
+    /// The maximum number of items to be returned.
+    public var maxResults: Swift.Int?
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+
+    public init(
+        backupVaultAccountId: Swift.String? = nil,
+        backupVaultName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.backupVaultAccountId = backupVaultAccountId
+        self.backupVaultName = backupVaultName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListProtectedResourcesByBackupVaultInputBody: Swift.Equatable {
+}
+
+extension ListProtectedResourcesByBackupVaultInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListProtectedResourcesByBackupVaultOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListProtectedResourcesByBackupVaultOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.results = output.results
+        } else {
+            self.nextToken = nil
+            self.results = nil
+        }
+    }
+}
+
+public struct ListProtectedResourcesByBackupVaultOutput: Swift.Equatable {
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+    /// These are the results returned for the request ListProtectedResourcesByBackupVault.
+    public var results: [BackupClientTypes.ProtectedResource]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        results: [BackupClientTypes.ProtectedResource]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.results = results
+    }
+}
+
+struct ListProtectedResourcesByBackupVaultOutputBody: Swift.Equatable {
+    let results: [BackupClientTypes.ProtectedResource]?
+    let nextToken: Swift.String?
+}
+
+extension ListProtectedResourcesByBackupVaultOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case results = "Results"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultsContainer = try containerValues.decodeIfPresent([BackupClientTypes.ProtectedResource?].self, forKey: .results)
+        var resultsDecoded0:[BackupClientTypes.ProtectedResource]? = nil
+        if let resultsContainer = resultsContainer {
+            resultsDecoded0 = [BackupClientTypes.ProtectedResource]()
+            for structure0 in resultsContainer {
+                if let structure0 = structure0 {
+                    resultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        results = resultsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListProtectedResourcesByBackupVaultOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9424,7 +11705,7 @@ extension ListProtectedResourcesInput: ClientRuntime.URLPathProvider {
 public struct ListProtectedResourcesInput: Swift.Equatable {
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -9446,23 +11727,11 @@ extension ListProtectedResourcesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListProtectedResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListProtectedResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListProtectedResourcesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListProtectedResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListProtectedResourcesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.results = output.results
         } else {
@@ -9472,8 +11741,8 @@ extension ListProtectedResourcesOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListProtectedResourcesOutputResponse: Swift.Equatable {
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+public struct ListProtectedResourcesOutput: Swift.Equatable {
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
     /// An array of resources successfully backed up by Backup including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
     public var results: [BackupClientTypes.ProtectedResource]?
@@ -9488,12 +11757,12 @@ public struct ListProtectedResourcesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListProtectedResourcesOutputResponseBody: Swift.Equatable {
+struct ListProtectedResourcesOutputBody: Swift.Equatable {
     let results: [BackupClientTypes.ProtectedResource]?
     let nextToken: Swift.String?
 }
 
-extension ListProtectedResourcesOutputResponseBody: Swift.Decodable {
+extension ListProtectedResourcesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case results = "Results"
@@ -9514,6 +11783,18 @@ extension ListProtectedResourcesOutputResponseBody: Swift.Decodable {
         results = resultsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListProtectedResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9549,6 +11830,10 @@ extension ListRecoveryPointsByBackupVaultInput: ClientRuntime.QueryItemProvider 
                 let byParentRecoveryPointArnQueryItem = ClientRuntime.URLQueryItem(name: "parentRecoveryPointArn".urlPercentEncoding(), value: Swift.String(byParentRecoveryPointArn).urlPercentEncoding())
                 items.append(byParentRecoveryPointArnQueryItem)
             }
+            if let backupVaultAccountId = backupVaultAccountId {
+                let backupVaultAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
+                items.append(backupVaultAccountIdQueryItem)
+            }
             if let byCreatedAfter = byCreatedAfter {
                 let byCreatedAfterQueryItem = ClientRuntime.URLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
                 items.append(byCreatedAfterQueryItem)
@@ -9568,6 +11853,8 @@ extension ListRecoveryPointsByBackupVaultInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListRecoveryPointsByBackupVaultInput: Swift.Equatable {
+    /// This parameter will sort the list of recovery points by account ID.
+    public var backupVaultAccountId: Swift.String?
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens. Backup vault name might not be available when a supported service creates the backup.
     /// This member is required.
     public var backupVaultName: Swift.String?
@@ -9581,14 +11868,47 @@ public struct ListRecoveryPointsByBackupVaultInput: Swift.Equatable {
     public var byParentRecoveryPointArn: Swift.String?
     /// Returns only recovery points that match the specified resource Amazon Resource Name (ARN).
     public var byResourceArn: Swift.String?
-    /// Returns only recovery points that match the specified resource type.
+    /// Returns only recovery points that match the specified resource type(s):
+    ///
+    /// * Aurora for Amazon Aurora
+    ///
+    /// * CloudFormation for CloudFormation
+    ///
+    /// * DocumentDB for Amazon DocumentDB (with MongoDB compatibility)
+    ///
+    /// * DynamoDB for Amazon DynamoDB
+    ///
+    /// * EBS for Amazon Elastic Block Store
+    ///
+    /// * EC2 for Amazon Elastic Compute Cloud
+    ///
+    /// * EFS for Amazon Elastic File System
+    ///
+    /// * FSx for Amazon FSx
+    ///
+    /// * Neptune for Amazon Neptune
+    ///
+    /// * Redshift for Amazon Redshift
+    ///
+    /// * RDS for Amazon Relational Database Service
+    ///
+    /// * SAP HANA on Amazon EC2 for SAP HANA databases
+    ///
+    /// * Storage Gateway for Storage Gateway
+    ///
+    /// * S3 for Amazon S3
+    ///
+    /// * Timestream for Amazon Timestream
+    ///
+    /// * VirtualMachine for virtual machines
     public var byResourceType: Swift.String?
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
+        backupVaultAccountId: Swift.String? = nil,
         backupVaultName: Swift.String? = nil,
         byBackupPlanId: Swift.String? = nil,
         byCreatedAfter: ClientRuntime.Date? = nil,
@@ -9600,6 +11920,7 @@ public struct ListRecoveryPointsByBackupVaultInput: Swift.Equatable {
         nextToken: Swift.String? = nil
     )
     {
+        self.backupVaultAccountId = backupVaultAccountId
         self.backupVaultName = backupVaultName
         self.byBackupPlanId = byBackupPlanId
         self.byCreatedAfter = byCreatedAfter
@@ -9621,25 +11942,11 @@ extension ListRecoveryPointsByBackupVaultInputBody: Swift.Decodable {
     }
 }
 
-public enum ListRecoveryPointsByBackupVaultOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRecoveryPointsByBackupVaultOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRecoveryPointsByBackupVaultOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRecoveryPointsByBackupVaultOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRecoveryPointsByBackupVaultOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.recoveryPoints = output.recoveryPoints
         } else {
@@ -9649,8 +11956,8 @@ extension ListRecoveryPointsByBackupVaultOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct ListRecoveryPointsByBackupVaultOutputResponse: Swift.Equatable {
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+public struct ListRecoveryPointsByBackupVaultOutput: Swift.Equatable {
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
     /// An array of objects that contain detailed information about recovery points saved in a backup vault.
     public var recoveryPoints: [BackupClientTypes.RecoveryPointByBackupVault]?
@@ -9665,12 +11972,12 @@ public struct ListRecoveryPointsByBackupVaultOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRecoveryPointsByBackupVaultOutputResponseBody: Swift.Equatable {
+struct ListRecoveryPointsByBackupVaultOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let recoveryPoints: [BackupClientTypes.RecoveryPointByBackupVault]?
 }
 
-extension ListRecoveryPointsByBackupVaultOutputResponseBody: Swift.Decodable {
+extension ListRecoveryPointsByBackupVaultOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case recoveryPoints = "RecoveryPoints"
@@ -9691,6 +11998,20 @@ extension ListRecoveryPointsByBackupVaultOutputResponseBody: Swift.Decodable {
             }
         }
         recoveryPoints = recoveryPointsDecoded0
+    }
+}
+
+enum ListRecoveryPointsByBackupVaultOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9726,7 +12047,7 @@ public struct ListRecoveryPointsByLegalHoldInput: Swift.Equatable {
     public var legalHoldId: Swift.String?
     /// This is the maximum number of resource list items to be returned.
     public var maxResults: Swift.Int?
-    /// This is the next item following a partial list of returned resources. For example, if a request is made to return maxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// This is the next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -9750,24 +12071,11 @@ extension ListRecoveryPointsByLegalHoldInputBody: Swift.Decodable {
     }
 }
 
-public enum ListRecoveryPointsByLegalHoldOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRecoveryPointsByLegalHoldOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRecoveryPointsByLegalHoldOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRecoveryPointsByLegalHoldOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRecoveryPointsByLegalHoldOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.recoveryPoints = output.recoveryPoints
         } else {
@@ -9777,7 +12085,7 @@ extension ListRecoveryPointsByLegalHoldOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct ListRecoveryPointsByLegalHoldOutputResponse: Swift.Equatable {
+public struct ListRecoveryPointsByLegalHoldOutput: Swift.Equatable {
     /// This return is the next item following a partial list of returned resources.
     public var nextToken: Swift.String?
     /// This is a list of the recovery points returned by ListRecoveryPointsByLegalHold.
@@ -9793,12 +12101,12 @@ public struct ListRecoveryPointsByLegalHoldOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRecoveryPointsByLegalHoldOutputResponseBody: Swift.Equatable {
+struct ListRecoveryPointsByLegalHoldOutputBody: Swift.Equatable {
     let recoveryPoints: [BackupClientTypes.RecoveryPointMember]?
     let nextToken: Swift.String?
 }
 
-extension ListRecoveryPointsByLegalHoldOutputResponseBody: Swift.Decodable {
+extension ListRecoveryPointsByLegalHoldOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case recoveryPoints = "RecoveryPoints"
@@ -9819,6 +12127,19 @@ extension ListRecoveryPointsByLegalHoldOutputResponseBody: Swift.Decodable {
         recoveryPoints = recoveryPointsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListRecoveryPointsByLegalHoldOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9851,7 +12172,7 @@ extension ListRecoveryPointsByResourceInput: ClientRuntime.URLPathProvider {
 public struct ListRecoveryPointsByResourceInput: Swift.Equatable {
     /// The maximum number of items to be returned. Amazon RDS requires a value of at least 20.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
     /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
     /// This member is required.
@@ -9878,25 +12199,11 @@ extension ListRecoveryPointsByResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListRecoveryPointsByResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRecoveryPointsByResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRecoveryPointsByResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRecoveryPointsByResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRecoveryPointsByResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.recoveryPoints = output.recoveryPoints
         } else {
@@ -9906,8 +12213,8 @@ extension ListRecoveryPointsByResourceOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct ListRecoveryPointsByResourceOutputResponse: Swift.Equatable {
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+public struct ListRecoveryPointsByResourceOutput: Swift.Equatable {
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
     /// An array of objects that contain detailed information about recovery points of the specified resource type. Only Amazon EFS and Amazon EC2 recovery points return BackupVaultName.
     public var recoveryPoints: [BackupClientTypes.RecoveryPointByResource]?
@@ -9922,12 +12229,12 @@ public struct ListRecoveryPointsByResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRecoveryPointsByResourceOutputResponseBody: Swift.Equatable {
+struct ListRecoveryPointsByResourceOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let recoveryPoints: [BackupClientTypes.RecoveryPointByResource]?
 }
 
-extension ListRecoveryPointsByResourceOutputResponseBody: Swift.Decodable {
+extension ListRecoveryPointsByResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case recoveryPoints = "RecoveryPoints"
@@ -9948,6 +12255,20 @@ extension ListRecoveryPointsByResourceOutputResponseBody: Swift.Decodable {
             }
         }
         recoveryPoints = recoveryPointsDecoded0
+    }
+}
+
+enum ListRecoveryPointsByResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10031,24 +12352,11 @@ extension ListReportJobsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListReportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListReportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListReportJobsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListReportJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListReportJobsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.reportJobs = output.reportJobs
         } else {
@@ -10058,7 +12366,7 @@ extension ListReportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListReportJobsOutputResponse: Swift.Equatable {
+public struct ListReportJobsOutput: Swift.Equatable {
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
     public var nextToken: Swift.String?
     /// Details about your report jobs in JSON format.
@@ -10074,12 +12382,12 @@ public struct ListReportJobsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListReportJobsOutputResponseBody: Swift.Equatable {
+struct ListReportJobsOutputBody: Swift.Equatable {
     let reportJobs: [BackupClientTypes.ReportJob]?
     let nextToken: Swift.String?
 }
 
-extension ListReportJobsOutputResponseBody: Swift.Decodable {
+extension ListReportJobsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case reportJobs = "ReportJobs"
@@ -10100,6 +12408,19 @@ extension ListReportJobsOutputResponseBody: Swift.Decodable {
         reportJobs = reportJobsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListReportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10151,23 +12472,11 @@ extension ListReportPlansInputBody: Swift.Decodable {
     }
 }
 
-public enum ListReportPlansOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListReportPlansOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListReportPlansOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListReportPlansOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListReportPlansOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.reportPlans = output.reportPlans
         } else {
@@ -10177,7 +12486,7 @@ extension ListReportPlansOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListReportPlansOutputResponse: Swift.Equatable {
+public struct ListReportPlansOutput: Swift.Equatable {
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
     public var nextToken: Swift.String?
     /// A list of your report plans with detailed information for each plan. This information includes the Amazon Resource Name (ARN), report plan name, description, settings, delivery channel, deployment status, creation time, and last times the report plan attempted to and successfully ran.
@@ -10193,12 +12502,12 @@ public struct ListReportPlansOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListReportPlansOutputResponseBody: Swift.Equatable {
+struct ListReportPlansOutputBody: Swift.Equatable {
     let reportPlans: [BackupClientTypes.ReportPlan]?
     let nextToken: Swift.String?
 }
 
-extension ListReportPlansOutputResponseBody: Swift.Decodable {
+extension ListReportPlansOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case reportPlans = "ReportPlans"
@@ -10222,10 +12531,352 @@ extension ListReportPlansOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListReportPlansOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListRestoreJobSummariesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let aggregationPeriod = aggregationPeriod {
+                let aggregationPeriodQueryItem = ClientRuntime.URLQueryItem(name: "AggregationPeriod".urlPercentEncoding(), value: Swift.String(aggregationPeriod.rawValue).urlPercentEncoding())
+                items.append(aggregationPeriodQueryItem)
+            }
+            if let accountId = accountId {
+                let accountIdQueryItem = ClientRuntime.URLQueryItem(name: "AccountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
+                items.append(accountIdQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let state = state {
+                let stateQueryItem = ClientRuntime.URLQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+                items.append(stateQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let resourceType = resourceType {
+                let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "ResourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
+                items.append(resourceTypeQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListRestoreJobSummariesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/audit/restore-job-summaries"
+    }
+}
+
+public struct ListRestoreJobSummariesInput: Swift.Equatable {
+    /// Returns the job count for the specified account. If the request is sent from a member account or an account not part of Amazon Web Services Organizations, jobs within requestor's account will be returned. Root, admin, and delegated administrator accounts can use the value ANY to return job counts from every account in the organization. AGGREGATE_ALL aggregates job counts from all accounts within the authenticated organization, then returns the sum.
+    public var accountId: Swift.String?
+    /// This is the period that sets the boundaries for returned results. Acceptable values include
+    ///
+    /// * ONE_DAY for daily job count for the prior 14 days.
+    ///
+    /// * SEVEN_DAYS for the aggregated job count for the prior 7 days.
+    ///
+    /// * FOURTEEN_DAYS for aggregated job count for prior 14 days.
+    public var aggregationPeriod: BackupClientTypes.AggregationPeriod?
+    /// This parameter sets the maximum number of items to be returned. The value is an integer. Range of accepted values is from 1 to 500.
+    public var maxResults: Swift.Int?
+    /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+    /// Returns the job count for the specified resource type. Use request GetSupportedResourceTypes to obtain strings for supported resource types. The the value ANY returns count of all resource types. AGGREGATE_ALL aggregates job counts for all resource types and returns the sum. The type of Amazon Web Services resource to be backed up; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
+    public var resourceType: Swift.String?
+    /// This parameter returns the job count for jobs with the specified state. The the value ANY returns count of all states. AGGREGATE_ALL aggregates job counts for all states and returns the sum.
+    public var state: BackupClientTypes.RestoreJobState?
+
+    public init(
+        accountId: Swift.String? = nil,
+        aggregationPeriod: BackupClientTypes.AggregationPeriod? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceType: Swift.String? = nil,
+        state: BackupClientTypes.RestoreJobState? = nil
+    )
+    {
+        self.accountId = accountId
+        self.aggregationPeriod = aggregationPeriod
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceType = resourceType
+        self.state = state
+    }
+}
+
+struct ListRestoreJobSummariesInputBody: Swift.Equatable {
+}
+
+extension ListRestoreJobSummariesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListRestoreJobSummariesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListRestoreJobSummariesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.aggregationPeriod = output.aggregationPeriod
+            self.nextToken = output.nextToken
+            self.restoreJobSummaries = output.restoreJobSummaries
+        } else {
+            self.aggregationPeriod = nil
+            self.nextToken = nil
+            self.restoreJobSummaries = nil
+        }
+    }
+}
+
+public struct ListRestoreJobSummariesOutput: Swift.Equatable {
+    /// This is the period that sets the boundaries for returned results.
+    ///
+    /// * ONE_DAY for daily job count for the prior 14 days.
+    ///
+    /// * SEVEN_DAYS for the aggregated job count for the prior 7 days.
+    ///
+    /// * FOURTEEN_DAYS for aggregated job count for prior 14 days.
+    public var aggregationPeriod: Swift.String?
+    /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+    /// This return contains a summary that contains Region, Account, State, ResourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
+    public var restoreJobSummaries: [BackupClientTypes.RestoreJobSummary]?
+
+    public init(
+        aggregationPeriod: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        restoreJobSummaries: [BackupClientTypes.RestoreJobSummary]? = nil
+    )
+    {
+        self.aggregationPeriod = aggregationPeriod
+        self.nextToken = nextToken
+        self.restoreJobSummaries = restoreJobSummaries
+    }
+}
+
+struct ListRestoreJobSummariesOutputBody: Swift.Equatable {
+    let restoreJobSummaries: [BackupClientTypes.RestoreJobSummary]?
+    let aggregationPeriod: Swift.String?
+    let nextToken: Swift.String?
+}
+
+extension ListRestoreJobSummariesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregationPeriod = "AggregationPeriod"
+        case nextToken = "NextToken"
+        case restoreJobSummaries = "RestoreJobSummaries"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let restoreJobSummariesContainer = try containerValues.decodeIfPresent([BackupClientTypes.RestoreJobSummary?].self, forKey: .restoreJobSummaries)
+        var restoreJobSummariesDecoded0:[BackupClientTypes.RestoreJobSummary]? = nil
+        if let restoreJobSummariesContainer = restoreJobSummariesContainer {
+            restoreJobSummariesDecoded0 = [BackupClientTypes.RestoreJobSummary]()
+            for structure0 in restoreJobSummariesContainer {
+                if let structure0 = structure0 {
+                    restoreJobSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        restoreJobSummaries = restoreJobSummariesDecoded0
+        let aggregationPeriodDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .aggregationPeriod)
+        aggregationPeriod = aggregationPeriodDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListRestoreJobSummariesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListRestoreJobsByProtectedResourceInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let byRecoveryPointCreationDateAfter = byRecoveryPointCreationDateAfter {
+                let byRecoveryPointCreationDateAfterQueryItem = ClientRuntime.URLQueryItem(name: "recoveryPointCreationDateAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byRecoveryPointCreationDateAfter)).urlPercentEncoding())
+                items.append(byRecoveryPointCreationDateAfterQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let byStatus = byStatus {
+                let byStatusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(byStatus.rawValue).urlPercentEncoding())
+                items.append(byStatusQueryItem)
+            }
+            if let byRecoveryPointCreationDateBefore = byRecoveryPointCreationDateBefore {
+                let byRecoveryPointCreationDateBeforeQueryItem = ClientRuntime.URLQueryItem(name: "recoveryPointCreationDateBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byRecoveryPointCreationDateBefore)).urlPercentEncoding())
+                items.append(byRecoveryPointCreationDateBeforeQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListRestoreJobsByProtectedResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let resourceArn = resourceArn else {
+            return nil
+        }
+        return "/resources/\(resourceArn.urlPercentEncoding())/restore-jobs"
+    }
+}
+
+public struct ListRestoreJobsByProtectedResourceInput: Swift.Equatable {
+    /// Returns only restore jobs of recovery points that were created after the specified date.
+    public var byRecoveryPointCreationDateAfter: ClientRuntime.Date?
+    /// Returns only restore jobs of recovery points that were created before the specified date.
+    public var byRecoveryPointCreationDateBefore: ClientRuntime.Date?
+    /// Returns only restore jobs associated with the specified job status.
+    public var byStatus: BackupClientTypes.RestoreJobStatus?
+    /// The maximum number of items to be returned.
+    public var maxResults: Swift.Int?
+    /// The next item following a partial list of returned items. For example, if a request ismade to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+    /// Returns only restore jobs that match the specified resource Amazon Resource Name (ARN).
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        byRecoveryPointCreationDateAfter: ClientRuntime.Date? = nil,
+        byRecoveryPointCreationDateBefore: ClientRuntime.Date? = nil,
+        byStatus: BackupClientTypes.RestoreJobStatus? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.byRecoveryPointCreationDateAfter = byRecoveryPointCreationDateAfter
+        self.byRecoveryPointCreationDateBefore = byRecoveryPointCreationDateBefore
+        self.byStatus = byStatus
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceArn = resourceArn
+    }
+}
+
+struct ListRestoreJobsByProtectedResourceInputBody: Swift.Equatable {
+}
+
+extension ListRestoreJobsByProtectedResourceInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListRestoreJobsByProtectedResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListRestoreJobsByProtectedResourceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.restoreJobs = output.restoreJobs
+        } else {
+            self.nextToken = nil
+            self.restoreJobs = nil
+        }
+    }
+}
+
+public struct ListRestoreJobsByProtectedResourceOutput: Swift.Equatable {
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows youto return more items in your list starting at the location pointed to by the next token
+    public var nextToken: Swift.String?
+    /// An array of objects that contain detailed information about jobs to restore saved resources.>
+    public var restoreJobs: [BackupClientTypes.RestoreJobsListMember]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        restoreJobs: [BackupClientTypes.RestoreJobsListMember]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.restoreJobs = restoreJobs
+    }
+}
+
+struct ListRestoreJobsByProtectedResourceOutputBody: Swift.Equatable {
+    let restoreJobs: [BackupClientTypes.RestoreJobsListMember]?
+    let nextToken: Swift.String?
+}
+
+extension ListRestoreJobsByProtectedResourceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case restoreJobs = "RestoreJobs"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let restoreJobsContainer = try containerValues.decodeIfPresent([BackupClientTypes.RestoreJobsListMember?].self, forKey: .restoreJobs)
+        var restoreJobsDecoded0:[BackupClientTypes.RestoreJobsListMember]? = nil
+        if let restoreJobsContainer = restoreJobsContainer {
+            restoreJobsDecoded0 = [BackupClientTypes.RestoreJobsListMember]()
+            for structure0 in restoreJobsContainer {
+                if let structure0 = structure0 {
+                    restoreJobsDecoded0?.append(structure0)
+                }
+            }
+        }
+        restoreJobs = restoreJobsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListRestoreJobsByProtectedResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListRestoreJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
+            if let byResourceType = byResourceType {
+                let byResourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
+                items.append(byResourceTypeQueryItem)
+            }
             if let byCreatedBefore = byCreatedBefore {
                 let byCreatedBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
                 items.append(byCreatedBeforeQueryItem)
@@ -10258,6 +12909,10 @@ extension ListRestoreJobsInput: ClientRuntime.QueryItemProvider {
                 let byStatusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(byStatus.rawValue).urlPercentEncoding())
                 items.append(byStatusQueryItem)
             }
+            if let byRestoreTestingPlanArn = byRestoreTestingPlanArn {
+                let byRestoreTestingPlanArnQueryItem = ClientRuntime.URLQueryItem(name: "restoreTestingPlanArn".urlPercentEncoding(), value: Swift.String(byRestoreTestingPlanArn).urlPercentEncoding())
+                items.append(byRestoreTestingPlanArnQueryItem)
+            }
             return items
         }
     }
@@ -10280,11 +12935,47 @@ public struct ListRestoreJobsInput: Swift.Equatable {
     public var byCreatedAfter: ClientRuntime.Date?
     /// Returns only restore jobs that were created before the specified date.
     public var byCreatedBefore: ClientRuntime.Date?
+    /// Include this parameter to return only restore jobs for the specified resources:
+    ///
+    /// * Aurora for Amazon Aurora
+    ///
+    /// * CloudFormation for CloudFormation
+    ///
+    /// * DocumentDB for Amazon DocumentDB (with MongoDB compatibility)
+    ///
+    /// * DynamoDB for Amazon DynamoDB
+    ///
+    /// * EBS for Amazon Elastic Block Store
+    ///
+    /// * EC2 for Amazon Elastic Compute Cloud
+    ///
+    /// * EFS for Amazon Elastic File System
+    ///
+    /// * FSx for Amazon FSx
+    ///
+    /// * Neptune for Amazon Neptune
+    ///
+    /// * Redshift for Amazon Redshift
+    ///
+    /// * RDS for Amazon Relational Database Service
+    ///
+    /// * SAP HANA on Amazon EC2 for SAP HANA databases
+    ///
+    /// * Storage Gateway for Storage Gateway
+    ///
+    /// * S3 for Amazon S3
+    ///
+    /// * Timestream for Amazon Timestream
+    ///
+    /// * VirtualMachine for virtual machines
+    public var byResourceType: Swift.String?
+    /// This returns only restore testing jobs that match the specified resource Amazon Resource Name (ARN).
+    public var byRestoreTestingPlanArn: Swift.String?
     /// Returns only restore jobs associated with the specified job status.
     public var byStatus: BackupClientTypes.RestoreJobStatus?
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -10293,6 +12984,8 @@ public struct ListRestoreJobsInput: Swift.Equatable {
         byCompleteBefore: ClientRuntime.Date? = nil,
         byCreatedAfter: ClientRuntime.Date? = nil,
         byCreatedBefore: ClientRuntime.Date? = nil,
+        byResourceType: Swift.String? = nil,
+        byRestoreTestingPlanArn: Swift.String? = nil,
         byStatus: BackupClientTypes.RestoreJobStatus? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -10303,6 +12996,8 @@ public struct ListRestoreJobsInput: Swift.Equatable {
         self.byCompleteBefore = byCompleteBefore
         self.byCreatedAfter = byCreatedAfter
         self.byCreatedBefore = byCreatedBefore
+        self.byResourceType = byResourceType
+        self.byRestoreTestingPlanArn = byRestoreTestingPlanArn
         self.byStatus = byStatus
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -10318,25 +13013,11 @@ extension ListRestoreJobsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListRestoreJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRestoreJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRestoreJobsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRestoreJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRestoreJobsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.restoreJobs = output.restoreJobs
         } else {
@@ -10346,8 +13027,8 @@ extension ListRestoreJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRestoreJobsOutputResponse: Swift.Equatable {
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+public struct ListRestoreJobsOutput: Swift.Equatable {
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
     /// An array of objects that contain detailed information about jobs to restore saved resources.
     public var restoreJobs: [BackupClientTypes.RestoreJobsListMember]?
@@ -10362,12 +13043,12 @@ public struct ListRestoreJobsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRestoreJobsOutputResponseBody: Swift.Equatable {
+struct ListRestoreJobsOutputBody: Swift.Equatable {
     let restoreJobs: [BackupClientTypes.RestoreJobsListMember]?
     let nextToken: Swift.String?
 }
 
-extension ListRestoreJobsOutputResponseBody: Swift.Decodable {
+extension ListRestoreJobsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case restoreJobs = "RestoreJobs"
@@ -10388,6 +13069,269 @@ extension ListRestoreJobsOutputResponseBody: Swift.Decodable {
         restoreJobs = restoreJobsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListRestoreJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListRestoreTestingPlansInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListRestoreTestingPlansInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/restore-testing/plans"
+    }
+}
+
+public struct ListRestoreTestingPlansInput: Swift.Equatable {
+    /// The maximum number of items to be returned.
+    public var maxResults: Swift.Int?
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the nexttoken.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListRestoreTestingPlansInputBody: Swift.Equatable {
+}
+
+extension ListRestoreTestingPlansInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListRestoreTestingPlansOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListRestoreTestingPlansOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.restoreTestingPlans = output.restoreTestingPlans
+        } else {
+            self.nextToken = nil
+            self.restoreTestingPlans = nil
+        }
+    }
+}
+
+public struct ListRestoreTestingPlansOutput: Swift.Equatable {
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the nexttoken.
+    public var nextToken: Swift.String?
+    /// This is a returned list of restore testing plans.
+    /// This member is required.
+    public var restoreTestingPlans: [BackupClientTypes.RestoreTestingPlanForList]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        restoreTestingPlans: [BackupClientTypes.RestoreTestingPlanForList]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.restoreTestingPlans = restoreTestingPlans
+    }
+}
+
+struct ListRestoreTestingPlansOutputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let restoreTestingPlans: [BackupClientTypes.RestoreTestingPlanForList]?
+}
+
+extension ListRestoreTestingPlansOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case restoreTestingPlans = "RestoreTestingPlans"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let restoreTestingPlansContainer = try containerValues.decodeIfPresent([BackupClientTypes.RestoreTestingPlanForList?].self, forKey: .restoreTestingPlans)
+        var restoreTestingPlansDecoded0:[BackupClientTypes.RestoreTestingPlanForList]? = nil
+        if let restoreTestingPlansContainer = restoreTestingPlansContainer {
+            restoreTestingPlansDecoded0 = [BackupClientTypes.RestoreTestingPlanForList]()
+            for structure0 in restoreTestingPlansContainer {
+                if let structure0 = structure0 {
+                    restoreTestingPlansDecoded0?.append(structure0)
+                }
+            }
+        }
+        restoreTestingPlans = restoreTestingPlansDecoded0
+    }
+}
+
+enum ListRestoreTestingPlansOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListRestoreTestingSelectionsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListRestoreTestingSelectionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let restoreTestingPlanName = restoreTestingPlanName else {
+            return nil
+        }
+        return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())/selections"
+    }
+}
+
+public struct ListRestoreTestingSelectionsInput: Swift.Equatable {
+    /// The maximum number of items to be returned.
+    public var maxResults: Swift.Int?
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the nexttoken.
+    public var nextToken: Swift.String?
+    /// Returns restore testing selections by the specified restore testing plan name.
+    /// This member is required.
+    public var restoreTestingPlanName: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        restoreTestingPlanName: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.restoreTestingPlanName = restoreTestingPlanName
+    }
+}
+
+struct ListRestoreTestingSelectionsInputBody: Swift.Equatable {
+}
+
+extension ListRestoreTestingSelectionsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListRestoreTestingSelectionsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListRestoreTestingSelectionsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.restoreTestingSelections = output.restoreTestingSelections
+        } else {
+            self.nextToken = nil
+            self.restoreTestingSelections = nil
+        }
+    }
+}
+
+public struct ListRestoreTestingSelectionsOutput: Swift.Equatable {
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the nexttoken.
+    public var nextToken: Swift.String?
+    /// The returned restore testing selections associated with the restore testing plan.
+    /// This member is required.
+    public var restoreTestingSelections: [BackupClientTypes.RestoreTestingSelectionForList]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        restoreTestingSelections: [BackupClientTypes.RestoreTestingSelectionForList]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.restoreTestingSelections = restoreTestingSelections
+    }
+}
+
+struct ListRestoreTestingSelectionsOutputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let restoreTestingSelections: [BackupClientTypes.RestoreTestingSelectionForList]?
+}
+
+extension ListRestoreTestingSelectionsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case restoreTestingSelections = "RestoreTestingSelections"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let restoreTestingSelectionsContainer = try containerValues.decodeIfPresent([BackupClientTypes.RestoreTestingSelectionForList?].self, forKey: .restoreTestingSelections)
+        var restoreTestingSelectionsDecoded0:[BackupClientTypes.RestoreTestingSelectionForList]? = nil
+        if let restoreTestingSelectionsContainer = restoreTestingSelectionsContainer {
+            restoreTestingSelectionsDecoded0 = [BackupClientTypes.RestoreTestingSelectionForList]()
+            for structure0 in restoreTestingSelectionsContainer {
+                if let structure0 = structure0 {
+                    restoreTestingSelectionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        restoreTestingSelections = restoreTestingSelectionsDecoded0
+    }
+}
+
+enum ListRestoreTestingSelectionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10420,7 +13364,7 @@ extension ListTagsInput: ClientRuntime.URLPathProvider {
 public struct ListTagsInput: Swift.Equatable {
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
     /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the type of resource. Valid targets for ListTags are recovery points, backup plans, and backup vaults.
     /// This member is required.
@@ -10447,30 +13391,16 @@ extension ListTagsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsOutputResponse: Swift.CustomDebugStringConvertible {
+extension ListTagsOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ListTagsOutputResponse(nextToken: \(Swift.String(describing: nextToken)), tags: \"CONTENT_REDACTED\")"}
+        "ListTagsOutput(nextToken: \(Swift.String(describing: nextToken)), tags: \"CONTENT_REDACTED\")"}
 }
 
-extension ListTagsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
         } else {
@@ -10480,8 +13410,8 @@ extension ListTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsOutputResponse: Swift.Equatable {
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+public struct ListTagsOutput: Swift.Equatable {
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
     /// To help organize your resources, you can assign your own metadata to the resources you create. Each tag is a key-value pair.
     public var tags: [Swift.String:Swift.String]?
@@ -10496,12 +13426,12 @@ public struct ListTagsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsOutputResponseBody: Swift.Equatable {
+struct ListTagsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
 
-extension ListTagsOutputResponseBody: Swift.Decodable {
+extension ListTagsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case tags = "Tags"
@@ -10522,6 +13452,20 @@ extension ListTagsOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10612,6 +13556,8 @@ extension MissingParameterValueExceptionBody: Swift.Decodable {
 extension BackupClientTypes.ProtectedResource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lastBackupTime = "LastBackupTime"
+        case lastBackupVaultArn = "LastBackupVaultArn"
+        case lastRecoveryPointArn = "LastRecoveryPointArn"
         case resourceArn = "ResourceArn"
         case resourceName = "ResourceName"
         case resourceType = "ResourceType"
@@ -10621,6 +13567,12 @@ extension BackupClientTypes.ProtectedResource: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let lastBackupTime = self.lastBackupTime {
             try encodeContainer.encodeTimestamp(lastBackupTime, format: .epochSeconds, forKey: .lastBackupTime)
+        }
+        if let lastBackupVaultArn = self.lastBackupVaultArn {
+            try encodeContainer.encode(lastBackupVaultArn, forKey: .lastBackupVaultArn)
+        }
+        if let lastRecoveryPointArn = self.lastRecoveryPointArn {
+            try encodeContainer.encode(lastRecoveryPointArn, forKey: .lastRecoveryPointArn)
         }
         if let resourceArn = self.resourceArn {
             try encodeContainer.encode(resourceArn, forKey: .resourceArn)
@@ -10643,6 +13595,10 @@ extension BackupClientTypes.ProtectedResource: Swift.Codable {
         lastBackupTime = lastBackupTimeDecoded
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
+        let lastBackupVaultArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastBackupVaultArn)
+        lastBackupVaultArn = lastBackupVaultArnDecoded
+        let lastRecoveryPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastRecoveryPointArn)
+        lastRecoveryPointArn = lastRecoveryPointArnDecoded
     }
 }
 
@@ -10651,6 +13607,10 @@ extension BackupClientTypes {
     public struct ProtectedResource: Swift.Equatable {
         /// The date and time a resource was last backed up, in Unix format and Coordinated Universal Time (UTC). The value of LastBackupTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var lastBackupTime: ClientRuntime.Date?
+        /// This is the ARN (Amazon Resource Name) of the backup vault that contains the most recent backup recovery point.
+        public var lastBackupVaultArn: Swift.String?
+        /// This is the ARN (Amazon Resource Name) of the most recent recovery point.
+        public var lastRecoveryPointArn: Swift.String?
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public var resourceArn: Swift.String?
         /// This is the non-unique name of the resource that belongs to the specified backup.
@@ -10660,15 +13620,88 @@ extension BackupClientTypes {
 
         public init(
             lastBackupTime: ClientRuntime.Date? = nil,
+            lastBackupVaultArn: Swift.String? = nil,
+            lastRecoveryPointArn: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
             resourceName: Swift.String? = nil,
             resourceType: Swift.String? = nil
         )
         {
             self.lastBackupTime = lastBackupTime
+            self.lastBackupVaultArn = lastBackupVaultArn
+            self.lastRecoveryPointArn = lastRecoveryPointArn
             self.resourceArn = resourceArn
             self.resourceName = resourceName
             self.resourceType = resourceType
+        }
+    }
+
+}
+
+extension BackupClientTypes.ProtectedResourceConditions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case stringEquals = "StringEquals"
+        case stringNotEquals = "StringNotEquals"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let stringEquals = stringEquals {
+            var stringEqualsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stringEquals)
+            for keyvalue0 in stringEquals {
+                try stringEqualsContainer.encode(keyvalue0)
+            }
+        }
+        if let stringNotEquals = stringNotEquals {
+            var stringNotEqualsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stringNotEquals)
+            for keyvalue0 in stringNotEquals {
+                try stringNotEqualsContainer.encode(keyvalue0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stringEqualsContainer = try containerValues.decodeIfPresent([BackupClientTypes.KeyValue?].self, forKey: .stringEquals)
+        var stringEqualsDecoded0:[BackupClientTypes.KeyValue]? = nil
+        if let stringEqualsContainer = stringEqualsContainer {
+            stringEqualsDecoded0 = [BackupClientTypes.KeyValue]()
+            for structure0 in stringEqualsContainer {
+                if let structure0 = structure0 {
+                    stringEqualsDecoded0?.append(structure0)
+                }
+            }
+        }
+        stringEquals = stringEqualsDecoded0
+        let stringNotEqualsContainer = try containerValues.decodeIfPresent([BackupClientTypes.KeyValue?].self, forKey: .stringNotEquals)
+        var stringNotEqualsDecoded0:[BackupClientTypes.KeyValue]? = nil
+        if let stringNotEqualsContainer = stringNotEqualsContainer {
+            stringNotEqualsDecoded0 = [BackupClientTypes.KeyValue]()
+            for structure0 in stringNotEqualsContainer {
+                if let structure0 = structure0 {
+                    stringNotEqualsDecoded0?.append(structure0)
+                }
+            }
+        }
+        stringNotEquals = stringNotEqualsDecoded0
+    }
+}
+
+extension BackupClientTypes {
+    /// A list of conditions that you define for resources in your restore testing plan using tags. For example, "StringEquals": { "Key": "aws:ResourceTag/CreatedByCryo", "Value": "true" },. Condition operators are case sensitive.
+    public struct ProtectedResourceConditions: Swift.Equatable {
+        /// Filters the values of your tagged resources for only those resources that you tagged with the same value. Also called "exact matching."
+        public var stringEquals: [BackupClientTypes.KeyValue]?
+        /// Filters the values of your tagged resources for only those resources that you tagged that do not have the same value. Also called "negated matching."
+        public var stringNotEquals: [BackupClientTypes.KeyValue]?
+
+        public init(
+            stringEquals: [BackupClientTypes.KeyValue]? = nil,
+            stringNotEquals: [BackupClientTypes.KeyValue]? = nil
+        )
+        {
+            self.stringEquals = stringEquals
+            self.stringNotEquals = stringNotEquals
         }
     }
 
@@ -10729,8 +13762,18 @@ extension PutBackupVaultAccessPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum PutBackupVaultAccessPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension PutBackupVaultAccessPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutBackupVaultAccessPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutBackupVaultAccessPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -10741,16 +13784,6 @@ public enum PutBackupVaultAccessPolicyOutputError: ClientRuntime.HttpResponseErr
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension PutBackupVaultAccessPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutBackupVaultAccessPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension PutBackupVaultLockConfigurationInput: Swift.Encodable {
@@ -10832,8 +13865,18 @@ extension PutBackupVaultLockConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum PutBackupVaultLockConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension PutBackupVaultLockConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutBackupVaultLockConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutBackupVaultLockConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -10845,16 +13888,6 @@ public enum PutBackupVaultLockConfigurationOutputError: ClientRuntime.HttpRespon
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension PutBackupVaultLockConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutBackupVaultLockConfigurationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension PutBackupVaultNotificationsInput: Swift.Encodable {
@@ -10949,8 +13982,18 @@ extension PutBackupVaultNotificationsInputBody: Swift.Decodable {
     }
 }
 
-public enum PutBackupVaultNotificationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension PutBackupVaultNotificationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutBackupVaultNotificationsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutBackupVaultNotificationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -10963,14 +14006,97 @@ public enum PutBackupVaultNotificationsOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension PutBackupVaultNotificationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PutRestoreValidationResultInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case validationStatus = "ValidationStatus"
+        case validationStatusMessage = "ValidationStatusMessage"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let validationStatus = self.validationStatus {
+            try encodeContainer.encode(validationStatus.rawValue, forKey: .validationStatus)
+        }
+        if let validationStatusMessage = self.validationStatusMessage {
+            try encodeContainer.encode(validationStatusMessage, forKey: .validationStatusMessage)
+        }
+    }
+}
+
+extension PutRestoreValidationResultInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let restoreJobId = restoreJobId else {
+            return nil
+        }
+        return "/restore-jobs/\(restoreJobId.urlPercentEncoding())/validations"
+    }
+}
+
+public struct PutRestoreValidationResultInput: Swift.Equatable {
+    /// This is a unique identifier of a restore job within Backup.
+    /// This member is required.
+    public var restoreJobId: Swift.String?
+    /// This is the status of your restore validation.
+    /// This member is required.
+    public var validationStatus: BackupClientTypes.RestoreValidationStatus?
+    /// This is an optional message string you can input to describe the validation status for the restore test validation.
+    public var validationStatusMessage: Swift.String?
+
+    public init(
+        restoreJobId: Swift.String? = nil,
+        validationStatus: BackupClientTypes.RestoreValidationStatus? = nil,
+        validationStatusMessage: Swift.String? = nil
+    )
+    {
+        self.restoreJobId = restoreJobId
+        self.validationStatus = validationStatus
+        self.validationStatusMessage = validationStatusMessage
+    }
+}
+
+struct PutRestoreValidationResultInputBody: Swift.Equatable {
+    let validationStatus: BackupClientTypes.RestoreValidationStatus?
+    let validationStatusMessage: Swift.String?
+}
+
+extension PutRestoreValidationResultInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case validationStatus = "ValidationStatus"
+        case validationStatusMessage = "ValidationStatusMessage"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let validationStatusDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreValidationStatus.self, forKey: .validationStatus)
+        validationStatus = validationStatusDecoded
+        let validationStatusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .validationStatusMessage)
+        validationStatusMessage = validationStatusMessageDecoded
+    }
+}
+
+extension PutRestoreValidationResultOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
-public struct PutBackupVaultNotificationsOutputResponse: Swift.Equatable {
+public struct PutRestoreValidationResultOutput: Swift.Equatable {
 
     public init() { }
+}
+
+enum PutRestoreValidationResultOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension BackupClientTypes.RecoveryPointByBackupVault: Swift.Codable {
@@ -10997,6 +14123,7 @@ extension BackupClientTypes.RecoveryPointByBackupVault: Swift.Codable {
         case sourceBackupVaultArn = "SourceBackupVaultArn"
         case status = "Status"
         case statusMessage = "StatusMessage"
+        case vaultType = "VaultType"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -11067,6 +14194,9 @@ extension BackupClientTypes.RecoveryPointByBackupVault: Swift.Codable {
         if let statusMessage = self.statusMessage {
             try encodeContainer.encode(statusMessage, forKey: .statusMessage)
         }
+        if let vaultType = self.vaultType {
+            try encodeContainer.encode(vaultType.rawValue, forKey: .vaultType)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -11115,6 +14245,8 @@ extension BackupClientTypes.RecoveryPointByBackupVault: Swift.Codable {
         isParent = isParentDecoded
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
+        let vaultTypeDecoded = try containerValues.decodeIfPresent(BackupClientTypes.VaultType.self, forKey: .vaultType)
+        vaultType = vaultTypeDecoded
     }
 }
 
@@ -11165,6 +14297,8 @@ extension BackupClientTypes {
         public var status: BackupClientTypes.RecoveryPointStatus?
         /// A message explaining the reason of the recovery point deletion failure.
         public var statusMessage: Swift.String?
+        /// This is the type of vault in which the described recovery point is stored.
+        public var vaultType: BackupClientTypes.VaultType?
 
         public init(
             backupSizeInBytes: Swift.Int? = nil,
@@ -11188,7 +14322,8 @@ extension BackupClientTypes {
             resourceType: Swift.String? = nil,
             sourceBackupVaultArn: Swift.String? = nil,
             status: BackupClientTypes.RecoveryPointStatus? = nil,
-            statusMessage: Swift.String? = nil
+            statusMessage: Swift.String? = nil,
+            vaultType: BackupClientTypes.VaultType? = nil
         )
         {
             self.backupSizeInBytes = backupSizeInBytes
@@ -11213,6 +14348,7 @@ extension BackupClientTypes {
             self.sourceBackupVaultArn = sourceBackupVaultArn
             self.status = status
             self.statusMessage = statusMessage
+            self.vaultType = vaultType
         }
     }
 
@@ -12154,6 +15290,126 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 }
 
 extension BackupClientTypes {
+    public enum RestoreDeletionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case deleting
+        case failed
+        case successful
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RestoreDeletionStatus] {
+            return [
+                .deleting,
+                .failed,
+                .successful,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .successful: return "SUCCESSFUL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RestoreDeletionStatus(rawValue: rawValue) ?? RestoreDeletionStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BackupClientTypes.RestoreJobCreator: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case restoreTestingPlanArn = "RestoreTestingPlanArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let restoreTestingPlanArn = self.restoreTestingPlanArn {
+            try encodeContainer.encode(restoreTestingPlanArn, forKey: .restoreTestingPlanArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let restoreTestingPlanArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanArn)
+        restoreTestingPlanArn = restoreTestingPlanArnDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// Contains information about the restore testing plan that Backup used to initiate the restore job.
+    public struct RestoreJobCreator: Swift.Equatable {
+        /// An Amazon Resource Name (ARN) that uniquely identifies a restore testing plan.
+        public var restoreTestingPlanArn: Swift.String?
+
+        public init(
+            restoreTestingPlanArn: Swift.String? = nil
+        )
+        {
+            self.restoreTestingPlanArn = restoreTestingPlanArn
+        }
+    }
+
+}
+
+extension BackupClientTypes {
+    public enum RestoreJobState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case aborted
+        case aggregateAll
+        case any
+        case completed
+        case created
+        case failed
+        case pending
+        case running
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RestoreJobState] {
+            return [
+                .aborted,
+                .aggregateAll,
+                .any,
+                .completed,
+                .created,
+                .failed,
+                .pending,
+                .running,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .aborted: return "ABORTED"
+            case .aggregateAll: return "AGGREGATE_ALL"
+            case .any: return "ANY"
+            case .completed: return "COMPLETED"
+            case .created: return "CREATED"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .running: return "RUNNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RestoreJobState(rawValue: rawValue) ?? RestoreJobState.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BackupClientTypes {
     public enum RestoreJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case aborted
         case completed
@@ -12194,21 +15450,122 @@ extension BackupClientTypes {
     }
 }
 
+extension BackupClientTypes.RestoreJobSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
+        case count = "Count"
+        case endTime = "EndTime"
+        case region = "Region"
+        case resourceType = "ResourceType"
+        case startTime = "StartTime"
+        case state = "State"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if count != 0 {
+            try encodeContainer.encode(count, forKey: .count)
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType, forKey: .resourceType)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreJobState.self, forKey: .state)
+        state = stateDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
+        count = countDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// This is a summary of restore jobs created or running within the most recent 30 days. The returned summary may contain the following: Region, Account, State, ResourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
+    public struct RestoreJobSummary: Swift.Equatable {
+        /// The account ID that owns the jobs within the summary.
+        public var accountId: Swift.String?
+        /// The value as a number of jobs in a job summary.
+        public var count: Swift.Int
+        /// The value of time in number format of a job end time. This value is the time in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var endTime: ClientRuntime.Date?
+        /// The Amazon Web Services Regions within the job summary.
+        public var region: Swift.String?
+        /// This value is the job count for the specified resource type. The request GetSupportedResourceTypes returns strings for supported resource types.
+        public var resourceType: Swift.String?
+        /// The value of time in number format of a job start time. This value is the time in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var startTime: ClientRuntime.Date?
+        /// This value is job count for jobs with the specified state.
+        public var state: BackupClientTypes.RestoreJobState?
+
+        public init(
+            accountId: Swift.String? = nil,
+            count: Swift.Int = 0,
+            endTime: ClientRuntime.Date? = nil,
+            region: Swift.String? = nil,
+            resourceType: Swift.String? = nil,
+            startTime: ClientRuntime.Date? = nil,
+            state: BackupClientTypes.RestoreJobState? = nil
+        )
+        {
+            self.accountId = accountId
+            self.count = count
+            self.endTime = endTime
+            self.region = region
+            self.resourceType = resourceType
+            self.startTime = startTime
+            self.state = state
+        }
+    }
+
+}
+
 extension BackupClientTypes.RestoreJobsListMember: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "AccountId"
         case backupSizeInBytes = "BackupSizeInBytes"
         case completionDate = "CompletionDate"
+        case createdBy = "CreatedBy"
         case createdResourceArn = "CreatedResourceArn"
         case creationDate = "CreationDate"
+        case deletionStatus = "DeletionStatus"
+        case deletionStatusMessage = "DeletionStatusMessage"
         case expectedCompletionTimeMinutes = "ExpectedCompletionTimeMinutes"
         case iamRoleArn = "IamRoleArn"
         case percentDone = "PercentDone"
         case recoveryPointArn = "RecoveryPointArn"
+        case recoveryPointCreationDate = "RecoveryPointCreationDate"
         case resourceType = "ResourceType"
         case restoreJobId = "RestoreJobId"
         case status = "Status"
         case statusMessage = "StatusMessage"
+        case validationStatus = "ValidationStatus"
+        case validationStatusMessage = "ValidationStatusMessage"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -12222,11 +15579,20 @@ extension BackupClientTypes.RestoreJobsListMember: Swift.Codable {
         if let completionDate = self.completionDate {
             try encodeContainer.encodeTimestamp(completionDate, format: .epochSeconds, forKey: .completionDate)
         }
+        if let createdBy = self.createdBy {
+            try encodeContainer.encode(createdBy, forKey: .createdBy)
+        }
         if let createdResourceArn = self.createdResourceArn {
             try encodeContainer.encode(createdResourceArn, forKey: .createdResourceArn)
         }
         if let creationDate = self.creationDate {
             try encodeContainer.encodeTimestamp(creationDate, format: .epochSeconds, forKey: .creationDate)
+        }
+        if let deletionStatus = self.deletionStatus {
+            try encodeContainer.encode(deletionStatus.rawValue, forKey: .deletionStatus)
+        }
+        if let deletionStatusMessage = self.deletionStatusMessage {
+            try encodeContainer.encode(deletionStatusMessage, forKey: .deletionStatusMessage)
         }
         if let expectedCompletionTimeMinutes = self.expectedCompletionTimeMinutes {
             try encodeContainer.encode(expectedCompletionTimeMinutes, forKey: .expectedCompletionTimeMinutes)
@@ -12240,6 +15606,9 @@ extension BackupClientTypes.RestoreJobsListMember: Swift.Codable {
         if let recoveryPointArn = self.recoveryPointArn {
             try encodeContainer.encode(recoveryPointArn, forKey: .recoveryPointArn)
         }
+        if let recoveryPointCreationDate = self.recoveryPointCreationDate {
+            try encodeContainer.encodeTimestamp(recoveryPointCreationDate, format: .epochSeconds, forKey: .recoveryPointCreationDate)
+        }
         if let resourceType = self.resourceType {
             try encodeContainer.encode(resourceType, forKey: .resourceType)
         }
@@ -12251,6 +15620,12 @@ extension BackupClientTypes.RestoreJobsListMember: Swift.Codable {
         }
         if let statusMessage = self.statusMessage {
             try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
+        if let validationStatus = self.validationStatus {
+            try encodeContainer.encode(validationStatus.rawValue, forKey: .validationStatus)
+        }
+        if let validationStatusMessage = self.validationStatusMessage {
+            try encodeContainer.encode(validationStatusMessage, forKey: .validationStatusMessage)
         }
     }
 
@@ -12282,6 +15657,18 @@ extension BackupClientTypes.RestoreJobsListMember: Swift.Codable {
         createdResourceArn = createdResourceArnDecoded
         let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
+        let recoveryPointCreationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .recoveryPointCreationDate)
+        recoveryPointCreationDate = recoveryPointCreationDateDecoded
+        let createdByDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreJobCreator.self, forKey: .createdBy)
+        createdBy = createdByDecoded
+        let validationStatusDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreValidationStatus.self, forKey: .validationStatus)
+        validationStatus = validationStatusDecoded
+        let validationStatusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .validationStatusMessage)
+        validationStatusMessage = validationStatusMessageDecoded
+        let deletionStatusDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreDeletionStatus.self, forKey: .deletionStatus)
+        deletionStatus = deletionStatusDecoded
+        let deletionStatusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deletionStatusMessage)
+        deletionStatusMessage = deletionStatusMessageDecoded
     }
 }
 
@@ -12294,10 +15681,16 @@ extension BackupClientTypes {
         public var backupSizeInBytes: Swift.Int?
         /// The date and time a job to restore a recovery point is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var completionDate: ClientRuntime.Date?
+        /// Contains identifying information about the creation of a restore job.
+        public var createdBy: BackupClientTypes.RestoreJobCreator?
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public var createdResourceArn: Swift.String?
         /// The date and time a restore job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var creationDate: ClientRuntime.Date?
+        /// This notes the status of the data generated by the restore test. The status may be Deleting, Failed, or Successful.
+        public var deletionStatus: BackupClientTypes.RestoreDeletionStatus?
+        /// This describes the restore job deletion status.
+        public var deletionStatusMessage: Swift.String?
         /// The amount of time in minutes that a job restoring a recovery point is expected to take.
         public var expectedCompletionTimeMinutes: Swift.Int?
         /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
@@ -12306,6 +15699,8 @@ extension BackupClientTypes {
         public var percentDone: Swift.String?
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public var recoveryPointArn: Swift.String?
+        /// The date on which a recovery point was created.
+        public var recoveryPointCreationDate: ClientRuntime.Date?
         /// The resource type of the listed restore jobs; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. For Windows Volume Shadow Copy Service (VSS) backups, the only supported resource type is Amazon EC2.
         public var resourceType: Swift.String?
         /// Uniquely identifies the job that restores a recovery point.
@@ -12314,39 +15709,1157 @@ extension BackupClientTypes {
         public var status: BackupClientTypes.RestoreJobStatus?
         /// A detailed message explaining the status of the job to restore a recovery point.
         public var statusMessage: Swift.String?
+        /// This is the status of validation run on the indicated restore job.
+        public var validationStatus: BackupClientTypes.RestoreValidationStatus?
+        /// This describes the status of validation run on the indicated restore job.
+        public var validationStatusMessage: Swift.String?
 
         public init(
             accountId: Swift.String? = nil,
             backupSizeInBytes: Swift.Int? = nil,
             completionDate: ClientRuntime.Date? = nil,
+            createdBy: BackupClientTypes.RestoreJobCreator? = nil,
             createdResourceArn: Swift.String? = nil,
             creationDate: ClientRuntime.Date? = nil,
+            deletionStatus: BackupClientTypes.RestoreDeletionStatus? = nil,
+            deletionStatusMessage: Swift.String? = nil,
             expectedCompletionTimeMinutes: Swift.Int? = nil,
             iamRoleArn: Swift.String? = nil,
             percentDone: Swift.String? = nil,
             recoveryPointArn: Swift.String? = nil,
+            recoveryPointCreationDate: ClientRuntime.Date? = nil,
             resourceType: Swift.String? = nil,
             restoreJobId: Swift.String? = nil,
             status: BackupClientTypes.RestoreJobStatus? = nil,
-            statusMessage: Swift.String? = nil
+            statusMessage: Swift.String? = nil,
+            validationStatus: BackupClientTypes.RestoreValidationStatus? = nil,
+            validationStatusMessage: Swift.String? = nil
         )
         {
             self.accountId = accountId
             self.backupSizeInBytes = backupSizeInBytes
             self.completionDate = completionDate
+            self.createdBy = createdBy
             self.createdResourceArn = createdResourceArn
             self.creationDate = creationDate
+            self.deletionStatus = deletionStatus
+            self.deletionStatusMessage = deletionStatusMessage
             self.expectedCompletionTimeMinutes = expectedCompletionTimeMinutes
             self.iamRoleArn = iamRoleArn
             self.percentDone = percentDone
             self.recoveryPointArn = recoveryPointArn
+            self.recoveryPointCreationDate = recoveryPointCreationDate
             self.resourceType = resourceType
             self.restoreJobId = restoreJobId
             self.status = status
             self.statusMessage = statusMessage
+            self.validationStatus = validationStatus
+            self.validationStatusMessage = validationStatusMessage
         }
     }
 
+}
+
+extension BackupClientTypes.RestoreTestingPlanForCreate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recoveryPointSelection = "RecoveryPointSelection"
+        case restoreTestingPlanName = "RestoreTestingPlanName"
+        case scheduleExpression = "ScheduleExpression"
+        case scheduleExpressionTimezone = "ScheduleExpressionTimezone"
+        case startWindowHours = "StartWindowHours"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let recoveryPointSelection = self.recoveryPointSelection {
+            try encodeContainer.encode(recoveryPointSelection, forKey: .recoveryPointSelection)
+        }
+        if let restoreTestingPlanName = self.restoreTestingPlanName {
+            try encodeContainer.encode(restoreTestingPlanName, forKey: .restoreTestingPlanName)
+        }
+        if let scheduleExpression = self.scheduleExpression {
+            try encodeContainer.encode(scheduleExpression, forKey: .scheduleExpression)
+        }
+        if let scheduleExpressionTimezone = self.scheduleExpressionTimezone {
+            try encodeContainer.encode(scheduleExpressionTimezone, forKey: .scheduleExpressionTimezone)
+        }
+        if startWindowHours != 0 {
+            try encodeContainer.encode(startWindowHours, forKey: .startWindowHours)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recoveryPointSelectionDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreTestingRecoveryPointSelection.self, forKey: .recoveryPointSelection)
+        recoveryPointSelection = recoveryPointSelectionDecoded
+        let restoreTestingPlanNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanName)
+        restoreTestingPlanName = restoreTestingPlanNameDecoded
+        let scheduleExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpression)
+        scheduleExpression = scheduleExpressionDecoded
+        let scheduleExpressionTimezoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpressionTimezone)
+        scheduleExpressionTimezone = scheduleExpressionTimezoneDecoded
+        let startWindowHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startWindowHours) ?? 0
+        startWindowHours = startWindowHoursDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// This contains metadata about a restore testing plan.
+    public struct RestoreTestingPlanForCreate: Swift.Equatable {
+        /// Required: Algorithm; Required: Recovery point types; IncludeVaults (one or more). Optional: SelectionWindowDays ('30' if not specified); ExcludeVaults (list of selectors), defaults to empty list if not listed.
+        /// This member is required.
+        public var recoveryPointSelection: BackupClientTypes.RestoreTestingRecoveryPointSelection?
+        /// The RestoreTestingPlanName is a unique string that is the name of the restore testing plan. This cannot be changed after creation, and it must consist of only alphanumeric characters and underscores.
+        /// This member is required.
+        public var restoreTestingPlanName: Swift.String?
+        /// A CRON expression in specified timezone when a restore testing plan is executed.
+        /// This member is required.
+        public var scheduleExpression: Swift.String?
+        /// Optional. This is the timezone in which the schedule expression is set. By default, ScheduleExpressions are in UTC. You can modify this to a specified timezone.
+        public var scheduleExpressionTimezone: Swift.String?
+        /// Defaults to 24 hours. A value in hours after a restore test is scheduled before a job will be canceled if it doesn't start successfully. This value is optional. If this value is included, this parameter has a maximum value of 168 hours (one week).
+        public var startWindowHours: Swift.Int
+
+        public init(
+            recoveryPointSelection: BackupClientTypes.RestoreTestingRecoveryPointSelection? = nil,
+            restoreTestingPlanName: Swift.String? = nil,
+            scheduleExpression: Swift.String? = nil,
+            scheduleExpressionTimezone: Swift.String? = nil,
+            startWindowHours: Swift.Int = 0
+        )
+        {
+            self.recoveryPointSelection = recoveryPointSelection
+            self.restoreTestingPlanName = restoreTestingPlanName
+            self.scheduleExpression = scheduleExpression
+            self.scheduleExpressionTimezone = scheduleExpressionTimezone
+            self.startWindowHours = startWindowHours
+        }
+    }
+
+}
+
+extension BackupClientTypes.RestoreTestingPlanForGet: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case creatorRequestId = "CreatorRequestId"
+        case lastExecutionTime = "LastExecutionTime"
+        case lastUpdateTime = "LastUpdateTime"
+        case recoveryPointSelection = "RecoveryPointSelection"
+        case restoreTestingPlanArn = "RestoreTestingPlanArn"
+        case restoreTestingPlanName = "RestoreTestingPlanName"
+        case scheduleExpression = "ScheduleExpression"
+        case scheduleExpressionTimezone = "ScheduleExpressionTimezone"
+        case startWindowHours = "StartWindowHours"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let creatorRequestId = self.creatorRequestId {
+            try encodeContainer.encode(creatorRequestId, forKey: .creatorRequestId)
+        }
+        if let lastExecutionTime = self.lastExecutionTime {
+            try encodeContainer.encodeTimestamp(lastExecutionTime, format: .epochSeconds, forKey: .lastExecutionTime)
+        }
+        if let lastUpdateTime = self.lastUpdateTime {
+            try encodeContainer.encodeTimestamp(lastUpdateTime, format: .epochSeconds, forKey: .lastUpdateTime)
+        }
+        if let recoveryPointSelection = self.recoveryPointSelection {
+            try encodeContainer.encode(recoveryPointSelection, forKey: .recoveryPointSelection)
+        }
+        if let restoreTestingPlanArn = self.restoreTestingPlanArn {
+            try encodeContainer.encode(restoreTestingPlanArn, forKey: .restoreTestingPlanArn)
+        }
+        if let restoreTestingPlanName = self.restoreTestingPlanName {
+            try encodeContainer.encode(restoreTestingPlanName, forKey: .restoreTestingPlanName)
+        }
+        if let scheduleExpression = self.scheduleExpression {
+            try encodeContainer.encode(scheduleExpression, forKey: .scheduleExpression)
+        }
+        if let scheduleExpressionTimezone = self.scheduleExpressionTimezone {
+            try encodeContainer.encode(scheduleExpressionTimezone, forKey: .scheduleExpressionTimezone)
+        }
+        if startWindowHours != 0 {
+            try encodeContainer.encode(startWindowHours, forKey: .startWindowHours)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let creatorRequestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creatorRequestId)
+        creatorRequestId = creatorRequestIdDecoded
+        let lastExecutionTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastExecutionTime)
+        lastExecutionTime = lastExecutionTimeDecoded
+        let lastUpdateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdateTime)
+        lastUpdateTime = lastUpdateTimeDecoded
+        let recoveryPointSelectionDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreTestingRecoveryPointSelection.self, forKey: .recoveryPointSelection)
+        recoveryPointSelection = recoveryPointSelectionDecoded
+        let restoreTestingPlanArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanArn)
+        restoreTestingPlanArn = restoreTestingPlanArnDecoded
+        let restoreTestingPlanNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanName)
+        restoreTestingPlanName = restoreTestingPlanNameDecoded
+        let scheduleExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpression)
+        scheduleExpression = scheduleExpressionDecoded
+        let scheduleExpressionTimezoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpressionTimezone)
+        scheduleExpressionTimezone = scheduleExpressionTimezoneDecoded
+        let startWindowHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startWindowHours) ?? 0
+        startWindowHours = startWindowHoursDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// This contains metadata about a restore testing plan.
+    public struct RestoreTestingPlanForGet: Swift.Equatable {
+        /// The date and time that a restore testing plan was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        /// This member is required.
+        public var creationTime: ClientRuntime.Date?
+        /// This identifies the request and allows failed requests to be retried without the risk of running the operation twice. If the request includes a CreatorRequestId that matches an existing backup plan, that plan is returned. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
+        public var creatorRequestId: Swift.String?
+        /// The last time a restore test was run with the specified restore testing plan. A date and time, in Unix format and Coordinated Universal Time (UTC). The value of LastExecutionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var lastExecutionTime: ClientRuntime.Date?
+        /// The date and time that the restore testing plan was updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var lastUpdateTime: ClientRuntime.Date?
+        /// The specified criteria to assign a set of resources, such as recovery point types or backup vaults.
+        /// This member is required.
+        public var recoveryPointSelection: BackupClientTypes.RestoreTestingRecoveryPointSelection?
+        /// An Amazon Resource Name (ARN) that uniquely identifies a restore testing plan.
+        /// This member is required.
+        public var restoreTestingPlanArn: Swift.String?
+        /// This is the restore testing plan name.
+        /// This member is required.
+        public var restoreTestingPlanName: Swift.String?
+        /// A CRON expression in specified timezone when a restore testing plan is executed.
+        /// This member is required.
+        public var scheduleExpression: Swift.String?
+        /// Optional. This is the timezone in which the schedule expression is set. By default, ScheduleExpressions are in UTC. You can modify this to a specified timezone.
+        public var scheduleExpressionTimezone: Swift.String?
+        /// Defaults to 24 hours. A value in hours after a restore test is scheduled before a job will be canceled if it doesn't start successfully. This value is optional. If this value is included, this parameter has a maximum value of 168 hours (one week).
+        public var startWindowHours: Swift.Int
+
+        public init(
+            creationTime: ClientRuntime.Date? = nil,
+            creatorRequestId: Swift.String? = nil,
+            lastExecutionTime: ClientRuntime.Date? = nil,
+            lastUpdateTime: ClientRuntime.Date? = nil,
+            recoveryPointSelection: BackupClientTypes.RestoreTestingRecoveryPointSelection? = nil,
+            restoreTestingPlanArn: Swift.String? = nil,
+            restoreTestingPlanName: Swift.String? = nil,
+            scheduleExpression: Swift.String? = nil,
+            scheduleExpressionTimezone: Swift.String? = nil,
+            startWindowHours: Swift.Int = 0
+        )
+        {
+            self.creationTime = creationTime
+            self.creatorRequestId = creatorRequestId
+            self.lastExecutionTime = lastExecutionTime
+            self.lastUpdateTime = lastUpdateTime
+            self.recoveryPointSelection = recoveryPointSelection
+            self.restoreTestingPlanArn = restoreTestingPlanArn
+            self.restoreTestingPlanName = restoreTestingPlanName
+            self.scheduleExpression = scheduleExpression
+            self.scheduleExpressionTimezone = scheduleExpressionTimezone
+            self.startWindowHours = startWindowHours
+        }
+    }
+
+}
+
+extension BackupClientTypes.RestoreTestingPlanForList: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case lastExecutionTime = "LastExecutionTime"
+        case lastUpdateTime = "LastUpdateTime"
+        case restoreTestingPlanArn = "RestoreTestingPlanArn"
+        case restoreTestingPlanName = "RestoreTestingPlanName"
+        case scheduleExpression = "ScheduleExpression"
+        case scheduleExpressionTimezone = "ScheduleExpressionTimezone"
+        case startWindowHours = "StartWindowHours"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let lastExecutionTime = self.lastExecutionTime {
+            try encodeContainer.encodeTimestamp(lastExecutionTime, format: .epochSeconds, forKey: .lastExecutionTime)
+        }
+        if let lastUpdateTime = self.lastUpdateTime {
+            try encodeContainer.encodeTimestamp(lastUpdateTime, format: .epochSeconds, forKey: .lastUpdateTime)
+        }
+        if let restoreTestingPlanArn = self.restoreTestingPlanArn {
+            try encodeContainer.encode(restoreTestingPlanArn, forKey: .restoreTestingPlanArn)
+        }
+        if let restoreTestingPlanName = self.restoreTestingPlanName {
+            try encodeContainer.encode(restoreTestingPlanName, forKey: .restoreTestingPlanName)
+        }
+        if let scheduleExpression = self.scheduleExpression {
+            try encodeContainer.encode(scheduleExpression, forKey: .scheduleExpression)
+        }
+        if let scheduleExpressionTimezone = self.scheduleExpressionTimezone {
+            try encodeContainer.encode(scheduleExpressionTimezone, forKey: .scheduleExpressionTimezone)
+        }
+        if startWindowHours != 0 {
+            try encodeContainer.encode(startWindowHours, forKey: .startWindowHours)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let lastExecutionTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastExecutionTime)
+        lastExecutionTime = lastExecutionTimeDecoded
+        let lastUpdateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdateTime)
+        lastUpdateTime = lastUpdateTimeDecoded
+        let restoreTestingPlanArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanArn)
+        restoreTestingPlanArn = restoreTestingPlanArnDecoded
+        let restoreTestingPlanNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanName)
+        restoreTestingPlanName = restoreTestingPlanNameDecoded
+        let scheduleExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpression)
+        scheduleExpression = scheduleExpressionDecoded
+        let scheduleExpressionTimezoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpressionTimezone)
+        scheduleExpressionTimezone = scheduleExpressionTimezoneDecoded
+        let startWindowHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startWindowHours) ?? 0
+        startWindowHours = startWindowHoursDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// This contains metadata about a restore testing plan.
+    public struct RestoreTestingPlanForList: Swift.Equatable {
+        /// The date and time that a restore testing plan was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        /// This member is required.
+        public var creationTime: ClientRuntime.Date?
+        /// The last time a restore test was run with the specified restore testing plan. A date and time, in Unix format and Coordinated Universal Time (UTC). The value of LastExecutionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var lastExecutionTime: ClientRuntime.Date?
+        /// The date and time that the restore testing plan was updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var lastUpdateTime: ClientRuntime.Date?
+        /// An Amazon Resource Name (ARN) that uniquely identifiesa restore testing plan.
+        /// This member is required.
+        public var restoreTestingPlanArn: Swift.String?
+        /// This is the restore testing plan name.
+        /// This member is required.
+        public var restoreTestingPlanName: Swift.String?
+        /// A CRON expression in specified timezone when a restore testing plan is executed.
+        /// This member is required.
+        public var scheduleExpression: Swift.String?
+        /// Optional. This is the timezone in which the schedule expression is set. By default, ScheduleExpressions are in UTC. You can modify this to a specified timezone.
+        public var scheduleExpressionTimezone: Swift.String?
+        /// Defaults to 24 hours. A value in hours after a restore test is scheduled before a job will be canceled if it doesn't start successfully. This value is optional. If this value is included, this parameter has a maximum value of 168 hours (one week).
+        public var startWindowHours: Swift.Int
+
+        public init(
+            creationTime: ClientRuntime.Date? = nil,
+            lastExecutionTime: ClientRuntime.Date? = nil,
+            lastUpdateTime: ClientRuntime.Date? = nil,
+            restoreTestingPlanArn: Swift.String? = nil,
+            restoreTestingPlanName: Swift.String? = nil,
+            scheduleExpression: Swift.String? = nil,
+            scheduleExpressionTimezone: Swift.String? = nil,
+            startWindowHours: Swift.Int = 0
+        )
+        {
+            self.creationTime = creationTime
+            self.lastExecutionTime = lastExecutionTime
+            self.lastUpdateTime = lastUpdateTime
+            self.restoreTestingPlanArn = restoreTestingPlanArn
+            self.restoreTestingPlanName = restoreTestingPlanName
+            self.scheduleExpression = scheduleExpression
+            self.scheduleExpressionTimezone = scheduleExpressionTimezone
+            self.startWindowHours = startWindowHours
+        }
+    }
+
+}
+
+extension BackupClientTypes.RestoreTestingPlanForUpdate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recoveryPointSelection = "RecoveryPointSelection"
+        case scheduleExpression = "ScheduleExpression"
+        case scheduleExpressionTimezone = "ScheduleExpressionTimezone"
+        case startWindowHours = "StartWindowHours"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let recoveryPointSelection = self.recoveryPointSelection {
+            try encodeContainer.encode(recoveryPointSelection, forKey: .recoveryPointSelection)
+        }
+        if let scheduleExpression = self.scheduleExpression {
+            try encodeContainer.encode(scheduleExpression, forKey: .scheduleExpression)
+        }
+        if let scheduleExpressionTimezone = self.scheduleExpressionTimezone {
+            try encodeContainer.encode(scheduleExpressionTimezone, forKey: .scheduleExpressionTimezone)
+        }
+        if startWindowHours != 0 {
+            try encodeContainer.encode(startWindowHours, forKey: .startWindowHours)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recoveryPointSelectionDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreTestingRecoveryPointSelection.self, forKey: .recoveryPointSelection)
+        recoveryPointSelection = recoveryPointSelectionDecoded
+        let scheduleExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpression)
+        scheduleExpression = scheduleExpressionDecoded
+        let scheduleExpressionTimezoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpressionTimezone)
+        scheduleExpressionTimezone = scheduleExpressionTimezoneDecoded
+        let startWindowHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startWindowHours) ?? 0
+        startWindowHours = startWindowHoursDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// This contains metadata about a restore testing plan.
+    public struct RestoreTestingPlanForUpdate: Swift.Equatable {
+        /// Required: Algorithm; RecoveryPointTypes; IncludeVaults (one or more). Optional: SelectionWindowDays ('30' if not specified); ExcludeVaults (defaults to empty list if not listed).
+        public var recoveryPointSelection: BackupClientTypes.RestoreTestingRecoveryPointSelection?
+        /// A CRON expression in specified timezone when a restore testing plan is executed.
+        public var scheduleExpression: Swift.String?
+        /// Optional. This is the timezone in which the schedule expression is set. By default, ScheduleExpressions are in UTC. You can modify this to a specified timezone.
+        public var scheduleExpressionTimezone: Swift.String?
+        /// Defaults to 24 hours. A value in hours after a restore test is scheduled before a job will be canceled if it doesn't start successfully. This value is optional. If this value is included, this parameter has a maximum value of 168 hours (one week).
+        public var startWindowHours: Swift.Int
+
+        public init(
+            recoveryPointSelection: BackupClientTypes.RestoreTestingRecoveryPointSelection? = nil,
+            scheduleExpression: Swift.String? = nil,
+            scheduleExpressionTimezone: Swift.String? = nil,
+            startWindowHours: Swift.Int = 0
+        )
+        {
+            self.recoveryPointSelection = recoveryPointSelection
+            self.scheduleExpression = scheduleExpression
+            self.scheduleExpressionTimezone = scheduleExpressionTimezone
+            self.startWindowHours = startWindowHours
+        }
+    }
+
+}
+
+extension BackupClientTypes.RestoreTestingRecoveryPointSelection: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case algorithm = "Algorithm"
+        case excludeVaults = "ExcludeVaults"
+        case includeVaults = "IncludeVaults"
+        case recoveryPointTypes = "RecoveryPointTypes"
+        case selectionWindowDays = "SelectionWindowDays"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let algorithm = self.algorithm {
+            try encodeContainer.encode(algorithm.rawValue, forKey: .algorithm)
+        }
+        if let excludeVaults = excludeVaults {
+            var excludeVaultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludeVaults)
+            for string0 in excludeVaults {
+                try excludeVaultsContainer.encode(string0)
+            }
+        }
+        if let includeVaults = includeVaults {
+            var includeVaultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includeVaults)
+            for string0 in includeVaults {
+                try includeVaultsContainer.encode(string0)
+            }
+        }
+        if let recoveryPointTypes = recoveryPointTypes {
+            var recoveryPointTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recoveryPointTypes)
+            for restoretestingrecoverypointtype0 in recoveryPointTypes {
+                try recoveryPointTypesContainer.encode(restoretestingrecoverypointtype0.rawValue)
+            }
+        }
+        if selectionWindowDays != 0 {
+            try encodeContainer.encode(selectionWindowDays, forKey: .selectionWindowDays)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let algorithmDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreTestingRecoveryPointSelectionAlgorithm.self, forKey: .algorithm)
+        algorithm = algorithmDecoded
+        let excludeVaultsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .excludeVaults)
+        var excludeVaultsDecoded0:[Swift.String]? = nil
+        if let excludeVaultsContainer = excludeVaultsContainer {
+            excludeVaultsDecoded0 = [Swift.String]()
+            for string0 in excludeVaultsContainer {
+                if let string0 = string0 {
+                    excludeVaultsDecoded0?.append(string0)
+                }
+            }
+        }
+        excludeVaults = excludeVaultsDecoded0
+        let includeVaultsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .includeVaults)
+        var includeVaultsDecoded0:[Swift.String]? = nil
+        if let includeVaultsContainer = includeVaultsContainer {
+            includeVaultsDecoded0 = [Swift.String]()
+            for string0 in includeVaultsContainer {
+                if let string0 = string0 {
+                    includeVaultsDecoded0?.append(string0)
+                }
+            }
+        }
+        includeVaults = includeVaultsDecoded0
+        let recoveryPointTypesContainer = try containerValues.decodeIfPresent([BackupClientTypes.RestoreTestingRecoveryPointType?].self, forKey: .recoveryPointTypes)
+        var recoveryPointTypesDecoded0:[BackupClientTypes.RestoreTestingRecoveryPointType]? = nil
+        if let recoveryPointTypesContainer = recoveryPointTypesContainer {
+            recoveryPointTypesDecoded0 = [BackupClientTypes.RestoreTestingRecoveryPointType]()
+            for enum0 in recoveryPointTypesContainer {
+                if let enum0 = enum0 {
+                    recoveryPointTypesDecoded0?.append(enum0)
+                }
+            }
+        }
+        recoveryPointTypes = recoveryPointTypesDecoded0
+        let selectionWindowDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .selectionWindowDays) ?? 0
+        selectionWindowDays = selectionWindowDaysDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// Required: Algorithm; Required: Recovery point types; IncludeVaults(one or more). Optional: SelectionWindowDays ('30' if not specified);ExcludeVaults (list of selectors), defaults to empty list if not listed.
+    public struct RestoreTestingRecoveryPointSelection: Swift.Equatable {
+        /// Acceptable values include "LATEST_WITHIN_WINDOW" or "RANDOM_WITHIN_WINDOW"
+        public var algorithm: BackupClientTypes.RestoreTestingRecoveryPointSelectionAlgorithm?
+        /// Accepted values include specific ARNs or list of selectors. Defaults to empty list if not listed.
+        public var excludeVaults: [Swift.String]?
+        /// Accepted values include wildcard ["*"] or by specific ARNs or ARN wilcard replacement ["arn:aws:backup:us-west-2:123456789012:backup-vault:asdf", ...] ["arn:aws:backup:*:*:backup-vault:asdf-*", ...]
+        public var includeVaults: [Swift.String]?
+        /// These are the types of recovery points.
+        public var recoveryPointTypes: [BackupClientTypes.RestoreTestingRecoveryPointType]?
+        /// Accepted values are integers from 1 to 365.
+        public var selectionWindowDays: Swift.Int
+
+        public init(
+            algorithm: BackupClientTypes.RestoreTestingRecoveryPointSelectionAlgorithm? = nil,
+            excludeVaults: [Swift.String]? = nil,
+            includeVaults: [Swift.String]? = nil,
+            recoveryPointTypes: [BackupClientTypes.RestoreTestingRecoveryPointType]? = nil,
+            selectionWindowDays: Swift.Int = 0
+        )
+        {
+            self.algorithm = algorithm
+            self.excludeVaults = excludeVaults
+            self.includeVaults = includeVaults
+            self.recoveryPointTypes = recoveryPointTypes
+            self.selectionWindowDays = selectionWindowDays
+        }
+    }
+
+}
+
+extension BackupClientTypes {
+    public enum RestoreTestingRecoveryPointSelectionAlgorithm: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case latestWithinWindow
+        case randomWithinWindow
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RestoreTestingRecoveryPointSelectionAlgorithm] {
+            return [
+                .latestWithinWindow,
+                .randomWithinWindow,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .latestWithinWindow: return "LATEST_WITHIN_WINDOW"
+            case .randomWithinWindow: return "RANDOM_WITHIN_WINDOW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RestoreTestingRecoveryPointSelectionAlgorithm(rawValue: rawValue) ?? RestoreTestingRecoveryPointSelectionAlgorithm.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BackupClientTypes {
+    public enum RestoreTestingRecoveryPointType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case continuous
+        case snapshot
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RestoreTestingRecoveryPointType] {
+            return [
+                .continuous,
+                .snapshot,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .continuous: return "CONTINUOUS"
+            case .snapshot: return "SNAPSHOT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RestoreTestingRecoveryPointType(rawValue: rawValue) ?? RestoreTestingRecoveryPointType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BackupClientTypes.RestoreTestingSelectionForCreate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case iamRoleArn = "IamRoleArn"
+        case protectedResourceArns = "ProtectedResourceArns"
+        case protectedResourceConditions = "ProtectedResourceConditions"
+        case protectedResourceType = "ProtectedResourceType"
+        case restoreMetadataOverrides = "RestoreMetadataOverrides"
+        case restoreTestingSelectionName = "RestoreTestingSelectionName"
+        case validationWindowHours = "ValidationWindowHours"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let iamRoleArn = self.iamRoleArn {
+            try encodeContainer.encode(iamRoleArn, forKey: .iamRoleArn)
+        }
+        if let protectedResourceArns = protectedResourceArns {
+            var protectedResourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protectedResourceArns)
+            for string0 in protectedResourceArns {
+                try protectedResourceArnsContainer.encode(string0)
+            }
+        }
+        if let protectedResourceConditions = self.protectedResourceConditions {
+            try encodeContainer.encode(protectedResourceConditions, forKey: .protectedResourceConditions)
+        }
+        if let protectedResourceType = self.protectedResourceType {
+            try encodeContainer.encode(protectedResourceType, forKey: .protectedResourceType)
+        }
+        if let restoreMetadataOverrides = restoreMetadataOverrides {
+            var restoreMetadataOverridesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .restoreMetadataOverrides)
+            for (dictKey0, sensitiveStringMap0) in restoreMetadataOverrides {
+                try restoreMetadataOverridesContainer.encode(sensitiveStringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let restoreTestingSelectionName = self.restoreTestingSelectionName {
+            try encodeContainer.encode(restoreTestingSelectionName, forKey: .restoreTestingSelectionName)
+        }
+        if validationWindowHours != 0 {
+            try encodeContainer.encode(validationWindowHours, forKey: .validationWindowHours)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let iamRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRoleArn)
+        iamRoleArn = iamRoleArnDecoded
+        let protectedResourceArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .protectedResourceArns)
+        var protectedResourceArnsDecoded0:[Swift.String]? = nil
+        if let protectedResourceArnsContainer = protectedResourceArnsContainer {
+            protectedResourceArnsDecoded0 = [Swift.String]()
+            for string0 in protectedResourceArnsContainer {
+                if let string0 = string0 {
+                    protectedResourceArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        protectedResourceArns = protectedResourceArnsDecoded0
+        let protectedResourceConditionsDecoded = try containerValues.decodeIfPresent(BackupClientTypes.ProtectedResourceConditions.self, forKey: .protectedResourceConditions)
+        protectedResourceConditions = protectedResourceConditionsDecoded
+        let protectedResourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .protectedResourceType)
+        protectedResourceType = protectedResourceTypeDecoded
+        let restoreMetadataOverridesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .restoreMetadataOverrides)
+        var restoreMetadataOverridesDecoded0: [Swift.String:Swift.String]? = nil
+        if let restoreMetadataOverridesContainer = restoreMetadataOverridesContainer {
+            restoreMetadataOverridesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in restoreMetadataOverridesContainer {
+                if let string0 = string0 {
+                    restoreMetadataOverridesDecoded0?[key0] = string0
+                }
+            }
+        }
+        restoreMetadataOverrides = restoreMetadataOverridesDecoded0
+        let restoreTestingSelectionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingSelectionName)
+        restoreTestingSelectionName = restoreTestingSelectionNameDecoded
+        let validationWindowHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .validationWindowHours) ?? 0
+        validationWindowHours = validationWindowHoursDecoded
+    }
+}
+
+extension BackupClientTypes.RestoreTestingSelectionForCreate: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RestoreTestingSelectionForCreate(iamRoleArn: \(Swift.String(describing: iamRoleArn)), protectedResourceArns: \(Swift.String(describing: protectedResourceArns)), protectedResourceConditions: \(Swift.String(describing: protectedResourceConditions)), protectedResourceType: \(Swift.String(describing: protectedResourceType)), restoreTestingSelectionName: \(Swift.String(describing: restoreTestingSelectionName)), validationWindowHours: \(Swift.String(describing: validationWindowHours)), restoreMetadataOverrides: \"CONTENT_REDACTED\")"}
+}
+
+extension BackupClientTypes {
+    /// This contains metadata about a specific restore testing selection. ProtectedResourceType is required, such as Amazon EBS or Amazon EC2. This consists of RestoreTestingSelectionName, ProtectedResourceType, and one of the following:
+    ///
+    /// * ProtectedResourceArns
+    ///
+    /// * ProtectedResourceConditions
+    ///
+    ///
+    /// Each protected resource type can have one single value. A restore testing selection can include a wildcard value ("*") for ProtectedResourceArns along with ProtectedResourceConditions. Alternatively, you can include up to 30 specific protected resource ARNs in ProtectedResourceArns. ProtectedResourceConditions examples include as StringEquals and StringNotEquals.
+    public struct RestoreTestingSelectionForCreate: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target resource; for example: arn:aws:iam::123456789012:role/S3Access.
+        /// This member is required.
+        public var iamRoleArn: Swift.String?
+        /// Each protected resource can be filtered by its specific ARNs, such as ProtectedResourceArns: ["arn:aws:...", "arn:aws:..."] or by a wildcard: ProtectedResourceArns: ["*"], but not both.
+        public var protectedResourceArns: [Swift.String]?
+        /// If you have included the wildcard in ProtectedResourceArns, you can include resource conditions, such as ProtectedResourceConditions: { StringEquals: [{ key: "XXXX", value: "YYYY" }].
+        public var protectedResourceConditions: BackupClientTypes.ProtectedResourceConditions?
+        /// The type of Amazon Web Services resource included in a restore testing selection; for example, an Amazon EBS volume or an Amazon RDS database. Supported resource types accepted include:
+        ///
+        /// * Aurora for Amazon Aurora
+        ///
+        /// * DocumentDB for Amazon DocumentDB (with MongoDB compatibility)
+        ///
+        /// * DynamoDB for Amazon DynamoDB
+        ///
+        /// * EBS for Amazon Elastic Block Store
+        ///
+        /// * EC2 for Amazon Elastic Compute Cloud
+        ///
+        /// * EFS for Amazon Elastic File System
+        ///
+        /// * FSx for Amazon FSx
+        ///
+        /// * Neptune for Amazon Neptune
+        ///
+        /// * RDS for Amazon Relational Database Service
+        ///
+        /// * S3 for Amazon S3
+        /// This member is required.
+        public var protectedResourceType: Swift.String?
+        /// You can override certain restore metadata keys by including the parameter RestoreMetadataOverrides in the body of RestoreTestingSelection. Key values are not case sensitive. See the complete list of [restore testing inferred metadata](https://docs.aws.amazon.com/aws-backup/latest/devguide/restore-testing-inferred-metadata.html).
+        public var restoreMetadataOverrides: [Swift.String:Swift.String]?
+        /// This is the unique name of the restore testing selection that belongs to the related restore testing plan.
+        /// This member is required.
+        public var restoreTestingSelectionName: Swift.String?
+        /// This is amount of hours (1 to 168) available to run a validation script on the data. The data will be deleted upon the completion of the validation script or the end of the specified retention period, whichever comes first.
+        public var validationWindowHours: Swift.Int
+
+        public init(
+            iamRoleArn: Swift.String? = nil,
+            protectedResourceArns: [Swift.String]? = nil,
+            protectedResourceConditions: BackupClientTypes.ProtectedResourceConditions? = nil,
+            protectedResourceType: Swift.String? = nil,
+            restoreMetadataOverrides: [Swift.String:Swift.String]? = nil,
+            restoreTestingSelectionName: Swift.String? = nil,
+            validationWindowHours: Swift.Int = 0
+        )
+        {
+            self.iamRoleArn = iamRoleArn
+            self.protectedResourceArns = protectedResourceArns
+            self.protectedResourceConditions = protectedResourceConditions
+            self.protectedResourceType = protectedResourceType
+            self.restoreMetadataOverrides = restoreMetadataOverrides
+            self.restoreTestingSelectionName = restoreTestingSelectionName
+            self.validationWindowHours = validationWindowHours
+        }
+    }
+
+}
+
+extension BackupClientTypes.RestoreTestingSelectionForGet: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case creatorRequestId = "CreatorRequestId"
+        case iamRoleArn = "IamRoleArn"
+        case protectedResourceArns = "ProtectedResourceArns"
+        case protectedResourceConditions = "ProtectedResourceConditions"
+        case protectedResourceType = "ProtectedResourceType"
+        case restoreMetadataOverrides = "RestoreMetadataOverrides"
+        case restoreTestingPlanName = "RestoreTestingPlanName"
+        case restoreTestingSelectionName = "RestoreTestingSelectionName"
+        case validationWindowHours = "ValidationWindowHours"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let creatorRequestId = self.creatorRequestId {
+            try encodeContainer.encode(creatorRequestId, forKey: .creatorRequestId)
+        }
+        if let iamRoleArn = self.iamRoleArn {
+            try encodeContainer.encode(iamRoleArn, forKey: .iamRoleArn)
+        }
+        if let protectedResourceArns = protectedResourceArns {
+            var protectedResourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protectedResourceArns)
+            for string0 in protectedResourceArns {
+                try protectedResourceArnsContainer.encode(string0)
+            }
+        }
+        if let protectedResourceConditions = self.protectedResourceConditions {
+            try encodeContainer.encode(protectedResourceConditions, forKey: .protectedResourceConditions)
+        }
+        if let protectedResourceType = self.protectedResourceType {
+            try encodeContainer.encode(protectedResourceType, forKey: .protectedResourceType)
+        }
+        if let restoreMetadataOverrides = restoreMetadataOverrides {
+            var restoreMetadataOverridesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .restoreMetadataOverrides)
+            for (dictKey0, sensitiveStringMap0) in restoreMetadataOverrides {
+                try restoreMetadataOverridesContainer.encode(sensitiveStringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let restoreTestingPlanName = self.restoreTestingPlanName {
+            try encodeContainer.encode(restoreTestingPlanName, forKey: .restoreTestingPlanName)
+        }
+        if let restoreTestingSelectionName = self.restoreTestingSelectionName {
+            try encodeContainer.encode(restoreTestingSelectionName, forKey: .restoreTestingSelectionName)
+        }
+        if validationWindowHours != 0 {
+            try encodeContainer.encode(validationWindowHours, forKey: .validationWindowHours)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let creatorRequestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creatorRequestId)
+        creatorRequestId = creatorRequestIdDecoded
+        let iamRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRoleArn)
+        iamRoleArn = iamRoleArnDecoded
+        let protectedResourceArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .protectedResourceArns)
+        var protectedResourceArnsDecoded0:[Swift.String]? = nil
+        if let protectedResourceArnsContainer = protectedResourceArnsContainer {
+            protectedResourceArnsDecoded0 = [Swift.String]()
+            for string0 in protectedResourceArnsContainer {
+                if let string0 = string0 {
+                    protectedResourceArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        protectedResourceArns = protectedResourceArnsDecoded0
+        let protectedResourceConditionsDecoded = try containerValues.decodeIfPresent(BackupClientTypes.ProtectedResourceConditions.self, forKey: .protectedResourceConditions)
+        protectedResourceConditions = protectedResourceConditionsDecoded
+        let protectedResourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .protectedResourceType)
+        protectedResourceType = protectedResourceTypeDecoded
+        let restoreMetadataOverridesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .restoreMetadataOverrides)
+        var restoreMetadataOverridesDecoded0: [Swift.String:Swift.String]? = nil
+        if let restoreMetadataOverridesContainer = restoreMetadataOverridesContainer {
+            restoreMetadataOverridesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in restoreMetadataOverridesContainer {
+                if let string0 = string0 {
+                    restoreMetadataOverridesDecoded0?[key0] = string0
+                }
+            }
+        }
+        restoreMetadataOverrides = restoreMetadataOverridesDecoded0
+        let restoreTestingPlanNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanName)
+        restoreTestingPlanName = restoreTestingPlanNameDecoded
+        let restoreTestingSelectionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingSelectionName)
+        restoreTestingSelectionName = restoreTestingSelectionNameDecoded
+        let validationWindowHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .validationWindowHours) ?? 0
+        validationWindowHours = validationWindowHoursDecoded
+    }
+}
+
+extension BackupClientTypes.RestoreTestingSelectionForGet: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RestoreTestingSelectionForGet(creationTime: \(Swift.String(describing: creationTime)), creatorRequestId: \(Swift.String(describing: creatorRequestId)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), protectedResourceArns: \(Swift.String(describing: protectedResourceArns)), protectedResourceConditions: \(Swift.String(describing: protectedResourceConditions)), protectedResourceType: \(Swift.String(describing: protectedResourceType)), restoreTestingPlanName: \(Swift.String(describing: restoreTestingPlanName)), restoreTestingSelectionName: \(Swift.String(describing: restoreTestingSelectionName)), validationWindowHours: \(Swift.String(describing: validationWindowHours)), restoreMetadataOverrides: \"CONTENT_REDACTED\")"}
+}
+
+extension BackupClientTypes {
+    /// This contains metadata about a restore testing selection.
+    public struct RestoreTestingSelectionForGet: Swift.Equatable {
+        /// The date and time that a restore testing selection was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 201812:11:30.087 AM.
+        /// This member is required.
+        public var creationTime: ClientRuntime.Date?
+        /// This identifies the request and allows failed requests to be retried without the risk of running the operation twice. If the request includes a CreatorRequestId that matches an existing backup plan, that plan is returned. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
+        public var creatorRequestId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target resource; for example:arn:aws:iam::123456789012:role/S3Access.
+        /// This member is required.
+        public var iamRoleArn: Swift.String?
+        /// You can include specific ARNs, such as ProtectedResourceArns: ["arn:aws:...", "arn:aws:..."] or you can include a wildcard: ProtectedResourceArns: ["*"], but not both.
+        public var protectedResourceArns: [Swift.String]?
+        /// In a resource testing selection, this parameter filters by specific conditions such as StringEquals or StringNotEquals.
+        public var protectedResourceConditions: BackupClientTypes.ProtectedResourceConditions?
+        /// The type of Amazon Web Services resource included in a resource testing selection; for example, an Amazon EBS volume or an Amazon RDS database.
+        /// This member is required.
+        public var protectedResourceType: Swift.String?
+        /// You can override certain restore metadata keys by including the parameter RestoreMetadataOverrides in the body of RestoreTestingSelection. Key values are not case sensitive. See the complete list of [restore testing inferred metadata](https://docs.aws.amazon.com/aws-backup/latest/devguide/restore-testing-inferred-metadata.html).
+        public var restoreMetadataOverrides: [Swift.String:Swift.String]?
+        /// The RestoreTestingPlanName is a unique string that is the name of the restore testing plan.
+        /// This member is required.
+        public var restoreTestingPlanName: Swift.String?
+        /// This is the unique name of the restore testing selection that belongs to the related restore testing plan.
+        /// This member is required.
+        public var restoreTestingSelectionName: Swift.String?
+        /// This is amount of hours (1 to 168) available to run a validation script on the data. The data will be deleted upon the completion of the validation script or the end of the specified retention period, whichever comes first.
+        public var validationWindowHours: Swift.Int
+
+        public init(
+            creationTime: ClientRuntime.Date? = nil,
+            creatorRequestId: Swift.String? = nil,
+            iamRoleArn: Swift.String? = nil,
+            protectedResourceArns: [Swift.String]? = nil,
+            protectedResourceConditions: BackupClientTypes.ProtectedResourceConditions? = nil,
+            protectedResourceType: Swift.String? = nil,
+            restoreMetadataOverrides: [Swift.String:Swift.String]? = nil,
+            restoreTestingPlanName: Swift.String? = nil,
+            restoreTestingSelectionName: Swift.String? = nil,
+            validationWindowHours: Swift.Int = 0
+        )
+        {
+            self.creationTime = creationTime
+            self.creatorRequestId = creatorRequestId
+            self.iamRoleArn = iamRoleArn
+            self.protectedResourceArns = protectedResourceArns
+            self.protectedResourceConditions = protectedResourceConditions
+            self.protectedResourceType = protectedResourceType
+            self.restoreMetadataOverrides = restoreMetadataOverrides
+            self.restoreTestingPlanName = restoreTestingPlanName
+            self.restoreTestingSelectionName = restoreTestingSelectionName
+            self.validationWindowHours = validationWindowHours
+        }
+    }
+
+}
+
+extension BackupClientTypes.RestoreTestingSelectionForList: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case iamRoleArn = "IamRoleArn"
+        case protectedResourceType = "ProtectedResourceType"
+        case restoreTestingPlanName = "RestoreTestingPlanName"
+        case restoreTestingSelectionName = "RestoreTestingSelectionName"
+        case validationWindowHours = "ValidationWindowHours"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let iamRoleArn = self.iamRoleArn {
+            try encodeContainer.encode(iamRoleArn, forKey: .iamRoleArn)
+        }
+        if let protectedResourceType = self.protectedResourceType {
+            try encodeContainer.encode(protectedResourceType, forKey: .protectedResourceType)
+        }
+        if let restoreTestingPlanName = self.restoreTestingPlanName {
+            try encodeContainer.encode(restoreTestingPlanName, forKey: .restoreTestingPlanName)
+        }
+        if let restoreTestingSelectionName = self.restoreTestingSelectionName {
+            try encodeContainer.encode(restoreTestingSelectionName, forKey: .restoreTestingSelectionName)
+        }
+        if validationWindowHours != 0 {
+            try encodeContainer.encode(validationWindowHours, forKey: .validationWindowHours)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let iamRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRoleArn)
+        iamRoleArn = iamRoleArnDecoded
+        let protectedResourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .protectedResourceType)
+        protectedResourceType = protectedResourceTypeDecoded
+        let restoreTestingPlanNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanName)
+        restoreTestingPlanName = restoreTestingPlanNameDecoded
+        let restoreTestingSelectionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingSelectionName)
+        restoreTestingSelectionName = restoreTestingSelectionNameDecoded
+        let validationWindowHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .validationWindowHours) ?? 0
+        validationWindowHours = validationWindowHoursDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// This contains metadata about a restore testing selection.
+    public struct RestoreTestingSelectionForList: Swift.Equatable {
+        /// This is the date and time that a restore testing selection was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26,2018 12:11:30.087 AM.
+        /// This member is required.
+        public var creationTime: ClientRuntime.Date?
+        /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target resource; for example: arn:aws:iam::123456789012:role/S3Access.
+        /// This member is required.
+        public var iamRoleArn: Swift.String?
+        /// The type of Amazon Web Services resource included in a restore testing selection; for example, an Amazon EBS volume or an Amazon RDS database.
+        /// This member is required.
+        public var protectedResourceType: Swift.String?
+        /// Unique string that is the name of the restore testing plan. The name cannot be changed after creation. The name must consist of only alphanumeric characters and underscores. Maximum length is 50.
+        /// This member is required.
+        public var restoreTestingPlanName: Swift.String?
+        /// Unique name of a restore testing selection.
+        /// This member is required.
+        public var restoreTestingSelectionName: Swift.String?
+        /// This value represents the time, in hours, data is retained after a restore test so that optional validation can be completed. Accepted value is an integer between 0 and 168 (the hourly equivalent of seven days).
+        public var validationWindowHours: Swift.Int
+
+        public init(
+            creationTime: ClientRuntime.Date? = nil,
+            iamRoleArn: Swift.String? = nil,
+            protectedResourceType: Swift.String? = nil,
+            restoreTestingPlanName: Swift.String? = nil,
+            restoreTestingSelectionName: Swift.String? = nil,
+            validationWindowHours: Swift.Int = 0
+        )
+        {
+            self.creationTime = creationTime
+            self.iamRoleArn = iamRoleArn
+            self.protectedResourceType = protectedResourceType
+            self.restoreTestingPlanName = restoreTestingPlanName
+            self.restoreTestingSelectionName = restoreTestingSelectionName
+            self.validationWindowHours = validationWindowHours
+        }
+    }
+
+}
+
+extension BackupClientTypes.RestoreTestingSelectionForUpdate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case iamRoleArn = "IamRoleArn"
+        case protectedResourceArns = "ProtectedResourceArns"
+        case protectedResourceConditions = "ProtectedResourceConditions"
+        case restoreMetadataOverrides = "RestoreMetadataOverrides"
+        case validationWindowHours = "ValidationWindowHours"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let iamRoleArn = self.iamRoleArn {
+            try encodeContainer.encode(iamRoleArn, forKey: .iamRoleArn)
+        }
+        if let protectedResourceArns = protectedResourceArns {
+            var protectedResourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protectedResourceArns)
+            for string0 in protectedResourceArns {
+                try protectedResourceArnsContainer.encode(string0)
+            }
+        }
+        if let protectedResourceConditions = self.protectedResourceConditions {
+            try encodeContainer.encode(protectedResourceConditions, forKey: .protectedResourceConditions)
+        }
+        if let restoreMetadataOverrides = restoreMetadataOverrides {
+            var restoreMetadataOverridesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .restoreMetadataOverrides)
+            for (dictKey0, sensitiveStringMap0) in restoreMetadataOverrides {
+                try restoreMetadataOverridesContainer.encode(sensitiveStringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if validationWindowHours != 0 {
+            try encodeContainer.encode(validationWindowHours, forKey: .validationWindowHours)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let iamRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRoleArn)
+        iamRoleArn = iamRoleArnDecoded
+        let protectedResourceArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .protectedResourceArns)
+        var protectedResourceArnsDecoded0:[Swift.String]? = nil
+        if let protectedResourceArnsContainer = protectedResourceArnsContainer {
+            protectedResourceArnsDecoded0 = [Swift.String]()
+            for string0 in protectedResourceArnsContainer {
+                if let string0 = string0 {
+                    protectedResourceArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        protectedResourceArns = protectedResourceArnsDecoded0
+        let protectedResourceConditionsDecoded = try containerValues.decodeIfPresent(BackupClientTypes.ProtectedResourceConditions.self, forKey: .protectedResourceConditions)
+        protectedResourceConditions = protectedResourceConditionsDecoded
+        let restoreMetadataOverridesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .restoreMetadataOverrides)
+        var restoreMetadataOverridesDecoded0: [Swift.String:Swift.String]? = nil
+        if let restoreMetadataOverridesContainer = restoreMetadataOverridesContainer {
+            restoreMetadataOverridesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in restoreMetadataOverridesContainer {
+                if let string0 = string0 {
+                    restoreMetadataOverridesDecoded0?[key0] = string0
+                }
+            }
+        }
+        restoreMetadataOverrides = restoreMetadataOverridesDecoded0
+        let validationWindowHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .validationWindowHours) ?? 0
+        validationWindowHours = validationWindowHoursDecoded
+    }
+}
+
+extension BackupClientTypes.RestoreTestingSelectionForUpdate: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RestoreTestingSelectionForUpdate(iamRoleArn: \(Swift.String(describing: iamRoleArn)), protectedResourceArns: \(Swift.String(describing: protectedResourceArns)), protectedResourceConditions: \(Swift.String(describing: protectedResourceConditions)), validationWindowHours: \(Swift.String(describing: validationWindowHours)), restoreMetadataOverrides: \"CONTENT_REDACTED\")"}
+}
+
+extension BackupClientTypes {
+    /// This contains metadata about a restore testing selection.
+    public struct RestoreTestingSelectionForUpdate: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target resource; for example: arn:aws:iam::123456789012:role/S3Access.
+        public var iamRoleArn: Swift.String?
+        /// You can include a list of specific ARNs, such as ProtectedResourceArns: ["arn:aws:...", "arn:aws:..."] or you can include a wildcard: ProtectedResourceArns: ["*"], but not both.
+        public var protectedResourceArns: [Swift.String]?
+        /// A list of conditions that you define for resources in your restore testing plan using tags. For example, "StringEquals": { "Key": "aws:ResourceTag/CreatedByCryo", "Value": "true" },. Condition operators are case sensitive.
+        public var protectedResourceConditions: BackupClientTypes.ProtectedResourceConditions?
+        /// You can override certain restore metadata keys by including the parameter RestoreMetadataOverrides in the body of RestoreTestingSelection. Key values are not case sensitive. See the complete list of [restore testing inferred metadata](https://docs.aws.amazon.com/aws-backup/latest/devguide/restore-testing-inferred-metadata.html).
+        public var restoreMetadataOverrides: [Swift.String:Swift.String]?
+        /// This value represents the time, in hours, data is retained after a restore test so that optional validation can be completed. Accepted value is an integer between 0 and 168 (the hourly equivalent of seven days).
+        public var validationWindowHours: Swift.Int
+
+        public init(
+            iamRoleArn: Swift.String? = nil,
+            protectedResourceArns: [Swift.String]? = nil,
+            protectedResourceConditions: BackupClientTypes.ProtectedResourceConditions? = nil,
+            restoreMetadataOverrides: [Swift.String:Swift.String]? = nil,
+            validationWindowHours: Swift.Int = 0
+        )
+        {
+            self.iamRoleArn = iamRoleArn
+            self.protectedResourceArns = protectedResourceArns
+            self.protectedResourceConditions = protectedResourceConditions
+            self.restoreMetadataOverrides = restoreMetadataOverrides
+            self.validationWindowHours = validationWindowHours
+        }
+    }
+
+}
+
+extension BackupClientTypes {
+    public enum RestoreValidationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case successful
+        case timedOut
+        case validating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RestoreValidationStatus] {
+            return [
+                .failed,
+                .successful,
+                .timedOut,
+                .validating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .successful: return "SUCCESSFUL"
+            case .timedOut: return "TIMED_OUT"
+            case .validating: return "VALIDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RestoreValidationStatus(rawValue: rawValue) ?? RestoreValidationStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ServiceUnavailableException {
@@ -12501,21 +17014,21 @@ public struct StartBackupJobInput: Swift.Equatable {
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
     /// This member is required.
     public var backupVaultName: Swift.String?
-    /// A value in minutes during which a successfully started backup must complete, or else Backup will cancel the job. This value is optional. This value begins counting down from when the backup was scheduled. It does not add additional time for StartWindowMinutes, or if the backup started later than scheduled.
+    /// A value in minutes during which a successfully started backup must complete, or else Backup will cancel the job. This value is optional. This value begins counting down from when the backup was scheduled. It does not add additional time for StartWindowMinutes, or if the backup started later than scheduled. Like StartWindowMinutes, this parameter has a maximum value of 100 years (52,560,000 minutes).
     public var completeWindowMinutes: Swift.Int?
     /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
     /// This member is required.
     public var iamRoleArn: Swift.String?
     /// A customer-chosen string that you can use to distinguish between otherwise identical calls to StartBackupJob. Retrying a successful request with the same idempotency token results in a success message with no action taken.
     public var idempotencyToken: Swift.String?
-    /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup will transition and expire backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage" section of the [ Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource) table. Backup ignores this expression for other resource types.
+    /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup will transition and expire backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage" section of the [ Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource) table. Backup ignores this expression for other resource types. This parameter has a maximum value of 100 years (36,500 days).
     public var lifecycle: BackupClientTypes.Lifecycle?
     /// To help organize your resources, you can assign your own metadata to the resources that you create. Each tag is a key-value pair.
     public var recoveryPointTags: [Swift.String:Swift.String]?
     /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional, and the default is 8 hours. If this value is included, it must be at least 60 minutes to avoid errors. During the start window, the backup job status remains in CREATED status until it has successfully begun or until the start window time has run out. If within the start window time Backup receives an error that allows the job to be retried, Backup will automatically retry to begin the job at least every 10 minutes until the backup successfully begins (the job status changes to RUNNING) or until the job status changes to EXPIRED (which is expected to occur when the start window time is over).
+    /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional, and the default is 8 hours. If this value is included, it must be at least 60 minutes to avoid errors. This parameter has a maximum value of 100 years (52,560,000 minutes). During the start window, the backup job status remains in CREATED status until it has successfully begun or until the start window time has run out. If within the start window time Backup receives an error that allows the job to be retried, Backup will automatically retry to begin the job at least every 10 minutes until the backup successfully begins (the job status changes to RUNNING) or until the job status changes to EXPIRED (which is expected to occur when the start window time is over).
     public var startWindowMinutes: Swift.Int?
 
     public init(
@@ -12608,27 +17121,11 @@ extension StartBackupJobInputBody: Swift.Decodable {
     }
 }
 
-public enum StartBackupJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartBackupJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartBackupJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartBackupJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartBackupJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.backupJobId = output.backupJobId
             self.creationDate = output.creationDate
             self.isParent = output.isParent
@@ -12642,7 +17139,7 @@ extension StartBackupJobOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartBackupJobOutputResponse: Swift.Equatable {
+public struct StartBackupJobOutput: Swift.Equatable {
     /// Uniquely identifies a request to Backup to back up a resource.
     public var backupJobId: Swift.String?
     /// The date and time that a backup job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -12666,14 +17163,14 @@ public struct StartBackupJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartBackupJobOutputResponseBody: Swift.Equatable {
+struct StartBackupJobOutputBody: Swift.Equatable {
     let backupJobId: Swift.String?
     let recoveryPointArn: Swift.String?
     let creationDate: ClientRuntime.Date?
     let isParent: Swift.Bool
 }
 
-extension StartBackupJobOutputResponseBody: Swift.Decodable {
+extension StartBackupJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupJobId = "BackupJobId"
         case creationDate = "CreationDate"
@@ -12691,6 +17188,22 @@ extension StartBackupJobOutputResponseBody: Swift.Decodable {
         creationDate = creationDateDecoded
         let isParentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isParent) ?? false
         isParent = isParentDecoded
+    }
+}
+
+enum StartBackupJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -12805,27 +17318,11 @@ extension StartCopyJobInputBody: Swift.Decodable {
     }
 }
 
-public enum StartCopyJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartCopyJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartCopyJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartCopyJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartCopyJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.copyJobId = output.copyJobId
             self.creationDate = output.creationDate
             self.isParent = output.isParent
@@ -12837,7 +17334,7 @@ extension StartCopyJobOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartCopyJobOutputResponse: Swift.Equatable {
+public struct StartCopyJobOutput: Swift.Equatable {
     /// Uniquely identifies a copy job.
     public var copyJobId: Swift.String?
     /// The date and time that a copy job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -12857,13 +17354,13 @@ public struct StartCopyJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartCopyJobOutputResponseBody: Swift.Equatable {
+struct StartCopyJobOutputBody: Swift.Equatable {
     let copyJobId: Swift.String?
     let creationDate: ClientRuntime.Date?
     let isParent: Swift.Bool
 }
 
-extension StartCopyJobOutputResponseBody: Swift.Decodable {
+extension StartCopyJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case copyJobId = "CopyJobId"
         case creationDate = "CreationDate"
@@ -12878,6 +17375,22 @@ extension StartCopyJobOutputResponseBody: Swift.Decodable {
         creationDate = creationDateDecoded
         let isParentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isParent) ?? false
         isParent = isParentDecoded
+    }
+}
+
+enum StartCopyJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -12936,25 +17449,11 @@ extension StartReportJobInputBody: Swift.Decodable {
     }
 }
 
-public enum StartReportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartReportJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartReportJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartReportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartReportJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.reportJobId = output.reportJobId
         } else {
             self.reportJobId = nil
@@ -12962,7 +17461,7 @@ extension StartReportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartReportJobOutputResponse: Swift.Equatable {
+public struct StartReportJobOutput: Swift.Equatable {
     /// The identifier of the report job. A unique, randomly generated, Unicode, UTF-8 encoded string that is at most 1,024 bytes long. The report job ID cannot be edited.
     public var reportJobId: Swift.String?
 
@@ -12974,11 +17473,11 @@ public struct StartReportJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartReportJobOutputResponseBody: Swift.Equatable {
+struct StartReportJobOutputBody: Swift.Equatable {
     let reportJobId: Swift.String?
 }
 
-extension StartReportJobOutputResponseBody: Swift.Decodable {
+extension StartReportJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case reportJobId = "ReportJobId"
     }
@@ -12987,6 +17486,20 @@ extension StartReportJobOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportJobId)
         reportJobId = reportJobIdDecoded
+    }
+}
+
+enum StartReportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -13160,26 +17673,11 @@ extension StartRestoreJobInputBody: Swift.Decodable {
     }
 }
 
-public enum StartRestoreJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartRestoreJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartRestoreJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartRestoreJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartRestoreJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.restoreJobId = output.restoreJobId
         } else {
             self.restoreJobId = nil
@@ -13187,7 +17685,7 @@ extension StartRestoreJobOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartRestoreJobOutputResponse: Swift.Equatable {
+public struct StartRestoreJobOutput: Swift.Equatable {
     /// Uniquely identifies the job that restores a recovery point.
     public var restoreJobId: Swift.String?
 
@@ -13199,11 +17697,11 @@ public struct StartRestoreJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartRestoreJobOutputResponseBody: Swift.Equatable {
+struct StartRestoreJobOutputBody: Swift.Equatable {
     let restoreJobId: Swift.String?
 }
 
-extension StartRestoreJobOutputResponseBody: Swift.Decodable {
+extension StartRestoreJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case restoreJobId = "RestoreJobId"
     }
@@ -13212,6 +17710,21 @@ extension StartRestoreJobOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let restoreJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreJobId)
         restoreJobId = restoreJobIdDecoded
+    }
+}
+
+enum StartRestoreJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -13246,8 +17759,18 @@ extension StopBackupJobInputBody: Swift.Decodable {
     }
 }
 
-public enum StopBackupJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension StopBackupJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StopBackupJobOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum StopBackupJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -13259,16 +17782,6 @@ public enum StopBackupJobOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension StopBackupJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct StopBackupJobOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension BackupClientTypes {
@@ -13379,8 +17892,18 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -13392,16 +17915,6 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UntagResourceInput: Swift.CustomDebugStringConvertible {
@@ -13477,8 +17990,18 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -13489,16 +18012,6 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateBackupPlanInput: Swift.Encodable {
@@ -13557,25 +18070,11 @@ extension UpdateBackupPlanInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateBackupPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateBackupPlanOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateBackupPlanOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateBackupPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateBackupPlanOutputBody = try responseDecoder.decode(responseBody: data)
             self.advancedBackupSettings = output.advancedBackupSettings
             self.backupPlanArn = output.backupPlanArn
             self.backupPlanId = output.backupPlanId
@@ -13591,7 +18090,7 @@ extension UpdateBackupPlanOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateBackupPlanOutputResponse: Swift.Equatable {
+public struct UpdateBackupPlanOutput: Swift.Equatable {
     /// Contains a list of BackupOptions for each resource type.
     public var advancedBackupSettings: [BackupClientTypes.AdvancedBackupSetting]?
     /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
@@ -13619,7 +18118,7 @@ public struct UpdateBackupPlanOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateBackupPlanOutputResponseBody: Swift.Equatable {
+struct UpdateBackupPlanOutputBody: Swift.Equatable {
     let backupPlanId: Swift.String?
     let backupPlanArn: Swift.String?
     let creationDate: ClientRuntime.Date?
@@ -13627,7 +18126,7 @@ struct UpdateBackupPlanOutputResponseBody: Swift.Equatable {
     let advancedBackupSettings: [BackupClientTypes.AdvancedBackupSetting]?
 }
 
-extension UpdateBackupPlanOutputResponseBody: Swift.Decodable {
+extension UpdateBackupPlanOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case advancedBackupSettings = "AdvancedBackupSettings"
         case backupPlanArn = "BackupPlanArn"
@@ -13657,6 +18156,20 @@ extension UpdateBackupPlanOutputResponseBody: Swift.Decodable {
             }
         }
         advancedBackupSettings = advancedBackupSettingsDecoded0
+    }
+}
+
+enum UpdateBackupPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -13751,28 +18264,11 @@ extension UpdateFrameworkInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateFrameworkOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateFrameworkOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateFrameworkOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateFrameworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateFrameworkOutputBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.frameworkArn = output.frameworkArn
             self.frameworkName = output.frameworkName
@@ -13784,7 +18280,7 @@ extension UpdateFrameworkOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFrameworkOutputResponse: Swift.Equatable {
+public struct UpdateFrameworkOutput: Swift.Equatable {
     /// The date and time that a framework is created, in ISO 8601 representation. The value of CreationTime is accurate to milliseconds. For example, 2020-07-10T15:00:00.000-08:00 represents the 10th of July 2020 at 3:00 PM 8 hours behind UTC.
     public var creationTime: ClientRuntime.Date?
     /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
@@ -13804,13 +18300,13 @@ public struct UpdateFrameworkOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateFrameworkOutputResponseBody: Swift.Equatable {
+struct UpdateFrameworkOutputBody: Swift.Equatable {
     let frameworkName: Swift.String?
     let frameworkArn: Swift.String?
     let creationTime: ClientRuntime.Date?
 }
 
-extension UpdateFrameworkOutputResponseBody: Swift.Decodable {
+extension UpdateFrameworkOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creationTime = "CreationTime"
         case frameworkArn = "FrameworkArn"
@@ -13825,6 +18321,23 @@ extension UpdateFrameworkOutputResponseBody: Swift.Decodable {
         frameworkArn = frameworkArnDecoded
         let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
         creationTime = creationTimeDecoded
+    }
+}
+
+enum UpdateFrameworkOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -13887,8 +18400,18 @@ extension UpdateGlobalSettingsInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateGlobalSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateGlobalSettingsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateGlobalSettingsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateGlobalSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -13899,16 +18422,6 @@ public enum UpdateGlobalSettingsOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateGlobalSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateGlobalSettingsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateRecoveryPointLifecycleInput: Swift.Encodable {
@@ -13974,26 +18487,11 @@ extension UpdateRecoveryPointLifecycleInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateRecoveryPointLifecycleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateRecoveryPointLifecycleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateRecoveryPointLifecycleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateRecoveryPointLifecycleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateRecoveryPointLifecycleOutputBody = try responseDecoder.decode(responseBody: data)
             self.backupVaultArn = output.backupVaultArn
             self.calculatedLifecycle = output.calculatedLifecycle
             self.lifecycle = output.lifecycle
@@ -14007,7 +18505,7 @@ extension UpdateRecoveryPointLifecycleOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct UpdateRecoveryPointLifecycleOutputResponse: Swift.Equatable {
+public struct UpdateRecoveryPointLifecycleOutput: Swift.Equatable {
     /// An ARN that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
     public var backupVaultArn: Swift.String?
     /// A CalculatedLifecycle object containing DeleteAt and MoveToColdStorageAt timestamps.
@@ -14031,14 +18529,14 @@ public struct UpdateRecoveryPointLifecycleOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateRecoveryPointLifecycleOutputResponseBody: Swift.Equatable {
+struct UpdateRecoveryPointLifecycleOutputBody: Swift.Equatable {
     let backupVaultArn: Swift.String?
     let recoveryPointArn: Swift.String?
     let lifecycle: BackupClientTypes.Lifecycle?
     let calculatedLifecycle: BackupClientTypes.CalculatedLifecycle?
 }
 
-extension UpdateRecoveryPointLifecycleOutputResponseBody: Swift.Decodable {
+extension UpdateRecoveryPointLifecycleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupVaultArn = "BackupVaultArn"
         case calculatedLifecycle = "CalculatedLifecycle"
@@ -14056,6 +18554,21 @@ extension UpdateRecoveryPointLifecycleOutputResponseBody: Swift.Decodable {
         lifecycle = lifecycleDecoded
         let calculatedLifecycleDecoded = try containerValues.decodeIfPresent(BackupClientTypes.CalculatedLifecycle.self, forKey: .calculatedLifecycle)
         calculatedLifecycle = calculatedLifecycleDecoded
+    }
+}
+
+enum UpdateRecoveryPointLifecycleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -14091,7 +18604,7 @@ extension UpdateRegionSettingsInput: ClientRuntime.URLPathProvider {
 public struct UpdateRegionSettingsInput: Swift.Equatable {
     /// Enables or disables full Backup management of backups for a resource type. To enable full Backup management for DynamoDB along with [ Backup's advanced DynamoDB backup features](https://docs.aws.amazon.com/aws-backup/latest/devguide/advanced-ddb-backup.html), follow the procedure to [ enable advanced DynamoDB backup programmatically](https://docs.aws.amazon.com/aws-backup/latest/devguide/advanced-ddb-backup.html#advanced-ddb-backup-enable-cli).
     public var resourceTypeManagementPreference: [Swift.String:Swift.Bool]?
-    /// Updates the list of services along with the opt-in preferences for the Region.
+    /// Updates the list of services along with the opt-in preferences for the Region. If resource assignments are only based on tags, then service opt-in settings are applied. If a resource type is explicitly assigned to a backup plan, such as Amazon S3, Amazon EC2, or Amazon RDS, it will be included in the backup even if the opt-in is not enabled for that particular service. If both a resource type and tags are specified in a resource assignment, the resource type specified in the backup plan takes priority over the tag condition. Service opt-in settings are disregarded in this situation.
     public var resourceTypeOptInPreference: [Swift.String:Swift.Bool]?
 
     public init(
@@ -14142,8 +18655,18 @@ extension UpdateRegionSettingsInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateRegionSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateRegionSettingsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateRegionSettingsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateRegionSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -14153,16 +18676,6 @@ public enum UpdateRegionSettingsOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateRegionSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateRegionSettingsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateReportPlanInput: Swift.Encodable {
@@ -14256,26 +18769,11 @@ extension UpdateReportPlanInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateReportPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateReportPlanOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateReportPlanOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateReportPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateReportPlanOutputBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.reportPlanArn = output.reportPlanArn
             self.reportPlanName = output.reportPlanName
@@ -14287,7 +18785,7 @@ extension UpdateReportPlanOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateReportPlanOutputResponse: Swift.Equatable {
+public struct UpdateReportPlanOutput: Swift.Equatable {
     /// The date and time that a report plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var creationTime: ClientRuntime.Date?
     /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
@@ -14307,13 +18805,13 @@ public struct UpdateReportPlanOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateReportPlanOutputResponseBody: Swift.Equatable {
+struct UpdateReportPlanOutputBody: Swift.Equatable {
     let reportPlanName: Swift.String?
     let reportPlanArn: Swift.String?
     let creationTime: ClientRuntime.Date?
 }
 
-extension UpdateReportPlanOutputResponseBody: Swift.Decodable {
+extension UpdateReportPlanOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creationTime = "CreationTime"
         case reportPlanArn = "ReportPlanArn"
@@ -14328,5 +18826,396 @@ extension UpdateReportPlanOutputResponseBody: Swift.Decodable {
         reportPlanArn = reportPlanArnDecoded
         let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
         creationTime = creationTimeDecoded
+    }
+}
+
+enum UpdateReportPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateRestoreTestingPlanInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case restoreTestingPlan = "RestoreTestingPlan"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let restoreTestingPlan = self.restoreTestingPlan {
+            try encodeContainer.encode(restoreTestingPlan, forKey: .restoreTestingPlan)
+        }
+    }
+}
+
+extension UpdateRestoreTestingPlanInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let restoreTestingPlanName = restoreTestingPlanName else {
+            return nil
+        }
+        return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateRestoreTestingPlanInput: Swift.Equatable {
+    /// Specifies the body of a restore testing plan.
+    /// This member is required.
+    public var restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForUpdate?
+    /// This is the restore testing plan name you wish to update.
+    /// This member is required.
+    public var restoreTestingPlanName: Swift.String?
+
+    public init(
+        restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForUpdate? = nil,
+        restoreTestingPlanName: Swift.String? = nil
+    )
+    {
+        self.restoreTestingPlan = restoreTestingPlan
+        self.restoreTestingPlanName = restoreTestingPlanName
+    }
+}
+
+struct UpdateRestoreTestingPlanInputBody: Swift.Equatable {
+    let restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForUpdate?
+}
+
+extension UpdateRestoreTestingPlanInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case restoreTestingPlan = "RestoreTestingPlan"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let restoreTestingPlanDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreTestingPlanForUpdate.self, forKey: .restoreTestingPlan)
+        restoreTestingPlan = restoreTestingPlanDecoded
+    }
+}
+
+extension UpdateRestoreTestingPlanOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateRestoreTestingPlanOutputBody = try responseDecoder.decode(responseBody: data)
+            self.creationTime = output.creationTime
+            self.restoreTestingPlanArn = output.restoreTestingPlanArn
+            self.restoreTestingPlanName = output.restoreTestingPlanName
+            self.updateTime = output.updateTime
+        } else {
+            self.creationTime = nil
+            self.restoreTestingPlanArn = nil
+            self.restoreTestingPlanName = nil
+            self.updateTime = nil
+        }
+    }
+}
+
+public struct UpdateRestoreTestingPlanOutput: Swift.Equatable {
+    /// This is the time the resource testing plan was created.
+    /// This member is required.
+    public var creationTime: ClientRuntime.Date?
+    /// Unique ARN (Amazon Resource Name) of the restore testing plan.
+    /// This member is required.
+    public var restoreTestingPlanArn: Swift.String?
+    /// The name cannot be changed after creation. The name consists of only alphanumeric characters and underscores. Maximum length is 50.
+    /// This member is required.
+    public var restoreTestingPlanName: Swift.String?
+    /// This is the time the update completed for the restore testing plan.
+    /// This member is required.
+    public var updateTime: ClientRuntime.Date?
+
+    public init(
+        creationTime: ClientRuntime.Date? = nil,
+        restoreTestingPlanArn: Swift.String? = nil,
+        restoreTestingPlanName: Swift.String? = nil,
+        updateTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.creationTime = creationTime
+        self.restoreTestingPlanArn = restoreTestingPlanArn
+        self.restoreTestingPlanName = restoreTestingPlanName
+        self.updateTime = updateTime
+    }
+}
+
+struct UpdateRestoreTestingPlanOutputBody: Swift.Equatable {
+    let creationTime: ClientRuntime.Date?
+    let restoreTestingPlanArn: Swift.String?
+    let restoreTestingPlanName: Swift.String?
+    let updateTime: ClientRuntime.Date?
+}
+
+extension UpdateRestoreTestingPlanOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case restoreTestingPlanArn = "RestoreTestingPlanArn"
+        case restoreTestingPlanName = "RestoreTestingPlanName"
+        case updateTime = "UpdateTime"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let restoreTestingPlanArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanArn)
+        restoreTestingPlanArn = restoreTestingPlanArnDecoded
+        let restoreTestingPlanNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanName)
+        restoreTestingPlanName = restoreTestingPlanNameDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+    }
+}
+
+enum UpdateRestoreTestingPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateRestoreTestingSelectionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case restoreTestingSelection = "RestoreTestingSelection"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let restoreTestingSelection = self.restoreTestingSelection {
+            try encodeContainer.encode(restoreTestingSelection, forKey: .restoreTestingSelection)
+        }
+    }
+}
+
+extension UpdateRestoreTestingSelectionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let restoreTestingPlanName = restoreTestingPlanName else {
+            return nil
+        }
+        guard let restoreTestingSelectionName = restoreTestingSelectionName else {
+            return nil
+        }
+        return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())/selections/\(restoreTestingSelectionName.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateRestoreTestingSelectionInput: Swift.Equatable {
+    /// The restore testing plan name is required to update the indicated testing plan.
+    /// This member is required.
+    public var restoreTestingPlanName: Swift.String?
+    /// To update your restore testing selection, you can use either protected resource ARNs or conditions, but not both. That is, if your selection has ProtectedResourceArns, requesting an update with the parameter ProtectedResourceConditions will be unsuccessful.
+    /// This member is required.
+    public var restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForUpdate?
+    /// This is the required restore testing selection name of the restore testing selection you wish to update.
+    /// This member is required.
+    public var restoreTestingSelectionName: Swift.String?
+
+    public init(
+        restoreTestingPlanName: Swift.String? = nil,
+        restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForUpdate? = nil,
+        restoreTestingSelectionName: Swift.String? = nil
+    )
+    {
+        self.restoreTestingPlanName = restoreTestingPlanName
+        self.restoreTestingSelection = restoreTestingSelection
+        self.restoreTestingSelectionName = restoreTestingSelectionName
+    }
+}
+
+struct UpdateRestoreTestingSelectionInputBody: Swift.Equatable {
+    let restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForUpdate?
+}
+
+extension UpdateRestoreTestingSelectionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case restoreTestingSelection = "RestoreTestingSelection"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let restoreTestingSelectionDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreTestingSelectionForUpdate.self, forKey: .restoreTestingSelection)
+        restoreTestingSelection = restoreTestingSelectionDecoded
+    }
+}
+
+extension UpdateRestoreTestingSelectionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateRestoreTestingSelectionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.creationTime = output.creationTime
+            self.restoreTestingPlanArn = output.restoreTestingPlanArn
+            self.restoreTestingPlanName = output.restoreTestingPlanName
+            self.restoreTestingSelectionName = output.restoreTestingSelectionName
+            self.updateTime = output.updateTime
+        } else {
+            self.creationTime = nil
+            self.restoreTestingPlanArn = nil
+            self.restoreTestingPlanName = nil
+            self.restoreTestingSelectionName = nil
+            self.updateTime = nil
+        }
+    }
+}
+
+public struct UpdateRestoreTestingSelectionOutput: Swift.Equatable {
+    /// This is the time the resource testing selection was updated successfully.
+    /// This member is required.
+    public var creationTime: ClientRuntime.Date?
+    /// Unique string that is the name of the restore testing plan.
+    /// This member is required.
+    public var restoreTestingPlanArn: Swift.String?
+    /// This is the restore testing plan with which the updated restore testing selection is associated.
+    /// This member is required.
+    public var restoreTestingPlanName: Swift.String?
+    /// This is the returned restore testing selection name.
+    /// This member is required.
+    public var restoreTestingSelectionName: Swift.String?
+    /// This is the time the update completed for the restore testing selection.
+    /// This member is required.
+    public var updateTime: ClientRuntime.Date?
+
+    public init(
+        creationTime: ClientRuntime.Date? = nil,
+        restoreTestingPlanArn: Swift.String? = nil,
+        restoreTestingPlanName: Swift.String? = nil,
+        restoreTestingSelectionName: Swift.String? = nil,
+        updateTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.creationTime = creationTime
+        self.restoreTestingPlanArn = restoreTestingPlanArn
+        self.restoreTestingPlanName = restoreTestingPlanName
+        self.restoreTestingSelectionName = restoreTestingSelectionName
+        self.updateTime = updateTime
+    }
+}
+
+struct UpdateRestoreTestingSelectionOutputBody: Swift.Equatable {
+    let creationTime: ClientRuntime.Date?
+    let restoreTestingPlanArn: Swift.String?
+    let restoreTestingPlanName: Swift.String?
+    let restoreTestingSelectionName: Swift.String?
+    let updateTime: ClientRuntime.Date?
+}
+
+extension UpdateRestoreTestingSelectionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case restoreTestingPlanArn = "RestoreTestingPlanArn"
+        case restoreTestingPlanName = "RestoreTestingPlanName"
+        case restoreTestingSelectionName = "RestoreTestingSelectionName"
+        case updateTime = "UpdateTime"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let restoreTestingPlanArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanArn)
+        restoreTestingPlanArn = restoreTestingPlanArnDecoded
+        let restoreTestingPlanNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanName)
+        restoreTestingPlanName = restoreTestingPlanNameDecoded
+        let restoreTestingSelectionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingSelectionName)
+        restoreTestingSelectionName = restoreTestingSelectionNameDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+    }
+}
+
+enum UpdateRestoreTestingSelectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension BackupClientTypes {
+    public enum VaultState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case available
+        case creating
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VaultState] {
+            return [
+                .available,
+                .creating,
+                .failed,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .creating: return "CREATING"
+            case .failed: return "FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VaultState(rawValue: rawValue) ?? VaultState.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BackupClientTypes {
+    public enum VaultType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case backupVault
+        case logicallyAirGappedBackupVault
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VaultType] {
+            return [
+                .backupVault,
+                .logicallyAirGappedBackupVault,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .backupVault: return "BACKUP_VAULT"
+            case .logicallyAirGappedBackupVault: return "LOGICALLY_AIR_GAPPED_BACKUP_VAULT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VaultType(rawValue: rawValue) ?? VaultType.sdkUnknown(rawValue)
+        }
     }
 }

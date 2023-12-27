@@ -239,6 +239,10 @@ extension PinpointSMSVoiceV2ClientTypes {
         case optOutLists
         case phoneNumbers
         case pools
+        case registrations
+        case registrationAttachments
+        case senderIds
+        case verifiedDestinationNumbers
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AccountLimitName] {
@@ -247,6 +251,10 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .optOutLists,
                 .phoneNumbers,
                 .pools,
+                .registrations,
+                .registrationAttachments,
+                .senderIds,
+                .verifiedDestinationNumbers,
                 .sdkUnknown("")
             ]
         }
@@ -260,6 +268,10 @@ extension PinpointSMSVoiceV2ClientTypes {
             case .optOutLists: return "OPT_OUT_LISTS"
             case .phoneNumbers: return "PHONE_NUMBERS"
             case .pools: return "POOLS"
+            case .registrations: return "REGISTRATIONS"
+            case .registrationAttachments: return "REGISTRATION_ATTACHMENTS"
+            case .senderIds: return "SENDER_IDS"
+            case .verifiedDestinationNumbers: return "VERIFIED_DESTINATION_NUMBERS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -357,28 +369,11 @@ extension AssociateOriginationIdentityInputBody: Swift.Decodable {
     }
 }
 
-public enum AssociateOriginationIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension AssociateOriginationIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
+extension AssociateOriginationIdentityOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: AssociateOriginationIdentityOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: AssociateOriginationIdentityOutputBody = try responseDecoder.decode(responseBody: data)
             self.isoCountryCode = output.isoCountryCode
             self.originationIdentity = output.originationIdentity
             self.originationIdentityArn = output.originationIdentityArn
@@ -394,7 +389,7 @@ extension AssociateOriginationIdentityOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct AssociateOriginationIdentityOutputResponse: Swift.Equatable {
+public struct AssociateOriginationIdentityOutput: Swift.Equatable {
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
     public var isoCountryCode: Swift.String?
     /// The PhoneNumberId or SenderId of the origination identity.
@@ -422,7 +417,7 @@ public struct AssociateOriginationIdentityOutputResponse: Swift.Equatable {
     }
 }
 
-struct AssociateOriginationIdentityOutputResponseBody: Swift.Equatable {
+struct AssociateOriginationIdentityOutputBody: Swift.Equatable {
     let poolArn: Swift.String?
     let poolId: Swift.String?
     let originationIdentityArn: Swift.String?
@@ -430,7 +425,7 @@ struct AssociateOriginationIdentityOutputResponseBody: Swift.Equatable {
     let isoCountryCode: Swift.String?
 }
 
-extension AssociateOriginationIdentityOutputResponseBody: Swift.Decodable {
+extension AssociateOriginationIdentityOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isoCountryCode = "IsoCountryCode"
         case originationIdentity = "OriginationIdentity"
@@ -451,6 +446,90 @@ extension AssociateOriginationIdentityOutputResponseBody: Swift.Decodable {
         originationIdentity = originationIdentityDecoded
         let isoCountryCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .isoCountryCode)
         isoCountryCode = isoCountryCodeDecoded
+    }
+}
+
+enum AssociateOriginationIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    public enum AttachmentStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case deleted
+        case uploadComplete
+        case uploadFailed
+        case uploadInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AttachmentStatus] {
+            return [
+                .deleted,
+                .uploadComplete,
+                .uploadFailed,
+                .uploadInProgress,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .deleted: return "DELETED"
+            case .uploadComplete: return "UPLOAD_COMPLETE"
+            case .uploadFailed: return "UPLOAD_FAILED"
+            case .uploadInProgress: return "UPLOAD_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AttachmentStatus(rawValue: rawValue) ?? AttachmentStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    public enum AttachmentUploadErrorReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case internalError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AttachmentUploadErrorReason] {
+            return [
+                .internalError,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .internalError: return "INTERNAL_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AttachmentUploadErrorReason(rawValue: rawValue) ?? AttachmentUploadErrorReason.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -786,48 +865,72 @@ extension ConflictExceptionBody: Swift.Decodable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     public enum ConflictExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case createRegistrationVersionNotAllowed
         case deletionProtectionEnabled
         case destinationPhoneNumberNotVerified
         case destinationPhoneNumberOptedOut
+        case disassociateRegistrationNotAllowed
+        case discardRegistrationVersionNotAllowed
+        case editRegistrationFieldValuesNotAllowed
         case eventDestinationMismatch
         case keywordMismatch
         case lastPhoneNumber
         case messageTypeMismatch
         case noOriginationIdentitiesFound
+        case numberCapabilitiesMismatch
         case optOutListMismatch
         case phoneNumberAssociatedToPool
+        case phoneNumberAssociatedToRegistration
         case phoneNumberNotAssociatedToPool
         case phoneNumberNotInRegistrationRegion
+        case registrationAlreadySubmitted
+        case registrationNotComplete
         case resourceAlreadyExists
         case resourceDeletionNotAllowed
         case resourceModificationNotAllowed
         case resourceNotActive
         case resourceNotEmpty
         case selfManagedOptOutsMismatch
+        case senderIdAssociatedToPool
+        case submitRegistrationVersionNotAllowed
         case twoWayConfigMismatch
+        case verificationAlreadyComplete
+        case verificationCodeExpired
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ConflictExceptionReason] {
             return [
+                .createRegistrationVersionNotAllowed,
                 .deletionProtectionEnabled,
                 .destinationPhoneNumberNotVerified,
                 .destinationPhoneNumberOptedOut,
+                .disassociateRegistrationNotAllowed,
+                .discardRegistrationVersionNotAllowed,
+                .editRegistrationFieldValuesNotAllowed,
                 .eventDestinationMismatch,
                 .keywordMismatch,
                 .lastPhoneNumber,
                 .messageTypeMismatch,
                 .noOriginationIdentitiesFound,
+                .numberCapabilitiesMismatch,
                 .optOutListMismatch,
                 .phoneNumberAssociatedToPool,
+                .phoneNumberAssociatedToRegistration,
                 .phoneNumberNotAssociatedToPool,
                 .phoneNumberNotInRegistrationRegion,
+                .registrationAlreadySubmitted,
+                .registrationNotComplete,
                 .resourceAlreadyExists,
                 .resourceDeletionNotAllowed,
                 .resourceModificationNotAllowed,
                 .resourceNotActive,
                 .resourceNotEmpty,
                 .selfManagedOptOutsMismatch,
+                .senderIdAssociatedToPool,
+                .submitRegistrationVersionNotAllowed,
                 .twoWayConfigMismatch,
+                .verificationAlreadyComplete,
+                .verificationCodeExpired,
                 .sdkUnknown("")
             ]
         }
@@ -837,25 +940,37 @@ extension PinpointSMSVoiceV2ClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .createRegistrationVersionNotAllowed: return "CREATE_REGISTRATION_VERSION_NOT_ALLOWED"
             case .deletionProtectionEnabled: return "DELETION_PROTECTION_ENABLED"
             case .destinationPhoneNumberNotVerified: return "DESTINATION_PHONE_NUMBER_NOT_VERIFIED"
             case .destinationPhoneNumberOptedOut: return "DESTINATION_PHONE_NUMBER_OPTED_OUT"
+            case .disassociateRegistrationNotAllowed: return "DISASSOCIATE_REGISTRATION_NOT_ALLOWED"
+            case .discardRegistrationVersionNotAllowed: return "DISCARD_REGISTRATION_VERSION_NOT_ALLOWED"
+            case .editRegistrationFieldValuesNotAllowed: return "EDIT_REGISTRATION_FIELD_VALUES_NOT_ALLOWED"
             case .eventDestinationMismatch: return "EVENT_DESTINATION_MISMATCH"
             case .keywordMismatch: return "KEYWORD_MISMATCH"
             case .lastPhoneNumber: return "LAST_PHONE_NUMBER"
             case .messageTypeMismatch: return "MESSAGE_TYPE_MISMATCH"
             case .noOriginationIdentitiesFound: return "NO_ORIGINATION_IDENTITIES_FOUND"
+            case .numberCapabilitiesMismatch: return "NUMBER_CAPABILITIES_MISMATCH"
             case .optOutListMismatch: return "OPT_OUT_LIST_MISMATCH"
             case .phoneNumberAssociatedToPool: return "PHONE_NUMBER_ASSOCIATED_TO_POOL"
+            case .phoneNumberAssociatedToRegistration: return "PHONE_NUMBER_ASSOCIATED_TO_REGISTRATION"
             case .phoneNumberNotAssociatedToPool: return "PHONE_NUMBER_NOT_ASSOCIATED_TO_POOL"
             case .phoneNumberNotInRegistrationRegion: return "PHONE_NUMBER_NOT_IN_REGISTRATION_REGION"
+            case .registrationAlreadySubmitted: return "REGISTRATION_ALREADY_SUBMITTED"
+            case .registrationNotComplete: return "REGISTRATION_NOT_COMPLETE"
             case .resourceAlreadyExists: return "RESOURCE_ALREADY_EXISTS"
             case .resourceDeletionNotAllowed: return "RESOURCE_DELETION_NOT_ALLOWED"
             case .resourceModificationNotAllowed: return "RESOURCE_MODIFICATION_NOT_ALLOWED"
             case .resourceNotActive: return "RESOURCE_NOT_ACTIVE"
             case .resourceNotEmpty: return "RESOURCE_NOT_EMPTY"
             case .selfManagedOptOutsMismatch: return "SELF_MANAGED_OPT_OUTS_MISMATCH"
+            case .senderIdAssociatedToPool: return "SENDER_ID_ASSOCIATED_TO_POOL"
+            case .submitRegistrationVersionNotAllowed: return "SUBMIT_REGISTRATION_VERSION_NOT_ALLOWED"
             case .twoWayConfigMismatch: return "TWO_WAY_CONFIG_MISMATCH"
+            case .verificationAlreadyComplete: return "VERIFICATION_ALREADY_COMPLETE"
+            case .verificationCodeExpired: return "VERIFICATION_CODE_EXPIRED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -951,27 +1066,11 @@ extension CreateConfigurationSetInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateConfigurationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateConfigurationSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateConfigurationSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateConfigurationSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateConfigurationSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.configurationSetArn = output.configurationSetArn
             self.configurationSetName = output.configurationSetName
             self.createdTimestamp = output.createdTimestamp
@@ -985,7 +1084,7 @@ extension CreateConfigurationSetOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct CreateConfigurationSetOutputResponse: Swift.Equatable {
+public struct CreateConfigurationSetOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the newly created configuration set.
     public var configurationSetArn: Swift.String?
     /// The name of the new configuration set.
@@ -1009,14 +1108,14 @@ public struct CreateConfigurationSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateConfigurationSetOutputResponseBody: Swift.Equatable {
+struct CreateConfigurationSetOutputBody: Swift.Equatable {
     let configurationSetArn: Swift.String?
     let configurationSetName: Swift.String?
     let tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
     let createdTimestamp: ClientRuntime.Date?
 }
 
-extension CreateConfigurationSetOutputResponseBody: Swift.Decodable {
+extension CreateConfigurationSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configurationSetArn = "ConfigurationSetArn"
         case configurationSetName = "ConfigurationSetName"
@@ -1043,6 +1142,22 @@ extension CreateConfigurationSetOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
         createdTimestamp = createdTimestampDecoded
+    }
+}
+
+enum CreateConfigurationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1105,7 +1220,7 @@ public struct CreateEventDestinationInput: Swift.Equatable {
     public var eventDestinationName: Swift.String?
     /// An object that contains information about an event destination for logging to Amazon Kinesis Data Firehose.
     public var kinesisFirehoseDestination: PinpointSMSVoiceV2ClientTypes.KinesisFirehoseDestination?
-    /// An array of event types that determine which events to log. If "ALL" is used, then Amazon Pinpoint logs every event type.
+    /// An array of event types that determine which events to log. If "ALL" is used, then Amazon Pinpoint logs every event type. The TEXT_SENT event type is not supported.
     /// This member is required.
     public var matchingEventTypes: [PinpointSMSVoiceV2ClientTypes.EventType]?
     /// An object that contains information about an event destination for logging to Amazon SNS.
@@ -1180,28 +1295,11 @@ extension CreateEventDestinationInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateEventDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateEventDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateEventDestinationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateEventDestinationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateEventDestinationOutputBody = try responseDecoder.decode(responseBody: data)
             self.configurationSetArn = output.configurationSetArn
             self.configurationSetName = output.configurationSetName
             self.eventDestination = output.eventDestination
@@ -1213,7 +1311,7 @@ extension CreateEventDestinationOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct CreateEventDestinationOutputResponse: Swift.Equatable {
+public struct CreateEventDestinationOutput: Swift.Equatable {
     /// The ARN of the configuration set.
     public var configurationSetArn: Swift.String?
     /// The name of the configuration set.
@@ -1233,13 +1331,13 @@ public struct CreateEventDestinationOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateEventDestinationOutputResponseBody: Swift.Equatable {
+struct CreateEventDestinationOutputBody: Swift.Equatable {
     let configurationSetArn: Swift.String?
     let configurationSetName: Swift.String?
     let eventDestination: PinpointSMSVoiceV2ClientTypes.EventDestination?
 }
 
-extension CreateEventDestinationOutputResponseBody: Swift.Decodable {
+extension CreateEventDestinationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configurationSetArn = "ConfigurationSetArn"
         case configurationSetName = "ConfigurationSetName"
@@ -1254,6 +1352,23 @@ extension CreateEventDestinationOutputResponseBody: Swift.Decodable {
         configurationSetName = configurationSetNameDecoded
         let eventDestinationDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.EventDestination.self, forKey: .eventDestination)
         eventDestination = eventDestinationDecoded
+    }
+}
+
+enum CreateEventDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1341,27 +1456,11 @@ extension CreateOptOutListInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateOptOutListOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateOptOutListOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateOptOutListOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateOptOutListOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateOptOutListOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdTimestamp = output.createdTimestamp
             self.optOutListArn = output.optOutListArn
             self.optOutListName = output.optOutListName
@@ -1375,7 +1474,7 @@ extension CreateOptOutListOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateOptOutListOutputResponse: Swift.Equatable {
+public struct CreateOptOutListOutput: Swift.Equatable {
     /// The time when the pool was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: ClientRuntime.Date?
     /// The Amazon Resource Name (ARN) for the OptOutList.
@@ -1399,14 +1498,14 @@ public struct CreateOptOutListOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateOptOutListOutputResponseBody: Swift.Equatable {
+struct CreateOptOutListOutputBody: Swift.Equatable {
     let optOutListArn: Swift.String?
     let optOutListName: Swift.String?
     let tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
     let createdTimestamp: ClientRuntime.Date?
 }
 
-extension CreateOptOutListOutputResponseBody: Swift.Decodable {
+extension CreateOptOutListOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdTimestamp = "CreatedTimestamp"
         case optOutListArn = "OptOutListArn"
@@ -1433,6 +1532,22 @@ extension CreateOptOutListOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
         createdTimestamp = createdTimestampDecoded
+    }
+}
+
+enum CreateOptOutListOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1558,28 +1673,11 @@ extension CreatePoolInputBody: Swift.Decodable {
     }
 }
 
-public enum CreatePoolOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreatePoolOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreatePoolOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreatePoolOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreatePoolOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdTimestamp = output.createdTimestamp
             self.deletionProtectionEnabled = output.deletionProtectionEnabled
             self.messageType = output.messageType
@@ -1591,6 +1689,7 @@ extension CreatePoolOutputResponse: ClientRuntime.HttpResponseBinding {
             self.status = output.status
             self.tags = output.tags
             self.twoWayChannelArn = output.twoWayChannelArn
+            self.twoWayChannelRole = output.twoWayChannelRole
             self.twoWayEnabled = output.twoWayEnabled
         } else {
             self.createdTimestamp = nil
@@ -1604,12 +1703,13 @@ extension CreatePoolOutputResponse: ClientRuntime.HttpResponseBinding {
             self.status = nil
             self.tags = nil
             self.twoWayChannelArn = nil
+            self.twoWayChannelRole = nil
             self.twoWayEnabled = false
         }
     }
 }
 
-public struct CreatePoolOutputResponse: Swift.Equatable {
+public struct CreatePoolOutput: Swift.Equatable {
     /// The time when the pool was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: ClientRuntime.Date?
     /// When set to true deletion protection is enabled. By default this is set to false.
@@ -1638,6 +1738,8 @@ public struct CreatePoolOutputResponse: Swift.Equatable {
     public var tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
     /// The Amazon Resource Name (ARN) of the two way channel.
     public var twoWayChannelArn: Swift.String?
+    /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+    public var twoWayChannelRole: Swift.String?
     /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
     public var twoWayEnabled: Swift.Bool
 
@@ -1653,6 +1755,7 @@ public struct CreatePoolOutputResponse: Swift.Equatable {
         status: PinpointSMSVoiceV2ClientTypes.PoolStatus? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil,
         twoWayChannelArn: Swift.String? = nil,
+        twoWayChannelRole: Swift.String? = nil,
         twoWayEnabled: Swift.Bool = false
     )
     {
@@ -1667,17 +1770,19 @@ public struct CreatePoolOutputResponse: Swift.Equatable {
         self.status = status
         self.tags = tags
         self.twoWayChannelArn = twoWayChannelArn
+        self.twoWayChannelRole = twoWayChannelRole
         self.twoWayEnabled = twoWayEnabled
     }
 }
 
-struct CreatePoolOutputResponseBody: Swift.Equatable {
+struct CreatePoolOutputBody: Swift.Equatable {
     let poolArn: Swift.String?
     let poolId: Swift.String?
     let status: PinpointSMSVoiceV2ClientTypes.PoolStatus?
     let messageType: PinpointSMSVoiceV2ClientTypes.MessageType?
     let twoWayEnabled: Swift.Bool
     let twoWayChannelArn: Swift.String?
+    let twoWayChannelRole: Swift.String?
     let selfManagedOptOutsEnabled: Swift.Bool
     let optOutListName: Swift.String?
     let sharedRoutesEnabled: Swift.Bool
@@ -1686,7 +1791,7 @@ struct CreatePoolOutputResponseBody: Swift.Equatable {
     let createdTimestamp: ClientRuntime.Date?
 }
 
-extension CreatePoolOutputResponseBody: Swift.Decodable {
+extension CreatePoolOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdTimestamp = "CreatedTimestamp"
         case deletionProtectionEnabled = "DeletionProtectionEnabled"
@@ -1699,6 +1804,7 @@ extension CreatePoolOutputResponseBody: Swift.Decodable {
         case status = "Status"
         case tags = "Tags"
         case twoWayChannelArn = "TwoWayChannelArn"
+        case twoWayChannelRole = "TwoWayChannelRole"
         case twoWayEnabled = "TwoWayEnabled"
     }
 
@@ -1716,6 +1822,8 @@ extension CreatePoolOutputResponseBody: Swift.Decodable {
         twoWayEnabled = twoWayEnabledDecoded
         let twoWayChannelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .twoWayChannelArn)
         twoWayChannelArn = twoWayChannelArnDecoded
+        let twoWayChannelRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .twoWayChannelRole)
+        twoWayChannelRole = twoWayChannelRoleDecoded
         let selfManagedOptOutsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .selfManagedOptOutsEnabled) ?? false
         selfManagedOptOutsEnabled = selfManagedOptOutsEnabledDecoded
         let optOutListNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .optOutListName)
@@ -1737,6 +1845,1053 @@ extension CreatePoolOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
         createdTimestamp = createdTimestampDecoded
+    }
+}
+
+enum CreatePoolOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateRegistrationAssociationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case registrationId = "RegistrationId"
+        case resourceId = "ResourceId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let registrationId = self.registrationId {
+            try encodeContainer.encode(registrationId, forKey: .registrationId)
+        }
+        if let resourceId = self.resourceId {
+            try encodeContainer.encode(resourceId, forKey: .resourceId)
+        }
+    }
+}
+
+extension CreateRegistrationAssociationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateRegistrationAssociationInput: Swift.Equatable {
+    /// The unique identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+    /// The unique identifier for the origination identity. For example this could be a PhoneNumberId or SenderId.
+    /// This member is required.
+    public var resourceId: Swift.String?
+
+    public init(
+        registrationId: Swift.String? = nil,
+        resourceId: Swift.String? = nil
+    )
+    {
+        self.registrationId = registrationId
+        self.resourceId = resourceId
+    }
+}
+
+struct CreateRegistrationAssociationInputBody: Swift.Equatable {
+    let registrationId: Swift.String?
+    let resourceId: Swift.String?
+}
+
+extension CreateRegistrationAssociationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case registrationId = "RegistrationId"
+        case resourceId = "ResourceId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+    }
+}
+
+extension CreateRegistrationAssociationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateRegistrationAssociationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.isoCountryCode = output.isoCountryCode
+            self.phoneNumber = output.phoneNumber
+            self.registrationArn = output.registrationArn
+            self.registrationId = output.registrationId
+            self.registrationType = output.registrationType
+            self.resourceArn = output.resourceArn
+            self.resourceId = output.resourceId
+            self.resourceType = output.resourceType
+        } else {
+            self.isoCountryCode = nil
+            self.phoneNumber = nil
+            self.registrationArn = nil
+            self.registrationId = nil
+            self.registrationType = nil
+            self.resourceArn = nil
+            self.resourceId = nil
+            self.resourceType = nil
+        }
+    }
+}
+
+public struct CreateRegistrationAssociationOutput: Swift.Equatable {
+    /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+    public var isoCountryCode: Swift.String?
+    /// The phone number associated with the registration in E.164 format.
+    public var phoneNumber: Swift.String?
+    /// The Amazon Resource Name (ARN) for the registration.
+    /// This member is required.
+    public var registrationArn: Swift.String?
+    /// The unique identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+    /// The type of registration form. The list of RegistrationTypes can be found using the [DescribeRegistrationTypeDefinitions] action.
+    /// This member is required.
+    public var registrationType: Swift.String?
+    /// The Amazon Resource Name (ARN) of the origination identity that is associated with the registration.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The unique identifier for the origination identity. For example this could be a PhoneNumberId or SenderId.
+    /// This member is required.
+    public var resourceId: Swift.String?
+    /// The registration type or origination identity type.
+    /// This member is required.
+    public var resourceType: Swift.String?
+
+    public init(
+        isoCountryCode: Swift.String? = nil,
+        phoneNumber: Swift.String? = nil,
+        registrationArn: Swift.String? = nil,
+        registrationId: Swift.String? = nil,
+        registrationType: Swift.String? = nil,
+        resourceArn: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil
+    )
+    {
+        self.isoCountryCode = isoCountryCode
+        self.phoneNumber = phoneNumber
+        self.registrationArn = registrationArn
+        self.registrationId = registrationId
+        self.registrationType = registrationType
+        self.resourceArn = resourceArn
+        self.resourceId = resourceId
+        self.resourceType = resourceType
+    }
+}
+
+struct CreateRegistrationAssociationOutputBody: Swift.Equatable {
+    let registrationArn: Swift.String?
+    let registrationId: Swift.String?
+    let registrationType: Swift.String?
+    let resourceArn: Swift.String?
+    let resourceId: Swift.String?
+    let resourceType: Swift.String?
+    let isoCountryCode: Swift.String?
+    let phoneNumber: Swift.String?
+}
+
+extension CreateRegistrationAssociationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case isoCountryCode = "IsoCountryCode"
+        case phoneNumber = "PhoneNumber"
+        case registrationArn = "RegistrationArn"
+        case registrationId = "RegistrationId"
+        case registrationType = "RegistrationType"
+        case resourceArn = "ResourceArn"
+        case resourceId = "ResourceId"
+        case resourceType = "ResourceType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationArn)
+        registrationArn = registrationArnDecoded
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
+        let registrationTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationType)
+        registrationType = registrationTypeDecoded
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let isoCountryCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .isoCountryCode)
+        isoCountryCode = isoCountryCodeDecoded
+        let phoneNumberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .phoneNumber)
+        phoneNumber = phoneNumberDecoded
+    }
+}
+
+enum CreateRegistrationAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateRegistrationAttachmentInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachmentBody = "AttachmentBody"
+        case attachmentUrl = "AttachmentUrl"
+        case clientToken = "ClientToken"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attachmentBody = self.attachmentBody {
+            try encodeContainer.encode(attachmentBody.base64EncodedString(), forKey: .attachmentBody)
+        }
+        if let attachmentUrl = self.attachmentUrl {
+            try encodeContainer.encode(attachmentUrl, forKey: .attachmentUrl)
+        }
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreateRegistrationAttachmentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateRegistrationAttachmentInput: Swift.Equatable {
+    /// The registration file to upload. The maximum file size is 1MiB and valid file extensions are PDF, JPEG and PNG.
+    public var attachmentBody: ClientRuntime.Data?
+    /// A URL to the required registration file. For example, you can provide the S3 object URL.
+    public var attachmentUrl: Swift.String?
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// An array of tags (key and value pairs) to associate with the registration attachment.
+    public var tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
+
+    public init(
+        attachmentBody: ClientRuntime.Data? = nil,
+        attachmentUrl: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
+    )
+    {
+        self.attachmentBody = attachmentBody
+        self.attachmentUrl = attachmentUrl
+        self.clientToken = clientToken
+        self.tags = tags
+    }
+}
+
+struct CreateRegistrationAttachmentInputBody: Swift.Equatable {
+    let attachmentBody: ClientRuntime.Data?
+    let attachmentUrl: Swift.String?
+    let tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
+    let clientToken: Swift.String?
+}
+
+extension CreateRegistrationAttachmentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachmentBody = "AttachmentBody"
+        case attachmentUrl = "AttachmentUrl"
+        case clientToken = "ClientToken"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attachmentBodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .attachmentBody)
+        attachmentBody = attachmentBodyDecoded
+        let attachmentUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachmentUrl)
+        attachmentUrl = attachmentUrlDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[PinpointSMSVoiceV2ClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [PinpointSMSVoiceV2ClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension CreateRegistrationAttachmentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateRegistrationAttachmentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.attachmentStatus = output.attachmentStatus
+            self.createdTimestamp = output.createdTimestamp
+            self.registrationAttachmentArn = output.registrationAttachmentArn
+            self.registrationAttachmentId = output.registrationAttachmentId
+            self.tags = output.tags
+        } else {
+            self.attachmentStatus = nil
+            self.createdTimestamp = nil
+            self.registrationAttachmentArn = nil
+            self.registrationAttachmentId = nil
+            self.tags = nil
+        }
+    }
+}
+
+public struct CreateRegistrationAttachmentOutput: Swift.Equatable {
+    /// The status of the registration attachment.
+    ///
+    /// * UPLOAD_IN_PROGRESS The attachment is being uploaded.
+    ///
+    /// * UPLOAD_COMPLETE The attachment has been uploaded.
+    ///
+    /// * UPLOAD_FAILED The attachment failed to uploaded.
+    ///
+    /// * DELETED The attachment has been deleted..
+    /// This member is required.
+    public var attachmentStatus: PinpointSMSVoiceV2ClientTypes.AttachmentStatus?
+    /// The time when the registration attachment was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
+    /// This member is required.
+    public var createdTimestamp: ClientRuntime.Date?
+    /// The Amazon Resource Name (ARN) for the registration attachment.
+    /// This member is required.
+    public var registrationAttachmentArn: Swift.String?
+    /// The unique identifier for the registration attachment.
+    /// This member is required.
+    public var registrationAttachmentId: Swift.String?
+    /// An array of tags (key and value pairs) to associate with the registration attachment.
+    public var tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
+
+    public init(
+        attachmentStatus: PinpointSMSVoiceV2ClientTypes.AttachmentStatus? = nil,
+        createdTimestamp: ClientRuntime.Date? = nil,
+        registrationAttachmentArn: Swift.String? = nil,
+        registrationAttachmentId: Swift.String? = nil,
+        tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
+    )
+    {
+        self.attachmentStatus = attachmentStatus
+        self.createdTimestamp = createdTimestamp
+        self.registrationAttachmentArn = registrationAttachmentArn
+        self.registrationAttachmentId = registrationAttachmentId
+        self.tags = tags
+    }
+}
+
+struct CreateRegistrationAttachmentOutputBody: Swift.Equatable {
+    let registrationAttachmentArn: Swift.String?
+    let registrationAttachmentId: Swift.String?
+    let attachmentStatus: PinpointSMSVoiceV2ClientTypes.AttachmentStatus?
+    let tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
+    let createdTimestamp: ClientRuntime.Date?
+}
+
+extension CreateRegistrationAttachmentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachmentStatus = "AttachmentStatus"
+        case createdTimestamp = "CreatedTimestamp"
+        case registrationAttachmentArn = "RegistrationAttachmentArn"
+        case registrationAttachmentId = "RegistrationAttachmentId"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationAttachmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationAttachmentArn)
+        registrationAttachmentArn = registrationAttachmentArnDecoded
+        let registrationAttachmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationAttachmentId)
+        registrationAttachmentId = registrationAttachmentIdDecoded
+        let attachmentStatusDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.AttachmentStatus.self, forKey: .attachmentStatus)
+        attachmentStatus = attachmentStatusDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[PinpointSMSVoiceV2ClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [PinpointSMSVoiceV2ClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+    }
+}
+
+enum CreateRegistrationAttachmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateRegistrationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case registrationType = "RegistrationType"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let registrationType = self.registrationType {
+            try encodeContainer.encode(registrationType, forKey: .registrationType)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreateRegistrationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateRegistrationInput: Swift.Equatable {
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// The type of registration form to create. The list of RegistrationTypes can be found using the [DescribeRegistrationTypeDefinitions] action.
+    /// This member is required.
+    public var registrationType: Swift.String?
+    /// An array of tags (key and value pairs) to associate with the registration.
+    public var tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        registrationType: Swift.String? = nil,
+        tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.registrationType = registrationType
+        self.tags = tags
+    }
+}
+
+struct CreateRegistrationInputBody: Swift.Equatable {
+    let registrationType: Swift.String?
+    let tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
+    let clientToken: Swift.String?
+}
+
+extension CreateRegistrationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case registrationType = "RegistrationType"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationType)
+        registrationType = registrationTypeDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[PinpointSMSVoiceV2ClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [PinpointSMSVoiceV2ClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension CreateRegistrationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateRegistrationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.additionalAttributes = output.additionalAttributes
+            self.createdTimestamp = output.createdTimestamp
+            self.currentVersionNumber = output.currentVersionNumber
+            self.registrationArn = output.registrationArn
+            self.registrationId = output.registrationId
+            self.registrationStatus = output.registrationStatus
+            self.registrationType = output.registrationType
+            self.tags = output.tags
+        } else {
+            self.additionalAttributes = nil
+            self.createdTimestamp = nil
+            self.currentVersionNumber = nil
+            self.registrationArn = nil
+            self.registrationId = nil
+            self.registrationStatus = nil
+            self.registrationType = nil
+            self.tags = nil
+        }
+    }
+}
+
+public struct CreateRegistrationOutput: Swift.Equatable {
+    /// Metadata about a given registration which is specific to that registration type.
+    public var additionalAttributes: [Swift.String:Swift.String]?
+    /// The time when the registration was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
+    /// This member is required.
+    public var createdTimestamp: ClientRuntime.Date?
+    /// The current version number of the registration.
+    /// This member is required.
+    public var currentVersionNumber: Swift.Int?
+    /// The Amazon Resource Name (ARN) for the registration.
+    /// This member is required.
+    public var registrationArn: Swift.String?
+    /// The unique identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+    /// The status of the registration.
+    ///
+    /// * CREATED: Your registration is created but not submitted.
+    ///
+    /// * SUBMITTED: Your registration has been submitted and is awaiting review.
+    ///
+    /// * REVIEWING: Your registration has been accepted and is being reviewed.
+    ///
+    /// * PROVISIONING: Your registration has been approved and your origination identity is being created.
+    ///
+    /// * COMPLETE: Your registration has been approved and and your origination identity has been created.
+    ///
+    /// * REQUIRES_UPDATES: You must fix your registration and resubmit it.
+    ///
+    /// * CLOSED: The phone number or sender ID has been deleted and you must also delete the registration for the number.
+    ///
+    /// * DELETED: The registration has been deleted.
+    /// This member is required.
+    public var registrationStatus: PinpointSMSVoiceV2ClientTypes.RegistrationStatus?
+    /// The type of registration form to create. The list of RegistrationTypes can be found using the [DescribeRegistrationTypeDefinitions] action.
+    /// This member is required.
+    public var registrationType: Swift.String?
+    /// An array of tags (key and value pairs) to associate with the registration.
+    public var tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
+
+    public init(
+        additionalAttributes: [Swift.String:Swift.String]? = nil,
+        createdTimestamp: ClientRuntime.Date? = nil,
+        currentVersionNumber: Swift.Int? = nil,
+        registrationArn: Swift.String? = nil,
+        registrationId: Swift.String? = nil,
+        registrationStatus: PinpointSMSVoiceV2ClientTypes.RegistrationStatus? = nil,
+        registrationType: Swift.String? = nil,
+        tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
+    )
+    {
+        self.additionalAttributes = additionalAttributes
+        self.createdTimestamp = createdTimestamp
+        self.currentVersionNumber = currentVersionNumber
+        self.registrationArn = registrationArn
+        self.registrationId = registrationId
+        self.registrationStatus = registrationStatus
+        self.registrationType = registrationType
+        self.tags = tags
+    }
+}
+
+struct CreateRegistrationOutputBody: Swift.Equatable {
+    let registrationArn: Swift.String?
+    let registrationId: Swift.String?
+    let registrationType: Swift.String?
+    let registrationStatus: PinpointSMSVoiceV2ClientTypes.RegistrationStatus?
+    let currentVersionNumber: Swift.Int?
+    let additionalAttributes: [Swift.String:Swift.String]?
+    let tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
+    let createdTimestamp: ClientRuntime.Date?
+}
+
+extension CreateRegistrationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalAttributes = "AdditionalAttributes"
+        case createdTimestamp = "CreatedTimestamp"
+        case currentVersionNumber = "CurrentVersionNumber"
+        case registrationArn = "RegistrationArn"
+        case registrationId = "RegistrationId"
+        case registrationStatus = "RegistrationStatus"
+        case registrationType = "RegistrationType"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationArn)
+        registrationArn = registrationArnDecoded
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
+        let registrationTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationType)
+        registrationType = registrationTypeDecoded
+        let registrationStatusDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.RegistrationStatus.self, forKey: .registrationStatus)
+        registrationStatus = registrationStatusDecoded
+        let currentVersionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .currentVersionNumber)
+        currentVersionNumber = currentVersionNumberDecoded
+        let additionalAttributesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalAttributes)
+        var additionalAttributesDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalAttributesContainer = additionalAttributesContainer {
+            additionalAttributesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in additionalAttributesContainer {
+                if let string0 = string0 {
+                    additionalAttributesDecoded0?[key0] = string0
+                }
+            }
+        }
+        additionalAttributes = additionalAttributesDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[PinpointSMSVoiceV2ClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [PinpointSMSVoiceV2ClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+    }
+}
+
+enum CreateRegistrationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateRegistrationVersionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case registrationId = "RegistrationId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let registrationId = self.registrationId {
+            try encodeContainer.encode(registrationId, forKey: .registrationId)
+        }
+    }
+}
+
+extension CreateRegistrationVersionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateRegistrationVersionInput: Swift.Equatable {
+    /// The unique identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+
+    public init(
+        registrationId: Swift.String? = nil
+    )
+    {
+        self.registrationId = registrationId
+    }
+}
+
+struct CreateRegistrationVersionInputBody: Swift.Equatable {
+    let registrationId: Swift.String?
+}
+
+extension CreateRegistrationVersionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case registrationId = "RegistrationId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
+    }
+}
+
+extension CreateRegistrationVersionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateRegistrationVersionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.registrationArn = output.registrationArn
+            self.registrationId = output.registrationId
+            self.registrationVersionStatus = output.registrationVersionStatus
+            self.registrationVersionStatusHistory = output.registrationVersionStatusHistory
+            self.versionNumber = output.versionNumber
+        } else {
+            self.registrationArn = nil
+            self.registrationId = nil
+            self.registrationVersionStatus = nil
+            self.registrationVersionStatusHistory = nil
+            self.versionNumber = nil
+        }
+    }
+}
+
+public struct CreateRegistrationVersionOutput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the registration.
+    /// This member is required.
+    public var registrationArn: Swift.String?
+    /// The unique identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+    /// The status of the registration.
+    ///
+    /// * DRAFT: The initial status of a registration version after it’s created.
+    ///
+    /// * SUBMITTED: Your registration has been submitted.
+    ///
+    /// * REVIEWING: Your registration has been accepted and is being reviewed.
+    ///
+    /// * APPROVED: Your registration has been approved.
+    ///
+    /// * DISCARDED: You've abandon this version of their registration to start over with a new version.
+    ///
+    /// * DENIED: You must fix your registration and resubmit it.
+    ///
+    /// * REVOKED: Your previously approved registration has been revoked.
+    ///
+    /// * ARCHIVED: Your previously approved registration version moves into this status when a more recently submitted version is approved.
+    /// This member is required.
+    public var registrationVersionStatus: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatus?
+    /// A RegistrationVersionStatusHistory object that contains timestamps for the registration.
+    /// This member is required.
+    public var registrationVersionStatusHistory: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory?
+    /// The new version number of the registration.
+    /// This member is required.
+    public var versionNumber: Swift.Int?
+
+    public init(
+        registrationArn: Swift.String? = nil,
+        registrationId: Swift.String? = nil,
+        registrationVersionStatus: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatus? = nil,
+        registrationVersionStatusHistory: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory? = nil,
+        versionNumber: Swift.Int? = nil
+    )
+    {
+        self.registrationArn = registrationArn
+        self.registrationId = registrationId
+        self.registrationVersionStatus = registrationVersionStatus
+        self.registrationVersionStatusHistory = registrationVersionStatusHistory
+        self.versionNumber = versionNumber
+    }
+}
+
+struct CreateRegistrationVersionOutputBody: Swift.Equatable {
+    let registrationArn: Swift.String?
+    let registrationId: Swift.String?
+    let versionNumber: Swift.Int?
+    let registrationVersionStatus: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatus?
+    let registrationVersionStatusHistory: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory?
+}
+
+extension CreateRegistrationVersionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case registrationArn = "RegistrationArn"
+        case registrationId = "RegistrationId"
+        case registrationVersionStatus = "RegistrationVersionStatus"
+        case registrationVersionStatusHistory = "RegistrationVersionStatusHistory"
+        case versionNumber = "VersionNumber"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationArn)
+        registrationArn = registrationArnDecoded
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
+        let versionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .versionNumber)
+        versionNumber = versionNumberDecoded
+        let registrationVersionStatusDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatus.self, forKey: .registrationVersionStatus)
+        registrationVersionStatus = registrationVersionStatusDecoded
+        let registrationVersionStatusHistoryDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory.self, forKey: .registrationVersionStatusHistory)
+        registrationVersionStatusHistory = registrationVersionStatusHistoryDecoded
+    }
+}
+
+enum CreateRegistrationVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateVerifiedDestinationNumberInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case destinationPhoneNumber = "DestinationPhoneNumber"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let destinationPhoneNumber = self.destinationPhoneNumber {
+            try encodeContainer.encode(destinationPhoneNumber, forKey: .destinationPhoneNumber)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreateVerifiedDestinationNumberInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateVerifiedDestinationNumberInput: Swift.Equatable {
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// The verified destination phone number, in E.164 format.
+    /// This member is required.
+    public var destinationPhoneNumber: Swift.String?
+    /// An array of tags (key and value pairs) to associate with the destination number.
+    public var tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        destinationPhoneNumber: Swift.String? = nil,
+        tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.destinationPhoneNumber = destinationPhoneNumber
+        self.tags = tags
+    }
+}
+
+struct CreateVerifiedDestinationNumberInputBody: Swift.Equatable {
+    let destinationPhoneNumber: Swift.String?
+    let tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
+    let clientToken: Swift.String?
+}
+
+extension CreateVerifiedDestinationNumberInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case destinationPhoneNumber = "DestinationPhoneNumber"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let destinationPhoneNumberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationPhoneNumber)
+        destinationPhoneNumber = destinationPhoneNumberDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[PinpointSMSVoiceV2ClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [PinpointSMSVoiceV2ClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension CreateVerifiedDestinationNumberOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateVerifiedDestinationNumberOutputBody = try responseDecoder.decode(responseBody: data)
+            self.createdTimestamp = output.createdTimestamp
+            self.destinationPhoneNumber = output.destinationPhoneNumber
+            self.status = output.status
+            self.tags = output.tags
+            self.verifiedDestinationNumberArn = output.verifiedDestinationNumberArn
+            self.verifiedDestinationNumberId = output.verifiedDestinationNumberId
+        } else {
+            self.createdTimestamp = nil
+            self.destinationPhoneNumber = nil
+            self.status = nil
+            self.tags = nil
+            self.verifiedDestinationNumberArn = nil
+            self.verifiedDestinationNumberId = nil
+        }
+    }
+}
+
+public struct CreateVerifiedDestinationNumberOutput: Swift.Equatable {
+    /// The time when the verified phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
+    /// This member is required.
+    public var createdTimestamp: ClientRuntime.Date?
+    /// The verified destination phone number, in E.164 format.
+    /// This member is required.
+    public var destinationPhoneNumber: Swift.String?
+    /// The status of the verified destination phone number.
+    ///
+    /// * PENDING: The phone number hasn't been verified yet.
+    ///
+    /// * VERIFIED: The phone number is verified and can receive messages.
+    /// This member is required.
+    public var status: PinpointSMSVoiceV2ClientTypes.VerificationStatus?
+    /// An array of tags (key and value pairs) to associate with the destination number.
+    public var tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
+    /// The Amazon Resource Name (ARN) for the verified destination phone number.
+    /// This member is required.
+    public var verifiedDestinationNumberArn: Swift.String?
+    /// The unique identifier for the verified destination phone number.
+    /// This member is required.
+    public var verifiedDestinationNumberId: Swift.String?
+
+    public init(
+        createdTimestamp: ClientRuntime.Date? = nil,
+        destinationPhoneNumber: Swift.String? = nil,
+        status: PinpointSMSVoiceV2ClientTypes.VerificationStatus? = nil,
+        tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil,
+        verifiedDestinationNumberArn: Swift.String? = nil,
+        verifiedDestinationNumberId: Swift.String? = nil
+    )
+    {
+        self.createdTimestamp = createdTimestamp
+        self.destinationPhoneNumber = destinationPhoneNumber
+        self.status = status
+        self.tags = tags
+        self.verifiedDestinationNumberArn = verifiedDestinationNumberArn
+        self.verifiedDestinationNumberId = verifiedDestinationNumberId
+    }
+}
+
+struct CreateVerifiedDestinationNumberOutputBody: Swift.Equatable {
+    let verifiedDestinationNumberArn: Swift.String?
+    let verifiedDestinationNumberId: Swift.String?
+    let destinationPhoneNumber: Swift.String?
+    let status: PinpointSMSVoiceV2ClientTypes.VerificationStatus?
+    let tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
+    let createdTimestamp: ClientRuntime.Date?
+}
+
+extension CreateVerifiedDestinationNumberOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdTimestamp = "CreatedTimestamp"
+        case destinationPhoneNumber = "DestinationPhoneNumber"
+        case status = "Status"
+        case tags = "Tags"
+        case verifiedDestinationNumberArn = "VerifiedDestinationNumberArn"
+        case verifiedDestinationNumberId = "VerifiedDestinationNumberId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let verifiedDestinationNumberArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .verifiedDestinationNumberArn)
+        verifiedDestinationNumberArn = verifiedDestinationNumberArnDecoded
+        let verifiedDestinationNumberIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .verifiedDestinationNumberId)
+        verifiedDestinationNumberId = verifiedDestinationNumberIdDecoded
+        let destinationPhoneNumberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationPhoneNumber)
+        destinationPhoneNumber = destinationPhoneNumberDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.VerificationStatus.self, forKey: .status)
+        status = statusDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[PinpointSMSVoiceV2ClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [PinpointSMSVoiceV2ClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+    }
+}
+
+enum CreateVerifiedDestinationNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1788,26 +2943,11 @@ extension DeleteConfigurationSetInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteConfigurationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteConfigurationSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteConfigurationSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteConfigurationSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteConfigurationSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.configurationSetArn = output.configurationSetArn
             self.configurationSetName = output.configurationSetName
             self.createdTimestamp = output.createdTimestamp
@@ -1825,7 +2965,7 @@ extension DeleteConfigurationSetOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DeleteConfigurationSetOutputResponse: Swift.Equatable {
+public struct DeleteConfigurationSetOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the deleted configuration set.
     public var configurationSetArn: Swift.String?
     /// The name of the deleted configuration set.
@@ -1857,7 +2997,7 @@ public struct DeleteConfigurationSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteConfigurationSetOutputResponseBody: Swift.Equatable {
+struct DeleteConfigurationSetOutputBody: Swift.Equatable {
     let configurationSetArn: Swift.String?
     let configurationSetName: Swift.String?
     let eventDestinations: [PinpointSMSVoiceV2ClientTypes.EventDestination]?
@@ -1866,7 +3006,7 @@ struct DeleteConfigurationSetOutputResponseBody: Swift.Equatable {
     let createdTimestamp: ClientRuntime.Date?
 }
 
-extension DeleteConfigurationSetOutputResponseBody: Swift.Decodable {
+extension DeleteConfigurationSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configurationSetArn = "ConfigurationSetArn"
         case configurationSetName = "ConfigurationSetName"
@@ -1899,6 +3039,21 @@ extension DeleteConfigurationSetOutputResponseBody: Swift.Decodable {
         defaultSenderId = defaultSenderIdDecoded
         let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
         createdTimestamp = createdTimestampDecoded
+    }
+}
+
+enum DeleteConfigurationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1950,26 +3105,11 @@ extension DeleteDefaultMessageTypeInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteDefaultMessageTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteDefaultMessageTypeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteDefaultMessageTypeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteDefaultMessageTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteDefaultMessageTypeOutputBody = try responseDecoder.decode(responseBody: data)
             self.configurationSetArn = output.configurationSetArn
             self.configurationSetName = output.configurationSetName
             self.messageType = output.messageType
@@ -1981,7 +3121,7 @@ extension DeleteDefaultMessageTypeOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DeleteDefaultMessageTypeOutputResponse: Swift.Equatable {
+public struct DeleteDefaultMessageTypeOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the configuration set.
     public var configurationSetArn: Swift.String?
     /// The name of the configuration set.
@@ -2001,13 +3141,13 @@ public struct DeleteDefaultMessageTypeOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteDefaultMessageTypeOutputResponseBody: Swift.Equatable {
+struct DeleteDefaultMessageTypeOutputBody: Swift.Equatable {
     let configurationSetArn: Swift.String?
     let configurationSetName: Swift.String?
     let messageType: PinpointSMSVoiceV2ClientTypes.MessageType?
 }
 
-extension DeleteDefaultMessageTypeOutputResponseBody: Swift.Decodable {
+extension DeleteDefaultMessageTypeOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configurationSetArn = "ConfigurationSetArn"
         case configurationSetName = "ConfigurationSetName"
@@ -2022,6 +3162,21 @@ extension DeleteDefaultMessageTypeOutputResponseBody: Swift.Decodable {
         configurationSetName = configurationSetNameDecoded
         let messageTypeDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.MessageType.self, forKey: .messageType)
         messageType = messageTypeDecoded
+    }
+}
+
+enum DeleteDefaultMessageTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2073,26 +3228,11 @@ extension DeleteDefaultSenderIdInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteDefaultSenderIdOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteDefaultSenderIdOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteDefaultSenderIdOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteDefaultSenderIdOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteDefaultSenderIdOutputBody = try responseDecoder.decode(responseBody: data)
             self.configurationSetArn = output.configurationSetArn
             self.configurationSetName = output.configurationSetName
             self.senderId = output.senderId
@@ -2104,7 +3244,7 @@ extension DeleteDefaultSenderIdOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DeleteDefaultSenderIdOutputResponse: Swift.Equatable {
+public struct DeleteDefaultSenderIdOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the configuration set.
     public var configurationSetArn: Swift.String?
     /// The name of the configuration set.
@@ -2124,13 +3264,13 @@ public struct DeleteDefaultSenderIdOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteDefaultSenderIdOutputResponseBody: Swift.Equatable {
+struct DeleteDefaultSenderIdOutputBody: Swift.Equatable {
     let configurationSetArn: Swift.String?
     let configurationSetName: Swift.String?
     let senderId: Swift.String?
 }
 
-extension DeleteDefaultSenderIdOutputResponseBody: Swift.Decodable {
+extension DeleteDefaultSenderIdOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configurationSetArn = "ConfigurationSetArn"
         case configurationSetName = "ConfigurationSetName"
@@ -2145,6 +3285,21 @@ extension DeleteDefaultSenderIdOutputResponseBody: Swift.Decodable {
         configurationSetName = configurationSetNameDecoded
         let senderIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .senderId)
         senderId = senderIdDecoded
+    }
+}
+
+enum DeleteDefaultSenderIdOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2209,26 +3364,11 @@ extension DeleteEventDestinationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteEventDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteEventDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteEventDestinationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteEventDestinationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteEventDestinationOutputBody = try responseDecoder.decode(responseBody: data)
             self.configurationSetArn = output.configurationSetArn
             self.configurationSetName = output.configurationSetName
             self.eventDestination = output.eventDestination
@@ -2240,7 +3380,7 @@ extension DeleteEventDestinationOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DeleteEventDestinationOutputResponse: Swift.Equatable {
+public struct DeleteEventDestinationOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the configuration set.
     public var configurationSetArn: Swift.String?
     /// The name of the configuration set the event destination was deleted from.
@@ -2260,13 +3400,13 @@ public struct DeleteEventDestinationOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteEventDestinationOutputResponseBody: Swift.Equatable {
+struct DeleteEventDestinationOutputBody: Swift.Equatable {
     let configurationSetArn: Swift.String?
     let configurationSetName: Swift.String?
     let eventDestination: PinpointSMSVoiceV2ClientTypes.EventDestination?
 }
 
-extension DeleteEventDestinationOutputResponseBody: Swift.Decodable {
+extension DeleteEventDestinationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configurationSetArn = "ConfigurationSetArn"
         case configurationSetName = "ConfigurationSetName"
@@ -2281,6 +3421,21 @@ extension DeleteEventDestinationOutputResponseBody: Swift.Decodable {
         configurationSetName = configurationSetNameDecoded
         let eventDestinationDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.EventDestination.self, forKey: .eventDestination)
         eventDestination = eventDestinationDecoded
+    }
+}
+
+enum DeleteEventDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2345,27 +3500,11 @@ extension DeleteKeywordInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteKeywordOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteKeywordOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteKeywordOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteKeywordOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteKeywordOutputBody = try responseDecoder.decode(responseBody: data)
             self.keyword = output.keyword
             self.keywordAction = output.keywordAction
             self.keywordMessage = output.keywordMessage
@@ -2381,7 +3520,7 @@ extension DeleteKeywordOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteKeywordOutputResponse: Swift.Equatable {
+public struct DeleteKeywordOutput: Swift.Equatable {
     /// The keyword that was deleted.
     public var keyword: Swift.String?
     /// The action that was associated with the deleted keyword.
@@ -2409,7 +3548,7 @@ public struct DeleteKeywordOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteKeywordOutputResponseBody: Swift.Equatable {
+struct DeleteKeywordOutputBody: Swift.Equatable {
     let originationIdentityArn: Swift.String?
     let originationIdentity: Swift.String?
     let keyword: Swift.String?
@@ -2417,7 +3556,7 @@ struct DeleteKeywordOutputResponseBody: Swift.Equatable {
     let keywordAction: PinpointSMSVoiceV2ClientTypes.KeywordAction?
 }
 
-extension DeleteKeywordOutputResponseBody: Swift.Decodable {
+extension DeleteKeywordOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyword = "Keyword"
         case keywordAction = "KeywordAction"
@@ -2438,6 +3577,22 @@ extension DeleteKeywordOutputResponseBody: Swift.Decodable {
         keywordMessage = keywordMessageDecoded
         let keywordActionDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.KeywordAction.self, forKey: .keywordAction)
         keywordAction = keywordActionDecoded
+    }
+}
+
+enum DeleteKeywordOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2489,27 +3644,11 @@ extension DeleteOptOutListInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteOptOutListOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteOptOutListOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteOptOutListOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteOptOutListOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteOptOutListOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdTimestamp = output.createdTimestamp
             self.optOutListArn = output.optOutListArn
             self.optOutListName = output.optOutListName
@@ -2521,7 +3660,7 @@ extension DeleteOptOutListOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteOptOutListOutputResponse: Swift.Equatable {
+public struct DeleteOptOutListOutput: Swift.Equatable {
     /// The time when the OptOutList was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: ClientRuntime.Date?
     /// The Amazon Resource Name (ARN) of the OptOutList that was removed.
@@ -2541,13 +3680,13 @@ public struct DeleteOptOutListOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteOptOutListOutputResponseBody: Swift.Equatable {
+struct DeleteOptOutListOutputBody: Swift.Equatable {
     let optOutListArn: Swift.String?
     let optOutListName: Swift.String?
     let createdTimestamp: ClientRuntime.Date?
 }
 
-extension DeleteOptOutListOutputResponseBody: Swift.Decodable {
+extension DeleteOptOutListOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdTimestamp = "CreatedTimestamp"
         case optOutListArn = "OptOutListArn"
@@ -2562,6 +3701,22 @@ extension DeleteOptOutListOutputResponseBody: Swift.Decodable {
         optOutListName = optOutListNameDecoded
         let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
         createdTimestamp = createdTimestampDecoded
+    }
+}
+
+enum DeleteOptOutListOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2626,27 +3781,11 @@ extension DeleteOptedOutNumberInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteOptedOutNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteOptedOutNumberOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteOptedOutNumberOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteOptedOutNumberOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteOptedOutNumberOutputBody = try responseDecoder.decode(responseBody: data)
             self.endUserOptedOut = output.endUserOptedOut
             self.optOutListArn = output.optOutListArn
             self.optOutListName = output.optOutListName
@@ -2662,7 +3801,7 @@ extension DeleteOptedOutNumberOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DeleteOptedOutNumberOutputResponse: Swift.Equatable {
+public struct DeleteOptedOutNumberOutput: Swift.Equatable {
     /// This is true if it was the end user who requested their phone number be removed.
     public var endUserOptedOut: Swift.Bool
     /// The OptOutListArn that the phone number was removed from.
@@ -2690,7 +3829,7 @@ public struct DeleteOptedOutNumberOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteOptedOutNumberOutputResponseBody: Swift.Equatable {
+struct DeleteOptedOutNumberOutputBody: Swift.Equatable {
     let optOutListArn: Swift.String?
     let optOutListName: Swift.String?
     let optedOutNumber: Swift.String?
@@ -2698,7 +3837,7 @@ struct DeleteOptedOutNumberOutputResponseBody: Swift.Equatable {
     let endUserOptedOut: Swift.Bool
 }
 
-extension DeleteOptedOutNumberOutputResponseBody: Swift.Decodable {
+extension DeleteOptedOutNumberOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endUserOptedOut = "EndUserOptedOut"
         case optOutListArn = "OptOutListArn"
@@ -2719,6 +3858,22 @@ extension DeleteOptedOutNumberOutputResponseBody: Swift.Decodable {
         optedOutTimestamp = optedOutTimestampDecoded
         let endUserOptedOutDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .endUserOptedOut) ?? false
         endUserOptedOut = endUserOptedOutDecoded
+    }
+}
+
+enum DeleteOptedOutNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2770,27 +3925,11 @@ extension DeletePoolInputBody: Swift.Decodable {
     }
 }
 
-public enum DeletePoolOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeletePoolOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeletePoolOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeletePoolOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeletePoolOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdTimestamp = output.createdTimestamp
             self.messageType = output.messageType
             self.optOutListName = output.optOutListName
@@ -2800,6 +3939,7 @@ extension DeletePoolOutputResponse: ClientRuntime.HttpResponseBinding {
             self.sharedRoutesEnabled = output.sharedRoutesEnabled
             self.status = output.status
             self.twoWayChannelArn = output.twoWayChannelArn
+            self.twoWayChannelRole = output.twoWayChannelRole
             self.twoWayEnabled = output.twoWayEnabled
         } else {
             self.createdTimestamp = nil
@@ -2811,12 +3951,13 @@ extension DeletePoolOutputResponse: ClientRuntime.HttpResponseBinding {
             self.sharedRoutesEnabled = false
             self.status = nil
             self.twoWayChannelArn = nil
+            self.twoWayChannelRole = nil
             self.twoWayEnabled = false
         }
     }
 }
 
-public struct DeletePoolOutputResponse: Swift.Equatable {
+public struct DeletePoolOutput: Swift.Equatable {
     /// The time when the pool was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: ClientRuntime.Date?
     /// The message type that was associated with the deleted pool.
@@ -2841,6 +3982,8 @@ public struct DeletePoolOutputResponse: Swift.Equatable {
     public var status: PinpointSMSVoiceV2ClientTypes.PoolStatus?
     /// The Amazon Resource Name (ARN) of the TwoWayChannel.
     public var twoWayChannelArn: Swift.String?
+    /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+    public var twoWayChannelRole: Swift.String?
     /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
     public var twoWayEnabled: Swift.Bool
 
@@ -2854,6 +3997,7 @@ public struct DeletePoolOutputResponse: Swift.Equatable {
         sharedRoutesEnabled: Swift.Bool = false,
         status: PinpointSMSVoiceV2ClientTypes.PoolStatus? = nil,
         twoWayChannelArn: Swift.String? = nil,
+        twoWayChannelRole: Swift.String? = nil,
         twoWayEnabled: Swift.Bool = false
     )
     {
@@ -2866,24 +4010,26 @@ public struct DeletePoolOutputResponse: Swift.Equatable {
         self.sharedRoutesEnabled = sharedRoutesEnabled
         self.status = status
         self.twoWayChannelArn = twoWayChannelArn
+        self.twoWayChannelRole = twoWayChannelRole
         self.twoWayEnabled = twoWayEnabled
     }
 }
 
-struct DeletePoolOutputResponseBody: Swift.Equatable {
+struct DeletePoolOutputBody: Swift.Equatable {
     let poolArn: Swift.String?
     let poolId: Swift.String?
     let status: PinpointSMSVoiceV2ClientTypes.PoolStatus?
     let messageType: PinpointSMSVoiceV2ClientTypes.MessageType?
     let twoWayEnabled: Swift.Bool
     let twoWayChannelArn: Swift.String?
+    let twoWayChannelRole: Swift.String?
     let selfManagedOptOutsEnabled: Swift.Bool
     let optOutListName: Swift.String?
     let sharedRoutesEnabled: Swift.Bool
     let createdTimestamp: ClientRuntime.Date?
 }
 
-extension DeletePoolOutputResponseBody: Swift.Decodable {
+extension DeletePoolOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdTimestamp = "CreatedTimestamp"
         case messageType = "MessageType"
@@ -2894,6 +4040,7 @@ extension DeletePoolOutputResponseBody: Swift.Decodable {
         case sharedRoutesEnabled = "SharedRoutesEnabled"
         case status = "Status"
         case twoWayChannelArn = "TwoWayChannelArn"
+        case twoWayChannelRole = "TwoWayChannelRole"
         case twoWayEnabled = "TwoWayEnabled"
     }
 
@@ -2911,6 +4058,8 @@ extension DeletePoolOutputResponseBody: Swift.Decodable {
         twoWayEnabled = twoWayEnabledDecoded
         let twoWayChannelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .twoWayChannelArn)
         twoWayChannelArn = twoWayChannelArnDecoded
+        let twoWayChannelRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .twoWayChannelRole)
+        twoWayChannelRole = twoWayChannelRoleDecoded
         let selfManagedOptOutsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .selfManagedOptOutsEnabled) ?? false
         selfManagedOptOutsEnabled = selfManagedOptOutsEnabledDecoded
         let optOutListNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .optOutListName)
@@ -2919,6 +4068,583 @@ extension DeletePoolOutputResponseBody: Swift.Decodable {
         sharedRoutesEnabled = sharedRoutesEnabledDecoded
         let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
         createdTimestamp = createdTimestampDecoded
+    }
+}
+
+enum DeletePoolOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteRegistrationAttachmentInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case registrationAttachmentId = "RegistrationAttachmentId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let registrationAttachmentId = self.registrationAttachmentId {
+            try encodeContainer.encode(registrationAttachmentId, forKey: .registrationAttachmentId)
+        }
+    }
+}
+
+extension DeleteRegistrationAttachmentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteRegistrationAttachmentInput: Swift.Equatable {
+    /// The unique identifier for the registration attachment.
+    /// This member is required.
+    public var registrationAttachmentId: Swift.String?
+
+    public init(
+        registrationAttachmentId: Swift.String? = nil
+    )
+    {
+        self.registrationAttachmentId = registrationAttachmentId
+    }
+}
+
+struct DeleteRegistrationAttachmentInputBody: Swift.Equatable {
+    let registrationAttachmentId: Swift.String?
+}
+
+extension DeleteRegistrationAttachmentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case registrationAttachmentId = "RegistrationAttachmentId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationAttachmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationAttachmentId)
+        registrationAttachmentId = registrationAttachmentIdDecoded
+    }
+}
+
+extension DeleteRegistrationAttachmentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteRegistrationAttachmentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.attachmentStatus = output.attachmentStatus
+            self.attachmentUploadErrorReason = output.attachmentUploadErrorReason
+            self.createdTimestamp = output.createdTimestamp
+            self.registrationAttachmentArn = output.registrationAttachmentArn
+            self.registrationAttachmentId = output.registrationAttachmentId
+        } else {
+            self.attachmentStatus = nil
+            self.attachmentUploadErrorReason = nil
+            self.createdTimestamp = nil
+            self.registrationAttachmentArn = nil
+            self.registrationAttachmentId = nil
+        }
+    }
+}
+
+public struct DeleteRegistrationAttachmentOutput: Swift.Equatable {
+    /// The status of the registration attachment.
+    ///
+    /// * UPLOAD_IN_PROGRESS The attachment is being uploaded.
+    ///
+    /// * UPLOAD_COMPLETE The attachment has been uploaded.
+    ///
+    /// * UPLOAD_FAILED The attachment failed to uploaded.
+    ///
+    /// * DELETED The attachment has been deleted..
+    /// This member is required.
+    public var attachmentStatus: PinpointSMSVoiceV2ClientTypes.AttachmentStatus?
+    /// The error message if the upload failed.
+    public var attachmentUploadErrorReason: PinpointSMSVoiceV2ClientTypes.AttachmentUploadErrorReason?
+    /// The time when the registration attachment was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
+    /// This member is required.
+    public var createdTimestamp: ClientRuntime.Date?
+    /// The Amazon Resource Name (ARN) for the registration attachment.
+    /// This member is required.
+    public var registrationAttachmentArn: Swift.String?
+    /// The unique identifier for the registration attachment.
+    /// This member is required.
+    public var registrationAttachmentId: Swift.String?
+
+    public init(
+        attachmentStatus: PinpointSMSVoiceV2ClientTypes.AttachmentStatus? = nil,
+        attachmentUploadErrorReason: PinpointSMSVoiceV2ClientTypes.AttachmentUploadErrorReason? = nil,
+        createdTimestamp: ClientRuntime.Date? = nil,
+        registrationAttachmentArn: Swift.String? = nil,
+        registrationAttachmentId: Swift.String? = nil
+    )
+    {
+        self.attachmentStatus = attachmentStatus
+        self.attachmentUploadErrorReason = attachmentUploadErrorReason
+        self.createdTimestamp = createdTimestamp
+        self.registrationAttachmentArn = registrationAttachmentArn
+        self.registrationAttachmentId = registrationAttachmentId
+    }
+}
+
+struct DeleteRegistrationAttachmentOutputBody: Swift.Equatable {
+    let registrationAttachmentArn: Swift.String?
+    let registrationAttachmentId: Swift.String?
+    let attachmentStatus: PinpointSMSVoiceV2ClientTypes.AttachmentStatus?
+    let attachmentUploadErrorReason: PinpointSMSVoiceV2ClientTypes.AttachmentUploadErrorReason?
+    let createdTimestamp: ClientRuntime.Date?
+}
+
+extension DeleteRegistrationAttachmentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachmentStatus = "AttachmentStatus"
+        case attachmentUploadErrorReason = "AttachmentUploadErrorReason"
+        case createdTimestamp = "CreatedTimestamp"
+        case registrationAttachmentArn = "RegistrationAttachmentArn"
+        case registrationAttachmentId = "RegistrationAttachmentId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationAttachmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationAttachmentArn)
+        registrationAttachmentArn = registrationAttachmentArnDecoded
+        let registrationAttachmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationAttachmentId)
+        registrationAttachmentId = registrationAttachmentIdDecoded
+        let attachmentStatusDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.AttachmentStatus.self, forKey: .attachmentStatus)
+        attachmentStatus = attachmentStatusDecoded
+        let attachmentUploadErrorReasonDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.AttachmentUploadErrorReason.self, forKey: .attachmentUploadErrorReason)
+        attachmentUploadErrorReason = attachmentUploadErrorReasonDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+    }
+}
+
+enum DeleteRegistrationAttachmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteRegistrationFieldValueInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fieldPath = "FieldPath"
+        case registrationId = "RegistrationId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fieldPath = self.fieldPath {
+            try encodeContainer.encode(fieldPath, forKey: .fieldPath)
+        }
+        if let registrationId = self.registrationId {
+            try encodeContainer.encode(registrationId, forKey: .registrationId)
+        }
+    }
+}
+
+extension DeleteRegistrationFieldValueInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteRegistrationFieldValueInput: Swift.Equatable {
+    /// The path to the registration form field. You can use [DescribeRegistrationFieldDefinitions] for a list of FieldPaths.
+    /// This member is required.
+    public var fieldPath: Swift.String?
+    /// The unique identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+
+    public init(
+        fieldPath: Swift.String? = nil,
+        registrationId: Swift.String? = nil
+    )
+    {
+        self.fieldPath = fieldPath
+        self.registrationId = registrationId
+    }
+}
+
+struct DeleteRegistrationFieldValueInputBody: Swift.Equatable {
+    let registrationId: Swift.String?
+    let fieldPath: Swift.String?
+}
+
+extension DeleteRegistrationFieldValueInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fieldPath = "FieldPath"
+        case registrationId = "RegistrationId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
+        let fieldPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fieldPath)
+        fieldPath = fieldPathDecoded
+    }
+}
+
+extension DeleteRegistrationFieldValueOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteRegistrationFieldValueOutputBody = try responseDecoder.decode(responseBody: data)
+            self.fieldPath = output.fieldPath
+            self.registrationArn = output.registrationArn
+            self.registrationAttachmentId = output.registrationAttachmentId
+            self.registrationId = output.registrationId
+            self.selectChoices = output.selectChoices
+            self.textValue = output.textValue
+            self.versionNumber = output.versionNumber
+        } else {
+            self.fieldPath = nil
+            self.registrationArn = nil
+            self.registrationAttachmentId = nil
+            self.registrationId = nil
+            self.selectChoices = nil
+            self.textValue = nil
+            self.versionNumber = nil
+        }
+    }
+}
+
+public struct DeleteRegistrationFieldValueOutput: Swift.Equatable {
+    /// The path to the registration form field.
+    /// This member is required.
+    public var fieldPath: Swift.String?
+    /// The Amazon Resource Name (ARN) for the registration.
+    /// This member is required.
+    public var registrationArn: Swift.String?
+    /// The unique identifier for the registration attachment.
+    public var registrationAttachmentId: Swift.String?
+    /// The unique identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+    /// An array of values for the form field.
+    public var selectChoices: [Swift.String]?
+    /// The text data for a free form field.
+    public var textValue: Swift.String?
+    /// The version number of the registration.
+    /// This member is required.
+    public var versionNumber: Swift.Int?
+
+    public init(
+        fieldPath: Swift.String? = nil,
+        registrationArn: Swift.String? = nil,
+        registrationAttachmentId: Swift.String? = nil,
+        registrationId: Swift.String? = nil,
+        selectChoices: [Swift.String]? = nil,
+        textValue: Swift.String? = nil,
+        versionNumber: Swift.Int? = nil
+    )
+    {
+        self.fieldPath = fieldPath
+        self.registrationArn = registrationArn
+        self.registrationAttachmentId = registrationAttachmentId
+        self.registrationId = registrationId
+        self.selectChoices = selectChoices
+        self.textValue = textValue
+        self.versionNumber = versionNumber
+    }
+}
+
+struct DeleteRegistrationFieldValueOutputBody: Swift.Equatable {
+    let registrationArn: Swift.String?
+    let registrationId: Swift.String?
+    let versionNumber: Swift.Int?
+    let fieldPath: Swift.String?
+    let selectChoices: [Swift.String]?
+    let textValue: Swift.String?
+    let registrationAttachmentId: Swift.String?
+}
+
+extension DeleteRegistrationFieldValueOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fieldPath = "FieldPath"
+        case registrationArn = "RegistrationArn"
+        case registrationAttachmentId = "RegistrationAttachmentId"
+        case registrationId = "RegistrationId"
+        case selectChoices = "SelectChoices"
+        case textValue = "TextValue"
+        case versionNumber = "VersionNumber"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationArn)
+        registrationArn = registrationArnDecoded
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
+        let versionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .versionNumber)
+        versionNumber = versionNumberDecoded
+        let fieldPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fieldPath)
+        fieldPath = fieldPathDecoded
+        let selectChoicesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .selectChoices)
+        var selectChoicesDecoded0:[Swift.String]? = nil
+        if let selectChoicesContainer = selectChoicesContainer {
+            selectChoicesDecoded0 = [Swift.String]()
+            for string0 in selectChoicesContainer {
+                if let string0 = string0 {
+                    selectChoicesDecoded0?.append(string0)
+                }
+            }
+        }
+        selectChoices = selectChoicesDecoded0
+        let textValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .textValue)
+        textValue = textValueDecoded
+        let registrationAttachmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationAttachmentId)
+        registrationAttachmentId = registrationAttachmentIdDecoded
+    }
+}
+
+enum DeleteRegistrationFieldValueOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteRegistrationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case registrationId = "RegistrationId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let registrationId = self.registrationId {
+            try encodeContainer.encode(registrationId, forKey: .registrationId)
+        }
+    }
+}
+
+extension DeleteRegistrationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteRegistrationInput: Swift.Equatable {
+    /// The unique identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+
+    public init(
+        registrationId: Swift.String? = nil
+    )
+    {
+        self.registrationId = registrationId
+    }
+}
+
+struct DeleteRegistrationInputBody: Swift.Equatable {
+    let registrationId: Swift.String?
+}
+
+extension DeleteRegistrationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case registrationId = "RegistrationId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
+    }
+}
+
+extension DeleteRegistrationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteRegistrationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.additionalAttributes = output.additionalAttributes
+            self.approvedVersionNumber = output.approvedVersionNumber
+            self.createdTimestamp = output.createdTimestamp
+            self.currentVersionNumber = output.currentVersionNumber
+            self.latestDeniedVersionNumber = output.latestDeniedVersionNumber
+            self.registrationArn = output.registrationArn
+            self.registrationId = output.registrationId
+            self.registrationStatus = output.registrationStatus
+            self.registrationType = output.registrationType
+        } else {
+            self.additionalAttributes = nil
+            self.approvedVersionNumber = nil
+            self.createdTimestamp = nil
+            self.currentVersionNumber = nil
+            self.latestDeniedVersionNumber = nil
+            self.registrationArn = nil
+            self.registrationId = nil
+            self.registrationStatus = nil
+            self.registrationType = nil
+        }
+    }
+}
+
+public struct DeleteRegistrationOutput: Swift.Equatable {
+    /// Metadata about a given registration which is specific to that registration type.
+    public var additionalAttributes: [Swift.String:Swift.String]?
+    /// The version number of the registration that was approved.
+    public var approvedVersionNumber: Swift.Int?
+    /// The time when the registration was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
+    /// This member is required.
+    public var createdTimestamp: ClientRuntime.Date?
+    /// The current version number of the registration.
+    /// This member is required.
+    public var currentVersionNumber: Swift.Int?
+    /// The latest version number of the registration that was denied.
+    public var latestDeniedVersionNumber: Swift.Int?
+    /// The Amazon Resource Name (ARN) for the registration.
+    /// This member is required.
+    public var registrationArn: Swift.String?
+    /// The unique identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+    /// The status of the registration.
+    ///
+    /// * CREATED: Your registration is created but not submitted.
+    ///
+    /// * SUBMITTED: Your registration has been submitted and is awaiting review.
+    ///
+    /// * REVIEWING: Your registration has been accepted and is being reviewed.
+    ///
+    /// * PROVISIONING: Your registration has been approved and your origination identity is being created.
+    ///
+    /// * COMPLETE: Your registration has been approved and and your origination identity has been created.
+    ///
+    /// * REQUIRES_UPDATES: You must fix your registration and resubmit it.
+    ///
+    /// * CLOSED: The phone number or sender ID has been deleted and you must also delete the registration for the number.
+    ///
+    /// * DELETED: The registration has been deleted.
+    /// This member is required.
+    public var registrationStatus: PinpointSMSVoiceV2ClientTypes.RegistrationStatus?
+    /// The type of registration form. The list of RegistrationTypes can be found using the [DescribeRegistrationTypeDefinitions] action.
+    /// This member is required.
+    public var registrationType: Swift.String?
+
+    public init(
+        additionalAttributes: [Swift.String:Swift.String]? = nil,
+        approvedVersionNumber: Swift.Int? = nil,
+        createdTimestamp: ClientRuntime.Date? = nil,
+        currentVersionNumber: Swift.Int? = nil,
+        latestDeniedVersionNumber: Swift.Int? = nil,
+        registrationArn: Swift.String? = nil,
+        registrationId: Swift.String? = nil,
+        registrationStatus: PinpointSMSVoiceV2ClientTypes.RegistrationStatus? = nil,
+        registrationType: Swift.String? = nil
+    )
+    {
+        self.additionalAttributes = additionalAttributes
+        self.approvedVersionNumber = approvedVersionNumber
+        self.createdTimestamp = createdTimestamp
+        self.currentVersionNumber = currentVersionNumber
+        self.latestDeniedVersionNumber = latestDeniedVersionNumber
+        self.registrationArn = registrationArn
+        self.registrationId = registrationId
+        self.registrationStatus = registrationStatus
+        self.registrationType = registrationType
+    }
+}
+
+struct DeleteRegistrationOutputBody: Swift.Equatable {
+    let registrationArn: Swift.String?
+    let registrationId: Swift.String?
+    let registrationType: Swift.String?
+    let registrationStatus: PinpointSMSVoiceV2ClientTypes.RegistrationStatus?
+    let currentVersionNumber: Swift.Int?
+    let approvedVersionNumber: Swift.Int?
+    let latestDeniedVersionNumber: Swift.Int?
+    let additionalAttributes: [Swift.String:Swift.String]?
+    let createdTimestamp: ClientRuntime.Date?
+}
+
+extension DeleteRegistrationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalAttributes = "AdditionalAttributes"
+        case approvedVersionNumber = "ApprovedVersionNumber"
+        case createdTimestamp = "CreatedTimestamp"
+        case currentVersionNumber = "CurrentVersionNumber"
+        case latestDeniedVersionNumber = "LatestDeniedVersionNumber"
+        case registrationArn = "RegistrationArn"
+        case registrationId = "RegistrationId"
+        case registrationStatus = "RegistrationStatus"
+        case registrationType = "RegistrationType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationArn)
+        registrationArn = registrationArnDecoded
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
+        let registrationTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationType)
+        registrationType = registrationTypeDecoded
+        let registrationStatusDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.RegistrationStatus.self, forKey: .registrationStatus)
+        registrationStatus = registrationStatusDecoded
+        let currentVersionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .currentVersionNumber)
+        currentVersionNumber = currentVersionNumberDecoded
+        let approvedVersionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .approvedVersionNumber)
+        approvedVersionNumber = approvedVersionNumberDecoded
+        let latestDeniedVersionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .latestDeniedVersionNumber)
+        latestDeniedVersionNumber = latestDeniedVersionNumberDecoded
+        let additionalAttributesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalAttributes)
+        var additionalAttributesDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalAttributesContainer = additionalAttributesContainer {
+            additionalAttributesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in additionalAttributesContainer {
+                if let string0 = string0 {
+                    additionalAttributesDecoded0?[key0] = string0
+                }
+            }
+        }
+        additionalAttributes = additionalAttributesDecoded0
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+    }
+}
+
+enum DeleteRegistrationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2950,8 +4676,48 @@ extension DeleteTextMessageSpendLimitOverrideInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteTextMessageSpendLimitOverrideOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteTextMessageSpendLimitOverrideOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteTextMessageSpendLimitOverrideOutputBody = try responseDecoder.decode(responseBody: data)
+            self.monthlyLimit = output.monthlyLimit
+        } else {
+            self.monthlyLimit = nil
+        }
+    }
+}
+
+public struct DeleteTextMessageSpendLimitOverrideOutput: Swift.Equatable {
+    /// The current monthly limit, in US dollars.
+    public var monthlyLimit: Swift.Int?
+
+    public init(
+        monthlyLimit: Swift.Int? = nil
+    )
+    {
+        self.monthlyLimit = monthlyLimit
+    }
+}
+
+struct DeleteTextMessageSpendLimitOverrideOutputBody: Swift.Equatable {
+    let monthlyLimit: Swift.Int?
+}
+
+extension DeleteTextMessageSpendLimitOverrideOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case monthlyLimit = "MonthlyLimit"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let monthlyLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .monthlyLimit)
+        monthlyLimit = monthlyLimitDecoded
+    }
+}
+
+enum DeleteTextMessageSpendLimitOverrideOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2964,43 +4730,141 @@ public enum DeleteTextMessageSpendLimitOverrideOutputError: ClientRuntime.HttpRe
     }
 }
 
-extension DeleteTextMessageSpendLimitOverrideOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteTextMessageSpendLimitOverrideOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.monthlyLimit = output.monthlyLimit
-        } else {
-            self.monthlyLimit = nil
+extension DeleteVerifiedDestinationNumberInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case verifiedDestinationNumberId = "VerifiedDestinationNumberId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let verifiedDestinationNumberId = self.verifiedDestinationNumberId {
+            try encodeContainer.encode(verifiedDestinationNumberId, forKey: .verifiedDestinationNumberId)
         }
     }
 }
 
-public struct DeleteTextMessageSpendLimitOverrideOutputResponse: Swift.Equatable {
-    /// The current monthly limit, in US dollars.
-    public var monthlyLimit: Swift.Int?
-
-    public init(
-        monthlyLimit: Swift.Int? = nil
-    )
-    {
-        self.monthlyLimit = monthlyLimit
+extension DeleteVerifiedDestinationNumberInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
-struct DeleteTextMessageSpendLimitOverrideOutputResponseBody: Swift.Equatable {
-    let monthlyLimit: Swift.Int?
+public struct DeleteVerifiedDestinationNumberInput: Swift.Equatable {
+    /// The unique identifier for the verified destination phone number.
+    /// This member is required.
+    public var verifiedDestinationNumberId: Swift.String?
+
+    public init(
+        verifiedDestinationNumberId: Swift.String? = nil
+    )
+    {
+        self.verifiedDestinationNumberId = verifiedDestinationNumberId
+    }
 }
 
-extension DeleteTextMessageSpendLimitOverrideOutputResponseBody: Swift.Decodable {
+struct DeleteVerifiedDestinationNumberInputBody: Swift.Equatable {
+    let verifiedDestinationNumberId: Swift.String?
+}
+
+extension DeleteVerifiedDestinationNumberInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case monthlyLimit = "MonthlyLimit"
+        case verifiedDestinationNumberId = "VerifiedDestinationNumberId"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let monthlyLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .monthlyLimit)
-        monthlyLimit = monthlyLimitDecoded
+        let verifiedDestinationNumberIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .verifiedDestinationNumberId)
+        verifiedDestinationNumberId = verifiedDestinationNumberIdDecoded
+    }
+}
+
+extension DeleteVerifiedDestinationNumberOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteVerifiedDestinationNumberOutputBody = try responseDecoder.decode(responseBody: data)
+            self.createdTimestamp = output.createdTimestamp
+            self.destinationPhoneNumber = output.destinationPhoneNumber
+            self.verifiedDestinationNumberArn = output.verifiedDestinationNumberArn
+            self.verifiedDestinationNumberId = output.verifiedDestinationNumberId
+        } else {
+            self.createdTimestamp = nil
+            self.destinationPhoneNumber = nil
+            self.verifiedDestinationNumberArn = nil
+            self.verifiedDestinationNumberId = nil
+        }
+    }
+}
+
+public struct DeleteVerifiedDestinationNumberOutput: Swift.Equatable {
+    /// The time when the destination phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
+    /// This member is required.
+    public var createdTimestamp: ClientRuntime.Date?
+    /// The verified destination phone number, in E.164 format.
+    /// This member is required.
+    public var destinationPhoneNumber: Swift.String?
+    /// The Amazon Resource Name (ARN) for the verified destination phone number.
+    /// This member is required.
+    public var verifiedDestinationNumberArn: Swift.String?
+    /// The unique identifier for the verified destination phone number.
+    /// This member is required.
+    public var verifiedDestinationNumberId: Swift.String?
+
+    public init(
+        createdTimestamp: ClientRuntime.Date? = nil,
+        destinationPhoneNumber: Swift.String? = nil,
+        verifiedDestinationNumberArn: Swift.String? = nil,
+        verifiedDestinationNumberId: Swift.String? = nil
+    )
+    {
+        self.createdTimestamp = createdTimestamp
+        self.destinationPhoneNumber = destinationPhoneNumber
+        self.verifiedDestinationNumberArn = verifiedDestinationNumberArn
+        self.verifiedDestinationNumberId = verifiedDestinationNumberId
+    }
+}
+
+struct DeleteVerifiedDestinationNumberOutputBody: Swift.Equatable {
+    let verifiedDestinationNumberArn: Swift.String?
+    let verifiedDestinationNumberId: Swift.String?
+    let destinationPhoneNumber: Swift.String?
+    let createdTimestamp: ClientRuntime.Date?
+}
+
+extension DeleteVerifiedDestinationNumberOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdTimestamp = "CreatedTimestamp"
+        case destinationPhoneNumber = "DestinationPhoneNumber"
+        case verifiedDestinationNumberArn = "VerifiedDestinationNumberArn"
+        case verifiedDestinationNumberId = "VerifiedDestinationNumberId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let verifiedDestinationNumberArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .verifiedDestinationNumberArn)
+        verifiedDestinationNumberArn = verifiedDestinationNumberArnDecoded
+        let verifiedDestinationNumberIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .verifiedDestinationNumberId)
+        verifiedDestinationNumberId = verifiedDestinationNumberIdDecoded
+        let destinationPhoneNumberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationPhoneNumber)
+        destinationPhoneNumber = destinationPhoneNumberDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+    }
+}
+
+enum DeleteVerifiedDestinationNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3032,25 +4896,11 @@ extension DeleteVoiceMessageSpendLimitOverrideInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteVoiceMessageSpendLimitOverrideOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteVoiceMessageSpendLimitOverrideOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteVoiceMessageSpendLimitOverrideOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteVoiceMessageSpendLimitOverrideOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteVoiceMessageSpendLimitOverrideOutputBody = try responseDecoder.decode(responseBody: data)
             self.monthlyLimit = output.monthlyLimit
         } else {
             self.monthlyLimit = nil
@@ -3058,7 +4908,7 @@ extension DeleteVoiceMessageSpendLimitOverrideOutputResponse: ClientRuntime.Http
     }
 }
 
-public struct DeleteVoiceMessageSpendLimitOverrideOutputResponse: Swift.Equatable {
+public struct DeleteVoiceMessageSpendLimitOverrideOutput: Swift.Equatable {
     /// The current monthly limit, in US dollars.
     public var monthlyLimit: Swift.Int?
 
@@ -3070,11 +4920,11 @@ public struct DeleteVoiceMessageSpendLimitOverrideOutputResponse: Swift.Equatabl
     }
 }
 
-struct DeleteVoiceMessageSpendLimitOverrideOutputResponseBody: Swift.Equatable {
+struct DeleteVoiceMessageSpendLimitOverrideOutputBody: Swift.Equatable {
     let monthlyLimit: Swift.Int?
 }
 
-extension DeleteVoiceMessageSpendLimitOverrideOutputResponseBody: Swift.Decodable {
+extension DeleteVoiceMessageSpendLimitOverrideOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case monthlyLimit = "MonthlyLimit"
     }
@@ -3083,6 +4933,20 @@ extension DeleteVoiceMessageSpendLimitOverrideOutputResponseBody: Swift.Decodabl
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let monthlyLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .monthlyLimit)
         monthlyLimit = monthlyLimitDecoded
+    }
+}
+
+enum DeleteVoiceMessageSpendLimitOverrideOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3145,25 +5009,11 @@ extension DescribeAccountAttributesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeAccountAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeAccountAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeAccountAttributesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeAccountAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeAccountAttributesOutputBody = try responseDecoder.decode(responseBody: data)
             self.accountAttributes = output.accountAttributes
             self.nextToken = output.nextToken
         } else {
@@ -3173,7 +5023,7 @@ extension DescribeAccountAttributesOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribeAccountAttributesOutputResponse: Swift.Equatable {
+public struct DescribeAccountAttributesOutput: Swift.Equatable {
     /// An array of AccountAttributes objects.
     public var accountAttributes: [PinpointSMSVoiceV2ClientTypes.AccountAttribute]?
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
@@ -3189,12 +5039,12 @@ public struct DescribeAccountAttributesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeAccountAttributesOutputResponseBody: Swift.Equatable {
+struct DescribeAccountAttributesOutputBody: Swift.Equatable {
     let accountAttributes: [PinpointSMSVoiceV2ClientTypes.AccountAttribute]?
     let nextToken: Swift.String?
 }
 
-extension DescribeAccountAttributesOutputResponseBody: Swift.Decodable {
+extension DescribeAccountAttributesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountAttributes = "AccountAttributes"
         case nextToken = "NextToken"
@@ -3215,6 +5065,20 @@ extension DescribeAccountAttributesOutputResponseBody: Swift.Decodable {
         accountAttributes = accountAttributesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeAccountAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3277,25 +5141,11 @@ extension DescribeAccountLimitsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeAccountLimitsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeAccountLimitsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeAccountLimitsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeAccountLimitsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeAccountLimitsOutputBody = try responseDecoder.decode(responseBody: data)
             self.accountLimits = output.accountLimits
             self.nextToken = output.nextToken
         } else {
@@ -3305,7 +5155,7 @@ extension DescribeAccountLimitsOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeAccountLimitsOutputResponse: Swift.Equatable {
+public struct DescribeAccountLimitsOutput: Swift.Equatable {
     /// An array of AccountLimit objects that show the current spend limits.
     public var accountLimits: [PinpointSMSVoiceV2ClientTypes.AccountLimit]?
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
@@ -3321,12 +5171,12 @@ public struct DescribeAccountLimitsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeAccountLimitsOutputResponseBody: Swift.Equatable {
+struct DescribeAccountLimitsOutputBody: Swift.Equatable {
     let accountLimits: [PinpointSMSVoiceV2ClientTypes.AccountLimit]?
     let nextToken: Swift.String?
 }
 
-extension DescribeAccountLimitsOutputResponseBody: Swift.Decodable {
+extension DescribeAccountLimitsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountLimits = "AccountLimits"
         case nextToken = "NextToken"
@@ -3347,6 +5197,20 @@ extension DescribeAccountLimitsOutputResponseBody: Swift.Decodable {
         accountLimits = accountLimitsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeAccountLimitsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3457,26 +5321,11 @@ extension DescribeConfigurationSetsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeConfigurationSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeConfigurationSetsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeConfigurationSetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeConfigurationSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeConfigurationSetsOutputBody = try responseDecoder.decode(responseBody: data)
             self.configurationSets = output.configurationSets
             self.nextToken = output.nextToken
         } else {
@@ -3486,7 +5335,7 @@ extension DescribeConfigurationSetsOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribeConfigurationSetsOutputResponse: Swift.Equatable {
+public struct DescribeConfigurationSetsOutput: Swift.Equatable {
     /// An array of ConfigurationSets objects.
     public var configurationSets: [PinpointSMSVoiceV2ClientTypes.ConfigurationSetInformation]?
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
@@ -3502,12 +5351,12 @@ public struct DescribeConfigurationSetsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeConfigurationSetsOutputResponseBody: Swift.Equatable {
+struct DescribeConfigurationSetsOutputBody: Swift.Equatable {
     let configurationSets: [PinpointSMSVoiceV2ClientTypes.ConfigurationSetInformation]?
     let nextToken: Swift.String?
 }
 
-extension DescribeConfigurationSetsOutputResponseBody: Swift.Decodable {
+extension DescribeConfigurationSetsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configurationSets = "ConfigurationSets"
         case nextToken = "NextToken"
@@ -3528,6 +5377,21 @@ extension DescribeConfigurationSetsOutputResponseBody: Swift.Decodable {
         configurationSets = configurationSetsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeConfigurationSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3651,26 +5515,11 @@ extension DescribeKeywordsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeKeywordsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeKeywordsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeKeywordsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeKeywordsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeKeywordsOutputBody = try responseDecoder.decode(responseBody: data)
             self.keywords = output.keywords
             self.nextToken = output.nextToken
             self.originationIdentity = output.originationIdentity
@@ -3684,7 +5533,7 @@ extension DescribeKeywordsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeKeywordsOutputResponse: Swift.Equatable {
+public struct DescribeKeywordsOutput: Swift.Equatable {
     /// An array of KeywordInformation objects that contain the results.
     public var keywords: [PinpointSMSVoiceV2ClientTypes.KeywordInformation]?
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
@@ -3708,14 +5557,14 @@ public struct DescribeKeywordsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeKeywordsOutputResponseBody: Swift.Equatable {
+struct DescribeKeywordsOutputBody: Swift.Equatable {
     let originationIdentityArn: Swift.String?
     let originationIdentity: Swift.String?
     let keywords: [PinpointSMSVoiceV2ClientTypes.KeywordInformation]?
     let nextToken: Swift.String?
 }
 
-extension DescribeKeywordsOutputResponseBody: Swift.Decodable {
+extension DescribeKeywordsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keywords = "Keywords"
         case nextToken = "NextToken"
@@ -3742,6 +5591,21 @@ extension DescribeKeywordsOutputResponseBody: Swift.Decodable {
         keywords = keywordsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeKeywordsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3828,26 +5692,11 @@ extension DescribeOptOutListsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeOptOutListsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeOptOutListsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeOptOutListsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeOptOutListsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeOptOutListsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.optOutLists = output.optOutLists
         } else {
@@ -3857,7 +5706,7 @@ extension DescribeOptOutListsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeOptOutListsOutputResponse: Swift.Equatable {
+public struct DescribeOptOutListsOutput: Swift.Equatable {
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
     public var nextToken: Swift.String?
     /// An array of OptOutListInformation objects that contain the details for the requested OptOutLists.
@@ -3873,12 +5722,12 @@ public struct DescribeOptOutListsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeOptOutListsOutputResponseBody: Swift.Equatable {
+struct DescribeOptOutListsOutputBody: Swift.Equatable {
     let optOutLists: [PinpointSMSVoiceV2ClientTypes.OptOutListInformation]?
     let nextToken: Swift.String?
 }
 
-extension DescribeOptOutListsOutputResponseBody: Swift.Decodable {
+extension DescribeOptOutListsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case optOutLists = "OptOutLists"
@@ -3899,6 +5748,21 @@ extension DescribeOptOutListsOutputResponseBody: Swift.Decodable {
         optOutLists = optOutListsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeOptOutListsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4022,26 +5886,11 @@ extension DescribeOptedOutNumbersInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeOptedOutNumbersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeOptedOutNumbersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeOptedOutNumbersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeOptedOutNumbersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeOptedOutNumbersOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.optOutListArn = output.optOutListArn
             self.optOutListName = output.optOutListName
@@ -4055,7 +5904,7 @@ extension DescribeOptedOutNumbersOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DescribeOptedOutNumbersOutputResponse: Swift.Equatable {
+public struct DescribeOptedOutNumbersOutput: Swift.Equatable {
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the OptOutList.
@@ -4079,14 +5928,14 @@ public struct DescribeOptedOutNumbersOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeOptedOutNumbersOutputResponseBody: Swift.Equatable {
+struct DescribeOptedOutNumbersOutputBody: Swift.Equatable {
     let optOutListArn: Swift.String?
     let optOutListName: Swift.String?
     let optedOutNumbers: [PinpointSMSVoiceV2ClientTypes.OptedOutNumberInformation]?
     let nextToken: Swift.String?
 }
 
-extension DescribeOptedOutNumbersOutputResponseBody: Swift.Decodable {
+extension DescribeOptedOutNumbersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case optOutListArn = "OptOutListArn"
@@ -4113,6 +5962,21 @@ extension DescribeOptedOutNumbersOutputResponseBody: Swift.Decodable {
         optedOutNumbers = optedOutNumbersDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeOptedOutNumbersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4223,26 +6087,11 @@ extension DescribePhoneNumbersInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribePhoneNumbersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribePhoneNumbersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribePhoneNumbersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribePhoneNumbersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribePhoneNumbersOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.phoneNumbers = output.phoneNumbers
         } else {
@@ -4252,7 +6101,7 @@ extension DescribePhoneNumbersOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribePhoneNumbersOutputResponse: Swift.Equatable {
+public struct DescribePhoneNumbersOutput: Swift.Equatable {
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
     public var nextToken: Swift.String?
     /// An array of PhoneNumberInformation objects that contain the details for the requested phone numbers.
@@ -4268,12 +6117,12 @@ public struct DescribePhoneNumbersOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribePhoneNumbersOutputResponseBody: Swift.Equatable {
+struct DescribePhoneNumbersOutputBody: Swift.Equatable {
     let phoneNumbers: [PinpointSMSVoiceV2ClientTypes.PhoneNumberInformation]?
     let nextToken: Swift.String?
 }
 
-extension DescribePhoneNumbersOutputResponseBody: Swift.Decodable {
+extension DescribePhoneNumbersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case phoneNumbers = "PhoneNumbers"
@@ -4294,6 +6143,21 @@ extension DescribePhoneNumbersOutputResponseBody: Swift.Decodable {
         phoneNumbers = phoneNumbersDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribePhoneNumbersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4404,26 +6268,11 @@ extension DescribePoolsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribePoolsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribePoolsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribePoolsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribePoolsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribePoolsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.pools = output.pools
         } else {
@@ -4433,7 +6282,7 @@ extension DescribePoolsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePoolsOutputResponse: Swift.Equatable {
+public struct DescribePoolsOutput: Swift.Equatable {
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
     public var nextToken: Swift.String?
     /// An array of PoolInformation objects that contain the details for the requested pools.
@@ -4449,12 +6298,12 @@ public struct DescribePoolsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribePoolsOutputResponseBody: Swift.Equatable {
+struct DescribePoolsOutputBody: Swift.Equatable {
     let pools: [PinpointSMSVoiceV2ClientTypes.PoolInformation]?
     let nextToken: Swift.String?
 }
 
-extension DescribePoolsOutputResponseBody: Swift.Decodable {
+extension DescribePoolsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case pools = "Pools"
@@ -4475,6 +6324,1385 @@ extension DescribePoolsOutputResponseBody: Swift.Decodable {
         pools = poolsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribePoolsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeRegistrationAttachmentsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case registrationAttachmentIds = "RegistrationAttachmentIds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for registrationattachmentfilter0 in filters {
+                try filtersContainer.encode(registrationattachmentfilter0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let registrationAttachmentIds = registrationAttachmentIds {
+            var registrationAttachmentIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .registrationAttachmentIds)
+            for registrationidorarn0 in registrationAttachmentIds {
+                try registrationAttachmentIdsContainer.encode(registrationidorarn0)
+            }
+        }
+    }
+}
+
+extension DescribeRegistrationAttachmentsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeRegistrationAttachmentsInput: Swift.Equatable {
+    /// An array of RegistrationAttachmentFilter objects to filter the results.
+    public var filters: [PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentFilter]?
+    /// The maximum number of results to return per each request.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// The unique identifier of registration attachments to find. This is an array of RegistrationAttachmentId.
+    public var registrationAttachmentIds: [Swift.String]?
+
+    public init(
+        filters: [PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        registrationAttachmentIds: [Swift.String]? = nil
+    )
+    {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.registrationAttachmentIds = registrationAttachmentIds
+    }
+}
+
+struct DescribeRegistrationAttachmentsInputBody: Swift.Equatable {
+    let registrationAttachmentIds: [Swift.String]?
+    let filters: [PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentFilter]?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension DescribeRegistrationAttachmentsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case registrationAttachmentIds = "RegistrationAttachmentIds"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationAttachmentIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .registrationAttachmentIds)
+        var registrationAttachmentIdsDecoded0:[Swift.String]? = nil
+        if let registrationAttachmentIdsContainer = registrationAttachmentIdsContainer {
+            registrationAttachmentIdsDecoded0 = [Swift.String]()
+            for string0 in registrationAttachmentIdsContainer {
+                if let string0 = string0 {
+                    registrationAttachmentIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        registrationAttachmentIds = registrationAttachmentIdsDecoded0
+        let filtersContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentFilter?].self, forKey: .filters)
+        var filtersDecoded0:[PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentFilter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentFilter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension DescribeRegistrationAttachmentsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeRegistrationAttachmentsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.registrationAttachments = output.registrationAttachments
+        } else {
+            self.nextToken = nil
+            self.registrationAttachments = nil
+        }
+    }
+}
+
+public struct DescribeRegistrationAttachmentsOutput: Swift.Equatable {
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// An array of RegistrationAttachments objects that contain the details for the requested registration attachments.
+    /// This member is required.
+    public var registrationAttachments: [PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentsInformation]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        registrationAttachments: [PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentsInformation]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.registrationAttachments = registrationAttachments
+    }
+}
+
+struct DescribeRegistrationAttachmentsOutputBody: Swift.Equatable {
+    let registrationAttachments: [PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentsInformation]?
+    let nextToken: Swift.String?
+}
+
+extension DescribeRegistrationAttachmentsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case registrationAttachments = "RegistrationAttachments"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationAttachmentsContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentsInformation?].self, forKey: .registrationAttachments)
+        var registrationAttachmentsDecoded0:[PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentsInformation]? = nil
+        if let registrationAttachmentsContainer = registrationAttachmentsContainer {
+            registrationAttachmentsDecoded0 = [PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentsInformation]()
+            for structure0 in registrationAttachmentsContainer {
+                if let structure0 = structure0 {
+                    registrationAttachmentsDecoded0?.append(structure0)
+                }
+            }
+        }
+        registrationAttachments = registrationAttachmentsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeRegistrationAttachmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeRegistrationFieldDefinitionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fieldPaths = "FieldPaths"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case registrationType = "RegistrationType"
+        case sectionPath = "SectionPath"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fieldPaths = fieldPaths {
+            var fieldPathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldPaths)
+            for fieldpath0 in fieldPaths {
+                try fieldPathsContainer.encode(fieldpath0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let registrationType = self.registrationType {
+            try encodeContainer.encode(registrationType, forKey: .registrationType)
+        }
+        if let sectionPath = self.sectionPath {
+            try encodeContainer.encode(sectionPath, forKey: .sectionPath)
+        }
+    }
+}
+
+extension DescribeRegistrationFieldDefinitionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeRegistrationFieldDefinitionsInput: Swift.Equatable {
+    /// An array of paths to the registration form field.
+    public var fieldPaths: [Swift.String]?
+    /// The maximum number of results to return per each request.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// The type of registration form. The list of RegistrationTypes can be found using the [DescribeRegistrationTypeDefinitions] action.
+    /// This member is required.
+    public var registrationType: Swift.String?
+    /// The path to the section of the registration.
+    public var sectionPath: Swift.String?
+
+    public init(
+        fieldPaths: [Swift.String]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        registrationType: Swift.String? = nil,
+        sectionPath: Swift.String? = nil
+    )
+    {
+        self.fieldPaths = fieldPaths
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.registrationType = registrationType
+        self.sectionPath = sectionPath
+    }
+}
+
+struct DescribeRegistrationFieldDefinitionsInputBody: Swift.Equatable {
+    let registrationType: Swift.String?
+    let sectionPath: Swift.String?
+    let fieldPaths: [Swift.String]?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension DescribeRegistrationFieldDefinitionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fieldPaths = "FieldPaths"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case registrationType = "RegistrationType"
+        case sectionPath = "SectionPath"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationType)
+        registrationType = registrationTypeDecoded
+        let sectionPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sectionPath)
+        sectionPath = sectionPathDecoded
+        let fieldPathsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .fieldPaths)
+        var fieldPathsDecoded0:[Swift.String]? = nil
+        if let fieldPathsContainer = fieldPathsContainer {
+            fieldPathsDecoded0 = [Swift.String]()
+            for string0 in fieldPathsContainer {
+                if let string0 = string0 {
+                    fieldPathsDecoded0?.append(string0)
+                }
+            }
+        }
+        fieldPaths = fieldPathsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension DescribeRegistrationFieldDefinitionsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeRegistrationFieldDefinitionsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.registrationFieldDefinitions = output.registrationFieldDefinitions
+            self.registrationType = output.registrationType
+        } else {
+            self.nextToken = nil
+            self.registrationFieldDefinitions = nil
+            self.registrationType = nil
+        }
+    }
+}
+
+public struct DescribeRegistrationFieldDefinitionsOutput: Swift.Equatable {
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// An array of RegistrationFieldDefinitions objects that contain the details for the requested fields.
+    /// This member is required.
+    public var registrationFieldDefinitions: [PinpointSMSVoiceV2ClientTypes.RegistrationFieldDefinition]?
+    /// The type of registration form. The list of RegistrationTypes can be found using the [DescribeRegistrationTypeDefinitions] action.
+    /// This member is required.
+    public var registrationType: Swift.String?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        registrationFieldDefinitions: [PinpointSMSVoiceV2ClientTypes.RegistrationFieldDefinition]? = nil,
+        registrationType: Swift.String? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.registrationFieldDefinitions = registrationFieldDefinitions
+        self.registrationType = registrationType
+    }
+}
+
+struct DescribeRegistrationFieldDefinitionsOutputBody: Swift.Equatable {
+    let registrationType: Swift.String?
+    let registrationFieldDefinitions: [PinpointSMSVoiceV2ClientTypes.RegistrationFieldDefinition]?
+    let nextToken: Swift.String?
+}
+
+extension DescribeRegistrationFieldDefinitionsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case registrationFieldDefinitions = "RegistrationFieldDefinitions"
+        case registrationType = "RegistrationType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationType)
+        registrationType = registrationTypeDecoded
+        let registrationFieldDefinitionsContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.RegistrationFieldDefinition?].self, forKey: .registrationFieldDefinitions)
+        var registrationFieldDefinitionsDecoded0:[PinpointSMSVoiceV2ClientTypes.RegistrationFieldDefinition]? = nil
+        if let registrationFieldDefinitionsContainer = registrationFieldDefinitionsContainer {
+            registrationFieldDefinitionsDecoded0 = [PinpointSMSVoiceV2ClientTypes.RegistrationFieldDefinition]()
+            for structure0 in registrationFieldDefinitionsContainer {
+                if let structure0 = structure0 {
+                    registrationFieldDefinitionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        registrationFieldDefinitions = registrationFieldDefinitionsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeRegistrationFieldDefinitionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeRegistrationFieldValuesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fieldPaths = "FieldPaths"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case registrationId = "RegistrationId"
+        case sectionPath = "SectionPath"
+        case versionNumber = "VersionNumber"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fieldPaths = fieldPaths {
+            var fieldPathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldPaths)
+            for fieldpath0 in fieldPaths {
+                try fieldPathsContainer.encode(fieldpath0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let registrationId = self.registrationId {
+            try encodeContainer.encode(registrationId, forKey: .registrationId)
+        }
+        if let sectionPath = self.sectionPath {
+            try encodeContainer.encode(sectionPath, forKey: .sectionPath)
+        }
+        if let versionNumber = self.versionNumber {
+            try encodeContainer.encode(versionNumber, forKey: .versionNumber)
+        }
+    }
+}
+
+extension DescribeRegistrationFieldValuesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeRegistrationFieldValuesInput: Swift.Equatable {
+    /// An array of paths to the registration form field.
+    public var fieldPaths: [Swift.String]?
+    /// The maximum number of results to return per each request.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// The unique identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+    /// The path to the section of the registration.
+    public var sectionPath: Swift.String?
+    /// The version number of the registration.
+    public var versionNumber: Swift.Int?
+
+    public init(
+        fieldPaths: [Swift.String]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        registrationId: Swift.String? = nil,
+        sectionPath: Swift.String? = nil,
+        versionNumber: Swift.Int? = nil
+    )
+    {
+        self.fieldPaths = fieldPaths
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.registrationId = registrationId
+        self.sectionPath = sectionPath
+        self.versionNumber = versionNumber
+    }
+}
+
+struct DescribeRegistrationFieldValuesInputBody: Swift.Equatable {
+    let registrationId: Swift.String?
+    let versionNumber: Swift.Int?
+    let sectionPath: Swift.String?
+    let fieldPaths: [Swift.String]?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension DescribeRegistrationFieldValuesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fieldPaths = "FieldPaths"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case registrationId = "RegistrationId"
+        case sectionPath = "SectionPath"
+        case versionNumber = "VersionNumber"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
+        let versionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .versionNumber)
+        versionNumber = versionNumberDecoded
+        let sectionPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sectionPath)
+        sectionPath = sectionPathDecoded
+        let fieldPathsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .fieldPaths)
+        var fieldPathsDecoded0:[Swift.String]? = nil
+        if let fieldPathsContainer = fieldPathsContainer {
+            fieldPathsDecoded0 = [Swift.String]()
+            for string0 in fieldPathsContainer {
+                if let string0 = string0 {
+                    fieldPathsDecoded0?.append(string0)
+                }
+            }
+        }
+        fieldPaths = fieldPathsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension DescribeRegistrationFieldValuesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeRegistrationFieldValuesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.registrationArn = output.registrationArn
+            self.registrationFieldValues = output.registrationFieldValues
+            self.registrationId = output.registrationId
+            self.versionNumber = output.versionNumber
+        } else {
+            self.nextToken = nil
+            self.registrationArn = nil
+            self.registrationFieldValues = nil
+            self.registrationId = nil
+            self.versionNumber = nil
+        }
+    }
+}
+
+public struct DescribeRegistrationFieldValuesOutput: Swift.Equatable {
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) for the registration.
+    /// This member is required.
+    public var registrationArn: Swift.String?
+    /// An array of RegistrationFieldValues objects that contain the values for the requested registration.
+    /// This member is required.
+    public var registrationFieldValues: [PinpointSMSVoiceV2ClientTypes.RegistrationFieldValueInformation]?
+    /// The unique identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+    /// The current version of the registration.
+    /// This member is required.
+    public var versionNumber: Swift.Int?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        registrationArn: Swift.String? = nil,
+        registrationFieldValues: [PinpointSMSVoiceV2ClientTypes.RegistrationFieldValueInformation]? = nil,
+        registrationId: Swift.String? = nil,
+        versionNumber: Swift.Int? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.registrationArn = registrationArn
+        self.registrationFieldValues = registrationFieldValues
+        self.registrationId = registrationId
+        self.versionNumber = versionNumber
+    }
+}
+
+struct DescribeRegistrationFieldValuesOutputBody: Swift.Equatable {
+    let registrationArn: Swift.String?
+    let registrationId: Swift.String?
+    let versionNumber: Swift.Int?
+    let registrationFieldValues: [PinpointSMSVoiceV2ClientTypes.RegistrationFieldValueInformation]?
+    let nextToken: Swift.String?
+}
+
+extension DescribeRegistrationFieldValuesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case registrationArn = "RegistrationArn"
+        case registrationFieldValues = "RegistrationFieldValues"
+        case registrationId = "RegistrationId"
+        case versionNumber = "VersionNumber"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationArn)
+        registrationArn = registrationArnDecoded
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
+        let versionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .versionNumber)
+        versionNumber = versionNumberDecoded
+        let registrationFieldValuesContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.RegistrationFieldValueInformation?].self, forKey: .registrationFieldValues)
+        var registrationFieldValuesDecoded0:[PinpointSMSVoiceV2ClientTypes.RegistrationFieldValueInformation]? = nil
+        if let registrationFieldValuesContainer = registrationFieldValuesContainer {
+            registrationFieldValuesDecoded0 = [PinpointSMSVoiceV2ClientTypes.RegistrationFieldValueInformation]()
+            for structure0 in registrationFieldValuesContainer {
+                if let structure0 = structure0 {
+                    registrationFieldValuesDecoded0?.append(structure0)
+                }
+            }
+        }
+        registrationFieldValues = registrationFieldValuesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeRegistrationFieldValuesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeRegistrationSectionDefinitionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case registrationType = "RegistrationType"
+        case sectionPaths = "SectionPaths"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let registrationType = self.registrationType {
+            try encodeContainer.encode(registrationType, forKey: .registrationType)
+        }
+        if let sectionPaths = sectionPaths {
+            var sectionPathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sectionPaths)
+            for sectionpath0 in sectionPaths {
+                try sectionPathsContainer.encode(sectionpath0)
+            }
+        }
+    }
+}
+
+extension DescribeRegistrationSectionDefinitionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeRegistrationSectionDefinitionsInput: Swift.Equatable {
+    /// The maximum number of results to return per each request.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// The type of registration form. The list of RegistrationTypes can be found using the [DescribeRegistrationTypeDefinitions] action.
+    /// This member is required.
+    public var registrationType: Swift.String?
+    /// An array of paths for the registration form section.
+    public var sectionPaths: [Swift.String]?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        registrationType: Swift.String? = nil,
+        sectionPaths: [Swift.String]? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.registrationType = registrationType
+        self.sectionPaths = sectionPaths
+    }
+}
+
+struct DescribeRegistrationSectionDefinitionsInputBody: Swift.Equatable {
+    let registrationType: Swift.String?
+    let sectionPaths: [Swift.String]?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension DescribeRegistrationSectionDefinitionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case registrationType = "RegistrationType"
+        case sectionPaths = "SectionPaths"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationType)
+        registrationType = registrationTypeDecoded
+        let sectionPathsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .sectionPaths)
+        var sectionPathsDecoded0:[Swift.String]? = nil
+        if let sectionPathsContainer = sectionPathsContainer {
+            sectionPathsDecoded0 = [Swift.String]()
+            for string0 in sectionPathsContainer {
+                if let string0 = string0 {
+                    sectionPathsDecoded0?.append(string0)
+                }
+            }
+        }
+        sectionPaths = sectionPathsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension DescribeRegistrationSectionDefinitionsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeRegistrationSectionDefinitionsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.registrationSectionDefinitions = output.registrationSectionDefinitions
+            self.registrationType = output.registrationType
+        } else {
+            self.nextToken = nil
+            self.registrationSectionDefinitions = nil
+            self.registrationType = nil
+        }
+    }
+}
+
+public struct DescribeRegistrationSectionDefinitionsOutput: Swift.Equatable {
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// An array of RegistrationSectionDefinition objects.
+    /// This member is required.
+    public var registrationSectionDefinitions: [PinpointSMSVoiceV2ClientTypes.RegistrationSectionDefinition]?
+    /// The type of registration form. The list of RegistrationTypes can be found using the [DescribeRegistrationTypeDefinitions] action.
+    /// This member is required.
+    public var registrationType: Swift.String?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        registrationSectionDefinitions: [PinpointSMSVoiceV2ClientTypes.RegistrationSectionDefinition]? = nil,
+        registrationType: Swift.String? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.registrationSectionDefinitions = registrationSectionDefinitions
+        self.registrationType = registrationType
+    }
+}
+
+struct DescribeRegistrationSectionDefinitionsOutputBody: Swift.Equatable {
+    let registrationType: Swift.String?
+    let registrationSectionDefinitions: [PinpointSMSVoiceV2ClientTypes.RegistrationSectionDefinition]?
+    let nextToken: Swift.String?
+}
+
+extension DescribeRegistrationSectionDefinitionsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case registrationSectionDefinitions = "RegistrationSectionDefinitions"
+        case registrationType = "RegistrationType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationType)
+        registrationType = registrationTypeDecoded
+        let registrationSectionDefinitionsContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.RegistrationSectionDefinition?].self, forKey: .registrationSectionDefinitions)
+        var registrationSectionDefinitionsDecoded0:[PinpointSMSVoiceV2ClientTypes.RegistrationSectionDefinition]? = nil
+        if let registrationSectionDefinitionsContainer = registrationSectionDefinitionsContainer {
+            registrationSectionDefinitionsDecoded0 = [PinpointSMSVoiceV2ClientTypes.RegistrationSectionDefinition]()
+            for structure0 in registrationSectionDefinitionsContainer {
+                if let structure0 = structure0 {
+                    registrationSectionDefinitionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        registrationSectionDefinitions = registrationSectionDefinitionsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeRegistrationSectionDefinitionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeRegistrationTypeDefinitionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case registrationTypes = "RegistrationTypes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for registrationtypefilter0 in filters {
+                try filtersContainer.encode(registrationtypefilter0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let registrationTypes = registrationTypes {
+            var registrationTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .registrationTypes)
+            for registrationtype0 in registrationTypes {
+                try registrationTypesContainer.encode(registrationtype0)
+            }
+        }
+    }
+}
+
+extension DescribeRegistrationTypeDefinitionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeRegistrationTypeDefinitionsInput: Swift.Equatable {
+    /// An array of RegistrationFilter objects to filter the results.
+    public var filters: [PinpointSMSVoiceV2ClientTypes.RegistrationTypeFilter]?
+    /// The maximum number of results to return per each request.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// The type of registration form. The list of RegistrationTypes can be found using the [DescribeRegistrationTypeDefinitions] action.
+    public var registrationTypes: [Swift.String]?
+
+    public init(
+        filters: [PinpointSMSVoiceV2ClientTypes.RegistrationTypeFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        registrationTypes: [Swift.String]? = nil
+    )
+    {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.registrationTypes = registrationTypes
+    }
+}
+
+struct DescribeRegistrationTypeDefinitionsInputBody: Swift.Equatable {
+    let registrationTypes: [Swift.String]?
+    let filters: [PinpointSMSVoiceV2ClientTypes.RegistrationTypeFilter]?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension DescribeRegistrationTypeDefinitionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case registrationTypes = "RegistrationTypes"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationTypesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .registrationTypes)
+        var registrationTypesDecoded0:[Swift.String]? = nil
+        if let registrationTypesContainer = registrationTypesContainer {
+            registrationTypesDecoded0 = [Swift.String]()
+            for string0 in registrationTypesContainer {
+                if let string0 = string0 {
+                    registrationTypesDecoded0?.append(string0)
+                }
+            }
+        }
+        registrationTypes = registrationTypesDecoded0
+        let filtersContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.RegistrationTypeFilter?].self, forKey: .filters)
+        var filtersDecoded0:[PinpointSMSVoiceV2ClientTypes.RegistrationTypeFilter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [PinpointSMSVoiceV2ClientTypes.RegistrationTypeFilter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension DescribeRegistrationTypeDefinitionsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeRegistrationTypeDefinitionsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.registrationTypeDefinitions = output.registrationTypeDefinitions
+        } else {
+            self.nextToken = nil
+            self.registrationTypeDefinitions = nil
+        }
+    }
+}
+
+public struct DescribeRegistrationTypeDefinitionsOutput: Swift.Equatable {
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// The type of registration form. The list of RegistrationTypes can be found using the [DescribeRegistrationTypeDefinitions] action.
+    /// This member is required.
+    public var registrationTypeDefinitions: [PinpointSMSVoiceV2ClientTypes.RegistrationTypeDefinition]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        registrationTypeDefinitions: [PinpointSMSVoiceV2ClientTypes.RegistrationTypeDefinition]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.registrationTypeDefinitions = registrationTypeDefinitions
+    }
+}
+
+struct DescribeRegistrationTypeDefinitionsOutputBody: Swift.Equatable {
+    let registrationTypeDefinitions: [PinpointSMSVoiceV2ClientTypes.RegistrationTypeDefinition]?
+    let nextToken: Swift.String?
+}
+
+extension DescribeRegistrationTypeDefinitionsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case registrationTypeDefinitions = "RegistrationTypeDefinitions"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationTypeDefinitionsContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.RegistrationTypeDefinition?].self, forKey: .registrationTypeDefinitions)
+        var registrationTypeDefinitionsDecoded0:[PinpointSMSVoiceV2ClientTypes.RegistrationTypeDefinition]? = nil
+        if let registrationTypeDefinitionsContainer = registrationTypeDefinitionsContainer {
+            registrationTypeDefinitionsDecoded0 = [PinpointSMSVoiceV2ClientTypes.RegistrationTypeDefinition]()
+            for structure0 in registrationTypeDefinitionsContainer {
+                if let structure0 = structure0 {
+                    registrationTypeDefinitionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        registrationTypeDefinitions = registrationTypeDefinitionsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeRegistrationTypeDefinitionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeRegistrationVersionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case registrationId = "RegistrationId"
+        case versionNumbers = "VersionNumbers"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for registrationversionfilter0 in filters {
+                try filtersContainer.encode(registrationversionfilter0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let registrationId = self.registrationId {
+            try encodeContainer.encode(registrationId, forKey: .registrationId)
+        }
+        if let versionNumbers = versionNumbers {
+            var versionNumbersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .versionNumbers)
+            for registrationversionnumber0 in versionNumbers {
+                try versionNumbersContainer.encode(registrationversionnumber0)
+            }
+        }
+    }
+}
+
+extension DescribeRegistrationVersionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeRegistrationVersionsInput: Swift.Equatable {
+    /// An array of RegistrationVersionFilter objects to filter the results.
+    public var filters: [PinpointSMSVoiceV2ClientTypes.RegistrationVersionFilter]?
+    /// The maximum number of results to return per each request.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// The unique identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+    /// An array of registration version numbers.
+    public var versionNumbers: [Swift.Int]?
+
+    public init(
+        filters: [PinpointSMSVoiceV2ClientTypes.RegistrationVersionFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        registrationId: Swift.String? = nil,
+        versionNumbers: [Swift.Int]? = nil
+    )
+    {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.registrationId = registrationId
+        self.versionNumbers = versionNumbers
+    }
+}
+
+struct DescribeRegistrationVersionsInputBody: Swift.Equatable {
+    let registrationId: Swift.String?
+    let versionNumbers: [Swift.Int]?
+    let filters: [PinpointSMSVoiceV2ClientTypes.RegistrationVersionFilter]?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension DescribeRegistrationVersionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case registrationId = "RegistrationId"
+        case versionNumbers = "VersionNumbers"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
+        let versionNumbersContainer = try containerValues.decodeIfPresent([Swift.Int?].self, forKey: .versionNumbers)
+        var versionNumbersDecoded0:[Swift.Int]? = nil
+        if let versionNumbersContainer = versionNumbersContainer {
+            versionNumbersDecoded0 = [Swift.Int]()
+            for long0 in versionNumbersContainer {
+                if let long0 = long0 {
+                    versionNumbersDecoded0?.append(long0)
+                }
+            }
+        }
+        versionNumbers = versionNumbersDecoded0
+        let filtersContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.RegistrationVersionFilter?].self, forKey: .filters)
+        var filtersDecoded0:[PinpointSMSVoiceV2ClientTypes.RegistrationVersionFilter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [PinpointSMSVoiceV2ClientTypes.RegistrationVersionFilter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension DescribeRegistrationVersionsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeRegistrationVersionsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.registrationArn = output.registrationArn
+            self.registrationId = output.registrationId
+            self.registrationVersions = output.registrationVersions
+        } else {
+            self.nextToken = nil
+            self.registrationArn = nil
+            self.registrationId = nil
+            self.registrationVersions = nil
+        }
+    }
+}
+
+public struct DescribeRegistrationVersionsOutput: Swift.Equatable {
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) for the registration.
+    /// This member is required.
+    public var registrationArn: Swift.String?
+    /// The unique identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+    /// An array of RegistrationVersions objects.
+    /// This member is required.
+    public var registrationVersions: [PinpointSMSVoiceV2ClientTypes.RegistrationVersionInformation]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        registrationArn: Swift.String? = nil,
+        registrationId: Swift.String? = nil,
+        registrationVersions: [PinpointSMSVoiceV2ClientTypes.RegistrationVersionInformation]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.registrationArn = registrationArn
+        self.registrationId = registrationId
+        self.registrationVersions = registrationVersions
+    }
+}
+
+struct DescribeRegistrationVersionsOutputBody: Swift.Equatable {
+    let registrationArn: Swift.String?
+    let registrationId: Swift.String?
+    let registrationVersions: [PinpointSMSVoiceV2ClientTypes.RegistrationVersionInformation]?
+    let nextToken: Swift.String?
+}
+
+extension DescribeRegistrationVersionsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case registrationArn = "RegistrationArn"
+        case registrationId = "RegistrationId"
+        case registrationVersions = "RegistrationVersions"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationArn)
+        registrationArn = registrationArnDecoded
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
+        let registrationVersionsContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.RegistrationVersionInformation?].self, forKey: .registrationVersions)
+        var registrationVersionsDecoded0:[PinpointSMSVoiceV2ClientTypes.RegistrationVersionInformation]? = nil
+        if let registrationVersionsContainer = registrationVersionsContainer {
+            registrationVersionsDecoded0 = [PinpointSMSVoiceV2ClientTypes.RegistrationVersionInformation]()
+            for structure0 in registrationVersionsContainer {
+                if let structure0 = structure0 {
+                    registrationVersionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        registrationVersions = registrationVersionsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeRegistrationVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeRegistrationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case registrationIds = "RegistrationIds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for registrationfilter0 in filters {
+                try filtersContainer.encode(registrationfilter0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let registrationIds = registrationIds {
+            var registrationIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .registrationIds)
+            for registrationidorarn0 in registrationIds {
+                try registrationIdsContainer.encode(registrationidorarn0)
+            }
+        }
+    }
+}
+
+extension DescribeRegistrationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeRegistrationsInput: Swift.Equatable {
+    /// An array of RegistrationFilter objects to filter the results.
+    public var filters: [PinpointSMSVoiceV2ClientTypes.RegistrationFilter]?
+    /// The maximum number of results to return per each request.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// An array of unique identifiers for each registration.
+    public var registrationIds: [Swift.String]?
+
+    public init(
+        filters: [PinpointSMSVoiceV2ClientTypes.RegistrationFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        registrationIds: [Swift.String]? = nil
+    )
+    {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.registrationIds = registrationIds
+    }
+}
+
+struct DescribeRegistrationsInputBody: Swift.Equatable {
+    let registrationIds: [Swift.String]?
+    let filters: [PinpointSMSVoiceV2ClientTypes.RegistrationFilter]?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension DescribeRegistrationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case registrationIds = "RegistrationIds"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .registrationIds)
+        var registrationIdsDecoded0:[Swift.String]? = nil
+        if let registrationIdsContainer = registrationIdsContainer {
+            registrationIdsDecoded0 = [Swift.String]()
+            for string0 in registrationIdsContainer {
+                if let string0 = string0 {
+                    registrationIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        registrationIds = registrationIdsDecoded0
+        let filtersContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.RegistrationFilter?].self, forKey: .filters)
+        var filtersDecoded0:[PinpointSMSVoiceV2ClientTypes.RegistrationFilter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [PinpointSMSVoiceV2ClientTypes.RegistrationFilter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension DescribeRegistrationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeRegistrationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.registrations = output.registrations
+        } else {
+            self.nextToken = nil
+            self.registrations = nil
+        }
+    }
+}
+
+public struct DescribeRegistrationsOutput: Swift.Equatable {
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// An array of RegistrationInformation objects.
+    /// This member is required.
+    public var registrations: [PinpointSMSVoiceV2ClientTypes.RegistrationInformation]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        registrations: [PinpointSMSVoiceV2ClientTypes.RegistrationInformation]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.registrations = registrations
+    }
+}
+
+struct DescribeRegistrationsOutputBody: Swift.Equatable {
+    let registrations: [PinpointSMSVoiceV2ClientTypes.RegistrationInformation]?
+    let nextToken: Swift.String?
+}
+
+extension DescribeRegistrationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case registrations = "Registrations"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationsContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.RegistrationInformation?].self, forKey: .registrations)
+        var registrationsDecoded0:[PinpointSMSVoiceV2ClientTypes.RegistrationInformation]? = nil
+        if let registrationsContainer = registrationsContainer {
+            registrationsDecoded0 = [PinpointSMSVoiceV2ClientTypes.RegistrationInformation]()
+            for structure0 in registrationsContainer {
+                if let structure0 = structure0 {
+                    registrationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        registrations = registrationsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeRegistrationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4585,26 +7813,11 @@ extension DescribeSenderIdsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeSenderIdsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeSenderIdsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeSenderIdsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeSenderIdsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeSenderIdsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.senderIds = output.senderIds
         } else {
@@ -4614,7 +7827,7 @@ extension DescribeSenderIdsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSenderIdsOutputResponse: Swift.Equatable {
+public struct DescribeSenderIdsOutput: Swift.Equatable {
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
     public var nextToken: Swift.String?
     /// An array of SernderIdInformation objects that contain the details for the requested SenderIds.
@@ -4630,12 +7843,12 @@ public struct DescribeSenderIdsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeSenderIdsOutputResponseBody: Swift.Equatable {
+struct DescribeSenderIdsOutputBody: Swift.Equatable {
     let senderIds: [PinpointSMSVoiceV2ClientTypes.SenderIdInformation]?
     let nextToken: Swift.String?
 }
 
-extension DescribeSenderIdsOutputResponseBody: Swift.Decodable {
+extension DescribeSenderIdsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case senderIds = "SenderIds"
@@ -4656,6 +7869,21 @@ extension DescribeSenderIdsOutputResponseBody: Swift.Decodable {
         senderIds = senderIdsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeSenderIdsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4718,25 +7946,11 @@ extension DescribeSpendLimitsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeSpendLimitsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeSpendLimitsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeSpendLimitsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeSpendLimitsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeSpendLimitsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.spendLimits = output.spendLimits
         } else {
@@ -4746,7 +7960,7 @@ extension DescribeSpendLimitsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSpendLimitsOutputResponse: Swift.Equatable {
+public struct DescribeSpendLimitsOutput: Swift.Equatable {
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
     public var nextToken: Swift.String?
     /// An array of SpendLimit objects that contain the details for the requested spend limits.
@@ -4762,12 +7976,12 @@ public struct DescribeSpendLimitsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeSpendLimitsOutputResponseBody: Swift.Equatable {
+struct DescribeSpendLimitsOutputBody: Swift.Equatable {
     let spendLimits: [PinpointSMSVoiceV2ClientTypes.SpendLimit]?
     let nextToken: Swift.String?
 }
 
-extension DescribeSpendLimitsOutputResponseBody: Swift.Decodable {
+extension DescribeSpendLimitsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case spendLimits = "SpendLimits"
@@ -4788,6 +8002,226 @@ extension DescribeSpendLimitsOutputResponseBody: Swift.Decodable {
         spendLimits = spendLimitsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeSpendLimitsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeVerifiedDestinationNumbersInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destinationPhoneNumbers = "DestinationPhoneNumbers"
+        case filters = "Filters"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case verifiedDestinationNumberIds = "VerifiedDestinationNumberIds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let destinationPhoneNumbers = destinationPhoneNumbers {
+            var destinationPhoneNumbersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinationPhoneNumbers)
+            for phonenumber0 in destinationPhoneNumbers {
+                try destinationPhoneNumbersContainer.encode(phonenumber0)
+            }
+        }
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for verifieddestinationnumberfilter0 in filters {
+                try filtersContainer.encode(verifieddestinationnumberfilter0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let verifiedDestinationNumberIds = verifiedDestinationNumberIds {
+            var verifiedDestinationNumberIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .verifiedDestinationNumberIds)
+            for verifieddestinationnumberidorarn0 in verifiedDestinationNumberIds {
+                try verifiedDestinationNumberIdsContainer.encode(verifieddestinationnumberidorarn0)
+            }
+        }
+    }
+}
+
+extension DescribeVerifiedDestinationNumbersInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeVerifiedDestinationNumbersInput: Swift.Equatable {
+    /// An array of verified destination phone number, in E.164 format.
+    public var destinationPhoneNumbers: [Swift.String]?
+    /// An array of VerifiedDestinationNumberFilter objects to filter the results.
+    public var filters: [PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberFilter]?
+    /// The maximum number of results to return per each request.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// An array of VerifiedDestinationNumberid to retreive.
+    public var verifiedDestinationNumberIds: [Swift.String]?
+
+    public init(
+        destinationPhoneNumbers: [Swift.String]? = nil,
+        filters: [PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        verifiedDestinationNumberIds: [Swift.String]? = nil
+    )
+    {
+        self.destinationPhoneNumbers = destinationPhoneNumbers
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.verifiedDestinationNumberIds = verifiedDestinationNumberIds
+    }
+}
+
+struct DescribeVerifiedDestinationNumbersInputBody: Swift.Equatable {
+    let verifiedDestinationNumberIds: [Swift.String]?
+    let destinationPhoneNumbers: [Swift.String]?
+    let filters: [PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberFilter]?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension DescribeVerifiedDestinationNumbersInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destinationPhoneNumbers = "DestinationPhoneNumbers"
+        case filters = "Filters"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case verifiedDestinationNumberIds = "VerifiedDestinationNumberIds"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let verifiedDestinationNumberIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .verifiedDestinationNumberIds)
+        var verifiedDestinationNumberIdsDecoded0:[Swift.String]? = nil
+        if let verifiedDestinationNumberIdsContainer = verifiedDestinationNumberIdsContainer {
+            verifiedDestinationNumberIdsDecoded0 = [Swift.String]()
+            for string0 in verifiedDestinationNumberIdsContainer {
+                if let string0 = string0 {
+                    verifiedDestinationNumberIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        verifiedDestinationNumberIds = verifiedDestinationNumberIdsDecoded0
+        let destinationPhoneNumbersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .destinationPhoneNumbers)
+        var destinationPhoneNumbersDecoded0:[Swift.String]? = nil
+        if let destinationPhoneNumbersContainer = destinationPhoneNumbersContainer {
+            destinationPhoneNumbersDecoded0 = [Swift.String]()
+            for string0 in destinationPhoneNumbersContainer {
+                if let string0 = string0 {
+                    destinationPhoneNumbersDecoded0?.append(string0)
+                }
+            }
+        }
+        destinationPhoneNumbers = destinationPhoneNumbersDecoded0
+        let filtersContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberFilter?].self, forKey: .filters)
+        var filtersDecoded0:[PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberFilter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberFilter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension DescribeVerifiedDestinationNumbersOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeVerifiedDestinationNumbersOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.verifiedDestinationNumbers = output.verifiedDestinationNumbers
+        } else {
+            self.nextToken = nil
+            self.verifiedDestinationNumbers = nil
+        }
+    }
+}
+
+public struct DescribeVerifiedDestinationNumbersOutput: Swift.Equatable {
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// An array of VerifiedDestinationNumberInformation objects
+    /// This member is required.
+    public var verifiedDestinationNumbers: [PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberInformation]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        verifiedDestinationNumbers: [PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberInformation]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.verifiedDestinationNumbers = verifiedDestinationNumbers
+    }
+}
+
+struct DescribeVerifiedDestinationNumbersOutputBody: Swift.Equatable {
+    let verifiedDestinationNumbers: [PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberInformation]?
+    let nextToken: Swift.String?
+}
+
+extension DescribeVerifiedDestinationNumbersOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case verifiedDestinationNumbers = "VerifiedDestinationNumbers"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let verifiedDestinationNumbersContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberInformation?].self, forKey: .verifiedDestinationNumbers)
+        var verifiedDestinationNumbersDecoded0:[PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberInformation]? = nil
+        if let verifiedDestinationNumbersContainer = verifiedDestinationNumbersContainer {
+            verifiedDestinationNumbersDecoded0 = [PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberInformation]()
+            for structure0 in verifiedDestinationNumbersContainer {
+                if let structure0 = structure0 {
+                    verifiedDestinationNumbersDecoded0?.append(structure0)
+                }
+            }
+        }
+        verifiedDestinationNumbers = verifiedDestinationNumbersDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeVerifiedDestinationNumbersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4909,27 +8343,11 @@ extension DisassociateOriginationIdentityInputBody: Swift.Decodable {
     }
 }
 
-public enum DisassociateOriginationIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DisassociateOriginationIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DisassociateOriginationIdentityOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DisassociateOriginationIdentityOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DisassociateOriginationIdentityOutputBody = try responseDecoder.decode(responseBody: data)
             self.isoCountryCode = output.isoCountryCode
             self.originationIdentity = output.originationIdentity
             self.originationIdentityArn = output.originationIdentityArn
@@ -4945,7 +8363,7 @@ extension DisassociateOriginationIdentityOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct DisassociateOriginationIdentityOutputResponse: Swift.Equatable {
+public struct DisassociateOriginationIdentityOutput: Swift.Equatable {
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
     public var isoCountryCode: Swift.String?
     /// The PhoneNumberId or SenderId of the origination identity.
@@ -4973,7 +8391,7 @@ public struct DisassociateOriginationIdentityOutputResponse: Swift.Equatable {
     }
 }
 
-struct DisassociateOriginationIdentityOutputResponseBody: Swift.Equatable {
+struct DisassociateOriginationIdentityOutputBody: Swift.Equatable {
     let poolArn: Swift.String?
     let poolId: Swift.String?
     let originationIdentityArn: Swift.String?
@@ -4981,7 +8399,7 @@ struct DisassociateOriginationIdentityOutputResponseBody: Swift.Equatable {
     let isoCountryCode: Swift.String?
 }
 
-extension DisassociateOriginationIdentityOutputResponseBody: Swift.Decodable {
+extension DisassociateOriginationIdentityOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isoCountryCode = "IsoCountryCode"
         case originationIdentity = "OriginationIdentity"
@@ -5002,6 +8420,187 @@ extension DisassociateOriginationIdentityOutputResponseBody: Swift.Decodable {
         originationIdentity = originationIdentityDecoded
         let isoCountryCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .isoCountryCode)
         isoCountryCode = isoCountryCodeDecoded
+    }
+}
+
+enum DisassociateOriginationIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DiscardRegistrationVersionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case registrationId = "RegistrationId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let registrationId = self.registrationId {
+            try encodeContainer.encode(registrationId, forKey: .registrationId)
+        }
+    }
+}
+
+extension DiscardRegistrationVersionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DiscardRegistrationVersionInput: Swift.Equatable {
+    /// The unique identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+
+    public init(
+        registrationId: Swift.String? = nil
+    )
+    {
+        self.registrationId = registrationId
+    }
+}
+
+struct DiscardRegistrationVersionInputBody: Swift.Equatable {
+    let registrationId: Swift.String?
+}
+
+extension DiscardRegistrationVersionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case registrationId = "RegistrationId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
+    }
+}
+
+extension DiscardRegistrationVersionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DiscardRegistrationVersionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.registrationArn = output.registrationArn
+            self.registrationId = output.registrationId
+            self.registrationVersionStatus = output.registrationVersionStatus
+            self.registrationVersionStatusHistory = output.registrationVersionStatusHistory
+            self.versionNumber = output.versionNumber
+        } else {
+            self.registrationArn = nil
+            self.registrationId = nil
+            self.registrationVersionStatus = nil
+            self.registrationVersionStatusHistory = nil
+            self.versionNumber = nil
+        }
+    }
+}
+
+public struct DiscardRegistrationVersionOutput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the registration.
+    /// This member is required.
+    public var registrationArn: Swift.String?
+    /// The unique identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+    /// The status of the registration version.
+    ///
+    /// * DRAFT: The initial status of a registration version after it’s created.
+    ///
+    /// * SUBMITTED: Your registration has been submitted.
+    ///
+    /// * REVIEWING: Your registration has been accepted and is being reviewed.
+    ///
+    /// * APPROVED: Your registration has been approved.
+    ///
+    /// * DISCARDED: You've abandon this version of their registration to start over with a new version.
+    ///
+    /// * DENIED: You must fix your registration and resubmit it.
+    ///
+    /// * REVOKED: Your previously approved registration has been revoked.
+    ///
+    /// * ARCHIVED: Your previously approved registration version moves into this status when a more recently submitted version is approved.
+    /// This member is required.
+    public var registrationVersionStatus: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatus?
+    /// The RegistrationVersionStatusHistory object contains the time stamps for when the reservations status changes.
+    /// This member is required.
+    public var registrationVersionStatusHistory: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory?
+    /// The version number of the registration.
+    /// This member is required.
+    public var versionNumber: Swift.Int?
+
+    public init(
+        registrationArn: Swift.String? = nil,
+        registrationId: Swift.String? = nil,
+        registrationVersionStatus: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatus? = nil,
+        registrationVersionStatusHistory: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory? = nil,
+        versionNumber: Swift.Int? = nil
+    )
+    {
+        self.registrationArn = registrationArn
+        self.registrationId = registrationId
+        self.registrationVersionStatus = registrationVersionStatus
+        self.registrationVersionStatusHistory = registrationVersionStatusHistory
+        self.versionNumber = versionNumber
+    }
+}
+
+struct DiscardRegistrationVersionOutputBody: Swift.Equatable {
+    let registrationArn: Swift.String?
+    let registrationId: Swift.String?
+    let versionNumber: Swift.Int?
+    let registrationVersionStatus: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatus?
+    let registrationVersionStatusHistory: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory?
+}
+
+extension DiscardRegistrationVersionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case registrationArn = "RegistrationArn"
+        case registrationId = "RegistrationId"
+        case registrationVersionStatus = "RegistrationVersionStatus"
+        case registrationVersionStatusHistory = "RegistrationVersionStatusHistory"
+        case versionNumber = "VersionNumber"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationArn)
+        registrationArn = registrationArnDecoded
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
+        let versionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .versionNumber)
+        versionNumber = versionNumberDecoded
+        let registrationVersionStatusDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatus.self, forKey: .registrationVersionStatus)
+        registrationVersionStatus = registrationVersionStatusDecoded
+        let registrationVersionStatusHistoryDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory.self, forKey: .registrationVersionStatusHistory)
+        registrationVersionStatusHistory = registrationVersionStatusHistoryDecoded
+    }
+}
+
+enum DiscardRegistrationVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5067,7 +8666,7 @@ extension PinpointSMSVoiceV2ClientTypes.EventDestination: Swift.Codable {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
-    /// Contains information about an event destination. Event destinations are associated with configuration sets, which enable you to publish message sending events to Amazon CloudWatch, Amazon Kinesis Data Firehose, or Amazon SNS.
+    /// Contains information about an event destination. Event destinations are associated with configuration sets, which enable you to publish message sending events to CloudWatch, Kinesis Data Firehose,or Amazon SNS.
     public struct EventDestination: Swift.Equatable {
         /// An object that contains information about an event destination that sends logging events to Amazon CloudWatch logs.
         public var cloudWatchLogsDestination: PinpointSMSVoiceV2ClientTypes.CloudWatchLogsDestination?
@@ -5079,7 +8678,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public var eventDestinationName: Swift.String?
         /// An object that contains information about an event destination for logging to Amazon Kinesis Data Firehose.
         public var kinesisFirehoseDestination: PinpointSMSVoiceV2ClientTypes.KinesisFirehoseDestination?
-        /// An array of event types that determine which events to log.
+        /// An array of event types that determine which events to log. The TEXT_SENT event type is not supported.
         /// This member is required.
         public var matchingEventTypes: [PinpointSMSVoiceV2ClientTypes.EventType]?
         /// An object that contains information about an event destination that sends logging events to Amazon SNS.
@@ -5202,6 +8801,76 @@ extension PinpointSMSVoiceV2ClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = EventType(rawValue: rawValue) ?? EventType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    public enum FieldRequirement: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case conditional
+        case `optional`
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FieldRequirement] {
+            return [
+                .conditional,
+                .optional,
+                .required,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .conditional: return "CONDITIONAL"
+            case .optional: return "OPTIONAL"
+            case .required: return "REQUIRED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FieldRequirement(rawValue: rawValue) ?? FieldRequirement.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    public enum FieldType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case attachment
+        case select
+        case text
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FieldType] {
+            return [
+                .attachment,
+                .select,
+                .text,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .attachment: return "ATTACHMENT"
+            case .select: return "SELECT"
+            case .text: return "TEXT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FieldType(rawValue: rawValue) ?? FieldType.sdkUnknown(rawValue)
         }
     }
 }
@@ -5499,6 +9168,71 @@ extension PinpointSMSVoiceV2ClientTypes {
 
 }
 
+extension PinpointSMSVoiceV2ClientTypes {
+    public enum LanguageCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case deDe
+        case enGb
+        case enUs
+        case es419
+        case esEs
+        case frCa
+        case frFr
+        case itIt
+        case jaJp
+        case koKr
+        case ptBr
+        case zhCn
+        case zhTw
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LanguageCode] {
+            return [
+                .deDe,
+                .enGb,
+                .enUs,
+                .es419,
+                .esEs,
+                .frCa,
+                .frFr,
+                .itIt,
+                .jaJp,
+                .koKr,
+                .ptBr,
+                .zhCn,
+                .zhTw,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .deDe: return "DE_DE"
+            case .enGb: return "EN_GB"
+            case .enUs: return "EN_US"
+            case .es419: return "ES_419"
+            case .esEs: return "ES_ES"
+            case .frCa: return "FR_CA"
+            case .frFr: return "FR_FR"
+            case .itIt: return "IT_IT"
+            case .jaJp: return "JA_JP"
+            case .koKr: return "KO_KR"
+            case .ptBr: return "PT_BR"
+            case .zhCn: return "ZH_CN"
+            case .zhTw: return "ZH_TW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LanguageCode(rawValue: rawValue) ?? LanguageCode.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ListPoolOriginationIdentitiesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filters = "Filters"
@@ -5595,26 +9329,11 @@ extension ListPoolOriginationIdentitiesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPoolOriginationIdentitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListPoolOriginationIdentitiesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPoolOriginationIdentitiesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPoolOriginationIdentitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPoolOriginationIdentitiesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.originationIdentities = output.originationIdentities
             self.poolArn = output.poolArn
@@ -5628,7 +9347,7 @@ extension ListPoolOriginationIdentitiesOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct ListPoolOriginationIdentitiesOutputResponse: Swift.Equatable {
+public struct ListPoolOriginationIdentitiesOutput: Swift.Equatable {
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
     public var nextToken: Swift.String?
     /// An array of any OriginationIdentityMetadata objects.
@@ -5652,14 +9371,14 @@ public struct ListPoolOriginationIdentitiesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPoolOriginationIdentitiesOutputResponseBody: Swift.Equatable {
+struct ListPoolOriginationIdentitiesOutputBody: Swift.Equatable {
     let poolArn: Swift.String?
     let poolId: Swift.String?
     let originationIdentities: [PinpointSMSVoiceV2ClientTypes.OriginationIdentityMetadata]?
     let nextToken: Swift.String?
 }
 
-extension ListPoolOriginationIdentitiesOutputResponseBody: Swift.Decodable {
+extension ListPoolOriginationIdentitiesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case originationIdentities = "OriginationIdentities"
@@ -5686,6 +9405,225 @@ extension ListPoolOriginationIdentitiesOutputResponseBody: Swift.Decodable {
         originationIdentities = originationIdentitiesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListPoolOriginationIdentitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListRegistrationAssociationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case registrationId = "RegistrationId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for registrationassociationfilter0 in filters {
+                try filtersContainer.encode(registrationassociationfilter0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let registrationId = self.registrationId {
+            try encodeContainer.encode(registrationId, forKey: .registrationId)
+        }
+    }
+}
+
+extension ListRegistrationAssociationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListRegistrationAssociationsInput: Swift.Equatable {
+    /// An array of RegistrationAssociationFilter to apply to the results that are returned.
+    public var filters: [PinpointSMSVoiceV2ClientTypes.RegistrationAssociationFilter]?
+    /// The maximum number of results to return per each request.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// The unique identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+
+    public init(
+        filters: [PinpointSMSVoiceV2ClientTypes.RegistrationAssociationFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        registrationId: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.registrationId = registrationId
+    }
+}
+
+struct ListRegistrationAssociationsInputBody: Swift.Equatable {
+    let registrationId: Swift.String?
+    let filters: [PinpointSMSVoiceV2ClientTypes.RegistrationAssociationFilter]?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListRegistrationAssociationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case registrationId = "RegistrationId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
+        let filtersContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.RegistrationAssociationFilter?].self, forKey: .filters)
+        var filtersDecoded0:[PinpointSMSVoiceV2ClientTypes.RegistrationAssociationFilter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [PinpointSMSVoiceV2ClientTypes.RegistrationAssociationFilter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListRegistrationAssociationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListRegistrationAssociationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.registrationArn = output.registrationArn
+            self.registrationAssociations = output.registrationAssociations
+            self.registrationId = output.registrationId
+            self.registrationType = output.registrationType
+        } else {
+            self.nextToken = nil
+            self.registrationArn = nil
+            self.registrationAssociations = nil
+            self.registrationId = nil
+            self.registrationType = nil
+        }
+    }
+}
+
+public struct ListRegistrationAssociationsOutput: Swift.Equatable {
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) for the registration.
+    /// This member is required.
+    public var registrationArn: Swift.String?
+    /// An array of RegistrationAssociationMetadata objects.
+    /// This member is required.
+    public var registrationAssociations: [PinpointSMSVoiceV2ClientTypes.RegistrationAssociationMetadata]?
+    /// The unique identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+    /// The type of registration form. The list of RegistrationTypes can be found using the [DescribeRegistrationTypeDefinitions] action.
+    /// This member is required.
+    public var registrationType: Swift.String?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        registrationArn: Swift.String? = nil,
+        registrationAssociations: [PinpointSMSVoiceV2ClientTypes.RegistrationAssociationMetadata]? = nil,
+        registrationId: Swift.String? = nil,
+        registrationType: Swift.String? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.registrationArn = registrationArn
+        self.registrationAssociations = registrationAssociations
+        self.registrationId = registrationId
+        self.registrationType = registrationType
+    }
+}
+
+struct ListRegistrationAssociationsOutputBody: Swift.Equatable {
+    let registrationArn: Swift.String?
+    let registrationId: Swift.String?
+    let registrationType: Swift.String?
+    let registrationAssociations: [PinpointSMSVoiceV2ClientTypes.RegistrationAssociationMetadata]?
+    let nextToken: Swift.String?
+}
+
+extension ListRegistrationAssociationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case registrationArn = "RegistrationArn"
+        case registrationAssociations = "RegistrationAssociations"
+        case registrationId = "RegistrationId"
+        case registrationType = "RegistrationType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationArn)
+        registrationArn = registrationArnDecoded
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
+        let registrationTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationType)
+        registrationType = registrationTypeDecoded
+        let registrationAssociationsContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.RegistrationAssociationMetadata?].self, forKey: .registrationAssociations)
+        var registrationAssociationsDecoded0:[PinpointSMSVoiceV2ClientTypes.RegistrationAssociationMetadata]? = nil
+        if let registrationAssociationsContainer = registrationAssociationsContainer {
+            registrationAssociationsDecoded0 = [PinpointSMSVoiceV2ClientTypes.RegistrationAssociationMetadata]()
+            for structure0 in registrationAssociationsContainer {
+                if let structure0 = structure0 {
+                    registrationAssociationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        registrationAssociations = registrationAssociationsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListRegistrationAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5737,26 +9675,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.resourceArn = output.resourceArn
             self.tags = output.tags
         } else {
@@ -5766,7 +9689,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// The ARN of the resource.
     public var resourceArn: Swift.String?
     /// An array of key and value pair tags that are associated with the resource.
@@ -5782,12 +9705,12 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let resourceArn: Swift.String?
     let tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceArn = "ResourceArn"
         case tags = "Tags"
@@ -5808,6 +9731,21 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5920,6 +9858,7 @@ extension PinpointSMSVoiceV2ClientTypes {
     public enum NumberType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case longCode
         case shortCode
+        case simulator
         case tenDlc
         case tollFree
         case sdkUnknown(Swift.String)
@@ -5928,6 +9867,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             return [
                 .longCode,
                 .shortCode,
+                .simulator,
                 .tenDlc,
                 .tollFree,
                 .sdkUnknown("")
@@ -5941,6 +9881,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             switch self {
             case .longCode: return "LONG_CODE"
             case .shortCode: return "SHORT_CODE"
+            case .simulator: return "SIMULATOR"
             case .tenDlc: return "TEN_DLC"
             case .tollFree: return "TOLL_FREE"
             case let .sdkUnknown(s): return s
@@ -6164,6 +10105,7 @@ extension PinpointSMSVoiceV2ClientTypes.OriginationIdentityMetadata: Swift.Codab
         case numberCapabilities = "NumberCapabilities"
         case originationIdentity = "OriginationIdentity"
         case originationIdentityArn = "OriginationIdentityArn"
+        case phoneNumber = "PhoneNumber"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -6182,6 +10124,9 @@ extension PinpointSMSVoiceV2ClientTypes.OriginationIdentityMetadata: Swift.Codab
         }
         if let originationIdentityArn = self.originationIdentityArn {
             try encodeContainer.encode(originationIdentityArn, forKey: .originationIdentityArn)
+        }
+        if let phoneNumber = self.phoneNumber {
+            try encodeContainer.encode(phoneNumber, forKey: .phoneNumber)
         }
     }
 
@@ -6204,6 +10149,8 @@ extension PinpointSMSVoiceV2ClientTypes.OriginationIdentityMetadata: Swift.Codab
             }
         }
         numberCapabilities = numberCapabilitiesDecoded0
+        let phoneNumberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .phoneNumber)
+        phoneNumber = phoneNumberDecoded
     }
 }
 
@@ -6222,18 +10169,22 @@ extension PinpointSMSVoiceV2ClientTypes {
         /// The Amazon Resource Name (ARN) associated with the origination identity.
         /// This member is required.
         public var originationIdentityArn: Swift.String?
+        /// The phone number in E.164 format.
+        public var phoneNumber: Swift.String?
 
         public init(
             isoCountryCode: Swift.String? = nil,
             numberCapabilities: [PinpointSMSVoiceV2ClientTypes.NumberCapability]? = nil,
             originationIdentity: Swift.String? = nil,
-            originationIdentityArn: Swift.String? = nil
+            originationIdentityArn: Swift.String? = nil,
+            phoneNumber: Swift.String? = nil
         )
         {
             self.isoCountryCode = isoCountryCode
             self.numberCapabilities = numberCapabilities
             self.originationIdentity = originationIdentity
             self.originationIdentityArn = originationIdentityArn
+            self.phoneNumber = phoneNumber
         }
     }
 
@@ -6308,6 +10259,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         case optOutListName
         case selfManagedOptOutsEnabled
         case status
+        case twoWayChannelArn
         case twoWayEnabled
         case sdkUnknown(Swift.String)
 
@@ -6321,6 +10273,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .optOutListName,
                 .selfManagedOptOutsEnabled,
                 .status,
+                .twoWayChannelArn,
                 .twoWayEnabled,
                 .sdkUnknown("")
             ]
@@ -6339,6 +10292,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             case .optOutListName: return "opt-out-list-name"
             case .selfManagedOptOutsEnabled: return "self-managed-opt-outs-enabled"
             case .status: return "status"
+            case .twoWayChannelArn: return "two-way-channel-arn"
             case .twoWayEnabled: return "two-way-enabled"
             case let .sdkUnknown(s): return s
             }
@@ -6365,9 +10319,11 @@ extension PinpointSMSVoiceV2ClientTypes.PhoneNumberInformation: Swift.Codable {
         case phoneNumberArn = "PhoneNumberArn"
         case phoneNumberId = "PhoneNumberId"
         case poolId = "PoolId"
+        case registrationId = "RegistrationId"
         case selfManagedOptOutsEnabled = "SelfManagedOptOutsEnabled"
         case status = "Status"
         case twoWayChannelArn = "TwoWayChannelArn"
+        case twoWayChannelRole = "TwoWayChannelRole"
         case twoWayEnabled = "TwoWayEnabled"
     }
 
@@ -6412,6 +10368,9 @@ extension PinpointSMSVoiceV2ClientTypes.PhoneNumberInformation: Swift.Codable {
         if let poolId = self.poolId {
             try encodeContainer.encode(poolId, forKey: .poolId)
         }
+        if let registrationId = self.registrationId {
+            try encodeContainer.encode(registrationId, forKey: .registrationId)
+        }
         if selfManagedOptOutsEnabled != false {
             try encodeContainer.encode(selfManagedOptOutsEnabled, forKey: .selfManagedOptOutsEnabled)
         }
@@ -6420,6 +10379,9 @@ extension PinpointSMSVoiceV2ClientTypes.PhoneNumberInformation: Swift.Codable {
         }
         if let twoWayChannelArn = self.twoWayChannelArn {
             try encodeContainer.encode(twoWayChannelArn, forKey: .twoWayChannelArn)
+        }
+        if let twoWayChannelRole = self.twoWayChannelRole {
+            try encodeContainer.encode(twoWayChannelRole, forKey: .twoWayChannelRole)
         }
         if twoWayEnabled != false {
             try encodeContainer.encode(twoWayEnabled, forKey: .twoWayEnabled)
@@ -6459,6 +10421,8 @@ extension PinpointSMSVoiceV2ClientTypes.PhoneNumberInformation: Swift.Codable {
         twoWayEnabled = twoWayEnabledDecoded
         let twoWayChannelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .twoWayChannelArn)
         twoWayChannelArn = twoWayChannelArnDecoded
+        let twoWayChannelRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .twoWayChannelRole)
+        twoWayChannelRole = twoWayChannelRoleDecoded
         let selfManagedOptOutsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .selfManagedOptOutsEnabled) ?? false
         selfManagedOptOutsEnabled = selfManagedOptOutsEnabledDecoded
         let optOutListNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .optOutListName)
@@ -6467,13 +10431,15 @@ extension PinpointSMSVoiceV2ClientTypes.PhoneNumberInformation: Swift.Codable {
         deletionProtectionEnabled = deletionProtectionEnabledDecoded
         let poolIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .poolId)
         poolId = poolIdDecoded
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
         let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
         createdTimestamp = createdTimestampDecoded
     }
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
-    /// The information for a phone number in an Amazon Web Services account.
+    /// The information for a phone number, in E.164 format, in an Amazon Web Services account.
     public struct PhoneNumberInformation: Swift.Equatable {
         /// The time when the phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
         /// This member is required.
@@ -6509,6 +10475,8 @@ extension PinpointSMSVoiceV2ClientTypes {
         public var phoneNumberId: Swift.String?
         /// The unique identifier of the pool associated with the phone number.
         public var poolId: Swift.String?
+        /// The unique identifier for the registration.
+        public var registrationId: Swift.String?
         /// When set to false an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, Amazon Pinpoint automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out request. For more information see [Self-managed opt-outs](https://docs.aws.amazon.com/pinpoint/latest/userguide/settings-sms-managing.html#settings-account-sms-self-managed-opt-out)
         /// This member is required.
         public var selfManagedOptOutsEnabled: Swift.Bool
@@ -6517,6 +10485,8 @@ extension PinpointSMSVoiceV2ClientTypes {
         public var status: PinpointSMSVoiceV2ClientTypes.NumberStatus?
         /// The Amazon Resource Name (ARN) of the two way channel.
         public var twoWayChannelArn: Swift.String?
+        /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+        public var twoWayChannelRole: Swift.String?
         /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients using the TwoWayChannelArn.
         /// This member is required.
         public var twoWayEnabled: Swift.Bool
@@ -6534,9 +10504,11 @@ extension PinpointSMSVoiceV2ClientTypes {
             phoneNumberArn: Swift.String? = nil,
             phoneNumberId: Swift.String? = nil,
             poolId: Swift.String? = nil,
+            registrationId: Swift.String? = nil,
             selfManagedOptOutsEnabled: Swift.Bool = false,
             status: PinpointSMSVoiceV2ClientTypes.NumberStatus? = nil,
             twoWayChannelArn: Swift.String? = nil,
+            twoWayChannelRole: Swift.String? = nil,
             twoWayEnabled: Swift.Bool = false
         )
         {
@@ -6552,9 +10524,11 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.phoneNumberArn = phoneNumberArn
             self.phoneNumberId = phoneNumberId
             self.poolId = poolId
+            self.registrationId = registrationId
             self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
             self.status = status
             self.twoWayChannelArn = twoWayChannelArn
+            self.twoWayChannelRole = twoWayChannelRole
             self.twoWayEnabled = twoWayEnabled
         }
     }
@@ -6628,6 +10602,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         case selfManagedOptOutsEnabled
         case sharedRoutesEnabled
         case status
+        case twoWayChannelArn
         case twoWayEnabled
         case sdkUnknown(Swift.String)
 
@@ -6639,6 +10614,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .selfManagedOptOutsEnabled,
                 .sharedRoutesEnabled,
                 .status,
+                .twoWayChannelArn,
                 .twoWayEnabled,
                 .sdkUnknown("")
             ]
@@ -6655,6 +10631,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             case .selfManagedOptOutsEnabled: return "self-managed-opt-outs-enabled"
             case .sharedRoutesEnabled: return "shared-routes-enabled"
             case .status: return "status"
+            case .twoWayChannelArn: return "two-way-channel-arn"
             case .twoWayEnabled: return "two-way-enabled"
             case let .sdkUnknown(s): return s
             }
@@ -6679,6 +10656,7 @@ extension PinpointSMSVoiceV2ClientTypes.PoolInformation: Swift.Codable {
         case sharedRoutesEnabled = "SharedRoutesEnabled"
         case status = "Status"
         case twoWayChannelArn = "TwoWayChannelArn"
+        case twoWayChannelRole = "TwoWayChannelRole"
         case twoWayEnabled = "TwoWayEnabled"
     }
 
@@ -6714,6 +10692,9 @@ extension PinpointSMSVoiceV2ClientTypes.PoolInformation: Swift.Codable {
         if let twoWayChannelArn = self.twoWayChannelArn {
             try encodeContainer.encode(twoWayChannelArn, forKey: .twoWayChannelArn)
         }
+        if let twoWayChannelRole = self.twoWayChannelRole {
+            try encodeContainer.encode(twoWayChannelRole, forKey: .twoWayChannelRole)
+        }
         if twoWayEnabled != false {
             try encodeContainer.encode(twoWayEnabled, forKey: .twoWayEnabled)
         }
@@ -6733,6 +10714,8 @@ extension PinpointSMSVoiceV2ClientTypes.PoolInformation: Swift.Codable {
         twoWayEnabled = twoWayEnabledDecoded
         let twoWayChannelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .twoWayChannelArn)
         twoWayChannelArn = twoWayChannelArnDecoded
+        let twoWayChannelRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .twoWayChannelRole)
+        twoWayChannelRole = twoWayChannelRoleDecoded
         let selfManagedOptOutsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .selfManagedOptOutsEnabled) ?? false
         selfManagedOptOutsEnabled = selfManagedOptOutsEnabledDecoded
         let optOutListNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .optOutListName)
@@ -6778,6 +10761,8 @@ extension PinpointSMSVoiceV2ClientTypes {
         public var status: PinpointSMSVoiceV2ClientTypes.PoolStatus?
         /// The Amazon Resource Name (ARN) of the two way channel.
         public var twoWayChannelArn: Swift.String?
+        /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+        public var twoWayChannelRole: Swift.String?
         /// When set to true you can receive incoming text messages from your end recipients using the TwoWayChannelArn.
         /// This member is required.
         public var twoWayEnabled: Swift.Bool
@@ -6793,6 +10778,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             sharedRoutesEnabled: Swift.Bool = false,
             status: PinpointSMSVoiceV2ClientTypes.PoolStatus? = nil,
             twoWayChannelArn: Swift.String? = nil,
+            twoWayChannelRole: Swift.String? = nil,
             twoWayEnabled: Swift.Bool = false
         )
         {
@@ -6806,6 +10792,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.sharedRoutesEnabled = sharedRoutesEnabled
             self.status = status
             self.twoWayChannelArn = twoWayChannelArn
+            self.twoWayChannelRole = twoWayChannelRole
             self.twoWayEnabled = twoWayEnabled
         }
     }
@@ -6974,14 +10961,14 @@ public struct PutKeywordInput: Swift.Equatable {
     /// This member is required.
     public var keyword: Swift.String?
     /// The action to perform for the new keyword when it is received.
-    public var keywordAction: PinpointSMSVoiceV2ClientTypes.KeywordAction?
-    /// The message associated with the keyword.
     ///
     /// * AUTOMATIC_RESPONSE: A message is sent to the recipient.
     ///
     /// * OPT_OUT: Keeps the recipient from receiving future messages.
     ///
     /// * OPT_IN: The recipient wants to receive future messages.
+    public var keywordAction: PinpointSMSVoiceV2ClientTypes.KeywordAction?
+    /// The message associated with the keyword.
     /// This member is required.
     public var keywordMessage: Swift.String?
     /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use [DescribePhoneNumbers] get the values for PhoneNumberId and PhoneNumberArn while [DescribeSenderIds] can be used to get the values for SenderId and SenderIdArn.
@@ -7030,28 +11017,11 @@ extension PutKeywordInputBody: Swift.Decodable {
     }
 }
 
-public enum PutKeywordOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension PutKeywordOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PutKeywordOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PutKeywordOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PutKeywordOutputBody = try responseDecoder.decode(responseBody: data)
             self.keyword = output.keyword
             self.keywordAction = output.keywordAction
             self.keywordMessage = output.keywordMessage
@@ -7067,7 +11037,7 @@ extension PutKeywordOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutKeywordOutputResponse: Swift.Equatable {
+public struct PutKeywordOutput: Swift.Equatable {
     /// The keyword that was added.
     public var keyword: Swift.String?
     /// The action to perform when the keyword is used.
@@ -7095,7 +11065,7 @@ public struct PutKeywordOutputResponse: Swift.Equatable {
     }
 }
 
-struct PutKeywordOutputResponseBody: Swift.Equatable {
+struct PutKeywordOutputBody: Swift.Equatable {
     let originationIdentityArn: Swift.String?
     let originationIdentity: Swift.String?
     let keyword: Swift.String?
@@ -7103,7 +11073,7 @@ struct PutKeywordOutputResponseBody: Swift.Equatable {
     let keywordAction: PinpointSMSVoiceV2ClientTypes.KeywordAction?
 }
 
-extension PutKeywordOutputResponseBody: Swift.Decodable {
+extension PutKeywordOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyword = "Keyword"
         case keywordAction = "KeywordAction"
@@ -7124,6 +11094,23 @@ extension PutKeywordOutputResponseBody: Swift.Decodable {
         keywordMessage = keywordMessageDecoded
         let keywordActionDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.KeywordAction.self, forKey: .keywordAction)
         keywordAction = keywordActionDecoded
+    }
+}
+
+enum PutKeywordOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7188,26 +11175,11 @@ extension PutOptedOutNumberInputBody: Swift.Decodable {
     }
 }
 
-public enum PutOptedOutNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension PutOptedOutNumberOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PutOptedOutNumberOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PutOptedOutNumberOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PutOptedOutNumberOutputBody = try responseDecoder.decode(responseBody: data)
             self.endUserOptedOut = output.endUserOptedOut
             self.optOutListArn = output.optOutListArn
             self.optOutListName = output.optOutListName
@@ -7223,7 +11195,7 @@ extension PutOptedOutNumberOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutOptedOutNumberOutputResponse: Swift.Equatable {
+public struct PutOptedOutNumberOutput: Swift.Equatable {
     /// This is true if it was the end user who requested their phone number be removed.
     public var endUserOptedOut: Swift.Bool
     /// The OptOutListArn that the phone number was removed from.
@@ -7251,7 +11223,7 @@ public struct PutOptedOutNumberOutputResponse: Swift.Equatable {
     }
 }
 
-struct PutOptedOutNumberOutputResponseBody: Swift.Equatable {
+struct PutOptedOutNumberOutputBody: Swift.Equatable {
     let optOutListArn: Swift.String?
     let optOutListName: Swift.String?
     let optedOutNumber: Swift.String?
@@ -7259,7 +11231,7 @@ struct PutOptedOutNumberOutputResponseBody: Swift.Equatable {
     let endUserOptedOut: Swift.Bool
 }
 
-extension PutOptedOutNumberOutputResponseBody: Swift.Decodable {
+extension PutOptedOutNumberOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endUserOptedOut = "EndUserOptedOut"
         case optOutListArn = "OptOutListArn"
@@ -7281,6 +11253,2047 @@ extension PutOptedOutNumberOutputResponseBody: Swift.Decodable {
         let endUserOptedOutDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .endUserOptedOut) ?? false
         endUserOptedOut = endUserOptedOutDecoded
     }
+}
+
+enum PutOptedOutNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension PutRegistrationFieldValueInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fieldPath = "FieldPath"
+        case registrationAttachmentId = "RegistrationAttachmentId"
+        case registrationId = "RegistrationId"
+        case selectChoices = "SelectChoices"
+        case textValue = "TextValue"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fieldPath = self.fieldPath {
+            try encodeContainer.encode(fieldPath, forKey: .fieldPath)
+        }
+        if let registrationAttachmentId = self.registrationAttachmentId {
+            try encodeContainer.encode(registrationAttachmentId, forKey: .registrationAttachmentId)
+        }
+        if let registrationId = self.registrationId {
+            try encodeContainer.encode(registrationId, forKey: .registrationId)
+        }
+        if let selectChoices = selectChoices {
+            var selectChoicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectChoices)
+            for selectchoice0 in selectChoices {
+                try selectChoicesContainer.encode(selectchoice0)
+            }
+        }
+        if let textValue = self.textValue {
+            try encodeContainer.encode(textValue, forKey: .textValue)
+        }
+    }
+}
+
+extension PutRegistrationFieldValueInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct PutRegistrationFieldValueInput: Swift.Equatable {
+    /// The path to the registration form field. You can use [DescribeRegistrationFieldDefinitions] for a list of FieldPaths.
+    /// This member is required.
+    public var fieldPath: Swift.String?
+    /// The unique identifier for the registration attachment.
+    public var registrationAttachmentId: Swift.String?
+    /// The unique identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+    /// An array of values for the form field.
+    public var selectChoices: [Swift.String]?
+    /// The text data for a free form field.
+    public var textValue: Swift.String?
+
+    public init(
+        fieldPath: Swift.String? = nil,
+        registrationAttachmentId: Swift.String? = nil,
+        registrationId: Swift.String? = nil,
+        selectChoices: [Swift.String]? = nil,
+        textValue: Swift.String? = nil
+    )
+    {
+        self.fieldPath = fieldPath
+        self.registrationAttachmentId = registrationAttachmentId
+        self.registrationId = registrationId
+        self.selectChoices = selectChoices
+        self.textValue = textValue
+    }
+}
+
+struct PutRegistrationFieldValueInputBody: Swift.Equatable {
+    let registrationId: Swift.String?
+    let fieldPath: Swift.String?
+    let selectChoices: [Swift.String]?
+    let textValue: Swift.String?
+    let registrationAttachmentId: Swift.String?
+}
+
+extension PutRegistrationFieldValueInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fieldPath = "FieldPath"
+        case registrationAttachmentId = "RegistrationAttachmentId"
+        case registrationId = "RegistrationId"
+        case selectChoices = "SelectChoices"
+        case textValue = "TextValue"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
+        let fieldPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fieldPath)
+        fieldPath = fieldPathDecoded
+        let selectChoicesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .selectChoices)
+        var selectChoicesDecoded0:[Swift.String]? = nil
+        if let selectChoicesContainer = selectChoicesContainer {
+            selectChoicesDecoded0 = [Swift.String]()
+            for string0 in selectChoicesContainer {
+                if let string0 = string0 {
+                    selectChoicesDecoded0?.append(string0)
+                }
+            }
+        }
+        selectChoices = selectChoicesDecoded0
+        let textValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .textValue)
+        textValue = textValueDecoded
+        let registrationAttachmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationAttachmentId)
+        registrationAttachmentId = registrationAttachmentIdDecoded
+    }
+}
+
+extension PutRegistrationFieldValueOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutRegistrationFieldValueOutputBody = try responseDecoder.decode(responseBody: data)
+            self.fieldPath = output.fieldPath
+            self.registrationArn = output.registrationArn
+            self.registrationAttachmentId = output.registrationAttachmentId
+            self.registrationId = output.registrationId
+            self.selectChoices = output.selectChoices
+            self.textValue = output.textValue
+            self.versionNumber = output.versionNumber
+        } else {
+            self.fieldPath = nil
+            self.registrationArn = nil
+            self.registrationAttachmentId = nil
+            self.registrationId = nil
+            self.selectChoices = nil
+            self.textValue = nil
+            self.versionNumber = nil
+        }
+    }
+}
+
+public struct PutRegistrationFieldValueOutput: Swift.Equatable {
+    /// The path to the registration form field. You can use [DescribeRegistrationFieldDefinitions] for a list of FieldPaths.
+    /// This member is required.
+    public var fieldPath: Swift.String?
+    /// The Amazon Resource Name (ARN) for the registration.
+    /// This member is required.
+    public var registrationArn: Swift.String?
+    /// The unique identifier for the registration attachment.
+    public var registrationAttachmentId: Swift.String?
+    /// The unique identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+    /// An array of values for the form field.
+    public var selectChoices: [Swift.String]?
+    /// The text data for a free form field.
+    public var textValue: Swift.String?
+    /// The version number of the registration.
+    /// This member is required.
+    public var versionNumber: Swift.Int?
+
+    public init(
+        fieldPath: Swift.String? = nil,
+        registrationArn: Swift.String? = nil,
+        registrationAttachmentId: Swift.String? = nil,
+        registrationId: Swift.String? = nil,
+        selectChoices: [Swift.String]? = nil,
+        textValue: Swift.String? = nil,
+        versionNumber: Swift.Int? = nil
+    )
+    {
+        self.fieldPath = fieldPath
+        self.registrationArn = registrationArn
+        self.registrationAttachmentId = registrationAttachmentId
+        self.registrationId = registrationId
+        self.selectChoices = selectChoices
+        self.textValue = textValue
+        self.versionNumber = versionNumber
+    }
+}
+
+struct PutRegistrationFieldValueOutputBody: Swift.Equatable {
+    let registrationArn: Swift.String?
+    let registrationId: Swift.String?
+    let versionNumber: Swift.Int?
+    let fieldPath: Swift.String?
+    let selectChoices: [Swift.String]?
+    let textValue: Swift.String?
+    let registrationAttachmentId: Swift.String?
+}
+
+extension PutRegistrationFieldValueOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fieldPath = "FieldPath"
+        case registrationArn = "RegistrationArn"
+        case registrationAttachmentId = "RegistrationAttachmentId"
+        case registrationId = "RegistrationId"
+        case selectChoices = "SelectChoices"
+        case textValue = "TextValue"
+        case versionNumber = "VersionNumber"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationArn)
+        registrationArn = registrationArnDecoded
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
+        let versionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .versionNumber)
+        versionNumber = versionNumberDecoded
+        let fieldPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fieldPath)
+        fieldPath = fieldPathDecoded
+        let selectChoicesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .selectChoices)
+        var selectChoicesDecoded0:[Swift.String]? = nil
+        if let selectChoicesContainer = selectChoicesContainer {
+            selectChoicesDecoded0 = [Swift.String]()
+            for string0 in selectChoicesContainer {
+                if let string0 = string0 {
+                    selectChoicesDecoded0?.append(string0)
+                }
+            }
+        }
+        selectChoices = selectChoicesDecoded0
+        let textValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .textValue)
+        textValue = textValueDecoded
+        let registrationAttachmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationAttachmentId)
+        registrationAttachmentId = registrationAttachmentIdDecoded
+    }
+}
+
+enum PutRegistrationFieldValueOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    public enum RegistrationAssociationBehavior: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case associateAfterComplete
+        case associateBeforeSubmit
+        case associateOnApproval
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RegistrationAssociationBehavior] {
+            return [
+                .associateAfterComplete,
+                .associateBeforeSubmit,
+                .associateOnApproval,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .associateAfterComplete: return "ASSOCIATE_AFTER_COMPLETE"
+            case .associateBeforeSubmit: return "ASSOCIATE_BEFORE_SUBMIT"
+            case .associateOnApproval: return "ASSOCIATE_ON_APPROVAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RegistrationAssociationBehavior(rawValue: rawValue) ?? RegistrationAssociationBehavior.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes.RegistrationAssociationFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case values = "Values"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.RegistrationAssociationFilterName.self, forKey: .name)
+        name = nameDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    /// The filter definition for filtering registrations that meets a specified criteria.
+    public struct RegistrationAssociationFilter: Swift.Equatable {
+        /// The name of the attribute to filter on.
+        /// This member is required.
+        public var name: PinpointSMSVoiceV2ClientTypes.RegistrationAssociationFilterName?
+        /// An array of values to filter for.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: PinpointSMSVoiceV2ClientTypes.RegistrationAssociationFilterName? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.name = name
+            self.values = values
+        }
+    }
+
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    public enum RegistrationAssociationFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case isoCountryCode
+        case resourceType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RegistrationAssociationFilterName] {
+            return [
+                .isoCountryCode,
+                .resourceType,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .isoCountryCode: return "iso-country-code"
+            case .resourceType: return "resource-type"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RegistrationAssociationFilterName(rawValue: rawValue) ?? RegistrationAssociationFilterName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes.RegistrationAssociationMetadata: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case isoCountryCode = "IsoCountryCode"
+        case phoneNumber = "PhoneNumber"
+        case resourceArn = "ResourceArn"
+        case resourceId = "ResourceId"
+        case resourceType = "ResourceType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let isoCountryCode = self.isoCountryCode {
+            try encodeContainer.encode(isoCountryCode, forKey: .isoCountryCode)
+        }
+        if let phoneNumber = self.phoneNumber {
+            try encodeContainer.encode(phoneNumber, forKey: .phoneNumber)
+        }
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+        if let resourceId = self.resourceId {
+            try encodeContainer.encode(resourceId, forKey: .resourceId)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType, forKey: .resourceType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let isoCountryCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .isoCountryCode)
+        isoCountryCode = isoCountryCodeDecoded
+        let phoneNumberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .phoneNumber)
+        phoneNumber = phoneNumberDecoded
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    /// Metadata for the origination identity that is associated with the registration.
+    public struct RegistrationAssociationMetadata: Swift.Equatable {
+        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+        public var isoCountryCode: Swift.String?
+        /// The phone number associated with the registration in E.164 format.
+        public var phoneNumber: Swift.String?
+        /// The Amazon Resource Name (ARN) of the origination identity that is associated with the registration.
+        /// This member is required.
+        public var resourceArn: Swift.String?
+        /// The unique identifier for the origination identity. For example this could be a PhoneNumberId or SenderId.
+        /// This member is required.
+        public var resourceId: Swift.String?
+        /// The origination identity type.
+        /// This member is required.
+        public var resourceType: Swift.String?
+
+        public init(
+            isoCountryCode: Swift.String? = nil,
+            phoneNumber: Swift.String? = nil,
+            resourceArn: Swift.String? = nil,
+            resourceId: Swift.String? = nil,
+            resourceType: Swift.String? = nil
+        )
+        {
+            self.isoCountryCode = isoCountryCode
+            self.phoneNumber = phoneNumber
+            self.resourceArn = resourceArn
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+    }
+
+}
+
+extension PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case values = "Values"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentFilterName.self, forKey: .name)
+        name = nameDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    /// The filter definition for filtering registration attachments that meets a specified criteria.
+    public struct RegistrationAttachmentFilter: Swift.Equatable {
+        /// The name of the attribute to filter on.
+        /// This member is required.
+        public var name: PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentFilterName?
+        /// An array of values to filter on.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentFilterName? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.name = name
+            self.values = values
+        }
+    }
+
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    public enum RegistrationAttachmentFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case attachmentStatus
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RegistrationAttachmentFilterName] {
+            return [
+                .attachmentStatus,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .attachmentStatus: return "attachment-status"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RegistrationAttachmentFilterName(rawValue: rawValue) ?? RegistrationAttachmentFilterName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentsInformation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachmentStatus = "AttachmentStatus"
+        case attachmentUploadErrorReason = "AttachmentUploadErrorReason"
+        case createdTimestamp = "CreatedTimestamp"
+        case registrationAttachmentArn = "RegistrationAttachmentArn"
+        case registrationAttachmentId = "RegistrationAttachmentId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attachmentStatus = self.attachmentStatus {
+            try encodeContainer.encode(attachmentStatus.rawValue, forKey: .attachmentStatus)
+        }
+        if let attachmentUploadErrorReason = self.attachmentUploadErrorReason {
+            try encodeContainer.encode(attachmentUploadErrorReason.rawValue, forKey: .attachmentUploadErrorReason)
+        }
+        if let createdTimestamp = self.createdTimestamp {
+            try encodeContainer.encodeTimestamp(createdTimestamp, format: .epochSeconds, forKey: .createdTimestamp)
+        }
+        if let registrationAttachmentArn = self.registrationAttachmentArn {
+            try encodeContainer.encode(registrationAttachmentArn, forKey: .registrationAttachmentArn)
+        }
+        if let registrationAttachmentId = self.registrationAttachmentId {
+            try encodeContainer.encode(registrationAttachmentId, forKey: .registrationAttachmentId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationAttachmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationAttachmentArn)
+        registrationAttachmentArn = registrationAttachmentArnDecoded
+        let registrationAttachmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationAttachmentId)
+        registrationAttachmentId = registrationAttachmentIdDecoded
+        let attachmentStatusDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.AttachmentStatus.self, forKey: .attachmentStatus)
+        attachmentStatus = attachmentStatusDecoded
+        let attachmentUploadErrorReasonDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.AttachmentUploadErrorReason.self, forKey: .attachmentUploadErrorReason)
+        attachmentUploadErrorReason = attachmentUploadErrorReasonDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    /// Provides information on the specified registration attachments.
+    public struct RegistrationAttachmentsInformation: Swift.Equatable {
+        /// The status of the registration attachment.
+        ///
+        /// * UPLOAD_IN_PROGRESS The attachment is being uploaded.
+        ///
+        /// * UPLOAD_COMPLETE The attachment has been uploaded.
+        ///
+        /// * UPLOAD_FAILED The attachment failed to uploaded.
+        ///
+        /// * DELETED The attachment has been deleted..
+        /// This member is required.
+        public var attachmentStatus: PinpointSMSVoiceV2ClientTypes.AttachmentStatus?
+        /// A description of why the upload didn't successfully complete.
+        public var attachmentUploadErrorReason: PinpointSMSVoiceV2ClientTypes.AttachmentUploadErrorReason?
+        /// The time when the registration attachment was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
+        /// This member is required.
+        public var createdTimestamp: ClientRuntime.Date?
+        /// The Amazon Resource Name (ARN) for the registration attachment.
+        /// This member is required.
+        public var registrationAttachmentArn: Swift.String?
+        /// The unique identifier for the registration attachment.
+        /// This member is required.
+        public var registrationAttachmentId: Swift.String?
+
+        public init(
+            attachmentStatus: PinpointSMSVoiceV2ClientTypes.AttachmentStatus? = nil,
+            attachmentUploadErrorReason: PinpointSMSVoiceV2ClientTypes.AttachmentUploadErrorReason? = nil,
+            createdTimestamp: ClientRuntime.Date? = nil,
+            registrationAttachmentArn: Swift.String? = nil,
+            registrationAttachmentId: Swift.String? = nil
+        )
+        {
+            self.attachmentStatus = attachmentStatus
+            self.attachmentUploadErrorReason = attachmentUploadErrorReason
+            self.createdTimestamp = createdTimestamp
+            self.registrationAttachmentArn = registrationAttachmentArn
+            self.registrationAttachmentId = registrationAttachmentId
+        }
+    }
+
+}
+
+extension PinpointSMSVoiceV2ClientTypes.RegistrationDeniedReasonInformation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case documentationLink = "DocumentationLink"
+        case documentationTitle = "DocumentationTitle"
+        case longDescription = "LongDescription"
+        case reason = "Reason"
+        case shortDescription = "ShortDescription"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let documentationLink = self.documentationLink {
+            try encodeContainer.encode(documentationLink, forKey: .documentationLink)
+        }
+        if let documentationTitle = self.documentationTitle {
+            try encodeContainer.encode(documentationTitle, forKey: .documentationTitle)
+        }
+        if let longDescription = self.longDescription {
+            try encodeContainer.encode(longDescription, forKey: .longDescription)
+        }
+        if let reason = self.reason {
+            try encodeContainer.encode(reason, forKey: .reason)
+        }
+        if let shortDescription = self.shortDescription {
+            try encodeContainer.encode(shortDescription, forKey: .shortDescription)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reason)
+        reason = reasonDecoded
+        let shortDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shortDescription)
+        shortDescription = shortDescriptionDecoded
+        let longDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .longDescription)
+        longDescription = longDescriptionDecoded
+        let documentationTitleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentationTitle)
+        documentationTitle = documentationTitleDecoded
+        let documentationLinkDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentationLink)
+        documentationLink = documentationLinkDecoded
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    /// Provides the reason a registration was rejected.
+    public struct RegistrationDeniedReasonInformation: Swift.Equatable {
+        /// The link to the document.
+        public var documentationLink: Swift.String?
+        /// The title of the document.
+        public var documentationTitle: Swift.String?
+        /// A long description of the rejection reason.
+        public var longDescription: Swift.String?
+        /// The reason a registration was rejected.
+        /// This member is required.
+        public var reason: Swift.String?
+        /// A short description of the rejection reason.
+        /// This member is required.
+        public var shortDescription: Swift.String?
+
+        public init(
+            documentationLink: Swift.String? = nil,
+            documentationTitle: Swift.String? = nil,
+            longDescription: Swift.String? = nil,
+            reason: Swift.String? = nil,
+            shortDescription: Swift.String? = nil
+        )
+        {
+            self.documentationLink = documentationLink
+            self.documentationTitle = documentationTitle
+            self.longDescription = longDescription
+            self.reason = reason
+            self.shortDescription = shortDescription
+        }
+    }
+
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    public enum RegistrationDisassociationBehavior: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case deleteRegistrationDisassociates
+        case disassociateAllAllowsDeleteRegistration
+        case disassociateAllClosesRegistration
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RegistrationDisassociationBehavior] {
+            return [
+                .deleteRegistrationDisassociates,
+                .disassociateAllAllowsDeleteRegistration,
+                .disassociateAllClosesRegistration,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .deleteRegistrationDisassociates: return "DELETE_REGISTRATION_DISASSOCIATES"
+            case .disassociateAllAllowsDeleteRegistration: return "DISASSOCIATE_ALL_ALLOWS_DELETE_REGISTRATION"
+            case .disassociateAllClosesRegistration: return "DISASSOCIATE_ALL_CLOSES_REGISTRATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RegistrationDisassociationBehavior(rawValue: rawValue) ?? RegistrationDisassociationBehavior.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes.RegistrationFieldDefinition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case displayHints = "DisplayHints"
+        case fieldPath = "FieldPath"
+        case fieldRequirement = "FieldRequirement"
+        case fieldType = "FieldType"
+        case sectionPath = "SectionPath"
+        case selectValidation = "SelectValidation"
+        case textValidation = "TextValidation"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let displayHints = self.displayHints {
+            try encodeContainer.encode(displayHints, forKey: .displayHints)
+        }
+        if let fieldPath = self.fieldPath {
+            try encodeContainer.encode(fieldPath, forKey: .fieldPath)
+        }
+        if let fieldRequirement = self.fieldRequirement {
+            try encodeContainer.encode(fieldRequirement.rawValue, forKey: .fieldRequirement)
+        }
+        if let fieldType = self.fieldType {
+            try encodeContainer.encode(fieldType.rawValue, forKey: .fieldType)
+        }
+        if let sectionPath = self.sectionPath {
+            try encodeContainer.encode(sectionPath, forKey: .sectionPath)
+        }
+        if let selectValidation = self.selectValidation {
+            try encodeContainer.encode(selectValidation, forKey: .selectValidation)
+        }
+        if let textValidation = self.textValidation {
+            try encodeContainer.encode(textValidation, forKey: .textValidation)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sectionPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sectionPath)
+        sectionPath = sectionPathDecoded
+        let fieldPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fieldPath)
+        fieldPath = fieldPathDecoded
+        let fieldTypeDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.FieldType.self, forKey: .fieldType)
+        fieldType = fieldTypeDecoded
+        let fieldRequirementDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.FieldRequirement.self, forKey: .fieldRequirement)
+        fieldRequirement = fieldRequirementDecoded
+        let selectValidationDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.SelectValidation.self, forKey: .selectValidation)
+        selectValidation = selectValidationDecoded
+        let textValidationDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.TextValidation.self, forKey: .textValidation)
+        textValidation = textValidationDecoded
+        let displayHintsDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.RegistrationFieldDisplayHints.self, forKey: .displayHints)
+        displayHints = displayHintsDecoded
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    /// Provides a description of the specified field.
+    public struct RegistrationFieldDefinition: Swift.Equatable {
+        /// An array of RegistrationFieldDisplayHints objects for the field.
+        /// This member is required.
+        public var displayHints: PinpointSMSVoiceV2ClientTypes.RegistrationFieldDisplayHints?
+        /// The path to the registration form field. You can use [DescribeRegistrationFieldDefinitions] for a list of FieldPaths.
+        /// This member is required.
+        public var fieldPath: Swift.String?
+        /// Specifies if the field for the registration form is required, conditional or optional.
+        /// This member is required.
+        public var fieldRequirement: PinpointSMSVoiceV2ClientTypes.FieldRequirement?
+        /// The type of field.
+        /// This member is required.
+        public var fieldType: PinpointSMSVoiceV2ClientTypes.FieldType?
+        /// The section path of the field.
+        /// This member is required.
+        public var sectionPath: Swift.String?
+        /// The validation rules for a select field.
+        public var selectValidation: PinpointSMSVoiceV2ClientTypes.SelectValidation?
+        /// The validation rules for a text field.
+        public var textValidation: PinpointSMSVoiceV2ClientTypes.TextValidation?
+
+        public init(
+            displayHints: PinpointSMSVoiceV2ClientTypes.RegistrationFieldDisplayHints? = nil,
+            fieldPath: Swift.String? = nil,
+            fieldRequirement: PinpointSMSVoiceV2ClientTypes.FieldRequirement? = nil,
+            fieldType: PinpointSMSVoiceV2ClientTypes.FieldType? = nil,
+            sectionPath: Swift.String? = nil,
+            selectValidation: PinpointSMSVoiceV2ClientTypes.SelectValidation? = nil,
+            textValidation: PinpointSMSVoiceV2ClientTypes.TextValidation? = nil
+        )
+        {
+            self.displayHints = displayHints
+            self.fieldPath = fieldPath
+            self.fieldRequirement = fieldRequirement
+            self.fieldType = fieldType
+            self.sectionPath = sectionPath
+            self.selectValidation = selectValidation
+            self.textValidation = textValidation
+        }
+    }
+
+}
+
+extension PinpointSMSVoiceV2ClientTypes.RegistrationFieldDisplayHints: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case documentationLink = "DocumentationLink"
+        case documentationTitle = "DocumentationTitle"
+        case exampleTextValue = "ExampleTextValue"
+        case longDescription = "LongDescription"
+        case selectOptionDescriptions = "SelectOptionDescriptions"
+        case shortDescription = "ShortDescription"
+        case textValidationDescription = "TextValidationDescription"
+        case title = "Title"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let documentationLink = self.documentationLink {
+            try encodeContainer.encode(documentationLink, forKey: .documentationLink)
+        }
+        if let documentationTitle = self.documentationTitle {
+            try encodeContainer.encode(documentationTitle, forKey: .documentationTitle)
+        }
+        if let exampleTextValue = self.exampleTextValue {
+            try encodeContainer.encode(exampleTextValue, forKey: .exampleTextValue)
+        }
+        if let longDescription = self.longDescription {
+            try encodeContainer.encode(longDescription, forKey: .longDescription)
+        }
+        if let selectOptionDescriptions = selectOptionDescriptions {
+            var selectOptionDescriptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectOptionDescriptions)
+            for selectoptiondescription0 in selectOptionDescriptions {
+                try selectOptionDescriptionsContainer.encode(selectoptiondescription0)
+            }
+        }
+        if let shortDescription = self.shortDescription {
+            try encodeContainer.encode(shortDescription, forKey: .shortDescription)
+        }
+        if let textValidationDescription = self.textValidationDescription {
+            try encodeContainer.encode(textValidationDescription, forKey: .textValidationDescription)
+        }
+        if let title = self.title {
+            try encodeContainer.encode(title, forKey: .title)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
+        title = titleDecoded
+        let shortDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shortDescription)
+        shortDescription = shortDescriptionDecoded
+        let longDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .longDescription)
+        longDescription = longDescriptionDecoded
+        let documentationTitleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentationTitle)
+        documentationTitle = documentationTitleDecoded
+        let documentationLinkDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentationLink)
+        documentationLink = documentationLinkDecoded
+        let selectOptionDescriptionsContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.SelectOptionDescription?].self, forKey: .selectOptionDescriptions)
+        var selectOptionDescriptionsDecoded0:[PinpointSMSVoiceV2ClientTypes.SelectOptionDescription]? = nil
+        if let selectOptionDescriptionsContainer = selectOptionDescriptionsContainer {
+            selectOptionDescriptionsDecoded0 = [PinpointSMSVoiceV2ClientTypes.SelectOptionDescription]()
+            for structure0 in selectOptionDescriptionsContainer {
+                if let structure0 = structure0 {
+                    selectOptionDescriptionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        selectOptionDescriptions = selectOptionDescriptionsDecoded0
+        let textValidationDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .textValidationDescription)
+        textValidationDescription = textValidationDescriptionDecoded
+        let exampleTextValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exampleTextValue)
+        exampleTextValue = exampleTextValueDecoded
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    /// Provides help information on the registration field.
+    public struct RegistrationFieldDisplayHints: Swift.Equatable {
+        /// The link to the document the display hint is associated with.
+        public var documentationLink: Swift.String?
+        /// The title of the document the display hint is associated with.
+        public var documentationTitle: Swift.String?
+        /// Example text of what the value of a field should contain.
+        public var exampleTextValue: Swift.String?
+        /// A full description of the display hint.
+        public var longDescription: Swift.String?
+        /// An array of SelectOptionDescription objects.
+        public var selectOptionDescriptions: [PinpointSMSVoiceV2ClientTypes.SelectOptionDescription]?
+        /// A short description of the display hint.
+        /// This member is required.
+        public var shortDescription: Swift.String?
+        /// The validation rules for the text field.
+        public var textValidationDescription: Swift.String?
+        /// The title of the display hint.
+        /// This member is required.
+        public var title: Swift.String?
+
+        public init(
+            documentationLink: Swift.String? = nil,
+            documentationTitle: Swift.String? = nil,
+            exampleTextValue: Swift.String? = nil,
+            longDescription: Swift.String? = nil,
+            selectOptionDescriptions: [PinpointSMSVoiceV2ClientTypes.SelectOptionDescription]? = nil,
+            shortDescription: Swift.String? = nil,
+            textValidationDescription: Swift.String? = nil,
+            title: Swift.String? = nil
+        )
+        {
+            self.documentationLink = documentationLink
+            self.documentationTitle = documentationTitle
+            self.exampleTextValue = exampleTextValue
+            self.longDescription = longDescription
+            self.selectOptionDescriptions = selectOptionDescriptions
+            self.shortDescription = shortDescription
+            self.textValidationDescription = textValidationDescription
+            self.title = title
+        }
+    }
+
+}
+
+extension PinpointSMSVoiceV2ClientTypes.RegistrationFieldValueInformation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deniedReason = "DeniedReason"
+        case fieldPath = "FieldPath"
+        case registrationAttachmentId = "RegistrationAttachmentId"
+        case selectChoices = "SelectChoices"
+        case textValue = "TextValue"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deniedReason = self.deniedReason {
+            try encodeContainer.encode(deniedReason, forKey: .deniedReason)
+        }
+        if let fieldPath = self.fieldPath {
+            try encodeContainer.encode(fieldPath, forKey: .fieldPath)
+        }
+        if let registrationAttachmentId = self.registrationAttachmentId {
+            try encodeContainer.encode(registrationAttachmentId, forKey: .registrationAttachmentId)
+        }
+        if let selectChoices = selectChoices {
+            var selectChoicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectChoices)
+            for selectchoice0 in selectChoices {
+                try selectChoicesContainer.encode(selectchoice0)
+            }
+        }
+        if let textValue = self.textValue {
+            try encodeContainer.encode(textValue, forKey: .textValue)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fieldPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fieldPath)
+        fieldPath = fieldPathDecoded
+        let selectChoicesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .selectChoices)
+        var selectChoicesDecoded0:[Swift.String]? = nil
+        if let selectChoicesContainer = selectChoicesContainer {
+            selectChoicesDecoded0 = [Swift.String]()
+            for string0 in selectChoicesContainer {
+                if let string0 = string0 {
+                    selectChoicesDecoded0?.append(string0)
+                }
+            }
+        }
+        selectChoices = selectChoicesDecoded0
+        let textValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .textValue)
+        textValue = textValueDecoded
+        let registrationAttachmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationAttachmentId)
+        registrationAttachmentId = registrationAttachmentIdDecoded
+        let deniedReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deniedReason)
+        deniedReason = deniedReasonDecoded
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    /// Provides the values of the specified field.
+    public struct RegistrationFieldValueInformation: Swift.Equatable {
+        /// A description of why the registration was denied.
+        public var deniedReason: Swift.String?
+        /// The path to the registration form field. You can use [DescribeRegistrationFieldDefinitions] for a list of FieldPaths.
+        /// This member is required.
+        public var fieldPath: Swift.String?
+        /// The unique identifier for the registration attachment.
+        public var registrationAttachmentId: Swift.String?
+        /// An array of values for the form field.
+        public var selectChoices: [Swift.String]?
+        /// The text data for a free form field.
+        public var textValue: Swift.String?
+
+        public init(
+            deniedReason: Swift.String? = nil,
+            fieldPath: Swift.String? = nil,
+            registrationAttachmentId: Swift.String? = nil,
+            selectChoices: [Swift.String]? = nil,
+            textValue: Swift.String? = nil
+        )
+        {
+            self.deniedReason = deniedReason
+            self.fieldPath = fieldPath
+            self.registrationAttachmentId = registrationAttachmentId
+            self.selectChoices = selectChoices
+            self.textValue = textValue
+        }
+    }
+
+}
+
+extension PinpointSMSVoiceV2ClientTypes.RegistrationFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case values = "Values"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.RegistrationFilterName.self, forKey: .name)
+        name = nameDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    /// The filter definition for filtering registrations that meets a specified criteria.
+    public struct RegistrationFilter: Swift.Equatable {
+        /// The name of the attribute to filter on.
+        /// This member is required.
+        public var name: PinpointSMSVoiceV2ClientTypes.RegistrationFilterName?
+        /// An array of values to filter on.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: PinpointSMSVoiceV2ClientTypes.RegistrationFilterName? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.name = name
+            self.values = values
+        }
+    }
+
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    public enum RegistrationFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case registrationStatus
+        case registrationType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RegistrationFilterName] {
+            return [
+                .registrationStatus,
+                .registrationType,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .registrationStatus: return "registration-status"
+            case .registrationType: return "registration-type"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RegistrationFilterName(rawValue: rawValue) ?? RegistrationFilterName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes.RegistrationInformation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalAttributes = "AdditionalAttributes"
+        case approvedVersionNumber = "ApprovedVersionNumber"
+        case createdTimestamp = "CreatedTimestamp"
+        case currentVersionNumber = "CurrentVersionNumber"
+        case latestDeniedVersionNumber = "LatestDeniedVersionNumber"
+        case registrationArn = "RegistrationArn"
+        case registrationId = "RegistrationId"
+        case registrationStatus = "RegistrationStatus"
+        case registrationType = "RegistrationType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalAttributes = additionalAttributes {
+            var additionalAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalAttributes)
+            for (dictKey0, stringMap0) in additionalAttributes {
+                try additionalAttributesContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let approvedVersionNumber = self.approvedVersionNumber {
+            try encodeContainer.encode(approvedVersionNumber, forKey: .approvedVersionNumber)
+        }
+        if let createdTimestamp = self.createdTimestamp {
+            try encodeContainer.encodeTimestamp(createdTimestamp, format: .epochSeconds, forKey: .createdTimestamp)
+        }
+        if let currentVersionNumber = self.currentVersionNumber {
+            try encodeContainer.encode(currentVersionNumber, forKey: .currentVersionNumber)
+        }
+        if let latestDeniedVersionNumber = self.latestDeniedVersionNumber {
+            try encodeContainer.encode(latestDeniedVersionNumber, forKey: .latestDeniedVersionNumber)
+        }
+        if let registrationArn = self.registrationArn {
+            try encodeContainer.encode(registrationArn, forKey: .registrationArn)
+        }
+        if let registrationId = self.registrationId {
+            try encodeContainer.encode(registrationId, forKey: .registrationId)
+        }
+        if let registrationStatus = self.registrationStatus {
+            try encodeContainer.encode(registrationStatus.rawValue, forKey: .registrationStatus)
+        }
+        if let registrationType = self.registrationType {
+            try encodeContainer.encode(registrationType, forKey: .registrationType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationArn)
+        registrationArn = registrationArnDecoded
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
+        let registrationTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationType)
+        registrationType = registrationTypeDecoded
+        let registrationStatusDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.RegistrationStatus.self, forKey: .registrationStatus)
+        registrationStatus = registrationStatusDecoded
+        let currentVersionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .currentVersionNumber)
+        currentVersionNumber = currentVersionNumberDecoded
+        let approvedVersionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .approvedVersionNumber)
+        approvedVersionNumber = approvedVersionNumberDecoded
+        let latestDeniedVersionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .latestDeniedVersionNumber)
+        latestDeniedVersionNumber = latestDeniedVersionNumberDecoded
+        let additionalAttributesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalAttributes)
+        var additionalAttributesDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalAttributesContainer = additionalAttributesContainer {
+            additionalAttributesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in additionalAttributesContainer {
+                if let string0 = string0 {
+                    additionalAttributesDecoded0?[key0] = string0
+                }
+            }
+        }
+        additionalAttributes = additionalAttributesDecoded0
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    /// Provides information about the requested registration.
+    public struct RegistrationInformation: Swift.Equatable {
+        /// Metadata about a given registration which is specific to that registration type.
+        public var additionalAttributes: [Swift.String:Swift.String]?
+        /// The version number of the registration that was approved.
+        public var approvedVersionNumber: Swift.Int?
+        /// The time when the registration was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
+        /// This member is required.
+        public var createdTimestamp: ClientRuntime.Date?
+        /// The current version number of the registration.
+        /// This member is required.
+        public var currentVersionNumber: Swift.Int?
+        /// The latest version number of the registration that was denied.
+        public var latestDeniedVersionNumber: Swift.Int?
+        /// The Amazon Resource Name (ARN) for the registration.
+        /// This member is required.
+        public var registrationArn: Swift.String?
+        /// The unique identifier for the registration.
+        /// This member is required.
+        public var registrationId: Swift.String?
+        /// The status of the registration.
+        ///
+        /// * CREATED: Your registration is created but not submitted.
+        ///
+        /// * SUBMITTED: Your registration has been submitted and is awaiting review.
+        ///
+        /// * REVIEWING: Your registration has been accepted and is being reviewed.
+        ///
+        /// * PROVISIONING: Your registration has been approved and your origination identity is being created.
+        ///
+        /// * COMPLETE: Your registration has been approved and and your origination identity has been created.
+        ///
+        /// * REQUIRES_UPDATES: You must fix your registration and resubmit it.
+        ///
+        /// * CLOSED: The phone number or sender ID has been deleted and you must also delete the registration for the number.
+        ///
+        /// * DELETED: The registration has been deleted.
+        /// This member is required.
+        public var registrationStatus: PinpointSMSVoiceV2ClientTypes.RegistrationStatus?
+        /// The type of registration form. The list of RegistrationTypes can be found using the [DescribeRegistrationTypeDefinitions] action.
+        /// This member is required.
+        public var registrationType: Swift.String?
+
+        public init(
+            additionalAttributes: [Swift.String:Swift.String]? = nil,
+            approvedVersionNumber: Swift.Int? = nil,
+            createdTimestamp: ClientRuntime.Date? = nil,
+            currentVersionNumber: Swift.Int? = nil,
+            latestDeniedVersionNumber: Swift.Int? = nil,
+            registrationArn: Swift.String? = nil,
+            registrationId: Swift.String? = nil,
+            registrationStatus: PinpointSMSVoiceV2ClientTypes.RegistrationStatus? = nil,
+            registrationType: Swift.String? = nil
+        )
+        {
+            self.additionalAttributes = additionalAttributes
+            self.approvedVersionNumber = approvedVersionNumber
+            self.createdTimestamp = createdTimestamp
+            self.currentVersionNumber = currentVersionNumber
+            self.latestDeniedVersionNumber = latestDeniedVersionNumber
+            self.registrationArn = registrationArn
+            self.registrationId = registrationId
+            self.registrationStatus = registrationStatus
+            self.registrationType = registrationType
+        }
+    }
+
+}
+
+extension PinpointSMSVoiceV2ClientTypes.RegistrationSectionDefinition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case displayHints = "DisplayHints"
+        case sectionPath = "SectionPath"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let displayHints = self.displayHints {
+            try encodeContainer.encode(displayHints, forKey: .displayHints)
+        }
+        if let sectionPath = self.sectionPath {
+            try encodeContainer.encode(sectionPath, forKey: .sectionPath)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sectionPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sectionPath)
+        sectionPath = sectionPathDecoded
+        let displayHintsDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.RegistrationSectionDisplayHints.self, forKey: .displayHints)
+        displayHints = displayHintsDecoded
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    /// Provides information on the specified section definition.
+    public struct RegistrationSectionDefinition: Swift.Equatable {
+        /// The path to the section of the registration.
+        /// This member is required.
+        public var displayHints: PinpointSMSVoiceV2ClientTypes.RegistrationSectionDisplayHints?
+        /// The path to the section of the registration.
+        /// This member is required.
+        public var sectionPath: Swift.String?
+
+        public init(
+            displayHints: PinpointSMSVoiceV2ClientTypes.RegistrationSectionDisplayHints? = nil,
+            sectionPath: Swift.String? = nil
+        )
+        {
+            self.displayHints = displayHints
+            self.sectionPath = sectionPath
+        }
+    }
+
+}
+
+extension PinpointSMSVoiceV2ClientTypes.RegistrationSectionDisplayHints: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case documentationLink = "DocumentationLink"
+        case documentationTitle = "DocumentationTitle"
+        case longDescription = "LongDescription"
+        case shortDescription = "ShortDescription"
+        case title = "Title"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let documentationLink = self.documentationLink {
+            try encodeContainer.encode(documentationLink, forKey: .documentationLink)
+        }
+        if let documentationTitle = self.documentationTitle {
+            try encodeContainer.encode(documentationTitle, forKey: .documentationTitle)
+        }
+        if let longDescription = self.longDescription {
+            try encodeContainer.encode(longDescription, forKey: .longDescription)
+        }
+        if let shortDescription = self.shortDescription {
+            try encodeContainer.encode(shortDescription, forKey: .shortDescription)
+        }
+        if let title = self.title {
+            try encodeContainer.encode(title, forKey: .title)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
+        title = titleDecoded
+        let shortDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shortDescription)
+        shortDescription = shortDescriptionDecoded
+        let longDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .longDescription)
+        longDescription = longDescriptionDecoded
+        let documentationTitleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentationTitle)
+        documentationTitle = documentationTitleDecoded
+        let documentationLinkDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentationLink)
+        documentationLink = documentationLinkDecoded
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    /// Provides help information on the registration section.
+    public struct RegistrationSectionDisplayHints: Swift.Equatable {
+        /// The link to the document the display hint is associated with.
+        public var documentationLink: Swift.String?
+        /// The title of the document the display hint is associated with.
+        public var documentationTitle: Swift.String?
+        /// A full description of the display hint.
+        public var longDescription: Swift.String?
+        /// A short description of the display hint.
+        /// This member is required.
+        public var shortDescription: Swift.String?
+        /// The title of the display hint.
+        /// This member is required.
+        public var title: Swift.String?
+
+        public init(
+            documentationLink: Swift.String? = nil,
+            documentationTitle: Swift.String? = nil,
+            longDescription: Swift.String? = nil,
+            shortDescription: Swift.String? = nil,
+            title: Swift.String? = nil
+        )
+        {
+            self.documentationLink = documentationLink
+            self.documentationTitle = documentationTitle
+            self.longDescription = longDescription
+            self.shortDescription = shortDescription
+            self.title = title
+        }
+    }
+
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    public enum RegistrationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case closed
+        case complete
+        case created
+        case deleted
+        case provisioning
+        case requiresUpdates
+        case reviewing
+        case submitted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RegistrationStatus] {
+            return [
+                .closed,
+                .complete,
+                .created,
+                .deleted,
+                .provisioning,
+                .requiresUpdates,
+                .reviewing,
+                .submitted,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .closed: return "CLOSED"
+            case .complete: return "COMPLETE"
+            case .created: return "CREATED"
+            case .deleted: return "DELETED"
+            case .provisioning: return "PROVISIONING"
+            case .requiresUpdates: return "REQUIRES_UPDATES"
+            case .reviewing: return "REVIEWING"
+            case .submitted: return "SUBMITTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RegistrationStatus(rawValue: rawValue) ?? RegistrationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes.RegistrationTypeDefinition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case displayHints = "DisplayHints"
+        case registrationType = "RegistrationType"
+        case supportedAssociations = "SupportedAssociations"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let displayHints = self.displayHints {
+            try encodeContainer.encode(displayHints, forKey: .displayHints)
+        }
+        if let registrationType = self.registrationType {
+            try encodeContainer.encode(registrationType, forKey: .registrationType)
+        }
+        if let supportedAssociations = supportedAssociations {
+            var supportedAssociationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedAssociations)
+            for supportedassociation0 in supportedAssociations {
+                try supportedAssociationsContainer.encode(supportedassociation0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationType)
+        registrationType = registrationTypeDecoded
+        let supportedAssociationsContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.SupportedAssociation?].self, forKey: .supportedAssociations)
+        var supportedAssociationsDecoded0:[PinpointSMSVoiceV2ClientTypes.SupportedAssociation]? = nil
+        if let supportedAssociationsContainer = supportedAssociationsContainer {
+            supportedAssociationsDecoded0 = [PinpointSMSVoiceV2ClientTypes.SupportedAssociation]()
+            for structure0 in supportedAssociationsContainer {
+                if let structure0 = structure0 {
+                    supportedAssociationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        supportedAssociations = supportedAssociationsDecoded0
+        let displayHintsDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.RegistrationTypeDisplayHints.self, forKey: .displayHints)
+        displayHints = displayHintsDecoded
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    /// Provides information on the supported registration type.
+    public struct RegistrationTypeDefinition: Swift.Equatable {
+        /// Provides help information on the registration.
+        /// This member is required.
+        public var displayHints: PinpointSMSVoiceV2ClientTypes.RegistrationTypeDisplayHints?
+        /// The type of registration form. The list of RegistrationTypes can be found using the [DescribeRegistrationTypeDefinitions] action.
+        /// This member is required.
+        public var registrationType: Swift.String?
+        /// The supported association behavior for the registration type.
+        public var supportedAssociations: [PinpointSMSVoiceV2ClientTypes.SupportedAssociation]?
+
+        public init(
+            displayHints: PinpointSMSVoiceV2ClientTypes.RegistrationTypeDisplayHints? = nil,
+            registrationType: Swift.String? = nil,
+            supportedAssociations: [PinpointSMSVoiceV2ClientTypes.SupportedAssociation]? = nil
+        )
+        {
+            self.displayHints = displayHints
+            self.registrationType = registrationType
+            self.supportedAssociations = supportedAssociations
+        }
+    }
+
+}
+
+extension PinpointSMSVoiceV2ClientTypes.RegistrationTypeDisplayHints: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case documentationLink = "DocumentationLink"
+        case documentationTitle = "DocumentationTitle"
+        case longDescription = "LongDescription"
+        case shortDescription = "ShortDescription"
+        case title = "Title"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let documentationLink = self.documentationLink {
+            try encodeContainer.encode(documentationLink, forKey: .documentationLink)
+        }
+        if let documentationTitle = self.documentationTitle {
+            try encodeContainer.encode(documentationTitle, forKey: .documentationTitle)
+        }
+        if let longDescription = self.longDescription {
+            try encodeContainer.encode(longDescription, forKey: .longDescription)
+        }
+        if let shortDescription = self.shortDescription {
+            try encodeContainer.encode(shortDescription, forKey: .shortDescription)
+        }
+        if let title = self.title {
+            try encodeContainer.encode(title, forKey: .title)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
+        title = titleDecoded
+        let shortDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shortDescription)
+        shortDescription = shortDescriptionDecoded
+        let longDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .longDescription)
+        longDescription = longDescriptionDecoded
+        let documentationTitleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentationTitle)
+        documentationTitle = documentationTitleDecoded
+        let documentationLinkDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentationLink)
+        documentationLink = documentationLinkDecoded
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    /// Provides help information on the registration type.
+    public struct RegistrationTypeDisplayHints: Swift.Equatable {
+        /// The link to the document the display hint is associated with.
+        public var documentationLink: Swift.String?
+        /// The title of the document the display hint is associated with.
+        public var documentationTitle: Swift.String?
+        /// A full description of the display hint.
+        public var longDescription: Swift.String?
+        /// A short description of the display hint.
+        public var shortDescription: Swift.String?
+        /// The title of the display hint.
+        /// This member is required.
+        public var title: Swift.String?
+
+        public init(
+            documentationLink: Swift.String? = nil,
+            documentationTitle: Swift.String? = nil,
+            longDescription: Swift.String? = nil,
+            shortDescription: Swift.String? = nil,
+            title: Swift.String? = nil
+        )
+        {
+            self.documentationLink = documentationLink
+            self.documentationTitle = documentationTitle
+            self.longDescription = longDescription
+            self.shortDescription = shortDescription
+            self.title = title
+        }
+    }
+
+}
+
+extension PinpointSMSVoiceV2ClientTypes.RegistrationTypeFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case values = "Values"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.RegistrationTypeFilterName.self, forKey: .name)
+        name = nameDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    /// The filter definition for filtering registration types that meets a specified criteria.
+    public struct RegistrationTypeFilter: Swift.Equatable {
+        /// The name of the attribute to filter on.
+        /// This member is required.
+        public var name: PinpointSMSVoiceV2ClientTypes.RegistrationTypeFilterName?
+        /// An array of values to filter on.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: PinpointSMSVoiceV2ClientTypes.RegistrationTypeFilterName? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.name = name
+            self.values = values
+        }
+    }
+
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    public enum RegistrationTypeFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case supportedAssociationIsoCountryCode
+        case supportedAssociationResourceType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RegistrationTypeFilterName] {
+            return [
+                .supportedAssociationIsoCountryCode,
+                .supportedAssociationResourceType,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .supportedAssociationIsoCountryCode: return "supported-association-iso-country-code"
+            case .supportedAssociationResourceType: return "supported-association-resource-type"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RegistrationTypeFilterName(rawValue: rawValue) ?? RegistrationTypeFilterName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes.RegistrationVersionFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case values = "Values"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.RegistrationVersionFilterName.self, forKey: .name)
+        name = nameDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    /// The filter definition for filtering registration versions that meets a specified criteria.
+    public struct RegistrationVersionFilter: Swift.Equatable {
+        /// The name of the attribute to filter on.
+        /// This member is required.
+        public var name: PinpointSMSVoiceV2ClientTypes.RegistrationVersionFilterName?
+        /// An array of values to filter on.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: PinpointSMSVoiceV2ClientTypes.RegistrationVersionFilterName? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.name = name
+            self.values = values
+        }
+    }
+
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    public enum RegistrationVersionFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case registrationVersionStatus
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RegistrationVersionFilterName] {
+            return [
+                .registrationVersionStatus,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .registrationVersionStatus: return "registration-version-status"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RegistrationVersionFilterName(rawValue: rawValue) ?? RegistrationVersionFilterName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes.RegistrationVersionInformation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deniedReasons = "DeniedReasons"
+        case registrationVersionStatus = "RegistrationVersionStatus"
+        case registrationVersionStatusHistory = "RegistrationVersionStatusHistory"
+        case versionNumber = "VersionNumber"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deniedReasons = deniedReasons {
+            var deniedReasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deniedReasons)
+            for registrationdeniedreasoninformation0 in deniedReasons {
+                try deniedReasonsContainer.encode(registrationdeniedreasoninformation0)
+            }
+        }
+        if let registrationVersionStatus = self.registrationVersionStatus {
+            try encodeContainer.encode(registrationVersionStatus.rawValue, forKey: .registrationVersionStatus)
+        }
+        if let registrationVersionStatusHistory = self.registrationVersionStatusHistory {
+            try encodeContainer.encode(registrationVersionStatusHistory, forKey: .registrationVersionStatusHistory)
+        }
+        if let versionNumber = self.versionNumber {
+            try encodeContainer.encode(versionNumber, forKey: .versionNumber)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let versionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .versionNumber)
+        versionNumber = versionNumberDecoded
+        let registrationVersionStatusDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatus.self, forKey: .registrationVersionStatus)
+        registrationVersionStatus = registrationVersionStatusDecoded
+        let registrationVersionStatusHistoryDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory.self, forKey: .registrationVersionStatusHistory)
+        registrationVersionStatusHistory = registrationVersionStatusHistoryDecoded
+        let deniedReasonsContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.RegistrationDeniedReasonInformation?].self, forKey: .deniedReasons)
+        var deniedReasonsDecoded0:[PinpointSMSVoiceV2ClientTypes.RegistrationDeniedReasonInformation]? = nil
+        if let deniedReasonsContainer = deniedReasonsContainer {
+            deniedReasonsDecoded0 = [PinpointSMSVoiceV2ClientTypes.RegistrationDeniedReasonInformation]()
+            for structure0 in deniedReasonsContainer {
+                if let structure0 = structure0 {
+                    deniedReasonsDecoded0?.append(structure0)
+                }
+            }
+        }
+        deniedReasons = deniedReasonsDecoded0
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    /// Provides information about the specified version of the registration.
+    public struct RegistrationVersionInformation: Swift.Equatable {
+        /// An array of RegistrationDeniedReasonInformation objects.
+        public var deniedReasons: [PinpointSMSVoiceV2ClientTypes.RegistrationDeniedReasonInformation]?
+        /// The status of the registration.
+        ///
+        /// * DRAFT: The initial status of a registration version after it’s created.
+        ///
+        /// * SUBMITTED: Your registration has been submitted.
+        ///
+        /// * REVIEWING: Your registration has been accepted and is being reviewed.
+        ///
+        /// * APPROVED: Your registration has been approved.
+        ///
+        /// * DISCARDED: You've abandon this version of their registration to start over with a new version.
+        ///
+        /// * DENIED: You must fix your registration and resubmit it.
+        ///
+        /// * REVOKED: Your previously approved registration has been revoked.
+        ///
+        /// * ARCHIVED: Your previously approved registration version moves into this status when a more recently submitted version is approved.
+        /// This member is required.
+        public var registrationVersionStatus: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatus?
+        /// The RegistrationVersionStatusHistory object contains the time stamps for when the reservations status changes.
+        /// This member is required.
+        public var registrationVersionStatusHistory: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory?
+        /// The version number of the registration.
+        /// This member is required.
+        public var versionNumber: Swift.Int?
+
+        public init(
+            deniedReasons: [PinpointSMSVoiceV2ClientTypes.RegistrationDeniedReasonInformation]? = nil,
+            registrationVersionStatus: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatus? = nil,
+            registrationVersionStatusHistory: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory? = nil,
+            versionNumber: Swift.Int? = nil
+        )
+        {
+            self.deniedReasons = deniedReasons
+            self.registrationVersionStatus = registrationVersionStatus
+            self.registrationVersionStatusHistory = registrationVersionStatusHistory
+            self.versionNumber = versionNumber
+        }
+    }
+
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    public enum RegistrationVersionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case approved
+        case archived
+        case denied
+        case discarded
+        case draft
+        case reviewing
+        case revoked
+        case submitted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RegistrationVersionStatus] {
+            return [
+                .approved,
+                .archived,
+                .denied,
+                .discarded,
+                .draft,
+                .reviewing,
+                .revoked,
+                .submitted,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .approved: return "APPROVED"
+            case .archived: return "ARCHIVED"
+            case .denied: return "DENIED"
+            case .discarded: return "DISCARDED"
+            case .draft: return "DRAFT"
+            case .reviewing: return "REVIEWING"
+            case .revoked: return "REVOKED"
+            case .submitted: return "SUBMITTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RegistrationVersionStatus(rawValue: rawValue) ?? RegistrationVersionStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case approvedTimestamp = "ApprovedTimestamp"
+        case archivedTimestamp = "ArchivedTimestamp"
+        case deniedTimestamp = "DeniedTimestamp"
+        case discardedTimestamp = "DiscardedTimestamp"
+        case draftTimestamp = "DraftTimestamp"
+        case reviewingTimestamp = "ReviewingTimestamp"
+        case revokedTimestamp = "RevokedTimestamp"
+        case submittedTimestamp = "SubmittedTimestamp"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let approvedTimestamp = self.approvedTimestamp {
+            try encodeContainer.encodeTimestamp(approvedTimestamp, format: .epochSeconds, forKey: .approvedTimestamp)
+        }
+        if let archivedTimestamp = self.archivedTimestamp {
+            try encodeContainer.encodeTimestamp(archivedTimestamp, format: .epochSeconds, forKey: .archivedTimestamp)
+        }
+        if let deniedTimestamp = self.deniedTimestamp {
+            try encodeContainer.encodeTimestamp(deniedTimestamp, format: .epochSeconds, forKey: .deniedTimestamp)
+        }
+        if let discardedTimestamp = self.discardedTimestamp {
+            try encodeContainer.encodeTimestamp(discardedTimestamp, format: .epochSeconds, forKey: .discardedTimestamp)
+        }
+        if let draftTimestamp = self.draftTimestamp {
+            try encodeContainer.encodeTimestamp(draftTimestamp, format: .epochSeconds, forKey: .draftTimestamp)
+        }
+        if let reviewingTimestamp = self.reviewingTimestamp {
+            try encodeContainer.encodeTimestamp(reviewingTimestamp, format: .epochSeconds, forKey: .reviewingTimestamp)
+        }
+        if let revokedTimestamp = self.revokedTimestamp {
+            try encodeContainer.encodeTimestamp(revokedTimestamp, format: .epochSeconds, forKey: .revokedTimestamp)
+        }
+        if let submittedTimestamp = self.submittedTimestamp {
+            try encodeContainer.encodeTimestamp(submittedTimestamp, format: .epochSeconds, forKey: .submittedTimestamp)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let draftTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .draftTimestamp)
+        draftTimestamp = draftTimestampDecoded
+        let submittedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .submittedTimestamp)
+        submittedTimestamp = submittedTimestampDecoded
+        let reviewingTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .reviewingTimestamp)
+        reviewingTimestamp = reviewingTimestampDecoded
+        let approvedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .approvedTimestamp)
+        approvedTimestamp = approvedTimestampDecoded
+        let discardedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .discardedTimestamp)
+        discardedTimestamp = discardedTimestampDecoded
+        let deniedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .deniedTimestamp)
+        deniedTimestamp = deniedTimestampDecoded
+        let revokedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .revokedTimestamp)
+        revokedTimestamp = revokedTimestampDecoded
+        let archivedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .archivedTimestamp)
+        archivedTimestamp = archivedTimestampDecoded
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    /// The RegistrationVersionStatusHistory object contains the time stamps for when the reservations status changes.
+    public struct RegistrationVersionStatusHistory: Swift.Equatable {
+        /// The time when the registration was in the approved state, in [UNIX epoch time](https://www.epochconverter.com/) format.
+        public var approvedTimestamp: ClientRuntime.Date?
+        /// The time when the registration was in the archived state, in [UNIX epoch time](https://www.epochconverter.com/) format.
+        public var archivedTimestamp: ClientRuntime.Date?
+        /// The time when the registration was in the denied state, in [UNIX epoch time](https://www.epochconverter.com/) format.
+        public var deniedTimestamp: ClientRuntime.Date?
+        /// The time when the registration was in the discarded state, in [UNIX epoch time](https://www.epochconverter.com/) format.
+        public var discardedTimestamp: ClientRuntime.Date?
+        /// The time when the registration was in the draft state, in [UNIX epoch time](https://www.epochconverter.com/) format.
+        /// This member is required.
+        public var draftTimestamp: ClientRuntime.Date?
+        /// The time when the registration was in the reviewing state, in [UNIX epoch time](https://www.epochconverter.com/) format.
+        public var reviewingTimestamp: ClientRuntime.Date?
+        /// The time when the registration was in the revoked state, in [UNIX epoch time](https://www.epochconverter.com/) format.
+        public var revokedTimestamp: ClientRuntime.Date?
+        /// The time when the registration was in the submitted state, in [UNIX epoch time](https://www.epochconverter.com/) format.
+        public var submittedTimestamp: ClientRuntime.Date?
+
+        public init(
+            approvedTimestamp: ClientRuntime.Date? = nil,
+            archivedTimestamp: ClientRuntime.Date? = nil,
+            deniedTimestamp: ClientRuntime.Date? = nil,
+            discardedTimestamp: ClientRuntime.Date? = nil,
+            draftTimestamp: ClientRuntime.Date? = nil,
+            reviewingTimestamp: ClientRuntime.Date? = nil,
+            revokedTimestamp: ClientRuntime.Date? = nil,
+            submittedTimestamp: ClientRuntime.Date? = nil
+        )
+        {
+            self.approvedTimestamp = approvedTimestamp
+            self.archivedTimestamp = archivedTimestamp
+            self.deniedTimestamp = deniedTimestamp
+            self.discardedTimestamp = discardedTimestamp
+            self.draftTimestamp = draftTimestamp
+            self.reviewingTimestamp = reviewingTimestamp
+            self.revokedTimestamp = revokedTimestamp
+            self.submittedTimestamp = submittedTimestamp
+        }
+    }
+
 }
 
 extension ReleasePhoneNumberInput: Swift.Encodable {
@@ -7331,27 +13344,11 @@ extension ReleasePhoneNumberInputBody: Swift.Decodable {
     }
 }
 
-public enum ReleasePhoneNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ReleasePhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ReleasePhoneNumberOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ReleasePhoneNumberOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ReleasePhoneNumberOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdTimestamp = output.createdTimestamp
             self.isoCountryCode = output.isoCountryCode
             self.messageType = output.messageType
@@ -7362,9 +13359,11 @@ extension ReleasePhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
             self.phoneNumber = output.phoneNumber
             self.phoneNumberArn = output.phoneNumberArn
             self.phoneNumberId = output.phoneNumberId
+            self.registrationId = output.registrationId
             self.selfManagedOptOutsEnabled = output.selfManagedOptOutsEnabled
             self.status = output.status
             self.twoWayChannelArn = output.twoWayChannelArn
+            self.twoWayChannelRole = output.twoWayChannelRole
             self.twoWayEnabled = output.twoWayEnabled
         } else {
             self.createdTimestamp = nil
@@ -7377,15 +13376,17 @@ extension ReleasePhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
             self.phoneNumber = nil
             self.phoneNumberArn = nil
             self.phoneNumberId = nil
+            self.registrationId = nil
             self.selfManagedOptOutsEnabled = false
             self.status = nil
             self.twoWayChannelArn = nil
+            self.twoWayChannelRole = nil
             self.twoWayEnabled = false
         }
     }
 }
 
-public struct ReleasePhoneNumberOutputResponse: Swift.Equatable {
+public struct ReleasePhoneNumberOutput: Swift.Equatable {
     /// The time when the phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: ClientRuntime.Date?
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
@@ -7406,12 +13407,16 @@ public struct ReleasePhoneNumberOutputResponse: Swift.Equatable {
     public var phoneNumberArn: Swift.String?
     /// The PhoneNumberId of the phone number that was released.
     public var phoneNumberId: Swift.String?
+    /// The unique identifier for the registration.
+    public var registrationId: Swift.String?
     /// By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, Amazon Pinpoint automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
     public var selfManagedOptOutsEnabled: Swift.Bool
     /// The current status of the request.
     public var status: PinpointSMSVoiceV2ClientTypes.NumberStatus?
     /// The Amazon Resource Name (ARN) of the TwoWayChannel.
     public var twoWayChannelArn: Swift.String?
+    /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+    public var twoWayChannelRole: Swift.String?
     /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
     public var twoWayEnabled: Swift.Bool
 
@@ -7426,9 +13431,11 @@ public struct ReleasePhoneNumberOutputResponse: Swift.Equatable {
         phoneNumber: Swift.String? = nil,
         phoneNumberArn: Swift.String? = nil,
         phoneNumberId: Swift.String? = nil,
+        registrationId: Swift.String? = nil,
         selfManagedOptOutsEnabled: Swift.Bool = false,
         status: PinpointSMSVoiceV2ClientTypes.NumberStatus? = nil,
         twoWayChannelArn: Swift.String? = nil,
+        twoWayChannelRole: Swift.String? = nil,
         twoWayEnabled: Swift.Bool = false
     )
     {
@@ -7442,14 +13449,16 @@ public struct ReleasePhoneNumberOutputResponse: Swift.Equatable {
         self.phoneNumber = phoneNumber
         self.phoneNumberArn = phoneNumberArn
         self.phoneNumberId = phoneNumberId
+        self.registrationId = registrationId
         self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
         self.status = status
         self.twoWayChannelArn = twoWayChannelArn
+        self.twoWayChannelRole = twoWayChannelRole
         self.twoWayEnabled = twoWayEnabled
     }
 }
 
-struct ReleasePhoneNumberOutputResponseBody: Swift.Equatable {
+struct ReleasePhoneNumberOutputBody: Swift.Equatable {
     let phoneNumberArn: Swift.String?
     let phoneNumberId: Swift.String?
     let phoneNumber: Swift.String?
@@ -7461,12 +13470,14 @@ struct ReleasePhoneNumberOutputResponseBody: Swift.Equatable {
     let monthlyLeasingPrice: Swift.String?
     let twoWayEnabled: Swift.Bool
     let twoWayChannelArn: Swift.String?
+    let twoWayChannelRole: Swift.String?
     let selfManagedOptOutsEnabled: Swift.Bool
     let optOutListName: Swift.String?
+    let registrationId: Swift.String?
     let createdTimestamp: ClientRuntime.Date?
 }
 
-extension ReleasePhoneNumberOutputResponseBody: Swift.Decodable {
+extension ReleasePhoneNumberOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdTimestamp = "CreatedTimestamp"
         case isoCountryCode = "IsoCountryCode"
@@ -7478,9 +13489,11 @@ extension ReleasePhoneNumberOutputResponseBody: Swift.Decodable {
         case phoneNumber = "PhoneNumber"
         case phoneNumberArn = "PhoneNumberArn"
         case phoneNumberId = "PhoneNumberId"
+        case registrationId = "RegistrationId"
         case selfManagedOptOutsEnabled = "SelfManagedOptOutsEnabled"
         case status = "Status"
         case twoWayChannelArn = "TwoWayChannelArn"
+        case twoWayChannelRole = "TwoWayChannelRole"
         case twoWayEnabled = "TwoWayEnabled"
     }
 
@@ -7517,12 +13530,224 @@ extension ReleasePhoneNumberOutputResponseBody: Swift.Decodable {
         twoWayEnabled = twoWayEnabledDecoded
         let twoWayChannelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .twoWayChannelArn)
         twoWayChannelArn = twoWayChannelArnDecoded
+        let twoWayChannelRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .twoWayChannelRole)
+        twoWayChannelRole = twoWayChannelRoleDecoded
         let selfManagedOptOutsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .selfManagedOptOutsEnabled) ?? false
         selfManagedOptOutsEnabled = selfManagedOptOutsEnabledDecoded
         let optOutListNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .optOutListName)
         optOutListName = optOutListNameDecoded
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
         let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
         createdTimestamp = createdTimestampDecoded
+    }
+}
+
+enum ReleasePhoneNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ReleaseSenderIdInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case isoCountryCode = "IsoCountryCode"
+        case senderId = "SenderId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let isoCountryCode = self.isoCountryCode {
+            try encodeContainer.encode(isoCountryCode, forKey: .isoCountryCode)
+        }
+        if let senderId = self.senderId {
+            try encodeContainer.encode(senderId, forKey: .senderId)
+        }
+    }
+}
+
+extension ReleaseSenderIdInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ReleaseSenderIdInput: Swift.Equatable {
+    /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+    /// This member is required.
+    public var isoCountryCode: Swift.String?
+    /// The sender ID to release.
+    /// This member is required.
+    public var senderId: Swift.String?
+
+    public init(
+        isoCountryCode: Swift.String? = nil,
+        senderId: Swift.String? = nil
+    )
+    {
+        self.isoCountryCode = isoCountryCode
+        self.senderId = senderId
+    }
+}
+
+struct ReleaseSenderIdInputBody: Swift.Equatable {
+    let senderId: Swift.String?
+    let isoCountryCode: Swift.String?
+}
+
+extension ReleaseSenderIdInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case isoCountryCode = "IsoCountryCode"
+        case senderId = "SenderId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let senderIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .senderId)
+        senderId = senderIdDecoded
+        let isoCountryCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .isoCountryCode)
+        isoCountryCode = isoCountryCodeDecoded
+    }
+}
+
+extension ReleaseSenderIdOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ReleaseSenderIdOutputBody = try responseDecoder.decode(responseBody: data)
+            self.isoCountryCode = output.isoCountryCode
+            self.messageTypes = output.messageTypes
+            self.monthlyLeasingPrice = output.monthlyLeasingPrice
+            self.registered = output.registered
+            self.registrationId = output.registrationId
+            self.senderId = output.senderId
+            self.senderIdArn = output.senderIdArn
+        } else {
+            self.isoCountryCode = nil
+            self.messageTypes = nil
+            self.monthlyLeasingPrice = nil
+            self.registered = false
+            self.registrationId = nil
+            self.senderId = nil
+            self.senderIdArn = nil
+        }
+    }
+}
+
+public struct ReleaseSenderIdOutput: Swift.Equatable {
+    /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+    /// This member is required.
+    public var isoCountryCode: Swift.String?
+    /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
+    /// This member is required.
+    public var messageTypes: [PinpointSMSVoiceV2ClientTypes.MessageType]?
+    /// The monthly price, in US dollars, to lease the sender ID.
+    /// This member is required.
+    public var monthlyLeasingPrice: Swift.String?
+    /// True if the sender ID is registered.
+    /// This member is required.
+    public var registered: Swift.Bool
+    /// The unique identifier for the registration.
+    public var registrationId: Swift.String?
+    /// The sender ID that was released.
+    /// This member is required.
+    public var senderId: Swift.String?
+    /// The Amazon Resource Name (ARN) associated with the SenderId.
+    /// This member is required.
+    public var senderIdArn: Swift.String?
+
+    public init(
+        isoCountryCode: Swift.String? = nil,
+        messageTypes: [PinpointSMSVoiceV2ClientTypes.MessageType]? = nil,
+        monthlyLeasingPrice: Swift.String? = nil,
+        registered: Swift.Bool = false,
+        registrationId: Swift.String? = nil,
+        senderId: Swift.String? = nil,
+        senderIdArn: Swift.String? = nil
+    )
+    {
+        self.isoCountryCode = isoCountryCode
+        self.messageTypes = messageTypes
+        self.monthlyLeasingPrice = monthlyLeasingPrice
+        self.registered = registered
+        self.registrationId = registrationId
+        self.senderId = senderId
+        self.senderIdArn = senderIdArn
+    }
+}
+
+struct ReleaseSenderIdOutputBody: Swift.Equatable {
+    let senderIdArn: Swift.String?
+    let senderId: Swift.String?
+    let isoCountryCode: Swift.String?
+    let messageTypes: [PinpointSMSVoiceV2ClientTypes.MessageType]?
+    let monthlyLeasingPrice: Swift.String?
+    let registered: Swift.Bool
+    let registrationId: Swift.String?
+}
+
+extension ReleaseSenderIdOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case isoCountryCode = "IsoCountryCode"
+        case messageTypes = "MessageTypes"
+        case monthlyLeasingPrice = "MonthlyLeasingPrice"
+        case registered = "Registered"
+        case registrationId = "RegistrationId"
+        case senderId = "SenderId"
+        case senderIdArn = "SenderIdArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let senderIdArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .senderIdArn)
+        senderIdArn = senderIdArnDecoded
+        let senderIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .senderId)
+        senderId = senderIdDecoded
+        let isoCountryCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .isoCountryCode)
+        isoCountryCode = isoCountryCodeDecoded
+        let messageTypesContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.MessageType?].self, forKey: .messageTypes)
+        var messageTypesDecoded0:[PinpointSMSVoiceV2ClientTypes.MessageType]? = nil
+        if let messageTypesContainer = messageTypesContainer {
+            messageTypesDecoded0 = [PinpointSMSVoiceV2ClientTypes.MessageType]()
+            for string0 in messageTypesContainer {
+                if let string0 = string0 {
+                    messageTypesDecoded0?.append(string0)
+                }
+            }
+        }
+        messageTypes = messageTypesDecoded0
+        let monthlyLeasingPriceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .monthlyLeasingPrice)
+        monthlyLeasingPrice = monthlyLeasingPriceDecoded
+        let registeredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .registered) ?? false
+        registered = registeredDecoded
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
+    }
+}
+
+enum ReleaseSenderIdOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7604,7 +13829,7 @@ public struct RequestPhoneNumberInput: Swift.Equatable {
     /// The type of phone number to request.
     /// This member is required.
     public var numberType: PinpointSMSVoiceV2ClientTypes.RequestableNumberType?
-    /// The name of the OptOutList to associate with the phone number. You can use the OutOutListName or OptPutListArn.
+    /// The name of the OptOutList to associate with the phone number. You can use the OptOutListName or OptOutListArn.
     public var optOutListName: Swift.String?
     /// The pool to associated with the phone number. You can use the PoolId or PoolArn.
     public var poolId: Swift.String?
@@ -7709,28 +13934,11 @@ extension RequestPhoneNumberInputBody: Swift.Decodable {
     }
 }
 
-public enum RequestPhoneNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension RequestPhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RequestPhoneNumberOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RequestPhoneNumberOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RequestPhoneNumberOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdTimestamp = output.createdTimestamp
             self.deletionProtectionEnabled = output.deletionProtectionEnabled
             self.isoCountryCode = output.isoCountryCode
@@ -7743,10 +13951,12 @@ extension RequestPhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
             self.phoneNumberArn = output.phoneNumberArn
             self.phoneNumberId = output.phoneNumberId
             self.poolId = output.poolId
+            self.registrationId = output.registrationId
             self.selfManagedOptOutsEnabled = output.selfManagedOptOutsEnabled
             self.status = output.status
             self.tags = output.tags
             self.twoWayChannelArn = output.twoWayChannelArn
+            self.twoWayChannelRole = output.twoWayChannelRole
             self.twoWayEnabled = output.twoWayEnabled
         } else {
             self.createdTimestamp = nil
@@ -7761,16 +13971,18 @@ extension RequestPhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
             self.phoneNumberArn = nil
             self.phoneNumberId = nil
             self.poolId = nil
+            self.registrationId = nil
             self.selfManagedOptOutsEnabled = false
             self.status = nil
             self.tags = nil
             self.twoWayChannelArn = nil
+            self.twoWayChannelRole = nil
             self.twoWayEnabled = false
         }
     }
 }
 
-public struct RequestPhoneNumberOutputResponse: Swift.Equatable {
+public struct RequestPhoneNumberOutput: Swift.Equatable {
     /// The time when the phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: ClientRuntime.Date?
     /// By default this is set to false. When set to true the phone number can't be deleted.
@@ -7795,6 +14007,8 @@ public struct RequestPhoneNumberOutputResponse: Swift.Equatable {
     public var phoneNumberId: Swift.String?
     /// The unique identifier of the pool associated with the phone number
     public var poolId: Swift.String?
+    /// The unique identifier for the registration.
+    public var registrationId: Swift.String?
     /// By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, Amazon Pinpoint automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
     public var selfManagedOptOutsEnabled: Swift.Bool
     /// The current status of the request.
@@ -7803,6 +14017,8 @@ public struct RequestPhoneNumberOutputResponse: Swift.Equatable {
     public var tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
     /// The ARN used to identify the two way channel.
     public var twoWayChannelArn: Swift.String?
+    /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+    public var twoWayChannelRole: Swift.String?
     /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
     public var twoWayEnabled: Swift.Bool
 
@@ -7819,10 +14035,12 @@ public struct RequestPhoneNumberOutputResponse: Swift.Equatable {
         phoneNumberArn: Swift.String? = nil,
         phoneNumberId: Swift.String? = nil,
         poolId: Swift.String? = nil,
+        registrationId: Swift.String? = nil,
         selfManagedOptOutsEnabled: Swift.Bool = false,
         status: PinpointSMSVoiceV2ClientTypes.NumberStatus? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil,
         twoWayChannelArn: Swift.String? = nil,
+        twoWayChannelRole: Swift.String? = nil,
         twoWayEnabled: Swift.Bool = false
     )
     {
@@ -7838,15 +14056,17 @@ public struct RequestPhoneNumberOutputResponse: Swift.Equatable {
         self.phoneNumberArn = phoneNumberArn
         self.phoneNumberId = phoneNumberId
         self.poolId = poolId
+        self.registrationId = registrationId
         self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
         self.status = status
         self.tags = tags
         self.twoWayChannelArn = twoWayChannelArn
+        self.twoWayChannelRole = twoWayChannelRole
         self.twoWayEnabled = twoWayEnabled
     }
 }
 
-struct RequestPhoneNumberOutputResponseBody: Swift.Equatable {
+struct RequestPhoneNumberOutputBody: Swift.Equatable {
     let phoneNumberArn: Swift.String?
     let phoneNumberId: Swift.String?
     let phoneNumber: Swift.String?
@@ -7858,15 +14078,17 @@ struct RequestPhoneNumberOutputResponseBody: Swift.Equatable {
     let monthlyLeasingPrice: Swift.String?
     let twoWayEnabled: Swift.Bool
     let twoWayChannelArn: Swift.String?
+    let twoWayChannelRole: Swift.String?
     let selfManagedOptOutsEnabled: Swift.Bool
     let optOutListName: Swift.String?
     let deletionProtectionEnabled: Swift.Bool
     let poolId: Swift.String?
+    let registrationId: Swift.String?
     let tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
     let createdTimestamp: ClientRuntime.Date?
 }
 
-extension RequestPhoneNumberOutputResponseBody: Swift.Decodable {
+extension RequestPhoneNumberOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdTimestamp = "CreatedTimestamp"
         case deletionProtectionEnabled = "DeletionProtectionEnabled"
@@ -7880,10 +14102,12 @@ extension RequestPhoneNumberOutputResponseBody: Swift.Decodable {
         case phoneNumberArn = "PhoneNumberArn"
         case phoneNumberId = "PhoneNumberId"
         case poolId = "PoolId"
+        case registrationId = "RegistrationId"
         case selfManagedOptOutsEnabled = "SelfManagedOptOutsEnabled"
         case status = "Status"
         case tags = "Tags"
         case twoWayChannelArn = "TwoWayChannelArn"
+        case twoWayChannelRole = "TwoWayChannelRole"
         case twoWayEnabled = "TwoWayEnabled"
     }
 
@@ -7920,6 +14144,8 @@ extension RequestPhoneNumberOutputResponseBody: Swift.Decodable {
         twoWayEnabled = twoWayEnabledDecoded
         let twoWayChannelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .twoWayChannelArn)
         twoWayChannelArn = twoWayChannelArnDecoded
+        let twoWayChannelRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .twoWayChannelRole)
+        twoWayChannelRole = twoWayChannelRoleDecoded
         let selfManagedOptOutsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .selfManagedOptOutsEnabled) ?? false
         selfManagedOptOutsEnabled = selfManagedOptOutsEnabledDecoded
         let optOutListNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .optOutListName)
@@ -7928,6 +14154,8 @@ extension RequestPhoneNumberOutputResponseBody: Swift.Decodable {
         deletionProtectionEnabled = deletionProtectionEnabledDecoded
         let poolIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .poolId)
         poolId = poolIdDecoded
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
         let tagsContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[PinpointSMSVoiceV2ClientTypes.Tag]? = nil
         if let tagsContainer = tagsContainer {
@@ -7944,9 +14172,311 @@ extension RequestPhoneNumberOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum RequestPhoneNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension RequestSenderIdInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case deletionProtectionEnabled = "DeletionProtectionEnabled"
+        case isoCountryCode = "IsoCountryCode"
+        case messageTypes = "MessageTypes"
+        case senderId = "SenderId"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let deletionProtectionEnabled = self.deletionProtectionEnabled {
+            try encodeContainer.encode(deletionProtectionEnabled, forKey: .deletionProtectionEnabled)
+        }
+        if let isoCountryCode = self.isoCountryCode {
+            try encodeContainer.encode(isoCountryCode, forKey: .isoCountryCode)
+        }
+        if let messageTypes = messageTypes {
+            var messageTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .messageTypes)
+            for messagetype0 in messageTypes {
+                try messageTypesContainer.encode(messagetype0.rawValue)
+            }
+        }
+        if let senderId = self.senderId {
+            try encodeContainer.encode(senderId, forKey: .senderId)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension RequestSenderIdInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct RequestSenderIdInput: Swift.Equatable {
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// By default this is set to false. When set to true the sender ID can't be deleted.
+    public var deletionProtectionEnabled: Swift.Bool?
+    /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+    /// This member is required.
+    public var isoCountryCode: Swift.String?
+    /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
+    public var messageTypes: [PinpointSMSVoiceV2ClientTypes.MessageType]?
+    /// The sender ID string to request.
+    /// This member is required.
+    public var senderId: Swift.String?
+    /// An array of tags (key and value pairs) to associate with the sender ID.
+    public var tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        deletionProtectionEnabled: Swift.Bool? = nil,
+        isoCountryCode: Swift.String? = nil,
+        messageTypes: [PinpointSMSVoiceV2ClientTypes.MessageType]? = nil,
+        senderId: Swift.String? = nil,
+        tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.isoCountryCode = isoCountryCode
+        self.messageTypes = messageTypes
+        self.senderId = senderId
+        self.tags = tags
+    }
+}
+
+struct RequestSenderIdInputBody: Swift.Equatable {
+    let senderId: Swift.String?
+    let isoCountryCode: Swift.String?
+    let messageTypes: [PinpointSMSVoiceV2ClientTypes.MessageType]?
+    let deletionProtectionEnabled: Swift.Bool?
+    let tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
+    let clientToken: Swift.String?
+}
+
+extension RequestSenderIdInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case deletionProtectionEnabled = "DeletionProtectionEnabled"
+        case isoCountryCode = "IsoCountryCode"
+        case messageTypes = "MessageTypes"
+        case senderId = "SenderId"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let senderIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .senderId)
+        senderId = senderIdDecoded
+        let isoCountryCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .isoCountryCode)
+        isoCountryCode = isoCountryCodeDecoded
+        let messageTypesContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.MessageType?].self, forKey: .messageTypes)
+        var messageTypesDecoded0:[PinpointSMSVoiceV2ClientTypes.MessageType]? = nil
+        if let messageTypesContainer = messageTypesContainer {
+            messageTypesDecoded0 = [PinpointSMSVoiceV2ClientTypes.MessageType]()
+            for string0 in messageTypesContainer {
+                if let string0 = string0 {
+                    messageTypesDecoded0?.append(string0)
+                }
+            }
+        }
+        messageTypes = messageTypesDecoded0
+        let deletionProtectionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtectionEnabled)
+        deletionProtectionEnabled = deletionProtectionEnabledDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[PinpointSMSVoiceV2ClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [PinpointSMSVoiceV2ClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension RequestSenderIdOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RequestSenderIdOutputBody = try responseDecoder.decode(responseBody: data)
+            self.deletionProtectionEnabled = output.deletionProtectionEnabled
+            self.isoCountryCode = output.isoCountryCode
+            self.messageTypes = output.messageTypes
+            self.monthlyLeasingPrice = output.monthlyLeasingPrice
+            self.registered = output.registered
+            self.senderId = output.senderId
+            self.senderIdArn = output.senderIdArn
+            self.tags = output.tags
+        } else {
+            self.deletionProtectionEnabled = false
+            self.isoCountryCode = nil
+            self.messageTypes = nil
+            self.monthlyLeasingPrice = nil
+            self.registered = false
+            self.senderId = nil
+            self.senderIdArn = nil
+            self.tags = nil
+        }
+    }
+}
+
+public struct RequestSenderIdOutput: Swift.Equatable {
+    /// By default this is set to false. When set to true the sender ID can't be deleted.
+    /// This member is required.
+    public var deletionProtectionEnabled: Swift.Bool
+    /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+    /// This member is required.
+    public var isoCountryCode: Swift.String?
+    /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
+    /// This member is required.
+    public var messageTypes: [PinpointSMSVoiceV2ClientTypes.MessageType]?
+    /// The monthly price, in US dollars, to lease the sender ID.
+    /// This member is required.
+    public var monthlyLeasingPrice: Swift.String?
+    /// True if the sender ID is registered.
+    /// This member is required.
+    public var registered: Swift.Bool
+    /// The sender ID that was requested.
+    /// This member is required.
+    public var senderId: Swift.String?
+    /// The Amazon Resource Name (ARN) associated with the SenderId.
+    /// This member is required.
+    public var senderIdArn: Swift.String?
+    /// An array of tags (key and value pairs) to associate with the sender ID.
+    public var tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
+
+    public init(
+        deletionProtectionEnabled: Swift.Bool = false,
+        isoCountryCode: Swift.String? = nil,
+        messageTypes: [PinpointSMSVoiceV2ClientTypes.MessageType]? = nil,
+        monthlyLeasingPrice: Swift.String? = nil,
+        registered: Swift.Bool = false,
+        senderId: Swift.String? = nil,
+        senderIdArn: Swift.String? = nil,
+        tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
+    )
+    {
+        self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.isoCountryCode = isoCountryCode
+        self.messageTypes = messageTypes
+        self.monthlyLeasingPrice = monthlyLeasingPrice
+        self.registered = registered
+        self.senderId = senderId
+        self.senderIdArn = senderIdArn
+        self.tags = tags
+    }
+}
+
+struct RequestSenderIdOutputBody: Swift.Equatable {
+    let senderIdArn: Swift.String?
+    let senderId: Swift.String?
+    let isoCountryCode: Swift.String?
+    let messageTypes: [PinpointSMSVoiceV2ClientTypes.MessageType]?
+    let monthlyLeasingPrice: Swift.String?
+    let deletionProtectionEnabled: Swift.Bool
+    let registered: Swift.Bool
+    let tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
+}
+
+extension RequestSenderIdOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deletionProtectionEnabled = "DeletionProtectionEnabled"
+        case isoCountryCode = "IsoCountryCode"
+        case messageTypes = "MessageTypes"
+        case monthlyLeasingPrice = "MonthlyLeasingPrice"
+        case registered = "Registered"
+        case senderId = "SenderId"
+        case senderIdArn = "SenderIdArn"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let senderIdArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .senderIdArn)
+        senderIdArn = senderIdArnDecoded
+        let senderIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .senderId)
+        senderId = senderIdDecoded
+        let isoCountryCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .isoCountryCode)
+        isoCountryCode = isoCountryCodeDecoded
+        let messageTypesContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.MessageType?].self, forKey: .messageTypes)
+        var messageTypesDecoded0:[PinpointSMSVoiceV2ClientTypes.MessageType]? = nil
+        if let messageTypesContainer = messageTypesContainer {
+            messageTypesDecoded0 = [PinpointSMSVoiceV2ClientTypes.MessageType]()
+            for string0 in messageTypesContainer {
+                if let string0 = string0 {
+                    messageTypesDecoded0?.append(string0)
+                }
+            }
+        }
+        messageTypes = messageTypesDecoded0
+        let monthlyLeasingPriceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .monthlyLeasingPrice)
+        monthlyLeasingPrice = monthlyLeasingPriceDecoded
+        let deletionProtectionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtectionEnabled) ?? false
+        deletionProtectionEnabled = deletionProtectionEnabledDecoded
+        let registeredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .registered) ?? false
+        registered = registeredDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[PinpointSMSVoiceV2ClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [PinpointSMSVoiceV2ClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum RequestSenderIdOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension PinpointSMSVoiceV2ClientTypes {
     public enum RequestableNumberType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case longCode
+        case simulator
         case tenDlc
         case tollFree
         case sdkUnknown(Swift.String)
@@ -7954,6 +14484,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public static var allCases: [RequestableNumberType] {
             return [
                 .longCode,
+                .simulator,
                 .tenDlc,
                 .tollFree,
                 .sdkUnknown("")
@@ -7966,6 +14497,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .longCode: return "LONG_CODE"
+            case .simulator: return "SIMULATOR"
             case .tenDlc: return "TEN_DLC"
             case .tollFree: return "TOLL_FREE"
             case let .sdkUnknown(s): return s
@@ -8065,7 +14597,9 @@ extension PinpointSMSVoiceV2ClientTypes {
         case phoneNumber
         case pool
         case registration
+        case registrationAttachment
         case senderId
+        case verifiedDestinationNumber
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceType] {
@@ -8079,7 +14613,9 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .phoneNumber,
                 .pool,
                 .registration,
+                .registrationAttachment,
                 .senderId,
+                .verifiedDestinationNumber,
                 .sdkUnknown("")
             ]
         }
@@ -8098,7 +14634,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             case .phoneNumber: return "phone-number"
             case .pool: return "pool"
             case .registration: return "registration"
+            case .registrationAttachment: return "registration-attachment"
             case .senderId: return "sender-id"
+            case .verifiedDestinationNumber: return "verified-destination-number"
             case let .sdkUnknown(s): return s
             }
         }
@@ -8106,6 +14644,335 @@ extension PinpointSMSVoiceV2ClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ResourceType(rawValue: rawValue) ?? ResourceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes.SelectOptionDescription: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case option = "Option"
+        case title = "Title"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let option = self.option {
+            try encodeContainer.encode(option, forKey: .option)
+        }
+        if let title = self.title {
+            try encodeContainer.encode(title, forKey: .title)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let optionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .option)
+        option = optionDecoded
+        let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
+        title = titleDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    /// A description of each select option.
+    public struct SelectOptionDescription: Swift.Equatable {
+        /// A description of the option meaning.
+        public var description: Swift.String?
+        /// The value of the option.
+        /// This member is required.
+        public var option: Swift.String?
+        /// The title of the select option.
+        public var title: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            option: Swift.String? = nil,
+            title: Swift.String? = nil
+        )
+        {
+            self.description = description
+            self.option = option
+            self.title = title
+        }
+    }
+
+}
+
+extension PinpointSMSVoiceV2ClientTypes.SelectValidation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxChoices = "MaxChoices"
+        case minChoices = "MinChoices"
+        case options = "Options"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxChoices = self.maxChoices {
+            try encodeContainer.encode(maxChoices, forKey: .maxChoices)
+        }
+        if let minChoices = self.minChoices {
+            try encodeContainer.encode(minChoices, forKey: .minChoices)
+        }
+        if let options = options {
+            var optionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .options)
+            for string0 in options {
+                try optionsContainer.encode(string0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let minChoicesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minChoices)
+        minChoices = minChoicesDecoded
+        let maxChoicesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxChoices)
+        maxChoices = maxChoicesDecoded
+        let optionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .options)
+        var optionsDecoded0:[Swift.String]? = nil
+        if let optionsContainer = optionsContainer {
+            optionsDecoded0 = [Swift.String]()
+            for string0 in optionsContainer {
+                if let string0 = string0 {
+                    optionsDecoded0?.append(string0)
+                }
+            }
+        }
+        options = optionsDecoded0
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    /// Validation rules for a select field.
+    public struct SelectValidation: Swift.Equatable {
+        /// The maximum number of choices for the select.
+        /// This member is required.
+        public var maxChoices: Swift.Int?
+        /// The minimum number of choices for the select.
+        /// This member is required.
+        public var minChoices: Swift.Int?
+        /// An array of strings for the possible selection options.
+        /// This member is required.
+        public var options: [Swift.String]?
+
+        public init(
+            maxChoices: Swift.Int? = nil,
+            minChoices: Swift.Int? = nil,
+            options: [Swift.String]? = nil
+        )
+        {
+            self.maxChoices = maxChoices
+            self.minChoices = minChoices
+            self.options = options
+        }
+    }
+
+}
+
+extension SendDestinationNumberVerificationCodeInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationSetName = "ConfigurationSetName"
+        case context = "Context"
+        case destinationCountryParameters = "DestinationCountryParameters"
+        case languageCode = "LanguageCode"
+        case originationIdentity = "OriginationIdentity"
+        case verificationChannel = "VerificationChannel"
+        case verifiedDestinationNumberId = "VerifiedDestinationNumberId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configurationSetName = self.configurationSetName {
+            try encodeContainer.encode(configurationSetName, forKey: .configurationSetName)
+        }
+        if let context = context {
+            var contextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .context)
+            for (dictKey0, contextMap0) in context {
+                try contextContainer.encode(contextMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let destinationCountryParameters = destinationCountryParameters {
+            var destinationCountryParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .destinationCountryParameters)
+            for (dictKey0, destinationCountryParameters0) in destinationCountryParameters {
+                try destinationCountryParametersContainer.encode(destinationCountryParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let languageCode = self.languageCode {
+            try encodeContainer.encode(languageCode.rawValue, forKey: .languageCode)
+        }
+        if let originationIdentity = self.originationIdentity {
+            try encodeContainer.encode(originationIdentity, forKey: .originationIdentity)
+        }
+        if let verificationChannel = self.verificationChannel {
+            try encodeContainer.encode(verificationChannel.rawValue, forKey: .verificationChannel)
+        }
+        if let verifiedDestinationNumberId = self.verifiedDestinationNumberId {
+            try encodeContainer.encode(verifiedDestinationNumberId, forKey: .verifiedDestinationNumberId)
+        }
+    }
+}
+
+extension SendDestinationNumberVerificationCodeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct SendDestinationNumberVerificationCodeInput: Swift.Equatable {
+    /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
+    public var configurationSetName: Swift.String?
+    /// You can specify custom data in this field. If you do, that data is logged to the event destination.
+    public var context: [Swift.String:Swift.String]?
+    /// This field is used for any country-specific registration requirements. Currently, this setting is only used when you send messages to recipients in India using a sender ID. For more information see [Special requirements for sending SMS messages to recipients in India](https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-sms-senderid-india.html).
+    public var destinationCountryParameters: [Swift.String:Swift.String]?
+    /// Choose the language to use for the message.
+    public var languageCode: PinpointSMSVoiceV2ClientTypes.LanguageCode?
+    /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.
+    public var originationIdentity: Swift.String?
+    /// Choose to send the verification code as an SMS or voice message.
+    /// This member is required.
+    public var verificationChannel: PinpointSMSVoiceV2ClientTypes.VerificationChannel?
+    /// The unique identifier for the verified destination phone number.
+    /// This member is required.
+    public var verifiedDestinationNumberId: Swift.String?
+
+    public init(
+        configurationSetName: Swift.String? = nil,
+        context: [Swift.String:Swift.String]? = nil,
+        destinationCountryParameters: [Swift.String:Swift.String]? = nil,
+        languageCode: PinpointSMSVoiceV2ClientTypes.LanguageCode? = nil,
+        originationIdentity: Swift.String? = nil,
+        verificationChannel: PinpointSMSVoiceV2ClientTypes.VerificationChannel? = nil,
+        verifiedDestinationNumberId: Swift.String? = nil
+    )
+    {
+        self.configurationSetName = configurationSetName
+        self.context = context
+        self.destinationCountryParameters = destinationCountryParameters
+        self.languageCode = languageCode
+        self.originationIdentity = originationIdentity
+        self.verificationChannel = verificationChannel
+        self.verifiedDestinationNumberId = verifiedDestinationNumberId
+    }
+}
+
+struct SendDestinationNumberVerificationCodeInputBody: Swift.Equatable {
+    let verifiedDestinationNumberId: Swift.String?
+    let verificationChannel: PinpointSMSVoiceV2ClientTypes.VerificationChannel?
+    let languageCode: PinpointSMSVoiceV2ClientTypes.LanguageCode?
+    let originationIdentity: Swift.String?
+    let configurationSetName: Swift.String?
+    let context: [Swift.String:Swift.String]?
+    let destinationCountryParameters: [Swift.String:Swift.String]?
+}
+
+extension SendDestinationNumberVerificationCodeInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationSetName = "ConfigurationSetName"
+        case context = "Context"
+        case destinationCountryParameters = "DestinationCountryParameters"
+        case languageCode = "LanguageCode"
+        case originationIdentity = "OriginationIdentity"
+        case verificationChannel = "VerificationChannel"
+        case verifiedDestinationNumberId = "VerifiedDestinationNumberId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let verifiedDestinationNumberIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .verifiedDestinationNumberId)
+        verifiedDestinationNumberId = verifiedDestinationNumberIdDecoded
+        let verificationChannelDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.VerificationChannel.self, forKey: .verificationChannel)
+        verificationChannel = verificationChannelDecoded
+        let languageCodeDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.LanguageCode.self, forKey: .languageCode)
+        languageCode = languageCodeDecoded
+        let originationIdentityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .originationIdentity)
+        originationIdentity = originationIdentityDecoded
+        let configurationSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationSetName)
+        configurationSetName = configurationSetNameDecoded
+        let contextContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .context)
+        var contextDecoded0: [Swift.String:Swift.String]? = nil
+        if let contextContainer = contextContainer {
+            contextDecoded0 = [Swift.String:Swift.String]()
+            for (key0, contextvalue0) in contextContainer {
+                if let contextvalue0 = contextvalue0 {
+                    contextDecoded0?[key0] = contextvalue0
+                }
+            }
+        }
+        context = contextDecoded0
+        let destinationCountryParametersContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .destinationCountryParameters)
+        var destinationCountryParametersDecoded0: [Swift.String:Swift.String]? = nil
+        if let destinationCountryParametersContainer = destinationCountryParametersContainer {
+            destinationCountryParametersDecoded0 = [Swift.String:Swift.String]()
+            for (key0, destinationcountryparametervalue0) in destinationCountryParametersContainer {
+                if let destinationcountryparametervalue0 = destinationcountryparametervalue0 {
+                    destinationCountryParametersDecoded0?[key0] = destinationcountryparametervalue0
+                }
+            }
+        }
+        destinationCountryParameters = destinationCountryParametersDecoded0
+    }
+}
+
+extension SendDestinationNumberVerificationCodeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: SendDestinationNumberVerificationCodeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.messageId = output.messageId
+        } else {
+            self.messageId = nil
+        }
+    }
+}
+
+public struct SendDestinationNumberVerificationCodeOutput: Swift.Equatable {
+    /// The unique identifier for the message.
+    /// This member is required.
+    public var messageId: Swift.String?
+
+    public init(
+        messageId: Swift.String? = nil
+    )
+    {
+        self.messageId = messageId
+    }
+}
+
+struct SendDestinationNumberVerificationCodeOutputBody: Swift.Equatable {
+    let messageId: Swift.String?
+}
+
+extension SendDestinationNumberVerificationCodeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case messageId = "MessageId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageId)
+        messageId = messageIdDecoded
+    }
+}
+
+enum SendDestinationNumberVerificationCodeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
@@ -8145,7 +15012,7 @@ extension SendTextMessageInput: Swift.Encodable {
         if let destinationPhoneNumber = self.destinationPhoneNumber {
             try encodeContainer.encode(destinationPhoneNumber, forKey: .destinationPhoneNumber)
         }
-        if dryRun != false {
+        if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let keyword = self.keyword {
@@ -8186,14 +15053,14 @@ public struct SendTextMessageInput: Swift.Equatable {
     /// This member is required.
     public var destinationPhoneNumber: Swift.String?
     /// When set to true, the message is checked and validated, but isn't sent to the end recipient.
-    public var dryRun: Swift.Bool
+    public var dryRun: Swift.Bool?
     /// When you register a short code in the US, you must specify a program name. If you don’t have a US short code, omit this attribute.
     public var keyword: Swift.String?
     /// The maximum amount that you want to spend, in US dollars, per each text message part. A text message can contain multiple parts.
     public var maxPrice: Swift.String?
     /// The body of the text message.
     public var messageBody: Swift.String?
-    /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
+    /// The type of message. Valid values are for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
     public var messageType: PinpointSMSVoiceV2ClientTypes.MessageType?
     /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.
     public var originationIdentity: Swift.String?
@@ -8205,7 +15072,7 @@ public struct SendTextMessageInput: Swift.Equatable {
         context: [Swift.String:Swift.String]? = nil,
         destinationCountryParameters: [Swift.String:Swift.String]? = nil,
         destinationPhoneNumber: Swift.String? = nil,
-        dryRun: Swift.Bool = false,
+        dryRun: Swift.Bool? = nil,
         keyword: Swift.String? = nil,
         maxPrice: Swift.String? = nil,
         messageBody: Swift.String? = nil,
@@ -8239,7 +15106,7 @@ struct SendTextMessageInputBody: Swift.Equatable {
     let timeToLive: Swift.Int?
     let context: [Swift.String:Swift.String]?
     let destinationCountryParameters: [Swift.String:Swift.String]?
-    let dryRun: Swift.Bool
+    let dryRun: Swift.Bool?
 }
 
 extension SendTextMessageInputBody: Swift.Decodable {
@@ -8297,13 +15164,53 @@ extension SendTextMessageInputBody: Swift.Decodable {
             }
         }
         destinationCountryParameters = destinationCountryParametersDecoded0
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
     }
 }
 
-public enum SendTextMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension SendTextMessageOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: SendTextMessageOutputBody = try responseDecoder.decode(responseBody: data)
+            self.messageId = output.messageId
+        } else {
+            self.messageId = nil
+        }
+    }
+}
+
+public struct SendTextMessageOutput: Swift.Equatable {
+    /// The unique identifier for the message.
+    public var messageId: Swift.String?
+
+    public init(
+        messageId: Swift.String? = nil
+    )
+    {
+        self.messageId = messageId
+    }
+}
+
+struct SendTextMessageOutputBody: Swift.Equatable {
+    let messageId: Swift.String?
+}
+
+extension SendTextMessageOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case messageId = "MessageId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageId)
+        messageId = messageIdDecoded
+    }
+}
+
+enum SendTextMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8316,46 +15223,6 @@ public enum SendTextMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension SendTextMessageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: SendTextMessageOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.messageId = output.messageId
-        } else {
-            self.messageId = nil
-        }
-    }
-}
-
-public struct SendTextMessageOutputResponse: Swift.Equatable {
-    /// The unique identifier for the message.
-    public var messageId: Swift.String?
-
-    public init(
-        messageId: Swift.String? = nil
-    )
-    {
-        self.messageId = messageId
-    }
-}
-
-struct SendTextMessageOutputResponseBody: Swift.Equatable {
-    let messageId: Swift.String?
-}
-
-extension SendTextMessageOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case messageId = "MessageId"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageId)
-        messageId = messageIdDecoded
     }
 }
 
@@ -8387,7 +15254,7 @@ extension SendVoiceMessageInput: Swift.Encodable {
         if let destinationPhoneNumber = self.destinationPhoneNumber {
             try encodeContainer.encode(destinationPhoneNumber, forKey: .destinationPhoneNumber)
         }
-        if dryRun != false {
+        if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let maxPricePerMinute = self.maxPricePerMinute {
@@ -8426,7 +15293,7 @@ public struct SendVoiceMessageInput: Swift.Equatable {
     /// This member is required.
     public var destinationPhoneNumber: Swift.String?
     /// When set to true, the message is checked and validated, but isn't sent to the end recipient.
-    public var dryRun: Swift.Bool
+    public var dryRun: Swift.Bool?
     /// The maximum amount to spend per voice message, in US dollars.
     public var maxPricePerMinute: Swift.String?
     /// The text to convert to a voice message.
@@ -8449,7 +15316,7 @@ public struct SendVoiceMessageInput: Swift.Equatable {
         configurationSetName: Swift.String? = nil,
         context: [Swift.String:Swift.String]? = nil,
         destinationPhoneNumber: Swift.String? = nil,
-        dryRun: Swift.Bool = false,
+        dryRun: Swift.Bool? = nil,
         maxPricePerMinute: Swift.String? = nil,
         messageBody: Swift.String? = nil,
         messageBodyTextType: PinpointSMSVoiceV2ClientTypes.VoiceMessageBodyTextType? = nil,
@@ -8481,7 +15348,7 @@ struct SendVoiceMessageInputBody: Swift.Equatable {
     let maxPricePerMinute: Swift.String?
     let timeToLive: Swift.Int?
     let context: [Swift.String:Swift.String]?
-    let dryRun: Swift.Bool
+    let dryRun: Swift.Bool?
 }
 
 extension SendVoiceMessageInputBody: Swift.Decodable {
@@ -8527,13 +15394,53 @@ extension SendVoiceMessageInputBody: Swift.Decodable {
             }
         }
         context = contextDecoded0
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
     }
 }
 
-public enum SendVoiceMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension SendVoiceMessageOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: SendVoiceMessageOutputBody = try responseDecoder.decode(responseBody: data)
+            self.messageId = output.messageId
+        } else {
+            self.messageId = nil
+        }
+    }
+}
+
+public struct SendVoiceMessageOutput: Swift.Equatable {
+    /// The unique identifier for the message.
+    public var messageId: Swift.String?
+
+    public init(
+        messageId: Swift.String? = nil
+    )
+    {
+        self.messageId = messageId
+    }
+}
+
+struct SendVoiceMessageOutputBody: Swift.Equatable {
+    let messageId: Swift.String?
+}
+
+extension SendVoiceMessageOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case messageId = "MessageId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageId)
+        messageId = messageIdDecoded
+    }
+}
+
+enum SendVoiceMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8546,46 +15453,6 @@ public enum SendVoiceMessageOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension SendVoiceMessageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: SendVoiceMessageOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.messageId = output.messageId
-        } else {
-            self.messageId = nil
-        }
-    }
-}
-
-public struct SendVoiceMessageOutputResponse: Swift.Equatable {
-    /// The unique identifier for the message.
-    public var messageId: Swift.String?
-
-    public init(
-        messageId: Swift.String? = nil
-    )
-    {
-        self.messageId = messageId
-    }
-}
-
-struct SendVoiceMessageOutputResponseBody: Swift.Equatable {
-    let messageId: Swift.String?
-}
-
-extension SendVoiceMessageOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case messageId = "MessageId"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageId)
-        messageId = messageIdDecoded
     }
 }
 
@@ -8697,15 +15564,19 @@ extension PinpointSMSVoiceV2ClientTypes {
 
 extension PinpointSMSVoiceV2ClientTypes {
     public enum SenderIdFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case deletionProtectionEnabled
         case isoCountryCode
         case messageType
+        case registered
         case senderId
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SenderIdFilterName] {
             return [
+                .deletionProtectionEnabled,
                 .isoCountryCode,
                 .messageType,
+                .registered,
                 .senderId,
                 .sdkUnknown("")
             ]
@@ -8716,8 +15587,10 @@ extension PinpointSMSVoiceV2ClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .deletionProtectionEnabled: return "deletion-protection-enabled"
             case .isoCountryCode: return "iso-country-code"
             case .messageType: return "message-type"
+            case .registered: return "registered"
             case .senderId: return "sender-id"
             case let .sdkUnknown(s): return s
             }
@@ -8732,15 +15605,21 @@ extension PinpointSMSVoiceV2ClientTypes {
 
 extension PinpointSMSVoiceV2ClientTypes.SenderIdInformation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deletionProtectionEnabled = "DeletionProtectionEnabled"
         case isoCountryCode = "IsoCountryCode"
         case messageTypes = "MessageTypes"
         case monthlyLeasingPrice = "MonthlyLeasingPrice"
+        case registered = "Registered"
+        case registrationId = "RegistrationId"
         case senderId = "SenderId"
         case senderIdArn = "SenderIdArn"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if deletionProtectionEnabled != false {
+            try encodeContainer.encode(deletionProtectionEnabled, forKey: .deletionProtectionEnabled)
+        }
         if let isoCountryCode = self.isoCountryCode {
             try encodeContainer.encode(isoCountryCode, forKey: .isoCountryCode)
         }
@@ -8752,6 +15631,12 @@ extension PinpointSMSVoiceV2ClientTypes.SenderIdInformation: Swift.Codable {
         }
         if let monthlyLeasingPrice = self.monthlyLeasingPrice {
             try encodeContainer.encode(monthlyLeasingPrice, forKey: .monthlyLeasingPrice)
+        }
+        if registered != false {
+            try encodeContainer.encode(registered, forKey: .registered)
+        }
+        if let registrationId = self.registrationId {
+            try encodeContainer.encode(registrationId, forKey: .registrationId)
         }
         if let senderId = self.senderId {
             try encodeContainer.encode(senderId, forKey: .senderId)
@@ -8782,12 +15667,21 @@ extension PinpointSMSVoiceV2ClientTypes.SenderIdInformation: Swift.Codable {
         messageTypes = messageTypesDecoded0
         let monthlyLeasingPriceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .monthlyLeasingPrice)
         monthlyLeasingPrice = monthlyLeasingPriceDecoded
+        let deletionProtectionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtectionEnabled) ?? false
+        deletionProtectionEnabled = deletionProtectionEnabledDecoded
+        let registeredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .registered) ?? false
+        registered = registeredDecoded
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
     }
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The information for all SenderIds in an Amazon Web Services account.
     public struct SenderIdInformation: Swift.Equatable {
+        /// By default this is set to false. When set to true the sender ID can't be deleted.
+        /// This member is required.
+        public var deletionProtectionEnabled: Swift.Bool
         /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
         /// This member is required.
         public var isoCountryCode: Swift.String?
@@ -8797,6 +15691,11 @@ extension PinpointSMSVoiceV2ClientTypes {
         /// The monthly leasing price, in US dollars.
         /// This member is required.
         public var monthlyLeasingPrice: Swift.String?
+        /// True if the sender ID is registered.
+        /// This member is required.
+        public var registered: Swift.Bool
+        /// The unique identifier for the registration.
+        public var registrationId: Swift.String?
         /// The alphanumeric sender ID in a specific country that you'd like to describe.
         /// This member is required.
         public var senderId: Swift.String?
@@ -8805,16 +15704,22 @@ extension PinpointSMSVoiceV2ClientTypes {
         public var senderIdArn: Swift.String?
 
         public init(
+            deletionProtectionEnabled: Swift.Bool = false,
             isoCountryCode: Swift.String? = nil,
             messageTypes: [PinpointSMSVoiceV2ClientTypes.MessageType]? = nil,
             monthlyLeasingPrice: Swift.String? = nil,
+            registered: Swift.Bool = false,
+            registrationId: Swift.String? = nil,
             senderId: Swift.String? = nil,
             senderIdArn: Swift.String? = nil
         )
         {
+            self.deletionProtectionEnabled = deletionProtectionEnabled
             self.isoCountryCode = isoCountryCode
             self.messageTypes = messageTypes
             self.monthlyLeasingPrice = monthlyLeasingPrice
+            self.registered = registered
+            self.registrationId = registrationId
             self.senderId = senderId
             self.senderIdArn = senderIdArn
         }
@@ -8889,6 +15794,7 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     public enum ServiceQuotaExceededExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case associationsPerRegistration
         case configurationSetsPerAccount
         case dailyDestinationCallLimit
         case eventDestinationsPerConfigurationSet
@@ -8901,11 +15807,19 @@ extension PinpointSMSVoiceV2ClientTypes {
         case phoneNumbersPerAccount
         case phoneNumbersPerRegistration
         case poolsPerAccount
+        case registrationsPerAccount
+        case registrationAttachmentsCreatedPerDay
+        case registrationAttachmentsPerAccount
+        case registrationVersionsCreatedPerDay
+        case senderIdsPerAccount
         case tagsPerResource
+        case verificationAttemptsPerDay
+        case verifiedDestinationNumbersPerAccount
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ServiceQuotaExceededExceptionReason] {
             return [
+                .associationsPerRegistration,
                 .configurationSetsPerAccount,
                 .dailyDestinationCallLimit,
                 .eventDestinationsPerConfigurationSet,
@@ -8918,7 +15832,14 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .phoneNumbersPerAccount,
                 .phoneNumbersPerRegistration,
                 .poolsPerAccount,
+                .registrationsPerAccount,
+                .registrationAttachmentsCreatedPerDay,
+                .registrationAttachmentsPerAccount,
+                .registrationVersionsCreatedPerDay,
+                .senderIdsPerAccount,
                 .tagsPerResource,
+                .verificationAttemptsPerDay,
+                .verifiedDestinationNumbersPerAccount,
                 .sdkUnknown("")
             ]
         }
@@ -8928,6 +15849,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .associationsPerRegistration: return "ASSOCIATIONS_PER_REGISTRATION"
             case .configurationSetsPerAccount: return "CONFIGURATION_SETS_PER_ACCOUNT"
             case .dailyDestinationCallLimit: return "DAILY_DESTINATION_CALL_LIMIT"
             case .eventDestinationsPerConfigurationSet: return "EVENT_DESTINATIONS_PER_CONFIGURATION_SET"
@@ -8940,7 +15862,14 @@ extension PinpointSMSVoiceV2ClientTypes {
             case .phoneNumbersPerAccount: return "PHONE_NUMBERS_PER_ACCOUNT"
             case .phoneNumbersPerRegistration: return "PHONE_NUMBERS_PER_REGISTRATION"
             case .poolsPerAccount: return "POOLS_PER_ACCOUNT"
+            case .registrationsPerAccount: return "REGISTRATIONS_PER_ACCOUNT"
+            case .registrationAttachmentsCreatedPerDay: return "REGISTRATION_ATTACHMENTS_CREATED_PER_DAY"
+            case .registrationAttachmentsPerAccount: return "REGISTRATION_ATTACHMENTS_PER_ACCOUNT"
+            case .registrationVersionsCreatedPerDay: return "REGISTRATION_VERSIONS_CREATED_PER_DAY"
+            case .senderIdsPerAccount: return "SENDER_IDS_PER_ACCOUNT"
             case .tagsPerResource: return "TAGS_PER_RESOURCE"
+            case .verificationAttemptsPerDay: return "VERIFICATION_ATTEMPTS_PER_DAY"
+            case .verifiedDestinationNumbersPerAccount: return "VERIFIED_DESTINATION_NUMBERS_PER_ACCOUNT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9013,26 +15942,11 @@ extension SetDefaultMessageTypeInputBody: Swift.Decodable {
     }
 }
 
-public enum SetDefaultMessageTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension SetDefaultMessageTypeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SetDefaultMessageTypeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SetDefaultMessageTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SetDefaultMessageTypeOutputBody = try responseDecoder.decode(responseBody: data)
             self.configurationSetArn = output.configurationSetArn
             self.configurationSetName = output.configurationSetName
             self.messageType = output.messageType
@@ -9044,7 +15958,7 @@ extension SetDefaultMessageTypeOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct SetDefaultMessageTypeOutputResponse: Swift.Equatable {
+public struct SetDefaultMessageTypeOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the updated configuration set.
     public var configurationSetArn: Swift.String?
     /// The name of the configuration set that was updated.
@@ -9064,13 +15978,13 @@ public struct SetDefaultMessageTypeOutputResponse: Swift.Equatable {
     }
 }
 
-struct SetDefaultMessageTypeOutputResponseBody: Swift.Equatable {
+struct SetDefaultMessageTypeOutputBody: Swift.Equatable {
     let configurationSetArn: Swift.String?
     let configurationSetName: Swift.String?
     let messageType: PinpointSMSVoiceV2ClientTypes.MessageType?
 }
 
-extension SetDefaultMessageTypeOutputResponseBody: Swift.Decodable {
+extension SetDefaultMessageTypeOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configurationSetArn = "ConfigurationSetArn"
         case configurationSetName = "ConfigurationSetName"
@@ -9085,6 +15999,21 @@ extension SetDefaultMessageTypeOutputResponseBody: Swift.Decodable {
         configurationSetName = configurationSetNameDecoded
         let messageTypeDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.MessageType.self, forKey: .messageType)
         messageType = messageTypeDecoded
+    }
+}
+
+enum SetDefaultMessageTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9149,26 +16078,11 @@ extension SetDefaultSenderIdInputBody: Swift.Decodable {
     }
 }
 
-public enum SetDefaultSenderIdOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension SetDefaultSenderIdOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SetDefaultSenderIdOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SetDefaultSenderIdOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SetDefaultSenderIdOutputBody = try responseDecoder.decode(responseBody: data)
             self.configurationSetArn = output.configurationSetArn
             self.configurationSetName = output.configurationSetName
             self.senderId = output.senderId
@@ -9180,7 +16094,7 @@ extension SetDefaultSenderIdOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetDefaultSenderIdOutputResponse: Swift.Equatable {
+public struct SetDefaultSenderIdOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the updated configuration set.
     public var configurationSetArn: Swift.String?
     /// The name of the configuration set that was updated.
@@ -9200,13 +16114,13 @@ public struct SetDefaultSenderIdOutputResponse: Swift.Equatable {
     }
 }
 
-struct SetDefaultSenderIdOutputResponseBody: Swift.Equatable {
+struct SetDefaultSenderIdOutputBody: Swift.Equatable {
     let configurationSetArn: Swift.String?
     let configurationSetName: Swift.String?
     let senderId: Swift.String?
 }
 
-extension SetDefaultSenderIdOutputResponseBody: Swift.Decodable {
+extension SetDefaultSenderIdOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configurationSetArn = "ConfigurationSetArn"
         case configurationSetName = "ConfigurationSetName"
@@ -9221,6 +16135,21 @@ extension SetDefaultSenderIdOutputResponseBody: Swift.Decodable {
         configurationSetName = configurationSetNameDecoded
         let senderIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .senderId)
         senderId = senderIdDecoded
+    }
+}
+
+enum SetDefaultSenderIdOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9272,25 +16201,11 @@ extension SetTextMessageSpendLimitOverrideInputBody: Swift.Decodable {
     }
 }
 
-public enum SetTextMessageSpendLimitOverrideOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension SetTextMessageSpendLimitOverrideOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SetTextMessageSpendLimitOverrideOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SetTextMessageSpendLimitOverrideOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SetTextMessageSpendLimitOverrideOutputBody = try responseDecoder.decode(responseBody: data)
             self.monthlyLimit = output.monthlyLimit
         } else {
             self.monthlyLimit = nil
@@ -9298,7 +16213,7 @@ extension SetTextMessageSpendLimitOverrideOutputResponse: ClientRuntime.HttpResp
     }
 }
 
-public struct SetTextMessageSpendLimitOverrideOutputResponse: Swift.Equatable {
+public struct SetTextMessageSpendLimitOverrideOutput: Swift.Equatable {
     /// The current monthly limit to enforce on sending text messages.
     public var monthlyLimit: Swift.Int?
 
@@ -9310,11 +16225,11 @@ public struct SetTextMessageSpendLimitOverrideOutputResponse: Swift.Equatable {
     }
 }
 
-struct SetTextMessageSpendLimitOverrideOutputResponseBody: Swift.Equatable {
+struct SetTextMessageSpendLimitOverrideOutputBody: Swift.Equatable {
     let monthlyLimit: Swift.Int?
 }
 
-extension SetTextMessageSpendLimitOverrideOutputResponseBody: Swift.Decodable {
+extension SetTextMessageSpendLimitOverrideOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case monthlyLimit = "MonthlyLimit"
     }
@@ -9323,6 +16238,20 @@ extension SetTextMessageSpendLimitOverrideOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let monthlyLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .monthlyLimit)
         monthlyLimit = monthlyLimitDecoded
+    }
+}
+
+enum SetTextMessageSpendLimitOverrideOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9374,25 +16303,11 @@ extension SetVoiceMessageSpendLimitOverrideInputBody: Swift.Decodable {
     }
 }
 
-public enum SetVoiceMessageSpendLimitOverrideOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension SetVoiceMessageSpendLimitOverrideOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SetVoiceMessageSpendLimitOverrideOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SetVoiceMessageSpendLimitOverrideOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SetVoiceMessageSpendLimitOverrideOutputBody = try responseDecoder.decode(responseBody: data)
             self.monthlyLimit = output.monthlyLimit
         } else {
             self.monthlyLimit = nil
@@ -9400,7 +16315,7 @@ extension SetVoiceMessageSpendLimitOverrideOutputResponse: ClientRuntime.HttpRes
     }
 }
 
-public struct SetVoiceMessageSpendLimitOverrideOutputResponse: Swift.Equatable {
+public struct SetVoiceMessageSpendLimitOverrideOutput: Swift.Equatable {
     /// The current monthly limit to enforce on sending voice messages.
     public var monthlyLimit: Swift.Int?
 
@@ -9412,11 +16327,11 @@ public struct SetVoiceMessageSpendLimitOverrideOutputResponse: Swift.Equatable {
     }
 }
 
-struct SetVoiceMessageSpendLimitOverrideOutputResponseBody: Swift.Equatable {
+struct SetVoiceMessageSpendLimitOverrideOutputBody: Swift.Equatable {
     let monthlyLimit: Swift.Int?
 }
 
-extension SetVoiceMessageSpendLimitOverrideOutputResponseBody: Swift.Decodable {
+extension SetVoiceMessageSpendLimitOverrideOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case monthlyLimit = "MonthlyLimit"
     }
@@ -9425,6 +16340,20 @@ extension SetVoiceMessageSpendLimitOverrideOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let monthlyLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .monthlyLimit)
         monthlyLimit = monthlyLimitDecoded
+    }
+}
+
+enum SetVoiceMessageSpendLimitOverrideOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9565,6 +16494,251 @@ extension PinpointSMSVoiceV2ClientTypes {
     }
 }
 
+extension SubmitRegistrationVersionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case registrationId = "RegistrationId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let registrationId = self.registrationId {
+            try encodeContainer.encode(registrationId, forKey: .registrationId)
+        }
+    }
+}
+
+extension SubmitRegistrationVersionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct SubmitRegistrationVersionInput: Swift.Equatable {
+    /// The unique identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+
+    public init(
+        registrationId: Swift.String? = nil
+    )
+    {
+        self.registrationId = registrationId
+    }
+}
+
+struct SubmitRegistrationVersionInputBody: Swift.Equatable {
+    let registrationId: Swift.String?
+}
+
+extension SubmitRegistrationVersionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case registrationId = "RegistrationId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
+    }
+}
+
+extension SubmitRegistrationVersionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: SubmitRegistrationVersionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.registrationArn = output.registrationArn
+            self.registrationId = output.registrationId
+            self.registrationVersionStatus = output.registrationVersionStatus
+            self.registrationVersionStatusHistory = output.registrationVersionStatusHistory
+            self.versionNumber = output.versionNumber
+        } else {
+            self.registrationArn = nil
+            self.registrationId = nil
+            self.registrationVersionStatus = nil
+            self.registrationVersionStatusHistory = nil
+            self.versionNumber = nil
+        }
+    }
+}
+
+public struct SubmitRegistrationVersionOutput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the registration.
+    /// This member is required.
+    public var registrationArn: Swift.String?
+    /// The unique identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+    /// The status of the registration version.
+    ///
+    /// * DRAFT: The initial status of a registration version after it’s created.
+    ///
+    /// * SUBMITTED: Your registration has been submitted.
+    ///
+    /// * REVIEWING: Your registration has been accepted and is being reviewed.
+    ///
+    /// * APPROVED: Your registration has been approved.
+    ///
+    /// * DISCARDED: You've abandon this version of their registration to start over with a new version.
+    ///
+    /// * DENIED: You must fix your registration and resubmit it.
+    ///
+    /// * REVOKED: Your previously approved registration has been revoked.
+    ///
+    /// * ARCHIVED: Your previously approved registration version moves into this status when a more recently submitted version is approved.
+    /// This member is required.
+    public var registrationVersionStatus: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatus?
+    /// The RegistrationVersionStatusHistory object contains the time stamps for when the reservations status changes.
+    /// This member is required.
+    public var registrationVersionStatusHistory: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory?
+    /// The version number of the registration.
+    /// This member is required.
+    public var versionNumber: Swift.Int?
+
+    public init(
+        registrationArn: Swift.String? = nil,
+        registrationId: Swift.String? = nil,
+        registrationVersionStatus: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatus? = nil,
+        registrationVersionStatusHistory: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory? = nil,
+        versionNumber: Swift.Int? = nil
+    )
+    {
+        self.registrationArn = registrationArn
+        self.registrationId = registrationId
+        self.registrationVersionStatus = registrationVersionStatus
+        self.registrationVersionStatusHistory = registrationVersionStatusHistory
+        self.versionNumber = versionNumber
+    }
+}
+
+struct SubmitRegistrationVersionOutputBody: Swift.Equatable {
+    let registrationArn: Swift.String?
+    let registrationId: Swift.String?
+    let versionNumber: Swift.Int?
+    let registrationVersionStatus: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatus?
+    let registrationVersionStatusHistory: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory?
+}
+
+extension SubmitRegistrationVersionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case registrationArn = "RegistrationArn"
+        case registrationId = "RegistrationId"
+        case registrationVersionStatus = "RegistrationVersionStatus"
+        case registrationVersionStatusHistory = "RegistrationVersionStatusHistory"
+        case versionNumber = "VersionNumber"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registrationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationArn)
+        registrationArn = registrationArnDecoded
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
+        let versionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .versionNumber)
+        versionNumber = versionNumberDecoded
+        let registrationVersionStatusDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatus.self, forKey: .registrationVersionStatus)
+        registrationVersionStatus = registrationVersionStatusDecoded
+        let registrationVersionStatusHistoryDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory.self, forKey: .registrationVersionStatusHistory)
+        registrationVersionStatusHistory = registrationVersionStatusHistoryDecoded
+    }
+}
+
+enum SubmitRegistrationVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes.SupportedAssociation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associationBehavior = "AssociationBehavior"
+        case disassociationBehavior = "DisassociationBehavior"
+        case isoCountryCode = "IsoCountryCode"
+        case resourceType = "ResourceType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let associationBehavior = self.associationBehavior {
+            try encodeContainer.encode(associationBehavior.rawValue, forKey: .associationBehavior)
+        }
+        if let disassociationBehavior = self.disassociationBehavior {
+            try encodeContainer.encode(disassociationBehavior.rawValue, forKey: .disassociationBehavior)
+        }
+        if let isoCountryCode = self.isoCountryCode {
+            try encodeContainer.encode(isoCountryCode, forKey: .isoCountryCode)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType, forKey: .resourceType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let isoCountryCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .isoCountryCode)
+        isoCountryCode = isoCountryCodeDecoded
+        let associationBehaviorDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.RegistrationAssociationBehavior.self, forKey: .associationBehavior)
+        associationBehavior = associationBehaviorDecoded
+        let disassociationBehaviorDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.RegistrationDisassociationBehavior.self, forKey: .disassociationBehavior)
+        disassociationBehavior = disassociationBehaviorDecoded
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    /// The processing rules for when a registration can be associated with an origination identity and disassociated from an origination identity.
+    public struct SupportedAssociation: Swift.Equatable {
+        /// The association behavior.
+        ///
+        /// * ASSOCIATE_BEFORE_SUBMIT The origination identity has to be supplied when creating a registration.
+        ///
+        /// * ASSOCIATE_ON_APPROVAL This applies to all short code registrations. The short code will be automatically provisioned once the registration is approved.
+        ///
+        /// * ASSOCIATE_AFTER_COMPLETE This applies to phone number registrations when you must complete a registration first, then associate one or more phone numbers later. For example 10DLC campaigns and long codes.
+        /// This member is required.
+        public var associationBehavior: PinpointSMSVoiceV2ClientTypes.RegistrationAssociationBehavior?
+        /// The disassociation behavior.
+        ///
+        /// * DISASSOCIATE_ALL_CLOSES_REGISTRATION All origination identities must be disassociated from the registration before the registration can be closed.
+        ///
+        /// * DISASSOCIATE_ALL_ALLOWS_DELETE_REGISTRATION All origination identities must be disassociated from the registration before the registration can be deleted.
+        ///
+        /// * DELETE_REGISTRATION_DISASSOCIATES The registration can be deleted and all origination identities will be disasscoiated.
+        /// This member is required.
+        public var disassociationBehavior: PinpointSMSVoiceV2ClientTypes.RegistrationDisassociationBehavior?
+        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+        public var isoCountryCode: Swift.String?
+        /// Defines the behavior of when an origination identity and registration can be associated with each other.
+        /// This member is required.
+        public var resourceType: Swift.String?
+
+        public init(
+            associationBehavior: PinpointSMSVoiceV2ClientTypes.RegistrationAssociationBehavior? = nil,
+            disassociationBehavior: PinpointSMSVoiceV2ClientTypes.RegistrationDisassociationBehavior? = nil,
+            isoCountryCode: Swift.String? = nil,
+            resourceType: Swift.String? = nil
+        )
+        {
+            self.associationBehavior = associationBehavior
+            self.disassociationBehavior = disassociationBehavior
+            self.isoCountryCode = isoCountryCode
+            self.resourceType = resourceType
+        }
+    }
+
+}
+
 extension PinpointSMSVoiceV2ClientTypes.Tag: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case key = "Key"
@@ -9685,8 +16859,18 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -9701,14 +16885,62 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+extension PinpointSMSVoiceV2ClientTypes.TextValidation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxLength = "MaxLength"
+        case minLength = "MinLength"
+        case pattern = "Pattern"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxLength = self.maxLength {
+            try encodeContainer.encode(maxLength, forKey: .maxLength)
+        }
+        if let minLength = self.minLength {
+            try encodeContainer.encode(minLength, forKey: .minLength)
+        }
+        if let pattern = self.pattern {
+            try encodeContainer.encode(pattern, forKey: .pattern)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let minLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minLength)
+        minLength = minLengthDecoded
+        let maxLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxLength)
+        maxLength = maxLengthDecoded
+        let patternDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pattern)
+        pattern = patternDecoded
     }
 }
 
-public struct TagResourceOutputResponse: Swift.Equatable {
+extension PinpointSMSVoiceV2ClientTypes {
+    /// Validation rules for a text field.
+    public struct TextValidation: Swift.Equatable {
+        /// The maximum number of characters for the text field.
+        /// This member is required.
+        public var maxLength: Swift.Int?
+        /// The minimum number of characters for the text field.
+        /// This member is required.
+        public var minLength: Swift.Int?
+        /// The regular expression used to validate the text field.
+        /// This member is required.
+        public var pattern: Swift.String?
 
-    public init() { }
+        public init(
+            maxLength: Swift.Int? = nil,
+            minLength: Swift.Int? = nil,
+            pattern: Swift.String? = nil
+        )
+        {
+            self.maxLength = maxLength
+            self.minLength = minLength
+            self.pattern = pattern
+        }
+    }
+
 }
 
 extension ThrottlingException {
@@ -9839,8 +17071,18 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -9852,16 +17094,6 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateEventDestinationInput: Swift.Encodable {
@@ -9923,7 +17155,7 @@ public struct UpdateEventDestinationInput: Swift.Equatable {
     public var eventDestinationName: Swift.String?
     /// An object that contains information about an event destination for logging to Kinesis Data Firehose.
     public var kinesisFirehoseDestination: PinpointSMSVoiceV2ClientTypes.KinesisFirehoseDestination?
-    /// An array of event types that determine which events to log.
+    /// An array of event types that determine which events to log. The TEXT_SENT event type is not supported.
     public var matchingEventTypes: [PinpointSMSVoiceV2ClientTypes.EventType]?
     /// An object that contains information about an event destination that sends data to Amazon SNS.
     public var snsDestination: PinpointSMSVoiceV2ClientTypes.SnsDestination?
@@ -9997,27 +17229,11 @@ extension UpdateEventDestinationInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateEventDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateEventDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateEventDestinationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateEventDestinationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateEventDestinationOutputBody = try responseDecoder.decode(responseBody: data)
             self.configurationSetArn = output.configurationSetArn
             self.configurationSetName = output.configurationSetName
             self.eventDestination = output.eventDestination
@@ -10029,7 +17245,7 @@ extension UpdateEventDestinationOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct UpdateEventDestinationOutputResponse: Swift.Equatable {
+public struct UpdateEventDestinationOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) for the ConfigurationSet that was updated.
     public var configurationSetArn: Swift.String?
     /// The name of the configuration set.
@@ -10049,13 +17265,13 @@ public struct UpdateEventDestinationOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateEventDestinationOutputResponseBody: Swift.Equatable {
+struct UpdateEventDestinationOutputBody: Swift.Equatable {
     let configurationSetArn: Swift.String?
     let configurationSetName: Swift.String?
     let eventDestination: PinpointSMSVoiceV2ClientTypes.EventDestination?
 }
 
-extension UpdateEventDestinationOutputResponseBody: Swift.Decodable {
+extension UpdateEventDestinationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configurationSetArn = "ConfigurationSetArn"
         case configurationSetName = "ConfigurationSetName"
@@ -10073,6 +17289,22 @@ extension UpdateEventDestinationOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum UpdateEventDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension UpdatePhoneNumberInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deletionProtectionEnabled = "DeletionProtectionEnabled"
@@ -10080,6 +17312,7 @@ extension UpdatePhoneNumberInput: Swift.Encodable {
         case phoneNumberId = "PhoneNumberId"
         case selfManagedOptOutsEnabled = "SelfManagedOptOutsEnabled"
         case twoWayChannelArn = "TwoWayChannelArn"
+        case twoWayChannelRole = "TwoWayChannelRole"
         case twoWayEnabled = "TwoWayEnabled"
     }
 
@@ -10099,6 +17332,9 @@ extension UpdatePhoneNumberInput: Swift.Encodable {
         }
         if let twoWayChannelArn = self.twoWayChannelArn {
             try encodeContainer.encode(twoWayChannelArn, forKey: .twoWayChannelArn)
+        }
+        if let twoWayChannelRole = self.twoWayChannelRole {
+            try encodeContainer.encode(twoWayChannelRole, forKey: .twoWayChannelRole)
         }
         if let twoWayEnabled = self.twoWayEnabled {
             try encodeContainer.encode(twoWayEnabled, forKey: .twoWayEnabled)
@@ -10124,6 +17360,8 @@ public struct UpdatePhoneNumberInput: Swift.Equatable {
     public var selfManagedOptOutsEnabled: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the two way channel.
     public var twoWayChannelArn: Swift.String?
+    /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+    public var twoWayChannelRole: Swift.String?
     /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
     public var twoWayEnabled: Swift.Bool?
 
@@ -10133,6 +17371,7 @@ public struct UpdatePhoneNumberInput: Swift.Equatable {
         phoneNumberId: Swift.String? = nil,
         selfManagedOptOutsEnabled: Swift.Bool? = nil,
         twoWayChannelArn: Swift.String? = nil,
+        twoWayChannelRole: Swift.String? = nil,
         twoWayEnabled: Swift.Bool? = nil
     )
     {
@@ -10141,6 +17380,7 @@ public struct UpdatePhoneNumberInput: Swift.Equatable {
         self.phoneNumberId = phoneNumberId
         self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
         self.twoWayChannelArn = twoWayChannelArn
+        self.twoWayChannelRole = twoWayChannelRole
         self.twoWayEnabled = twoWayEnabled
     }
 }
@@ -10149,6 +17389,7 @@ struct UpdatePhoneNumberInputBody: Swift.Equatable {
     let phoneNumberId: Swift.String?
     let twoWayEnabled: Swift.Bool?
     let twoWayChannelArn: Swift.String?
+    let twoWayChannelRole: Swift.String?
     let selfManagedOptOutsEnabled: Swift.Bool?
     let optOutListName: Swift.String?
     let deletionProtectionEnabled: Swift.Bool?
@@ -10161,6 +17402,7 @@ extension UpdatePhoneNumberInputBody: Swift.Decodable {
         case phoneNumberId = "PhoneNumberId"
         case selfManagedOptOutsEnabled = "SelfManagedOptOutsEnabled"
         case twoWayChannelArn = "TwoWayChannelArn"
+        case twoWayChannelRole = "TwoWayChannelRole"
         case twoWayEnabled = "TwoWayEnabled"
     }
 
@@ -10172,6 +17414,8 @@ extension UpdatePhoneNumberInputBody: Swift.Decodable {
         twoWayEnabled = twoWayEnabledDecoded
         let twoWayChannelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .twoWayChannelArn)
         twoWayChannelArn = twoWayChannelArnDecoded
+        let twoWayChannelRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .twoWayChannelRole)
+        twoWayChannelRole = twoWayChannelRoleDecoded
         let selfManagedOptOutsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .selfManagedOptOutsEnabled)
         selfManagedOptOutsEnabled = selfManagedOptOutsEnabledDecoded
         let optOutListNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .optOutListName)
@@ -10181,27 +17425,11 @@ extension UpdatePhoneNumberInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdatePhoneNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdatePhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdatePhoneNumberOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdatePhoneNumberOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdatePhoneNumberOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdTimestamp = output.createdTimestamp
             self.deletionProtectionEnabled = output.deletionProtectionEnabled
             self.isoCountryCode = output.isoCountryCode
@@ -10213,9 +17441,11 @@ extension UpdatePhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
             self.phoneNumber = output.phoneNumber
             self.phoneNumberArn = output.phoneNumberArn
             self.phoneNumberId = output.phoneNumberId
+            self.registrationId = output.registrationId
             self.selfManagedOptOutsEnabled = output.selfManagedOptOutsEnabled
             self.status = output.status
             self.twoWayChannelArn = output.twoWayChannelArn
+            self.twoWayChannelRole = output.twoWayChannelRole
             self.twoWayEnabled = output.twoWayEnabled
         } else {
             self.createdTimestamp = nil
@@ -10229,15 +17459,17 @@ extension UpdatePhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
             self.phoneNumber = nil
             self.phoneNumberArn = nil
             self.phoneNumberId = nil
+            self.registrationId = nil
             self.selfManagedOptOutsEnabled = false
             self.status = nil
             self.twoWayChannelArn = nil
+            self.twoWayChannelRole = nil
             self.twoWayEnabled = false
         }
     }
 }
 
-public struct UpdatePhoneNumberOutputResponse: Swift.Equatable {
+public struct UpdatePhoneNumberOutput: Swift.Equatable {
     /// The time when the phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: ClientRuntime.Date?
     /// When set to true the phone number can't be deleted.
@@ -10260,12 +17492,16 @@ public struct UpdatePhoneNumberOutputResponse: Swift.Equatable {
     public var phoneNumberArn: Swift.String?
     /// The unique identifier of the phone number.
     public var phoneNumberId: Swift.String?
+    /// The unique identifier for the registration.
+    public var registrationId: Swift.String?
     /// This is true if self managed opt-out are enabled.
     public var selfManagedOptOutsEnabled: Swift.Bool
     /// The current status of the request.
     public var status: PinpointSMSVoiceV2ClientTypes.NumberStatus?
     /// The Amazon Resource Name (ARN) of the two way channel.
     public var twoWayChannelArn: Swift.String?
+    /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+    public var twoWayChannelRole: Swift.String?
     /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
     public var twoWayEnabled: Swift.Bool
 
@@ -10281,9 +17517,11 @@ public struct UpdatePhoneNumberOutputResponse: Swift.Equatable {
         phoneNumber: Swift.String? = nil,
         phoneNumberArn: Swift.String? = nil,
         phoneNumberId: Swift.String? = nil,
+        registrationId: Swift.String? = nil,
         selfManagedOptOutsEnabled: Swift.Bool = false,
         status: PinpointSMSVoiceV2ClientTypes.NumberStatus? = nil,
         twoWayChannelArn: Swift.String? = nil,
+        twoWayChannelRole: Swift.String? = nil,
         twoWayEnabled: Swift.Bool = false
     )
     {
@@ -10298,14 +17536,16 @@ public struct UpdatePhoneNumberOutputResponse: Swift.Equatable {
         self.phoneNumber = phoneNumber
         self.phoneNumberArn = phoneNumberArn
         self.phoneNumberId = phoneNumberId
+        self.registrationId = registrationId
         self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
         self.status = status
         self.twoWayChannelArn = twoWayChannelArn
+        self.twoWayChannelRole = twoWayChannelRole
         self.twoWayEnabled = twoWayEnabled
     }
 }
 
-struct UpdatePhoneNumberOutputResponseBody: Swift.Equatable {
+struct UpdatePhoneNumberOutputBody: Swift.Equatable {
     let phoneNumberArn: Swift.String?
     let phoneNumberId: Swift.String?
     let phoneNumber: Swift.String?
@@ -10317,13 +17557,15 @@ struct UpdatePhoneNumberOutputResponseBody: Swift.Equatable {
     let monthlyLeasingPrice: Swift.String?
     let twoWayEnabled: Swift.Bool
     let twoWayChannelArn: Swift.String?
+    let twoWayChannelRole: Swift.String?
     let selfManagedOptOutsEnabled: Swift.Bool
     let optOutListName: Swift.String?
     let deletionProtectionEnabled: Swift.Bool
+    let registrationId: Swift.String?
     let createdTimestamp: ClientRuntime.Date?
 }
 
-extension UpdatePhoneNumberOutputResponseBody: Swift.Decodable {
+extension UpdatePhoneNumberOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdTimestamp = "CreatedTimestamp"
         case deletionProtectionEnabled = "DeletionProtectionEnabled"
@@ -10336,9 +17578,11 @@ extension UpdatePhoneNumberOutputResponseBody: Swift.Decodable {
         case phoneNumber = "PhoneNumber"
         case phoneNumberArn = "PhoneNumberArn"
         case phoneNumberId = "PhoneNumberId"
+        case registrationId = "RegistrationId"
         case selfManagedOptOutsEnabled = "SelfManagedOptOutsEnabled"
         case status = "Status"
         case twoWayChannelArn = "TwoWayChannelArn"
+        case twoWayChannelRole = "TwoWayChannelRole"
         case twoWayEnabled = "TwoWayEnabled"
     }
 
@@ -10375,14 +17619,34 @@ extension UpdatePhoneNumberOutputResponseBody: Swift.Decodable {
         twoWayEnabled = twoWayEnabledDecoded
         let twoWayChannelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .twoWayChannelArn)
         twoWayChannelArn = twoWayChannelArnDecoded
+        let twoWayChannelRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .twoWayChannelRole)
+        twoWayChannelRole = twoWayChannelRoleDecoded
         let selfManagedOptOutsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .selfManagedOptOutsEnabled) ?? false
         selfManagedOptOutsEnabled = selfManagedOptOutsEnabledDecoded
         let optOutListNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .optOutListName)
         optOutListName = optOutListNameDecoded
         let deletionProtectionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtectionEnabled) ?? false
         deletionProtectionEnabled = deletionProtectionEnabledDecoded
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
         let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
         createdTimestamp = createdTimestampDecoded
+    }
+}
+
+enum UpdatePhoneNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10394,6 +17658,7 @@ extension UpdatePoolInput: Swift.Encodable {
         case selfManagedOptOutsEnabled = "SelfManagedOptOutsEnabled"
         case sharedRoutesEnabled = "SharedRoutesEnabled"
         case twoWayChannelArn = "TwoWayChannelArn"
+        case twoWayChannelRole = "TwoWayChannelRole"
         case twoWayEnabled = "TwoWayEnabled"
     }
 
@@ -10416,6 +17681,9 @@ extension UpdatePoolInput: Swift.Encodable {
         }
         if let twoWayChannelArn = self.twoWayChannelArn {
             try encodeContainer.encode(twoWayChannelArn, forKey: .twoWayChannelArn)
+        }
+        if let twoWayChannelRole = self.twoWayChannelRole {
+            try encodeContainer.encode(twoWayChannelRole, forKey: .twoWayChannelRole)
         }
         if let twoWayEnabled = self.twoWayEnabled {
             try encodeContainer.encode(twoWayEnabled, forKey: .twoWayEnabled)
@@ -10443,6 +17711,8 @@ public struct UpdatePoolInput: Swift.Equatable {
     public var sharedRoutesEnabled: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the two way channel.
     public var twoWayChannelArn: Swift.String?
+    /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+    public var twoWayChannelRole: Swift.String?
     /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
     public var twoWayEnabled: Swift.Bool?
 
@@ -10453,6 +17723,7 @@ public struct UpdatePoolInput: Swift.Equatable {
         selfManagedOptOutsEnabled: Swift.Bool? = nil,
         sharedRoutesEnabled: Swift.Bool? = nil,
         twoWayChannelArn: Swift.String? = nil,
+        twoWayChannelRole: Swift.String? = nil,
         twoWayEnabled: Swift.Bool? = nil
     )
     {
@@ -10462,6 +17733,7 @@ public struct UpdatePoolInput: Swift.Equatable {
         self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
         self.sharedRoutesEnabled = sharedRoutesEnabled
         self.twoWayChannelArn = twoWayChannelArn
+        self.twoWayChannelRole = twoWayChannelRole
         self.twoWayEnabled = twoWayEnabled
     }
 }
@@ -10470,6 +17742,7 @@ struct UpdatePoolInputBody: Swift.Equatable {
     let poolId: Swift.String?
     let twoWayEnabled: Swift.Bool?
     let twoWayChannelArn: Swift.String?
+    let twoWayChannelRole: Swift.String?
     let selfManagedOptOutsEnabled: Swift.Bool?
     let optOutListName: Swift.String?
     let sharedRoutesEnabled: Swift.Bool?
@@ -10484,6 +17757,7 @@ extension UpdatePoolInputBody: Swift.Decodable {
         case selfManagedOptOutsEnabled = "SelfManagedOptOutsEnabled"
         case sharedRoutesEnabled = "SharedRoutesEnabled"
         case twoWayChannelArn = "TwoWayChannelArn"
+        case twoWayChannelRole = "TwoWayChannelRole"
         case twoWayEnabled = "TwoWayEnabled"
     }
 
@@ -10495,6 +17769,8 @@ extension UpdatePoolInputBody: Swift.Decodable {
         twoWayEnabled = twoWayEnabledDecoded
         let twoWayChannelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .twoWayChannelArn)
         twoWayChannelArn = twoWayChannelArnDecoded
+        let twoWayChannelRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .twoWayChannelRole)
+        twoWayChannelRole = twoWayChannelRoleDecoded
         let selfManagedOptOutsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .selfManagedOptOutsEnabled)
         selfManagedOptOutsEnabled = selfManagedOptOutsEnabledDecoded
         let optOutListNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .optOutListName)
@@ -10506,27 +17782,11 @@ extension UpdatePoolInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdatePoolOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdatePoolOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdatePoolOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdatePoolOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdatePoolOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdTimestamp = output.createdTimestamp
             self.deletionProtectionEnabled = output.deletionProtectionEnabled
             self.messageType = output.messageType
@@ -10537,6 +17797,7 @@ extension UpdatePoolOutputResponse: ClientRuntime.HttpResponseBinding {
             self.sharedRoutesEnabled = output.sharedRoutesEnabled
             self.status = output.status
             self.twoWayChannelArn = output.twoWayChannelArn
+            self.twoWayChannelRole = output.twoWayChannelRole
             self.twoWayEnabled = output.twoWayEnabled
         } else {
             self.createdTimestamp = nil
@@ -10549,12 +17810,13 @@ extension UpdatePoolOutputResponse: ClientRuntime.HttpResponseBinding {
             self.sharedRoutesEnabled = false
             self.status = nil
             self.twoWayChannelArn = nil
+            self.twoWayChannelRole = nil
             self.twoWayEnabled = false
         }
     }
 }
 
-public struct UpdatePoolOutputResponse: Swift.Equatable {
+public struct UpdatePoolOutput: Swift.Equatable {
     /// The time when the pool was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: ClientRuntime.Date?
     /// When set to true the pool can't be deleted.
@@ -10575,6 +17837,8 @@ public struct UpdatePoolOutputResponse: Swift.Equatable {
     public var status: PinpointSMSVoiceV2ClientTypes.PoolStatus?
     /// The Amazon Resource Name (ARN) of the two way channel.
     public var twoWayChannelArn: Swift.String?
+    /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+    public var twoWayChannelRole: Swift.String?
     /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
     public var twoWayEnabled: Swift.Bool
 
@@ -10589,6 +17853,7 @@ public struct UpdatePoolOutputResponse: Swift.Equatable {
         sharedRoutesEnabled: Swift.Bool = false,
         status: PinpointSMSVoiceV2ClientTypes.PoolStatus? = nil,
         twoWayChannelArn: Swift.String? = nil,
+        twoWayChannelRole: Swift.String? = nil,
         twoWayEnabled: Swift.Bool = false
     )
     {
@@ -10602,17 +17867,19 @@ public struct UpdatePoolOutputResponse: Swift.Equatable {
         self.sharedRoutesEnabled = sharedRoutesEnabled
         self.status = status
         self.twoWayChannelArn = twoWayChannelArn
+        self.twoWayChannelRole = twoWayChannelRole
         self.twoWayEnabled = twoWayEnabled
     }
 }
 
-struct UpdatePoolOutputResponseBody: Swift.Equatable {
+struct UpdatePoolOutputBody: Swift.Equatable {
     let poolArn: Swift.String?
     let poolId: Swift.String?
     let status: PinpointSMSVoiceV2ClientTypes.PoolStatus?
     let messageType: PinpointSMSVoiceV2ClientTypes.MessageType?
     let twoWayEnabled: Swift.Bool
     let twoWayChannelArn: Swift.String?
+    let twoWayChannelRole: Swift.String?
     let selfManagedOptOutsEnabled: Swift.Bool
     let optOutListName: Swift.String?
     let sharedRoutesEnabled: Swift.Bool
@@ -10620,7 +17887,7 @@ struct UpdatePoolOutputResponseBody: Swift.Equatable {
     let createdTimestamp: ClientRuntime.Date?
 }
 
-extension UpdatePoolOutputResponseBody: Swift.Decodable {
+extension UpdatePoolOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdTimestamp = "CreatedTimestamp"
         case deletionProtectionEnabled = "DeletionProtectionEnabled"
@@ -10632,6 +17899,7 @@ extension UpdatePoolOutputResponseBody: Swift.Decodable {
         case sharedRoutesEnabled = "SharedRoutesEnabled"
         case status = "Status"
         case twoWayChannelArn = "TwoWayChannelArn"
+        case twoWayChannelRole = "TwoWayChannelRole"
         case twoWayEnabled = "TwoWayEnabled"
     }
 
@@ -10649,6 +17917,8 @@ extension UpdatePoolOutputResponseBody: Swift.Decodable {
         twoWayEnabled = twoWayEnabledDecoded
         let twoWayChannelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .twoWayChannelArn)
         twoWayChannelArn = twoWayChannelArnDecoded
+        let twoWayChannelRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .twoWayChannelRole)
+        twoWayChannelRole = twoWayChannelRoleDecoded
         let selfManagedOptOutsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .selfManagedOptOutsEnabled) ?? false
         selfManagedOptOutsEnabled = selfManagedOptOutsEnabledDecoded
         let optOutListNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .optOutListName)
@@ -10659,6 +17929,236 @@ extension UpdatePoolOutputResponseBody: Swift.Decodable {
         deletionProtectionEnabled = deletionProtectionEnabledDecoded
         let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
         createdTimestamp = createdTimestampDecoded
+    }
+}
+
+enum UpdatePoolOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateSenderIdInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deletionProtectionEnabled = "DeletionProtectionEnabled"
+        case isoCountryCode = "IsoCountryCode"
+        case senderId = "SenderId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deletionProtectionEnabled = self.deletionProtectionEnabled {
+            try encodeContainer.encode(deletionProtectionEnabled, forKey: .deletionProtectionEnabled)
+        }
+        if let isoCountryCode = self.isoCountryCode {
+            try encodeContainer.encode(isoCountryCode, forKey: .isoCountryCode)
+        }
+        if let senderId = self.senderId {
+            try encodeContainer.encode(senderId, forKey: .senderId)
+        }
+    }
+}
+
+extension UpdateSenderIdInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateSenderIdInput: Swift.Equatable {
+    /// By default this is set to false. When set to true the sender ID can't be deleted.
+    public var deletionProtectionEnabled: Swift.Bool?
+    /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+    /// This member is required.
+    public var isoCountryCode: Swift.String?
+    /// The sender ID to update.
+    /// This member is required.
+    public var senderId: Swift.String?
+
+    public init(
+        deletionProtectionEnabled: Swift.Bool? = nil,
+        isoCountryCode: Swift.String? = nil,
+        senderId: Swift.String? = nil
+    )
+    {
+        self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.isoCountryCode = isoCountryCode
+        self.senderId = senderId
+    }
+}
+
+struct UpdateSenderIdInputBody: Swift.Equatable {
+    let senderId: Swift.String?
+    let isoCountryCode: Swift.String?
+    let deletionProtectionEnabled: Swift.Bool?
+}
+
+extension UpdateSenderIdInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deletionProtectionEnabled = "DeletionProtectionEnabled"
+        case isoCountryCode = "IsoCountryCode"
+        case senderId = "SenderId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let senderIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .senderId)
+        senderId = senderIdDecoded
+        let isoCountryCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .isoCountryCode)
+        isoCountryCode = isoCountryCodeDecoded
+        let deletionProtectionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtectionEnabled)
+        deletionProtectionEnabled = deletionProtectionEnabledDecoded
+    }
+}
+
+extension UpdateSenderIdOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateSenderIdOutputBody = try responseDecoder.decode(responseBody: data)
+            self.deletionProtectionEnabled = output.deletionProtectionEnabled
+            self.isoCountryCode = output.isoCountryCode
+            self.messageTypes = output.messageTypes
+            self.monthlyLeasingPrice = output.monthlyLeasingPrice
+            self.registered = output.registered
+            self.registrationId = output.registrationId
+            self.senderId = output.senderId
+            self.senderIdArn = output.senderIdArn
+        } else {
+            self.deletionProtectionEnabled = false
+            self.isoCountryCode = nil
+            self.messageTypes = nil
+            self.monthlyLeasingPrice = nil
+            self.registered = false
+            self.registrationId = nil
+            self.senderId = nil
+            self.senderIdArn = nil
+        }
+    }
+}
+
+public struct UpdateSenderIdOutput: Swift.Equatable {
+    /// By default this is set to false. When set to true the sender ID can't be deleted.
+    /// This member is required.
+    public var deletionProtectionEnabled: Swift.Bool
+    /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+    /// This member is required.
+    public var isoCountryCode: Swift.String?
+    /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
+    /// This member is required.
+    public var messageTypes: [PinpointSMSVoiceV2ClientTypes.MessageType]?
+    /// The monthly price, in US dollars, to lease the sender ID.
+    /// This member is required.
+    public var monthlyLeasingPrice: Swift.String?
+    /// True if the sender ID is registered..
+    /// This member is required.
+    public var registered: Swift.Bool
+    /// The unique identifier for the registration.
+    public var registrationId: Swift.String?
+    /// The sender ID that was updated.
+    /// This member is required.
+    public var senderId: Swift.String?
+    /// The Amazon Resource Name (ARN) associated with the SenderId.
+    /// This member is required.
+    public var senderIdArn: Swift.String?
+
+    public init(
+        deletionProtectionEnabled: Swift.Bool = false,
+        isoCountryCode: Swift.String? = nil,
+        messageTypes: [PinpointSMSVoiceV2ClientTypes.MessageType]? = nil,
+        monthlyLeasingPrice: Swift.String? = nil,
+        registered: Swift.Bool = false,
+        registrationId: Swift.String? = nil,
+        senderId: Swift.String? = nil,
+        senderIdArn: Swift.String? = nil
+    )
+    {
+        self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.isoCountryCode = isoCountryCode
+        self.messageTypes = messageTypes
+        self.monthlyLeasingPrice = monthlyLeasingPrice
+        self.registered = registered
+        self.registrationId = registrationId
+        self.senderId = senderId
+        self.senderIdArn = senderIdArn
+    }
+}
+
+struct UpdateSenderIdOutputBody: Swift.Equatable {
+    let senderIdArn: Swift.String?
+    let senderId: Swift.String?
+    let isoCountryCode: Swift.String?
+    let messageTypes: [PinpointSMSVoiceV2ClientTypes.MessageType]?
+    let monthlyLeasingPrice: Swift.String?
+    let deletionProtectionEnabled: Swift.Bool
+    let registered: Swift.Bool
+    let registrationId: Swift.String?
+}
+
+extension UpdateSenderIdOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deletionProtectionEnabled = "DeletionProtectionEnabled"
+        case isoCountryCode = "IsoCountryCode"
+        case messageTypes = "MessageTypes"
+        case monthlyLeasingPrice = "MonthlyLeasingPrice"
+        case registered = "Registered"
+        case registrationId = "RegistrationId"
+        case senderId = "SenderId"
+        case senderIdArn = "SenderIdArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let senderIdArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .senderIdArn)
+        senderIdArn = senderIdArnDecoded
+        let senderIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .senderId)
+        senderId = senderIdDecoded
+        let isoCountryCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .isoCountryCode)
+        isoCountryCode = isoCountryCodeDecoded
+        let messageTypesContainer = try containerValues.decodeIfPresent([PinpointSMSVoiceV2ClientTypes.MessageType?].self, forKey: .messageTypes)
+        var messageTypesDecoded0:[PinpointSMSVoiceV2ClientTypes.MessageType]? = nil
+        if let messageTypesContainer = messageTypesContainer {
+            messageTypesDecoded0 = [PinpointSMSVoiceV2ClientTypes.MessageType]()
+            for string0 in messageTypesContainer {
+                if let string0 = string0 {
+                    messageTypesDecoded0?.append(string0)
+                }
+            }
+        }
+        messageTypes = messageTypesDecoded0
+        let monthlyLeasingPriceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .monthlyLeasingPrice)
+        monthlyLeasingPrice = monthlyLeasingPriceDecoded
+        let deletionProtectionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtectionEnabled) ?? false
+        deletionProtectionEnabled = deletionProtectionEnabledDecoded
+        let registeredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .registered) ?? false
+        registered = registeredDecoded
+        let registrationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationId)
+        registrationId = registrationIdDecoded
+    }
+}
+
+enum UpdateSenderIdOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10795,6 +18295,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
 extension PinpointSMSVoiceV2ClientTypes {
     public enum ValidationExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case attachmentTypeNotSupported
         case cannotAddOptedOutNumber
         case cannotParse
         case countryCodeMismatch
@@ -10805,24 +18306,38 @@ extension PinpointSMSVoiceV2ClientTypes {
         case invalidIdentityForDestinationCountry
         case invalidNextToken
         case invalidParameter
+        case invalidRegistrationAssociation
+        case invalidRequest
+        case maximumSizeExceeded
         case missingParameter
         case other
         case parametersCannotBeUsedTogether
         case phoneNumberCannotBeOptedIn
         case phoneNumberCannotBeReleased
         case priceOverThreshold
+        case registrationFieldCannotBeDeleted
         case requestedSpendLimitHigherThanServiceLimit
+        case resourceNotAccessible
         case senderIdNotRegistered
         case senderIdNotSupported
+        case senderIdRequiresRegistration
+        case twoWayChannelNotPresent
         case twoWayNotEnabled
         case twoWayNotSupportedInCountry
         case twoWayNotSupportedInRegion
         case twoWayTopicNotPresent
         case unknownOperation
+        case unknownRegistrationField
+        case unknownRegistrationSection
+        case unknownRegistrationType
+        case unknownRegistrationVersion
+        case verificationCodeMismatch
+        case voiceCapabilityNotAvailable
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ValidationExceptionReason] {
             return [
+                .attachmentTypeNotSupported,
                 .cannotAddOptedOutNumber,
                 .cannotParse,
                 .countryCodeMismatch,
@@ -10833,20 +18348,33 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .invalidIdentityForDestinationCountry,
                 .invalidNextToken,
                 .invalidParameter,
+                .invalidRegistrationAssociation,
+                .invalidRequest,
+                .maximumSizeExceeded,
                 .missingParameter,
                 .other,
                 .parametersCannotBeUsedTogether,
                 .phoneNumberCannotBeOptedIn,
                 .phoneNumberCannotBeReleased,
                 .priceOverThreshold,
+                .registrationFieldCannotBeDeleted,
                 .requestedSpendLimitHigherThanServiceLimit,
+                .resourceNotAccessible,
                 .senderIdNotRegistered,
                 .senderIdNotSupported,
+                .senderIdRequiresRegistration,
+                .twoWayChannelNotPresent,
                 .twoWayNotEnabled,
                 .twoWayNotSupportedInCountry,
                 .twoWayNotSupportedInRegion,
                 .twoWayTopicNotPresent,
                 .unknownOperation,
+                .unknownRegistrationField,
+                .unknownRegistrationSection,
+                .unknownRegistrationType,
+                .unknownRegistrationVersion,
+                .verificationCodeMismatch,
+                .voiceCapabilityNotAvailable,
                 .sdkUnknown("")
             ]
         }
@@ -10856,6 +18384,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .attachmentTypeNotSupported: return "ATTACHMENT_TYPE_NOT_SUPPORTED"
             case .cannotAddOptedOutNumber: return "CANNOT_ADD_OPTED_OUT_NUMBER"
             case .cannotParse: return "CANNOT_PARSE"
             case .countryCodeMismatch: return "COUNTRY_CODE_MISMATCH"
@@ -10866,20 +18395,33 @@ extension PinpointSMSVoiceV2ClientTypes {
             case .invalidIdentityForDestinationCountry: return "INVALID_IDENTITY_FOR_DESTINATION_COUNTRY"
             case .invalidNextToken: return "INVALID_NEXT_TOKEN"
             case .invalidParameter: return "INVALID_PARAMETER"
+            case .invalidRegistrationAssociation: return "INVALID_REGISTRATION_ASSOCIATION"
+            case .invalidRequest: return "INVALID_REQUEST"
+            case .maximumSizeExceeded: return "MAXIMUM_SIZE_EXCEEDED"
             case .missingParameter: return "MISSING_PARAMETER"
             case .other: return "OTHER"
             case .parametersCannotBeUsedTogether: return "PARAMETERS_CANNOT_BE_USED_TOGETHER"
             case .phoneNumberCannotBeOptedIn: return "PHONE_NUMBER_CANNOT_BE_OPTED_IN"
             case .phoneNumberCannotBeReleased: return "PHONE_NUMBER_CANNOT_BE_RELEASED"
             case .priceOverThreshold: return "PRICE_OVER_THRESHOLD"
+            case .registrationFieldCannotBeDeleted: return "REGISTRATION_FIELD_CANNOT_BE_DELETED"
             case .requestedSpendLimitHigherThanServiceLimit: return "REQUESTED_SPEND_LIMIT_HIGHER_THAN_SERVICE_LIMIT"
+            case .resourceNotAccessible: return "RESOURCE_NOT_ACCESSIBLE"
             case .senderIdNotRegistered: return "SENDER_ID_NOT_REGISTERED"
             case .senderIdNotSupported: return "SENDER_ID_NOT_SUPPORTED"
+            case .senderIdRequiresRegistration: return "SENDER_ID_REQUIRES_REGISTRATION"
+            case .twoWayChannelNotPresent: return "TWO_WAY_CHANNEL_NOT_PRESENT"
             case .twoWayNotEnabled: return "TWO_WAY_NOT_ENABLED"
             case .twoWayNotSupportedInCountry: return "TWO_WAY_NOT_SUPPORTED_IN_COUNTRY"
             case .twoWayNotSupportedInRegion: return "TWO_WAY_NOT_SUPPORTED_IN_REGION"
             case .twoWayTopicNotPresent: return "TWO_WAY_TOPIC_NOT_PRESENT"
             case .unknownOperation: return "UNKNOWN_OPERATION"
+            case .unknownRegistrationField: return "UNKNOWN_REGISTRATION_FIELD"
+            case .unknownRegistrationSection: return "UNKNOWN_REGISTRATION_SECTION"
+            case .unknownRegistrationType: return "UNKNOWN_REGISTRATION_TYPE"
+            case .unknownRegistrationVersion: return "UNKNOWN_REGISTRATION_VERSION"
+            case .verificationCodeMismatch: return "VERIFICATION_CODE_MISMATCH"
+            case .voiceCapabilityNotAvailable: return "VOICE_CAPABILITY_NOT_AVAILABLE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -10887,6 +18429,404 @@ extension PinpointSMSVoiceV2ClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ValidationExceptionReason(rawValue: rawValue) ?? ValidationExceptionReason.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    public enum VerificationChannel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case text
+        case voice
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VerificationChannel] {
+            return [
+                .text,
+                .voice,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .text: return "TEXT"
+            case .voice: return "VOICE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VerificationChannel(rawValue: rawValue) ?? VerificationChannel.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    public enum VerificationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case pending
+        case verified
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VerificationStatus] {
+            return [
+                .pending,
+                .verified,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .pending: return "PENDING"
+            case .verified: return "VERIFIED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VerificationStatus(rawValue: rawValue) ?? VerificationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case values = "Values"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberFilterName.self, forKey: .name)
+        name = nameDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    /// The filter definition for filtering verified destination phone numbers that meets a specified criteria.
+    public struct VerifiedDestinationNumberFilter: Swift.Equatable {
+        /// The name of the attribute to filter on.
+        /// This member is required.
+        public var name: PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberFilterName?
+        /// An array of values to filter on.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberFilterName? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.name = name
+            self.values = values
+        }
+    }
+
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    public enum VerifiedDestinationNumberFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case status
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VerifiedDestinationNumberFilterName] {
+            return [
+                .status,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .status: return "status"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VerifiedDestinationNumberFilterName(rawValue: rawValue) ?? VerifiedDestinationNumberFilterName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberInformation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdTimestamp = "CreatedTimestamp"
+        case destinationPhoneNumber = "DestinationPhoneNumber"
+        case status = "Status"
+        case verifiedDestinationNumberArn = "VerifiedDestinationNumberArn"
+        case verifiedDestinationNumberId = "VerifiedDestinationNumberId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdTimestamp = self.createdTimestamp {
+            try encodeContainer.encodeTimestamp(createdTimestamp, format: .epochSeconds, forKey: .createdTimestamp)
+        }
+        if let destinationPhoneNumber = self.destinationPhoneNumber {
+            try encodeContainer.encode(destinationPhoneNumber, forKey: .destinationPhoneNumber)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let verifiedDestinationNumberArn = self.verifiedDestinationNumberArn {
+            try encodeContainer.encode(verifiedDestinationNumberArn, forKey: .verifiedDestinationNumberArn)
+        }
+        if let verifiedDestinationNumberId = self.verifiedDestinationNumberId {
+            try encodeContainer.encode(verifiedDestinationNumberId, forKey: .verifiedDestinationNumberId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let verifiedDestinationNumberArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .verifiedDestinationNumberArn)
+        verifiedDestinationNumberArn = verifiedDestinationNumberArnDecoded
+        let verifiedDestinationNumberIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .verifiedDestinationNumberId)
+        verifiedDestinationNumberId = verifiedDestinationNumberIdDecoded
+        let destinationPhoneNumberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationPhoneNumber)
+        destinationPhoneNumber = destinationPhoneNumberDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.VerificationStatus.self, forKey: .status)
+        status = statusDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+    /// Provides information about the requested verified destintion phone number.
+    public struct VerifiedDestinationNumberInformation: Swift.Equatable {
+        /// The time when the destination phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
+        /// This member is required.
+        public var createdTimestamp: ClientRuntime.Date?
+        /// The verified destination phone number, in E.164 format.
+        /// This member is required.
+        public var destinationPhoneNumber: Swift.String?
+        /// The status of the verified destination phone number.
+        ///
+        /// * PENDING: The phone number hasn't been verified yet.
+        ///
+        /// * VERIFIED: The phone number is verified and can receive messages.
+        /// This member is required.
+        public var status: PinpointSMSVoiceV2ClientTypes.VerificationStatus?
+        /// The Amazon Resource Name (ARN) for the verified destination phone number.
+        /// This member is required.
+        public var verifiedDestinationNumberArn: Swift.String?
+        /// The unique identifier for the verified destination phone number.
+        /// This member is required.
+        public var verifiedDestinationNumberId: Swift.String?
+
+        public init(
+            createdTimestamp: ClientRuntime.Date? = nil,
+            destinationPhoneNumber: Swift.String? = nil,
+            status: PinpointSMSVoiceV2ClientTypes.VerificationStatus? = nil,
+            verifiedDestinationNumberArn: Swift.String? = nil,
+            verifiedDestinationNumberId: Swift.String? = nil
+        )
+        {
+            self.createdTimestamp = createdTimestamp
+            self.destinationPhoneNumber = destinationPhoneNumber
+            self.status = status
+            self.verifiedDestinationNumberArn = verifiedDestinationNumberArn
+            self.verifiedDestinationNumberId = verifiedDestinationNumberId
+        }
+    }
+
+}
+
+extension VerifyDestinationNumberInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case verificationCode = "VerificationCode"
+        case verifiedDestinationNumberId = "VerifiedDestinationNumberId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let verificationCode = self.verificationCode {
+            try encodeContainer.encode(verificationCode, forKey: .verificationCode)
+        }
+        if let verifiedDestinationNumberId = self.verifiedDestinationNumberId {
+            try encodeContainer.encode(verifiedDestinationNumberId, forKey: .verifiedDestinationNumberId)
+        }
+    }
+}
+
+extension VerifyDestinationNumberInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct VerifyDestinationNumberInput: Swift.Equatable {
+    /// The verification code that was received by the verified destination phone number.
+    /// This member is required.
+    public var verificationCode: Swift.String?
+    /// The unique identifier for the verififed destination phone number.
+    /// This member is required.
+    public var verifiedDestinationNumberId: Swift.String?
+
+    public init(
+        verificationCode: Swift.String? = nil,
+        verifiedDestinationNumberId: Swift.String? = nil
+    )
+    {
+        self.verificationCode = verificationCode
+        self.verifiedDestinationNumberId = verifiedDestinationNumberId
+    }
+}
+
+struct VerifyDestinationNumberInputBody: Swift.Equatable {
+    let verifiedDestinationNumberId: Swift.String?
+    let verificationCode: Swift.String?
+}
+
+extension VerifyDestinationNumberInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case verificationCode = "VerificationCode"
+        case verifiedDestinationNumberId = "VerifiedDestinationNumberId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let verifiedDestinationNumberIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .verifiedDestinationNumberId)
+        verifiedDestinationNumberId = verifiedDestinationNumberIdDecoded
+        let verificationCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .verificationCode)
+        verificationCode = verificationCodeDecoded
+    }
+}
+
+extension VerifyDestinationNumberOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: VerifyDestinationNumberOutputBody = try responseDecoder.decode(responseBody: data)
+            self.createdTimestamp = output.createdTimestamp
+            self.destinationPhoneNumber = output.destinationPhoneNumber
+            self.status = output.status
+            self.verifiedDestinationNumberArn = output.verifiedDestinationNumberArn
+            self.verifiedDestinationNumberId = output.verifiedDestinationNumberId
+        } else {
+            self.createdTimestamp = nil
+            self.destinationPhoneNumber = nil
+            self.status = nil
+            self.verifiedDestinationNumberArn = nil
+            self.verifiedDestinationNumberId = nil
+        }
+    }
+}
+
+public struct VerifyDestinationNumberOutput: Swift.Equatable {
+    /// The time when the destination phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
+    /// This member is required.
+    public var createdTimestamp: ClientRuntime.Date?
+    /// The phone number in E.164 format.
+    /// This member is required.
+    public var destinationPhoneNumber: Swift.String?
+    /// The status for being able to send messages to the phone number.
+    /// This member is required.
+    public var status: PinpointSMSVoiceV2ClientTypes.VerificationStatus?
+    /// The Amazon Resource Name (ARN) for the verified destination phone number.
+    /// This member is required.
+    public var verifiedDestinationNumberArn: Swift.String?
+    /// The unique identifier for the verified destination phone number.
+    /// This member is required.
+    public var verifiedDestinationNumberId: Swift.String?
+
+    public init(
+        createdTimestamp: ClientRuntime.Date? = nil,
+        destinationPhoneNumber: Swift.String? = nil,
+        status: PinpointSMSVoiceV2ClientTypes.VerificationStatus? = nil,
+        verifiedDestinationNumberArn: Swift.String? = nil,
+        verifiedDestinationNumberId: Swift.String? = nil
+    )
+    {
+        self.createdTimestamp = createdTimestamp
+        self.destinationPhoneNumber = destinationPhoneNumber
+        self.status = status
+        self.verifiedDestinationNumberArn = verifiedDestinationNumberArn
+        self.verifiedDestinationNumberId = verifiedDestinationNumberId
+    }
+}
+
+struct VerifyDestinationNumberOutputBody: Swift.Equatable {
+    let verifiedDestinationNumberArn: Swift.String?
+    let verifiedDestinationNumberId: Swift.String?
+    let destinationPhoneNumber: Swift.String?
+    let status: PinpointSMSVoiceV2ClientTypes.VerificationStatus?
+    let createdTimestamp: ClientRuntime.Date?
+}
+
+extension VerifyDestinationNumberOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdTimestamp = "CreatedTimestamp"
+        case destinationPhoneNumber = "DestinationPhoneNumber"
+        case status = "Status"
+        case verifiedDestinationNumberArn = "VerifiedDestinationNumberArn"
+        case verifiedDestinationNumberId = "VerifiedDestinationNumberId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let verifiedDestinationNumberArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .verifiedDestinationNumberArn)
+        verifiedDestinationNumberArn = verifiedDestinationNumberArnDecoded
+        let verifiedDestinationNumberIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .verifiedDestinationNumberId)
+        verifiedDestinationNumberId = verifiedDestinationNumberIdDecoded
+        let destinationPhoneNumberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationPhoneNumber)
+        destinationPhoneNumber = destinationPhoneNumberDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(PinpointSMSVoiceV2ClientTypes.VerificationStatus.self, forKey: .status)
+        status = statusDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+    }
+}
+
+enum VerifyDestinationNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }

@@ -88,8 +88,18 @@ extension AddTagsToOnPremisesInstancesInputBody: Swift.Decodable {
     }
 }
 
-public enum AddTagsToOnPremisesInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension AddTagsToOnPremisesInstancesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AddTagsToOnPremisesInstancesOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum AddTagsToOnPremisesInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -103,16 +113,6 @@ public enum AddTagsToOnPremisesInstancesOutputError: ClientRuntime.HttpResponseE
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension AddTagsToOnPremisesInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct AddTagsToOnPremisesInstancesOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CodeDeployClientTypes.Alarm: Swift.Codable {
@@ -337,7 +337,7 @@ extension ApplicationAlreadyExistsException {
     }
 }
 
-/// An application with the specified name with the IAM user or Amazon Web Services account already exists.
+/// An application with the specified name with the user or Amazon Web Services account already exists.
 public struct ApplicationAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -393,7 +393,7 @@ extension ApplicationDoesNotExistException {
     }
 }
 
-/// The application does not exist with the IAM user or Amazon Web Services account.
+/// The application does not exist with the user or Amazon Web Services account.
 public struct ApplicationDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -818,6 +818,7 @@ extension CodeDeployClientTypes.AutoScalingGroup: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case hook
         case name
+        case terminationHook
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -828,6 +829,9 @@ extension CodeDeployClientTypes.AutoScalingGroup: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
+        if let terminationHook = self.terminationHook {
+            try encodeContainer.encode(terminationHook, forKey: .terminationHook)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -836,24 +840,30 @@ extension CodeDeployClientTypes.AutoScalingGroup: Swift.Codable {
         name = nameDecoded
         let hookDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hook)
         hook = hookDecoded
+        let terminationHookDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .terminationHook)
+        terminationHook = terminationHookDecoded
     }
 }
 
 extension CodeDeployClientTypes {
     /// Information about an Auto Scaling group.
     public struct AutoScalingGroup: Swift.Equatable {
-        /// An Auto Scaling lifecycle event hook name.
+        /// The name of the launch hook that CodeDeploy installed into the Auto Scaling group. For more information about the launch hook, see [How Amazon EC2 Auto Scaling works with CodeDeploy](https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors) in the CodeDeploy User Guide.
         public var hook: Swift.String?
         /// The Auto Scaling group name.
         public var name: Swift.String?
+        /// The name of the termination hook that CodeDeploy installed into the Auto Scaling group. For more information about the termination hook, see [Enabling termination deployments during Auto Scaling scale-in events](https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors-hook-enable) in the CodeDeploy User Guide.
+        public var terminationHook: Swift.String?
 
         public init(
             hook: Swift.String? = nil,
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            terminationHook: Swift.String? = nil
         )
         {
             self.hook = hook
             self.name = name
+            self.terminationHook = terminationHook
         }
     }
 
@@ -933,27 +943,11 @@ extension BatchGetApplicationRevisionsInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchGetApplicationRevisionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BatchLimitExceededException": return try await BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRevisionException": return try await InvalidRevisionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RevisionRequiredException": return try await RevisionRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchGetApplicationRevisionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchGetApplicationRevisionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchGetApplicationRevisionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchGetApplicationRevisionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.applicationName = output.applicationName
             self.errorMessage = output.errorMessage
             self.revisions = output.revisions
@@ -966,7 +960,7 @@ extension BatchGetApplicationRevisionsOutputResponse: ClientRuntime.HttpResponse
 }
 
 /// Represents the output of a BatchGetApplicationRevisions operation.
-public struct BatchGetApplicationRevisionsOutputResponse: Swift.Equatable {
+public struct BatchGetApplicationRevisionsOutput: Swift.Equatable {
     /// The name of the application that corresponds to the revisions.
     public var applicationName: Swift.String?
     /// Information about errors that might have occurred during the API call.
@@ -986,13 +980,13 @@ public struct BatchGetApplicationRevisionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchGetApplicationRevisionsOutputResponseBody: Swift.Equatable {
+struct BatchGetApplicationRevisionsOutputBody: Swift.Equatable {
     let applicationName: Swift.String?
     let errorMessage: Swift.String?
     let revisions: [CodeDeployClientTypes.RevisionInfo]?
 }
 
-extension BatchGetApplicationRevisionsOutputResponseBody: Swift.Decodable {
+extension BatchGetApplicationRevisionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationName
         case errorMessage
@@ -1016,6 +1010,22 @@ extension BatchGetApplicationRevisionsOutputResponseBody: Swift.Decodable {
             }
         }
         revisions = revisionsDecoded0
+    }
+}
+
+enum BatchGetApplicationRevisionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BatchLimitExceededException": return try await BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRevisionException": return try await InvalidRevisionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RevisionRequiredException": return try await RevisionRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1080,25 +1090,11 @@ extension BatchGetApplicationsInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchGetApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BatchLimitExceededException": return try await BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchGetApplicationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchGetApplicationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchGetApplicationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchGetApplicationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.applicationsInfo = output.applicationsInfo
         } else {
             self.applicationsInfo = nil
@@ -1107,7 +1103,7 @@ extension BatchGetApplicationsOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 /// Represents the output of a BatchGetApplications operation.
-public struct BatchGetApplicationsOutputResponse: Swift.Equatable {
+public struct BatchGetApplicationsOutput: Swift.Equatable {
     /// Information about the applications.
     public var applicationsInfo: [CodeDeployClientTypes.ApplicationInfo]?
 
@@ -1119,11 +1115,11 @@ public struct BatchGetApplicationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchGetApplicationsOutputResponseBody: Swift.Equatable {
+struct BatchGetApplicationsOutputBody: Swift.Equatable {
     let applicationsInfo: [CodeDeployClientTypes.ApplicationInfo]?
 }
 
-extension BatchGetApplicationsOutputResponseBody: Swift.Decodable {
+extension BatchGetApplicationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationsInfo
     }
@@ -1141,6 +1137,20 @@ extension BatchGetApplicationsOutputResponseBody: Swift.Decodable {
             }
         }
         applicationsInfo = applicationsInfoDecoded0
+    }
+}
+
+enum BatchGetApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BatchLimitExceededException": return try await BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1172,7 +1182,7 @@ extension BatchGetDeploymentGroupsInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input of a BatchGetDeploymentGroups operation.
 public struct BatchGetDeploymentGroupsInput: Swift.Equatable {
-    /// The name of an CodeDeploy application associated with the applicable IAM or Amazon Web Services account.
+    /// The name of an CodeDeploy application associated with the applicable user or Amazon Web Services account.
     /// This member is required.
     public var applicationName: Swift.String?
     /// The names of the deployment groups.
@@ -1218,28 +1228,11 @@ extension BatchGetDeploymentGroupsInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchGetDeploymentGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BatchLimitExceededException": return try await BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DeploymentConfigDoesNotExistException": return try await DeploymentConfigDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DeploymentGroupNameRequiredException": return try await DeploymentGroupNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidDeploymentGroupNameException": return try await InvalidDeploymentGroupNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchGetDeploymentGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchGetDeploymentGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchGetDeploymentGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchGetDeploymentGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.deploymentGroupsInfo = output.deploymentGroupsInfo
             self.errorMessage = output.errorMessage
         } else {
@@ -1250,7 +1243,7 @@ extension BatchGetDeploymentGroupsOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 /// Represents the output of a BatchGetDeploymentGroups operation.
-public struct BatchGetDeploymentGroupsOutputResponse: Swift.Equatable {
+public struct BatchGetDeploymentGroupsOutput: Swift.Equatable {
     /// Information about the deployment groups.
     public var deploymentGroupsInfo: [CodeDeployClientTypes.DeploymentGroupInfo]?
     /// Information about errors that might have occurred during the API call.
@@ -1266,12 +1259,12 @@ public struct BatchGetDeploymentGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchGetDeploymentGroupsOutputResponseBody: Swift.Equatable {
+struct BatchGetDeploymentGroupsOutputBody: Swift.Equatable {
     let deploymentGroupsInfo: [CodeDeployClientTypes.DeploymentGroupInfo]?
     let errorMessage: Swift.String?
 }
 
-extension BatchGetDeploymentGroupsOutputResponseBody: Swift.Decodable {
+extension BatchGetDeploymentGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deploymentGroupsInfo
         case errorMessage
@@ -1292,6 +1285,23 @@ extension BatchGetDeploymentGroupsOutputResponseBody: Swift.Decodable {
         deploymentGroupsInfo = deploymentGroupsInfoDecoded0
         let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
         errorMessage = errorMessageDecoded
+    }
+}
+
+enum BatchGetDeploymentGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BatchLimitExceededException": return try await BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentConfigDoesNotExistException": return try await DeploymentConfigDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentGroupNameRequiredException": return try await DeploymentGroupNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentGroupNameException": return try await InvalidDeploymentGroupNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1369,28 +1379,11 @@ extension BatchGetDeploymentInstancesInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchGetDeploymentInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BatchLimitExceededException": return try await BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DeploymentDoesNotExistException": return try await DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InstanceIdRequiredException": return try await InstanceIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidComputePlatformException": return try await InvalidComputePlatformException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInstanceNameException": return try await InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchGetDeploymentInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchGetDeploymentInstancesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchGetDeploymentInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchGetDeploymentInstancesOutputBody = try responseDecoder.decode(responseBody: data)
             self.errorMessage = output.errorMessage
             self.instancesSummary = output.instancesSummary
         } else {
@@ -1401,7 +1394,7 @@ extension BatchGetDeploymentInstancesOutputResponse: ClientRuntime.HttpResponseB
 }
 
 /// Represents the output of a BatchGetDeploymentInstances operation.
-public struct BatchGetDeploymentInstancesOutputResponse: Swift.Equatable {
+public struct BatchGetDeploymentInstancesOutput: Swift.Equatable {
     /// Information about errors that might have occurred during the API call.
     public var errorMessage: Swift.String?
     /// Information about the instance.
@@ -1417,12 +1410,12 @@ public struct BatchGetDeploymentInstancesOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchGetDeploymentInstancesOutputResponseBody: Swift.Equatable {
+struct BatchGetDeploymentInstancesOutputBody: Swift.Equatable {
     let instancesSummary: [CodeDeployClientTypes.InstanceSummary]?
     let errorMessage: Swift.String?
 }
 
-extension BatchGetDeploymentInstancesOutputResponseBody: Swift.Decodable {
+extension BatchGetDeploymentInstancesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errorMessage
         case instancesSummary
@@ -1443,6 +1436,23 @@ extension BatchGetDeploymentInstancesOutputResponseBody: Swift.Decodable {
         instancesSummary = instancesSummaryDecoded0
         let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
         errorMessage = errorMessageDecoded
+    }
+}
+
+enum BatchGetDeploymentInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BatchLimitExceededException": return try await BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentDoesNotExistException": return try await DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InstanceIdRequiredException": return try await InstanceIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidComputePlatformException": return try await InvalidComputePlatformException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInstanceNameException": return try await InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1474,6 +1484,7 @@ extension BatchGetDeploymentTargetsInput: ClientRuntime.URLPathProvider {
 
 public struct BatchGetDeploymentTargetsInput: Swift.Equatable {
     /// The unique ID of a deployment.
+    /// This member is required.
     public var deploymentId: Swift.String?
     /// The unique IDs of the deployment targets. The compute platform of the deployment determines the type of the targets and their formats. The maximum number of deployment target IDs you can specify is 25.
     ///
@@ -1484,6 +1495,7 @@ public struct BatchGetDeploymentTargetsInput: Swift.Equatable {
     /// * For deployments that use the Amazon ECS compute platform, the target IDs are pairs of Amazon ECS clusters and services specified using the format :. Their target type is ecsTarget.
     ///
     /// * For deployments that are deployed with CloudFormation, the target IDs are CloudFormation stack IDs. Their target type is cloudFormationTarget.
+    /// This member is required.
     public var targetIds: [Swift.String]?
 
     public init(
@@ -1525,30 +1537,11 @@ extension BatchGetDeploymentTargetsInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchGetDeploymentTargetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DeploymentDoesNotExistException": return try await DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DeploymentNotStartedException": return try await DeploymentNotStartedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DeploymentTargetDoesNotExistException": return try await DeploymentTargetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DeploymentTargetIdRequiredException": return try await DeploymentTargetIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DeploymentTargetListSizeExceededException": return try await DeploymentTargetListSizeExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InstanceDoesNotExistException": return try await InstanceDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidDeploymentTargetIdException": return try await InvalidDeploymentTargetIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchGetDeploymentTargetsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchGetDeploymentTargetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchGetDeploymentTargetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchGetDeploymentTargetsOutputBody = try responseDecoder.decode(responseBody: data)
             self.deploymentTargets = output.deploymentTargets
         } else {
             self.deploymentTargets = nil
@@ -1556,7 +1549,7 @@ extension BatchGetDeploymentTargetsOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct BatchGetDeploymentTargetsOutputResponse: Swift.Equatable {
+public struct BatchGetDeploymentTargetsOutput: Swift.Equatable {
     /// A list of target objects for a deployment. Each target object contains details about the target, such as its status and lifecycle events. The type of the target objects depends on the deployment' compute platform.
     ///
     /// * EC2/On-premises: Each target object is an Amazon EC2 or on-premises instance.
@@ -1576,11 +1569,11 @@ public struct BatchGetDeploymentTargetsOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchGetDeploymentTargetsOutputResponseBody: Swift.Equatable {
+struct BatchGetDeploymentTargetsOutputBody: Swift.Equatable {
     let deploymentTargets: [CodeDeployClientTypes.DeploymentTarget]?
 }
 
-extension BatchGetDeploymentTargetsOutputResponseBody: Swift.Decodable {
+extension BatchGetDeploymentTargetsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deploymentTargets
     }
@@ -1598,6 +1591,25 @@ extension BatchGetDeploymentTargetsOutputResponseBody: Swift.Decodable {
             }
         }
         deploymentTargets = deploymentTargetsDecoded0
+    }
+}
+
+enum BatchGetDeploymentTargetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DeploymentDoesNotExistException": return try await DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentNotStartedException": return try await DeploymentNotStartedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentTargetDoesNotExistException": return try await DeploymentTargetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentTargetIdRequiredException": return try await DeploymentTargetIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentTargetListSizeExceededException": return try await DeploymentTargetListSizeExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InstanceDoesNotExistException": return try await InstanceDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentTargetIdException": return try await InvalidDeploymentTargetIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1662,24 +1674,11 @@ extension BatchGetDeploymentsInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchGetDeploymentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BatchLimitExceededException": return try await BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchGetDeploymentsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchGetDeploymentsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchGetDeploymentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchGetDeploymentsOutputBody = try responseDecoder.decode(responseBody: data)
             self.deploymentsInfo = output.deploymentsInfo
         } else {
             self.deploymentsInfo = nil
@@ -1688,7 +1687,7 @@ extension BatchGetDeploymentsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a BatchGetDeployments operation.
-public struct BatchGetDeploymentsOutputResponse: Swift.Equatable {
+public struct BatchGetDeploymentsOutput: Swift.Equatable {
     /// Information about the deployments.
     public var deploymentsInfo: [CodeDeployClientTypes.DeploymentInfo]?
 
@@ -1700,11 +1699,11 @@ public struct BatchGetDeploymentsOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchGetDeploymentsOutputResponseBody: Swift.Equatable {
+struct BatchGetDeploymentsOutputBody: Swift.Equatable {
     let deploymentsInfo: [CodeDeployClientTypes.DeploymentInfo]?
 }
 
-extension BatchGetDeploymentsOutputResponseBody: Swift.Decodable {
+extension BatchGetDeploymentsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deploymentsInfo
     }
@@ -1722,6 +1721,19 @@ extension BatchGetDeploymentsOutputResponseBody: Swift.Decodable {
             }
         }
         deploymentsInfo = deploymentsInfoDecoded0
+    }
+}
+
+enum BatchGetDeploymentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BatchLimitExceededException": return try await BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1786,24 +1798,11 @@ extension BatchGetOnPremisesInstancesInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchGetOnPremisesInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BatchLimitExceededException": return try await BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InstanceNameRequiredException": return try await InstanceNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInstanceNameException": return try await InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchGetOnPremisesInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchGetOnPremisesInstancesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchGetOnPremisesInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchGetOnPremisesInstancesOutputBody = try responseDecoder.decode(responseBody: data)
             self.instanceInfos = output.instanceInfos
         } else {
             self.instanceInfos = nil
@@ -1812,7 +1811,7 @@ extension BatchGetOnPremisesInstancesOutputResponse: ClientRuntime.HttpResponseB
 }
 
 /// Represents the output of a BatchGetOnPremisesInstances operation.
-public struct BatchGetOnPremisesInstancesOutputResponse: Swift.Equatable {
+public struct BatchGetOnPremisesInstancesOutput: Swift.Equatable {
     /// Information about the on-premises instances.
     public var instanceInfos: [CodeDeployClientTypes.InstanceInfo]?
 
@@ -1824,11 +1823,11 @@ public struct BatchGetOnPremisesInstancesOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchGetOnPremisesInstancesOutputResponseBody: Swift.Equatable {
+struct BatchGetOnPremisesInstancesOutputBody: Swift.Equatable {
     let instanceInfos: [CodeDeployClientTypes.InstanceInfo]?
 }
 
-extension BatchGetOnPremisesInstancesOutputResponseBody: Swift.Decodable {
+extension BatchGetOnPremisesInstancesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceInfos
     }
@@ -1846,6 +1845,19 @@ extension BatchGetOnPremisesInstancesOutputResponseBody: Swift.Decodable {
             }
         }
         instanceInfos = instanceInfosDecoded0
+    }
+}
+
+enum BatchGetOnPremisesInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BatchLimitExceededException": return try await BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InstanceNameRequiredException": return try await InstanceNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInstanceNameException": return try await InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2307,8 +2319,18 @@ extension ContinueDeploymentInputBody: Swift.Decodable {
     }
 }
 
-public enum ContinueDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension ContinueDeploymentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct ContinueDeploymentOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum ContinueDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2323,16 +2345,6 @@ public enum ContinueDeploymentOutputError: ClientRuntime.HttpResponseErrorBindin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension ContinueDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct ContinueDeploymentOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CreateApplicationInput: Swift.Encodable {
@@ -2367,7 +2379,7 @@ extension CreateApplicationInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input of a CreateApplication operation.
 public struct CreateApplicationInput: Swift.Equatable {
-    /// The name of the application. This name must be unique with the applicable IAM or Amazon Web Services account.
+    /// The name of the application. This name must be unique with the applicable user or Amazon Web Services account.
     /// This member is required.
     public var applicationName: Swift.String?
     /// The destination platform type for the deployment (Lambda, Server, or ECS).
@@ -2420,8 +2432,49 @@ extension CreateApplicationInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateApplicationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateApplicationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.applicationId = output.applicationId
+        } else {
+            self.applicationId = nil
+        }
+    }
+}
+
+/// Represents the output of a CreateApplication operation.
+public struct CreateApplicationOutput: Swift.Equatable {
+    /// A unique application ID.
+    public var applicationId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil
+    )
+    {
+        self.applicationId = applicationId
+    }
+}
+
+struct CreateApplicationOutputBody: Swift.Equatable {
+    let applicationId: Swift.String?
+}
+
+extension CreateApplicationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationId)
+        applicationId = applicationIdDecoded
+    }
+}
+
+enum CreateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2436,53 +2489,13 @@ public enum CreateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension CreateApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.applicationId = output.applicationId
-        } else {
-            self.applicationId = nil
-        }
-    }
-}
-
-/// Represents the output of a CreateApplication operation.
-public struct CreateApplicationOutputResponse: Swift.Equatable {
-    /// A unique application ID.
-    public var applicationId: Swift.String?
-
-    public init(
-        applicationId: Swift.String? = nil
-    )
-    {
-        self.applicationId = applicationId
-    }
-}
-
-struct CreateApplicationOutputResponseBody: Swift.Equatable {
-    let applicationId: Swift.String?
-}
-
-extension CreateApplicationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case applicationId
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let applicationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationId)
-        applicationId = applicationIdDecoded
-    }
-}
-
 extension CreateDeploymentConfigInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case computePlatform
         case deploymentConfigName
         case minimumHealthyHosts
         case trafficRoutingConfig
+        case zonalConfig
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2498,6 +2511,9 @@ extension CreateDeploymentConfigInput: Swift.Encodable {
         }
         if let trafficRoutingConfig = self.trafficRoutingConfig {
             try encodeContainer.encode(trafficRoutingConfig, forKey: .trafficRoutingConfig)
+        }
+        if let zonalConfig = self.zonalConfig {
+            try encodeContainer.encode(zonalConfig, forKey: .zonalConfig)
         }
     }
 }
@@ -2526,18 +2542,22 @@ public struct CreateDeploymentConfigInput: Swift.Equatable {
     public var minimumHealthyHosts: CodeDeployClientTypes.MinimumHealthyHosts?
     /// The configuration that specifies how the deployment traffic is routed.
     public var trafficRoutingConfig: CodeDeployClientTypes.TrafficRoutingConfig?
+    /// Configure the ZonalConfig object if you want CodeDeploy to deploy your application to one [Availability Zone](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-availability-zones) at a time, within an Amazon Web Services Region. For more information about the zonal configuration feature, see [zonal configuration](https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config) in the CodeDeploy User Guide.
+    public var zonalConfig: CodeDeployClientTypes.ZonalConfig?
 
     public init(
         computePlatform: CodeDeployClientTypes.ComputePlatform? = nil,
         deploymentConfigName: Swift.String? = nil,
         minimumHealthyHosts: CodeDeployClientTypes.MinimumHealthyHosts? = nil,
-        trafficRoutingConfig: CodeDeployClientTypes.TrafficRoutingConfig? = nil
+        trafficRoutingConfig: CodeDeployClientTypes.TrafficRoutingConfig? = nil,
+        zonalConfig: CodeDeployClientTypes.ZonalConfig? = nil
     )
     {
         self.computePlatform = computePlatform
         self.deploymentConfigName = deploymentConfigName
         self.minimumHealthyHosts = minimumHealthyHosts
         self.trafficRoutingConfig = trafficRoutingConfig
+        self.zonalConfig = zonalConfig
     }
 }
 
@@ -2546,6 +2566,7 @@ struct CreateDeploymentConfigInputBody: Swift.Equatable {
     let minimumHealthyHosts: CodeDeployClientTypes.MinimumHealthyHosts?
     let trafficRoutingConfig: CodeDeployClientTypes.TrafficRoutingConfig?
     let computePlatform: CodeDeployClientTypes.ComputePlatform?
+    let zonalConfig: CodeDeployClientTypes.ZonalConfig?
 }
 
 extension CreateDeploymentConfigInputBody: Swift.Decodable {
@@ -2554,6 +2575,7 @@ extension CreateDeploymentConfigInputBody: Swift.Decodable {
         case deploymentConfigName
         case minimumHealthyHosts
         case trafficRoutingConfig
+        case zonalConfig
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -2566,31 +2588,16 @@ extension CreateDeploymentConfigInputBody: Swift.Decodable {
         trafficRoutingConfig = trafficRoutingConfigDecoded
         let computePlatformDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.ComputePlatform.self, forKey: .computePlatform)
         computePlatform = computePlatformDecoded
+        let zonalConfigDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.ZonalConfig.self, forKey: .zonalConfig)
+        zonalConfig = zonalConfigDecoded
     }
 }
 
-public enum CreateDeploymentConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DeploymentConfigAlreadyExistsException": return try await DeploymentConfigAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DeploymentConfigLimitExceededException": return try await DeploymentConfigLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DeploymentConfigNameRequiredException": return try await DeploymentConfigNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidComputePlatformException": return try await InvalidComputePlatformException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidDeploymentConfigNameException": return try await InvalidDeploymentConfigNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMinimumHealthyHostValueException": return try await InvalidMinimumHealthyHostValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidTrafficRoutingConfigurationException": return try await InvalidTrafficRoutingConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateDeploymentConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateDeploymentConfigOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateDeploymentConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateDeploymentConfigOutputBody = try responseDecoder.decode(responseBody: data)
             self.deploymentConfigId = output.deploymentConfigId
         } else {
             self.deploymentConfigId = nil
@@ -2599,7 +2606,7 @@ extension CreateDeploymentConfigOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 /// Represents the output of a CreateDeploymentConfig operation.
-public struct CreateDeploymentConfigOutputResponse: Swift.Equatable {
+public struct CreateDeploymentConfigOutput: Swift.Equatable {
     /// A unique deployment configuration ID.
     public var deploymentConfigId: Swift.String?
 
@@ -2611,11 +2618,11 @@ public struct CreateDeploymentConfigOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateDeploymentConfigOutputResponseBody: Swift.Equatable {
+struct CreateDeploymentConfigOutputBody: Swift.Equatable {
     let deploymentConfigId: Swift.String?
 }
 
-extension CreateDeploymentConfigOutputResponseBody: Swift.Decodable {
+extension CreateDeploymentConfigOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deploymentConfigId
     }
@@ -2624,6 +2631,24 @@ extension CreateDeploymentConfigOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentConfigIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentConfigId)
         deploymentConfigId = deploymentConfigIdDecoded
+    }
+}
+
+enum CreateDeploymentConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DeploymentConfigAlreadyExistsException": return try await DeploymentConfigAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentConfigLimitExceededException": return try await DeploymentConfigLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentConfigNameRequiredException": return try await DeploymentConfigNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidComputePlatformException": return try await InvalidComputePlatformException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentConfigNameException": return try await InvalidDeploymentConfigNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMinimumHealthyHostValueException": return try await InvalidMinimumHealthyHostValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrafficRoutingConfigurationException": return try await InvalidTrafficRoutingConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidZonalDeploymentConfigurationException": return try await InvalidZonalDeploymentConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2646,6 +2671,7 @@ extension CreateDeploymentGroupInput: Swift.Encodable {
         case outdatedInstancesStrategy
         case serviceRoleArn
         case tags
+        case terminationHookEnabled
         case triggerConfigurations
     }
 
@@ -2717,6 +2743,9 @@ extension CreateDeploymentGroupInput: Swift.Encodable {
                 try tagsContainer.encode(tag0)
             }
         }
+        if let terminationHookEnabled = self.terminationHookEnabled {
+            try encodeContainer.encode(terminationHookEnabled, forKey: .terminationHookEnabled)
+        }
         if let triggerConfigurations = triggerConfigurations {
             var triggerConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .triggerConfigurations)
             for triggerconfig0 in triggerConfigurations {
@@ -2736,7 +2765,7 @@ extension CreateDeploymentGroupInput: ClientRuntime.URLPathProvider {
 public struct CreateDeploymentGroupInput: Swift.Equatable {
     /// Information to add about Amazon CloudWatch alarms when the deployment group is created.
     public var alarmConfiguration: CodeDeployClientTypes.AlarmConfiguration?
-    /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
+    /// The name of an CodeDeploy application associated with the user or Amazon Web Services account.
     /// This member is required.
     public var applicationName: Swift.String?
     /// Configuration information for an automatic rollback that is added when a deployment group is created.
@@ -2771,6 +2800,8 @@ public struct CreateDeploymentGroupInput: Swift.Equatable {
     public var serviceRoleArn: Swift.String?
     /// The metadata that you apply to CodeDeploy deployment groups to help you organize and categorize them. Each tag consists of a key and an optional value, both of which you define.
     public var tags: [CodeDeployClientTypes.Tag]?
+    /// This parameter only applies if you are using CodeDeploy with Amazon EC2 Auto Scaling. For more information, see [Integrating CodeDeploy with Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html) in the CodeDeploy User Guide. Set terminationHookEnabled to true to have CodeDeploy install a termination hook into your Auto Scaling group when you create a deployment group. When this hook is installed, CodeDeploy will perform termination deployments. For information about termination deployments, see [Enabling termination deployments during Auto Scaling scale-in events](https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors-hook-enable) in the CodeDeploy User Guide. For more information about Auto Scaling scale-in events, see the [Scale in](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-lifecycle.html#as-lifecycle-scale-in) topic in the Amazon EC2 Auto Scaling User Guide.
+    public var terminationHookEnabled: Swift.Bool?
     /// Information about triggers to create when the deployment group is created. For examples, see [Create a Trigger for an CodeDeploy Event](https://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-notify-sns.html) in the CodeDeploy User Guide.
     public var triggerConfigurations: [CodeDeployClientTypes.TriggerConfig]?
 
@@ -2792,6 +2823,7 @@ public struct CreateDeploymentGroupInput: Swift.Equatable {
         outdatedInstancesStrategy: CodeDeployClientTypes.OutdatedInstancesStrategy? = nil,
         serviceRoleArn: Swift.String? = nil,
         tags: [CodeDeployClientTypes.Tag]? = nil,
+        terminationHookEnabled: Swift.Bool? = nil,
         triggerConfigurations: [CodeDeployClientTypes.TriggerConfig]? = nil
     )
     {
@@ -2812,6 +2844,7 @@ public struct CreateDeploymentGroupInput: Swift.Equatable {
         self.outdatedInstancesStrategy = outdatedInstancesStrategy
         self.serviceRoleArn = serviceRoleArn
         self.tags = tags
+        self.terminationHookEnabled = terminationHookEnabled
         self.triggerConfigurations = triggerConfigurations
     }
 }
@@ -2835,6 +2868,7 @@ struct CreateDeploymentGroupInputBody: Swift.Equatable {
     let ecsServices: [CodeDeployClientTypes.ECSService]?
     let onPremisesTagSet: CodeDeployClientTypes.OnPremisesTagSet?
     let tags: [CodeDeployClientTypes.Tag]?
+    let terminationHookEnabled: Swift.Bool?
 }
 
 extension CreateDeploymentGroupInputBody: Swift.Decodable {
@@ -2856,6 +2890,7 @@ extension CreateDeploymentGroupInputBody: Swift.Decodable {
         case outdatedInstancesStrategy
         case serviceRoleArn
         case tags
+        case terminationHookEnabled
         case triggerConfigurations
     }
 
@@ -2951,11 +2986,54 @@ extension CreateDeploymentGroupInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let terminationHookEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationHookEnabled)
+        terminationHookEnabled = terminationHookEnabledDecoded
     }
 }
 
-public enum CreateDeploymentGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateDeploymentGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateDeploymentGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.deploymentGroupId = output.deploymentGroupId
+        } else {
+            self.deploymentGroupId = nil
+        }
+    }
+}
+
+/// Represents the output of a CreateDeploymentGroup operation.
+public struct CreateDeploymentGroupOutput: Swift.Equatable {
+    /// A unique deployment group ID.
+    public var deploymentGroupId: Swift.String?
+
+    public init(
+        deploymentGroupId: Swift.String? = nil
+    )
+    {
+        self.deploymentGroupId = deploymentGroupId
+    }
+}
+
+struct CreateDeploymentGroupOutputBody: Swift.Equatable {
+    let deploymentGroupId: Swift.String?
+}
+
+extension CreateDeploymentGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deploymentGroupId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deploymentGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentGroupId)
+        deploymentGroupId = deploymentGroupIdDecoded
+    }
+}
+
+enum CreateDeploymentGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2997,47 +3075,6 @@ public enum CreateDeploymentGroupOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension CreateDeploymentGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateDeploymentGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.deploymentGroupId = output.deploymentGroupId
-        } else {
-            self.deploymentGroupId = nil
-        }
-    }
-}
-
-/// Represents the output of a CreateDeploymentGroup operation.
-public struct CreateDeploymentGroupOutputResponse: Swift.Equatable {
-    /// A unique deployment group ID.
-    public var deploymentGroupId: Swift.String?
-
-    public init(
-        deploymentGroupId: Swift.String? = nil
-    )
-    {
-        self.deploymentGroupId = deploymentGroupId
-    }
-}
-
-struct CreateDeploymentGroupOutputResponseBody: Swift.Equatable {
-    let deploymentGroupId: Swift.String?
-}
-
-extension CreateDeploymentGroupOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case deploymentGroupId
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let deploymentGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentGroupId)
-        deploymentGroupId = deploymentGroupIdDecoded
-    }
-}
-
 extension CreateDeploymentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationName
@@ -3073,7 +3110,7 @@ extension CreateDeploymentInput: Swift.Encodable {
         if let fileExistsBehavior = self.fileExistsBehavior {
             try encodeContainer.encode(fileExistsBehavior.rawValue, forKey: .fileExistsBehavior)
         }
-        if ignoreApplicationStopFailures != false {
+        if let ignoreApplicationStopFailures = self.ignoreApplicationStopFailures {
             try encodeContainer.encode(ignoreApplicationStopFailures, forKey: .ignoreApplicationStopFailures)
         }
         if let overrideAlarmConfiguration = self.overrideAlarmConfiguration {
@@ -3085,7 +3122,7 @@ extension CreateDeploymentInput: Swift.Encodable {
         if let targetInstances = self.targetInstances {
             try encodeContainer.encode(targetInstances, forKey: .targetInstances)
         }
-        if updateOutdatedInstancesOnly != false {
+        if let updateOutdatedInstancesOnly = self.updateOutdatedInstancesOnly {
             try encodeContainer.encode(updateOutdatedInstancesOnly, forKey: .updateOutdatedInstancesOnly)
         }
     }
@@ -3099,12 +3136,12 @@ extension CreateDeploymentInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input of a CreateDeployment operation.
 public struct CreateDeploymentInput: Swift.Equatable {
-    /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
+    /// The name of an CodeDeploy application associated with the user or Amazon Web Services account.
     /// This member is required.
     public var applicationName: Swift.String?
     /// Configuration information for an automatic rollback that is added when a deployment is created.
     public var autoRollbackConfiguration: CodeDeployClientTypes.AutoRollbackConfiguration?
-    /// The name of a deployment configuration associated with the IAM user or Amazon Web Services account. If not specified, the value configured in the deployment group is used as the default. If the deployment group does not have a deployment configuration associated with it, CodeDeployDefault.OneAtATime is used by default.
+    /// The name of a deployment configuration associated with the user or Amazon Web Services account. If not specified, the value configured in the deployment group is used as the default. If the deployment group does not have a deployment configuration associated with it, CodeDeployDefault.OneAtATime is used by default.
     public var deploymentConfigName: Swift.String?
     /// The name of the deployment group.
     public var deploymentGroupName: Swift.String?
@@ -3119,7 +3156,7 @@ public struct CreateDeploymentInput: Swift.Equatable {
     /// * RETAIN: The version of the file already on the instance is kept and used as part of the new deployment.
     public var fileExistsBehavior: CodeDeployClientTypes.FileExistsBehavior?
     /// If true, then if an ApplicationStop, BeforeBlockTraffic, or AfterBlockTraffic deployment lifecycle event to an instance fails, then the deployment continues to the next deployment lifecycle event. For example, if ApplicationStop fails, the deployment continues with DownloadBundle. If BeforeBlockTraffic fails, the deployment continues with BlockTraffic. If AfterBlockTraffic fails, the deployment continues with ApplicationStop. If false or not specified, then if a lifecycle event fails during a deployment to an instance, that deployment fails. If deployment to that instance is part of an overall deployment and the number of healthy hosts is not less than the minimum number of healthy hosts, then a deployment to the next instance is attempted. During a deployment, the CodeDeploy agent runs the scripts specified for ApplicationStop, BeforeBlockTraffic, and AfterBlockTraffic in the AppSpec file from the previous successful deployment. (All other scripts are run from the AppSpec file in the current deployment.) If one of these scripts contains an error and does not run successfully, the deployment can fail. If the cause of the failure is a script from the last successful deployment that will never run successfully, create a new deployment and use ignoreApplicationStopFailures to specify that the ApplicationStop, BeforeBlockTraffic, and AfterBlockTraffic failures should be ignored.
-    public var ignoreApplicationStopFailures: Swift.Bool
+    public var ignoreApplicationStopFailures: Swift.Bool?
     /// Allows you to specify information about alarms associated with a deployment. The alarm configuration that you specify here will override the alarm configuration at the deployment group level. Consider overriding the alarm configuration if you have set up alarms at the deployment group level that are causing deployment failures. In this case, you would call CreateDeployment to create a new deployment that uses a previous application revision that is known to work, and set its alarm configuration to turn off alarm polling. Turning off alarm polling ensures that the new deployment proceeds without being blocked by the alarm that was generated by the previous, failed, deployment. If you specify an overrideAlarmConfiguration, you need the UpdateDeploymentGroup IAM permission when calling CreateDeployment.
     public var overrideAlarmConfiguration: CodeDeployClientTypes.AlarmConfiguration?
     /// The type and location of the revision to deploy.
@@ -3127,7 +3164,7 @@ public struct CreateDeploymentInput: Swift.Equatable {
     /// Information about the instances that belong to the replacement environment in a blue/green deployment.
     public var targetInstances: CodeDeployClientTypes.TargetInstances?
     /// Indicates whether to deploy to all instances or only to instances that are not running the latest application revision.
-    public var updateOutdatedInstancesOnly: Swift.Bool
+    public var updateOutdatedInstancesOnly: Swift.Bool?
 
     public init(
         applicationName: Swift.String? = nil,
@@ -3136,11 +3173,11 @@ public struct CreateDeploymentInput: Swift.Equatable {
         deploymentGroupName: Swift.String? = nil,
         description: Swift.String? = nil,
         fileExistsBehavior: CodeDeployClientTypes.FileExistsBehavior? = nil,
-        ignoreApplicationStopFailures: Swift.Bool = false,
+        ignoreApplicationStopFailures: Swift.Bool? = nil,
         overrideAlarmConfiguration: CodeDeployClientTypes.AlarmConfiguration? = nil,
         revision: CodeDeployClientTypes.RevisionLocation? = nil,
         targetInstances: CodeDeployClientTypes.TargetInstances? = nil,
-        updateOutdatedInstancesOnly: Swift.Bool = false
+        updateOutdatedInstancesOnly: Swift.Bool? = nil
     )
     {
         self.applicationName = applicationName
@@ -3163,10 +3200,10 @@ struct CreateDeploymentInputBody: Swift.Equatable {
     let revision: CodeDeployClientTypes.RevisionLocation?
     let deploymentConfigName: Swift.String?
     let description: Swift.String?
-    let ignoreApplicationStopFailures: Swift.Bool
+    let ignoreApplicationStopFailures: Swift.Bool?
     let targetInstances: CodeDeployClientTypes.TargetInstances?
     let autoRollbackConfiguration: CodeDeployClientTypes.AutoRollbackConfiguration?
-    let updateOutdatedInstancesOnly: Swift.Bool
+    let updateOutdatedInstancesOnly: Swift.Bool?
     let fileExistsBehavior: CodeDeployClientTypes.FileExistsBehavior?
     let overrideAlarmConfiguration: CodeDeployClientTypes.AlarmConfiguration?
 }
@@ -3198,13 +3235,13 @@ extension CreateDeploymentInputBody: Swift.Decodable {
         deploymentConfigName = deploymentConfigNameDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let ignoreApplicationStopFailuresDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ignoreApplicationStopFailures) ?? false
+        let ignoreApplicationStopFailuresDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ignoreApplicationStopFailures)
         ignoreApplicationStopFailures = ignoreApplicationStopFailuresDecoded
         let targetInstancesDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.TargetInstances.self, forKey: .targetInstances)
         targetInstances = targetInstancesDecoded
         let autoRollbackConfigurationDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.AutoRollbackConfiguration.self, forKey: .autoRollbackConfiguration)
         autoRollbackConfiguration = autoRollbackConfigurationDecoded
-        let updateOutdatedInstancesOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .updateOutdatedInstancesOnly) ?? false
+        let updateOutdatedInstancesOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .updateOutdatedInstancesOnly)
         updateOutdatedInstancesOnly = updateOutdatedInstancesOnlyDecoded
         let fileExistsBehaviorDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.FileExistsBehavior.self, forKey: .fileExistsBehavior)
         fileExistsBehavior = fileExistsBehaviorDecoded
@@ -3213,8 +3250,49 @@ extension CreateDeploymentInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateDeploymentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateDeploymentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.deploymentId = output.deploymentId
+        } else {
+            self.deploymentId = nil
+        }
+    }
+}
+
+/// Represents the output of a CreateDeployment operation.
+public struct CreateDeploymentOutput: Swift.Equatable {
+    /// The unique ID of a deployment.
+    public var deploymentId: Swift.String?
+
+    public init(
+        deploymentId: Swift.String? = nil
+    )
+    {
+        self.deploymentId = deploymentId
+    }
+}
+
+struct CreateDeploymentOutputBody: Swift.Equatable {
+    let deploymentId: Swift.String?
+}
+
+extension CreateDeploymentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deploymentId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
+        deploymentId = deploymentIdDecoded
+    }
+}
+
+enum CreateDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3249,47 +3327,6 @@ public enum CreateDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension CreateDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.deploymentId = output.deploymentId
-        } else {
-            self.deploymentId = nil
-        }
-    }
-}
-
-/// Represents the output of a CreateDeployment operation.
-public struct CreateDeploymentOutputResponse: Swift.Equatable {
-    /// The unique ID of a deployment.
-    public var deploymentId: Swift.String?
-
-    public init(
-        deploymentId: Swift.String? = nil
-    )
-    {
-        self.deploymentId = deploymentId
-    }
-}
-
-struct CreateDeploymentOutputResponseBody: Swift.Equatable {
-    let deploymentId: Swift.String?
-}
-
-extension CreateDeploymentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case deploymentId
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
-        deploymentId = deploymentIdDecoded
-    }
-}
-
 extension DeleteApplicationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationName
@@ -3311,7 +3348,7 @@ extension DeleteApplicationInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input of a DeleteApplication operation.
 public struct DeleteApplicationInput: Swift.Equatable {
-    /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
+    /// The name of an CodeDeploy application associated with the user or Amazon Web Services account.
     /// This member is required.
     public var applicationName: Swift.String?
 
@@ -3339,8 +3376,18 @@ extension DeleteApplicationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteApplicationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteApplicationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3350,16 +3397,6 @@ public enum DeleteApplicationOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteApplicationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteDeploymentConfigInput: Swift.Encodable {
@@ -3383,7 +3420,7 @@ extension DeleteDeploymentConfigInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input of a DeleteDeploymentConfig operation.
 public struct DeleteDeploymentConfigInput: Swift.Equatable {
-    /// The name of a deployment configuration associated with the IAM user or Amazon Web Services account.
+    /// The name of a deployment configuration associated with the user or Amazon Web Services account.
     /// This member is required.
     public var deploymentConfigName: Swift.String?
 
@@ -3411,8 +3448,18 @@ extension DeleteDeploymentConfigInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteDeploymentConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteDeploymentConfigOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteDeploymentConfigOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteDeploymentConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3423,16 +3470,6 @@ public enum DeleteDeploymentConfigOutputError: ClientRuntime.HttpResponseErrorBi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteDeploymentConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteDeploymentConfigOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteDeploymentGroupInput: Swift.Encodable {
@@ -3460,7 +3497,7 @@ extension DeleteDeploymentGroupInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input of a DeleteDeploymentGroup operation.
 public struct DeleteDeploymentGroupInput: Swift.Equatable {
-    /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
+    /// The name of an CodeDeploy application associated with the user or Amazon Web Services account.
     /// This member is required.
     public var applicationName: Swift.String?
     /// The name of a deployment group for the specified application.
@@ -3497,26 +3534,11 @@ extension DeleteDeploymentGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteDeploymentGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DeploymentGroupNameRequiredException": return try await DeploymentGroupNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidDeploymentGroupNameException": return try await InvalidDeploymentGroupNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRoleException": return try await InvalidRoleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteDeploymentGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteDeploymentGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteDeploymentGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteDeploymentGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.hooksNotCleanedUp = output.hooksNotCleanedUp
         } else {
             self.hooksNotCleanedUp = nil
@@ -3525,7 +3547,7 @@ extension DeleteDeploymentGroupOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 /// Represents the output of a DeleteDeploymentGroup operation.
-public struct DeleteDeploymentGroupOutputResponse: Swift.Equatable {
+public struct DeleteDeploymentGroupOutput: Swift.Equatable {
     /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group. If the output contains data, CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group.
     public var hooksNotCleanedUp: [CodeDeployClientTypes.AutoScalingGroup]?
 
@@ -3537,11 +3559,11 @@ public struct DeleteDeploymentGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteDeploymentGroupOutputResponseBody: Swift.Equatable {
+struct DeleteDeploymentGroupOutputBody: Swift.Equatable {
     let hooksNotCleanedUp: [CodeDeployClientTypes.AutoScalingGroup]?
 }
 
-extension DeleteDeploymentGroupOutputResponseBody: Swift.Decodable {
+extension DeleteDeploymentGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case hooksNotCleanedUp
     }
@@ -3559,6 +3581,21 @@ extension DeleteDeploymentGroupOutputResponseBody: Swift.Decodable {
             }
         }
         hooksNotCleanedUp = hooksNotCleanedUpDecoded0
+    }
+}
+
+enum DeleteDeploymentGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentGroupNameRequiredException": return try await DeploymentGroupNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentGroupNameException": return try await InvalidDeploymentGroupNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRoleException": return try await InvalidRoleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3610,26 +3647,11 @@ extension DeleteGitHubAccountTokenInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteGitHubAccountTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "GitHubAccountTokenDoesNotExistException": return try await GitHubAccountTokenDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "GitHubAccountTokenNameRequiredException": return try await GitHubAccountTokenNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidGitHubAccountTokenNameException": return try await InvalidGitHubAccountTokenNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceValidationException": return try await ResourceValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteGitHubAccountTokenOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteGitHubAccountTokenOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteGitHubAccountTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteGitHubAccountTokenOutputBody = try responseDecoder.decode(responseBody: data)
             self.tokenName = output.tokenName
         } else {
             self.tokenName = nil
@@ -3638,7 +3660,7 @@ extension DeleteGitHubAccountTokenOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 /// Represents the output of a DeleteGitHubAccountToken operation.
-public struct DeleteGitHubAccountTokenOutputResponse: Swift.Equatable {
+public struct DeleteGitHubAccountTokenOutput: Swift.Equatable {
     /// The name of the GitHub account connection that was deleted.
     public var tokenName: Swift.String?
 
@@ -3650,11 +3672,11 @@ public struct DeleteGitHubAccountTokenOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteGitHubAccountTokenOutputResponseBody: Swift.Equatable {
+struct DeleteGitHubAccountTokenOutputBody: Swift.Equatable {
     let tokenName: Swift.String?
 }
 
-extension DeleteGitHubAccountTokenOutputResponseBody: Swift.Decodable {
+extension DeleteGitHubAccountTokenOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tokenName
     }
@@ -3663,6 +3685,21 @@ extension DeleteGitHubAccountTokenOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tokenNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tokenName)
         tokenName = tokenNameDecoded
+    }
+}
+
+enum DeleteGitHubAccountTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "GitHubAccountTokenDoesNotExistException": return try await GitHubAccountTokenDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GitHubAccountTokenNameRequiredException": return try await GitHubAccountTokenNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGitHubAccountTokenNameException": return try await InvalidGitHubAccountTokenNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceValidationException": return try await ResourceValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3713,24 +3750,24 @@ extension DeleteResourcesByExternalIdInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteResourcesByExternalIdOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteResourcesByExternalIdOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteResourcesByExternalIdOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteResourcesByExternalIdOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteResourcesByExternalIdOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteResourcesByExternalIdOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeploymentAlreadyCompletedException {
@@ -3804,7 +3841,7 @@ extension DeploymentConfigAlreadyExistsException {
     }
 }
 
-/// A deployment configuration with the specified name with the IAM user or Amazon Web Services account already exists.
+/// A deployment configuration with the specified name with the user or Amazon Web Services account already exists.
 public struct DeploymentConfigAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -3860,7 +3897,7 @@ extension DeploymentConfigDoesNotExistException {
     }
 }
 
-/// The deployment configuration does not exist with the IAM user or Amazon Web Services account.
+/// The deployment configuration does not exist with the user or Amazon Web Services account.
 public struct DeploymentConfigDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -3965,6 +4002,7 @@ extension CodeDeployClientTypes.DeploymentConfigInfo: Swift.Codable {
         case deploymentConfigName
         case minimumHealthyHosts
         case trafficRoutingConfig
+        case zonalConfig
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3987,6 +4025,9 @@ extension CodeDeployClientTypes.DeploymentConfigInfo: Swift.Codable {
         if let trafficRoutingConfig = self.trafficRoutingConfig {
             try encodeContainer.encode(trafficRoutingConfig, forKey: .trafficRoutingConfig)
         }
+        if let zonalConfig = self.zonalConfig {
+            try encodeContainer.encode(zonalConfig, forKey: .zonalConfig)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -4003,6 +4044,8 @@ extension CodeDeployClientTypes.DeploymentConfigInfo: Swift.Codable {
         computePlatform = computePlatformDecoded
         let trafficRoutingConfigDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.TrafficRoutingConfig.self, forKey: .trafficRoutingConfig)
         trafficRoutingConfig = trafficRoutingConfigDecoded
+        let zonalConfigDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.ZonalConfig.self, forKey: .zonalConfig)
+        zonalConfig = zonalConfigDecoded
     }
 }
 
@@ -4017,10 +4060,12 @@ extension CodeDeployClientTypes {
         public var deploymentConfigId: Swift.String?
         /// The deployment configuration name.
         public var deploymentConfigName: Swift.String?
-        /// Information about the number or percentage of minimum healthy instance.
+        /// Information about the number or percentage of minimum healthy instances.
         public var minimumHealthyHosts: CodeDeployClientTypes.MinimumHealthyHosts?
         /// The configuration that specifies how the deployment traffic is routed. Used for deployments with a Lambda or Amazon ECS compute platform only.
         public var trafficRoutingConfig: CodeDeployClientTypes.TrafficRoutingConfig?
+        /// Information about a zonal configuration.
+        public var zonalConfig: CodeDeployClientTypes.ZonalConfig?
 
         public init(
             computePlatform: CodeDeployClientTypes.ComputePlatform? = nil,
@@ -4028,7 +4073,8 @@ extension CodeDeployClientTypes {
             deploymentConfigId: Swift.String? = nil,
             deploymentConfigName: Swift.String? = nil,
             minimumHealthyHosts: CodeDeployClientTypes.MinimumHealthyHosts? = nil,
-            trafficRoutingConfig: CodeDeployClientTypes.TrafficRoutingConfig? = nil
+            trafficRoutingConfig: CodeDeployClientTypes.TrafficRoutingConfig? = nil,
+            zonalConfig: CodeDeployClientTypes.ZonalConfig? = nil
         )
         {
             self.computePlatform = computePlatform
@@ -4037,6 +4083,7 @@ extension CodeDeployClientTypes {
             self.deploymentConfigName = deploymentConfigName
             self.minimumHealthyHosts = minimumHealthyHosts
             self.trafficRoutingConfig = trafficRoutingConfig
+            self.zonalConfig = zonalConfig
         }
     }
 
@@ -4157,6 +4204,7 @@ extension DeploymentConfigNameRequiredExceptionBody: Swift.Decodable {
 extension CodeDeployClientTypes {
     public enum DeploymentCreator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case autoscaling
+        case autoscalingtermination
         case cloudformation
         case cloudformationrollback
         case codedeploy
@@ -4168,6 +4216,7 @@ extension CodeDeployClientTypes {
         public static var allCases: [DeploymentCreator] {
             return [
                 .autoscaling,
+                .autoscalingtermination,
                 .cloudformation,
                 .cloudformationrollback,
                 .codedeploy,
@@ -4184,6 +4233,7 @@ extension CodeDeployClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .autoscaling: return "autoscaling"
+            case .autoscalingtermination: return "autoscalingTermination"
             case .cloudformation: return "CloudFormation"
             case .cloudformationrollback: return "CloudFormationRollback"
             case .codedeploy: return "CodeDeploy"
@@ -4216,7 +4266,7 @@ extension DeploymentDoesNotExistException {
     }
 }
 
-/// The deployment with the IAM user or Amazon Web Services account does not exist.
+/// The deployment with the user or Amazon Web Services account does not exist.
 public struct DeploymentDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -4272,7 +4322,7 @@ extension DeploymentGroupAlreadyExistsException {
     }
 }
 
-/// A deployment group with the specified name with the IAM user or Amazon Web Services account already exists.
+/// A deployment group with the specified name with the user or Amazon Web Services account already exists.
 public struct DeploymentGroupAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -4328,7 +4378,7 @@ extension DeploymentGroupDoesNotExistException {
     }
 }
 
-/// The named deployment group with the IAM user or Amazon Web Services account does not exist.
+/// The named deployment group with the user or Amazon Web Services account does not exist.
 public struct DeploymentGroupDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -4392,6 +4442,7 @@ extension CodeDeployClientTypes.DeploymentGroupInfo: Swift.Codable {
         case outdatedInstancesStrategy
         case serviceRoleArn
         case targetRevision
+        case terminationHookEnabled
         case triggerConfigurations
     }
 
@@ -4471,6 +4522,9 @@ extension CodeDeployClientTypes.DeploymentGroupInfo: Swift.Codable {
         }
         if let targetRevision = self.targetRevision {
             try encodeContainer.encode(targetRevision, forKey: .targetRevision)
+        }
+        if terminationHookEnabled != false {
+            try encodeContainer.encode(terminationHookEnabled, forKey: .terminationHookEnabled)
         }
         if let triggerConfigurations = triggerConfigurations {
             var triggerConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .triggerConfigurations)
@@ -4571,6 +4625,8 @@ extension CodeDeployClientTypes.DeploymentGroupInfo: Swift.Codable {
             }
         }
         ecsServices = ecsServicesDecoded0
+        let terminationHookEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationHookEnabled) ?? false
+        terminationHookEnabled = terminationHookEnabledDecoded
     }
 }
 
@@ -4619,6 +4675,8 @@ extension CodeDeployClientTypes {
         public var serviceRoleArn: Swift.String?
         /// Information about the deployment group's target revision, including type and location.
         public var targetRevision: CodeDeployClientTypes.RevisionLocation?
+        /// Indicates whether the deployment group was configured to have CodeDeploy install a termination hook into an Auto Scaling group. For more information about the termination hook, see [How Amazon EC2 Auto Scaling works with CodeDeploy](https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors) in the CodeDeploy User Guide.
+        public var terminationHookEnabled: Swift.Bool
         /// Information about triggers associated with the deployment group.
         public var triggerConfigurations: [CodeDeployClientTypes.TriggerConfig]?
 
@@ -4644,6 +4702,7 @@ extension CodeDeployClientTypes {
             outdatedInstancesStrategy: CodeDeployClientTypes.OutdatedInstancesStrategy? = nil,
             serviceRoleArn: Swift.String? = nil,
             targetRevision: CodeDeployClientTypes.RevisionLocation? = nil,
+            terminationHookEnabled: Swift.Bool = false,
             triggerConfigurations: [CodeDeployClientTypes.TriggerConfig]? = nil
         )
         {
@@ -4668,6 +4727,7 @@ extension CodeDeployClientTypes {
             self.outdatedInstancesStrategy = outdatedInstancesStrategy
             self.serviceRoleArn = serviceRoleArn
             self.targetRevision = targetRevision
+            self.terminationHookEnabled = terminationHookEnabled
             self.triggerConfigurations = triggerConfigurations
         }
     }
@@ -6049,8 +6109,18 @@ extension DeregisterOnPremisesInstanceInputBody: Swift.Decodable {
     }
 }
 
-public enum DeregisterOnPremisesInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeregisterOnPremisesInstanceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeregisterOnPremisesInstanceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeregisterOnPremisesInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6059,16 +6129,6 @@ public enum DeregisterOnPremisesInstanceOutputError: ClientRuntime.HttpResponseE
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeregisterOnPremisesInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeregisterOnPremisesInstanceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DescriptionTooLongException {
@@ -6710,9 +6770,9 @@ extension CodeDeployClientTypes.ELBInfo: Swift.Codable {
 }
 
 extension CodeDeployClientTypes {
-    /// Information about a load balancer in Elastic Load Balancing to use in a deployment. Instances are registered directly with a load balancer, and traffic is routed to the load balancer.
+    /// Information about a Classic Load Balancer in Elastic Load Balancing to use in a deployment. Instances are registered directly with a load balancer, and traffic is routed to the load balancer.
     public struct ELBInfo: Swift.Equatable {
-        /// For blue/green deployments, the name of the load balancer that is used to route traffic from original instances to replacement instances in a blue/green deployment. For in-place deployments, the name of the load balancer that instances are deregistered from so they are not serving traffic during a deployment, and then re-registered with after the deployment is complete.
+        /// For blue/green deployments, the name of the Classic Load Balancer that is used to route traffic from original instances to replacement instances in a blue/green deployment. For in-place deployments, the name of the Classic Load Balancer that instances are deregistered from so they are not serving traffic during a deployment, and then re-registered with after the deployment is complete.
         public var name: Swift.String?
 
         public init(
@@ -7067,7 +7127,7 @@ extension GetApplicationInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input of a GetApplication operation.
 public struct GetApplicationInput: Swift.Equatable {
-    /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
+    /// The name of an CodeDeploy application associated with the user or Amazon Web Services account.
     /// This member is required.
     public var applicationName: Swift.String?
 
@@ -7095,24 +7155,11 @@ extension GetApplicationInputBody: Swift.Decodable {
     }
 }
 
-public enum GetApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetApplicationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetApplicationOutputBody = try responseDecoder.decode(responseBody: data)
             self.application = output.application
         } else {
             self.application = nil
@@ -7121,7 +7168,7 @@ extension GetApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a GetApplication operation.
-public struct GetApplicationOutputResponse: Swift.Equatable {
+public struct GetApplicationOutput: Swift.Equatable {
     /// Information about the application.
     public var application: CodeDeployClientTypes.ApplicationInfo?
 
@@ -7133,11 +7180,11 @@ public struct GetApplicationOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetApplicationOutputResponseBody: Swift.Equatable {
+struct GetApplicationOutputBody: Swift.Equatable {
     let application: CodeDeployClientTypes.ApplicationInfo?
 }
 
-extension GetApplicationOutputResponseBody: Swift.Decodable {
+extension GetApplicationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case application
     }
@@ -7146,6 +7193,19 @@ extension GetApplicationOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.ApplicationInfo.self, forKey: .application)
         application = applicationDecoded
+    }
+}
+
+enum GetApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7211,27 +7271,11 @@ extension GetApplicationRevisionInputBody: Swift.Decodable {
     }
 }
 
-public enum GetApplicationRevisionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRevisionException": return try await InvalidRevisionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RevisionDoesNotExistException": return try await RevisionDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RevisionRequiredException": return try await RevisionRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetApplicationRevisionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetApplicationRevisionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetApplicationRevisionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetApplicationRevisionOutputBody = try responseDecoder.decode(responseBody: data)
             self.applicationName = output.applicationName
             self.revision = output.revision
             self.revisionInfo = output.revisionInfo
@@ -7244,7 +7288,7 @@ extension GetApplicationRevisionOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 /// Represents the output of a GetApplicationRevision operation.
-public struct GetApplicationRevisionOutputResponse: Swift.Equatable {
+public struct GetApplicationRevisionOutput: Swift.Equatable {
     /// The name of the application that corresponds to the revision.
     public var applicationName: Swift.String?
     /// Additional information about the revision, including type and location.
@@ -7264,13 +7308,13 @@ public struct GetApplicationRevisionOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetApplicationRevisionOutputResponseBody: Swift.Equatable {
+struct GetApplicationRevisionOutputBody: Swift.Equatable {
     let applicationName: Swift.String?
     let revision: CodeDeployClientTypes.RevisionLocation?
     let revisionInfo: CodeDeployClientTypes.GenericRevisionInfo?
 }
 
-extension GetApplicationRevisionOutputResponseBody: Swift.Decodable {
+extension GetApplicationRevisionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationName
         case revision
@@ -7285,6 +7329,22 @@ extension GetApplicationRevisionOutputResponseBody: Swift.Decodable {
         revision = revisionDecoded
         let revisionInfoDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.GenericRevisionInfo.self, forKey: .revisionInfo)
         revisionInfo = revisionInfoDecoded
+    }
+}
+
+enum GetApplicationRevisionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRevisionException": return try await InvalidRevisionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RevisionDoesNotExistException": return try await RevisionDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RevisionRequiredException": return try await RevisionRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7309,7 +7369,7 @@ extension GetDeploymentConfigInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input of a GetDeploymentConfig operation.
 public struct GetDeploymentConfigInput: Swift.Equatable {
-    /// The name of a deployment configuration associated with the IAM user or Amazon Web Services account.
+    /// The name of a deployment configuration associated with the user or Amazon Web Services account.
     /// This member is required.
     public var deploymentConfigName: Swift.String?
 
@@ -7337,25 +7397,11 @@ extension GetDeploymentConfigInputBody: Swift.Decodable {
     }
 }
 
-public enum GetDeploymentConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DeploymentConfigDoesNotExistException": return try await DeploymentConfigDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DeploymentConfigNameRequiredException": return try await DeploymentConfigNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidComputePlatformException": return try await InvalidComputePlatformException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidDeploymentConfigNameException": return try await InvalidDeploymentConfigNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetDeploymentConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetDeploymentConfigOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetDeploymentConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetDeploymentConfigOutputBody = try responseDecoder.decode(responseBody: data)
             self.deploymentConfigInfo = output.deploymentConfigInfo
         } else {
             self.deploymentConfigInfo = nil
@@ -7364,7 +7410,7 @@ extension GetDeploymentConfigOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a GetDeploymentConfig operation.
-public struct GetDeploymentConfigOutputResponse: Swift.Equatable {
+public struct GetDeploymentConfigOutput: Swift.Equatable {
     /// Information about the deployment configuration.
     public var deploymentConfigInfo: CodeDeployClientTypes.DeploymentConfigInfo?
 
@@ -7376,11 +7422,11 @@ public struct GetDeploymentConfigOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetDeploymentConfigOutputResponseBody: Swift.Equatable {
+struct GetDeploymentConfigOutputBody: Swift.Equatable {
     let deploymentConfigInfo: CodeDeployClientTypes.DeploymentConfigInfo?
 }
 
-extension GetDeploymentConfigOutputResponseBody: Swift.Decodable {
+extension GetDeploymentConfigOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deploymentConfigInfo
     }
@@ -7389,6 +7435,20 @@ extension GetDeploymentConfigOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentConfigInfoDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.DeploymentConfigInfo.self, forKey: .deploymentConfigInfo)
         deploymentConfigInfo = deploymentConfigInfoDecoded
+    }
+}
+
+enum GetDeploymentConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DeploymentConfigDoesNotExistException": return try await DeploymentConfigDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentConfigNameRequiredException": return try await DeploymentConfigNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidComputePlatformException": return try await InvalidComputePlatformException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentConfigNameException": return try await InvalidDeploymentConfigNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7417,7 +7477,7 @@ extension GetDeploymentGroupInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input of a GetDeploymentGroup operation.
 public struct GetDeploymentGroupInput: Swift.Equatable {
-    /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
+    /// The name of an CodeDeploy application associated with the user or Amazon Web Services account.
     /// This member is required.
     public var applicationName: Swift.String?
     /// The name of a deployment group for the specified application.
@@ -7454,8 +7514,49 @@ extension GetDeploymentGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum GetDeploymentGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension GetDeploymentGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetDeploymentGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.deploymentGroupInfo = output.deploymentGroupInfo
+        } else {
+            self.deploymentGroupInfo = nil
+        }
+    }
+}
+
+/// Represents the output of a GetDeploymentGroup operation.
+public struct GetDeploymentGroupOutput: Swift.Equatable {
+    /// Information about the deployment group.
+    public var deploymentGroupInfo: CodeDeployClientTypes.DeploymentGroupInfo?
+
+    public init(
+        deploymentGroupInfo: CodeDeployClientTypes.DeploymentGroupInfo? = nil
+    )
+    {
+        self.deploymentGroupInfo = deploymentGroupInfo
+    }
+}
+
+struct GetDeploymentGroupOutputBody: Swift.Equatable {
+    let deploymentGroupInfo: CodeDeployClientTypes.DeploymentGroupInfo?
+}
+
+extension GetDeploymentGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deploymentGroupInfo
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deploymentGroupInfoDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.DeploymentGroupInfo.self, forKey: .deploymentGroupInfo)
+        deploymentGroupInfo = deploymentGroupInfoDecoded
+    }
+}
+
+enum GetDeploymentGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7468,47 +7569,6 @@ public enum GetDeploymentGroupOutputError: ClientRuntime.HttpResponseErrorBindin
             case "InvalidDeploymentGroupNameException": return try await InvalidDeploymentGroupNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetDeploymentGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetDeploymentGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.deploymentGroupInfo = output.deploymentGroupInfo
-        } else {
-            self.deploymentGroupInfo = nil
-        }
-    }
-}
-
-/// Represents the output of a GetDeploymentGroup operation.
-public struct GetDeploymentGroupOutputResponse: Swift.Equatable {
-    /// Information about the deployment group.
-    public var deploymentGroupInfo: CodeDeployClientTypes.DeploymentGroupInfo?
-
-    public init(
-        deploymentGroupInfo: CodeDeployClientTypes.DeploymentGroupInfo? = nil
-    )
-    {
-        self.deploymentGroupInfo = deploymentGroupInfo
-    }
-}
-
-struct GetDeploymentGroupOutputResponseBody: Swift.Equatable {
-    let deploymentGroupInfo: CodeDeployClientTypes.DeploymentGroupInfo?
-}
-
-extension GetDeploymentGroupOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case deploymentGroupInfo
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let deploymentGroupInfoDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.DeploymentGroupInfo.self, forKey: .deploymentGroupInfo)
-        deploymentGroupInfo = deploymentGroupInfoDecoded
     }
 }
 
@@ -7533,7 +7593,7 @@ extension GetDeploymentInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input of a GetDeployment operation.
 public struct GetDeploymentInput: Swift.Equatable {
-    /// The unique ID of a deployment associated with the IAM user or Amazon Web Services account.
+    /// The unique ID of a deployment associated with the user or Amazon Web Services account.
     /// This member is required.
     public var deploymentId: Swift.String?
 
@@ -7623,8 +7683,50 @@ extension GetDeploymentInstanceInputBody: Swift.Decodable {
     }
 }
 
-public enum GetDeploymentInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension GetDeploymentInstanceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetDeploymentInstanceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.instanceSummary = output.instanceSummary
+        } else {
+            self.instanceSummary = nil
+        }
+    }
+}
+
+/// Represents the output of a GetDeploymentInstance operation.
+public struct GetDeploymentInstanceOutput: Swift.Equatable {
+    /// Information about the instance.
+    @available(*, deprecated, message: "InstanceSummary is deprecated, use DeploymentTarget instead.")
+    public var instanceSummary: CodeDeployClientTypes.InstanceSummary?
+
+    public init(
+        instanceSummary: CodeDeployClientTypes.InstanceSummary? = nil
+    )
+    {
+        self.instanceSummary = instanceSummary
+    }
+}
+
+struct GetDeploymentInstanceOutputBody: Swift.Equatable {
+    let instanceSummary: CodeDeployClientTypes.InstanceSummary?
+}
+
+extension GetDeploymentInstanceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceSummary
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceSummaryDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.InstanceSummary.self, forKey: .instanceSummary)
+        instanceSummary = instanceSummaryDecoded
+    }
+}
+
+enum GetDeploymentInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7640,66 +7742,11 @@ public enum GetDeploymentInstanceOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension GetDeploymentInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetDeploymentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetDeploymentInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.instanceSummary = output.instanceSummary
-        } else {
-            self.instanceSummary = nil
-        }
-    }
-}
-
-/// Represents the output of a GetDeploymentInstance operation.
-public struct GetDeploymentInstanceOutputResponse: Swift.Equatable {
-    /// Information about the instance.
-    @available(*, deprecated, message: "InstanceSummary is deprecated, use DeploymentTarget instead.")
-    public var instanceSummary: CodeDeployClientTypes.InstanceSummary?
-
-    public init(
-        instanceSummary: CodeDeployClientTypes.InstanceSummary? = nil
-    )
-    {
-        self.instanceSummary = instanceSummary
-    }
-}
-
-struct GetDeploymentInstanceOutputResponseBody: Swift.Equatable {
-    let instanceSummary: CodeDeployClientTypes.InstanceSummary?
-}
-
-extension GetDeploymentInstanceOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case instanceSummary
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let instanceSummaryDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.InstanceSummary.self, forKey: .instanceSummary)
-        instanceSummary = instanceSummaryDecoded
-    }
-}
-
-public enum GetDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DeploymentDoesNotExistException": return try await DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetDeploymentOutputBody = try responseDecoder.decode(responseBody: data)
             self.deploymentInfo = output.deploymentInfo
         } else {
             self.deploymentInfo = nil
@@ -7708,7 +7755,7 @@ extension GetDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a GetDeployment operation.
-public struct GetDeploymentOutputResponse: Swift.Equatable {
+public struct GetDeploymentOutput: Swift.Equatable {
     /// Information about the deployment.
     public var deploymentInfo: CodeDeployClientTypes.DeploymentInfo?
 
@@ -7720,11 +7767,11 @@ public struct GetDeploymentOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetDeploymentOutputResponseBody: Swift.Equatable {
+struct GetDeploymentOutputBody: Swift.Equatable {
     let deploymentInfo: CodeDeployClientTypes.DeploymentInfo?
 }
 
-extension GetDeploymentOutputResponseBody: Swift.Decodable {
+extension GetDeploymentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deploymentInfo
     }
@@ -7733,6 +7780,19 @@ extension GetDeploymentOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentInfoDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.DeploymentInfo.self, forKey: .deploymentInfo)
         deploymentInfo = deploymentInfoDecoded
+    }
+}
+
+enum GetDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DeploymentDoesNotExistException": return try await DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7761,8 +7821,10 @@ extension GetDeploymentTargetInput: ClientRuntime.URLPathProvider {
 
 public struct GetDeploymentTargetInput: Swift.Equatable {
     /// The unique ID of a deployment.
+    /// This member is required.
     public var deploymentId: Swift.String?
     /// The unique ID of a deployment target.
+    /// This member is required.
     public var targetId: Swift.String?
 
     public init(
@@ -7795,8 +7857,48 @@ extension GetDeploymentTargetInputBody: Swift.Decodable {
     }
 }
 
-public enum GetDeploymentTargetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension GetDeploymentTargetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetDeploymentTargetOutputBody = try responseDecoder.decode(responseBody: data)
+            self.deploymentTarget = output.deploymentTarget
+        } else {
+            self.deploymentTarget = nil
+        }
+    }
+}
+
+public struct GetDeploymentTargetOutput: Swift.Equatable {
+    /// A deployment target that contains information about a deployment such as its status, lifecycle events, and when it was last updated. It also contains metadata about the deployment target. The deployment target metadata depends on the deployment target's type (instanceTarget, lambdaTarget, or ecsTarget).
+    public var deploymentTarget: CodeDeployClientTypes.DeploymentTarget?
+
+    public init(
+        deploymentTarget: CodeDeployClientTypes.DeploymentTarget? = nil
+    )
+    {
+        self.deploymentTarget = deploymentTarget
+    }
+}
+
+struct GetDeploymentTargetOutputBody: Swift.Equatable {
+    let deploymentTarget: CodeDeployClientTypes.DeploymentTarget?
+}
+
+extension GetDeploymentTargetOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deploymentTarget
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deploymentTargetDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.DeploymentTarget.self, forKey: .deploymentTarget)
+        deploymentTarget = deploymentTargetDecoded
+    }
+}
+
+enum GetDeploymentTargetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7810,46 +7912,6 @@ public enum GetDeploymentTargetOutputError: ClientRuntime.HttpResponseErrorBindi
             case "InvalidInstanceNameException": return try await InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetDeploymentTargetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetDeploymentTargetOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.deploymentTarget = output.deploymentTarget
-        } else {
-            self.deploymentTarget = nil
-        }
-    }
-}
-
-public struct GetDeploymentTargetOutputResponse: Swift.Equatable {
-    /// A deployment target that contains information about a deployment such as its status, lifecycle events, and when it was last updated. It also contains metadata about the deployment target. The deployment target metadata depends on the deployment target's type (instanceTarget, lambdaTarget, or ecsTarget).
-    public var deploymentTarget: CodeDeployClientTypes.DeploymentTarget?
-
-    public init(
-        deploymentTarget: CodeDeployClientTypes.DeploymentTarget? = nil
-    )
-    {
-        self.deploymentTarget = deploymentTarget
-    }
-}
-
-struct GetDeploymentTargetOutputResponseBody: Swift.Equatable {
-    let deploymentTarget: CodeDeployClientTypes.DeploymentTarget?
-}
-
-extension GetDeploymentTargetOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case deploymentTarget
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let deploymentTargetDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.DeploymentTarget.self, forKey: .deploymentTarget)
-        deploymentTarget = deploymentTargetDecoded
     }
 }
 
@@ -7902,24 +7964,11 @@ extension GetOnPremisesInstanceInputBody: Swift.Decodable {
     }
 }
 
-public enum GetOnPremisesInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InstanceNameRequiredException": return try await InstanceNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InstanceNotRegisteredException": return try await InstanceNotRegisteredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInstanceNameException": return try await InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetOnPremisesInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetOnPremisesInstanceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetOnPremisesInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetOnPremisesInstanceOutputBody = try responseDecoder.decode(responseBody: data)
             self.instanceInfo = output.instanceInfo
         } else {
             self.instanceInfo = nil
@@ -7928,7 +7977,7 @@ extension GetOnPremisesInstanceOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 /// Represents the output of a GetOnPremisesInstance operation.
-public struct GetOnPremisesInstanceOutputResponse: Swift.Equatable {
+public struct GetOnPremisesInstanceOutput: Swift.Equatable {
     /// Information about the on-premises instance.
     public var instanceInfo: CodeDeployClientTypes.InstanceInfo?
 
@@ -7940,11 +7989,11 @@ public struct GetOnPremisesInstanceOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetOnPremisesInstanceOutputResponseBody: Swift.Equatable {
+struct GetOnPremisesInstanceOutputBody: Swift.Equatable {
     let instanceInfo: CodeDeployClientTypes.InstanceInfo?
 }
 
-extension GetOnPremisesInstanceOutputResponseBody: Swift.Decodable {
+extension GetOnPremisesInstanceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceInfo
     }
@@ -7953,6 +8002,19 @@ extension GetOnPremisesInstanceOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceInfoDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.InstanceInfo.self, forKey: .instanceInfo)
         instanceInfo = instanceInfoDecoded
+    }
+}
+
+enum GetOnPremisesInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InstanceNameRequiredException": return try await InstanceNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InstanceNotRegisteredException": return try await InstanceNotRegisteredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInstanceNameException": return try await InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8199,7 +8261,7 @@ extension IamArnRequiredException {
     }
 }
 
-/// No IAM ARN was included in the request. You must use an IAM session ARN or IAM user ARN in the request.
+/// No IAM ARN was included in the request. You must use an IAM session ARN or user ARN in the request.
 public struct IamArnRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -8311,7 +8373,7 @@ extension IamUserArnAlreadyRegisteredException {
     }
 }
 
-/// The specified IAM user ARN is already registered with an on-premises instance.
+/// The specified user ARN is already registered with an on-premises instance.
 public struct IamUserArnAlreadyRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -8367,7 +8429,7 @@ extension IamUserArnRequiredException {
     }
 }
 
-/// An IAM user ARN was not specified.
+/// An user ARN was not specified.
 public struct IamUserArnRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -8628,7 +8690,7 @@ extension CodeDeployClientTypes {
         public var deregisterTime: ClientRuntime.Date?
         /// The ARN of the IAM session associated with the on-premises instance.
         public var iamSessionArn: Swift.String?
-        /// The IAM user ARN associated with the on-premises instance.
+        /// The user ARN associated with the on-premises instance.
         public var iamUserArn: Swift.String?
         /// The ARN of the on-premises instance.
         public var instanceArn: Swift.String?
@@ -10612,7 +10674,7 @@ extension InvalidIamUserArnException {
     }
 }
 
-/// The IAM user ARN was specified in an invalid format.
+/// The user ARN was specified in an invalid format.
 public struct InvalidIamUserArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -12229,6 +12291,62 @@ extension InvalidUpdateOutdatedInstancesOnlyValueExceptionBody: Swift.Decodable 
     }
 }
 
+extension InvalidZonalDeploymentConfigurationException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: InvalidZonalDeploymentConfigurationExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The ZonalConfig object is not valid.
+public struct InvalidZonalDeploymentConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidZonalDeploymentConfigurationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct InvalidZonalDeploymentConfigurationExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InvalidZonalDeploymentConfigurationExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension CodeDeployClientTypes.LambdaFunctionInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case currentVersion
@@ -12808,7 +12926,7 @@ extension ListApplicationRevisionsInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input of a ListApplicationRevisions operation.
 public struct ListApplicationRevisionsInput: Swift.Equatable {
-    /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
+    /// The name of an CodeDeploy application associated with the user or Amazon Web Services account.
     /// This member is required.
     public var applicationName: Swift.String?
     /// Whether to list revisions based on whether the revision is the target revision of a deployment group:
@@ -12906,31 +13024,11 @@ extension ListApplicationRevisionsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListApplicationRevisionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BucketNameFilterRequiredException": return try await BucketNameFilterRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidBucketNameFilterException": return try await InvalidBucketNameFilterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidDeployedStateFilterException": return try await InvalidDeployedStateFilterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidKeyPrefixFilterException": return try await InvalidKeyPrefixFilterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidSortByException": return try await InvalidSortByException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidSortOrderException": return try await InvalidSortOrderException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListApplicationRevisionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListApplicationRevisionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListApplicationRevisionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListApplicationRevisionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.revisions = output.revisions
         } else {
@@ -12941,7 +13039,7 @@ extension ListApplicationRevisionsOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 /// Represents the output of a ListApplicationRevisions operation.
-public struct ListApplicationRevisionsOutputResponse: Swift.Equatable {
+public struct ListApplicationRevisionsOutput: Swift.Equatable {
     /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list application revisions call to return the next set of application revisions in the list.
     public var nextToken: Swift.String?
     /// A list of locations that contain the matching revisions.
@@ -12957,12 +13055,12 @@ public struct ListApplicationRevisionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListApplicationRevisionsOutputResponseBody: Swift.Equatable {
+struct ListApplicationRevisionsOutputBody: Swift.Equatable {
     let revisions: [CodeDeployClientTypes.RevisionLocation]?
     let nextToken: Swift.String?
 }
 
-extension ListApplicationRevisionsOutputResponseBody: Swift.Decodable {
+extension ListApplicationRevisionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case revisions
@@ -12983,6 +13081,26 @@ extension ListApplicationRevisionsOutputResponseBody: Swift.Decodable {
         revisions = revisionsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListApplicationRevisionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BucketNameFilterRequiredException": return try await BucketNameFilterRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidBucketNameFilterException": return try await InvalidBucketNameFilterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeployedStateFilterException": return try await InvalidDeployedStateFilterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKeyPrefixFilterException": return try await InvalidKeyPrefixFilterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSortByException": return try await InvalidSortByException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSortOrderException": return try await InvalidSortOrderException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -13034,22 +13152,11 @@ extension ListApplicationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListApplicationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListApplicationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListApplicationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListApplicationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.applications = output.applications
             self.nextToken = output.nextToken
         } else {
@@ -13060,7 +13167,7 @@ extension ListApplicationsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a ListApplications operation.
-public struct ListApplicationsOutputResponse: Swift.Equatable {
+public struct ListApplicationsOutput: Swift.Equatable {
     /// A list of application names.
     public var applications: [Swift.String]?
     /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list applications call to return the next set of applications in the list.
@@ -13076,12 +13183,12 @@ public struct ListApplicationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListApplicationsOutputResponseBody: Swift.Equatable {
+struct ListApplicationsOutputBody: Swift.Equatable {
     let applications: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension ListApplicationsOutputResponseBody: Swift.Decodable {
+extension ListApplicationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applications
         case nextToken
@@ -13102,6 +13209,17 @@ extension ListApplicationsOutputResponseBody: Swift.Decodable {
         applications = applicationsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -13153,22 +13271,11 @@ extension ListDeploymentConfigsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListDeploymentConfigsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListDeploymentConfigsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListDeploymentConfigsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListDeploymentConfigsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListDeploymentConfigsOutputBody = try responseDecoder.decode(responseBody: data)
             self.deploymentConfigsList = output.deploymentConfigsList
             self.nextToken = output.nextToken
         } else {
@@ -13179,7 +13286,7 @@ extension ListDeploymentConfigsOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 /// Represents the output of a ListDeploymentConfigs operation.
-public struct ListDeploymentConfigsOutputResponse: Swift.Equatable {
+public struct ListDeploymentConfigsOutput: Swift.Equatable {
     /// A list of deployment configurations, including built-in configurations such as CodeDeployDefault.OneAtATime.
     public var deploymentConfigsList: [Swift.String]?
     /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployment configurations call to return the next set of deployment configurations in the list.
@@ -13195,12 +13302,12 @@ public struct ListDeploymentConfigsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListDeploymentConfigsOutputResponseBody: Swift.Equatable {
+struct ListDeploymentConfigsOutputBody: Swift.Equatable {
     let deploymentConfigsList: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension ListDeploymentConfigsOutputResponseBody: Swift.Decodable {
+extension ListDeploymentConfigsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deploymentConfigsList
         case nextToken
@@ -13221,6 +13328,17 @@ extension ListDeploymentConfigsOutputResponseBody: Swift.Decodable {
         deploymentConfigsList = deploymentConfigsListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListDeploymentConfigsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -13249,7 +13367,7 @@ extension ListDeploymentGroupsInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input of a ListDeploymentGroups operation.
 public struct ListDeploymentGroupsInput: Swift.Equatable {
-    /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
+    /// The name of an CodeDeploy application associated with the user or Amazon Web Services account.
     /// This member is required.
     public var applicationName: Swift.String?
     /// An identifier returned from the previous list deployment groups call. It can be used to return the next set of deployment groups in the list.
@@ -13285,25 +13403,11 @@ extension ListDeploymentGroupsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListDeploymentGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListDeploymentGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListDeploymentGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListDeploymentGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListDeploymentGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.applicationName = output.applicationName
             self.deploymentGroups = output.deploymentGroups
             self.nextToken = output.nextToken
@@ -13316,7 +13420,7 @@ extension ListDeploymentGroupsOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 /// Represents the output of a ListDeploymentGroups operation.
-public struct ListDeploymentGroupsOutputResponse: Swift.Equatable {
+public struct ListDeploymentGroupsOutput: Swift.Equatable {
     /// The application name.
     public var applicationName: Swift.String?
     /// A list of deployment group names.
@@ -13336,13 +13440,13 @@ public struct ListDeploymentGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListDeploymentGroupsOutputResponseBody: Swift.Equatable {
+struct ListDeploymentGroupsOutputBody: Swift.Equatable {
     let applicationName: Swift.String?
     let deploymentGroups: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension ListDeploymentGroupsOutputResponseBody: Swift.Decodable {
+extension ListDeploymentGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationName
         case deploymentGroups
@@ -13366,6 +13470,20 @@ extension ListDeploymentGroupsOutputResponseBody: Swift.Decodable {
         deploymentGroups = deploymentGroupsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListDeploymentGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -13490,31 +13608,11 @@ extension ListDeploymentInstancesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListDeploymentInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DeploymentDoesNotExistException": return try await DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DeploymentNotStartedException": return try await DeploymentNotStartedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidComputePlatformException": return try await InvalidComputePlatformException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidDeploymentInstanceTypeException": return try await InvalidDeploymentInstanceTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInstanceStatusException": return try await InvalidInstanceStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInstanceTypeException": return try await InvalidInstanceTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidTargetFilterNameException": return try await InvalidTargetFilterNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListDeploymentInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListDeploymentInstancesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListDeploymentInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListDeploymentInstancesOutputBody = try responseDecoder.decode(responseBody: data)
             self.instancesList = output.instancesList
             self.nextToken = output.nextToken
         } else {
@@ -13525,7 +13623,7 @@ extension ListDeploymentInstancesOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 /// Represents the output of a ListDeploymentInstances operation.
-public struct ListDeploymentInstancesOutputResponse: Swift.Equatable {
+public struct ListDeploymentInstancesOutput: Swift.Equatable {
     /// A list of instance IDs.
     public var instancesList: [Swift.String]?
     /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployment instances call to return the next set of deployment instances in the list.
@@ -13541,12 +13639,12 @@ public struct ListDeploymentInstancesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListDeploymentInstancesOutputResponseBody: Swift.Equatable {
+struct ListDeploymentInstancesOutputBody: Swift.Equatable {
     let instancesList: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension ListDeploymentInstancesOutputResponseBody: Swift.Decodable {
+extension ListDeploymentInstancesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instancesList
         case nextToken
@@ -13567,6 +13665,26 @@ extension ListDeploymentInstancesOutputResponseBody: Swift.Decodable {
         instancesList = instancesListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListDeploymentInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DeploymentDoesNotExistException": return try await DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentNotStartedException": return try await DeploymentNotStartedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidComputePlatformException": return try await InvalidComputePlatformException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentInstanceTypeException": return try await InvalidDeploymentInstanceTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInstanceStatusException": return try await InvalidInstanceStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInstanceTypeException": return try await InvalidInstanceTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTargetFilterNameException": return try await InvalidTargetFilterNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -13605,6 +13723,7 @@ extension ListDeploymentTargetsInput: ClientRuntime.URLPathProvider {
 
 public struct ListDeploymentTargetsInput: Swift.Equatable {
     /// The unique ID of a deployment.
+    /// This member is required.
     public var deploymentId: Swift.String?
     /// A token identifier returned from the previous ListDeploymentTargets call. It can be used to return the next set of deployment targets in the list.
     public var nextToken: Swift.String?
@@ -13667,29 +13786,11 @@ extension ListDeploymentTargetsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListDeploymentTargetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DeploymentDoesNotExistException": return try await DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DeploymentNotStartedException": return try await DeploymentNotStartedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidDeploymentInstanceTypeException": return try await InvalidDeploymentInstanceTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInstanceStatusException": return try await InvalidInstanceStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInstanceTypeException": return try await InvalidInstanceTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListDeploymentTargetsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListDeploymentTargetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListDeploymentTargetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListDeploymentTargetsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.targetIds = output.targetIds
         } else {
@@ -13699,7 +13800,7 @@ extension ListDeploymentTargetsOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListDeploymentTargetsOutputResponse: Swift.Equatable {
+public struct ListDeploymentTargetsOutput: Swift.Equatable {
     /// If a large amount of information is returned, a token identifier is also returned. It can be used in a subsequent ListDeploymentTargets call to return the next set of deployment targets in the list.
     public var nextToken: Swift.String?
     /// The unique IDs of deployment targets.
@@ -13715,12 +13816,12 @@ public struct ListDeploymentTargetsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListDeploymentTargetsOutputResponseBody: Swift.Equatable {
+struct ListDeploymentTargetsOutputBody: Swift.Equatable {
     let targetIds: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension ListDeploymentTargetsOutputResponseBody: Swift.Decodable {
+extension ListDeploymentTargetsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case targetIds
@@ -13741,6 +13842,25 @@ extension ListDeploymentTargetsOutputResponseBody: Swift.Decodable {
         targetIds = targetIdsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListDeploymentTargetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DeploymentDoesNotExistException": return try await DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentNotStartedException": return try await DeploymentNotStartedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentInstanceTypeException": return try await InvalidDeploymentInstanceTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInstanceStatusException": return try await InvalidInstanceStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInstanceTypeException": return try await InvalidInstanceTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTargetFilterNameException": return try await InvalidTargetFilterNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -13788,7 +13908,7 @@ extension ListDeploymentsInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input of a ListDeployments operation.
 public struct ListDeploymentsInput: Swift.Equatable {
-    /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account. If applicationName is specified, then deploymentGroupName must be specified. If it is not specified, then deploymentGroupName must not be specified.
+    /// The name of an CodeDeploy application associated with the user or Amazon Web Services account. If applicationName is specified, then deploymentGroupName must be specified. If it is not specified, then deploymentGroupName must not be specified.
     public var applicationName: Swift.String?
     /// A time range (start and end) for returning a subset of the list of deployments.
     public var createTimeRange: CodeDeployClientTypes.TimeRange?
@@ -13876,32 +13996,11 @@ extension ListDeploymentsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListDeploymentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DeploymentGroupDoesNotExistException": return try await DeploymentGroupDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DeploymentGroupNameRequiredException": return try await DeploymentGroupNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidDeploymentGroupNameException": return try await InvalidDeploymentGroupNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidDeploymentStatusException": return try await InvalidDeploymentStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidExternalIdException": return try await InvalidExternalIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidTimeRangeException": return try await InvalidTimeRangeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListDeploymentsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListDeploymentsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListDeploymentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListDeploymentsOutputBody = try responseDecoder.decode(responseBody: data)
             self.deployments = output.deployments
             self.nextToken = output.nextToken
         } else {
@@ -13912,7 +14011,7 @@ extension ListDeploymentsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a ListDeployments operation.
-public struct ListDeploymentsOutputResponse: Swift.Equatable {
+public struct ListDeploymentsOutput: Swift.Equatable {
     /// A list of deployment IDs.
     public var deployments: [Swift.String]?
     /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployments call to return the next set of deployments in the list.
@@ -13928,12 +14027,12 @@ public struct ListDeploymentsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListDeploymentsOutputResponseBody: Swift.Equatable {
+struct ListDeploymentsOutputBody: Swift.Equatable {
     let deployments: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension ListDeploymentsOutputResponseBody: Swift.Decodable {
+extension ListDeploymentsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deployments
         case nextToken
@@ -13954,6 +14053,27 @@ extension ListDeploymentsOutputResponseBody: Swift.Decodable {
         deployments = deploymentsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListDeploymentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentGroupDoesNotExistException": return try await DeploymentGroupDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentGroupNameRequiredException": return try await DeploymentGroupNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentGroupNameException": return try await InvalidDeploymentGroupNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentStatusException": return try await InvalidDeploymentStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidExternalIdException": return try await InvalidExternalIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTimeRangeException": return try await InvalidTimeRangeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -14005,24 +14125,11 @@ extension ListGitHubAccountTokenNamesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListGitHubAccountTokenNamesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceValidationException": return try await ResourceValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListGitHubAccountTokenNamesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListGitHubAccountTokenNamesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListGitHubAccountTokenNamesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListGitHubAccountTokenNamesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tokenNameList = output.tokenNameList
         } else {
@@ -14033,7 +14140,7 @@ extension ListGitHubAccountTokenNamesOutputResponse: ClientRuntime.HttpResponseB
 }
 
 /// Represents the output of a ListGitHubAccountTokenNames operation.
-public struct ListGitHubAccountTokenNamesOutputResponse: Swift.Equatable {
+public struct ListGitHubAccountTokenNamesOutput: Swift.Equatable {
     /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent ListGitHubAccountTokenNames call to return the next set of names in the list.
     public var nextToken: Swift.String?
     /// A list of names of connections to GitHub accounts.
@@ -14049,12 +14156,12 @@ public struct ListGitHubAccountTokenNamesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListGitHubAccountTokenNamesOutputResponseBody: Swift.Equatable {
+struct ListGitHubAccountTokenNamesOutputBody: Swift.Equatable {
     let tokenNameList: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension ListGitHubAccountTokenNamesOutputResponseBody: Swift.Decodable {
+extension ListGitHubAccountTokenNamesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case tokenNameList
@@ -14075,6 +14182,19 @@ extension ListGitHubAccountTokenNamesOutputResponseBody: Swift.Decodable {
         tokenNameList = tokenNameListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListGitHubAccountTokenNamesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceValidationException": return try await ResourceValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -14166,24 +14286,11 @@ extension ListOnPremisesInstancesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListOnPremisesInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRegistrationStatusException": return try await InvalidRegistrationStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidTagFilterException": return try await InvalidTagFilterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListOnPremisesInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListOnPremisesInstancesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListOnPremisesInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListOnPremisesInstancesOutputBody = try responseDecoder.decode(responseBody: data)
             self.instanceNames = output.instanceNames
             self.nextToken = output.nextToken
         } else {
@@ -14194,7 +14301,7 @@ extension ListOnPremisesInstancesOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 /// Represents the output of the list on-premises instances operation.
-public struct ListOnPremisesInstancesOutputResponse: Swift.Equatable {
+public struct ListOnPremisesInstancesOutput: Swift.Equatable {
     /// The list of matching on-premises instance names.
     public var instanceNames: [Swift.String]?
     /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list on-premises instances call to return the next set of on-premises instances in the list.
@@ -14210,12 +14317,12 @@ public struct ListOnPremisesInstancesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListOnPremisesInstancesOutputResponseBody: Swift.Equatable {
+struct ListOnPremisesInstancesOutputBody: Swift.Equatable {
     let instanceNames: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension ListOnPremisesInstancesOutputResponseBody: Swift.Decodable {
+extension ListOnPremisesInstancesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceNames
         case nextToken
@@ -14236,6 +14343,19 @@ extension ListOnPremisesInstancesOutputResponseBody: Swift.Decodable {
         instanceNames = instanceNamesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListOnPremisesInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRegistrationStatusException": return try await InvalidRegistrationStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTagFilterException": return try await InvalidTagFilterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -14334,24 +14454,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ArnNotSupportedException": return try await ArnNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArnException": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceArnRequiredException": return try await ResourceArnRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
         } else {
@@ -14361,7 +14468,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list application revisions call to return the next set of application revisions in the list.
     public var nextToken: Swift.String?
     /// A list of tags returned by ListTagsForResource. The tags are associated with the resource identified by the input ResourceArn parameter.
@@ -14377,12 +14484,12 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [CodeDeployClientTypes.Tag]?
     let nextToken: Swift.String?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case tags = "Tags"
@@ -14403,6 +14510,19 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ArnNotSupportedException": return try await ArnNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArnException": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceArnRequiredException": return try await ResourceArnRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -14474,11 +14594,11 @@ extension CodeDeployClientTypes.LoadBalancerInfo: Swift.Codable {
 }
 
 extension CodeDeployClientTypes {
-    /// Information about the Elastic Load Balancing load balancer or target group used in a deployment.
+    /// Information about the Elastic Load Balancing load balancer or target group used in a deployment. You can use load balancers and target groups in combination. For example, if you have two Classic Load Balancers, and five target groups tied to an Application Load Balancer, you can specify the two Classic Load Balancers in elbInfoList, and the five target groups in targetGroupInfoList.
     public struct LoadBalancerInfo: Swift.Equatable {
-        /// An array that contains information about the load balancer to use for load balancing in a deployment. In Elastic Load Balancing, load balancers are used with Classic Load Balancers. Adding more than one load balancer to the array is not supported.
+        /// An array that contains information about the load balancers to use for load balancing in a deployment. If you're using Classic Load Balancers, specify those load balancers in this array. You can add up to 10 load balancers to the array. If you're using Application Load Balancers or Network Load Balancers, use the targetGroupInfoList array instead of this one.
         public var elbInfoList: [CodeDeployClientTypes.ELBInfo]?
-        /// An array that contains information about the target group to use for load balancing in a deployment. In Elastic Load Balancing, target groups are used with Application Load Balancers. Adding more than one target group to the array is not supported.
+        /// An array that contains information about the target groups to use for load balancing in a deployment. If you're using Application Load Balancers and Network Load Balancers, specify their associated target groups in this array. You can add up to 10 target groups to the array. If you're using Classic Load Balancers, use the elbInfoList array instead of this one.
         public var targetGroupInfoList: [CodeDeployClientTypes.TargetGroupInfo]?
         /// The target group pair information. This is an array of TargeGroupPairInfo objects with a maximum size of one.
         public var targetGroupPairInfoList: [CodeDeployClientTypes.TargetGroupPairInfo]?
@@ -14523,7 +14643,7 @@ extension CodeDeployClientTypes.MinimumHealthyHosts: Swift.Codable {
 }
 
 extension CodeDeployClientTypes {
-    /// Information about minimum healthy instance.
+    /// Information about the minimum number of healthy instances.
     public struct MinimumHealthyHosts: Swift.Equatable {
         /// The minimum healthy instance type:
         ///
@@ -14547,6 +14667,83 @@ extension CodeDeployClientTypes {
         }
     }
 
+}
+
+extension CodeDeployClientTypes.MinimumHealthyHostsPerZone: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case type
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+        if value != 0 {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.MinimumHealthyHostsPerZoneType.self, forKey: .type)
+        type = typeDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value) ?? 0
+        value = valueDecoded
+    }
+}
+
+extension CodeDeployClientTypes {
+    /// Information about the minimum number of healthy instances per Availability Zone.
+    public struct MinimumHealthyHostsPerZone: Swift.Equatable {
+        /// The type associated with the MinimumHealthyHostsPerZone option.
+        public var type: CodeDeployClientTypes.MinimumHealthyHostsPerZoneType?
+        /// The value associated with the MinimumHealthyHostsPerZone option.
+        public var value: Swift.Int
+
+        public init(
+            type: CodeDeployClientTypes.MinimumHealthyHostsPerZoneType? = nil,
+            value: Swift.Int = 0
+        )
+        {
+            self.type = type
+            self.value = value
+        }
+    }
+
+}
+
+extension CodeDeployClientTypes {
+    public enum MinimumHealthyHostsPerZoneType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fleetPercent
+        case hostCount
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MinimumHealthyHostsPerZoneType] {
+            return [
+                .fleetPercent,
+                .hostCount,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fleetPercent: return "FLEET_PERCENT"
+            case .hostCount: return "HOST_COUNT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MinimumHealthyHostsPerZoneType(rawValue: rawValue) ?? MinimumHealthyHostsPerZoneType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension CodeDeployClientTypes {
@@ -14596,7 +14793,7 @@ extension MultipleIamArnsProvidedException {
     }
 }
 
-/// Both an IAM user ARN and an IAM session ARN were included in the request. Use only one ARN type.
+/// Both an user ARN and an IAM session ARN were included in the request. Use only one ARN type.
 public struct MultipleIamArnsProvidedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -14855,8 +15052,48 @@ extension PutLifecycleEventHookExecutionStatusInputBody: Swift.Decodable {
     }
 }
 
-public enum PutLifecycleEventHookExecutionStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension PutLifecycleEventHookExecutionStatusOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutLifecycleEventHookExecutionStatusOutputBody = try responseDecoder.decode(responseBody: data)
+            self.lifecycleEventHookExecutionId = output.lifecycleEventHookExecutionId
+        } else {
+            self.lifecycleEventHookExecutionId = nil
+        }
+    }
+}
+
+public struct PutLifecycleEventHookExecutionStatusOutput: Swift.Equatable {
+    /// The execution ID of the lifecycle event hook. A hook is specified in the hooks section of the deployment's AppSpec file.
+    public var lifecycleEventHookExecutionId: Swift.String?
+
+    public init(
+        lifecycleEventHookExecutionId: Swift.String? = nil
+    )
+    {
+        self.lifecycleEventHookExecutionId = lifecycleEventHookExecutionId
+    }
+}
+
+struct PutLifecycleEventHookExecutionStatusOutputBody: Swift.Equatable {
+    let lifecycleEventHookExecutionId: Swift.String?
+}
+
+extension PutLifecycleEventHookExecutionStatusOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lifecycleEventHookExecutionId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lifecycleEventHookExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lifecycleEventHookExecutionId)
+        lifecycleEventHookExecutionId = lifecycleEventHookExecutionIdDecoded
+    }
+}
+
+enum PutLifecycleEventHookExecutionStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -14869,46 +15106,6 @@ public enum PutLifecycleEventHookExecutionStatusOutputError: ClientRuntime.HttpR
             case "UnsupportedActionForDeploymentTypeException": return try await UnsupportedActionForDeploymentTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension PutLifecycleEventHookExecutionStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: PutLifecycleEventHookExecutionStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.lifecycleEventHookExecutionId = output.lifecycleEventHookExecutionId
-        } else {
-            self.lifecycleEventHookExecutionId = nil
-        }
-    }
-}
-
-public struct PutLifecycleEventHookExecutionStatusOutputResponse: Swift.Equatable {
-    /// The execution ID of the lifecycle event hook. A hook is specified in the hooks section of the deployment's AppSpec file.
-    public var lifecycleEventHookExecutionId: Swift.String?
-
-    public init(
-        lifecycleEventHookExecutionId: Swift.String? = nil
-    )
-    {
-        self.lifecycleEventHookExecutionId = lifecycleEventHookExecutionId
-    }
-}
-
-struct PutLifecycleEventHookExecutionStatusOutputResponseBody: Swift.Equatable {
-    let lifecycleEventHookExecutionId: Swift.String?
-}
-
-extension PutLifecycleEventHookExecutionStatusOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case lifecycleEventHookExecutionId
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let lifecycleEventHookExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lifecycleEventHookExecutionId)
-        lifecycleEventHookExecutionId = lifecycleEventHookExecutionIdDecoded
     }
 }
 
@@ -14987,7 +15184,7 @@ extension RegisterApplicationRevisionInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input of a RegisterApplicationRevision operation.
 public struct RegisterApplicationRevisionInput: Swift.Equatable {
-    /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
+    /// The name of an CodeDeploy application associated with the user or Amazon Web Services account.
     /// This member is required.
     public var applicationName: Swift.String?
     /// A comment about the revision.
@@ -15032,8 +15229,18 @@ extension RegisterApplicationRevisionInputBody: Swift.Decodable {
     }
 }
 
-public enum RegisterApplicationRevisionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension RegisterApplicationRevisionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RegisterApplicationRevisionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum RegisterApplicationRevisionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -15046,16 +15253,6 @@ public enum RegisterApplicationRevisionOutputError: ClientRuntime.HttpResponseEr
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension RegisterApplicationRevisionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct RegisterApplicationRevisionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension RegisterOnPremisesInstanceInput: Swift.Encodable {
@@ -15089,7 +15286,7 @@ extension RegisterOnPremisesInstanceInput: ClientRuntime.URLPathProvider {
 public struct RegisterOnPremisesInstanceInput: Swift.Equatable {
     /// The ARN of the IAM session to associate with the on-premises instance.
     public var iamSessionArn: Swift.String?
-    /// The ARN of the IAM user to associate with the on-premises instance.
+    /// The ARN of the user to associate with the on-premises instance.
     public var iamUserArn: Swift.String?
     /// The name of the on-premises instance to register.
     /// This member is required.
@@ -15131,8 +15328,18 @@ extension RegisterOnPremisesInstanceInputBody: Swift.Decodable {
     }
 }
 
-public enum RegisterOnPremisesInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension RegisterOnPremisesInstanceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RegisterOnPremisesInstanceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum RegisterOnPremisesInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -15149,16 +15356,6 @@ public enum RegisterOnPremisesInstanceOutputError: ClientRuntime.HttpResponseErr
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension RegisterOnPremisesInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct RegisterOnPremisesInstanceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CodeDeployClientTypes {
@@ -15336,8 +15533,18 @@ extension RemoveTagsFromOnPremisesInstancesInputBody: Swift.Decodable {
     }
 }
 
-public enum RemoveTagsFromOnPremisesInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension RemoveTagsFromOnPremisesInstancesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RemoveTagsFromOnPremisesInstancesOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum RemoveTagsFromOnPremisesInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -15351,16 +15558,6 @@ public enum RemoveTagsFromOnPremisesInstancesOutputError: ClientRuntime.HttpResp
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension RemoveTagsFromOnPremisesInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct RemoveTagsFromOnPremisesInstancesOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ResourceArnRequiredException {
@@ -15490,7 +15687,7 @@ extension RevisionDoesNotExistException {
     }
 }
 
-/// The named revision does not exist with the IAM user or Amazon Web Services account.
+/// The named revision does not exist with the user or Amazon Web Services account.
 public struct RevisionDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -15920,6 +16117,10 @@ extension CodeDeployClientTypes {
         /// * tgz: A compressed tar archive file.
         ///
         /// * zip: A zip archive file.
+        ///
+        /// * YAML: A YAML-formatted file.
+        ///
+        /// * JSON: A JSON-formatted file.
         public var bundleType: CodeDeployClientTypes.BundleType?
         /// The ETag of the Amazon S3 object that represents the bundled artifacts for the application revision. If the ETag is not specified as an input parameter, ETag validation of the object is skipped.
         public var eTag: Swift.String?
@@ -15993,8 +16194,18 @@ extension SkipWaitTimeForInstanceTerminationInputBody: Swift.Decodable {
     }
 }
 
-public enum SkipWaitTimeForInstanceTerminationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension SkipWaitTimeForInstanceTerminationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct SkipWaitTimeForInstanceTerminationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum SkipWaitTimeForInstanceTerminationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -16007,16 +16218,6 @@ public enum SkipWaitTimeForInstanceTerminationOutputError: ClientRuntime.HttpRes
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension SkipWaitTimeForInstanceTerminationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct SkipWaitTimeForInstanceTerminationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CodeDeployClientTypes {
@@ -16112,27 +16313,11 @@ extension StopDeploymentInputBody: Swift.Decodable {
     }
 }
 
-public enum StopDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DeploymentAlreadyCompletedException": return try await DeploymentAlreadyCompletedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DeploymentDoesNotExistException": return try await DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DeploymentGroupDoesNotExistException": return try await DeploymentGroupDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedActionForDeploymentTypeException": return try await UnsupportedActionForDeploymentTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StopDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StopDeploymentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StopDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StopDeploymentOutputBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
             self.statusMessage = output.statusMessage
         } else {
@@ -16143,7 +16328,7 @@ extension StopDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a StopDeployment operation.
-public struct StopDeploymentOutputResponse: Swift.Equatable {
+public struct StopDeploymentOutput: Swift.Equatable {
     /// The status of the stop deployment operation:
     ///
     /// * Pending: The stop operation is pending.
@@ -16163,12 +16348,12 @@ public struct StopDeploymentOutputResponse: Swift.Equatable {
     }
 }
 
-struct StopDeploymentOutputResponseBody: Swift.Equatable {
+struct StopDeploymentOutputBody: Swift.Equatable {
     let status: CodeDeployClientTypes.StopStatus?
     let statusMessage: Swift.String?
 }
 
-extension StopDeploymentOutputResponseBody: Swift.Decodable {
+extension StopDeploymentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case status
         case statusMessage
@@ -16180,6 +16365,22 @@ extension StopDeploymentOutputResponseBody: Swift.Decodable {
         status = statusDecoded
         let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
         statusMessage = statusMessageDecoded
+    }
+}
+
+enum StopDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DeploymentAlreadyCompletedException": return try await DeploymentAlreadyCompletedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentDoesNotExistException": return try await DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentGroupDoesNotExistException": return try await DeploymentGroupDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedActionForDeploymentTypeException": return try await UnsupportedActionForDeploymentTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -16541,8 +16742,18 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -16557,16 +16768,6 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension TagSetListLimitExceededException {
@@ -17553,8 +17754,18 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -17569,16 +17780,6 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateApplicationInput: Swift.Encodable {
@@ -17641,8 +17842,18 @@ extension UpdateApplicationInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateApplicationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateApplicationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -17653,16 +17864,6 @@ public enum UpdateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateApplicationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateDeploymentGroupInput: Swift.Encodable {
@@ -17684,6 +17885,7 @@ extension UpdateDeploymentGroupInput: Swift.Encodable {
         case onPremisesTagSet
         case outdatedInstancesStrategy
         case serviceRoleArn
+        case terminationHookEnabled
         case triggerConfigurations
     }
 
@@ -17752,6 +17954,9 @@ extension UpdateDeploymentGroupInput: Swift.Encodable {
         if let serviceRoleArn = self.serviceRoleArn {
             try encodeContainer.encode(serviceRoleArn, forKey: .serviceRoleArn)
         }
+        if let terminationHookEnabled = self.terminationHookEnabled {
+            try encodeContainer.encode(terminationHookEnabled, forKey: .terminationHookEnabled)
+        }
         if let triggerConfigurations = triggerConfigurations {
             var triggerConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .triggerConfigurations)
             for triggerconfig0 in triggerConfigurations {
@@ -17780,7 +17985,7 @@ public struct UpdateDeploymentGroupInput: Swift.Equatable {
     ///
     /// * To keep the Auto Scaling groups, enter their names or do not specify this parameter.
     ///
-    /// * To remove Auto Scaling groups, specify a non-null empty list of Auto Scaling group names to detach all CodeDeploy-managed Auto Scaling lifecycle hooks. For examples, see [Amazon EC2 instances in an Amazon EC2 Auto Scaling group fail to launch and receive the error "Heartbeat Timeout"](https://docs.aws.amazon.com/https:/docs.aws.amazon.com/codedeploy/latest/userguide/troubleshooting-auto-scaling.html#troubleshooting-auto-scaling-heartbeat) in the CodeDeploy User Guide.
+    /// * To remove Auto Scaling groups, specify a non-null empty list of Auto Scaling group names to detach all CodeDeploy-managed Auto Scaling lifecycle hooks. For examples, see [Amazon EC2 instances in an Amazon EC2 Auto Scaling group fail to launch and receive the error "Heartbeat Timeout"](https://docs.aws.amazon.com/codedeploy/latest/userguide/troubleshooting-auto-scaling.html#troubleshooting-auto-scaling-heartbeat) in the CodeDeploy User Guide.
     public var autoScalingGroups: [Swift.String]?
     /// Information about blue/green deployment options for a deployment group.
     public var blueGreenDeploymentConfiguration: CodeDeployClientTypes.BlueGreenDeploymentConfiguration?
@@ -17809,6 +18014,8 @@ public struct UpdateDeploymentGroupInput: Swift.Equatable {
     public var outdatedInstancesStrategy: CodeDeployClientTypes.OutdatedInstancesStrategy?
     /// A replacement ARN for the service role, if you want to change it.
     public var serviceRoleArn: Swift.String?
+    /// This parameter only applies if you are using CodeDeploy with Amazon EC2 Auto Scaling. For more information, see [Integrating CodeDeploy with Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html) in the CodeDeploy User Guide. Set terminationHookEnabled to true to have CodeDeploy install a termination hook into your Auto Scaling group when you update a deployment group. When this hook is installed, CodeDeploy will perform termination deployments. For information about termination deployments, see [Enabling termination deployments during Auto Scaling scale-in events](https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors-hook-enable) in the CodeDeploy User Guide. For more information about Auto Scaling scale-in events, see the [Scale in](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-lifecycle.html#as-lifecycle-scale-in) topic in the Amazon EC2 Auto Scaling User Guide.
+    public var terminationHookEnabled: Swift.Bool?
     /// Information about triggers to change when the deployment group is updated. For examples, see [Edit a Trigger in a CodeDeploy Deployment Group](https://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-notify-edit.html) in the CodeDeploy User Guide.
     public var triggerConfigurations: [CodeDeployClientTypes.TriggerConfig]?
 
@@ -17830,6 +18037,7 @@ public struct UpdateDeploymentGroupInput: Swift.Equatable {
         onPremisesTagSet: CodeDeployClientTypes.OnPremisesTagSet? = nil,
         outdatedInstancesStrategy: CodeDeployClientTypes.OutdatedInstancesStrategy? = nil,
         serviceRoleArn: Swift.String? = nil,
+        terminationHookEnabled: Swift.Bool? = nil,
         triggerConfigurations: [CodeDeployClientTypes.TriggerConfig]? = nil
     )
     {
@@ -17850,6 +18058,7 @@ public struct UpdateDeploymentGroupInput: Swift.Equatable {
         self.onPremisesTagSet = onPremisesTagSet
         self.outdatedInstancesStrategy = outdatedInstancesStrategy
         self.serviceRoleArn = serviceRoleArn
+        self.terminationHookEnabled = terminationHookEnabled
         self.triggerConfigurations = triggerConfigurations
     }
 }
@@ -17873,6 +18082,7 @@ struct UpdateDeploymentGroupInputBody: Swift.Equatable {
     let ec2TagSet: CodeDeployClientTypes.EC2TagSet?
     let ecsServices: [CodeDeployClientTypes.ECSService]?
     let onPremisesTagSet: CodeDeployClientTypes.OnPremisesTagSet?
+    let terminationHookEnabled: Swift.Bool?
 }
 
 extension UpdateDeploymentGroupInputBody: Swift.Decodable {
@@ -17894,6 +18104,7 @@ extension UpdateDeploymentGroupInputBody: Swift.Decodable {
         case onPremisesTagSet
         case outdatedInstancesStrategy
         case serviceRoleArn
+        case terminationHookEnabled
         case triggerConfigurations
     }
 
@@ -17980,11 +18191,63 @@ extension UpdateDeploymentGroupInputBody: Swift.Decodable {
         ecsServices = ecsServicesDecoded0
         let onPremisesTagSetDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.OnPremisesTagSet.self, forKey: .onPremisesTagSet)
         onPremisesTagSet = onPremisesTagSetDecoded
+        let terminationHookEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationHookEnabled)
+        terminationHookEnabled = terminationHookEnabledDecoded
     }
 }
 
-public enum UpdateDeploymentGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateDeploymentGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateDeploymentGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.hooksNotCleanedUp = output.hooksNotCleanedUp
+        } else {
+            self.hooksNotCleanedUp = nil
+        }
+    }
+}
+
+/// Represents the output of an UpdateDeploymentGroup operation.
+public struct UpdateDeploymentGroupOutput: Swift.Equatable {
+    /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the Amazon Web Services account. If the output contains data, CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the Amazon Web Services account.
+    public var hooksNotCleanedUp: [CodeDeployClientTypes.AutoScalingGroup]?
+
+    public init(
+        hooksNotCleanedUp: [CodeDeployClientTypes.AutoScalingGroup]? = nil
+    )
+    {
+        self.hooksNotCleanedUp = hooksNotCleanedUp
+    }
+}
+
+struct UpdateDeploymentGroupOutputBody: Swift.Equatable {
+    let hooksNotCleanedUp: [CodeDeployClientTypes.AutoScalingGroup]?
+}
+
+extension UpdateDeploymentGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hooksNotCleanedUp
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let hooksNotCleanedUpContainer = try containerValues.decodeIfPresent([CodeDeployClientTypes.AutoScalingGroup?].self, forKey: .hooksNotCleanedUp)
+        var hooksNotCleanedUpDecoded0:[CodeDeployClientTypes.AutoScalingGroup]? = nil
+        if let hooksNotCleanedUpContainer = hooksNotCleanedUpContainer {
+            hooksNotCleanedUpDecoded0 = [CodeDeployClientTypes.AutoScalingGroup]()
+            for structure0 in hooksNotCleanedUpContainer {
+                if let structure0 = structure0 {
+                    hooksNotCleanedUpDecoded0?.append(structure0)
+                }
+            }
+        }
+        hooksNotCleanedUp = hooksNotCleanedUpDecoded0
+    }
+}
+
+enum UpdateDeploymentGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -18024,52 +18287,57 @@ public enum UpdateDeploymentGroupOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension UpdateDeploymentGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateDeploymentGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.hooksNotCleanedUp = output.hooksNotCleanedUp
-        } else {
-            self.hooksNotCleanedUp = nil
-        }
-    }
-}
-
-/// Represents the output of an UpdateDeploymentGroup operation.
-public struct UpdateDeploymentGroupOutputResponse: Swift.Equatable {
-    /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the Amazon Web Services account. If the output contains data, CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the Amazon Web Services account.
-    public var hooksNotCleanedUp: [CodeDeployClientTypes.AutoScalingGroup]?
-
-    public init(
-        hooksNotCleanedUp: [CodeDeployClientTypes.AutoScalingGroup]? = nil
-    )
-    {
-        self.hooksNotCleanedUp = hooksNotCleanedUp
-    }
-}
-
-struct UpdateDeploymentGroupOutputResponseBody: Swift.Equatable {
-    let hooksNotCleanedUp: [CodeDeployClientTypes.AutoScalingGroup]?
-}
-
-extension UpdateDeploymentGroupOutputResponseBody: Swift.Decodable {
+extension CodeDeployClientTypes.ZonalConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case hooksNotCleanedUp
+        case firstZoneMonitorDurationInSeconds
+        case minimumHealthyHostsPerZone
+        case monitorDurationInSeconds
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let firstZoneMonitorDurationInSeconds = self.firstZoneMonitorDurationInSeconds {
+            try encodeContainer.encode(firstZoneMonitorDurationInSeconds, forKey: .firstZoneMonitorDurationInSeconds)
+        }
+        if let minimumHealthyHostsPerZone = self.minimumHealthyHostsPerZone {
+            try encodeContainer.encode(minimumHealthyHostsPerZone, forKey: .minimumHealthyHostsPerZone)
+        }
+        if let monitorDurationInSeconds = self.monitorDurationInSeconds {
+            try encodeContainer.encode(monitorDurationInSeconds, forKey: .monitorDurationInSeconds)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let hooksNotCleanedUpContainer = try containerValues.decodeIfPresent([CodeDeployClientTypes.AutoScalingGroup?].self, forKey: .hooksNotCleanedUp)
-        var hooksNotCleanedUpDecoded0:[CodeDeployClientTypes.AutoScalingGroup]? = nil
-        if let hooksNotCleanedUpContainer = hooksNotCleanedUpContainer {
-            hooksNotCleanedUpDecoded0 = [CodeDeployClientTypes.AutoScalingGroup]()
-            for structure0 in hooksNotCleanedUpContainer {
-                if let structure0 = structure0 {
-                    hooksNotCleanedUpDecoded0?.append(structure0)
-                }
-            }
-        }
-        hooksNotCleanedUp = hooksNotCleanedUpDecoded0
+        let firstZoneMonitorDurationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .firstZoneMonitorDurationInSeconds)
+        firstZoneMonitorDurationInSeconds = firstZoneMonitorDurationInSecondsDecoded
+        let monitorDurationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .monitorDurationInSeconds)
+        monitorDurationInSeconds = monitorDurationInSecondsDecoded
+        let minimumHealthyHostsPerZoneDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.MinimumHealthyHostsPerZone.self, forKey: .minimumHealthyHostsPerZone)
+        minimumHealthyHostsPerZone = minimumHealthyHostsPerZoneDecoded
     }
+}
+
+extension CodeDeployClientTypes {
+    /// Configure the ZonalConfig object if you want CodeDeploy to deploy your application to one [Availability Zone](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-availability-zones) at a time, within an Amazon Web Services Region. By deploying to one Availability Zone at a time, you can expose your deployment to a progressively larger audience as confidence in the deployment's performance and viability grows. If you don't configure the ZonalConfig object, CodeDeploy deploys your application to a random selection of hosts across a Region. For more information about the zonal configuration feature, see [zonal configuration](https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config) in the CodeDeploy User Guide.
+    public struct ZonalConfig: Swift.Equatable {
+        /// The period of time, in seconds, that CodeDeploy must wait after completing a deployment to the first Availability Zone. CodeDeploy will wait this amount of time before starting a deployment to the second Availability Zone. You might set this option if you want to allow extra bake time for the first Availability Zone. If you don't specify a value for firstZoneMonitorDurationInSeconds, then CodeDeploy uses the monitorDurationInSeconds value for the first Availability Zone. For more information about the zonal configuration feature, see [zonal configuration](https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config) in the CodeDeploy User Guide.
+        public var firstZoneMonitorDurationInSeconds: Swift.Int?
+        /// The number or percentage of instances that must remain available per Availability Zone during a deployment. This option works in conjunction with the MinimumHealthyHosts option. For more information, see [About the minimum number of healthy hosts per Availability Zone](https://docs.aws.amazon.com/codedeploy/latest/userguide/instances-health.html#minimum-healthy-hosts-az) in the CodeDeploy User Guide. If you don't specify the minimumHealthyHostsPerZone option, then CodeDeploy uses a default value of 0 percent. For more information about the zonal configuration feature, see [zonal configuration](https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config) in the CodeDeploy User Guide.
+        public var minimumHealthyHostsPerZone: CodeDeployClientTypes.MinimumHealthyHostsPerZone?
+        /// The period of time, in seconds, that CodeDeploy must wait after completing a deployment to an Availability Zone. CodeDeploy will wait this amount of time before starting a deployment to the next Availability Zone. Consider adding a monitor duration to give the deployment some time to prove itself (or 'bake') in one Availability Zone before it is released in the next zone. If you don't specify a monitorDurationInSeconds, CodeDeploy starts deploying to the next Availability Zone immediately. For more information about the zonal configuration feature, see [zonal configuration](https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config) in the CodeDeploy User Guide.
+        public var monitorDurationInSeconds: Swift.Int?
+
+        public init(
+            firstZoneMonitorDurationInSeconds: Swift.Int? = nil,
+            minimumHealthyHostsPerZone: CodeDeployClientTypes.MinimumHealthyHostsPerZone? = nil,
+            monitorDurationInSeconds: Swift.Int? = nil
+        )
+        {
+            self.firstZoneMonitorDurationInSeconds = firstZoneMonitorDurationInSeconds
+            self.minimumHealthyHostsPerZone = minimumHealthyHostsPerZone
+            self.monitorDurationInSeconds = monitorDurationInSeconds
+        }
+    }
+
 }

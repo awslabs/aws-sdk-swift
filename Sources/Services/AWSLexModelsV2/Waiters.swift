@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension LexModelsV2ClientProtocol {
 
-    static func botAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeBotInput, DescribeBotOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeBotInput, DescribeBotOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeBotInput, result: Result<DescribeBotOutputResponse, Error>) -> Bool in
+    static func botAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeBotInput, DescribeBotOutput> {
+        let acceptors: [WaiterConfiguration<DescribeBotInput, DescribeBotOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeBotInput, result: Result<DescribeBotOutput, Error>) -> Bool in
                 // JMESPath expression: "botStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Available"
@@ -14,7 +14,7 @@ extension LexModelsV2ClientProtocol {
                 let botStatus = output.botStatus
                 return JMESUtils.compare(botStatus, ==, "Available")
             }),
-            .init(state: .failure, matcher: { (input: DescribeBotInput, result: Result<DescribeBotOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeBotInput, result: Result<DescribeBotOutput, Error>) -> Bool in
                 // JMESPath expression: "botStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Deleting"
@@ -22,7 +22,7 @@ extension LexModelsV2ClientProtocol {
                 let botStatus = output.botStatus
                 return JMESUtils.compare(botStatus, ==, "Deleting")
             }),
-            .init(state: .failure, matcher: { (input: DescribeBotInput, result: Result<DescribeBotOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeBotInput, result: Result<DescribeBotOutput, Error>) -> Bool in
                 // JMESPath expression: "botStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Failed"
@@ -30,7 +30,7 @@ extension LexModelsV2ClientProtocol {
                 let botStatus = output.botStatus
                 return JMESUtils.compare(botStatus, ==, "Failed")
             }),
-            .init(state: .failure, matcher: { (input: DescribeBotInput, result: Result<DescribeBotOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeBotInput, result: Result<DescribeBotOutput, Error>) -> Bool in
                 // JMESPath expression: "botStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Inactive"
@@ -39,7 +39,7 @@ extension LexModelsV2ClientProtocol {
                 return JMESUtils.compare(botStatus, ==, "Inactive")
             }),
         ]
-        return try WaiterConfiguration<DescribeBotInput, DescribeBotOutputResponse>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeBotInput, DescribeBotOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the BotAvailable event on the describeBot operation.
@@ -53,14 +53,14 @@ extension LexModelsV2ClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilBotAvailable(options: WaiterOptions, input: DescribeBotInput) async throws -> WaiterOutcome<DescribeBotOutputResponse> {
+    public func waitUntilBotAvailable(options: WaiterOptions, input: DescribeBotInput) async throws -> WaiterOutcome<DescribeBotOutput> {
         let waiter = Waiter(config: try Self.botAvailableWaiterConfig(), operation: self.describeBot(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func botAliasAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeBotAliasInput, DescribeBotAliasOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeBotAliasInput, DescribeBotAliasOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeBotAliasInput, result: Result<DescribeBotAliasOutputResponse, Error>) -> Bool in
+    static func botAliasAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeBotAliasInput, DescribeBotAliasOutput> {
+        let acceptors: [WaiterConfiguration<DescribeBotAliasInput, DescribeBotAliasOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeBotAliasInput, result: Result<DescribeBotAliasOutput, Error>) -> Bool in
                 // JMESPath expression: "botAliasStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Available"
@@ -68,7 +68,7 @@ extension LexModelsV2ClientProtocol {
                 let botAliasStatus = output.botAliasStatus
                 return JMESUtils.compare(botAliasStatus, ==, "Available")
             }),
-            .init(state: .failure, matcher: { (input: DescribeBotAliasInput, result: Result<DescribeBotAliasOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeBotAliasInput, result: Result<DescribeBotAliasOutput, Error>) -> Bool in
                 // JMESPath expression: "botAliasStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Failed"
@@ -76,7 +76,7 @@ extension LexModelsV2ClientProtocol {
                 let botAliasStatus = output.botAliasStatus
                 return JMESUtils.compare(botAliasStatus, ==, "Failed")
             }),
-            .init(state: .failure, matcher: { (input: DescribeBotAliasInput, result: Result<DescribeBotAliasOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeBotAliasInput, result: Result<DescribeBotAliasOutput, Error>) -> Bool in
                 // JMESPath expression: "botAliasStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Deleting"
@@ -85,7 +85,7 @@ extension LexModelsV2ClientProtocol {
                 return JMESUtils.compare(botAliasStatus, ==, "Deleting")
             }),
         ]
-        return try WaiterConfiguration<DescribeBotAliasInput, DescribeBotAliasOutputResponse>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeBotAliasInput, DescribeBotAliasOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the BotAliasAvailable event on the describeBotAlias operation.
@@ -99,14 +99,14 @@ extension LexModelsV2ClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilBotAliasAvailable(options: WaiterOptions, input: DescribeBotAliasInput) async throws -> WaiterOutcome<DescribeBotAliasOutputResponse> {
+    public func waitUntilBotAliasAvailable(options: WaiterOptions, input: DescribeBotAliasInput) async throws -> WaiterOutcome<DescribeBotAliasOutput> {
         let waiter = Waiter(config: try Self.botAliasAvailableWaiterConfig(), operation: self.describeBotAlias(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func botLocaleBuiltWaiterConfig() throws -> WaiterConfiguration<DescribeBotLocaleInput, DescribeBotLocaleOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeBotLocaleInput, DescribeBotLocaleOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutputResponse, Error>) -> Bool in
+    static func botLocaleBuiltWaiterConfig() throws -> WaiterConfiguration<DescribeBotLocaleInput, DescribeBotLocaleOutput> {
+        let acceptors: [WaiterConfiguration<DescribeBotLocaleInput, DescribeBotLocaleOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutput, Error>) -> Bool in
                 // JMESPath expression: "botLocaleStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Built"
@@ -114,7 +114,7 @@ extension LexModelsV2ClientProtocol {
                 let botLocaleStatus = output.botLocaleStatus
                 return JMESUtils.compare(botLocaleStatus, ==, "Built")
             }),
-            .init(state: .failure, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutput, Error>) -> Bool in
                 // JMESPath expression: "botLocaleStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Deleting"
@@ -122,7 +122,7 @@ extension LexModelsV2ClientProtocol {
                 let botLocaleStatus = output.botLocaleStatus
                 return JMESUtils.compare(botLocaleStatus, ==, "Deleting")
             }),
-            .init(state: .failure, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutput, Error>) -> Bool in
                 // JMESPath expression: "botLocaleStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Failed"
@@ -130,7 +130,7 @@ extension LexModelsV2ClientProtocol {
                 let botLocaleStatus = output.botLocaleStatus
                 return JMESUtils.compare(botLocaleStatus, ==, "Failed")
             }),
-            .init(state: .failure, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutput, Error>) -> Bool in
                 // JMESPath expression: "botLocaleStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "NotBuilt"
@@ -139,7 +139,7 @@ extension LexModelsV2ClientProtocol {
                 return JMESUtils.compare(botLocaleStatus, ==, "NotBuilt")
             }),
         ]
-        return try WaiterConfiguration<DescribeBotLocaleInput, DescribeBotLocaleOutputResponse>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeBotLocaleInput, DescribeBotLocaleOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the BotLocaleBuilt event on the describeBotLocale operation.
@@ -153,14 +153,14 @@ extension LexModelsV2ClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilBotLocaleBuilt(options: WaiterOptions, input: DescribeBotLocaleInput) async throws -> WaiterOutcome<DescribeBotLocaleOutputResponse> {
+    public func waitUntilBotLocaleBuilt(options: WaiterOptions, input: DescribeBotLocaleInput) async throws -> WaiterOutcome<DescribeBotLocaleOutput> {
         let waiter = Waiter(config: try Self.botLocaleBuiltWaiterConfig(), operation: self.describeBotLocale(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func botLocaleCreatedWaiterConfig() throws -> WaiterConfiguration<DescribeBotLocaleInput, DescribeBotLocaleOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeBotLocaleInput, DescribeBotLocaleOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutputResponse, Error>) -> Bool in
+    static func botLocaleCreatedWaiterConfig() throws -> WaiterConfiguration<DescribeBotLocaleInput, DescribeBotLocaleOutput> {
+        let acceptors: [WaiterConfiguration<DescribeBotLocaleInput, DescribeBotLocaleOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutput, Error>) -> Bool in
                 // JMESPath expression: "botLocaleStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Built"
@@ -168,7 +168,7 @@ extension LexModelsV2ClientProtocol {
                 let botLocaleStatus = output.botLocaleStatus
                 return JMESUtils.compare(botLocaleStatus, ==, "Built")
             }),
-            .init(state: .success, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutput, Error>) -> Bool in
                 // JMESPath expression: "botLocaleStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "ReadyExpressTesting"
@@ -176,7 +176,7 @@ extension LexModelsV2ClientProtocol {
                 let botLocaleStatus = output.botLocaleStatus
                 return JMESUtils.compare(botLocaleStatus, ==, "ReadyExpressTesting")
             }),
-            .init(state: .success, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutput, Error>) -> Bool in
                 // JMESPath expression: "botLocaleStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "NotBuilt"
@@ -184,7 +184,7 @@ extension LexModelsV2ClientProtocol {
                 let botLocaleStatus = output.botLocaleStatus
                 return JMESUtils.compare(botLocaleStatus, ==, "NotBuilt")
             }),
-            .init(state: .failure, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutput, Error>) -> Bool in
                 // JMESPath expression: "botLocaleStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Deleting"
@@ -192,7 +192,7 @@ extension LexModelsV2ClientProtocol {
                 let botLocaleStatus = output.botLocaleStatus
                 return JMESUtils.compare(botLocaleStatus, ==, "Deleting")
             }),
-            .init(state: .failure, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutput, Error>) -> Bool in
                 // JMESPath expression: "botLocaleStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Failed"
@@ -201,7 +201,7 @@ extension LexModelsV2ClientProtocol {
                 return JMESUtils.compare(botLocaleStatus, ==, "Failed")
             }),
         ]
-        return try WaiterConfiguration<DescribeBotLocaleInput, DescribeBotLocaleOutputResponse>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeBotLocaleInput, DescribeBotLocaleOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the BotLocaleCreated event on the describeBotLocale operation.
@@ -215,14 +215,14 @@ extension LexModelsV2ClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilBotLocaleCreated(options: WaiterOptions, input: DescribeBotLocaleInput) async throws -> WaiterOutcome<DescribeBotLocaleOutputResponse> {
+    public func waitUntilBotLocaleCreated(options: WaiterOptions, input: DescribeBotLocaleInput) async throws -> WaiterOutcome<DescribeBotLocaleOutput> {
         let waiter = Waiter(config: try Self.botLocaleCreatedWaiterConfig(), operation: self.describeBotLocale(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func botLocaleExpressTestingAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeBotLocaleInput, DescribeBotLocaleOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeBotLocaleInput, DescribeBotLocaleOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutputResponse, Error>) -> Bool in
+    static func botLocaleExpressTestingAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeBotLocaleInput, DescribeBotLocaleOutput> {
+        let acceptors: [WaiterConfiguration<DescribeBotLocaleInput, DescribeBotLocaleOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutput, Error>) -> Bool in
                 // JMESPath expression: "botLocaleStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Built"
@@ -230,7 +230,7 @@ extension LexModelsV2ClientProtocol {
                 let botLocaleStatus = output.botLocaleStatus
                 return JMESUtils.compare(botLocaleStatus, ==, "Built")
             }),
-            .init(state: .success, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutput, Error>) -> Bool in
                 // JMESPath expression: "botLocaleStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "ReadyExpressTesting"
@@ -238,7 +238,7 @@ extension LexModelsV2ClientProtocol {
                 let botLocaleStatus = output.botLocaleStatus
                 return JMESUtils.compare(botLocaleStatus, ==, "ReadyExpressTesting")
             }),
-            .init(state: .failure, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutput, Error>) -> Bool in
                 // JMESPath expression: "botLocaleStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Deleting"
@@ -246,7 +246,7 @@ extension LexModelsV2ClientProtocol {
                 let botLocaleStatus = output.botLocaleStatus
                 return JMESUtils.compare(botLocaleStatus, ==, "Deleting")
             }),
-            .init(state: .failure, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutput, Error>) -> Bool in
                 // JMESPath expression: "botLocaleStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Failed"
@@ -254,7 +254,7 @@ extension LexModelsV2ClientProtocol {
                 let botLocaleStatus = output.botLocaleStatus
                 return JMESUtils.compare(botLocaleStatus, ==, "Failed")
             }),
-            .init(state: .failure, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeBotLocaleInput, result: Result<DescribeBotLocaleOutput, Error>) -> Bool in
                 // JMESPath expression: "botLocaleStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "NotBuilt"
@@ -263,7 +263,7 @@ extension LexModelsV2ClientProtocol {
                 return JMESUtils.compare(botLocaleStatus, ==, "NotBuilt")
             }),
         ]
-        return try WaiterConfiguration<DescribeBotLocaleInput, DescribeBotLocaleOutputResponse>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeBotLocaleInput, DescribeBotLocaleOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the BotLocaleExpressTestingAvailable event on the describeBotLocale operation.
@@ -277,14 +277,14 @@ extension LexModelsV2ClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilBotLocaleExpressTestingAvailable(options: WaiterOptions, input: DescribeBotLocaleInput) async throws -> WaiterOutcome<DescribeBotLocaleOutputResponse> {
+    public func waitUntilBotLocaleExpressTestingAvailable(options: WaiterOptions, input: DescribeBotLocaleInput) async throws -> WaiterOutcome<DescribeBotLocaleOutput> {
         let waiter = Waiter(config: try Self.botLocaleExpressTestingAvailableWaiterConfig(), operation: self.describeBotLocale(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func botVersionAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeBotVersionInput, DescribeBotVersionOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeBotVersionInput, DescribeBotVersionOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeBotVersionInput, result: Result<DescribeBotVersionOutputResponse, Error>) -> Bool in
+    static func botVersionAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeBotVersionInput, DescribeBotVersionOutput> {
+        let acceptors: [WaiterConfiguration<DescribeBotVersionInput, DescribeBotVersionOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeBotVersionInput, result: Result<DescribeBotVersionOutput, Error>) -> Bool in
                 // JMESPath expression: "botStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Available"
@@ -292,7 +292,7 @@ extension LexModelsV2ClientProtocol {
                 let botStatus = output.botStatus
                 return JMESUtils.compare(botStatus, ==, "Available")
             }),
-            .init(state: .failure, matcher: { (input: DescribeBotVersionInput, result: Result<DescribeBotVersionOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeBotVersionInput, result: Result<DescribeBotVersionOutput, Error>) -> Bool in
                 // JMESPath expression: "botStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Deleting"
@@ -300,7 +300,7 @@ extension LexModelsV2ClientProtocol {
                 let botStatus = output.botStatus
                 return JMESUtils.compare(botStatus, ==, "Deleting")
             }),
-            .init(state: .failure, matcher: { (input: DescribeBotVersionInput, result: Result<DescribeBotVersionOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeBotVersionInput, result: Result<DescribeBotVersionOutput, Error>) -> Bool in
                 // JMESPath expression: "botStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Failed"
@@ -308,12 +308,12 @@ extension LexModelsV2ClientProtocol {
                 let botStatus = output.botStatus
                 return JMESUtils.compare(botStatus, ==, "Failed")
             }),
-            .init(state: .retry, matcher: { (input: DescribeBotVersionInput, result: Result<DescribeBotVersionOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeBotVersionInput, result: Result<DescribeBotVersionOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
-        return try WaiterConfiguration<DescribeBotVersionInput, DescribeBotVersionOutputResponse>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeBotVersionInput, DescribeBotVersionOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the BotVersionAvailable event on the describeBotVersion operation.
@@ -327,14 +327,14 @@ extension LexModelsV2ClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilBotVersionAvailable(options: WaiterOptions, input: DescribeBotVersionInput) async throws -> WaiterOutcome<DescribeBotVersionOutputResponse> {
+    public func waitUntilBotVersionAvailable(options: WaiterOptions, input: DescribeBotVersionInput) async throws -> WaiterOutcome<DescribeBotVersionOutput> {
         let waiter = Waiter(config: try Self.botVersionAvailableWaiterConfig(), operation: self.describeBotVersion(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func botExportCompletedWaiterConfig() throws -> WaiterConfiguration<DescribeExportInput, DescribeExportOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeExportInput, DescribeExportOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeExportInput, result: Result<DescribeExportOutputResponse, Error>) -> Bool in
+    static func botExportCompletedWaiterConfig() throws -> WaiterConfiguration<DescribeExportInput, DescribeExportOutput> {
+        let acceptors: [WaiterConfiguration<DescribeExportInput, DescribeExportOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeExportInput, result: Result<DescribeExportOutput, Error>) -> Bool in
                 // JMESPath expression: "exportStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Completed"
@@ -342,7 +342,7 @@ extension LexModelsV2ClientProtocol {
                 let exportStatus = output.exportStatus
                 return JMESUtils.compare(exportStatus, ==, "Completed")
             }),
-            .init(state: .failure, matcher: { (input: DescribeExportInput, result: Result<DescribeExportOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeExportInput, result: Result<DescribeExportOutput, Error>) -> Bool in
                 // JMESPath expression: "exportStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Deleting"
@@ -350,7 +350,7 @@ extension LexModelsV2ClientProtocol {
                 let exportStatus = output.exportStatus
                 return JMESUtils.compare(exportStatus, ==, "Deleting")
             }),
-            .init(state: .failure, matcher: { (input: DescribeExportInput, result: Result<DescribeExportOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeExportInput, result: Result<DescribeExportOutput, Error>) -> Bool in
                 // JMESPath expression: "exportStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Failed"
@@ -359,7 +359,7 @@ extension LexModelsV2ClientProtocol {
                 return JMESUtils.compare(exportStatus, ==, "Failed")
             }),
         ]
-        return try WaiterConfiguration<DescribeExportInput, DescribeExportOutputResponse>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeExportInput, DescribeExportOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the BotExportCompleted event on the describeExport operation.
@@ -373,14 +373,14 @@ extension LexModelsV2ClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilBotExportCompleted(options: WaiterOptions, input: DescribeExportInput) async throws -> WaiterOutcome<DescribeExportOutputResponse> {
+    public func waitUntilBotExportCompleted(options: WaiterOptions, input: DescribeExportInput) async throws -> WaiterOutcome<DescribeExportOutput> {
         let waiter = Waiter(config: try Self.botExportCompletedWaiterConfig(), operation: self.describeExport(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func botImportCompletedWaiterConfig() throws -> WaiterConfiguration<DescribeImportInput, DescribeImportOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeImportInput, DescribeImportOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeImportInput, result: Result<DescribeImportOutputResponse, Error>) -> Bool in
+    static func botImportCompletedWaiterConfig() throws -> WaiterConfiguration<DescribeImportInput, DescribeImportOutput> {
+        let acceptors: [WaiterConfiguration<DescribeImportInput, DescribeImportOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeImportInput, result: Result<DescribeImportOutput, Error>) -> Bool in
                 // JMESPath expression: "importStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Completed"
@@ -388,7 +388,7 @@ extension LexModelsV2ClientProtocol {
                 let importStatus = output.importStatus
                 return JMESUtils.compare(importStatus, ==, "Completed")
             }),
-            .init(state: .failure, matcher: { (input: DescribeImportInput, result: Result<DescribeImportOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeImportInput, result: Result<DescribeImportOutput, Error>) -> Bool in
                 // JMESPath expression: "importStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Deleting"
@@ -396,7 +396,7 @@ extension LexModelsV2ClientProtocol {
                 let importStatus = output.importStatus
                 return JMESUtils.compare(importStatus, ==, "Deleting")
             }),
-            .init(state: .failure, matcher: { (input: DescribeImportInput, result: Result<DescribeImportOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeImportInput, result: Result<DescribeImportOutput, Error>) -> Bool in
                 // JMESPath expression: "importStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Failed"
@@ -405,7 +405,7 @@ extension LexModelsV2ClientProtocol {
                 return JMESUtils.compare(importStatus, ==, "Failed")
             }),
         ]
-        return try WaiterConfiguration<DescribeImportInput, DescribeImportOutputResponse>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeImportInput, DescribeImportOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the BotImportCompleted event on the describeImport operation.
@@ -419,7 +419,7 @@ extension LexModelsV2ClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilBotImportCompleted(options: WaiterOptions, input: DescribeImportInput) async throws -> WaiterOutcome<DescribeImportOutputResponse> {
+    public func waitUntilBotImportCompleted(options: WaiterOptions, input: DescribeImportInput) async throws -> WaiterOutcome<DescribeImportOutput> {
         let waiter = Waiter(config: try Self.botImportCompletedWaiterConfig(), operation: self.describeImport(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

@@ -71,8 +71,18 @@ extension AcceptAdministratorInvitationInputBody: Swift.Decodable {
     }
 }
 
-public enum AcceptAdministratorInvitationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension AcceptAdministratorInvitationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AcceptAdministratorInvitationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum AcceptAdministratorInvitationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -81,16 +91,6 @@ public enum AcceptAdministratorInvitationOutputError: ClientRuntime.HttpResponse
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension AcceptAdministratorInvitationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct AcceptAdministratorInvitationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension AcceptInvitationInput: Swift.Encodable {
@@ -163,8 +163,19 @@ extension AcceptInvitationInputBody: Swift.Decodable {
     }
 }
 
-public enum AcceptInvitationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension AcceptInvitationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+@available(*, deprecated, message: "This output is deprecated, use AcceptAdministratorInvitationResponse instead")
+public struct AcceptInvitationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum AcceptInvitationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -175,17 +186,6 @@ public enum AcceptInvitationOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension AcceptInvitationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-@available(*, deprecated, message: "This output is deprecated, use AcceptAdministratorInvitationResponse instead")
-public struct AcceptInvitationOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
 extension GuardDutyClientTypes.AccessControlList: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allowsPublicReadAccess = "allowsPublicReadAccess"
@@ -194,19 +194,19 @@ extension GuardDutyClientTypes.AccessControlList: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if allowsPublicReadAccess != false {
+        if let allowsPublicReadAccess = self.allowsPublicReadAccess {
             try encodeContainer.encode(allowsPublicReadAccess, forKey: .allowsPublicReadAccess)
         }
-        if allowsPublicWriteAccess != false {
+        if let allowsPublicWriteAccess = self.allowsPublicWriteAccess {
             try encodeContainer.encode(allowsPublicWriteAccess, forKey: .allowsPublicWriteAccess)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let allowsPublicReadAccessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowsPublicReadAccess) ?? false
+        let allowsPublicReadAccessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowsPublicReadAccess)
         allowsPublicReadAccess = allowsPublicReadAccessDecoded
-        let allowsPublicWriteAccessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowsPublicWriteAccess) ?? false
+        let allowsPublicWriteAccessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowsPublicWriteAccess)
         allowsPublicWriteAccess = allowsPublicWriteAccessDecoded
     }
 }
@@ -215,13 +215,13 @@ extension GuardDutyClientTypes {
     /// Contains information on the current access control policies for the bucket.
     public struct AccessControlList: Swift.Equatable {
         /// A value that indicates whether public read access for the bucket is enabled through an Access Control List (ACL).
-        public var allowsPublicReadAccess: Swift.Bool
+        public var allowsPublicReadAccess: Swift.Bool?
         /// A value that indicates whether public write access for the bucket is enabled through an Access Control List (ACL).
-        public var allowsPublicWriteAccess: Swift.Bool
+        public var allowsPublicWriteAccess: Swift.Bool?
 
         public init(
-            allowsPublicReadAccess: Swift.Bool = false,
-            allowsPublicWriteAccess: Swift.Bool = false
+            allowsPublicReadAccess: Swift.Bool? = nil,
+            allowsPublicWriteAccess: Swift.Bool? = nil
         )
         {
             self.allowsPublicReadAccess = allowsPublicReadAccess
@@ -518,6 +518,9 @@ extension GuardDutyClientTypes.Action: Swift.Codable {
         case awsApiCallAction = "awsApiCallAction"
         case dnsRequestAction = "dnsRequestAction"
         case kubernetesApiCallAction = "kubernetesApiCallAction"
+        case kubernetesPermissionCheckedDetails = "kubernetesPermissionCheckedDetails"
+        case kubernetesRoleBindingDetails = "kubernetesRoleBindingDetails"
+        case kubernetesRoleDetails = "kubernetesRoleDetails"
         case networkConnectionAction = "networkConnectionAction"
         case portProbeAction = "portProbeAction"
         case rdsLoginAttemptAction = "rdsLoginAttemptAction"
@@ -536,6 +539,15 @@ extension GuardDutyClientTypes.Action: Swift.Codable {
         }
         if let kubernetesApiCallAction = self.kubernetesApiCallAction {
             try encodeContainer.encode(kubernetesApiCallAction, forKey: .kubernetesApiCallAction)
+        }
+        if let kubernetesPermissionCheckedDetails = self.kubernetesPermissionCheckedDetails {
+            try encodeContainer.encode(kubernetesPermissionCheckedDetails, forKey: .kubernetesPermissionCheckedDetails)
+        }
+        if let kubernetesRoleBindingDetails = self.kubernetesRoleBindingDetails {
+            try encodeContainer.encode(kubernetesRoleBindingDetails, forKey: .kubernetesRoleBindingDetails)
+        }
+        if let kubernetesRoleDetails = self.kubernetesRoleDetails {
+            try encodeContainer.encode(kubernetesRoleDetails, forKey: .kubernetesRoleDetails)
         }
         if let networkConnectionAction = self.networkConnectionAction {
             try encodeContainer.encode(networkConnectionAction, forKey: .networkConnectionAction)
@@ -564,6 +576,12 @@ extension GuardDutyClientTypes.Action: Swift.Codable {
         kubernetesApiCallAction = kubernetesApiCallActionDecoded
         let rdsLoginAttemptActionDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.RdsLoginAttemptAction.self, forKey: .rdsLoginAttemptAction)
         rdsLoginAttemptAction = rdsLoginAttemptActionDecoded
+        let kubernetesPermissionCheckedDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.KubernetesPermissionCheckedDetails.self, forKey: .kubernetesPermissionCheckedDetails)
+        kubernetesPermissionCheckedDetails = kubernetesPermissionCheckedDetailsDecoded
+        let kubernetesRoleBindingDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.KubernetesRoleBindingDetails.self, forKey: .kubernetesRoleBindingDetails)
+        kubernetesRoleBindingDetails = kubernetesRoleBindingDetailsDecoded
+        let kubernetesRoleDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.KubernetesRoleDetails.self, forKey: .kubernetesRoleDetails)
+        kubernetesRoleDetails = kubernetesRoleDetailsDecoded
     }
 }
 
@@ -578,6 +596,12 @@ extension GuardDutyClientTypes {
         public var dnsRequestAction: GuardDutyClientTypes.DnsRequestAction?
         /// Information about the Kubernetes API call action described in this finding.
         public var kubernetesApiCallAction: GuardDutyClientTypes.KubernetesApiCallAction?
+        /// Information whether the user has the permission to use a specific Kubernetes API.
+        public var kubernetesPermissionCheckedDetails: GuardDutyClientTypes.KubernetesPermissionCheckedDetails?
+        /// Information about the role binding that grants the permission defined in a Kubernetes role.
+        public var kubernetesRoleBindingDetails: GuardDutyClientTypes.KubernetesRoleBindingDetails?
+        /// Information about the Kubernetes role name and role type.
+        public var kubernetesRoleDetails: GuardDutyClientTypes.KubernetesRoleDetails?
         /// Information about the NETWORK_CONNECTION action described in this finding.
         public var networkConnectionAction: GuardDutyClientTypes.NetworkConnectionAction?
         /// Information about the PORT_PROBE action described in this finding.
@@ -590,6 +614,9 @@ extension GuardDutyClientTypes {
             awsApiCallAction: GuardDutyClientTypes.AwsApiCallAction? = nil,
             dnsRequestAction: GuardDutyClientTypes.DnsRequestAction? = nil,
             kubernetesApiCallAction: GuardDutyClientTypes.KubernetesApiCallAction? = nil,
+            kubernetesPermissionCheckedDetails: GuardDutyClientTypes.KubernetesPermissionCheckedDetails? = nil,
+            kubernetesRoleBindingDetails: GuardDutyClientTypes.KubernetesRoleBindingDetails? = nil,
+            kubernetesRoleDetails: GuardDutyClientTypes.KubernetesRoleDetails? = nil,
             networkConnectionAction: GuardDutyClientTypes.NetworkConnectionAction? = nil,
             portProbeAction: GuardDutyClientTypes.PortProbeAction? = nil,
             rdsLoginAttemptAction: GuardDutyClientTypes.RdsLoginAttemptAction? = nil
@@ -599,6 +626,9 @@ extension GuardDutyClientTypes {
             self.awsApiCallAction = awsApiCallAction
             self.dnsRequestAction = dnsRequestAction
             self.kubernetesApiCallAction = kubernetesApiCallAction
+            self.kubernetesPermissionCheckedDetails = kubernetesPermissionCheckedDetails
+            self.kubernetesRoleBindingDetails = kubernetesRoleBindingDetails
+            self.kubernetesRoleDetails = kubernetesRoleDetails
             self.networkConnectionAction = networkConnectionAction
             self.portProbeAction = portProbeAction
             self.rdsLoginAttemptAction = rdsLoginAttemptAction
@@ -794,6 +824,230 @@ extension GuardDutyClientTypes {
 
 }
 
+extension GuardDutyClientTypes.AgentDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case version = "version"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let version = self.version {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Information about the installed GuardDuty security agent.
+    public struct AgentDetails: Swift.Equatable {
+        /// Version of the installed GuardDuty security agent.
+        public var version: Swift.String?
+
+        public init(
+            version: Swift.String? = nil
+        )
+        {
+            self.version = version
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.Anomaly: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case profiles = "profiles"
+        case unusual = "unusual"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let profiles = profiles {
+            var profilesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .profiles)
+            for (dictKey0, anomalyProfiles0) in profiles {
+                var anomalyProfiles0Container = profilesContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey1, anomalyProfileFeatures1) in anomalyProfiles0 {
+                    var anomalyProfileFeatures1Container = anomalyProfiles0Container.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey1))
+                    for anomalyobject2 in anomalyProfileFeatures1 {
+                        try anomalyProfileFeatures1Container.encode(anomalyobject2)
+                    }
+                }
+            }
+        }
+        if let unusual = self.unusual {
+            try encodeContainer.encode(unusual, forKey: .unusual)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profilesContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String: [GuardDutyClientTypes.AnomalyObject?]?]?].self, forKey: .profiles)
+        var profilesDecoded0: [Swift.String:[Swift.String:[GuardDutyClientTypes.AnomalyObject]]]? = nil
+        if let profilesContainer = profilesContainer {
+            profilesDecoded0 = [Swift.String:[Swift.String:[GuardDutyClientTypes.AnomalyObject]]]()
+            for (key0, anomalyprofilefeatures0) in profilesContainer {
+                var anomalyprofilefeatures0Decoded0: [Swift.String: [GuardDutyClientTypes.AnomalyObject]]? = nil
+                if let anomalyprofilefeatures0 = anomalyprofilefeatures0 {
+                    anomalyprofilefeatures0Decoded0 = [Swift.String: [GuardDutyClientTypes.AnomalyObject]]()
+                    for (key1, anomalyprofilefeatureobjects1) in anomalyprofilefeatures0 {
+                        var anomalyprofilefeatureobjects1Decoded1: [GuardDutyClientTypes.AnomalyObject]? = nil
+                        if let anomalyprofilefeatureobjects1 = anomalyprofilefeatureobjects1 {
+                            anomalyprofilefeatureobjects1Decoded1 = [GuardDutyClientTypes.AnomalyObject]()
+                            for structure2 in anomalyprofilefeatureobjects1 {
+                                if let structure2 = structure2 {
+                                    anomalyprofilefeatureobjects1Decoded1?.append(structure2)
+                                }
+                            }
+                        }
+                        anomalyprofilefeatures0Decoded0?[key1] = anomalyprofilefeatureobjects1Decoded1
+                    }
+                }
+                profilesDecoded0?[key0] = anomalyprofilefeatures0Decoded0
+            }
+        }
+        profiles = profilesDecoded0
+        let unusualDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.AnomalyUnusual.self, forKey: .unusual)
+        unusual = unusualDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about the anomalies.
+    public struct Anomaly: Swift.Equatable {
+        /// Information about the types of profiles.
+        public var profiles: [Swift.String:[Swift.String:[GuardDutyClientTypes.AnomalyObject]]]?
+        /// Information about the behavior of the anomalies.
+        public var unusual: GuardDutyClientTypes.AnomalyUnusual?
+
+        public init(
+            profiles: [Swift.String:[Swift.String:[GuardDutyClientTypes.AnomalyObject]]]? = nil,
+            unusual: GuardDutyClientTypes.AnomalyUnusual? = nil
+        )
+        {
+            self.profiles = profiles
+            self.unusual = unusual
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.AnomalyObject: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case observations = "observations"
+        case profileSubtype = "profileSubtype"
+        case profileType = "profileType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let observations = self.observations {
+            try encodeContainer.encode(observations, forKey: .observations)
+        }
+        if let profileSubtype = self.profileSubtype {
+            try encodeContainer.encode(profileSubtype.rawValue, forKey: .profileSubtype)
+        }
+        if let profileType = self.profileType {
+            try encodeContainer.encode(profileType.rawValue, forKey: .profileType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profileTypeDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.ProfileType.self, forKey: .profileType)
+        profileType = profileTypeDecoded
+        let profileSubtypeDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.ProfileSubtype.self, forKey: .profileSubtype)
+        profileSubtype = profileSubtypeDecoded
+        let observationsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.Observations.self, forKey: .observations)
+        observations = observationsDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about the unusual anomalies.
+    public struct AnomalyObject: Swift.Equatable {
+        /// The recorded value.
+        public var observations: GuardDutyClientTypes.Observations?
+        /// The frequency of the anomaly.
+        public var profileSubtype: GuardDutyClientTypes.ProfileSubtype?
+        /// The type of behavior of the profile.
+        public var profileType: GuardDutyClientTypes.ProfileType?
+
+        public init(
+            observations: GuardDutyClientTypes.Observations? = nil,
+            profileSubtype: GuardDutyClientTypes.ProfileSubtype? = nil,
+            profileType: GuardDutyClientTypes.ProfileType? = nil
+        )
+        {
+            self.observations = observations
+            self.profileSubtype = profileSubtype
+            self.profileType = profileType
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.AnomalyUnusual: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case behavior = "behavior"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let behavior = behavior {
+            var behaviorContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .behavior)
+            for (dictKey0, behavior0) in behavior {
+                var behavior0Container = behaviorContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey1, anomalyUnusualBehaviorFeature1) in behavior0 {
+                    try behavior0Container.encode(anomalyUnusualBehaviorFeature1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let behaviorContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String: GuardDutyClientTypes.AnomalyObject?]?].self, forKey: .behavior)
+        var behaviorDecoded0: [Swift.String:[Swift.String:GuardDutyClientTypes.AnomalyObject]]? = nil
+        if let behaviorContainer = behaviorContainer {
+            behaviorDecoded0 = [Swift.String:[Swift.String:GuardDutyClientTypes.AnomalyObject]]()
+            for (key0, anomalyunusualbehaviorfeature0) in behaviorContainer {
+                var anomalyunusualbehaviorfeature0Decoded0: [Swift.String: GuardDutyClientTypes.AnomalyObject]? = nil
+                if let anomalyunusualbehaviorfeature0 = anomalyunusualbehaviorfeature0 {
+                    anomalyunusualbehaviorfeature0Decoded0 = [Swift.String: GuardDutyClientTypes.AnomalyObject]()
+                    for (key1, anomalyobject1) in anomalyunusualbehaviorfeature0 {
+                        if let anomalyobject1 = anomalyobject1 {
+                            anomalyunusualbehaviorfeature0Decoded0?[key1] = anomalyobject1
+                        }
+                    }
+                }
+                behaviorDecoded0?[key0] = anomalyunusualbehaviorfeature0Decoded0
+            }
+        }
+        behavior = behaviorDecoded0
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about the behavior of the anomaly that is new to GuardDuty.
+    public struct AnomalyUnusual: Swift.Equatable {
+        /// The behavior of the anomalous activity that caused GuardDuty to generate the finding.
+        public var behavior: [Swift.String:[Swift.String:GuardDutyClientTypes.AnomalyObject]]?
+
+        public init(
+            behavior: [Swift.String:[Swift.String:GuardDutyClientTypes.AnomalyObject]]? = nil
+        )
+        {
+            self.behavior = behavior
+        }
+    }
+
+}
+
 extension ArchiveFindingsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case findingIds = "findingIds"
@@ -862,8 +1116,18 @@ extension ArchiveFindingsInputBody: Swift.Decodable {
     }
 }
 
-public enum ArchiveFindingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension ArchiveFindingsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct ArchiveFindingsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum ArchiveFindingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -872,16 +1136,6 @@ public enum ArchiveFindingsOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension ArchiveFindingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct ArchiveFindingsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension GuardDutyClientTypes {
@@ -1122,29 +1376,29 @@ extension GuardDutyClientTypes.BlockPublicAccess: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if blockPublicAcls != false {
+        if let blockPublicAcls = self.blockPublicAcls {
             try encodeContainer.encode(blockPublicAcls, forKey: .blockPublicAcls)
         }
-        if blockPublicPolicy != false {
+        if let blockPublicPolicy = self.blockPublicPolicy {
             try encodeContainer.encode(blockPublicPolicy, forKey: .blockPublicPolicy)
         }
-        if ignorePublicAcls != false {
+        if let ignorePublicAcls = self.ignorePublicAcls {
             try encodeContainer.encode(ignorePublicAcls, forKey: .ignorePublicAcls)
         }
-        if restrictPublicBuckets != false {
+        if let restrictPublicBuckets = self.restrictPublicBuckets {
             try encodeContainer.encode(restrictPublicBuckets, forKey: .restrictPublicBuckets)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let ignorePublicAclsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ignorePublicAcls) ?? false
+        let ignorePublicAclsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ignorePublicAcls)
         ignorePublicAcls = ignorePublicAclsDecoded
-        let restrictPublicBucketsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .restrictPublicBuckets) ?? false
+        let restrictPublicBucketsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .restrictPublicBuckets)
         restrictPublicBuckets = restrictPublicBucketsDecoded
-        let blockPublicAclsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blockPublicAcls) ?? false
+        let blockPublicAclsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blockPublicAcls)
         blockPublicAcls = blockPublicAclsDecoded
-        let blockPublicPolicyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blockPublicPolicy) ?? false
+        let blockPublicPolicyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blockPublicPolicy)
         blockPublicPolicy = blockPublicPolicyDecoded
     }
 }
@@ -1153,19 +1407,19 @@ extension GuardDutyClientTypes {
     /// Contains information on how the bucker owner's S3 Block Public Access settings are being applied to the S3 bucket. See [S3 Block Public Access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html) for more information.
     public struct BlockPublicAccess: Swift.Equatable {
         /// Indicates if S3 Block Public Access is set to BlockPublicAcls.
-        public var blockPublicAcls: Swift.Bool
+        public var blockPublicAcls: Swift.Bool?
         /// Indicates if S3 Block Public Access is set to BlockPublicPolicy.
-        public var blockPublicPolicy: Swift.Bool
+        public var blockPublicPolicy: Swift.Bool?
         /// Indicates if S3 Block Public Access is set to IgnorePublicAcls.
-        public var ignorePublicAcls: Swift.Bool
+        public var ignorePublicAcls: Swift.Bool?
         /// Indicates if S3 Block Public Access is set to RestrictPublicBuckets.
-        public var restrictPublicBuckets: Swift.Bool
+        public var restrictPublicBuckets: Swift.Bool?
 
         public init(
-            blockPublicAcls: Swift.Bool = false,
-            blockPublicPolicy: Swift.Bool = false,
-            ignorePublicAcls: Swift.Bool = false,
-            restrictPublicBuckets: Swift.Bool = false
+            blockPublicAcls: Swift.Bool? = nil,
+            blockPublicPolicy: Swift.Bool? = nil,
+            ignorePublicAcls: Swift.Bool? = nil,
+            restrictPublicBuckets: Swift.Bool? = nil
         )
         {
             self.blockPublicAcls = blockPublicAcls
@@ -1240,19 +1494,19 @@ extension GuardDutyClientTypes.BucketPolicy: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if allowsPublicReadAccess != false {
+        if let allowsPublicReadAccess = self.allowsPublicReadAccess {
             try encodeContainer.encode(allowsPublicReadAccess, forKey: .allowsPublicReadAccess)
         }
-        if allowsPublicWriteAccess != false {
+        if let allowsPublicWriteAccess = self.allowsPublicWriteAccess {
             try encodeContainer.encode(allowsPublicWriteAccess, forKey: .allowsPublicWriteAccess)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let allowsPublicReadAccessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowsPublicReadAccess) ?? false
+        let allowsPublicReadAccessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowsPublicReadAccess)
         allowsPublicReadAccess = allowsPublicReadAccessDecoded
-        let allowsPublicWriteAccessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowsPublicWriteAccess) ?? false
+        let allowsPublicWriteAccessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowsPublicWriteAccess)
         allowsPublicWriteAccess = allowsPublicWriteAccessDecoded
     }
 }
@@ -1261,13 +1515,13 @@ extension GuardDutyClientTypes {
     /// Contains information on the current bucket policies for the S3 bucket.
     public struct BucketPolicy: Swift.Equatable {
         /// A value that indicates whether public read access for the bucket is enabled through a bucket policy.
-        public var allowsPublicReadAccess: Swift.Bool
+        public var allowsPublicReadAccess: Swift.Bool?
         /// A value that indicates whether public write access for the bucket is enabled through a bucket policy.
-        public var allowsPublicWriteAccess: Swift.Bool
+        public var allowsPublicWriteAccess: Swift.Bool?
 
         public init(
-            allowsPublicReadAccess: Swift.Bool = false,
-            allowsPublicWriteAccess: Swift.Bool = false
+            allowsPublicReadAccess: Swift.Bool? = nil,
+            allowsPublicWriteAccess: Swift.Bool? = nil
         )
         {
             self.allowsPublicReadAccess = allowsPublicReadAccess
@@ -1378,28 +1632,28 @@ extension GuardDutyClientTypes.Condition: Swift.Codable {
                 try equalsContainer.encode(string0)
             }
         }
-        if greaterThan != 0 {
+        if let greaterThan = self.greaterThan {
             try encodeContainer.encode(greaterThan, forKey: .greaterThan)
         }
-        if greaterThanOrEqual != 0 {
+        if let greaterThanOrEqual = self.greaterThanOrEqual {
             try encodeContainer.encode(greaterThanOrEqual, forKey: .greaterThanOrEqual)
         }
-        if gt != 0 {
+        if let gt = self.gt {
             try encodeContainer.encode(gt, forKey: .gt)
         }
-        if gte != 0 {
+        if let gte = self.gte {
             try encodeContainer.encode(gte, forKey: .gte)
         }
-        if lessThan != 0 {
+        if let lessThan = self.lessThan {
             try encodeContainer.encode(lessThan, forKey: .lessThan)
         }
-        if lessThanOrEqual != 0 {
+        if let lessThanOrEqual = self.lessThanOrEqual {
             try encodeContainer.encode(lessThanOrEqual, forKey: .lessThanOrEqual)
         }
-        if lt != 0 {
+        if let lt = self.lt {
             try encodeContainer.encode(lt, forKey: .lt)
         }
-        if lte != 0 {
+        if let lte = self.lte {
             try encodeContainer.encode(lte, forKey: .lte)
         }
         if let neq = neq {
@@ -1440,13 +1694,13 @@ extension GuardDutyClientTypes.Condition: Swift.Codable {
             }
         }
         neq = neqDecoded0
-        let gtDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .gt) ?? 0
+        let gtDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .gt)
         gt = gtDecoded
-        let gteDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .gte) ?? 0
+        let gteDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .gte)
         gte = gteDecoded
-        let ltDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lt) ?? 0
+        let ltDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lt)
         lt = ltDecoded
-        let lteDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lte) ?? 0
+        let lteDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lte)
         lte = lteDecoded
         let equalsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .equals)
         var equalsDecoded0:[Swift.String]? = nil
@@ -1470,13 +1724,13 @@ extension GuardDutyClientTypes.Condition: Swift.Codable {
             }
         }
         notEquals = notEqualsDecoded0
-        let greaterThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .greaterThan) ?? 0
+        let greaterThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .greaterThan)
         greaterThan = greaterThanDecoded
-        let greaterThanOrEqualDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .greaterThanOrEqual) ?? 0
+        let greaterThanOrEqualDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .greaterThanOrEqual)
         greaterThanOrEqual = greaterThanOrEqualDecoded
-        let lessThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lessThan) ?? 0
+        let lessThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lessThan)
         lessThan = lessThanDecoded
-        let lessThanOrEqualDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lessThanOrEqual) ?? 0
+        let lessThanOrEqualDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lessThanOrEqual)
         lessThanOrEqual = lessThanOrEqualDecoded
     }
 }
@@ -1490,25 +1744,25 @@ extension GuardDutyClientTypes {
         /// Represents an equal condition to be applied to a single field when querying for findings.
         public var equals: [Swift.String]?
         /// Represents a greater than condition to be applied to a single field when querying for findings.
-        public var greaterThan: Swift.Int
+        public var greaterThan: Swift.Int?
         /// Represents a greater than or equal condition to be applied to a single field when querying for findings.
-        public var greaterThanOrEqual: Swift.Int
+        public var greaterThanOrEqual: Swift.Int?
         /// Represents a greater than condition to be applied to a single field when querying for findings.
         @available(*, deprecated)
-        public var gt: Swift.Int
+        public var gt: Swift.Int?
         /// Represents a greater than or equal condition to be applied to a single field when querying for findings.
         @available(*, deprecated)
-        public var gte: Swift.Int
+        public var gte: Swift.Int?
         /// Represents a less than condition to be applied to a single field when querying for findings.
-        public var lessThan: Swift.Int
+        public var lessThan: Swift.Int?
         /// Represents a less than or equal condition to be applied to a single field when querying for findings.
-        public var lessThanOrEqual: Swift.Int
+        public var lessThanOrEqual: Swift.Int?
         /// Represents a less than condition to be applied to a single field when querying for findings.
         @available(*, deprecated)
-        public var lt: Swift.Int
+        public var lt: Swift.Int?
         /// Represents a less than or equal condition to be applied to a single field when querying for findings.
         @available(*, deprecated)
-        public var lte: Swift.Int
+        public var lte: Swift.Int?
         /// Represents the not equal condition to be applied to a single field when querying for findings.
         @available(*, deprecated)
         public var neq: [Swift.String]?
@@ -1518,14 +1772,14 @@ extension GuardDutyClientTypes {
         public init(
             eq: [Swift.String]? = nil,
             equals: [Swift.String]? = nil,
-            greaterThan: Swift.Int = 0,
-            greaterThanOrEqual: Swift.Int = 0,
-            gt: Swift.Int = 0,
-            gte: Swift.Int = 0,
-            lessThan: Swift.Int = 0,
-            lessThanOrEqual: Swift.Int = 0,
-            lt: Swift.Int = 0,
-            lte: Swift.Int = 0,
+            greaterThan: Swift.Int? = nil,
+            greaterThanOrEqual: Swift.Int? = nil,
+            gt: Swift.Int? = nil,
+            gte: Swift.Int? = nil,
+            lessThan: Swift.Int? = nil,
+            lessThanOrEqual: Swift.Int? = nil,
+            lt: Swift.Int? = nil,
+            lte: Swift.Int? = nil,
             neq: [Swift.String]? = nil,
             notEquals: [Swift.String]? = nil
         )
@@ -1720,6 +1974,51 @@ extension GuardDutyClientTypes {
 
 }
 
+extension GuardDutyClientTypes.ContainerInstanceDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case compatibleContainerInstances = "compatibleContainerInstances"
+        case coveredContainerInstances = "coveredContainerInstances"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let compatibleContainerInstances = self.compatibleContainerInstances {
+            try encodeContainer.encode(compatibleContainerInstances, forKey: .compatibleContainerInstances)
+        }
+        if let coveredContainerInstances = self.coveredContainerInstances {
+            try encodeContainer.encode(coveredContainerInstances, forKey: .coveredContainerInstances)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let coveredContainerInstancesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .coveredContainerInstances)
+        coveredContainerInstances = coveredContainerInstancesDecoded
+        let compatibleContainerInstancesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .compatibleContainerInstances)
+        compatibleContainerInstances = compatibleContainerInstancesDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about the Amazon EC2 instance that is running the Amazon ECS container.
+    public struct ContainerInstanceDetails: Swift.Equatable {
+        /// Represents total number of nodes in the Amazon ECS cluster.
+        public var compatibleContainerInstances: Swift.Int?
+        /// Represents the nodes in the Amazon ECS cluster that has a HEALTHY coverage status.
+        public var coveredContainerInstances: Swift.Int?
+
+        public init(
+            compatibleContainerInstances: Swift.Int? = nil,
+            coveredContainerInstances: Swift.Int? = nil
+        )
+        {
+            self.compatibleContainerInstances = compatibleContainerInstances
+            self.coveredContainerInstances = coveredContainerInstances
+        }
+    }
+
+}
+
 extension GuardDutyClientTypes.Country: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case countryCode = "countryCode"
@@ -1765,12 +2064,150 @@ extension GuardDutyClientTypes {
 
 }
 
+extension GuardDutyClientTypes.CoverageEc2InstanceDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentDetails = "agentDetails"
+        case clusterArn = "clusterArn"
+        case instanceId = "instanceId"
+        case instanceType = "instanceType"
+        case managementType = "managementType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agentDetails = self.agentDetails {
+            try encodeContainer.encode(agentDetails, forKey: .agentDetails)
+        }
+        if let clusterArn = self.clusterArn {
+            try encodeContainer.encode(clusterArn, forKey: .clusterArn)
+        }
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
+        if let instanceType = self.instanceType {
+            try encodeContainer.encode(instanceType, forKey: .instanceType)
+        }
+        if let managementType = self.managementType {
+            try encodeContainer.encode(managementType.rawValue, forKey: .managementType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
+        let instanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceType)
+        instanceType = instanceTypeDecoded
+        let clusterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterArn)
+        clusterArn = clusterArnDecoded
+        let agentDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.AgentDetails.self, forKey: .agentDetails)
+        agentDetails = agentDetailsDecoded
+        let managementTypeDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.ManagementType.self, forKey: .managementType)
+        managementType = managementTypeDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// This API is also used when you use GuardDuty Runtime Monitoring for your Amazon EC2 instances (currently in preview release) and is subject to change. Contains information about the Amazon EC2 instance runtime coverage details.
+    public struct CoverageEc2InstanceDetails: Swift.Equatable {
+        /// Information about the installed security agent.
+        public var agentDetails: GuardDutyClientTypes.AgentDetails?
+        /// The cluster ARN of the Amazon ECS cluster running on the Amazon EC2 instance.
+        public var clusterArn: Swift.String?
+        /// The Amazon EC2 instance ID.
+        public var instanceId: Swift.String?
+        /// The instance type of the Amazon EC2 instance.
+        public var instanceType: Swift.String?
+        /// Indicates how the GuardDuty security agent is managed for this resource.
+        ///
+        /// * AUTO_MANAGED indicates that GuardDuty deploys and manages updates for this resource.
+        ///
+        /// * MANUAL indicates that you are responsible to deploy, update, and manage the GuardDuty security agent updates for this resource.
+        ///
+        ///
+        /// The DISABLED status doesn't apply to Amazon EC2 instances and Amazon EKS clusters that run on Amazon EC2 instances.
+        public var managementType: GuardDutyClientTypes.ManagementType?
+
+        public init(
+            agentDetails: GuardDutyClientTypes.AgentDetails? = nil,
+            clusterArn: Swift.String? = nil,
+            instanceId: Swift.String? = nil,
+            instanceType: Swift.String? = nil,
+            managementType: GuardDutyClientTypes.ManagementType? = nil
+        )
+        {
+            self.agentDetails = agentDetails
+            self.clusterArn = clusterArn
+            self.instanceId = instanceId
+            self.instanceType = instanceType
+            self.managementType = managementType
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.CoverageEcsClusterDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clusterName = "clusterName"
+        case containerInstanceDetails = "containerInstanceDetails"
+        case fargateDetails = "fargateDetails"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clusterName = self.clusterName {
+            try encodeContainer.encode(clusterName, forKey: .clusterName)
+        }
+        if let containerInstanceDetails = self.containerInstanceDetails {
+            try encodeContainer.encode(containerInstanceDetails, forKey: .containerInstanceDetails)
+        }
+        if let fargateDetails = self.fargateDetails {
+            try encodeContainer.encode(fargateDetails, forKey: .fargateDetails)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterName)
+        clusterName = clusterNameDecoded
+        let fargateDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.FargateDetails.self, forKey: .fargateDetails)
+        fargateDetails = fargateDetailsDecoded
+        let containerInstanceDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.ContainerInstanceDetails.self, forKey: .containerInstanceDetails)
+        containerInstanceDetails = containerInstanceDetailsDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about Amazon ECS cluster runtime coverage details.
+    public struct CoverageEcsClusterDetails: Swift.Equatable {
+        /// The name of the Amazon ECS cluster.
+        public var clusterName: Swift.String?
+        /// Information about the Amazon ECS container running on Amazon EC2 instance.
+        public var containerInstanceDetails: GuardDutyClientTypes.ContainerInstanceDetails?
+        /// Information about the Fargate details associated with the Amazon ECS cluster.
+        public var fargateDetails: GuardDutyClientTypes.FargateDetails?
+
+        public init(
+            clusterName: Swift.String? = nil,
+            containerInstanceDetails: GuardDutyClientTypes.ContainerInstanceDetails? = nil,
+            fargateDetails: GuardDutyClientTypes.FargateDetails? = nil
+        )
+        {
+            self.clusterName = clusterName
+            self.containerInstanceDetails = containerInstanceDetails
+            self.fargateDetails = fargateDetails
+        }
+    }
+
+}
+
 extension GuardDutyClientTypes.CoverageEksClusterDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case addonDetails = "addonDetails"
         case clusterName = "clusterName"
         case compatibleNodes = "compatibleNodes"
         case coveredNodes = "coveredNodes"
+        case managementType = "managementType"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1781,11 +2218,14 @@ extension GuardDutyClientTypes.CoverageEksClusterDetails: Swift.Codable {
         if let clusterName = self.clusterName {
             try encodeContainer.encode(clusterName, forKey: .clusterName)
         }
-        if compatibleNodes != 0 {
+        if let compatibleNodes = self.compatibleNodes {
             try encodeContainer.encode(compatibleNodes, forKey: .compatibleNodes)
         }
-        if coveredNodes != 0 {
+        if let coveredNodes = self.coveredNodes {
             try encodeContainer.encode(coveredNodes, forKey: .coveredNodes)
+        }
+        if let managementType = self.managementType {
+            try encodeContainer.encode(managementType.rawValue, forKey: .managementType)
         }
     }
 
@@ -1793,12 +2233,14 @@ extension GuardDutyClientTypes.CoverageEksClusterDetails: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clusterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterName)
         clusterName = clusterNameDecoded
-        let coveredNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .coveredNodes) ?? 0
+        let coveredNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .coveredNodes)
         coveredNodes = coveredNodesDecoded
-        let compatibleNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .compatibleNodes) ?? 0
+        let compatibleNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .compatibleNodes)
         compatibleNodes = compatibleNodesDecoded
         let addonDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.AddonDetails.self, forKey: .addonDetails)
         addonDetails = addonDetailsDecoded
+        let managementTypeDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.ManagementType.self, forKey: .managementType)
+        managementType = managementTypeDecoded
     }
 }
 
@@ -1810,21 +2252,25 @@ extension GuardDutyClientTypes {
         /// Name of the EKS cluster.
         public var clusterName: Swift.String?
         /// Represents all the nodes within the EKS cluster in your account.
-        public var compatibleNodes: Swift.Int
+        public var compatibleNodes: Swift.Int?
         /// Represents the nodes within the EKS cluster that have a HEALTHY coverage status.
-        public var coveredNodes: Swift.Int
+        public var coveredNodes: Swift.Int?
+        /// Indicates how the Amazon EKS add-on GuardDuty agent is managed for this EKS cluster. AUTO_MANAGED indicates GuardDuty deploys and manages updates for this resource. MANUAL indicates that you are responsible to deploy, update, and manage the Amazon EKS add-on GuardDuty agent for this resource.
+        public var managementType: GuardDutyClientTypes.ManagementType?
 
         public init(
             addonDetails: GuardDutyClientTypes.AddonDetails? = nil,
             clusterName: Swift.String? = nil,
-            compatibleNodes: Swift.Int = 0,
-            coveredNodes: Swift.Int = 0
+            compatibleNodes: Swift.Int? = nil,
+            coveredNodes: Swift.Int? = nil,
+            managementType: GuardDutyClientTypes.ManagementType? = nil
         )
         {
             self.addonDetails = addonDetails
             self.clusterName = clusterName
             self.compatibleNodes = compatibleNodes
             self.coveredNodes = coveredNodes
+            self.managementType = managementType
         }
     }
 
@@ -1974,7 +2420,7 @@ extension GuardDutyClientTypes.CoverageFilterCriterion: Swift.Codable {
 extension GuardDutyClientTypes {
     /// Represents a condition that when matched will be added to the response of the operation.
     public struct CoverageFilterCriterion: Swift.Equatable {
-        /// An enum value representing possible filter fields.
+        /// An enum value representing possible filter fields. Replace the enum value CLUSTER_NAME with EKS_CLUSTER_NAME. CLUSTER_NAME has been deprecated.
         public var criterionKey: GuardDutyClientTypes.CoverageFilterCriterionKey?
         /// Contains information about the condition.
         public var filterCondition: GuardDutyClientTypes.CoverageFilterCondition?
@@ -1995,8 +2441,14 @@ extension GuardDutyClientTypes {
     public enum CoverageFilterCriterionKey: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case accountId
         case addonVersion
+        case agentVersion
+        case clusterArn
         case clusterName
         case coverageStatus
+        case ecsClusterName
+        case eksClusterName
+        case instanceId
+        case managementType
         case resourceType
         case sdkUnknown(Swift.String)
 
@@ -2004,8 +2456,14 @@ extension GuardDutyClientTypes {
             return [
                 .accountId,
                 .addonVersion,
+                .agentVersion,
+                .clusterArn,
                 .clusterName,
                 .coverageStatus,
+                .ecsClusterName,
+                .eksClusterName,
+                .instanceId,
+                .managementType,
                 .resourceType,
                 .sdkUnknown("")
             ]
@@ -2018,8 +2476,14 @@ extension GuardDutyClientTypes {
             switch self {
             case .accountId: return "ACCOUNT_ID"
             case .addonVersion: return "ADDON_VERSION"
+            case .agentVersion: return "AGENT_VERSION"
+            case .clusterArn: return "CLUSTER_ARN"
             case .clusterName: return "CLUSTER_NAME"
             case .coverageStatus: return "COVERAGE_STATUS"
+            case .ecsClusterName: return "ECS_CLUSTER_NAME"
+            case .eksClusterName: return "EKS_CLUSTER_NAME"
+            case .instanceId: return "INSTANCE_ID"
+            case .managementType: return "MANAGEMENT_TYPE"
             case .resourceType: return "RESOURCE_TYPE"
             case let .sdkUnknown(s): return s
             }
@@ -2129,12 +2593,20 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.CoverageResourceDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ec2InstanceDetails = "ec2InstanceDetails"
+        case ecsClusterDetails = "ecsClusterDetails"
         case eksClusterDetails = "eksClusterDetails"
         case resourceType = "resourceType"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ec2InstanceDetails = self.ec2InstanceDetails {
+            try encodeContainer.encode(ec2InstanceDetails, forKey: .ec2InstanceDetails)
+        }
+        if let ecsClusterDetails = self.ecsClusterDetails {
+            try encodeContainer.encode(ecsClusterDetails, forKey: .ecsClusterDetails)
+        }
         if let eksClusterDetails = self.eksClusterDetails {
             try encodeContainer.encode(eksClusterDetails, forKey: .eksClusterDetails)
         }
@@ -2149,22 +2621,34 @@ extension GuardDutyClientTypes.CoverageResourceDetails: Swift.Codable {
         eksClusterDetails = eksClusterDetailsDecoded
         let resourceTypeDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.ResourceType.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
+        let ecsClusterDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.CoverageEcsClusterDetails.self, forKey: .ecsClusterDetails)
+        ecsClusterDetails = ecsClusterDetailsDecoded
+        let ec2InstanceDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.CoverageEc2InstanceDetails.self, forKey: .ec2InstanceDetails)
+        ec2InstanceDetails = ec2InstanceDetailsDecoded
     }
 }
 
 extension GuardDutyClientTypes {
     /// Information about the resource for each individual EKS cluster.
     public struct CoverageResourceDetails: Swift.Equatable {
+        /// This API is also used when you use GuardDuty Runtime Monitoring for your Amazon EC2 instances (currently in preview release) and is subject to change. Information about the Amazon EC2 instance assessed for runtime coverage.
+        public var ec2InstanceDetails: GuardDutyClientTypes.CoverageEc2InstanceDetails?
+        /// Information about the Amazon ECS cluster that is assessed for runtime coverage.
+        public var ecsClusterDetails: GuardDutyClientTypes.CoverageEcsClusterDetails?
         /// EKS cluster details involved in the coverage statistics.
         public var eksClusterDetails: GuardDutyClientTypes.CoverageEksClusterDetails?
         /// The type of Amazon Web Services resource.
         public var resourceType: GuardDutyClientTypes.ResourceType?
 
         public init(
+            ec2InstanceDetails: GuardDutyClientTypes.CoverageEc2InstanceDetails? = nil,
+            ecsClusterDetails: GuardDutyClientTypes.CoverageEcsClusterDetails? = nil,
             eksClusterDetails: GuardDutyClientTypes.CoverageEksClusterDetails? = nil,
             resourceType: GuardDutyClientTypes.ResourceType? = nil
         )
         {
+            self.ec2InstanceDetails = ec2InstanceDetails
+            self.ecsClusterDetails = ecsClusterDetails
             self.eksClusterDetails = eksClusterDetails
             self.resourceType = resourceType
         }
@@ -2200,7 +2684,7 @@ extension GuardDutyClientTypes.CoverageSortCriteria: Swift.Codable {
 extension GuardDutyClientTypes {
     /// Information about the sorting criteria used in the coverage statistics.
     public struct CoverageSortCriteria: Swift.Equatable {
-        /// Represents the field name used to sort the coverage details.
+        /// Represents the field name used to sort the coverage details. Replace the enum value CLUSTER_NAME with EKS_CLUSTER_NAME. CLUSTER_NAME has been deprecated.
         public var attributeName: GuardDutyClientTypes.CoverageSortKey?
         /// The order in which the sorted findings are to be displayed.
         public var orderBy: GuardDutyClientTypes.OrderBy?
@@ -2223,6 +2707,9 @@ extension GuardDutyClientTypes {
         case addonVersion
         case clusterName
         case coverageStatus
+        case ecsClusterName
+        case eksClusterName
+        case instanceId
         case issue
         case updatedAt
         case sdkUnknown(Swift.String)
@@ -2233,6 +2720,9 @@ extension GuardDutyClientTypes {
                 .addonVersion,
                 .clusterName,
                 .coverageStatus,
+                .ecsClusterName,
+                .eksClusterName,
+                .instanceId,
                 .issue,
                 .updatedAt,
                 .sdkUnknown("")
@@ -2248,6 +2738,9 @@ extension GuardDutyClientTypes {
             case .addonVersion: return "ADDON_VERSION"
             case .clusterName: return "CLUSTER_NAME"
             case .coverageStatus: return "COVERAGE_STATUS"
+            case .ecsClusterName: return "ECS_CLUSTER_NAME"
+            case .eksClusterName: return "EKS_CLUSTER_NAME"
+            case .instanceId: return "INSTANCE_ID"
             case .issue: return "ISSUE"
             case .updatedAt: return "UPDATED_AT"
             case let .sdkUnknown(s): return s
@@ -2527,23 +3020,11 @@ extension CreateDetectorInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateDetectorOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateDetectorOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateDetectorOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateDetectorOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateDetectorOutputBody = try responseDecoder.decode(responseBody: data)
             self.detectorId = output.detectorId
             self.unprocessedDataSources = output.unprocessedDataSources
         } else {
@@ -2553,7 +3034,7 @@ extension CreateDetectorOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDetectorOutputResponse: Swift.Equatable {
+public struct CreateDetectorOutput: Swift.Equatable {
     /// The unique ID of the created detector.
     public var detectorId: Swift.String?
     /// Specifies the data sources that couldn't be enabled when GuardDuty was enabled for the first time.
@@ -2569,12 +3050,12 @@ public struct CreateDetectorOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateDetectorOutputResponseBody: Swift.Equatable {
+struct CreateDetectorOutputBody: Swift.Equatable {
     let detectorId: Swift.String?
     let unprocessedDataSources: GuardDutyClientTypes.UnprocessedDataSourcesResult?
 }
 
-extension CreateDetectorOutputResponseBody: Swift.Decodable {
+extension CreateDetectorOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case detectorId = "detectorId"
         case unprocessedDataSources = "unprocessedDataSources"
@@ -2586,6 +3067,18 @@ extension CreateDetectorOutputResponseBody: Swift.Decodable {
         detectorId = detectorIdDecoded
         let unprocessedDataSourcesDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.UnprocessedDataSourcesResult.self, forKey: .unprocessedDataSources)
         unprocessedDataSources = unprocessedDataSourcesDecoded
+    }
+}
+
+enum CreateDetectorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2652,9 +3145,24 @@ public struct CreateFilterInput: Swift.Equatable {
     ///
     /// * accountId
     ///
+    /// * id
+    ///
     /// * region
     ///
-    /// * id
+    /// * severity To filter on the basis of severity, the API and CLI use the following input list for the [FindingCriteria](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_FindingCriteria.html) condition:
+    ///
+    /// * Low: ["1", "2", "3"]
+    ///
+    /// * Medium: ["4", "5", "6"]
+    ///
+    /// * High: ["7", "8", "9"]
+    ///
+    ///
+    /// For more information, see [Severity levels for GuardDuty findings](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings.html#guardduty_findings-severity).
+    ///
+    /// * type
+    ///
+    /// * updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.
     ///
     /// * resource.accessKeyDetails.accessKeyId
     ///
@@ -2670,7 +3178,9 @@ public struct CreateFilterInput: Swift.Equatable {
     ///
     /// * resource.instanceDetails.instanceId
     ///
-    /// * resource.instanceDetails.outpostArn
+    /// * resource.instanceDetails.tags.key
+    ///
+    /// * resource.instanceDetails.tags.value
     ///
     /// * resource.instanceDetails.networkInterfaces.ipv6Addresses
     ///
@@ -2688,11 +3198,19 @@ public struct CreateFilterInput: Swift.Equatable {
     ///
     /// * resource.instanceDetails.networkInterfaces.vpcId
     ///
-    /// * resource.instanceDetails.tags.key
-    ///
-    /// * resource.instanceDetails.tags.value
+    /// * resource.instanceDetails.outpostArn
     ///
     /// * resource.resourceType
+    ///
+    /// * resource.s3BucketDetails.publicAccess.effectivePermissions
+    ///
+    /// * resource.s3BucketDetails.name
+    ///
+    /// * resource.s3BucketDetails.tags.key
+    ///
+    /// * resource.s3BucketDetails.tags.value
+    ///
+    /// * resource.s3BucketDetails.type
     ///
     /// * service.action.actionType
     ///
@@ -2701,8 +3219,6 @@ public struct CreateFilterInput: Swift.Equatable {
     /// * service.action.awsApiCallAction.callerType
     ///
     /// * service.action.awsApiCallAction.errorCode
-    ///
-    /// * service.action.awsApiCallAction.userAgent
     ///
     /// * service.action.awsApiCallAction.remoteIpDetails.city.cityName
     ///
@@ -2718,6 +3234,8 @@ public struct CreateFilterInput: Swift.Equatable {
     ///
     /// * service.action.dnsRequestAction.domain
     ///
+    /// * service.action.dnsRequestAction.domainWithSuffix
+    ///
     /// * service.action.networkConnectionAction.blocked
     ///
     /// * service.action.networkConnectionAction.connectionDirection
@@ -2725,8 +3243,6 @@ public struct CreateFilterInput: Swift.Equatable {
     /// * service.action.networkConnectionAction.localPortDetails.port
     ///
     /// * service.action.networkConnectionAction.protocol
-    ///
-    /// * service.action.networkConnectionAction.localIpDetails.ipAddressV4
     ///
     /// * service.action.networkConnectionAction.remoteIpDetails.city.cityName
     ///
@@ -2740,25 +3256,83 @@ public struct CreateFilterInput: Swift.Equatable {
     ///
     /// * service.action.networkConnectionAction.remotePortDetails.port
     ///
+    /// * service.action.awsApiCallAction.remoteAccountDetails.affiliated
+    ///
+    /// * service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV4
+    ///
+    /// * service.action.kubernetesApiCallAction.namespace
+    ///
+    /// * service.action.kubernetesApiCallAction.remoteIpDetails.organization.asn
+    ///
+    /// * service.action.kubernetesApiCallAction.requestUri
+    ///
+    /// * service.action.kubernetesApiCallAction.statusCode
+    ///
+    /// * service.action.networkConnectionAction.localIpDetails.ipAddressV4
+    ///
+    /// * service.action.networkConnectionAction.protocol
+    ///
+    /// * service.action.awsApiCallAction.serviceName
+    ///
+    /// * service.action.awsApiCallAction.remoteAccountDetails.accountId
+    ///
     /// * service.additionalInfo.threatListName
-    ///
-    /// * resource.s3BucketDetails.publicAccess.effectivePermissions
-    ///
-    /// * resource.s3BucketDetails.name
-    ///
-    /// * resource.s3BucketDetails.tags.key
-    ///
-    /// * resource.s3BucketDetails.tags.value
-    ///
-    /// * resource.s3BucketDetails.type
     ///
     /// * service.resourceRole
     ///
-    /// * severity
+    /// * resource.eksClusterDetails.name
     ///
-    /// * type
+    /// * resource.kubernetesDetails.kubernetesWorkloadDetails.name
     ///
-    /// * updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.
+    /// * resource.kubernetesDetails.kubernetesWorkloadDetails.namespace
+    ///
+    /// * resource.kubernetesDetails.kubernetesUserDetails.username
+    ///
+    /// * resource.kubernetesDetails.kubernetesWorkloadDetails.containers.image
+    ///
+    /// * resource.kubernetesDetails.kubernetesWorkloadDetails.containers.imagePrefix
+    ///
+    /// * service.ebsVolumeScanDetails.scanId
+    ///
+    /// * service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.name
+    ///
+    /// * service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.severity
+    ///
+    /// * service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.hash
+    ///
+    /// * resource.ecsClusterDetails.name
+    ///
+    /// * resource.ecsClusterDetails.taskDetails.containers.image
+    ///
+    /// * resource.ecsClusterDetails.taskDetails.definitionArn
+    ///
+    /// * resource.containerDetails.image
+    ///
+    /// * resource.rdsDbInstanceDetails.dbInstanceIdentifier
+    ///
+    /// * resource.rdsDbInstanceDetails.dbClusterIdentifier
+    ///
+    /// * resource.rdsDbInstanceDetails.engine
+    ///
+    /// * resource.rdsDbUserDetails.user
+    ///
+    /// * resource.rdsDbInstanceDetails.tags.key
+    ///
+    /// * resource.rdsDbInstanceDetails.tags.value
+    ///
+    /// * service.runtimeDetails.process.executableSha256
+    ///
+    /// * service.runtimeDetails.process.name
+    ///
+    /// * service.runtimeDetails.process.name
+    ///
+    /// * resource.lambdaDetails.functionName
+    ///
+    /// * resource.lambdaDetails.functionArn
+    ///
+    /// * resource.lambdaDetails.tags.key
+    ///
+    /// * resource.lambdaDetails.tags.value
     /// This member is required.
     public var findingCriteria: GuardDutyClientTypes.FindingCriteria?
     /// The name of the filter. Valid characters include period (.), underscore (_), dash (-), and alphanumeric characters. A whitespace is considered to be an invalid character.
@@ -2840,23 +3414,11 @@ extension CreateFilterInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateFilterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateFilterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateFilterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateFilterOutputBody = try responseDecoder.decode(responseBody: data)
             self.name = output.name
         } else {
             self.name = nil
@@ -2864,7 +3426,7 @@ extension CreateFilterOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFilterOutputResponse: Swift.Equatable {
+public struct CreateFilterOutput: Swift.Equatable {
     /// The name of the successfully created filter.
     /// This member is required.
     public var name: Swift.String?
@@ -2877,11 +3439,11 @@ public struct CreateFilterOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateFilterOutputResponseBody: Swift.Equatable {
+struct CreateFilterOutputBody: Swift.Equatable {
     let name: Swift.String?
 }
 
-extension CreateFilterOutputResponseBody: Swift.Decodable {
+extension CreateFilterOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "name"
     }
@@ -2890,6 +3452,18 @@ extension CreateFilterOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+    }
+}
+
+enum CreateFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3024,23 +3598,11 @@ extension CreateIPSetInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateIPSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateIPSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateIPSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateIPSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.ipSetId = output.ipSetId
         } else {
             self.ipSetId = nil
@@ -3048,7 +3610,7 @@ extension CreateIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateIPSetOutputResponse: Swift.Equatable {
+public struct CreateIPSetOutput: Swift.Equatable {
     /// The ID of the IPSet resource.
     /// This member is required.
     public var ipSetId: Swift.String?
@@ -3061,11 +3623,11 @@ public struct CreateIPSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateIPSetOutputResponseBody: Swift.Equatable {
+struct CreateIPSetOutputBody: Swift.Equatable {
     let ipSetId: Swift.String?
 }
 
-extension CreateIPSetOutputResponseBody: Swift.Decodable {
+extension CreateIPSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ipSetId = "ipSetId"
     }
@@ -3074,6 +3636,18 @@ extension CreateIPSetOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ipSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipSetId)
         ipSetId = ipSetIdDecoded
+    }
+}
+
+enum CreateIPSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3145,23 +3719,11 @@ extension CreateMembersInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateMembersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateMembersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateMembersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateMembersOutputBody = try responseDecoder.decode(responseBody: data)
             self.unprocessedAccounts = output.unprocessedAccounts
         } else {
             self.unprocessedAccounts = nil
@@ -3169,7 +3731,7 @@ extension CreateMembersOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateMembersOutputResponse: Swift.Equatable {
+public struct CreateMembersOutput: Swift.Equatable {
     /// A list of objects that include the accountIds of the unprocessed accounts and a result string that explains why each was unprocessed.
     /// This member is required.
     public var unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
@@ -3182,11 +3744,11 @@ public struct CreateMembersOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateMembersOutputResponseBody: Swift.Equatable {
+struct CreateMembersOutputBody: Swift.Equatable {
     let unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
 }
 
-extension CreateMembersOutputResponseBody: Swift.Decodable {
+extension CreateMembersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case unprocessedAccounts = "unprocessedAccounts"
     }
@@ -3204,6 +3766,18 @@ extension CreateMembersOutputResponseBody: Swift.Decodable {
             }
         }
         unprocessedAccounts = unprocessedAccountsDecoded0
+    }
+}
+
+enum CreateMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3288,23 +3862,11 @@ extension CreatePublishingDestinationInputBody: Swift.Decodable {
     }
 }
 
-public enum CreatePublishingDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreatePublishingDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreatePublishingDestinationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreatePublishingDestinationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreatePublishingDestinationOutputBody = try responseDecoder.decode(responseBody: data)
             self.destinationId = output.destinationId
         } else {
             self.destinationId = nil
@@ -3312,7 +3874,7 @@ extension CreatePublishingDestinationOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct CreatePublishingDestinationOutputResponse: Swift.Equatable {
+public struct CreatePublishingDestinationOutput: Swift.Equatable {
     /// The ID of the publishing destination that is created.
     /// This member is required.
     public var destinationId: Swift.String?
@@ -3325,11 +3887,11 @@ public struct CreatePublishingDestinationOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreatePublishingDestinationOutputResponseBody: Swift.Equatable {
+struct CreatePublishingDestinationOutputBody: Swift.Equatable {
     let destinationId: Swift.String?
 }
 
-extension CreatePublishingDestinationOutputResponseBody: Swift.Decodable {
+extension CreatePublishingDestinationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destinationId = "destinationId"
     }
@@ -3338,6 +3900,18 @@ extension CreatePublishingDestinationOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let destinationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationId)
         destinationId = destinationIdDecoded
+    }
+}
+
+enum CreatePublishingDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3408,8 +3982,18 @@ extension CreateSampleFindingsInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateSampleFindingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateSampleFindingsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CreateSampleFindingsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CreateSampleFindingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3418,16 +4002,6 @@ public enum CreateSampleFindingsOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension CreateSampleFindingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CreateSampleFindingsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CreateThreatIntelSetInput: Swift.Encodable {
@@ -3561,23 +4135,11 @@ extension CreateThreatIntelSetInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateThreatIntelSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateThreatIntelSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateThreatIntelSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateThreatIntelSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateThreatIntelSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.threatIntelSetId = output.threatIntelSetId
         } else {
             self.threatIntelSetId = nil
@@ -3585,7 +4147,7 @@ extension CreateThreatIntelSetOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct CreateThreatIntelSetOutputResponse: Swift.Equatable {
+public struct CreateThreatIntelSetOutput: Swift.Equatable {
     /// The ID of the ThreatIntelSet resource.
     /// This member is required.
     public var threatIntelSetId: Swift.String?
@@ -3598,11 +4160,11 @@ public struct CreateThreatIntelSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateThreatIntelSetOutputResponseBody: Swift.Equatable {
+struct CreateThreatIntelSetOutputBody: Swift.Equatable {
     let threatIntelSetId: Swift.String?
 }
 
-extension CreateThreatIntelSetOutputResponseBody: Swift.Decodable {
+extension CreateThreatIntelSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case threatIntelSetId = "threatIntelSetId"
     }
@@ -3611,6 +4173,18 @@ extension CreateThreatIntelSetOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let threatIntelSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .threatIntelSetId)
         threatIntelSetId = threatIntelSetIdDecoded
+    }
+}
+
+enum CreateThreatIntelSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3892,14 +4466,14 @@ extension GuardDutyClientTypes.DataSourceFreeTrial: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if freeTrialDaysRemaining != 0 {
+        if let freeTrialDaysRemaining = self.freeTrialDaysRemaining {
             try encodeContainer.encode(freeTrialDaysRemaining, forKey: .freeTrialDaysRemaining)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let freeTrialDaysRemainingDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .freeTrialDaysRemaining) ?? 0
+        let freeTrialDaysRemainingDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .freeTrialDaysRemaining)
         freeTrialDaysRemaining = freeTrialDaysRemainingDecoded
     }
 }
@@ -3908,10 +4482,10 @@ extension GuardDutyClientTypes {
     /// Contains information about which data sources are enabled for the GuardDuty member account.
     public struct DataSourceFreeTrial: Swift.Equatable {
         /// A value that specifies the number of days left to use each enabled data source.
-        public var freeTrialDaysRemaining: Swift.Int
+        public var freeTrialDaysRemaining: Swift.Int?
 
         public init(
-            freeTrialDaysRemaining: Swift.Int = 0
+            freeTrialDaysRemaining: Swift.Int? = nil
         )
         {
             self.freeTrialDaysRemaining = freeTrialDaysRemaining
@@ -4097,23 +4671,11 @@ extension DeclineInvitationsInputBody: Swift.Decodable {
     }
 }
 
-public enum DeclineInvitationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeclineInvitationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeclineInvitationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeclineInvitationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeclineInvitationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.unprocessedAccounts = output.unprocessedAccounts
         } else {
             self.unprocessedAccounts = nil
@@ -4121,7 +4683,7 @@ extension DeclineInvitationsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeclineInvitationsOutputResponse: Swift.Equatable {
+public struct DeclineInvitationsOutput: Swift.Equatable {
     /// A list of objects that contain the unprocessed account and a result string that explains why it was unprocessed.
     /// This member is required.
     public var unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
@@ -4134,11 +4696,11 @@ public struct DeclineInvitationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeclineInvitationsOutputResponseBody: Swift.Equatable {
+struct DeclineInvitationsOutputBody: Swift.Equatable {
     let unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
 }
 
-extension DeclineInvitationsOutputResponseBody: Swift.Decodable {
+extension DeclineInvitationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case unprocessedAccounts = "unprocessedAccounts"
     }
@@ -4156,6 +4718,18 @@ extension DeclineInvitationsOutputResponseBody: Swift.Decodable {
             }
         }
         unprocessedAccounts = unprocessedAccountsDecoded0
+    }
+}
+
+enum DeclineInvitationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4235,8 +4809,18 @@ extension DeleteDetectorInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteDetectorOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteDetectorOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteDetectorOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteDetectorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4245,16 +4829,6 @@ public enum DeleteDetectorOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteDetectorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteDetectorOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteFilterInput: ClientRuntime.URLPathProvider {
@@ -4296,8 +4870,18 @@ extension DeleteFilterInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteFilterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteFilterOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4306,16 +4890,6 @@ public enum DeleteFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteFilterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteFilterOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteIPSetInput: ClientRuntime.URLPathProvider {
@@ -4357,8 +4931,18 @@ extension DeleteIPSetInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteIPSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteIPSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteIPSetOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteIPSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4367,16 +4951,6 @@ public enum DeleteIPSetOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteIPSetOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteInvitationsInput: Swift.Encodable {
@@ -4439,23 +5013,11 @@ extension DeleteInvitationsInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteInvitationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteInvitationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteInvitationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteInvitationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteInvitationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.unprocessedAccounts = output.unprocessedAccounts
         } else {
             self.unprocessedAccounts = nil
@@ -4463,7 +5025,7 @@ extension DeleteInvitationsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteInvitationsOutputResponse: Swift.Equatable {
+public struct DeleteInvitationsOutput: Swift.Equatable {
     /// A list of objects that contain the unprocessed account and a result string that explains why it was unprocessed.
     /// This member is required.
     public var unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
@@ -4476,11 +5038,11 @@ public struct DeleteInvitationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteInvitationsOutputResponseBody: Swift.Equatable {
+struct DeleteInvitationsOutputBody: Swift.Equatable {
     let unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
 }
 
-extension DeleteInvitationsOutputResponseBody: Swift.Decodable {
+extension DeleteInvitationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case unprocessedAccounts = "unprocessedAccounts"
     }
@@ -4498,6 +5060,18 @@ extension DeleteInvitationsOutputResponseBody: Swift.Decodable {
             }
         }
         unprocessedAccounts = unprocessedAccountsDecoded0
+    }
+}
+
+enum DeleteInvitationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4569,23 +5143,11 @@ extension DeleteMembersInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteMembersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteMembersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteMembersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteMembersOutputBody = try responseDecoder.decode(responseBody: data)
             self.unprocessedAccounts = output.unprocessedAccounts
         } else {
             self.unprocessedAccounts = nil
@@ -4593,7 +5155,7 @@ extension DeleteMembersOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMembersOutputResponse: Swift.Equatable {
+public struct DeleteMembersOutput: Swift.Equatable {
     /// The accounts that could not be processed.
     /// This member is required.
     public var unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
@@ -4606,11 +5168,11 @@ public struct DeleteMembersOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteMembersOutputResponseBody: Swift.Equatable {
+struct DeleteMembersOutputBody: Swift.Equatable {
     let unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
 }
 
-extension DeleteMembersOutputResponseBody: Swift.Decodable {
+extension DeleteMembersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case unprocessedAccounts = "unprocessedAccounts"
     }
@@ -4628,6 +5190,18 @@ extension DeleteMembersOutputResponseBody: Swift.Decodable {
             }
         }
         unprocessedAccounts = unprocessedAccountsDecoded0
+    }
+}
+
+enum DeleteMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4670,8 +5244,18 @@ extension DeletePublishingDestinationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeletePublishingDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeletePublishingDestinationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeletePublishingDestinationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeletePublishingDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4680,16 +5264,6 @@ public enum DeletePublishingDestinationOutputError: ClientRuntime.HttpResponseEr
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeletePublishingDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeletePublishingDestinationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteThreatIntelSetInput: ClientRuntime.URLPathProvider {
@@ -4731,8 +5305,18 @@ extension DeleteThreatIntelSetInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteThreatIntelSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteThreatIntelSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteThreatIntelSetOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteThreatIntelSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4741,16 +5325,6 @@ public enum DeleteThreatIntelSetOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteThreatIntelSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteThreatIntelSetOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DescribeMalwareScansInput: Swift.Encodable {
@@ -4844,23 +5418,11 @@ extension DescribeMalwareScansInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeMalwareScansOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeMalwareScansOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeMalwareScansOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeMalwareScansOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeMalwareScansOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.scans = output.scans
         } else {
@@ -4870,7 +5432,7 @@ extension DescribeMalwareScansOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeMalwareScansOutputResponse: Swift.Equatable {
+public struct DescribeMalwareScansOutput: Swift.Equatable {
     /// The pagination parameter to be used on the next list operation to retrieve more items.
     public var nextToken: Swift.String?
     /// Contains information about malware scans.
@@ -4887,12 +5449,12 @@ public struct DescribeMalwareScansOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeMalwareScansOutputResponseBody: Swift.Equatable {
+struct DescribeMalwareScansOutputBody: Swift.Equatable {
     let scans: [GuardDutyClientTypes.Scan]?
     let nextToken: Swift.String?
 }
 
-extension DescribeMalwareScansOutputResponseBody: Swift.Decodable {
+extension DescribeMalwareScansOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "nextToken"
         case scans = "scans"
@@ -4913,6 +5475,18 @@ extension DescribeMalwareScansOutputResponseBody: Swift.Decodable {
         scans = scansDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeMalwareScansOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4972,23 +5546,11 @@ extension DescribeOrganizationConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeOrganizationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeOrganizationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeOrganizationConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeOrganizationConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeOrganizationConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
             self.autoEnable = output.autoEnable
             self.autoEnableOrganizationMembers = output.autoEnableOrganizationMembers
             self.dataSources = output.dataSources
@@ -4996,27 +5558,27 @@ extension DescribeOrganizationConfigurationOutputResponse: ClientRuntime.HttpRes
             self.memberAccountLimitReached = output.memberAccountLimitReached
             self.nextToken = output.nextToken
         } else {
-            self.autoEnable = false
+            self.autoEnable = nil
             self.autoEnableOrganizationMembers = nil
             self.dataSources = nil
             self.features = nil
-            self.memberAccountLimitReached = false
+            self.memberAccountLimitReached = nil
             self.nextToken = nil
         }
     }
 }
 
-public struct DescribeOrganizationConfigurationOutputResponse: Swift.Equatable {
+public struct DescribeOrganizationConfigurationOutput: Swift.Equatable {
     /// Indicates whether GuardDuty is automatically enabled for accounts added to the organization. Even though this is still supported, we recommend using AutoEnableOrganizationMembers to achieve the similar results.
     @available(*, deprecated, message: "This field is deprecated, use AutoEnableOrganizationMembers instead")
-    public var autoEnable: Swift.Bool
+    public var autoEnable: Swift.Bool?
     /// Indicates the auto-enablement configuration of GuardDuty for the member accounts in the organization.
     ///
     /// * NEW: Indicates that when a new account joins the organization, they will have GuardDuty enabled automatically.
     ///
-    /// * ALL: Indicates that all accounts in the Amazon Web Services Organization have GuardDuty enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty.
+    /// * ALL: Indicates that all accounts in the organization have GuardDuty enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty.
     ///
-    /// * NONE: Indicates that GuardDuty will not be automatically enabled for any accounts in the organization. GuardDuty must be managed for each account individually by the administrator.
+    /// * NONE: Indicates that GuardDuty will not be automatically enabled for any account in the organization. The administrator must manage GuardDuty for each account in the organization individually.
     public var autoEnableOrganizationMembers: GuardDutyClientTypes.AutoEnableMembers?
     /// Describes which data sources are enabled automatically for member accounts.
     @available(*, deprecated, message: "This parameter is deprecated, use Features instead")
@@ -5025,16 +5587,16 @@ public struct DescribeOrganizationConfigurationOutputResponse: Swift.Equatable {
     public var features: [GuardDutyClientTypes.OrganizationFeatureConfigurationResult]?
     /// Indicates whether the maximum number of allowed member accounts are already associated with the delegated administrator account for your organization.
     /// This member is required.
-    public var memberAccountLimitReached: Swift.Bool
+    public var memberAccountLimitReached: Swift.Bool?
     /// The pagination parameter to be used on the next list operation to retrieve more items.
     public var nextToken: Swift.String?
 
     public init(
-        autoEnable: Swift.Bool = false,
+        autoEnable: Swift.Bool? = nil,
         autoEnableOrganizationMembers: GuardDutyClientTypes.AutoEnableMembers? = nil,
         dataSources: GuardDutyClientTypes.OrganizationDataSourceConfigurationsResult? = nil,
         features: [GuardDutyClientTypes.OrganizationFeatureConfigurationResult]? = nil,
-        memberAccountLimitReached: Swift.Bool = false,
+        memberAccountLimitReached: Swift.Bool? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -5047,16 +5609,16 @@ public struct DescribeOrganizationConfigurationOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeOrganizationConfigurationOutputResponseBody: Swift.Equatable {
-    let autoEnable: Swift.Bool
-    let memberAccountLimitReached: Swift.Bool
+struct DescribeOrganizationConfigurationOutputBody: Swift.Equatable {
+    let autoEnable: Swift.Bool?
+    let memberAccountLimitReached: Swift.Bool?
     let dataSources: GuardDutyClientTypes.OrganizationDataSourceConfigurationsResult?
     let features: [GuardDutyClientTypes.OrganizationFeatureConfigurationResult]?
     let nextToken: Swift.String?
     let autoEnableOrganizationMembers: GuardDutyClientTypes.AutoEnableMembers?
 }
 
-extension DescribeOrganizationConfigurationOutputResponseBody: Swift.Decodable {
+extension DescribeOrganizationConfigurationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoEnable = "autoEnable"
         case autoEnableOrganizationMembers = "autoEnableOrganizationMembers"
@@ -5068,9 +5630,9 @@ extension DescribeOrganizationConfigurationOutputResponseBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable) ?? false
+        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable)
         autoEnable = autoEnableDecoded
-        let memberAccountLimitReachedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .memberAccountLimitReached) ?? false
+        let memberAccountLimitReachedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .memberAccountLimitReached)
         memberAccountLimitReached = memberAccountLimitReachedDecoded
         let dataSourcesDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.OrganizationDataSourceConfigurationsResult.self, forKey: .dataSources)
         dataSources = dataSourcesDecoded
@@ -5089,6 +5651,18 @@ extension DescribeOrganizationConfigurationOutputResponseBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let autoEnableOrganizationMembersDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.AutoEnableMembers.self, forKey: .autoEnableOrganizationMembers)
         autoEnableOrganizationMembers = autoEnableOrganizationMembersDecoded
+    }
+}
+
+enum DescribeOrganizationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5131,23 +5705,11 @@ extension DescribePublishingDestinationInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribePublishingDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribePublishingDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribePublishingDestinationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribePublishingDestinationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribePublishingDestinationOutputBody = try responseDecoder.decode(responseBody: data)
             self.destinationId = output.destinationId
             self.destinationProperties = output.destinationProperties
             self.destinationType = output.destinationType
@@ -5157,13 +5719,13 @@ extension DescribePublishingDestinationOutputResponse: ClientRuntime.HttpRespons
             self.destinationId = nil
             self.destinationProperties = nil
             self.destinationType = nil
-            self.publishingFailureStartTimestamp = 0
+            self.publishingFailureStartTimestamp = nil
             self.status = nil
         }
     }
 }
 
-public struct DescribePublishingDestinationOutputResponse: Swift.Equatable {
+public struct DescribePublishingDestinationOutput: Swift.Equatable {
     /// The ID of the publishing destination.
     /// This member is required.
     public var destinationId: Swift.String?
@@ -5175,7 +5737,7 @@ public struct DescribePublishingDestinationOutputResponse: Swift.Equatable {
     public var destinationType: GuardDutyClientTypes.DestinationType?
     /// The time, in epoch millisecond format, at which GuardDuty was first unable to publish findings to the destination.
     /// This member is required.
-    public var publishingFailureStartTimestamp: Swift.Int
+    public var publishingFailureStartTimestamp: Swift.Int?
     /// The status of the publishing destination.
     /// This member is required.
     public var status: GuardDutyClientTypes.PublishingStatus?
@@ -5184,7 +5746,7 @@ public struct DescribePublishingDestinationOutputResponse: Swift.Equatable {
         destinationId: Swift.String? = nil,
         destinationProperties: GuardDutyClientTypes.DestinationProperties? = nil,
         destinationType: GuardDutyClientTypes.DestinationType? = nil,
-        publishingFailureStartTimestamp: Swift.Int = 0,
+        publishingFailureStartTimestamp: Swift.Int? = nil,
         status: GuardDutyClientTypes.PublishingStatus? = nil
     )
     {
@@ -5196,15 +5758,15 @@ public struct DescribePublishingDestinationOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribePublishingDestinationOutputResponseBody: Swift.Equatable {
+struct DescribePublishingDestinationOutputBody: Swift.Equatable {
     let destinationId: Swift.String?
     let destinationType: GuardDutyClientTypes.DestinationType?
     let status: GuardDutyClientTypes.PublishingStatus?
-    let publishingFailureStartTimestamp: Swift.Int
+    let publishingFailureStartTimestamp: Swift.Int?
     let destinationProperties: GuardDutyClientTypes.DestinationProperties?
 }
 
-extension DescribePublishingDestinationOutputResponseBody: Swift.Decodable {
+extension DescribePublishingDestinationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destinationId = "destinationId"
         case destinationProperties = "destinationProperties"
@@ -5221,10 +5783,22 @@ extension DescribePublishingDestinationOutputResponseBody: Swift.Decodable {
         destinationType = destinationTypeDecoded
         let statusDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.PublishingStatus.self, forKey: .status)
         status = statusDecoded
-        let publishingFailureStartTimestampDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .publishingFailureStartTimestamp) ?? 0
+        let publishingFailureStartTimestampDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .publishingFailureStartTimestamp)
         publishingFailureStartTimestamp = publishingFailureStartTimestampDecoded
         let destinationPropertiesDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.DestinationProperties.self, forKey: .destinationProperties)
         destinationProperties = destinationPropertiesDecoded
+    }
+}
+
+enum DescribePublishingDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5360,6 +5934,41 @@ extension GuardDutyClientTypes {
     }
 }
 
+extension GuardDutyClientTypes.Detection: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case anomaly = "anomaly"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let anomaly = self.anomaly {
+            try encodeContainer.encode(anomaly, forKey: .anomaly)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let anomalyDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.Anomaly.self, forKey: .anomaly)
+        anomaly = anomalyDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about the detected behavior.
+    public struct Detection: Swift.Equatable {
+        /// The details about the anomalous activity that caused GuardDuty to generate the finding.
+        public var anomaly: GuardDutyClientTypes.Anomaly?
+
+        public init(
+            anomaly: GuardDutyClientTypes.Anomaly? = nil
+        )
+        {
+            self.anomaly = anomaly
+        }
+    }
+
+}
+
 extension GuardDutyClientTypes.DetectorAdditionalConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "name"
@@ -5467,6 +6076,7 @@ extension GuardDutyClientTypes {
         case eksRuntimeMonitoring
         case lambdaNetworkLogs
         case rdsLoginEvents
+        case runtimeMonitoring
         case s3DataEvents
         case sdkUnknown(Swift.String)
 
@@ -5477,6 +6087,7 @@ extension GuardDutyClientTypes {
                 .eksRuntimeMonitoring,
                 .lambdaNetworkLogs,
                 .rdsLoginEvents,
+                .runtimeMonitoring,
                 .s3DataEvents,
                 .sdkUnknown("")
             ]
@@ -5492,6 +6103,7 @@ extension GuardDutyClientTypes {
             case .eksRuntimeMonitoring: return "EKS_RUNTIME_MONITORING"
             case .lambdaNetworkLogs: return "LAMBDA_NETWORK_LOGS"
             case .rdsLoginEvents: return "RDS_LOGIN_EVENTS"
+            case .runtimeMonitoring: return "RUNTIME_MONITORING"
             case .s3DataEvents: return "S3_DATA_EVENTS"
             case let .sdkUnknown(s): return s
             }
@@ -5658,6 +6270,7 @@ extension GuardDutyClientTypes {
         case flowLogs
         case lambdaNetworkLogs
         case rdsLoginEvents
+        case runtimeMonitoring
         case s3DataEvents
         case sdkUnknown(Swift.String)
 
@@ -5671,6 +6284,7 @@ extension GuardDutyClientTypes {
                 .flowLogs,
                 .lambdaNetworkLogs,
                 .rdsLoginEvents,
+                .runtimeMonitoring,
                 .s3DataEvents,
                 .sdkUnknown("")
             ]
@@ -5689,6 +6303,7 @@ extension GuardDutyClientTypes {
             case .flowLogs: return "FLOW_LOGS"
             case .lambdaNetworkLogs: return "LAMBDA_NETWORK_LOGS"
             case .rdsLoginEvents: return "RDS_LOGIN_EVENTS"
+            case .runtimeMonitoring: return "RUNTIME_MONITORING"
             case .s3DataEvents: return "S3_DATA_EVENTS"
             case let .sdkUnknown(s): return s
             }
@@ -5781,8 +6396,18 @@ extension DisableOrganizationAdminAccountInputBody: Swift.Decodable {
     }
 }
 
-public enum DisableOrganizationAdminAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DisableOrganizationAdminAccountOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DisableOrganizationAdminAccountOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DisableOrganizationAdminAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5791,16 +6416,6 @@ public enum DisableOrganizationAdminAccountOutputError: ClientRuntime.HttpRespon
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DisableOrganizationAdminAccountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DisableOrganizationAdminAccountOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DisassociateFromAdministratorAccountInput: ClientRuntime.URLPathProvider {
@@ -5834,8 +6449,18 @@ extension DisassociateFromAdministratorAccountInputBody: Swift.Decodable {
     }
 }
 
-public enum DisassociateFromAdministratorAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DisassociateFromAdministratorAccountOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DisassociateFromAdministratorAccountOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DisassociateFromAdministratorAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5844,16 +6469,6 @@ public enum DisassociateFromAdministratorAccountOutputError: ClientRuntime.HttpR
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DisassociateFromAdministratorAccountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DisassociateFromAdministratorAccountOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DisassociateFromMasterAccountInput: ClientRuntime.URLPathProvider {
@@ -5888,8 +6503,19 @@ extension DisassociateFromMasterAccountInputBody: Swift.Decodable {
     }
 }
 
-public enum DisassociateFromMasterAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DisassociateFromMasterAccountOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+@available(*, deprecated, message: "This output is deprecated, use DisassociateFromAdministratorAccountResponse instead")
+public struct DisassociateFromMasterAccountOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DisassociateFromMasterAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5898,17 +6524,6 @@ public enum DisassociateFromMasterAccountOutputError: ClientRuntime.HttpResponse
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DisassociateFromMasterAccountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-@available(*, deprecated, message: "This output is deprecated, use DisassociateFromAdministratorAccountResponse instead")
-public struct DisassociateFromMasterAccountOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DisassociateMembersInput: Swift.Encodable {
@@ -5979,23 +6594,11 @@ extension DisassociateMembersInputBody: Swift.Decodable {
     }
 }
 
-public enum DisassociateMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DisassociateMembersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DisassociateMembersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DisassociateMembersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DisassociateMembersOutputBody = try responseDecoder.decode(responseBody: data)
             self.unprocessedAccounts = output.unprocessedAccounts
         } else {
             self.unprocessedAccounts = nil
@@ -6003,7 +6606,7 @@ extension DisassociateMembersOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateMembersOutputResponse: Swift.Equatable {
+public struct DisassociateMembersOutput: Swift.Equatable {
     /// A list of objects that contain the unprocessed account and a result string that explains why it was unprocessed.
     /// This member is required.
     public var unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
@@ -6016,11 +6619,11 @@ public struct DisassociateMembersOutputResponse: Swift.Equatable {
     }
 }
 
-struct DisassociateMembersOutputResponseBody: Swift.Equatable {
+struct DisassociateMembersOutputBody: Swift.Equatable {
     let unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
 }
 
-extension DisassociateMembersOutputResponseBody: Swift.Decodable {
+extension DisassociateMembersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case unprocessedAccounts = "unprocessedAccounts"
     }
@@ -6041,20 +6644,36 @@ extension DisassociateMembersOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum DisassociateMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GuardDutyClientTypes.DnsRequestAction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case blocked = "blocked"
         case domain = "domain"
+        case domainWithSuffix = "domainWithSuffix"
         case `protocol` = "protocol"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if blocked != false {
+        if let blocked = self.blocked {
             try encodeContainer.encode(blocked, forKey: .blocked)
         }
         if let domain = self.domain {
             try encodeContainer.encode(domain, forKey: .domain)
+        }
+        if let domainWithSuffix = self.domainWithSuffix {
+            try encodeContainer.encode(domainWithSuffix, forKey: .domainWithSuffix)
         }
         if let `protocol` = self.`protocol` {
             try encodeContainer.encode(`protocol`, forKey: .`protocol`)
@@ -6067,8 +6686,10 @@ extension GuardDutyClientTypes.DnsRequestAction: Swift.Codable {
         domain = domainDecoded
         let protocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .protocol)
         `protocol` = protocolDecoded
-        let blockedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blocked) ?? false
+        let blockedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blocked)
         blocked = blockedDecoded
+        let domainWithSuffixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainWithSuffix)
+        domainWithSuffix = domainWithSuffixDecoded
     }
 }
 
@@ -6076,20 +6697,24 @@ extension GuardDutyClientTypes {
     /// Contains information about the DNS_REQUEST action described in this finding.
     public struct DnsRequestAction: Swift.Equatable {
         /// Indicates whether the targeted port is blocked.
-        public var blocked: Swift.Bool
+        public var blocked: Swift.Bool?
         /// The domain information for the DNS query.
         public var domain: Swift.String?
+        /// The second and top level domain involved in the activity that prompted GuardDuty to generate this finding.
+        public var domainWithSuffix: Swift.String?
         /// The network connection protocol observed in the activity that prompted GuardDuty to generate the finding.
         public var `protocol`: Swift.String?
 
         public init(
-            blocked: Swift.Bool = false,
+            blocked: Swift.Bool? = nil,
             domain: Swift.String? = nil,
+            domainWithSuffix: Swift.String? = nil,
             `protocol`: Swift.String? = nil
         )
         {
             self.blocked = blocked
             self.domain = domain
+            self.domainWithSuffix = domainWithSuffix
             self.`protocol` = `protocol`
         }
     }
@@ -6398,7 +7023,7 @@ extension GuardDutyClientTypes.EcsClusterDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if activeServicesCount != 0 {
+        if let activeServicesCount = self.activeServicesCount {
             try encodeContainer.encode(activeServicesCount, forKey: .activeServicesCount)
         }
         if let arn = self.arn {
@@ -6407,10 +7032,10 @@ extension GuardDutyClientTypes.EcsClusterDetails: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
-        if registeredContainerInstancesCount != 0 {
+        if let registeredContainerInstancesCount = self.registeredContainerInstancesCount {
             try encodeContainer.encode(registeredContainerInstancesCount, forKey: .registeredContainerInstancesCount)
         }
-        if runningTasksCount != 0 {
+        if let runningTasksCount = self.runningTasksCount {
             try encodeContainer.encode(runningTasksCount, forKey: .runningTasksCount)
         }
         if let status = self.status {
@@ -6435,11 +7060,11 @@ extension GuardDutyClientTypes.EcsClusterDetails: Swift.Codable {
         arn = arnDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let activeServicesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .activeServicesCount) ?? 0
+        let activeServicesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .activeServicesCount)
         activeServicesCount = activeServicesCountDecoded
-        let registeredContainerInstancesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .registeredContainerInstancesCount) ?? 0
+        let registeredContainerInstancesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .registeredContainerInstancesCount)
         registeredContainerInstancesCount = registeredContainerInstancesCountDecoded
-        let runningTasksCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .runningTasksCount) ?? 0
+        let runningTasksCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .runningTasksCount)
         runningTasksCount = runningTasksCountDecoded
         let tagsContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[GuardDutyClientTypes.Tag]? = nil
@@ -6461,15 +7086,15 @@ extension GuardDutyClientTypes {
     /// Contains information about the details of the ECS Cluster.
     public struct EcsClusterDetails: Swift.Equatable {
         /// The number of services that are running on the cluster in an ACTIVE state.
-        public var activeServicesCount: Swift.Int
+        public var activeServicesCount: Swift.Int?
         /// The Amazon Resource Name (ARN) that identifies the cluster.
         public var arn: Swift.String?
         /// The name of the ECS Cluster.
         public var name: Swift.String?
         /// The number of container instances registered into the cluster.
-        public var registeredContainerInstancesCount: Swift.Int
+        public var registeredContainerInstancesCount: Swift.Int?
         /// The number of tasks in the cluster that are in the RUNNING state.
-        public var runningTasksCount: Swift.Int
+        public var runningTasksCount: Swift.Int?
         /// The status of the ECS cluster.
         public var status: Swift.String?
         /// The tags of the ECS Cluster.
@@ -6478,11 +7103,11 @@ extension GuardDutyClientTypes {
         public var taskDetails: GuardDutyClientTypes.EcsTaskDetails?
 
         public init(
-            activeServicesCount: Swift.Int = 0,
+            activeServicesCount: Swift.Int? = nil,
             arn: Swift.String? = nil,
             name: Swift.String? = nil,
-            registeredContainerInstancesCount: Swift.Int = 0,
-            runningTasksCount: Swift.Int = 0,
+            registeredContainerInstancesCount: Swift.Int? = nil,
+            runningTasksCount: Swift.Int? = nil,
             status: Swift.String? = nil,
             tags: [GuardDutyClientTypes.Tag]? = nil,
             taskDetails: GuardDutyClientTypes.EcsTaskDetails? = nil
@@ -6779,7 +7404,7 @@ extension EnableOrganizationAdminAccountInput: ClientRuntime.URLPathProvider {
 }
 
 public struct EnableOrganizationAdminAccountInput: Swift.Equatable {
-    /// The Amazon Web Services Account ID for the organization account to be enabled as a GuardDuty delegated administrator.
+    /// The Amazon Web Services account ID for the organization account to be enabled as a GuardDuty delegated administrator.
     /// This member is required.
     public var adminAccountId: Swift.String?
 
@@ -6807,8 +7432,18 @@ extension EnableOrganizationAdminAccountInputBody: Swift.Decodable {
     }
 }
 
-public enum EnableOrganizationAdminAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension EnableOrganizationAdminAccountOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct EnableOrganizationAdminAccountOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum EnableOrganizationAdminAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6817,16 +7452,6 @@ public enum EnableOrganizationAdminAccountOutputError: ClientRuntime.HttpRespons
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension EnableOrganizationAdminAccountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct EnableOrganizationAdminAccountOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension GuardDutyClientTypes.Evidence: Swift.Codable {
@@ -6876,13 +7501,78 @@ extension GuardDutyClientTypes {
 
 }
 
+extension GuardDutyClientTypes.FargateDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case issues = "issues"
+        case managementType = "managementType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let issues = issues {
+            var issuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .issues)
+            for string0 in issues {
+                try issuesContainer.encode(string0)
+            }
+        }
+        if let managementType = self.managementType {
+            try encodeContainer.encode(managementType.rawValue, forKey: .managementType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let issuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .issues)
+        var issuesDecoded0:[Swift.String]? = nil
+        if let issuesContainer = issuesContainer {
+            issuesDecoded0 = [Swift.String]()
+            for string0 in issuesContainer {
+                if let string0 = string0 {
+                    issuesDecoded0?.append(string0)
+                }
+            }
+        }
+        issues = issuesDecoded0
+        let managementTypeDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.ManagementType.self, forKey: .managementType)
+        managementType = managementTypeDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about AWS Fargate details associated with an Amazon ECS cluster.
+    public struct FargateDetails: Swift.Equatable {
+        /// Runtime coverage issues identified for the resource running on AWS Fargate.
+        public var issues: [Swift.String]?
+        /// Indicates how the GuardDuty security agent is managed for this resource.
+        ///
+        /// * AUTO_MANAGED indicates that GuardDuty deploys and manages updates for this resource.
+        ///
+        /// * MANUAL indicates that you are responsible to deploy, update, and manage the GuardDuty security agent updates for this resource.
+        ///
+        /// * DISABLED indicates that the deployment of the GuardDuty security agent is disabled for this resource.
+        public var managementType: GuardDutyClientTypes.ManagementType?
+
+        public init(
+            issues: [Swift.String]? = nil,
+            managementType: GuardDutyClientTypes.ManagementType? = nil
+        )
+        {
+            self.issues = issues
+            self.managementType = managementType
+        }
+    }
+
+}
+
 extension GuardDutyClientTypes {
     public enum FeatureAdditionalConfiguration: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ecsFargateAgentManagement
         case eksAddonManagement
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FeatureAdditionalConfiguration] {
             return [
+                .ecsFargateAgentManagement,
                 .eksAddonManagement,
                 .sdkUnknown("")
             ]
@@ -6893,6 +7583,7 @@ extension GuardDutyClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .ecsFargateAgentManagement: return "ECS_FARGATE_AGENT_MANAGEMENT"
             case .eksAddonManagement: return "EKS_ADDON_MANAGEMENT"
             case let .sdkUnknown(s): return s
             }
@@ -7013,10 +7704,10 @@ extension GuardDutyClientTypes.FilterCondition: Swift.Codable {
         if let equalsValue = self.equalsValue {
             try encodeContainer.encode(equalsValue, forKey: .equalsValue)
         }
-        if greaterThan != 0 {
+        if let greaterThan = self.greaterThan {
             try encodeContainer.encode(greaterThan, forKey: .greaterThan)
         }
-        if lessThan != 0 {
+        if let lessThan = self.lessThan {
             try encodeContainer.encode(lessThan, forKey: .lessThan)
         }
     }
@@ -7025,9 +7716,9 @@ extension GuardDutyClientTypes.FilterCondition: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let equalsValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .equalsValue)
         equalsValue = equalsValueDecoded
-        let greaterThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .greaterThan) ?? 0
+        let greaterThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .greaterThan)
         greaterThan = greaterThanDecoded
-        let lessThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lessThan) ?? 0
+        let lessThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lessThan)
         lessThan = lessThanDecoded
     }
 }
@@ -7038,14 +7729,14 @@ extension GuardDutyClientTypes {
         /// Represents an equal condition to be applied to a single field when querying for scan entries.
         public var equalsValue: Swift.String?
         /// Represents a greater than condition to be applied to a single field when querying for scan entries.
-        public var greaterThan: Swift.Int
+        public var greaterThan: Swift.Int?
         /// Represents a less than condition to be applied to a single field when querying for scan entries.
-        public var lessThan: Swift.Int
+        public var lessThan: Swift.Int?
 
         public init(
             equalsValue: Swift.String? = nil,
-            greaterThan: Swift.Int = 0,
-            lessThan: Swift.Int = 0
+            greaterThan: Swift.Int? = nil,
+            lessThan: Swift.Int? = nil
         )
         {
             self.equalsValue = equalsValue
@@ -7131,7 +7822,7 @@ extension GuardDutyClientTypes.FilterCriterion: Swift.Codable {
 extension GuardDutyClientTypes {
     /// Represents a condition that when matched will be added to the response of the operation. Irrespective of using any filter criteria, an administrator account can view the scan entries for all of its member accounts. However, each member account can view the scan entries only for their own account.
     public struct FilterCriterion: Swift.Equatable {
-        /// An enum value representing possible scan properties to match with given scan entries.
+        /// An enum value representing possible scan properties to match with given scan entries. Replace the enum value CLUSTER_NAME with EKS_CLUSTER_NAME. CLUSTER_NAME has been deprecated.
         public var criterionKey: GuardDutyClientTypes.CriterionKey?
         /// Contains information about the condition.
         public var filterCondition: GuardDutyClientTypes.FilterCondition?
@@ -7175,7 +7866,7 @@ extension GuardDutyClientTypes.Finding: Swift.Codable {
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
         }
-        if confidence != 0.0 {
+        if let confidence = self.confidence {
             try encodeContainer.encode(confidence, forKey: .confidence)
         }
         if let createdAt = self.createdAt {
@@ -7202,7 +7893,7 @@ extension GuardDutyClientTypes.Finding: Swift.Codable {
         if let service = self.service {
             try encodeContainer.encode(service, forKey: .service)
         }
-        if severity != 0.0 {
+        if let severity = self.severity {
             try encodeContainer.encode(severity, forKey: .severity)
         }
         if let title = self.title {
@@ -7222,7 +7913,7 @@ extension GuardDutyClientTypes.Finding: Swift.Codable {
         accountId = accountIdDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
-        let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .confidence) ?? 0.0
+        let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .confidence)
         confidence = confidenceDecoded
         let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
         createdAt = createdAtDecoded
@@ -7240,7 +7931,7 @@ extension GuardDutyClientTypes.Finding: Swift.Codable {
         schemaVersion = schemaVersionDecoded
         let serviceDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.Service.self, forKey: .service)
         service = serviceDecoded
-        let severityDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .severity) ?? 0.0
+        let severityDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .severity)
         severity = severityDecoded
         let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
         title = titleDecoded
@@ -7252,7 +7943,7 @@ extension GuardDutyClientTypes.Finding: Swift.Codable {
 }
 
 extension GuardDutyClientTypes {
-    /// Contains information about the finding, which is generated when abnormal or suspicious activity is detected.
+    /// Contains information about the finding that is generated when abnormal or suspicious activity is detected.
     public struct Finding: Swift.Equatable {
         /// The ID of the account in which the finding was generated.
         /// This member is required.
@@ -7261,7 +7952,7 @@ extension GuardDutyClientTypes {
         /// This member is required.
         public var arn: Swift.String?
         /// The confidence score for the finding.
-        public var confidence: Swift.Double
+        public var confidence: Swift.Double?
         /// The time and date when the finding was created.
         /// This member is required.
         public var createdAt: Swift.String?
@@ -7285,7 +7976,7 @@ extension GuardDutyClientTypes {
         public var service: GuardDutyClientTypes.Service?
         /// The severity of the finding.
         /// This member is required.
-        public var severity: Swift.Double
+        public var severity: Swift.Double?
         /// The title of the finding.
         public var title: Swift.String?
         /// The type of finding.
@@ -7298,7 +7989,7 @@ extension GuardDutyClientTypes {
         public init(
             accountId: Swift.String? = nil,
             arn: Swift.String? = nil,
-            confidence: Swift.Double = 0.0,
+            confidence: Swift.Double? = nil,
             createdAt: Swift.String? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
@@ -7307,7 +7998,7 @@ extension GuardDutyClientTypes {
             resource: GuardDutyClientTypes.Resource? = nil,
             schemaVersion: Swift.String? = nil,
             service: GuardDutyClientTypes.Service? = nil,
-            severity: Swift.Double = 0.0,
+            severity: Swift.Double? = nil,
             title: Swift.String? = nil,
             type: Swift.String? = nil,
             updatedAt: Swift.String? = nil
@@ -7535,7 +8226,7 @@ extension GuardDutyClientTypes.FreeTrialFeatureConfigurationResult: Swift.Codabl
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if freeTrialDaysRemaining != 0 {
+        if let freeTrialDaysRemaining = self.freeTrialDaysRemaining {
             try encodeContainer.encode(freeTrialDaysRemaining, forKey: .freeTrialDaysRemaining)
         }
         if let name = self.name {
@@ -7547,7 +8238,7 @@ extension GuardDutyClientTypes.FreeTrialFeatureConfigurationResult: Swift.Codabl
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.FreeTrialFeatureResult.self, forKey: .name)
         name = nameDecoded
-        let freeTrialDaysRemainingDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .freeTrialDaysRemaining) ?? 0
+        let freeTrialDaysRemainingDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .freeTrialDaysRemaining)
         freeTrialDaysRemaining = freeTrialDaysRemainingDecoded
     }
 }
@@ -7556,12 +8247,12 @@ extension GuardDutyClientTypes {
     /// Contains information about the free trial period for a feature.
     public struct FreeTrialFeatureConfigurationResult: Swift.Equatable {
         /// The number of the remaining free trial days for the feature.
-        public var freeTrialDaysRemaining: Swift.Int
+        public var freeTrialDaysRemaining: Swift.Int?
         /// The name of the feature for which the free trial is configured.
         public var name: GuardDutyClientTypes.FreeTrialFeatureResult?
 
         public init(
-            freeTrialDaysRemaining: Swift.Int = 0,
+            freeTrialDaysRemaining: Swift.Int? = nil,
             name: GuardDutyClientTypes.FreeTrialFeatureResult? = nil
         )
         {
@@ -7577,8 +8268,10 @@ extension GuardDutyClientTypes {
         case cloudTrail
         case dnsLogs
         case ebsMalwareProtection
+        case ec2RuntimeMonitoring
         case eksAuditLogs
         case eksRuntimeMonitoring
+        case fargateRuntimeMonitoring
         case flowLogs
         case lambdaNetworkLogs
         case rdsLoginEvents
@@ -7590,8 +8283,10 @@ extension GuardDutyClientTypes {
                 .cloudTrail,
                 .dnsLogs,
                 .ebsMalwareProtection,
+                .ec2RuntimeMonitoring,
                 .eksAuditLogs,
                 .eksRuntimeMonitoring,
+                .fargateRuntimeMonitoring,
                 .flowLogs,
                 .lambdaNetworkLogs,
                 .rdsLoginEvents,
@@ -7608,8 +8303,10 @@ extension GuardDutyClientTypes {
             case .cloudTrail: return "CLOUD_TRAIL"
             case .dnsLogs: return "DNS_LOGS"
             case .ebsMalwareProtection: return "EBS_MALWARE_PROTECTION"
+            case .ec2RuntimeMonitoring: return "EC2_RUNTIME_MONITORING"
             case .eksAuditLogs: return "EKS_AUDIT_LOGS"
             case .eksRuntimeMonitoring: return "EKS_RUNTIME_MONITORING"
+            case .fargateRuntimeMonitoring: return "FARGATE_RUNTIME_MONITORING"
             case .flowLogs: return "FLOW_LOGS"
             case .lambdaNetworkLogs: return "LAMBDA_NETWORK_LOGS"
             case .rdsLoginEvents: return "RDS_LOGIN_EVENTS"
@@ -7633,19 +8330,19 @@ extension GuardDutyClientTypes.GeoLocation: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if lat != 0.0 {
+        if let lat = self.lat {
             try encodeContainer.encode(lat, forKey: .lat)
         }
-        if lon != 0.0 {
+        if let lon = self.lon {
             try encodeContainer.encode(lon, forKey: .lon)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let latDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lat) ?? 0.0
+        let latDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lat)
         lat = latDecoded
-        let lonDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lon) ?? 0.0
+        let lonDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lon)
         lon = lonDecoded
     }
 }
@@ -7654,13 +8351,13 @@ extension GuardDutyClientTypes {
     /// Contains information about the location of the remote IP address.
     public struct GeoLocation: Swift.Equatable {
         /// The latitude information of the remote IP address.
-        public var lat: Swift.Double
+        public var lat: Swift.Double?
         /// The longitude information of the remote IP address.
-        public var lon: Swift.Double
+        public var lon: Swift.Double?
 
         public init(
-            lat: Swift.Double = 0.0,
-            lon: Swift.Double = 0.0
+            lat: Swift.Double? = nil,
+            lon: Swift.Double? = nil
         )
         {
             self.lat = lat
@@ -7701,23 +8398,11 @@ extension GetAdministratorAccountInputBody: Swift.Decodable {
     }
 }
 
-public enum GetAdministratorAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetAdministratorAccountOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetAdministratorAccountOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetAdministratorAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetAdministratorAccountOutputBody = try responseDecoder.decode(responseBody: data)
             self.administrator = output.administrator
         } else {
             self.administrator = nil
@@ -7725,7 +8410,7 @@ extension GetAdministratorAccountOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetAdministratorAccountOutputResponse: Swift.Equatable {
+public struct GetAdministratorAccountOutput: Swift.Equatable {
     /// The administrator account details.
     /// This member is required.
     public var administrator: GuardDutyClientTypes.Administrator?
@@ -7738,11 +8423,11 @@ public struct GetAdministratorAccountOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetAdministratorAccountOutputResponseBody: Swift.Equatable {
+struct GetAdministratorAccountOutputBody: Swift.Equatable {
     let administrator: GuardDutyClientTypes.Administrator?
 }
 
-extension GetAdministratorAccountOutputResponseBody: Swift.Decodable {
+extension GetAdministratorAccountOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case administrator = "administrator"
     }
@@ -7751,6 +8436,18 @@ extension GetAdministratorAccountOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let administratorDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.Administrator.self, forKey: .administrator)
         administrator = administratorDecoded
+    }
+}
+
+enum GetAdministratorAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7834,23 +8531,11 @@ extension GetCoverageStatisticsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetCoverageStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetCoverageStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetCoverageStatisticsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetCoverageStatisticsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetCoverageStatisticsOutputBody = try responseDecoder.decode(responseBody: data)
             self.coverageStatistics = output.coverageStatistics
         } else {
             self.coverageStatistics = nil
@@ -7858,7 +8543,7 @@ extension GetCoverageStatisticsOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetCoverageStatisticsOutputResponse: Swift.Equatable {
+public struct GetCoverageStatisticsOutput: Swift.Equatable {
     /// Represents the count aggregated by the statusCode and resourceType.
     public var coverageStatistics: GuardDutyClientTypes.CoverageStatistics?
 
@@ -7870,11 +8555,11 @@ public struct GetCoverageStatisticsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetCoverageStatisticsOutputResponseBody: Swift.Equatable {
+struct GetCoverageStatisticsOutputBody: Swift.Equatable {
     let coverageStatistics: GuardDutyClientTypes.CoverageStatistics?
 }
 
-extension GetCoverageStatisticsOutputResponseBody: Swift.Decodable {
+extension GetCoverageStatisticsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case coverageStatistics = "coverageStatistics"
     }
@@ -7883,6 +8568,18 @@ extension GetCoverageStatisticsOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let coverageStatisticsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.CoverageStatistics.self, forKey: .coverageStatistics)
         coverageStatistics = coverageStatisticsDecoded
+    }
+}
+
+enum GetCoverageStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7917,23 +8614,11 @@ extension GetDetectorInputBody: Swift.Decodable {
     }
 }
 
-public enum GetDetectorOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetDetectorOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetDetectorOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetDetectorOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetDetectorOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdAt = output.createdAt
             self.dataSources = output.dataSources
             self.features = output.features
@@ -7955,7 +8640,7 @@ extension GetDetectorOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDetectorOutputResponse: Swift.Equatable {
+public struct GetDetectorOutput: Swift.Equatable {
     /// The timestamp of when the detector was created.
     public var createdAt: Swift.String?
     /// Describes which data sources are enabled for the detector.
@@ -7998,7 +8683,7 @@ public struct GetDetectorOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetDetectorOutputResponseBody: Swift.Equatable {
+struct GetDetectorOutputBody: Swift.Equatable {
     let createdAt: Swift.String?
     let findingPublishingFrequency: GuardDutyClientTypes.FindingPublishingFrequency?
     let serviceRole: Swift.String?
@@ -8009,7 +8694,7 @@ struct GetDetectorOutputResponseBody: Swift.Equatable {
     let features: [GuardDutyClientTypes.DetectorFeatureConfigurationResult]?
 }
 
-extension GetDetectorOutputResponseBody: Swift.Decodable {
+extension GetDetectorOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdAt = "createdAt"
         case dataSources = "dataSources"
@@ -8060,6 +8745,18 @@ extension GetDetectorOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum GetDetectorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetFilterInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let detectorId = detectorId else {
@@ -8099,23 +8796,11 @@ extension GetFilterInputBody: Swift.Decodable {
     }
 }
 
-public enum GetFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetFilterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetFilterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetFilterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetFilterOutputBody = try responseDecoder.decode(responseBody: data)
             self.action = output.action
             self.description = output.description
             self.findingCriteria = output.findingCriteria
@@ -8127,13 +8812,13 @@ extension GetFilterOutputResponse: ClientRuntime.HttpResponseBinding {
             self.description = nil
             self.findingCriteria = nil
             self.name = nil
-            self.rank = 0
+            self.rank = nil
             self.tags = nil
         }
     }
 }
 
-public struct GetFilterOutputResponse: Swift.Equatable {
+public struct GetFilterOutput: Swift.Equatable {
     /// Specifies the action that is to be applied to the findings that match the filter.
     /// This member is required.
     public var action: GuardDutyClientTypes.FilterAction?
@@ -8146,7 +8831,7 @@ public struct GetFilterOutputResponse: Swift.Equatable {
     /// This member is required.
     public var name: Swift.String?
     /// Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
-    public var rank: Swift.Int
+    public var rank: Swift.Int?
     /// The tags of the filter resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -8155,7 +8840,7 @@ public struct GetFilterOutputResponse: Swift.Equatable {
         description: Swift.String? = nil,
         findingCriteria: GuardDutyClientTypes.FindingCriteria? = nil,
         name: Swift.String? = nil,
-        rank: Swift.Int = 0,
+        rank: Swift.Int? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -8168,16 +8853,16 @@ public struct GetFilterOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetFilterOutputResponseBody: Swift.Equatable {
+struct GetFilterOutputBody: Swift.Equatable {
     let name: Swift.String?
     let description: Swift.String?
     let action: GuardDutyClientTypes.FilterAction?
-    let rank: Swift.Int
+    let rank: Swift.Int?
     let findingCriteria: GuardDutyClientTypes.FindingCriteria?
     let tags: [Swift.String:Swift.String]?
 }
 
-extension GetFilterOutputResponseBody: Swift.Decodable {
+extension GetFilterOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case action = "action"
         case description = "description"
@@ -8195,7 +8880,7 @@ extension GetFilterOutputResponseBody: Swift.Decodable {
         description = descriptionDecoded
         let actionDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.FilterAction.self, forKey: .action)
         action = actionDecoded
-        let rankDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rank) ?? 0
+        let rankDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rank)
         rank = rankDecoded
         let findingCriteriaDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.FindingCriteria.self, forKey: .findingCriteria)
         findingCriteria = findingCriteriaDecoded
@@ -8210,6 +8895,18 @@ extension GetFilterOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum GetFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8293,23 +8990,11 @@ extension GetFindingsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetFindingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetFindingsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetFindingsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetFindingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetFindingsOutputBody = try responseDecoder.decode(responseBody: data)
             self.findings = output.findings
         } else {
             self.findings = nil
@@ -8317,7 +9002,7 @@ extension GetFindingsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFindingsOutputResponse: Swift.Equatable {
+public struct GetFindingsOutput: Swift.Equatable {
     /// A list of findings.
     /// This member is required.
     public var findings: [GuardDutyClientTypes.Finding]?
@@ -8330,11 +9015,11 @@ public struct GetFindingsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetFindingsOutputResponseBody: Swift.Equatable {
+struct GetFindingsOutputBody: Swift.Equatable {
     let findings: [GuardDutyClientTypes.Finding]?
 }
 
-extension GetFindingsOutputResponseBody: Swift.Decodable {
+extension GetFindingsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case findings = "findings"
     }
@@ -8352,6 +9037,18 @@ extension GetFindingsOutputResponseBody: Swift.Decodable {
             }
         }
         findings = findingsDecoded0
+    }
+}
+
+enum GetFindingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8435,23 +9132,11 @@ extension GetFindingsStatisticsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetFindingsStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetFindingsStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetFindingsStatisticsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetFindingsStatisticsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetFindingsStatisticsOutputBody = try responseDecoder.decode(responseBody: data)
             self.findingStatistics = output.findingStatistics
         } else {
             self.findingStatistics = nil
@@ -8459,7 +9144,7 @@ extension GetFindingsStatisticsOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetFindingsStatisticsOutputResponse: Swift.Equatable {
+public struct GetFindingsStatisticsOutput: Swift.Equatable {
     /// The finding statistics object.
     /// This member is required.
     public var findingStatistics: GuardDutyClientTypes.FindingStatistics?
@@ -8472,11 +9157,11 @@ public struct GetFindingsStatisticsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetFindingsStatisticsOutputResponseBody: Swift.Equatable {
+struct GetFindingsStatisticsOutputBody: Swift.Equatable {
     let findingStatistics: GuardDutyClientTypes.FindingStatistics?
 }
 
-extension GetFindingsStatisticsOutputResponseBody: Swift.Decodable {
+extension GetFindingsStatisticsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case findingStatistics = "findingStatistics"
     }
@@ -8485,6 +9170,18 @@ extension GetFindingsStatisticsOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let findingStatisticsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.FindingStatistics.self, forKey: .findingStatistics)
         findingStatistics = findingStatisticsDecoded
+    }
+}
+
+enum GetFindingsStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8527,23 +9224,11 @@ extension GetIPSetInputBody: Swift.Decodable {
     }
 }
 
-public enum GetIPSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetIPSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetIPSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetIPSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.format = output.format
             self.location = output.location
             self.name = output.name
@@ -8559,7 +9244,7 @@ extension GetIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetIPSetOutputResponse: Swift.Equatable {
+public struct GetIPSetOutput: Swift.Equatable {
     /// The format of the file that contains the IPSet.
     /// This member is required.
     public var format: GuardDutyClientTypes.IpSetFormat?
@@ -8591,7 +9276,7 @@ public struct GetIPSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetIPSetOutputResponseBody: Swift.Equatable {
+struct GetIPSetOutputBody: Swift.Equatable {
     let name: Swift.String?
     let format: GuardDutyClientTypes.IpSetFormat?
     let location: Swift.String?
@@ -8599,7 +9284,7 @@ struct GetIPSetOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension GetIPSetOutputResponseBody: Swift.Decodable {
+extension GetIPSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case format = "format"
         case location = "location"
@@ -8632,6 +9317,18 @@ extension GetIPSetOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum GetIPSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetInvitationsCountInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/invitation/count"
@@ -8652,8 +9349,48 @@ extension GetInvitationsCountInputBody: Swift.Decodable {
     }
 }
 
-public enum GetInvitationsCountOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension GetInvitationsCountOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetInvitationsCountOutputBody = try responseDecoder.decode(responseBody: data)
+            self.invitationsCount = output.invitationsCount
+        } else {
+            self.invitationsCount = nil
+        }
+    }
+}
+
+public struct GetInvitationsCountOutput: Swift.Equatable {
+    /// The number of received invitations.
+    public var invitationsCount: Swift.Int?
+
+    public init(
+        invitationsCount: Swift.Int? = nil
+    )
+    {
+        self.invitationsCount = invitationsCount
+    }
+}
+
+struct GetInvitationsCountOutputBody: Swift.Equatable {
+    let invitationsCount: Swift.Int?
+}
+
+extension GetInvitationsCountOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case invitationsCount = "invitationsCount"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let invitationsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .invitationsCount)
+        invitationsCount = invitationsCountDecoded
+    }
+}
+
+enum GetInvitationsCountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8661,46 +9398,6 @@ public enum GetInvitationsCountOutputError: ClientRuntime.HttpResponseErrorBindi
             case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetInvitationsCountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetInvitationsCountOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.invitationsCount = output.invitationsCount
-        } else {
-            self.invitationsCount = 0
-        }
-    }
-}
-
-public struct GetInvitationsCountOutputResponse: Swift.Equatable {
-    /// The number of received invitations.
-    public var invitationsCount: Swift.Int
-
-    public init(
-        invitationsCount: Swift.Int = 0
-    )
-    {
-        self.invitationsCount = invitationsCount
-    }
-}
-
-struct GetInvitationsCountOutputResponseBody: Swift.Equatable {
-    let invitationsCount: Swift.Int
-}
-
-extension GetInvitationsCountOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case invitationsCount = "invitationsCount"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let invitationsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .invitationsCount) ?? 0
-        invitationsCount = invitationsCountDecoded
     }
 }
 
@@ -8735,23 +9432,11 @@ extension GetMalwareScanSettingsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetMalwareScanSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetMalwareScanSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetMalwareScanSettingsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetMalwareScanSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetMalwareScanSettingsOutputBody = try responseDecoder.decode(responseBody: data)
             self.ebsSnapshotPreservation = output.ebsSnapshotPreservation
             self.scanResourceCriteria = output.scanResourceCriteria
         } else {
@@ -8761,7 +9446,7 @@ extension GetMalwareScanSettingsOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetMalwareScanSettingsOutputResponse: Swift.Equatable {
+public struct GetMalwareScanSettingsOutput: Swift.Equatable {
     /// An enum value representing possible snapshot preservation settings.
     public var ebsSnapshotPreservation: GuardDutyClientTypes.EbsSnapshotPreservation?
     /// Represents the criteria to be used in the filter for scanning resources.
@@ -8777,12 +9462,12 @@ public struct GetMalwareScanSettingsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetMalwareScanSettingsOutputResponseBody: Swift.Equatable {
+struct GetMalwareScanSettingsOutputBody: Swift.Equatable {
     let scanResourceCriteria: GuardDutyClientTypes.ScanResourceCriteria?
     let ebsSnapshotPreservation: GuardDutyClientTypes.EbsSnapshotPreservation?
 }
 
-extension GetMalwareScanSettingsOutputResponseBody: Swift.Decodable {
+extension GetMalwareScanSettingsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ebsSnapshotPreservation = "ebsSnapshotPreservation"
         case scanResourceCriteria = "scanResourceCriteria"
@@ -8794,6 +9479,18 @@ extension GetMalwareScanSettingsOutputResponseBody: Swift.Decodable {
         scanResourceCriteria = scanResourceCriteriaDecoded
         let ebsSnapshotPreservationDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.EbsSnapshotPreservation.self, forKey: .ebsSnapshotPreservation)
         ebsSnapshotPreservation = ebsSnapshotPreservationDecoded
+    }
+}
+
+enum GetMalwareScanSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8829,23 +9526,11 @@ extension GetMasterAccountInputBody: Swift.Decodable {
     }
 }
 
-public enum GetMasterAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetMasterAccountOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetMasterAccountOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetMasterAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetMasterAccountOutputBody = try responseDecoder.decode(responseBody: data)
             self.master = output.master
         } else {
             self.master = nil
@@ -8854,7 +9539,7 @@ extension GetMasterAccountOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "This output is deprecated, use GetAdministratorAccountResponse instead")
-public struct GetMasterAccountOutputResponse: Swift.Equatable {
+public struct GetMasterAccountOutput: Swift.Equatable {
     /// The administrator account details.
     /// This member is required.
     public var master: GuardDutyClientTypes.Master?
@@ -8867,11 +9552,11 @@ public struct GetMasterAccountOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetMasterAccountOutputResponseBody: Swift.Equatable {
+struct GetMasterAccountOutputBody: Swift.Equatable {
     let master: GuardDutyClientTypes.Master?
 }
 
-extension GetMasterAccountOutputResponseBody: Swift.Decodable {
+extension GetMasterAccountOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case master = "master"
     }
@@ -8880,6 +9565,18 @@ extension GetMasterAccountOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let masterDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.Master.self, forKey: .master)
         master = masterDecoded
+    }
+}
+
+enum GetMasterAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8951,23 +9648,11 @@ extension GetMemberDetectorsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetMemberDetectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetMemberDetectorsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetMemberDetectorsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetMemberDetectorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetMemberDetectorsOutputBody = try responseDecoder.decode(responseBody: data)
             self.memberDataSourceConfigurations = output.memberDataSourceConfigurations
             self.unprocessedAccounts = output.unprocessedAccounts
         } else {
@@ -8977,7 +9662,7 @@ extension GetMemberDetectorsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMemberDetectorsOutputResponse: Swift.Equatable {
+public struct GetMemberDetectorsOutput: Swift.Equatable {
     /// An object that describes which data sources are enabled for a member account.
     /// This member is required.
     public var memberDataSourceConfigurations: [GuardDutyClientTypes.MemberDataSourceConfiguration]?
@@ -8995,12 +9680,12 @@ public struct GetMemberDetectorsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetMemberDetectorsOutputResponseBody: Swift.Equatable {
+struct GetMemberDetectorsOutputBody: Swift.Equatable {
     let memberDataSourceConfigurations: [GuardDutyClientTypes.MemberDataSourceConfiguration]?
     let unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
 }
 
-extension GetMemberDetectorsOutputResponseBody: Swift.Decodable {
+extension GetMemberDetectorsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case memberDataSourceConfigurations = "members"
         case unprocessedAccounts = "unprocessedAccounts"
@@ -9030,6 +9715,18 @@ extension GetMemberDetectorsOutputResponseBody: Swift.Decodable {
             }
         }
         unprocessedAccounts = unprocessedAccountsDecoded0
+    }
+}
+
+enum GetMemberDetectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9101,23 +9798,11 @@ extension GetMembersInputBody: Swift.Decodable {
     }
 }
 
-public enum GetMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetMembersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetMembersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetMembersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetMembersOutputBody = try responseDecoder.decode(responseBody: data)
             self.members = output.members
             self.unprocessedAccounts = output.unprocessedAccounts
         } else {
@@ -9127,7 +9812,7 @@ extension GetMembersOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMembersOutputResponse: Swift.Equatable {
+public struct GetMembersOutput: Swift.Equatable {
     /// A list of members.
     /// This member is required.
     public var members: [GuardDutyClientTypes.Member]?
@@ -9145,12 +9830,12 @@ public struct GetMembersOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetMembersOutputResponseBody: Swift.Equatable {
+struct GetMembersOutputBody: Swift.Equatable {
     let members: [GuardDutyClientTypes.Member]?
     let unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
 }
 
-extension GetMembersOutputResponseBody: Swift.Decodable {
+extension GetMembersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case members = "members"
         case unprocessedAccounts = "unprocessedAccounts"
@@ -9180,6 +9865,18 @@ extension GetMembersOutputResponseBody: Swift.Decodable {
             }
         }
         unprocessedAccounts = unprocessedAccountsDecoded0
+    }
+}
+
+enum GetMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9250,23 +9947,11 @@ extension GetRemainingFreeTrialDaysInputBody: Swift.Decodable {
     }
 }
 
-public enum GetRemainingFreeTrialDaysOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetRemainingFreeTrialDaysOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRemainingFreeTrialDaysOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRemainingFreeTrialDaysOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRemainingFreeTrialDaysOutputBody = try responseDecoder.decode(responseBody: data)
             self.accounts = output.accounts
             self.unprocessedAccounts = output.unprocessedAccounts
         } else {
@@ -9276,7 +9961,7 @@ extension GetRemainingFreeTrialDaysOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct GetRemainingFreeTrialDaysOutputResponse: Swift.Equatable {
+public struct GetRemainingFreeTrialDaysOutput: Swift.Equatable {
     /// The member accounts which were included in a request and were processed successfully.
     public var accounts: [GuardDutyClientTypes.AccountFreeTrialInfo]?
     /// The member account that was included in a request but for which the request could not be processed.
@@ -9292,12 +9977,12 @@ public struct GetRemainingFreeTrialDaysOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRemainingFreeTrialDaysOutputResponseBody: Swift.Equatable {
+struct GetRemainingFreeTrialDaysOutputBody: Swift.Equatable {
     let accounts: [GuardDutyClientTypes.AccountFreeTrialInfo]?
     let unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
 }
 
-extension GetRemainingFreeTrialDaysOutputResponseBody: Swift.Decodable {
+extension GetRemainingFreeTrialDaysOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accounts = "accounts"
         case unprocessedAccounts = "unprocessedAccounts"
@@ -9327,6 +10012,18 @@ extension GetRemainingFreeTrialDaysOutputResponseBody: Swift.Decodable {
             }
         }
         unprocessedAccounts = unprocessedAccountsDecoded0
+    }
+}
+
+enum GetRemainingFreeTrialDaysOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9369,23 +10066,11 @@ extension GetThreatIntelSetInputBody: Swift.Decodable {
     }
 }
 
-public enum GetThreatIntelSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetThreatIntelSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetThreatIntelSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetThreatIntelSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetThreatIntelSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.format = output.format
             self.location = output.location
             self.name = output.name
@@ -9401,7 +10086,7 @@ extension GetThreatIntelSetOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetThreatIntelSetOutputResponse: Swift.Equatable {
+public struct GetThreatIntelSetOutput: Swift.Equatable {
     /// The format of the threatIntelSet.
     /// This member is required.
     public var format: GuardDutyClientTypes.ThreatIntelSetFormat?
@@ -9433,7 +10118,7 @@ public struct GetThreatIntelSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetThreatIntelSetOutputResponseBody: Swift.Equatable {
+struct GetThreatIntelSetOutputBody: Swift.Equatable {
     let name: Swift.String?
     let format: GuardDutyClientTypes.ThreatIntelSetFormat?
     let location: Swift.String?
@@ -9441,7 +10126,7 @@ struct GetThreatIntelSetOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension GetThreatIntelSetOutputResponseBody: Swift.Decodable {
+extension GetThreatIntelSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case format = "format"
         case location = "location"
@@ -9471,6 +10156,18 @@ extension GetThreatIntelSetOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum GetThreatIntelSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9579,23 +10276,11 @@ extension GetUsageStatisticsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetUsageStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetUsageStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetUsageStatisticsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetUsageStatisticsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetUsageStatisticsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.usageStatistics = output.usageStatistics
         } else {
@@ -9605,7 +10290,7 @@ extension GetUsageStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetUsageStatisticsOutputResponse: Swift.Equatable {
+public struct GetUsageStatisticsOutput: Swift.Equatable {
     /// The pagination parameter to be used on the next list operation to retrieve more items.
     public var nextToken: Swift.String?
     /// The usage statistics object. If a UsageStatisticType was provided, the objects representing other types will be null.
@@ -9621,12 +10306,12 @@ public struct GetUsageStatisticsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetUsageStatisticsOutputResponseBody: Swift.Equatable {
+struct GetUsageStatisticsOutputBody: Swift.Equatable {
     let usageStatistics: GuardDutyClientTypes.UsageStatistics?
     let nextToken: Swift.String?
 }
 
-extension GetUsageStatisticsOutputResponseBody: Swift.Decodable {
+extension GetUsageStatisticsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "nextToken"
         case usageStatistics = "usageStatistics"
@@ -9641,6 +10326,18 @@ extension GetUsageStatisticsOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum GetUsageStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GuardDutyClientTypes.HighestSeverityThreatDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case count = "count"
@@ -9650,7 +10347,7 @@ extension GuardDutyClientTypes.HighestSeverityThreatDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if count != 0 {
+        if let count = self.count {
             try encodeContainer.encode(count, forKey: .count)
         }
         if let severity = self.severity {
@@ -9667,7 +10364,7 @@ extension GuardDutyClientTypes.HighestSeverityThreatDetails: Swift.Codable {
         severity = severityDecoded
         let threatNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .threatName)
         threatName = threatNameDecoded
-        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count)
         count = countDecoded
     }
 }
@@ -9676,14 +10373,14 @@ extension GuardDutyClientTypes {
     /// Contains details of the highest severity threat detected during scan and number of infected files.
     public struct HighestSeverityThreatDetails: Swift.Equatable {
         /// Total number of infected files with the highest severity threat detected.
-        public var count: Swift.Int
+        public var count: Swift.Int?
         /// Severity level of the highest severity threat detected.
         public var severity: Swift.String?
         /// Threat name of the highest severity threat detected as part of the malware scan.
         public var threatName: Swift.String?
 
         public init(
-            count: Swift.Int = 0,
+            count: Swift.Int? = nil,
             severity: Swift.String? = nil,
             threatName: Swift.String? = nil
         )
@@ -9771,6 +10468,63 @@ extension GuardDutyClientTypes {
         {
             self.arn = arn
             self.id = id
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.ImpersonatedUser: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case groups = "groups"
+        case username = "username"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let groups = groups {
+            var groupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groups)
+            for string0 in groups {
+                try groupsContainer.encode(string0)
+            }
+        }
+        if let username = self.username {
+            try encodeContainer.encode(username, forKey: .username)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let usernameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .username)
+        username = usernameDecoded
+        let groupsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .groups)
+        var groupsDecoded0:[Swift.String]? = nil
+        if let groupsContainer = groupsContainer {
+            groupsDecoded0 = [Swift.String]()
+            for string0 in groupsContainer {
+                if let string0 = string0 {
+                    groupsDecoded0?.append(string0)
+                }
+            }
+        }
+        groups = groupsDecoded0
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about the impersonated user.
+    public struct ImpersonatedUser: Swift.Equatable {
+        /// The group to which the user name belongs.
+        public var groups: [Swift.String]?
+        /// Information about the username that was being impersonated.
+        public var username: Swift.String?
+
+        public init(
+            groups: [Swift.String]? = nil,
+            username: Swift.String? = nil
+        )
+        {
+            self.groups = groups
+            self.username = username
         }
     }
 
@@ -10190,23 +10944,11 @@ extension InviteMembersInputBody: Swift.Decodable {
     }
 }
 
-public enum InviteMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension InviteMembersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension InviteMembersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: InviteMembersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: InviteMembersOutputBody = try responseDecoder.decode(responseBody: data)
             self.unprocessedAccounts = output.unprocessedAccounts
         } else {
             self.unprocessedAccounts = nil
@@ -10214,7 +10956,7 @@ extension InviteMembersOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct InviteMembersOutputResponse: Swift.Equatable {
+public struct InviteMembersOutput: Swift.Equatable {
     /// A list of objects that contain the unprocessed account and a result string that explains why it was unprocessed.
     /// This member is required.
     public var unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
@@ -10227,11 +10969,11 @@ public struct InviteMembersOutputResponse: Swift.Equatable {
     }
 }
 
-struct InviteMembersOutputResponseBody: Swift.Equatable {
+struct InviteMembersOutputBody: Swift.Equatable {
     let unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
 }
 
-extension InviteMembersOutputResponseBody: Swift.Decodable {
+extension InviteMembersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case unprocessedAccounts = "unprocessedAccounts"
     }
@@ -10249,6 +10991,18 @@ extension InviteMembersOutputResponseBody: Swift.Decodable {
             }
         }
         unprocessedAccounts = unprocessedAccountsDecoded0
+    }
+}
+
+enum InviteMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10345,17 +11099,24 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.KubernetesApiCallAction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case namespace = "namespace"
         case parameters = "parameters"
         case remoteIpDetails = "remoteIpDetails"
         case requestUri = "requestUri"
+        case resource = "resource"
+        case resourceName = "resourceName"
         case sourceIps = "sourceIps"
         case statusCode = "statusCode"
+        case subresource = "subresource"
         case userAgent = "userAgent"
         case verb = "verb"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let namespace = self.namespace {
+            try encodeContainer.encode(namespace, forKey: .namespace)
+        }
         if let parameters = self.parameters {
             try encodeContainer.encode(parameters, forKey: .parameters)
         }
@@ -10365,14 +11126,23 @@ extension GuardDutyClientTypes.KubernetesApiCallAction: Swift.Codable {
         if let requestUri = self.requestUri {
             try encodeContainer.encode(requestUri, forKey: .requestUri)
         }
+        if let resource = self.resource {
+            try encodeContainer.encode(resource, forKey: .resource)
+        }
+        if let resourceName = self.resourceName {
+            try encodeContainer.encode(resourceName, forKey: .resourceName)
+        }
         if let sourceIps = sourceIps {
             var sourceIpsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceIps)
             for string0 in sourceIps {
                 try sourceIpsContainer.encode(string0)
             }
         }
-        if statusCode != 0 {
+        if let statusCode = self.statusCode {
             try encodeContainer.encode(statusCode, forKey: .statusCode)
+        }
+        if let subresource = self.subresource {
+            try encodeContainer.encode(subresource, forKey: .subresource)
         }
         if let userAgent = self.userAgent {
             try encodeContainer.encode(userAgent, forKey: .userAgent)
@@ -10403,46 +11173,70 @@ extension GuardDutyClientTypes.KubernetesApiCallAction: Swift.Codable {
         userAgent = userAgentDecoded
         let remoteIpDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.RemoteIpDetails.self, forKey: .remoteIpDetails)
         remoteIpDetails = remoteIpDetailsDecoded
-        let statusCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .statusCode) ?? 0
+        let statusCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .statusCode)
         statusCode = statusCodeDecoded
         let parametersDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parameters)
         parameters = parametersDecoded
+        let resourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resource)
+        resource = resourceDecoded
+        let subresourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subresource)
+        subresource = subresourceDecoded
+        let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
+        namespace = namespaceDecoded
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
     }
 }
 
 extension GuardDutyClientTypes {
     /// Information about the Kubernetes API call action described in this finding.
     public struct KubernetesApiCallAction: Swift.Equatable {
+        /// The name of the namespace where the Kubernetes API call action takes place.
+        public var namespace: Swift.String?
         /// Parameters related to the Kubernetes API call action.
         public var parameters: Swift.String?
         /// Contains information about the remote IP address of the connection.
         public var remoteIpDetails: GuardDutyClientTypes.RemoteIpDetails?
         /// The Kubernetes API request URI.
         public var requestUri: Swift.String?
+        /// The resource component in the Kubernetes API call action.
+        public var resource: Swift.String?
+        /// The name of the resource in the Kubernetes API call action.
+        public var resourceName: Swift.String?
         /// The IP of the Kubernetes API caller and the IPs of any proxies or load balancers between the caller and the API endpoint.
         public var sourceIps: [Swift.String]?
         /// The resulting HTTP response code of the Kubernetes API call action.
-        public var statusCode: Swift.Int
+        public var statusCode: Swift.Int?
+        /// The name of the sub-resource in the Kubernetes API call action.
+        public var subresource: Swift.String?
         /// The user agent of the caller of the Kubernetes API.
         public var userAgent: Swift.String?
         /// The Kubernetes API request HTTP verb.
         public var verb: Swift.String?
 
         public init(
+            namespace: Swift.String? = nil,
             parameters: Swift.String? = nil,
             remoteIpDetails: GuardDutyClientTypes.RemoteIpDetails? = nil,
             requestUri: Swift.String? = nil,
+            resource: Swift.String? = nil,
+            resourceName: Swift.String? = nil,
             sourceIps: [Swift.String]? = nil,
-            statusCode: Swift.Int = 0,
+            statusCode: Swift.Int? = nil,
+            subresource: Swift.String? = nil,
             userAgent: Swift.String? = nil,
             verb: Swift.String? = nil
         )
         {
+            self.namespace = namespace
             self.parameters = parameters
             self.remoteIpDetails = remoteIpDetails
             self.requestUri = requestUri
+            self.resource = resource
+            self.resourceName = resourceName
             self.sourceIps = sourceIps
             self.statusCode = statusCode
+            self.subresource = subresource
             self.userAgent = userAgent
             self.verb = verb
         }
@@ -10457,14 +11251,14 @@ extension GuardDutyClientTypes.KubernetesAuditLogsConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enable != false {
+        if let enable = self.enable {
             try encodeContainer.encode(enable, forKey: .enable)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enable) ?? false
+        let enableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enable)
         enable = enableDecoded
     }
 }
@@ -10474,10 +11268,10 @@ extension GuardDutyClientTypes {
     public struct KubernetesAuditLogsConfiguration: Swift.Equatable {
         /// The status of Kubernetes audit logs as a data source.
         /// This member is required.
-        public var enable: Swift.Bool
+        public var enable: Swift.Bool?
 
         public init(
-            enable: Swift.Bool = false
+            enable: Swift.Bool? = nil
         )
         {
             self.enable = enable
@@ -10674,9 +11468,205 @@ extension GuardDutyClientTypes {
 
 }
 
+extension GuardDutyClientTypes.KubernetesPermissionCheckedDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowed = "allowed"
+        case namespace = "namespace"
+        case resource = "resource"
+        case verb = "verb"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allowed = self.allowed {
+            try encodeContainer.encode(allowed, forKey: .allowed)
+        }
+        if let namespace = self.namespace {
+            try encodeContainer.encode(namespace, forKey: .namespace)
+        }
+        if let resource = self.resource {
+            try encodeContainer.encode(resource, forKey: .resource)
+        }
+        if let verb = self.verb {
+            try encodeContainer.encode(verb, forKey: .verb)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let verbDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .verb)
+        verb = verbDecoded
+        let resourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resource)
+        resource = resourceDecoded
+        let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
+        namespace = namespaceDecoded
+        let allowedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowed)
+        allowed = allowedDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Information about the Kubernetes API for which you check if you have permission to call.
+    public struct KubernetesPermissionCheckedDetails: Swift.Equatable {
+        /// Information whether the user has the permission to call the Kubernetes API.
+        public var allowed: Swift.Bool?
+        /// The namespace where the Kubernetes API action will take place.
+        public var namespace: Swift.String?
+        /// The Kubernetes resource with which your Kubernetes API call will interact.
+        public var resource: Swift.String?
+        /// The verb component of the Kubernetes API call. For example, when you check whether or not you have the permission to call the CreatePod API, the verb component will be Create.
+        public var verb: Swift.String?
+
+        public init(
+            allowed: Swift.Bool? = nil,
+            namespace: Swift.String? = nil,
+            resource: Swift.String? = nil,
+            verb: Swift.String? = nil
+        )
+        {
+            self.allowed = allowed
+            self.namespace = namespace
+            self.resource = resource
+            self.verb = verb
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.KubernetesRoleBindingDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kind = "kind"
+        case name = "name"
+        case roleRefKind = "roleRefKind"
+        case roleRefName = "roleRefName"
+        case uid = "uid"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let kind = self.kind {
+            try encodeContainer.encode(kind, forKey: .kind)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let roleRefKind = self.roleRefKind {
+            try encodeContainer.encode(roleRefKind, forKey: .roleRefKind)
+        }
+        if let roleRefName = self.roleRefName {
+            try encodeContainer.encode(roleRefName, forKey: .roleRefName)
+        }
+        if let uid = self.uid {
+            try encodeContainer.encode(uid, forKey: .uid)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kindDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kind)
+        kind = kindDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let uidDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uid)
+        uid = uidDecoded
+        let roleRefNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleRefName)
+        roleRefName = roleRefNameDecoded
+        let roleRefKindDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleRefKind)
+        roleRefKind = roleRefKindDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about the role binding that grants the permission defined in a Kubernetes role.
+    public struct KubernetesRoleBindingDetails: Swift.Equatable {
+        /// The kind of the role. For role binding, this value will be RoleBinding.
+        public var kind: Swift.String?
+        /// The name of the RoleBinding.
+        public var name: Swift.String?
+        /// The type of the role being referenced. This could be either Role or ClusterRole.
+        public var roleRefKind: Swift.String?
+        /// The name of the role being referenced. This must match the name of the Role or ClusterRole that you want to bind to.
+        public var roleRefName: Swift.String?
+        /// The unique identifier of the role binding.
+        public var uid: Swift.String?
+
+        public init(
+            kind: Swift.String? = nil,
+            name: Swift.String? = nil,
+            roleRefKind: Swift.String? = nil,
+            roleRefName: Swift.String? = nil,
+            uid: Swift.String? = nil
+        )
+        {
+            self.kind = kind
+            self.name = name
+            self.roleRefKind = roleRefKind
+            self.roleRefName = roleRefName
+            self.uid = uid
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.KubernetesRoleDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kind = "kind"
+        case name = "name"
+        case uid = "uid"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let kind = self.kind {
+            try encodeContainer.encode(kind, forKey: .kind)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let uid = self.uid {
+            try encodeContainer.encode(uid, forKey: .uid)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kindDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kind)
+        kind = kindDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let uidDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uid)
+        uid = uidDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Information about the Kubernetes role name and role type.
+    public struct KubernetesRoleDetails: Swift.Equatable {
+        /// The kind of role. For this API, the value of kind will be Role.
+        public var kind: Swift.String?
+        /// The name of the Kubernetes role.
+        public var name: Swift.String?
+        /// The unique identifier of the Kubernetes role name.
+        public var uid: Swift.String?
+
+        public init(
+            kind: Swift.String? = nil,
+            name: Swift.String? = nil,
+            uid: Swift.String? = nil
+        )
+        {
+            self.kind = kind
+            self.name = name
+            self.uid = uid
+        }
+    }
+
+}
+
 extension GuardDutyClientTypes.KubernetesUserDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case groups = "groups"
+        case impersonatedUser = "impersonatedUser"
         case sessionName = "sessionName"
         case uid = "uid"
         case username = "username"
@@ -10689,6 +11679,9 @@ extension GuardDutyClientTypes.KubernetesUserDetails: Swift.Codable {
             for string0 in groups {
                 try groupsContainer.encode(string0)
             }
+        }
+        if let impersonatedUser = self.impersonatedUser {
+            try encodeContainer.encode(impersonatedUser, forKey: .impersonatedUser)
         }
         if let sessionName = sessionName {
             var sessionNameContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sessionName)
@@ -10732,6 +11725,8 @@ extension GuardDutyClientTypes.KubernetesUserDetails: Swift.Codable {
             }
         }
         sessionName = sessionNameDecoded0
+        let impersonatedUserDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.ImpersonatedUser.self, forKey: .impersonatedUser)
+        impersonatedUser = impersonatedUserDecoded
     }
 }
 
@@ -10740,6 +11735,8 @@ extension GuardDutyClientTypes {
     public struct KubernetesUserDetails: Swift.Equatable {
         /// The groups that include the user who called the Kubernetes API.
         public var groups: [Swift.String]?
+        /// Information about the impersonated user.
+        public var impersonatedUser: GuardDutyClientTypes.ImpersonatedUser?
         /// Entity that assumes the IAM role when Kubernetes RBAC permissions are assigned to that role.
         public var sessionName: [Swift.String]?
         /// The user ID of the user who called the Kubernetes API.
@@ -10749,12 +11746,14 @@ extension GuardDutyClientTypes {
 
         public init(
             groups: [Swift.String]? = nil,
+            impersonatedUser: GuardDutyClientTypes.ImpersonatedUser? = nil,
             sessionName: [Swift.String]? = nil,
             uid: Swift.String? = nil,
             username: Swift.String? = nil
         )
         {
             self.groups = groups
+            self.impersonatedUser = impersonatedUser
             self.sessionName = sessionName
             self.uid = uid
             self.username = username
@@ -10766,9 +11765,12 @@ extension GuardDutyClientTypes {
 extension GuardDutyClientTypes.KubernetesWorkloadDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case containers = "containers"
+        case hostIPC = "hostIPC"
         case hostNetwork = "hostNetwork"
+        case hostPID = "hostPID"
         case name = "name"
         case namespace = "namespace"
+        case serviceAccountName = "serviceAccountName"
         case type = "type"
         case uid = "uid"
         case volumes = "volumes"
@@ -10782,14 +11784,23 @@ extension GuardDutyClientTypes.KubernetesWorkloadDetails: Swift.Codable {
                 try containersContainer.encode(container0)
             }
         }
-        if hostNetwork != false {
+        if let hostIPC = self.hostIPC {
+            try encodeContainer.encode(hostIPC, forKey: .hostIPC)
+        }
+        if let hostNetwork = self.hostNetwork {
             try encodeContainer.encode(hostNetwork, forKey: .hostNetwork)
+        }
+        if let hostPID = self.hostPID {
+            try encodeContainer.encode(hostPID, forKey: .hostPID)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
         if let namespace = self.namespace {
             try encodeContainer.encode(namespace, forKey: .namespace)
+        }
+        if let serviceAccountName = self.serviceAccountName {
+            try encodeContainer.encode(serviceAccountName, forKey: .serviceAccountName)
         }
         if let type = self.type {
             try encodeContainer.encode(type, forKey: .type)
@@ -10815,7 +11826,7 @@ extension GuardDutyClientTypes.KubernetesWorkloadDetails: Swift.Codable {
         uid = uidDecoded
         let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
         namespace = namespaceDecoded
-        let hostNetworkDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hostNetwork) ?? false
+        let hostNetworkDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hostNetwork)
         hostNetwork = hostNetworkDecoded
         let containersContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.Container?].self, forKey: .containers)
         var containersDecoded0:[GuardDutyClientTypes.Container]? = nil
@@ -10839,6 +11850,12 @@ extension GuardDutyClientTypes.KubernetesWorkloadDetails: Swift.Codable {
             }
         }
         volumes = volumesDecoded0
+        let serviceAccountNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceAccountName)
+        serviceAccountName = serviceAccountNameDecoded
+        let hostIPCDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hostIPC)
+        hostIPC = hostIPCDecoded
+        let hostPIDDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hostPID)
+        hostPID = hostPIDDecoded
     }
 }
 
@@ -10847,12 +11864,18 @@ extension GuardDutyClientTypes {
     public struct KubernetesWorkloadDetails: Swift.Equatable {
         /// Containers running as part of the Kubernetes workload.
         public var containers: [GuardDutyClientTypes.Container]?
+        /// Whether the host IPC flag is enabled for the pods in the workload.
+        public var hostIPC: Swift.Bool?
         /// Whether the hostNetwork flag is enabled for the pods included in the workload.
-        public var hostNetwork: Swift.Bool
+        public var hostNetwork: Swift.Bool?
+        /// Whether the host PID flag is enabled for the pods in the workload.
+        public var hostPID: Swift.Bool?
         /// Kubernetes workload name.
         public var name: Swift.String?
         /// Kubernetes namespace that the workload is part of.
         public var namespace: Swift.String?
+        /// The service account name that is associated with a Kubernetes workload.
+        public var serviceAccountName: Swift.String?
         /// Kubernetes workload type (e.g. Pod, Deployment, etc.).
         public var type: Swift.String?
         /// Kubernetes workload ID.
@@ -10862,18 +11885,24 @@ extension GuardDutyClientTypes {
 
         public init(
             containers: [GuardDutyClientTypes.Container]? = nil,
-            hostNetwork: Swift.Bool = false,
+            hostIPC: Swift.Bool? = nil,
+            hostNetwork: Swift.Bool? = nil,
+            hostPID: Swift.Bool? = nil,
             name: Swift.String? = nil,
             namespace: Swift.String? = nil,
+            serviceAccountName: Swift.String? = nil,
             type: Swift.String? = nil,
             uid: Swift.String? = nil,
             volumes: [GuardDutyClientTypes.Volume]? = nil
         )
         {
             self.containers = containers
+            self.hostIPC = hostIPC
             self.hostNetwork = hostNetwork
+            self.hostPID = hostPID
             self.name = name
             self.namespace = namespace
+            self.serviceAccountName = serviceAccountName
             self.type = type
             self.uid = uid
             self.volumes = volumes
@@ -11024,7 +12053,7 @@ extension GuardDutyClientTypes.LineageObject: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if euid != 0 {
+        if let euid = self.euid {
             try encodeContainer.encode(euid, forKey: .euid)
         }
         if let executablePath = self.executablePath {
@@ -11033,19 +12062,19 @@ extension GuardDutyClientTypes.LineageObject: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
-        if namespacePid != 0 {
+        if let namespacePid = self.namespacePid {
             try encodeContainer.encode(namespacePid, forKey: .namespacePid)
         }
         if let parentUuid = self.parentUuid {
             try encodeContainer.encode(parentUuid, forKey: .parentUuid)
         }
-        if pid != 0 {
+        if let pid = self.pid {
             try encodeContainer.encode(pid, forKey: .pid)
         }
         if let startTime = self.startTime {
             try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
         }
-        if userId != 0 {
+        if let userId = self.userId {
             try encodeContainer.encode(userId, forKey: .userId)
         }
         if let uuid = self.uuid {
@@ -11057,19 +12086,19 @@ extension GuardDutyClientTypes.LineageObject: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
         startTime = startTimeDecoded
-        let namespacePidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .namespacePid) ?? 0
+        let namespacePidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .namespacePid)
         namespacePid = namespacePidDecoded
-        let userIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .userId) ?? 0
+        let userIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .userId)
         userId = userIdDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
-        let pidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pid) ?? 0
+        let pidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pid)
         pid = pidDecoded
         let uuidDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uuid)
         uuid = uuidDecoded
         let executablePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executablePath)
         executablePath = executablePathDecoded
-        let euidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .euid) ?? 0
+        let euidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .euid)
         euid = euidDecoded
         let parentUuidDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parentUuid)
         parentUuid = parentUuidDecoded
@@ -11080,33 +12109,33 @@ extension GuardDutyClientTypes {
     /// Information about the runtime process details.
     public struct LineageObject: Swift.Equatable {
         /// The effective user ID that was used to execute the process.
-        public var euid: Swift.Int
+        public var euid: Swift.Int?
         /// The absolute path of the process executable file.
         public var executablePath: Swift.String?
         /// The name of the process.
         public var name: Swift.String?
         /// The process ID of the child process.
-        public var namespacePid: Swift.Int
+        public var namespacePid: Swift.Int?
         /// The unique ID of the parent process. This ID is assigned to the parent process by GuardDuty.
         public var parentUuid: Swift.String?
         /// The ID of the process.
-        public var pid: Swift.Int
+        public var pid: Swift.Int?
         /// The time when the process started. This is in UTC format.
         public var startTime: ClientRuntime.Date?
         /// The user ID of the user that executed the process.
-        public var userId: Swift.Int
+        public var userId: Swift.Int?
         /// The unique ID assigned to the process by GuardDuty.
         public var uuid: Swift.String?
 
         public init(
-            euid: Swift.Int = 0,
+            euid: Swift.Int? = nil,
             executablePath: Swift.String? = nil,
             name: Swift.String? = nil,
-            namespacePid: Swift.Int = 0,
+            namespacePid: Swift.Int? = nil,
             parentUuid: Swift.String? = nil,
-            pid: Swift.Int = 0,
+            pid: Swift.Int? = nil,
             startTime: ClientRuntime.Date? = nil,
-            userId: Swift.Int = 0,
+            userId: Swift.Int? = nil,
             uuid: Swift.String? = nil
         )
         {
@@ -11215,23 +12244,11 @@ extension ListCoverageInputBody: Swift.Decodable {
     }
 }
 
-public enum ListCoverageOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListCoverageOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListCoverageOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListCoverageOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListCoverageOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.resources = output.resources
         } else {
@@ -11241,7 +12258,7 @@ extension ListCoverageOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCoverageOutputResponse: Swift.Equatable {
+public struct ListCoverageOutput: Swift.Equatable {
     /// The pagination parameter to be used on the next list operation to retrieve more items.
     public var nextToken: Swift.String?
     /// A list of resources and their attributes providing cluster details.
@@ -11258,12 +12275,12 @@ public struct ListCoverageOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListCoverageOutputResponseBody: Swift.Equatable {
+struct ListCoverageOutputBody: Swift.Equatable {
     let resources: [GuardDutyClientTypes.CoverageResource]?
     let nextToken: Swift.String?
 }
 
-extension ListCoverageOutputResponseBody: Swift.Decodable {
+extension ListCoverageOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "nextToken"
         case resources = "resources"
@@ -11284,6 +12301,18 @@ extension ListCoverageOutputResponseBody: Swift.Decodable {
         resources = resourcesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCoverageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11335,23 +12364,11 @@ extension ListDetectorsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListDetectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListDetectorsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListDetectorsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListDetectorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListDetectorsOutputBody = try responseDecoder.decode(responseBody: data)
             self.detectorIds = output.detectorIds
             self.nextToken = output.nextToken
         } else {
@@ -11361,7 +12378,7 @@ extension ListDetectorsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDetectorsOutputResponse: Swift.Equatable {
+public struct ListDetectorsOutput: Swift.Equatable {
     /// A list of detector IDs.
     /// This member is required.
     public var detectorIds: [Swift.String]?
@@ -11378,12 +12395,12 @@ public struct ListDetectorsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListDetectorsOutputResponseBody: Swift.Equatable {
+struct ListDetectorsOutputBody: Swift.Equatable {
     let detectorIds: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension ListDetectorsOutputResponseBody: Swift.Decodable {
+extension ListDetectorsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case detectorIds = "detectorIds"
         case nextToken = "nextToken"
@@ -11404,6 +12421,18 @@ extension ListDetectorsOutputResponseBody: Swift.Decodable {
         detectorIds = detectorIdsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListDetectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11463,23 +12492,11 @@ extension ListFiltersInputBody: Swift.Decodable {
     }
 }
 
-public enum ListFiltersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListFiltersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListFiltersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListFiltersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListFiltersOutputBody = try responseDecoder.decode(responseBody: data)
             self.filterNames = output.filterNames
             self.nextToken = output.nextToken
         } else {
@@ -11489,7 +12506,7 @@ extension ListFiltersOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFiltersOutputResponse: Swift.Equatable {
+public struct ListFiltersOutput: Swift.Equatable {
     /// A list of filter names.
     /// This member is required.
     public var filterNames: [Swift.String]?
@@ -11506,12 +12523,12 @@ public struct ListFiltersOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListFiltersOutputResponseBody: Swift.Equatable {
+struct ListFiltersOutputBody: Swift.Equatable {
     let filterNames: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension ListFiltersOutputResponseBody: Swift.Decodable {
+extension ListFiltersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filterNames = "filterNames"
         case nextToken = "nextToken"
@@ -11532,6 +12549,18 @@ extension ListFiltersOutputResponseBody: Swift.Decodable {
         filterNames = filterNamesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListFiltersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11641,6 +12670,8 @@ public struct ListFindingsInput: Swift.Equatable {
     ///
     /// * service.action.dnsRequestAction.domain
     ///
+    /// * service.action.dnsRequestAction.domainWithSuffix
+    ///
     /// * service.action.networkConnectionAction.blocked
     ///
     /// * service.action.networkConnectionAction.connectionDirection
@@ -11722,23 +12753,11 @@ extension ListFindingsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListFindingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListFindingsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListFindingsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListFindingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListFindingsOutputBody = try responseDecoder.decode(responseBody: data)
             self.findingIds = output.findingIds
             self.nextToken = output.nextToken
         } else {
@@ -11748,7 +12767,7 @@ extension ListFindingsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFindingsOutputResponse: Swift.Equatable {
+public struct ListFindingsOutput: Swift.Equatable {
     /// The IDs of the findings that you're listing.
     /// This member is required.
     public var findingIds: [Swift.String]?
@@ -11765,12 +12784,12 @@ public struct ListFindingsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListFindingsOutputResponseBody: Swift.Equatable {
+struct ListFindingsOutputBody: Swift.Equatable {
     let findingIds: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension ListFindingsOutputResponseBody: Swift.Decodable {
+extension ListFindingsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case findingIds = "findingIds"
         case nextToken = "nextToken"
@@ -11791,6 +12810,18 @@ extension ListFindingsOutputResponseBody: Swift.Decodable {
         findingIds = findingIdsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListFindingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11850,23 +12881,11 @@ extension ListIPSetsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListIPSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListIPSetsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListIPSetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListIPSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListIPSetsOutputBody = try responseDecoder.decode(responseBody: data)
             self.ipSetIds = output.ipSetIds
             self.nextToken = output.nextToken
         } else {
@@ -11876,7 +12895,7 @@ extension ListIPSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIPSetsOutputResponse: Swift.Equatable {
+public struct ListIPSetsOutput: Swift.Equatable {
     /// The IDs of the IPSet resources.
     /// This member is required.
     public var ipSetIds: [Swift.String]?
@@ -11893,12 +12912,12 @@ public struct ListIPSetsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListIPSetsOutputResponseBody: Swift.Equatable {
+struct ListIPSetsOutputBody: Swift.Equatable {
     let ipSetIds: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension ListIPSetsOutputResponseBody: Swift.Decodable {
+extension ListIPSetsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ipSetIds = "ipSetIds"
         case nextToken = "nextToken"
@@ -11919,6 +12938,18 @@ extension ListIPSetsOutputResponseBody: Swift.Decodable {
         ipSetIds = ipSetIdsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListIPSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11970,23 +13001,11 @@ extension ListInvitationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListInvitationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListInvitationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListInvitationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListInvitationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListInvitationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.invitations = output.invitations
             self.nextToken = output.nextToken
         } else {
@@ -11996,7 +13015,7 @@ extension ListInvitationsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListInvitationsOutputResponse: Swift.Equatable {
+public struct ListInvitationsOutput: Swift.Equatable {
     /// A list of invitation descriptions.
     public var invitations: [GuardDutyClientTypes.Invitation]?
     /// The pagination parameter to be used on the next list operation to retrieve more items.
@@ -12012,12 +13031,12 @@ public struct ListInvitationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListInvitationsOutputResponseBody: Swift.Equatable {
+struct ListInvitationsOutputBody: Swift.Equatable {
     let invitations: [GuardDutyClientTypes.Invitation]?
     let nextToken: Swift.String?
 }
 
-extension ListInvitationsOutputResponseBody: Swift.Decodable {
+extension ListInvitationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case invitations = "invitations"
         case nextToken = "nextToken"
@@ -12038,6 +13057,18 @@ extension ListInvitationsOutputResponseBody: Swift.Decodable {
         invitations = invitationsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListInvitationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -12105,23 +13136,11 @@ extension ListMembersInputBody: Swift.Decodable {
     }
 }
 
-public enum ListMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListMembersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListMembersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListMembersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListMembersOutputBody = try responseDecoder.decode(responseBody: data)
             self.members = output.members
             self.nextToken = output.nextToken
         } else {
@@ -12131,8 +13150,8 @@ extension ListMembersOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMembersOutputResponse: Swift.Equatable {
-    /// A list of members.
+public struct ListMembersOutput: Swift.Equatable {
+    /// A list of members. The values for email and invitedAt are available only if the member accounts are added by invitation.
     public var members: [GuardDutyClientTypes.Member]?
     /// The pagination parameter to be used on the next list operation to retrieve more items.
     public var nextToken: Swift.String?
@@ -12147,12 +13166,12 @@ public struct ListMembersOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListMembersOutputResponseBody: Swift.Equatable {
+struct ListMembersOutputBody: Swift.Equatable {
     let members: [GuardDutyClientTypes.Member]?
     let nextToken: Swift.String?
 }
 
-extension ListMembersOutputResponseBody: Swift.Decodable {
+extension ListMembersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case members = "members"
         case nextToken = "nextToken"
@@ -12173,6 +13192,18 @@ extension ListMembersOutputResponseBody: Swift.Decodable {
         members = membersDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -12224,23 +13255,11 @@ extension ListOrganizationAdminAccountsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListOrganizationAdminAccountsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListOrganizationAdminAccountsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListOrganizationAdminAccountsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListOrganizationAdminAccountsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListOrganizationAdminAccountsOutputBody = try responseDecoder.decode(responseBody: data)
             self.adminAccounts = output.adminAccounts
             self.nextToken = output.nextToken
         } else {
@@ -12250,7 +13269,7 @@ extension ListOrganizationAdminAccountsOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct ListOrganizationAdminAccountsOutputResponse: Swift.Equatable {
+public struct ListOrganizationAdminAccountsOutput: Swift.Equatable {
     /// A list of accounts configured as GuardDuty delegated administrators.
     public var adminAccounts: [GuardDutyClientTypes.AdminAccount]?
     /// The pagination parameter to be used on the next list operation to retrieve more items.
@@ -12266,12 +13285,12 @@ public struct ListOrganizationAdminAccountsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListOrganizationAdminAccountsOutputResponseBody: Swift.Equatable {
+struct ListOrganizationAdminAccountsOutputBody: Swift.Equatable {
     let adminAccounts: [GuardDutyClientTypes.AdminAccount]?
     let nextToken: Swift.String?
 }
 
-extension ListOrganizationAdminAccountsOutputResponseBody: Swift.Decodable {
+extension ListOrganizationAdminAccountsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adminAccounts = "adminAccounts"
         case nextToken = "nextToken"
@@ -12292,6 +13311,18 @@ extension ListOrganizationAdminAccountsOutputResponseBody: Swift.Decodable {
         adminAccounts = adminAccountsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListOrganizationAdminAccountsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -12351,23 +13382,11 @@ extension ListPublishingDestinationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPublishingDestinationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListPublishingDestinationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPublishingDestinationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPublishingDestinationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPublishingDestinationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.destinations = output.destinations
             self.nextToken = output.nextToken
         } else {
@@ -12377,7 +13396,7 @@ extension ListPublishingDestinationsOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct ListPublishingDestinationsOutputResponse: Swift.Equatable {
+public struct ListPublishingDestinationsOutput: Swift.Equatable {
     /// A Destinations object that includes information about each publishing destination returned.
     /// This member is required.
     public var destinations: [GuardDutyClientTypes.Destination]?
@@ -12394,12 +13413,12 @@ public struct ListPublishingDestinationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPublishingDestinationsOutputResponseBody: Swift.Equatable {
+struct ListPublishingDestinationsOutputBody: Swift.Equatable {
     let destinations: [GuardDutyClientTypes.Destination]?
     let nextToken: Swift.String?
 }
 
-extension ListPublishingDestinationsOutputResponseBody: Swift.Decodable {
+extension ListPublishingDestinationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destinations = "destinations"
         case nextToken = "nextToken"
@@ -12420,6 +13439,18 @@ extension ListPublishingDestinationsOutputResponseBody: Swift.Decodable {
         destinations = destinationsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListPublishingDestinationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -12454,24 +13485,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -12479,7 +13497,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// The tags associated with the resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -12491,11 +13509,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "tags"
     }
@@ -12513,6 +13531,19 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -12572,23 +13603,11 @@ extension ListThreatIntelSetsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListThreatIntelSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListThreatIntelSetsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListThreatIntelSetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListThreatIntelSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListThreatIntelSetsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.threatIntelSetIds = output.threatIntelSetIds
         } else {
@@ -12598,7 +13617,7 @@ extension ListThreatIntelSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListThreatIntelSetsOutputResponse: Swift.Equatable {
+public struct ListThreatIntelSetsOutput: Swift.Equatable {
     /// The pagination parameter to be used on the next list operation to retrieve more items.
     public var nextToken: Swift.String?
     /// The IDs of the ThreatIntelSet resources.
@@ -12615,12 +13634,12 @@ public struct ListThreatIntelSetsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListThreatIntelSetsOutputResponseBody: Swift.Equatable {
+struct ListThreatIntelSetsOutputBody: Swift.Equatable {
     let threatIntelSetIds: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension ListThreatIntelSetsOutputResponseBody: Swift.Decodable {
+extension ListThreatIntelSetsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "nextToken"
         case threatIntelSetIds = "threatIntelSetIds"
@@ -12641,6 +13660,18 @@ extension ListThreatIntelSetsOutputResponseBody: Swift.Decodable {
         threatIntelSetIds = threatIntelSetIdsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListThreatIntelSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -12687,7 +13718,7 @@ extension GuardDutyClientTypes.LocalPortDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
         if let portName = self.portName {
@@ -12697,7 +13728,7 @@ extension GuardDutyClientTypes.LocalPortDetails: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let portNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .portName)
         portName = portNameDecoded
@@ -12708,12 +13739,12 @@ extension GuardDutyClientTypes {
     /// Contains information about the port for the local connection.
     public struct LocalPortDetails: Swift.Equatable {
         /// The port number of the local connection.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// The port name of the local connection.
         public var portName: Swift.String?
 
         public init(
-            port: Swift.Int = 0,
+            port: Swift.Int? = nil,
             portName: Swift.String? = nil
         )
         {
@@ -12737,10 +13768,10 @@ extension GuardDutyClientTypes.LoginAttribute: Swift.Codable {
         if let application = self.application {
             try encodeContainer.encode(application, forKey: .application)
         }
-        if failedLoginAttempts != 0 {
+        if let failedLoginAttempts = self.failedLoginAttempts {
             try encodeContainer.encode(failedLoginAttempts, forKey: .failedLoginAttempts)
         }
-        if successfulLoginAttempts != 0 {
+        if let successfulLoginAttempts = self.successfulLoginAttempts {
             try encodeContainer.encode(successfulLoginAttempts, forKey: .successfulLoginAttempts)
         }
         if let user = self.user {
@@ -12754,9 +13785,9 @@ extension GuardDutyClientTypes.LoginAttribute: Swift.Codable {
         user = userDecoded
         let applicationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .application)
         application = applicationDecoded
-        let failedLoginAttemptsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failedLoginAttempts) ?? 0
+        let failedLoginAttemptsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failedLoginAttempts)
         failedLoginAttempts = failedLoginAttemptsDecoded
-        let successfulLoginAttemptsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .successfulLoginAttempts) ?? 0
+        let successfulLoginAttemptsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .successfulLoginAttempts)
         successfulLoginAttempts = successfulLoginAttemptsDecoded
     }
 }
@@ -12767,16 +13798,16 @@ extension GuardDutyClientTypes {
         /// Indicates the application name used to attempt log in.
         public var application: Swift.String?
         /// Represents the sum of failed (unsuccessful) login attempts made to establish a connection to the database instance.
-        public var failedLoginAttempts: Swift.Int
+        public var failedLoginAttempts: Swift.Int?
         /// Represents the sum of successful connections (a correct combination of login attributes) made to the database instance by the actor.
-        public var successfulLoginAttempts: Swift.Int
+        public var successfulLoginAttempts: Swift.Int?
         /// Indicates the user name which attempted to log in.
         public var user: Swift.String?
 
         public init(
             application: Swift.String? = nil,
-            failedLoginAttempts: Swift.Int = 0,
-            successfulLoginAttempts: Swift.Int = 0,
+            failedLoginAttempts: Swift.Int? = nil,
+            successfulLoginAttempts: Swift.Int? = nil,
             user: Swift.String? = nil
         )
         {
@@ -12902,6 +13933,41 @@ extension GuardDutyClientTypes {
         }
     }
 
+}
+
+extension GuardDutyClientTypes {
+    public enum ManagementType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case autoManaged
+        case disabled
+        case manual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ManagementType] {
+            return [
+                .autoManaged,
+                .disabled,
+                .manual,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .autoManaged: return "AUTO_MANAGED"
+            case .disabled: return "DISABLED"
+            case .manual: return "MANUAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ManagementType(rawValue: rawValue) ?? ManagementType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension GuardDutyClientTypes.Master: Swift.Codable {
@@ -13405,7 +14471,7 @@ extension GuardDutyClientTypes.NetworkConnectionAction: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if blocked != false {
+        if let blocked = self.blocked {
             try encodeContainer.encode(blocked, forKey: .blocked)
         }
         if let connectionDirection = self.connectionDirection {
@@ -13430,7 +14496,7 @@ extension GuardDutyClientTypes.NetworkConnectionAction: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let blockedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blocked) ?? false
+        let blockedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blocked)
         blocked = blockedDecoded
         let connectionDirectionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionDirection)
         connectionDirection = connectionDirectionDecoded
@@ -13451,7 +14517,7 @@ extension GuardDutyClientTypes {
     /// Contains information about the NETWORK_CONNECTION action described in the finding.
     public struct NetworkConnectionAction: Swift.Equatable {
         /// Indicates whether EC2 blocked the network connection to your instance.
-        public var blocked: Swift.Bool
+        public var blocked: Swift.Bool?
         /// The network connection direction.
         public var connectionDirection: Swift.String?
         /// The local IP information of the connection.
@@ -13466,7 +14532,7 @@ extension GuardDutyClientTypes {
         public var remotePortDetails: GuardDutyClientTypes.RemotePortDetails?
 
         public init(
-            blocked: Swift.Bool = false,
+            blocked: Swift.Bool? = nil,
             connectionDirection: Swift.String? = nil,
             localIpDetails: GuardDutyClientTypes.LocalIpDetails? = nil,
             localPortDetails: GuardDutyClientTypes.LocalPortDetails? = nil,
@@ -13648,6 +14714,53 @@ extension GuardDutyClientTypes {
 
 }
 
+extension GuardDutyClientTypes.Observations: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case text = "text"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let text = text {
+            var textContainer = encodeContainer.nestedUnkeyedContainer(forKey: .text)
+            for string0 in text {
+                try textContainer.encode(string0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let textContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .text)
+        var textDecoded0:[Swift.String]? = nil
+        if let textContainer = textContainer {
+            textDecoded0 = [Swift.String]()
+            for string0 in textContainer {
+                if let string0 = string0 {
+                    textDecoded0?.append(string0)
+                }
+            }
+        }
+        text = textDecoded0
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about the observed behavior.
+    public struct Observations: Swift.Equatable {
+        /// The text that was unusual.
+        public var text: [Swift.String]?
+
+        public init(
+            text: [Swift.String]? = nil
+        )
+        {
+            self.text = text
+        }
+    }
+
+}
+
 extension GuardDutyClientTypes {
     public enum OrderBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case asc
@@ -13687,6 +14800,7 @@ extension GuardDutyClientTypes {
         case eksRuntimeMonitoring
         case lambdaNetworkLogs
         case rdsLoginEvents
+        case runtimeMonitoring
         case s3DataEvents
         case sdkUnknown(Swift.String)
 
@@ -13697,6 +14811,7 @@ extension GuardDutyClientTypes {
                 .eksRuntimeMonitoring,
                 .lambdaNetworkLogs,
                 .rdsLoginEvents,
+                .runtimeMonitoring,
                 .s3DataEvents,
                 .sdkUnknown("")
             ]
@@ -13712,6 +14827,7 @@ extension GuardDutyClientTypes {
             case .eksRuntimeMonitoring: return "EKS_RUNTIME_MONITORING"
             case .lambdaNetworkLogs: return "LAMBDA_NETWORK_LOGS"
             case .rdsLoginEvents: return "RDS_LOGIN_EVENTS"
+            case .runtimeMonitoring: return "RUNTIME_MONITORING"
             case .s3DataEvents: return "S3_DATA_EVENTS"
             case let .sdkUnknown(s): return s
             }
@@ -13726,11 +14842,13 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
     public enum OrgFeatureAdditionalConfiguration: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ecsFargateAgentManagement
         case eksAddonManagement
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OrgFeatureAdditionalConfiguration] {
             return [
+                .ecsFargateAgentManagement,
                 .eksAddonManagement,
                 .sdkUnknown("")
             ]
@@ -13741,6 +14859,7 @@ extension GuardDutyClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .ecsFargateAgentManagement: return "ECS_FARGATE_AGENT_MANAGEMENT"
             case .eksAddonManagement: return "EKS_ADDON_MANAGEMENT"
             case let .sdkUnknown(s): return s
             }
@@ -13755,12 +14874,14 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
     public enum OrgFeatureStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case all
         case new
         case `none`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OrgFeatureStatus] {
             return [
+                .all,
                 .new,
                 .none,
                 .sdkUnknown("")
@@ -13772,6 +14893,7 @@ extension GuardDutyClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .all: return "ALL"
             case .new: return "NEW"
             case .none: return "NONE"
             case let .sdkUnknown(s): return s
@@ -13878,7 +15000,13 @@ extension GuardDutyClientTypes.OrganizationAdditionalConfiguration: Swift.Codabl
 extension GuardDutyClientTypes {
     /// A list of additional configurations which will be configured for the organization.
     public struct OrganizationAdditionalConfiguration: Swift.Equatable {
-        /// The status of the additional configuration that will be configured for the organization.
+        /// The status of the additional configuration that will be configured for the organization. Use one of the following values to configure the feature status for the entire organization:
+        ///
+        /// * NEW: Indicates that when a new account joins the organization, they will have the additional configuration enabled automatically.
+        ///
+        /// * ALL: Indicates that all accounts in the organization have the additional configuration enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty. It may take up to 24 hours to update the configuration for all the member accounts.
+        ///
+        /// * NONE: Indicates that the additional configuration will not be automatically enabled for any account in the organization. The administrator must manage the additional configuration for each account individually.
         public var autoEnable: GuardDutyClientTypes.OrgFeatureStatus?
         /// The name of the additional configuration that will be configured for the organization.
         public var name: GuardDutyClientTypes.OrgFeatureAdditionalConfiguration?
@@ -13923,7 +15051,13 @@ extension GuardDutyClientTypes.OrganizationAdditionalConfigurationResult: Swift.
 extension GuardDutyClientTypes {
     /// A list of additional configuration which will be configured for the organization.
     public struct OrganizationAdditionalConfigurationResult: Swift.Equatable {
-        /// Describes how The status of the additional configuration that are configured for the member accounts within the organization. If you set AutoEnable to NEW, a feature will be configured for only the new accounts when they join the organization. If you set AutoEnable to NONE, no feature will be configured for the accounts when they join the organization.
+        /// Describes the status of the additional configuration that is configured for the member accounts within the organization. One of the following values is the status for the entire organization:
+        ///
+        /// * NEW: Indicates that when a new account joins the organization, they will have the additional configuration enabled automatically.
+        ///
+        /// * ALL: Indicates that all accounts in the organization have the additional configuration enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty. It may take up to 24 hours to update the configuration for all the member accounts.
+        ///
+        /// * NONE: Indicates that the additional configuration will not be automatically enabled for any account in the organization. The administrator must manage the additional configuration for each account individually.
         public var autoEnable: GuardDutyClientTypes.OrgFeatureStatus?
         /// The name of the additional configuration that is configured for the member accounts within the organization.
         public var name: GuardDutyClientTypes.OrgFeatureAdditionalConfiguration?
@@ -14058,14 +15192,14 @@ extension GuardDutyClientTypes.OrganizationEbsVolumes: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if autoEnable != false {
+        if let autoEnable = self.autoEnable {
             try encodeContainer.encode(autoEnable, forKey: .autoEnable)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable) ?? false
+        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable)
         autoEnable = autoEnableDecoded
     }
 }
@@ -14074,10 +15208,10 @@ extension GuardDutyClientTypes {
     /// Organization-wide EBS volumes scan configuration.
     public struct OrganizationEbsVolumes: Swift.Equatable {
         /// Whether scanning EBS volumes should be auto-enabled for new members joining the organization.
-        public var autoEnable: Swift.Bool
+        public var autoEnable: Swift.Bool?
 
         public init(
-            autoEnable: Swift.Bool = false
+            autoEnable: Swift.Bool? = nil
         )
         {
             self.autoEnable = autoEnable
@@ -14093,14 +15227,14 @@ extension GuardDutyClientTypes.OrganizationEbsVolumesResult: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if autoEnable != false {
+        if let autoEnable = self.autoEnable {
             try encodeContainer.encode(autoEnable, forKey: .autoEnable)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable) ?? false
+        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable)
         autoEnable = autoEnableDecoded
     }
 }
@@ -14109,10 +15243,10 @@ extension GuardDutyClientTypes {
     /// An object that contains information on the status of whether EBS volumes scanning will be enabled as a data source for an organization.
     public struct OrganizationEbsVolumesResult: Swift.Equatable {
         /// An object that contains the status of whether scanning EBS volumes should be auto-enabled for new members joining the organization.
-        public var autoEnable: Swift.Bool
+        public var autoEnable: Swift.Bool?
 
         public init(
-            autoEnable: Swift.Bool = false
+            autoEnable: Swift.Bool? = nil
         )
         {
             self.autoEnable = autoEnable
@@ -14169,7 +15303,13 @@ extension GuardDutyClientTypes {
     public struct OrganizationFeatureConfiguration: Swift.Equatable {
         /// The additional information that will be configured for the organization.
         public var additionalConfiguration: [GuardDutyClientTypes.OrganizationAdditionalConfiguration]?
-        /// The status of the feature that will be configured for the organization.
+        /// Describes the status of the feature that is configured for the member accounts within the organization. One of the following values is the status for the entire organization:
+        ///
+        /// * NEW: Indicates that when a new account joins the organization, they will have the feature enabled automatically.
+        ///
+        /// * ALL: Indicates that all accounts in the organization have the feature enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty. It may take up to 24 hours to update the configuration for all the member accounts.
+        ///
+        /// * NONE: Indicates that the feature will not be automatically enabled for any account in the organization. The administrator must manage the feature for each account individually.
         public var autoEnable: GuardDutyClientTypes.OrgFeatureStatus?
         /// The name of the feature that will be configured for the organization.
         public var name: GuardDutyClientTypes.OrgFeature?
@@ -14236,7 +15376,13 @@ extension GuardDutyClientTypes {
     public struct OrganizationFeatureConfigurationResult: Swift.Equatable {
         /// The additional configuration that is configured for the member accounts within the organization.
         public var additionalConfiguration: [GuardDutyClientTypes.OrganizationAdditionalConfigurationResult]?
-        /// Describes how The status of the feature that are configured for the member accounts within the organization. If you set AutoEnable to NEW, a feature will be configured for only the new accounts when they join the organization. If you set AutoEnable to NONE, no feature will be configured for the accounts when they join the organization.
+        /// Describes the status of the feature that is configured for the member accounts within the organization.
+        ///
+        /// * NEW: Indicates that when a new account joins the organization, they will have the feature enabled automatically.
+        ///
+        /// * ALL: Indicates that all accounts in the organization have the feature enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty.
+        ///
+        /// * NONE: Indicates that the feature will not be automatically enabled for any account in the organization. In this case, each account will be managed individually by the administrator.
         public var autoEnable: GuardDutyClientTypes.OrgFeatureStatus?
         /// The name of the feature that is configured for the member accounts within the organization.
         public var name: GuardDutyClientTypes.OrgFeature?
@@ -14262,14 +15408,14 @@ extension GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfiguration: Swi
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if autoEnable != false {
+        if let autoEnable = self.autoEnable {
             try encodeContainer.encode(autoEnable, forKey: .autoEnable)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable) ?? false
+        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable)
         autoEnable = autoEnableDecoded
     }
 }
@@ -14279,10 +15425,10 @@ extension GuardDutyClientTypes {
     public struct OrganizationKubernetesAuditLogsConfiguration: Swift.Equatable {
         /// A value that contains information on whether Kubernetes audit logs should be enabled automatically as a data source for the organization.
         /// This member is required.
-        public var autoEnable: Swift.Bool
+        public var autoEnable: Swift.Bool?
 
         public init(
-            autoEnable: Swift.Bool = false
+            autoEnable: Swift.Bool? = nil
         )
         {
             self.autoEnable = autoEnable
@@ -14298,14 +15444,14 @@ extension GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfigurationResul
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if autoEnable != false {
+        if let autoEnable = self.autoEnable {
             try encodeContainer.encode(autoEnable, forKey: .autoEnable)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable) ?? false
+        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable)
         autoEnable = autoEnableDecoded
     }
 }
@@ -14315,10 +15461,10 @@ extension GuardDutyClientTypes {
     public struct OrganizationKubernetesAuditLogsConfigurationResult: Swift.Equatable {
         /// Whether Kubernetes audit logs data source should be auto-enabled for new members joining the organization.
         /// This member is required.
-        public var autoEnable: Swift.Bool
+        public var autoEnable: Swift.Bool?
 
         public init(
-            autoEnable: Swift.Bool = false
+            autoEnable: Swift.Bool? = nil
         )
         {
             self.autoEnable = autoEnable
@@ -14476,14 +15622,14 @@ extension GuardDutyClientTypes.OrganizationS3LogsConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if autoEnable != false {
+        if let autoEnable = self.autoEnable {
             try encodeContainer.encode(autoEnable, forKey: .autoEnable)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable) ?? false
+        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable)
         autoEnable = autoEnableDecoded
     }
 }
@@ -14493,10 +15639,10 @@ extension GuardDutyClientTypes {
     public struct OrganizationS3LogsConfiguration: Swift.Equatable {
         /// A value that contains information on whether S3 data event logs will be enabled automatically as a data source for the organization.
         /// This member is required.
-        public var autoEnable: Swift.Bool
+        public var autoEnable: Swift.Bool?
 
         public init(
-            autoEnable: Swift.Bool = false
+            autoEnable: Swift.Bool? = nil
         )
         {
             self.autoEnable = autoEnable
@@ -14512,14 +15658,14 @@ extension GuardDutyClientTypes.OrganizationS3LogsConfigurationResult: Swift.Coda
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if autoEnable != false {
+        if let autoEnable = self.autoEnable {
             try encodeContainer.encode(autoEnable, forKey: .autoEnable)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable) ?? false
+        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable)
         autoEnable = autoEnableDecoded
     }
 }
@@ -14529,10 +15675,10 @@ extension GuardDutyClientTypes {
     public struct OrganizationS3LogsConfigurationResult: Swift.Equatable {
         /// A value that describes whether S3 data event logs are automatically enabled for new members of the organization.
         /// This member is required.
-        public var autoEnable: Swift.Bool
+        public var autoEnable: Swift.Bool?
 
         public init(
-            autoEnable: Swift.Bool = false
+            autoEnable: Swift.Bool? = nil
         )
         {
             self.autoEnable = autoEnable
@@ -14699,7 +15845,7 @@ extension GuardDutyClientTypes.PortProbeAction: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if blocked != false {
+        if let blocked = self.blocked {
             try encodeContainer.encode(blocked, forKey: .blocked)
         }
         if let portProbeDetails = portProbeDetails {
@@ -14712,7 +15858,7 @@ extension GuardDutyClientTypes.PortProbeAction: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let blockedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blocked) ?? false
+        let blockedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blocked)
         blocked = blockedDecoded
         let portProbeDetailsContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.PortProbeDetail?].self, forKey: .portProbeDetails)
         var portProbeDetailsDecoded0:[GuardDutyClientTypes.PortProbeDetail]? = nil
@@ -14732,12 +15878,12 @@ extension GuardDutyClientTypes {
     /// Contains information about the PORT_PROBE action described in the finding.
     public struct PortProbeAction: Swift.Equatable {
         /// Indicates whether EC2 blocked the port probe to the instance, such as with an ACL.
-        public var blocked: Swift.Bool
+        public var blocked: Swift.Bool?
         /// A list of objects related to port probe details.
         public var portProbeDetails: [GuardDutyClientTypes.PortProbeDetail]?
 
         public init(
-            blocked: Swift.Bool = false,
+            blocked: Swift.Bool? = nil,
             portProbeDetails: [GuardDutyClientTypes.PortProbeDetail]? = nil
         )
         {
@@ -14867,7 +16013,7 @@ extension GuardDutyClientTypes.ProcessDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if euid != 0 {
+        if let euid = self.euid {
             try encodeContainer.encode(euid, forKey: .euid)
         }
         if let executablePath = self.executablePath {
@@ -14885,13 +16031,13 @@ extension GuardDutyClientTypes.ProcessDetails: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
-        if namespacePid != 0 {
+        if let namespacePid = self.namespacePid {
             try encodeContainer.encode(namespacePid, forKey: .namespacePid)
         }
         if let parentUuid = self.parentUuid {
             try encodeContainer.encode(parentUuid, forKey: .parentUuid)
         }
-        if pid != 0 {
+        if let pid = self.pid {
             try encodeContainer.encode(pid, forKey: .pid)
         }
         if let pwd = self.pwd {
@@ -14903,7 +16049,7 @@ extension GuardDutyClientTypes.ProcessDetails: Swift.Codable {
         if let user = self.user {
             try encodeContainer.encode(user, forKey: .user)
         }
-        if userId != 0 {
+        if let userId = self.userId {
             try encodeContainer.encode(userId, forKey: .userId)
         }
         if let uuid = self.uuid {
@@ -14919,11 +16065,11 @@ extension GuardDutyClientTypes.ProcessDetails: Swift.Codable {
         executablePath = executablePathDecoded
         let executableSha256Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executableSha256)
         executableSha256 = executableSha256Decoded
-        let namespacePidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .namespacePid) ?? 0
+        let namespacePidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .namespacePid)
         namespacePid = namespacePidDecoded
         let pwdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pwd)
         pwd = pwdDecoded
-        let pidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pid) ?? 0
+        let pidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pid)
         pid = pidDecoded
         let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
         startTime = startTimeDecoded
@@ -14933,9 +16079,9 @@ extension GuardDutyClientTypes.ProcessDetails: Swift.Codable {
         parentUuid = parentUuidDecoded
         let userDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .user)
         user = userDecoded
-        let userIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .userId) ?? 0
+        let userIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .userId)
         userId = userIdDecoded
-        let euidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .euid) ?? 0
+        let euidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .euid)
         euid = euidDecoded
         let lineageContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.LineageObject?].self, forKey: .lineage)
         var lineageDecoded0:[GuardDutyClientTypes.LineageObject]? = nil
@@ -14955,7 +16101,7 @@ extension GuardDutyClientTypes {
     /// Information about the observed process.
     public struct ProcessDetails: Swift.Equatable {
         /// The effective user ID of the user that executed the process.
-        public var euid: Swift.Int
+        public var euid: Swift.Int?
         /// The absolute path of the process executable file.
         public var executablePath: Swift.String?
         /// The SHA256 hash of the process executable.
@@ -14965,11 +16111,11 @@ extension GuardDutyClientTypes {
         /// The name of the process.
         public var name: Swift.String?
         /// The ID of the child process.
-        public var namespacePid: Swift.Int
+        public var namespacePid: Swift.Int?
         /// The unique ID of the parent process. This ID is assigned to the parent process by GuardDuty.
         public var parentUuid: Swift.String?
         /// The ID of the process.
-        public var pid: Swift.Int
+        public var pid: Swift.Int?
         /// The present working directory of the process.
         public var pwd: Swift.String?
         /// The time when the process started. This is in UTC format.
@@ -14977,23 +16123,23 @@ extension GuardDutyClientTypes {
         /// The user that executed the process.
         public var user: Swift.String?
         /// The unique ID of the user that executed the process.
-        public var userId: Swift.Int
+        public var userId: Swift.Int?
         /// The unique ID assigned to the process by GuardDuty.
         public var uuid: Swift.String?
 
         public init(
-            euid: Swift.Int = 0,
+            euid: Swift.Int? = nil,
             executablePath: Swift.String? = nil,
             executableSha256: Swift.String? = nil,
             lineage: [GuardDutyClientTypes.LineageObject]? = nil,
             name: Swift.String? = nil,
-            namespacePid: Swift.Int = 0,
+            namespacePid: Swift.Int? = nil,
             parentUuid: Swift.String? = nil,
-            pid: Swift.Int = 0,
+            pid: Swift.Int? = nil,
             pwd: Swift.String? = nil,
             startTime: ClientRuntime.Date? = nil,
             user: Swift.String? = nil,
-            userId: Swift.Int = 0,
+            userId: Swift.Int? = nil,
             uuid: Swift.String? = nil
         )
         {
@@ -15058,6 +16204,73 @@ extension GuardDutyClientTypes {
         }
     }
 
+}
+
+extension GuardDutyClientTypes {
+    public enum ProfileSubtype: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case frequent
+        case infrequent
+        case rare
+        case unseen
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProfileSubtype] {
+            return [
+                .frequent,
+                .infrequent,
+                .rare,
+                .unseen,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .frequent: return "FREQUENT"
+            case .infrequent: return "INFREQUENT"
+            case .rare: return "RARE"
+            case .unseen: return "UNSEEN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ProfileSubtype(rawValue: rawValue) ?? ProfileSubtype.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+    public enum ProfileType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case frequency
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProfileType] {
+            return [
+                .frequency,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .frequency: return "FREQUENCY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ProfileType(rawValue: rawValue) ?? ProfileType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension GuardDutyClientTypes.PublicAccess: Swift.Codable {
@@ -15383,7 +16596,7 @@ extension GuardDutyClientTypes.RemoteAccountDetails: Swift.Codable {
         if let accountId = self.accountId {
             try encodeContainer.encode(accountId, forKey: .accountId)
         }
-        if affiliated != false {
+        if let affiliated = self.affiliated {
             try encodeContainer.encode(affiliated, forKey: .affiliated)
         }
     }
@@ -15392,7 +16605,7 @@ extension GuardDutyClientTypes.RemoteAccountDetails: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
-        let affiliatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .affiliated) ?? false
+        let affiliatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .affiliated)
         affiliated = affiliatedDecoded
     }
 }
@@ -15403,11 +16616,11 @@ extension GuardDutyClientTypes {
         /// The Amazon Web Services account ID of the remote API caller.
         public var accountId: Swift.String?
         /// Details on whether the Amazon Web Services account of the remote API caller is related to your GuardDuty environment. If this value is True the API caller is affiliated to your account in some way. If it is False the API caller is from outside your environment.
-        public var affiliated: Swift.Bool
+        public var affiliated: Swift.Bool?
 
         public init(
             accountId: Swift.String? = nil,
-            affiliated: Swift.Bool = false
+            affiliated: Swift.Bool? = nil
         )
         {
             self.accountId = accountId
@@ -15500,7 +16713,7 @@ extension GuardDutyClientTypes.RemotePortDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
         if let portName = self.portName {
@@ -15510,7 +16723,7 @@ extension GuardDutyClientTypes.RemotePortDetails: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let portNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .portName)
         portName = portNameDecoded
@@ -15521,12 +16734,12 @@ extension GuardDutyClientTypes {
     /// Contains information about the remote port.
     public struct RemotePortDetails: Swift.Equatable {
         /// The port number of the remote connection.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// The port name of the remote connection.
         public var portName: Swift.String?
 
         public init(
-            port: Swift.Int = 0,
+            port: Swift.Int? = nil,
             portName: Swift.String? = nil
         )
         {
@@ -15731,11 +16944,15 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
     public enum ResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ec2
+        case ecs
         case eks
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceType] {
             return [
+                .ec2,
+                .ecs,
                 .eks,
                 .sdkUnknown("")
             ]
@@ -15746,6 +16963,8 @@ extension GuardDutyClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .ec2: return "EC2"
+            case .ecs: return "ECS"
             case .eks: return "EKS"
             case let .sdkUnknown(s): return s
             }
@@ -15796,7 +17015,7 @@ extension GuardDutyClientTypes.RuntimeContext: Swift.Codable {
                 try flagsContainer.encode(string0)
             }
         }
-        if ianaProtocolNumber != 0 {
+        if let ianaProtocolNumber = self.ianaProtocolNumber {
             try encodeContainer.encode(ianaProtocolNumber, forKey: .ianaProtocolNumber)
         }
         if let ldPreloadValue = self.ldPreloadValue {
@@ -15899,7 +17118,7 @@ extension GuardDutyClientTypes.RuntimeContext: Swift.Codable {
         targetProcess = targetProcessDecoded
         let addressFamilyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .addressFamily)
         addressFamily = addressFamilyDecoded
-        let ianaProtocolNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ianaProtocolNumber) ?? 0
+        let ianaProtocolNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ianaProtocolNumber)
         ianaProtocolNumber = ianaProtocolNumberDecoded
         let memoryRegionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .memoryRegions)
         var memoryRegionsDecoded0:[Swift.String]? = nil
@@ -15925,7 +17144,7 @@ extension GuardDutyClientTypes {
         /// Represents options that control the behavior of a runtime operation or action. For example, a filesystem mount operation may contain a read-only flag.
         public var flags: [Swift.String]?
         /// Specifies a particular protocol within the address family. Usually there is a single protocol in address families. For example, the address family AF_INET only has the IP protocol.
-        public var ianaProtocolNumber: Swift.Int
+        public var ianaProtocolNumber: Swift.Int?
         /// The value of the LD_PRELOAD environment variable.
         public var ldPreloadValue: Swift.String?
         /// The path to the new library that was loaded.
@@ -15963,7 +17182,7 @@ extension GuardDutyClientTypes {
             addressFamily: Swift.String? = nil,
             fileSystemType: Swift.String? = nil,
             flags: [Swift.String]? = nil,
-            ianaProtocolNumber: Swift.Int = 0,
+            ianaProtocolNumber: Swift.Int? = nil,
             ldPreloadValue: Swift.String? = nil,
             libraryPath: Swift.String? = nil,
             memoryRegions: [Swift.String]? = nil,
@@ -16176,14 +17395,14 @@ extension GuardDutyClientTypes.S3LogsConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enable != false {
+        if let enable = self.enable {
             try encodeContainer.encode(enable, forKey: .enable)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enable) ?? false
+        let enableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enable)
         enable = enableDecoded
     }
 }
@@ -16193,10 +17412,10 @@ extension GuardDutyClientTypes {
     public struct S3LogsConfiguration: Swift.Equatable {
         /// The status of S3 data event logs as a data source.
         /// This member is required.
-        public var enable: Swift.Bool
+        public var enable: Swift.Bool?
 
         public init(
-            enable: Swift.Bool = false
+            enable: Swift.Bool? = nil
         )
         {
             self.enable = enable
@@ -16280,7 +17499,7 @@ extension GuardDutyClientTypes.Scan: Swift.Codable {
         if let failureReason = self.failureReason {
             try encodeContainer.encode(failureReason, forKey: .failureReason)
         }
-        if fileCount != 0 {
+        if let fileCount = self.fileCount {
             try encodeContainer.encode(fileCount, forKey: .fileCount)
         }
         if let resourceDetails = self.resourceDetails {
@@ -16304,7 +17523,7 @@ extension GuardDutyClientTypes.Scan: Swift.Codable {
         if let scanType = self.scanType {
             try encodeContainer.encode(scanType.rawValue, forKey: .scanType)
         }
-        if totalBytes != 0 {
+        if let totalBytes = self.totalBytes {
             try encodeContainer.encode(totalBytes, forKey: .totalBytes)
         }
         if let triggerDetails = self.triggerDetails {
@@ -16336,9 +17555,9 @@ extension GuardDutyClientTypes.Scan: Swift.Codable {
         scanResultDetails = scanResultDetailsDecoded
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
-        let totalBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalBytes) ?? 0
+        let totalBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalBytes)
         totalBytes = totalBytesDecoded
-        let fileCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fileCount) ?? 0
+        let fileCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fileCount)
         fileCount = fileCountDecoded
         let attachedVolumesContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.VolumeDetail?].self, forKey: .attachedVolumes)
         var attachedVolumesDecoded0:[GuardDutyClientTypes.VolumeDetail]? = nil
@@ -16370,7 +17589,7 @@ extension GuardDutyClientTypes {
         /// Represents the reason for FAILED scan status.
         public var failureReason: Swift.String?
         /// Represents the number of files that were scanned.
-        public var fileCount: Swift.Int
+        public var fileCount: Swift.Int?
         /// Represents the resources that were scanned in the scan entry.
         public var resourceDetails: GuardDutyClientTypes.ResourceDetails?
         /// The timestamp of when the scan was finished.
@@ -16386,7 +17605,7 @@ extension GuardDutyClientTypes {
         /// Specifies the scan type that invoked the malware scan.
         public var scanType: GuardDutyClientTypes.ScanType?
         /// Represents total bytes that were scanned.
-        public var totalBytes: Swift.Int
+        public var totalBytes: Swift.Int?
         /// Specifies the reason why the scan was initiated.
         public var triggerDetails: GuardDutyClientTypes.TriggerDetails?
 
@@ -16396,7 +17615,7 @@ extension GuardDutyClientTypes {
             attachedVolumes: [GuardDutyClientTypes.VolumeDetail]? = nil,
             detectorId: Swift.String? = nil,
             failureReason: Swift.String? = nil,
-            fileCount: Swift.Int = 0,
+            fileCount: Swift.Int? = nil,
             resourceDetails: GuardDutyClientTypes.ResourceDetails? = nil,
             scanEndTime: ClientRuntime.Date? = nil,
             scanId: Swift.String? = nil,
@@ -16404,7 +17623,7 @@ extension GuardDutyClientTypes {
             scanStartTime: ClientRuntime.Date? = nil,
             scanStatus: GuardDutyClientTypes.ScanStatus? = nil,
             scanType: GuardDutyClientTypes.ScanType? = nil,
-            totalBytes: Swift.Int = 0,
+            totalBytes: Swift.Int? = nil,
             triggerDetails: GuardDutyClientTypes.TriggerDetails? = nil
         )
         {
@@ -16502,12 +17721,12 @@ extension GuardDutyClientTypes.ScanConditionPair: Swift.Codable {
 }
 
 extension GuardDutyClientTypes {
-    /// Represents key, value pair to be matched against given resource property.
+    /// Represents the key:value pair to be matched against given resource property.
     public struct ScanConditionPair: Swift.Equatable {
-        /// Represents key in the map condition.
+        /// Represents the key in the map condition.
         /// This member is required.
         public var key: Swift.String?
-        /// Represents optional value in the map condition. If not specified, only key will be matched.
+        /// Represents optional value in the map condition. If not specified, only the key will be matched.
         public var value: Swift.String?
 
         public init(
@@ -16624,14 +17843,14 @@ extension GuardDutyClientTypes.ScanEc2InstanceWithFindings: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if ebsVolumes != false {
+        if let ebsVolumes = self.ebsVolumes {
             try encodeContainer.encode(ebsVolumes, forKey: .ebsVolumes)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let ebsVolumesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsVolumes) ?? false
+        let ebsVolumesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsVolumes)
         ebsVolumes = ebsVolumesDecoded
     }
 }
@@ -16640,10 +17859,10 @@ extension GuardDutyClientTypes {
     /// Describes whether Malware Protection for EC2 instances with findings will be enabled as a data source.
     public struct ScanEc2InstanceWithFindings: Swift.Equatable {
         /// Describes the configuration for scanning EBS volumes as data source.
-        public var ebsVolumes: Swift.Bool
+        public var ebsVolumes: Swift.Bool?
 
         public init(
-            ebsVolumes: Swift.Bool = false
+            ebsVolumes: Swift.Bool? = nil
         )
         {
             self.ebsVolumes = ebsVolumes
@@ -16942,7 +18161,7 @@ extension GuardDutyClientTypes.ScanThreatName: Swift.Codable {
                 try filePathsContainer.encode(scanfilepath0)
             }
         }
-        if itemCount != 0 {
+        if let itemCount = self.itemCount {
             try encodeContainer.encode(itemCount, forKey: .itemCount)
         }
         if let name = self.name {
@@ -16959,7 +18178,7 @@ extension GuardDutyClientTypes.ScanThreatName: Swift.Codable {
         name = nameDecoded
         let severityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .severity)
         severity = severityDecoded
-        let itemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .itemCount) ?? 0
+        let itemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .itemCount)
         itemCount = itemCountDecoded
         let filePathsContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.ScanFilePath?].self, forKey: .filePaths)
         var filePathsDecoded0:[GuardDutyClientTypes.ScanFilePath]? = nil
@@ -16981,7 +18200,7 @@ extension GuardDutyClientTypes {
         /// List of infected files in EBS volume with details.
         public var filePaths: [GuardDutyClientTypes.ScanFilePath]?
         /// Total number of files infected with given threat.
-        public var itemCount: Swift.Int
+        public var itemCount: Swift.Int?
         /// The name of the identified threat.
         public var name: Swift.String?
         /// Severity of threat identified as part of the malware scan.
@@ -16989,7 +18208,7 @@ extension GuardDutyClientTypes {
 
         public init(
             filePaths: [GuardDutyClientTypes.ScanFilePath]? = nil,
-            itemCount: Swift.Int = 0,
+            itemCount: Swift.Int? = nil,
             name: Swift.String? = nil,
             severity: Swift.String? = nil
         )
@@ -17044,24 +18263,24 @@ extension GuardDutyClientTypes.ScannedItemCount: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if files != 0 {
+        if let files = self.files {
             try encodeContainer.encode(files, forKey: .files)
         }
-        if totalGb != 0 {
+        if let totalGb = self.totalGb {
             try encodeContainer.encode(totalGb, forKey: .totalGb)
         }
-        if volumes != 0 {
+        if let volumes = self.volumes {
             try encodeContainer.encode(volumes, forKey: .volumes)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let totalGbDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalGb) ?? 0
+        let totalGbDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalGb)
         totalGb = totalGbDecoded
-        let filesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .files) ?? 0
+        let filesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .files)
         files = filesDecoded
-        let volumesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .volumes) ?? 0
+        let volumesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .volumes)
         volumes = volumesDecoded
     }
 }
@@ -17070,16 +18289,16 @@ extension GuardDutyClientTypes {
     /// Total number of scanned files.
     public struct ScannedItemCount: Swift.Equatable {
         /// Number of files scanned.
-        public var files: Swift.Int
+        public var files: Swift.Int?
         /// Total GB of files scanned for malware.
-        public var totalGb: Swift.Int
+        public var totalGb: Swift.Int?
         /// Total number of scanned volumes.
-        public var volumes: Swift.Int
+        public var volumes: Swift.Int?
 
         public init(
-            files: Swift.Int = 0,
-            totalGb: Swift.Int = 0,
-            volumes: Swift.Int = 0
+            files: Swift.Int? = nil,
+            totalGb: Swift.Int? = nil,
+            volumes: Swift.Int? = nil
         )
         {
             self.files = files
@@ -17092,33 +18311,43 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.SecurityContext: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowPrivilegeEscalation = "allowPrivilegeEscalation"
         case privileged = "privileged"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if privileged != false {
+        if let allowPrivilegeEscalation = self.allowPrivilegeEscalation {
+            try encodeContainer.encode(allowPrivilegeEscalation, forKey: .allowPrivilegeEscalation)
+        }
+        if let privileged = self.privileged {
             try encodeContainer.encode(privileged, forKey: .privileged)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let privilegedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .privileged) ?? false
+        let privilegedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .privileged)
         privileged = privilegedDecoded
+        let allowPrivilegeEscalationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowPrivilegeEscalation)
+        allowPrivilegeEscalation = allowPrivilegeEscalationDecoded
     }
 }
 
 extension GuardDutyClientTypes {
     /// Container security context.
     public struct SecurityContext: Swift.Equatable {
+        /// Whether or not a container or a Kubernetes pod is allowed to gain more privileges than its parent process.
+        public var allowPrivilegeEscalation: Swift.Bool?
         /// Whether the container is privileged.
-        public var privileged: Swift.Bool
+        public var privileged: Swift.Bool?
 
         public init(
-            privileged: Swift.Bool = false
+            allowPrivilegeEscalation: Swift.Bool? = nil,
+            privileged: Swift.Bool? = nil
         )
         {
+            self.allowPrivilegeEscalation = allowPrivilegeEscalation
             self.privileged = privileged
         }
     }
@@ -17176,6 +18405,7 @@ extension GuardDutyClientTypes.Service: Swift.Codable {
         case additionalInfo = "additionalInfo"
         case archived = "archived"
         case count = "count"
+        case detection = "detection"
         case detectorId = "detectorId"
         case ebsVolumeScanDetails = "ebsVolumeScanDetails"
         case eventFirstSeen = "eventFirstSeen"
@@ -17196,11 +18426,14 @@ extension GuardDutyClientTypes.Service: Swift.Codable {
         if let additionalInfo = self.additionalInfo {
             try encodeContainer.encode(additionalInfo, forKey: .additionalInfo)
         }
-        if archived != false {
+        if let archived = self.archived {
             try encodeContainer.encode(archived, forKey: .archived)
         }
-        if count != 0 {
+        if let count = self.count {
             try encodeContainer.encode(count, forKey: .count)
+        }
+        if let detection = self.detection {
+            try encodeContainer.encode(detection, forKey: .detection)
         }
         if let detectorId = self.detectorId {
             try encodeContainer.encode(detectorId, forKey: .detectorId)
@@ -17240,9 +18473,9 @@ extension GuardDutyClientTypes.Service: Swift.Codable {
         action = actionDecoded
         let evidenceDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.Evidence.self, forKey: .evidence)
         evidence = evidenceDecoded
-        let archivedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .archived) ?? false
+        let archivedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .archived)
         archived = archivedDecoded
-        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count)
         count = countDecoded
         let detectorIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .detectorId)
         detectorId = detectorIdDecoded
@@ -17264,6 +18497,8 @@ extension GuardDutyClientTypes.Service: Swift.Codable {
         ebsVolumeScanDetails = ebsVolumeScanDetailsDecoded
         let runtimeDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.RuntimeDetails.self, forKey: .runtimeDetails)
         runtimeDetails = runtimeDetailsDecoded
+        let detectionDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.Detection.self, forKey: .detection)
+        detection = detectionDecoded
     }
 }
 
@@ -17275,9 +18510,11 @@ extension GuardDutyClientTypes {
         /// Contains additional information about the generated finding.
         public var additionalInfo: GuardDutyClientTypes.ServiceAdditionalInfo?
         /// Indicates whether this finding is archived.
-        public var archived: Swift.Bool
+        public var archived: Swift.Bool?
         /// The total count of the occurrences of this finding type.
-        public var count: Swift.Int
+        public var count: Swift.Int?
+        /// Contains information about the detected unusual behavior.
+        public var detection: GuardDutyClientTypes.Detection?
         /// The detector ID for the GuardDuty service.
         public var detectorId: Swift.String?
         /// Returns details from the malware scan that created a finding.
@@ -17302,8 +18539,9 @@ extension GuardDutyClientTypes {
         public init(
             action: GuardDutyClientTypes.Action? = nil,
             additionalInfo: GuardDutyClientTypes.ServiceAdditionalInfo? = nil,
-            archived: Swift.Bool = false,
-            count: Swift.Int = 0,
+            archived: Swift.Bool? = nil,
+            count: Swift.Int? = nil,
+            detection: GuardDutyClientTypes.Detection? = nil,
             detectorId: Swift.String? = nil,
             ebsVolumeScanDetails: GuardDutyClientTypes.EbsVolumeScanDetails? = nil,
             eventFirstSeen: Swift.String? = nil,
@@ -17320,6 +18558,7 @@ extension GuardDutyClientTypes {
             self.additionalInfo = additionalInfo
             self.archived = archived
             self.count = count
+            self.detection = detection
             self.detectorId = detectorId
             self.ebsVolumeScanDetails = ebsVolumeScanDetails
             self.eventFirstSeen = eventFirstSeen
@@ -17473,24 +18712,11 @@ extension StartMalwareScanInputBody: Swift.Decodable {
     }
 }
 
-public enum StartMalwareScanOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartMalwareScanOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartMalwareScanOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartMalwareScanOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartMalwareScanOutputBody = try responseDecoder.decode(responseBody: data)
             self.scanId = output.scanId
         } else {
             self.scanId = nil
@@ -17498,7 +18724,7 @@ extension StartMalwareScanOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartMalwareScanOutputResponse: Swift.Equatable {
+public struct StartMalwareScanOutput: Swift.Equatable {
     /// A unique identifier that gets generated when you invoke the API without any error. Each malware scan has a corresponding scan ID. Using this scan ID, you can monitor the status of your malware scan.
     public var scanId: Swift.String?
 
@@ -17510,11 +18736,11 @@ public struct StartMalwareScanOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartMalwareScanOutputResponseBody: Swift.Equatable {
+struct StartMalwareScanOutputBody: Swift.Equatable {
     let scanId: Swift.String?
 }
 
-extension StartMalwareScanOutputResponseBody: Swift.Decodable {
+extension StartMalwareScanOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case scanId = "scanId"
     }
@@ -17523,6 +18749,19 @@ extension StartMalwareScanOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scanIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanId)
         scanId = scanIdDecoded
+    }
+}
+
+enum StartMalwareScanOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -17594,23 +18833,11 @@ extension StartMonitoringMembersInputBody: Swift.Decodable {
     }
 }
 
-public enum StartMonitoringMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartMonitoringMembersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartMonitoringMembersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartMonitoringMembersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartMonitoringMembersOutputBody = try responseDecoder.decode(responseBody: data)
             self.unprocessedAccounts = output.unprocessedAccounts
         } else {
             self.unprocessedAccounts = nil
@@ -17618,7 +18845,7 @@ extension StartMonitoringMembersOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct StartMonitoringMembersOutputResponse: Swift.Equatable {
+public struct StartMonitoringMembersOutput: Swift.Equatable {
     /// A list of objects that contain the unprocessed account and a result string that explains why it was unprocessed.
     /// This member is required.
     public var unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
@@ -17631,11 +18858,11 @@ public struct StartMonitoringMembersOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartMonitoringMembersOutputResponseBody: Swift.Equatable {
+struct StartMonitoringMembersOutputBody: Swift.Equatable {
     let unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
 }
 
-extension StartMonitoringMembersOutputResponseBody: Swift.Decodable {
+extension StartMonitoringMembersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case unprocessedAccounts = "unprocessedAccounts"
     }
@@ -17653,6 +18880,18 @@ extension StartMonitoringMembersOutputResponseBody: Swift.Decodable {
             }
         }
         unprocessedAccounts = unprocessedAccountsDecoded0
+    }
+}
+
+enum StartMonitoringMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -17724,23 +18963,11 @@ extension StopMonitoringMembersInputBody: Swift.Decodable {
     }
 }
 
-public enum StopMonitoringMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StopMonitoringMembersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StopMonitoringMembersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StopMonitoringMembersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StopMonitoringMembersOutputBody = try responseDecoder.decode(responseBody: data)
             self.unprocessedAccounts = output.unprocessedAccounts
         } else {
             self.unprocessedAccounts = nil
@@ -17748,7 +18975,7 @@ extension StopMonitoringMembersOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct StopMonitoringMembersOutputResponse: Swift.Equatable {
+public struct StopMonitoringMembersOutput: Swift.Equatable {
     /// A list of objects that contain an accountId for each account that could not be processed, and a result string that indicates why the account was not processed.
     /// This member is required.
     public var unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
@@ -17761,11 +18988,11 @@ public struct StopMonitoringMembersOutputResponse: Swift.Equatable {
     }
 }
 
-struct StopMonitoringMembersOutputResponseBody: Swift.Equatable {
+struct StopMonitoringMembersOutputBody: Swift.Equatable {
     let unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
 }
 
-extension StopMonitoringMembersOutputResponseBody: Swift.Decodable {
+extension StopMonitoringMembersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case unprocessedAccounts = "unprocessedAccounts"
     }
@@ -17783,6 +19010,18 @@ extension StopMonitoringMembersOutputResponseBody: Swift.Decodable {
             }
         }
         unprocessedAccounts = unprocessedAccountsDecoded0
+    }
+}
+
+enum StopMonitoringMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -17899,8 +19138,18 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -17910,16 +19159,6 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension GuardDutyClientTypes.ThreatDetectedByName: Swift.Codable {
@@ -17932,10 +19171,10 @@ extension GuardDutyClientTypes.ThreatDetectedByName: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if itemCount != 0 {
+        if let itemCount = self.itemCount {
             try encodeContainer.encode(itemCount, forKey: .itemCount)
         }
-        if shortened != false {
+        if let shortened = self.shortened {
             try encodeContainer.encode(shortened, forKey: .shortened)
         }
         if let threatNames = threatNames {
@@ -17944,18 +19183,18 @@ extension GuardDutyClientTypes.ThreatDetectedByName: Swift.Codable {
                 try threatNamesContainer.encode(scanthreatname0)
             }
         }
-        if uniqueThreatNameCount != 0 {
+        if let uniqueThreatNameCount = self.uniqueThreatNameCount {
             try encodeContainer.encode(uniqueThreatNameCount, forKey: .uniqueThreatNameCount)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let itemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .itemCount) ?? 0
+        let itemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .itemCount)
         itemCount = itemCountDecoded
-        let uniqueThreatNameCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .uniqueThreatNameCount) ?? 0
+        let uniqueThreatNameCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .uniqueThreatNameCount)
         uniqueThreatNameCount = uniqueThreatNameCountDecoded
-        let shortenedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .shortened) ?? false
+        let shortenedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .shortened)
         shortened = shortenedDecoded
         let threatNamesContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.ScanThreatName?].self, forKey: .threatNames)
         var threatNamesDecoded0:[GuardDutyClientTypes.ScanThreatName]? = nil
@@ -17975,19 +19214,19 @@ extension GuardDutyClientTypes {
     /// Contains details about identified threats organized by threat name.
     public struct ThreatDetectedByName: Swift.Equatable {
         /// Total number of infected files identified.
-        public var itemCount: Swift.Int
+        public var itemCount: Swift.Int?
         /// Flag to determine if the finding contains every single infected file-path and/or every threat.
-        public var shortened: Swift.Bool
+        public var shortened: Swift.Bool?
         /// List of identified threats with details, organized by threat name.
         public var threatNames: [GuardDutyClientTypes.ScanThreatName]?
         /// Total number of unique threats by name identified, as part of the malware scan.
-        public var uniqueThreatNameCount: Swift.Int
+        public var uniqueThreatNameCount: Swift.Int?
 
         public init(
-            itemCount: Swift.Int = 0,
-            shortened: Swift.Bool = false,
+            itemCount: Swift.Int? = nil,
+            shortened: Swift.Bool? = nil,
             threatNames: [GuardDutyClientTypes.ScanThreatName]? = nil,
-            uniqueThreatNameCount: Swift.Int = 0
+            uniqueThreatNameCount: Swift.Int? = nil
         )
         {
             self.itemCount = itemCount
@@ -18154,14 +19393,14 @@ extension GuardDutyClientTypes.ThreatsDetectedItemCount: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if files != 0 {
+        if let files = self.files {
             try encodeContainer.encode(files, forKey: .files)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let filesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .files) ?? 0
+        let filesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .files)
         files = filesDecoded
     }
 }
@@ -18170,10 +19409,10 @@ extension GuardDutyClientTypes {
     /// Contains total number of infected files.
     public struct ThreatsDetectedItemCount: Swift.Equatable {
         /// Total number of infected files.
-        public var files: Swift.Int
+        public var files: Swift.Int?
 
         public init(
-            files: Swift.Int = 0
+            files: Swift.Int? = nil
         )
         {
             self.files = files
@@ -18340,8 +19579,18 @@ extension UnarchiveFindingsInputBody: Swift.Decodable {
     }
 }
 
-public enum UnarchiveFindingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UnarchiveFindingsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UnarchiveFindingsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UnarchiveFindingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -18350,16 +19599,6 @@ public enum UnarchiveFindingsOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UnarchiveFindingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UnarchiveFindingsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension GuardDutyClientTypes.UnprocessedAccount: Swift.Codable {
@@ -18497,8 +19736,18 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -18508,16 +19757,6 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateDetectorInput: Swift.Encodable {
@@ -18624,8 +19863,18 @@ extension UpdateDetectorInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateDetectorOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateDetectorOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateDetectorOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateDetectorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -18634,16 +19883,6 @@ public enum UpdateDetectorOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateDetectorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateDetectorOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateFilterInput: Swift.Encodable {
@@ -18745,23 +19984,11 @@ extension UpdateFilterInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateFilterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateFilterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateFilterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateFilterOutputBody = try responseDecoder.decode(responseBody: data)
             self.name = output.name
         } else {
             self.name = nil
@@ -18769,7 +19996,7 @@ extension UpdateFilterOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFilterOutputResponse: Swift.Equatable {
+public struct UpdateFilterOutput: Swift.Equatable {
     /// The name of the filter.
     /// This member is required.
     public var name: Swift.String?
@@ -18782,11 +20009,11 @@ public struct UpdateFilterOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateFilterOutputResponseBody: Swift.Equatable {
+struct UpdateFilterOutputBody: Swift.Equatable {
     let name: Swift.String?
 }
 
-extension UpdateFilterOutputResponseBody: Swift.Decodable {
+extension UpdateFilterOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "name"
     }
@@ -18795,6 +20022,18 @@ extension UpdateFilterOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+    }
+}
+
+enum UpdateFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -18891,8 +20130,18 @@ extension UpdateFindingsFeedbackInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateFindingsFeedbackOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateFindingsFeedbackOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateFindingsFeedbackOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateFindingsFeedbackOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -18901,16 +20150,6 @@ public enum UpdateFindingsFeedbackOutputError: ClientRuntime.HttpResponseErrorBi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateFindingsFeedbackOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateFindingsFeedbackOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateIPSetInput: Swift.Encodable {
@@ -19000,8 +20239,18 @@ extension UpdateIPSetInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateIPSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateIPSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateIPSetOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateIPSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -19010,16 +20259,6 @@ public enum UpdateIPSetOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateIPSetOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateMalwareScanSettingsInput: Swift.Encodable {
@@ -19089,8 +20328,18 @@ extension UpdateMalwareScanSettingsInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateMalwareScanSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateMalwareScanSettingsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateMalwareScanSettingsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateMalwareScanSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -19099,16 +20348,6 @@ public enum UpdateMalwareScanSettingsOutputError: ClientRuntime.HttpResponseErro
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateMalwareScanSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateMalwareScanSettingsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateMemberDetectorsInput: Swift.Encodable {
@@ -19216,23 +20455,11 @@ extension UpdateMemberDetectorsInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateMemberDetectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateMemberDetectorsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateMemberDetectorsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateMemberDetectorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateMemberDetectorsOutputBody = try responseDecoder.decode(responseBody: data)
             self.unprocessedAccounts = output.unprocessedAccounts
         } else {
             self.unprocessedAccounts = nil
@@ -19240,7 +20467,7 @@ extension UpdateMemberDetectorsOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct UpdateMemberDetectorsOutputResponse: Swift.Equatable {
+public struct UpdateMemberDetectorsOutput: Swift.Equatable {
     /// A list of member account IDs that were unable to be processed along with an explanation for why they were not processed.
     /// This member is required.
     public var unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
@@ -19253,11 +20480,11 @@ public struct UpdateMemberDetectorsOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateMemberDetectorsOutputResponseBody: Swift.Equatable {
+struct UpdateMemberDetectorsOutputBody: Swift.Equatable {
     let unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
 }
 
-extension UpdateMemberDetectorsOutputResponseBody: Swift.Decodable {
+extension UpdateMemberDetectorsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case unprocessedAccounts = "unprocessedAccounts"
     }
@@ -19275,6 +20502,18 @@ extension UpdateMemberDetectorsOutputResponseBody: Swift.Decodable {
             }
         }
         unprocessedAccounts = unprocessedAccountsDecoded0
+    }
+}
+
+enum UpdateMemberDetectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -19316,16 +20555,16 @@ extension UpdateOrganizationConfigurationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateOrganizationConfigurationInput: Swift.Equatable {
-    /// Indicates whether to automatically enable member accounts in the organization. Even though this is still supported, we recommend using AutoEnableOrganizationMembers to achieve the similar results.
+    /// Represents whether or not to automatically enable member accounts in the organization. Even though this is still supported, we recommend using AutoEnableOrganizationMembers to achieve the similar results. You must provide a value for either autoEnableOrganizationMembers or autoEnable.
     @available(*, deprecated, message: "This field is deprecated, use AutoEnableOrganizationMembers instead")
     public var autoEnable: Swift.Bool?
-    /// Indicates the auto-enablement configuration of GuardDuty for the member accounts in the organization.
+    /// Indicates the auto-enablement configuration of GuardDuty for the member accounts in the organization. You must provide a value for either autoEnableOrganizationMembers or autoEnable. Use one of the following configuration values for autoEnableOrganizationMembers:
     ///
     /// * NEW: Indicates that when a new account joins the organization, they will have GuardDuty enabled automatically.
     ///
-    /// * ALL: Indicates that all accounts in the Amazon Web Services Organization have GuardDuty enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty.
+    /// * ALL: Indicates that all accounts in the organization have GuardDuty enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty. It may take up to 24 hours to update the configuration for all the member accounts.
     ///
-    /// * NONE: Indicates that GuardDuty will not be automatically enabled for any accounts in the organization. GuardDuty must be managed for each account individually by the administrator.
+    /// * NONE: Indicates that GuardDuty will not be automatically enabled for any account in the organization. The administrator must manage GuardDuty for each account in the organization individually.
     public var autoEnableOrganizationMembers: GuardDutyClientTypes.AutoEnableMembers?
     /// Describes which data sources will be updated.
     @available(*, deprecated, message: "This parameter is deprecated, use Features instead")
@@ -19389,8 +20628,18 @@ extension UpdateOrganizationConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateOrganizationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateOrganizationConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateOrganizationConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateOrganizationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -19399,16 +20648,6 @@ public enum UpdateOrganizationConfigurationOutputError: ClientRuntime.HttpRespon
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateOrganizationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateOrganizationConfigurationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdatePublishingDestinationInput: Swift.Encodable {
@@ -19474,8 +20713,18 @@ extension UpdatePublishingDestinationInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdatePublishingDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdatePublishingDestinationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdatePublishingDestinationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdatePublishingDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -19484,16 +20733,6 @@ public enum UpdatePublishingDestinationOutputError: ClientRuntime.HttpResponseEr
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdatePublishingDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdatePublishingDestinationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateThreatIntelSetInput: Swift.Encodable {
@@ -19583,8 +20822,18 @@ extension UpdateThreatIntelSetInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateThreatIntelSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateThreatIntelSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateThreatIntelSetOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateThreatIntelSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -19593,16 +20842,6 @@ public enum UpdateThreatIntelSetOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateThreatIntelSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateThreatIntelSetOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension GuardDutyClientTypes.UsageAccountResult: Swift.Codable {
@@ -19814,8 +21053,10 @@ extension GuardDutyClientTypes {
         case cloudTrail
         case dnsLogs
         case ebsMalwareProtection
+        case ec2RuntimeMonitoring
         case eksAuditLogs
         case eksRuntimeMonitoring
+        case fargateRuntimeMonitoring
         case flowLogs
         case lambdaNetworkLogs
         case rdsLoginEvents
@@ -19827,8 +21068,10 @@ extension GuardDutyClientTypes {
                 .cloudTrail,
                 .dnsLogs,
                 .ebsMalwareProtection,
+                .ec2RuntimeMonitoring,
                 .eksAuditLogs,
                 .eksRuntimeMonitoring,
+                .fargateRuntimeMonitoring,
                 .flowLogs,
                 .lambdaNetworkLogs,
                 .rdsLoginEvents,
@@ -19845,8 +21088,10 @@ extension GuardDutyClientTypes {
             case .cloudTrail: return "CLOUD_TRAIL"
             case .dnsLogs: return "DNS_LOGS"
             case .ebsMalwareProtection: return "EBS_MALWARE_PROTECTION"
+            case .ec2RuntimeMonitoring: return "EC2_RUNTIME_MONITORING"
             case .eksAuditLogs: return "EKS_AUDIT_LOGS"
             case .eksRuntimeMonitoring: return "EKS_RUNTIME_MONITORING"
+            case .fargateRuntimeMonitoring: return "FARGATE_RUNTIME_MONITORING"
             case .flowLogs: return "FLOW_LOGS"
             case .lambdaNetworkLogs: return "LAMBDA_NETWORK_LOGS"
             case .rdsLoginEvents: return "RDS_LOGIN_EVENTS"
@@ -20201,7 +21446,7 @@ extension GuardDutyClientTypes.VolumeDetail: Swift.Codable {
         if let volumeArn = self.volumeArn {
             try encodeContainer.encode(volumeArn, forKey: .volumeArn)
         }
-        if volumeSizeInGB != 0 {
+        if let volumeSizeInGB = self.volumeSizeInGB {
             try encodeContainer.encode(volumeSizeInGB, forKey: .volumeSizeInGB)
         }
         if let volumeType = self.volumeType {
@@ -20217,7 +21462,7 @@ extension GuardDutyClientTypes.VolumeDetail: Swift.Codable {
         volumeType = volumeTypeDecoded
         let deviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deviceName)
         deviceName = deviceNameDecoded
-        let volumeSizeInGBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .volumeSizeInGB) ?? 0
+        let volumeSizeInGBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .volumeSizeInGB)
         volumeSizeInGB = volumeSizeInGBDecoded
         let encryptionTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encryptionType)
         encryptionType = encryptionTypeDecoded
@@ -20242,7 +21487,7 @@ extension GuardDutyClientTypes {
         /// EBS volume Arn information.
         public var volumeArn: Swift.String?
         /// EBS volume size in GB.
-        public var volumeSizeInGB: Swift.Int
+        public var volumeSizeInGB: Swift.Int?
         /// The EBS volume type.
         public var volumeType: Swift.String?
 
@@ -20252,7 +21497,7 @@ extension GuardDutyClientTypes {
             kmsKeyArn: Swift.String? = nil,
             snapshotArn: Swift.String? = nil,
             volumeArn: Swift.String? = nil,
-            volumeSizeInGB: Swift.Int = 0,
+            volumeSizeInGB: Swift.Int? = nil,
             volumeType: Swift.String? = nil
         )
         {

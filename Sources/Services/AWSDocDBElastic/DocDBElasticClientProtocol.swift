@@ -4,32 +4,230 @@ import ClientRuntime
 
 /// The new Amazon Elastic DocumentDB service endpoint.
 public protocol DocDBElasticClientProtocol {
+    /// Performs the `CreateCluster` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Creates a new Elastic DocumentDB cluster and returns its Cluster structure.
-    func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutputResponse
+    ///
+    /// - Parameter CreateClusterInput : [no documentation found]
+    ///
+    /// - Returns: `CreateClusterOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An exception that occurs when there are not sufficient permissions to perform an action.
+    /// - `ConflictException` : There was an access conflict.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ServiceQuotaExceededException` : The service quota for the action was exceeded.
+    /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
+    /// - `ValidationException` : A structure defining a validation exception.
+    func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput
+    /// Performs the `CreateClusterSnapshot` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Creates a snapshot of a cluster.
-    func createClusterSnapshot(input: CreateClusterSnapshotInput) async throws -> CreateClusterSnapshotOutputResponse
+    ///
+    /// - Parameter CreateClusterSnapshotInput : [no documentation found]
+    ///
+    /// - Returns: `CreateClusterSnapshotOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An exception that occurs when there are not sufficient permissions to perform an action.
+    /// - `ConflictException` : There was an access conflict.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be located.
+    /// - `ServiceQuotaExceededException` : The service quota for the action was exceeded.
+    /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
+    /// - `ValidationException` : A structure defining a validation exception.
+    func createClusterSnapshot(input: CreateClusterSnapshotInput) async throws -> CreateClusterSnapshotOutput
+    /// Performs the `DeleteCluster` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Delete a Elastic DocumentDB cluster.
-    func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutputResponse
+    ///
+    /// - Parameter DeleteClusterInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteClusterOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An exception that occurs when there are not sufficient permissions to perform an action.
+    /// - `ConflictException` : There was an access conflict.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be located.
+    /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
+    /// - `ValidationException` : A structure defining a validation exception.
+    func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput
+    /// Performs the `DeleteClusterSnapshot` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Delete a Elastic DocumentDB snapshot.
-    func deleteClusterSnapshot(input: DeleteClusterSnapshotInput) async throws -> DeleteClusterSnapshotOutputResponse
+    ///
+    /// - Parameter DeleteClusterSnapshotInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteClusterSnapshotOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An exception that occurs when there are not sufficient permissions to perform an action.
+    /// - `ConflictException` : There was an access conflict.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be located.
+    /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
+    /// - `ValidationException` : A structure defining a validation exception.
+    func deleteClusterSnapshot(input: DeleteClusterSnapshotInput) async throws -> DeleteClusterSnapshotOutput
+    /// Performs the `GetCluster` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Returns information about a specific Elastic DocumentDB cluster.
-    func getCluster(input: GetClusterInput) async throws -> GetClusterOutputResponse
+    ///
+    /// - Parameter GetClusterInput : [no documentation found]
+    ///
+    /// - Returns: `GetClusterOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An exception that occurs when there are not sufficient permissions to perform an action.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be located.
+    /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
+    /// - `ValidationException` : A structure defining a validation exception.
+    func getCluster(input: GetClusterInput) async throws -> GetClusterOutput
+    /// Performs the `GetClusterSnapshot` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Returns information about a specific Elastic DocumentDB snapshot
-    func getClusterSnapshot(input: GetClusterSnapshotInput) async throws -> GetClusterSnapshotOutputResponse
+    ///
+    /// - Parameter GetClusterSnapshotInput : [no documentation found]
+    ///
+    /// - Returns: `GetClusterSnapshotOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An exception that occurs when there are not sufficient permissions to perform an action.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be located.
+    /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
+    /// - `ValidationException` : A structure defining a validation exception.
+    func getClusterSnapshot(input: GetClusterSnapshotInput) async throws -> GetClusterSnapshotOutput
+    /// Performs the `ListClusters` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Returns information about provisioned Elastic DocumentDB clusters.
-    func listClusters(input: ListClustersInput) async throws -> ListClustersOutputResponse
+    ///
+    /// - Parameter ListClustersInput : [no documentation found]
+    ///
+    /// - Returns: `ListClustersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An exception that occurs when there are not sufficient permissions to perform an action.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
+    /// - `ValidationException` : A structure defining a validation exception.
+    func listClusters(input: ListClustersInput) async throws -> ListClustersOutput
+    /// Performs the `ListClusterSnapshots` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Returns information about Elastic DocumentDB snapshots for a specified cluster.
-    func listClusterSnapshots(input: ListClusterSnapshotsInput) async throws -> ListClusterSnapshotsOutputResponse
+    ///
+    /// - Parameter ListClusterSnapshotsInput : [no documentation found]
+    ///
+    /// - Returns: `ListClusterSnapshotsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An exception that occurs when there are not sufficient permissions to perform an action.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
+    /// - `ValidationException` : A structure defining a validation exception.
+    func listClusterSnapshots(input: ListClusterSnapshotsInput) async throws -> ListClusterSnapshotsOutput
+    /// Performs the `ListTagsForResource` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Lists all tags on a Elastic DocumentDB resource
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be located.
+    /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
+    /// - `ValidationException` : A structure defining a validation exception.
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `RestoreClusterFromSnapshot` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Restores a Elastic DocumentDB cluster from a snapshot.
-    func restoreClusterFromSnapshot(input: RestoreClusterFromSnapshotInput) async throws -> RestoreClusterFromSnapshotOutputResponse
+    ///
+    /// - Parameter RestoreClusterFromSnapshotInput : [no documentation found]
+    ///
+    /// - Returns: `RestoreClusterFromSnapshotOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An exception that occurs when there are not sufficient permissions to perform an action.
+    /// - `ConflictException` : There was an access conflict.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be located.
+    /// - `ServiceQuotaExceededException` : The service quota for the action was exceeded.
+    /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
+    /// - `ValidationException` : A structure defining a validation exception.
+    func restoreClusterFromSnapshot(input: RestoreClusterFromSnapshotInput) async throws -> RestoreClusterFromSnapshotOutput
+    /// Performs the `TagResource` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Adds metadata tags to a Elastic DocumentDB resource
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be located.
+    /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
+    /// - `ValidationException` : A structure defining a validation exception.
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Removes metadata tags to a Elastic DocumentDB resource
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be located.
+    /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
+    /// - `ValidationException` : A structure defining a validation exception.
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateCluster` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Modifies a Elastic DocumentDB cluster. This includes updating admin-username/password, upgrading API version setting up a backup window and maintenance window
-    func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutputResponse
+    ///
+    /// - Parameter UpdateClusterInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateClusterOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An exception that occurs when there are not sufficient permissions to perform an action.
+    /// - `ConflictException` : There was an access conflict.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be located.
+    /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
+    /// - `ValidationException` : A structure defining a validation exception.
+    func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutput
 }
 
 public enum DocDBElasticClientTypes {}

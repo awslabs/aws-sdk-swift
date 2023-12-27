@@ -4,56 +4,365 @@ import ClientRuntime
 
 /// Amazon Web Services X-Ray provides APIs for managing debug traces and retrieving service maps and other data created by processing those traces.
 public protocol XRayClientProtocol {
+    /// Performs the `BatchGetTraces` operation on the `AWSXRay` service.
+    ///
     /// Retrieves a list of traces specified by ID. Each trace is a collection of segment documents that originates from a single request. Use GetTraceSummaries to get a list of trace IDs.
-    func batchGetTraces(input: BatchGetTracesInput) async throws -> BatchGetTracesOutputResponse
+    ///
+    /// - Parameter BatchGetTracesInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetTracesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func batchGetTraces(input: BatchGetTracesInput) async throws -> BatchGetTracesOutput
+    /// Performs the `CreateGroup` operation on the `AWSXRay` service.
+    ///
     /// Creates a group resource with a name and a filter expression.
-    func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutputResponse
+    ///
+    /// - Parameter CreateGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput
+    /// Performs the `CreateSamplingRule` operation on the `AWSXRay` service.
+    ///
     /// Creates a rule to control sampling behavior for instrumented applications. Services retrieve rules with [GetSamplingRules](https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingRules.html), and evaluate each rule in ascending order of priority for each request. If a rule matches, the service records a trace, borrowing it from the reservoir size. After 10 seconds, the service reports back to X-Ray with [GetSamplingTargets](https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingTargets.html) to get updated versions of each in-use rule. The updated rule contains a trace quota that the service can use instead of borrowing from the reservoir.
-    func createSamplingRule(input: CreateSamplingRuleInput) async throws -> CreateSamplingRuleOutputResponse
+    ///
+    /// - Parameter CreateSamplingRuleInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSamplingRuleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `RuleLimitExceededException` : You have reached the maximum number of sampling rules.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func createSamplingRule(input: CreateSamplingRuleInput) async throws -> CreateSamplingRuleOutput
+    /// Performs the `DeleteGroup` operation on the `AWSXRay` service.
+    ///
     /// Deletes a group resource.
-    func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutputResponse
+    ///
+    /// - Parameter DeleteGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput
+    /// Performs the `DeleteResourcePolicy` operation on the `AWSXRay` service.
+    ///
     /// Deletes a resource policy from the target Amazon Web Services account.
-    func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutputResponse
+    ///
+    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidPolicyRevisionIdException` : A policy revision id was provided which does not match the latest policy revision. This exception is also if a policy revision id of 0 is provided via PutResourcePolicy and a policy with the same name already exists.
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
+    /// Performs the `DeleteSamplingRule` operation on the `AWSXRay` service.
+    ///
     /// Deletes a sampling rule.
-    func deleteSamplingRule(input: DeleteSamplingRuleInput) async throws -> DeleteSamplingRuleOutputResponse
+    ///
+    /// - Parameter DeleteSamplingRuleInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSamplingRuleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func deleteSamplingRule(input: DeleteSamplingRuleInput) async throws -> DeleteSamplingRuleOutput
+    /// Performs the `GetEncryptionConfig` operation on the `AWSXRay` service.
+    ///
     /// Retrieves the current encryption configuration for X-Ray data.
-    func getEncryptionConfig(input: GetEncryptionConfigInput) async throws -> GetEncryptionConfigOutputResponse
+    ///
+    /// - Parameter GetEncryptionConfigInput : [no documentation found]
+    ///
+    /// - Returns: `GetEncryptionConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func getEncryptionConfig(input: GetEncryptionConfigInput) async throws -> GetEncryptionConfigOutput
+    /// Performs the `GetGroup` operation on the `AWSXRay` service.
+    ///
     /// Retrieves group resource details.
-    func getGroup(input: GetGroupInput) async throws -> GetGroupOutputResponse
+    ///
+    /// - Parameter GetGroupInput : [no documentation found]
+    ///
+    /// - Returns: `GetGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func getGroup(input: GetGroupInput) async throws -> GetGroupOutput
+    /// Performs the `GetGroups` operation on the `AWSXRay` service.
+    ///
     /// Retrieves all active group details.
-    func getGroups(input: GetGroupsInput) async throws -> GetGroupsOutputResponse
+    ///
+    /// - Parameter GetGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `GetGroupsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func getGroups(input: GetGroupsInput) async throws -> GetGroupsOutput
+    /// Performs the `GetInsight` operation on the `AWSXRay` service.
+    ///
     /// Retrieves the summary information of an insight. This includes impact to clients and root cause services, the top anomalous services, the category, the state of the insight, and the start and end time of the insight.
-    func getInsight(input: GetInsightInput) async throws -> GetInsightOutputResponse
+    ///
+    /// - Parameter GetInsightInput : [no documentation found]
+    ///
+    /// - Returns: `GetInsightOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func getInsight(input: GetInsightInput) async throws -> GetInsightOutput
+    /// Performs the `GetInsightEvents` operation on the `AWSXRay` service.
+    ///
     /// X-Ray reevaluates insights periodically until they're resolved, and records each intermediate state as an event. You can review an insight's events in the Impact Timeline on the Inspect page in the X-Ray console.
-    func getInsightEvents(input: GetInsightEventsInput) async throws -> GetInsightEventsOutputResponse
+    ///
+    /// - Parameter GetInsightEventsInput : [no documentation found]
+    ///
+    /// - Returns: `GetInsightEventsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func getInsightEvents(input: GetInsightEventsInput) async throws -> GetInsightEventsOutput
+    /// Performs the `GetInsightImpactGraph` operation on the `AWSXRay` service.
+    ///
     /// Retrieves a service graph structure filtered by the specified insight. The service graph is limited to only structural information. For a complete service graph, use this API with the GetServiceGraph API.
-    func getInsightImpactGraph(input: GetInsightImpactGraphInput) async throws -> GetInsightImpactGraphOutputResponse
+    ///
+    /// - Parameter GetInsightImpactGraphInput : [no documentation found]
+    ///
+    /// - Returns: `GetInsightImpactGraphOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func getInsightImpactGraph(input: GetInsightImpactGraphInput) async throws -> GetInsightImpactGraphOutput
+    /// Performs the `GetInsightSummaries` operation on the `AWSXRay` service.
+    ///
     /// Retrieves the summaries of all insights in the specified group matching the provided filter values.
-    func getInsightSummaries(input: GetInsightSummariesInput) async throws -> GetInsightSummariesOutputResponse
+    ///
+    /// - Parameter GetInsightSummariesInput : [no documentation found]
+    ///
+    /// - Returns: `GetInsightSummariesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func getInsightSummaries(input: GetInsightSummariesInput) async throws -> GetInsightSummariesOutput
+    /// Performs the `GetSamplingRules` operation on the `AWSXRay` service.
+    ///
     /// Retrieves all sampling rules.
-    func getSamplingRules(input: GetSamplingRulesInput) async throws -> GetSamplingRulesOutputResponse
+    ///
+    /// - Parameter GetSamplingRulesInput : [no documentation found]
+    ///
+    /// - Returns: `GetSamplingRulesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func getSamplingRules(input: GetSamplingRulesInput) async throws -> GetSamplingRulesOutput
+    /// Performs the `GetSamplingStatisticSummaries` operation on the `AWSXRay` service.
+    ///
     /// Retrieves information about recent sampling results for all sampling rules.
-    func getSamplingStatisticSummaries(input: GetSamplingStatisticSummariesInput) async throws -> GetSamplingStatisticSummariesOutputResponse
+    ///
+    /// - Parameter GetSamplingStatisticSummariesInput : [no documentation found]
+    ///
+    /// - Returns: `GetSamplingStatisticSummariesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func getSamplingStatisticSummaries(input: GetSamplingStatisticSummariesInput) async throws -> GetSamplingStatisticSummariesOutput
+    /// Performs the `GetSamplingTargets` operation on the `AWSXRay` service.
+    ///
     /// Requests a sampling quota for rules that the service is using to sample requests.
-    func getSamplingTargets(input: GetSamplingTargetsInput) async throws -> GetSamplingTargetsOutputResponse
+    ///
+    /// - Parameter GetSamplingTargetsInput : [no documentation found]
+    ///
+    /// - Returns: `GetSamplingTargetsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func getSamplingTargets(input: GetSamplingTargetsInput) async throws -> GetSamplingTargetsOutput
+    /// Performs the `GetServiceGraph` operation on the `AWSXRay` service.
+    ///
     /// Retrieves a document that describes services that process incoming requests, and downstream services that they call as a result. Root services process incoming requests and make calls to downstream services. Root services are applications that use the [Amazon Web Services X-Ray SDK](https://docs.aws.amazon.com/xray/index.html). Downstream services can be other applications, Amazon Web Services resources, HTTP web APIs, or SQL databases.
-    func getServiceGraph(input: GetServiceGraphInput) async throws -> GetServiceGraphOutputResponse
+    ///
+    /// - Parameter GetServiceGraphInput : [no documentation found]
+    ///
+    /// - Returns: `GetServiceGraphOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func getServiceGraph(input: GetServiceGraphInput) async throws -> GetServiceGraphOutput
+    /// Performs the `GetTimeSeriesServiceStatistics` operation on the `AWSXRay` service.
+    ///
     /// Get an aggregation of service statistics defined by a specific time range.
-    func getTimeSeriesServiceStatistics(input: GetTimeSeriesServiceStatisticsInput) async throws -> GetTimeSeriesServiceStatisticsOutputResponse
+    ///
+    /// - Parameter GetTimeSeriesServiceStatisticsInput : [no documentation found]
+    ///
+    /// - Returns: `GetTimeSeriesServiceStatisticsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func getTimeSeriesServiceStatistics(input: GetTimeSeriesServiceStatisticsInput) async throws -> GetTimeSeriesServiceStatisticsOutput
+    /// Performs the `GetTraceGraph` operation on the `AWSXRay` service.
+    ///
     /// Retrieves a service graph for one or more specific trace IDs.
-    func getTraceGraph(input: GetTraceGraphInput) async throws -> GetTraceGraphOutputResponse
+    ///
+    /// - Parameter GetTraceGraphInput : [no documentation found]
+    ///
+    /// - Returns: `GetTraceGraphOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func getTraceGraph(input: GetTraceGraphInput) async throws -> GetTraceGraphOutput
+    /// Performs the `GetTraceSummaries` operation on the `AWSXRay` service.
+    ///
     /// Retrieves IDs and annotations for traces available for a specified time frame using an optional filter. To get the full traces, pass the trace IDs to BatchGetTraces. A filter expression can target traced requests that hit specific service nodes or edges, have errors, or come from a known user. For example, the following filter expression targets traces that pass through api.example.com: service("api.example.com") This filter expression finds traces that have an annotation named account with the value 12345: annotation.account = "12345" For a full list of indexed fields and keywords that you can use in filter expressions, see [Using Filter Expressions](https://docs.aws.amazon.com/xray/latest/devguide/xray-console-filters.html) in the Amazon Web Services X-Ray Developer Guide.
-    func getTraceSummaries(input: GetTraceSummariesInput) async throws -> GetTraceSummariesOutputResponse
+    ///
+    /// - Parameter GetTraceSummariesInput : [no documentation found]
+    ///
+    /// - Returns: `GetTraceSummariesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func getTraceSummaries(input: GetTraceSummariesInput) async throws -> GetTraceSummariesOutput
+    /// Performs the `ListResourcePolicies` operation on the `AWSXRay` service.
+    ///
     /// Returns the list of resource policies in the target Amazon Web Services account.
-    func listResourcePolicies(input: ListResourcePoliciesInput) async throws -> ListResourcePoliciesOutputResponse
+    ///
+    /// - Parameter ListResourcePoliciesInput : [no documentation found]
+    ///
+    /// - Returns: `ListResourcePoliciesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func listResourcePolicies(input: ListResourcePoliciesInput) async throws -> ListResourcePoliciesOutput
+    /// Performs the `ListTagsForResource` operation on the `AWSXRay` service.
+    ///
     /// Returns a list of tags that are applied to the specified Amazon Web Services X-Ray group or sampling rule.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ResourceNotFoundException` : The resource was not found. Verify that the name or Amazon Resource Name (ARN) of the resource is correct.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `PutEncryptionConfig` operation on the `AWSXRay` service.
+    ///
     /// Updates the encryption configuration for X-Ray data.
-    func putEncryptionConfig(input: PutEncryptionConfigInput) async throws -> PutEncryptionConfigOutputResponse
+    ///
+    /// - Parameter PutEncryptionConfigInput : [no documentation found]
+    ///
+    /// - Returns: `PutEncryptionConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func putEncryptionConfig(input: PutEncryptionConfigInput) async throws -> PutEncryptionConfigOutput
+    /// Performs the `PutResourcePolicy` operation on the `AWSXRay` service.
+    ///
     /// Sets the resource policy to grant one or more Amazon Web Services services and accounts permissions to access X-Ray. Each resource policy will be associated with a specific Amazon Web Services account. Each Amazon Web Services account can have a maximum of 5 resource policies, and each policy name must be unique within that account. The maximum size of each resource policy is 5KB.
-    func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutputResponse
+    ///
+    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidPolicyRevisionIdException` : A policy revision id was provided which does not match the latest policy revision. This exception is also if a policy revision id of 0 is provided via PutResourcePolicy and a policy with the same name already exists.
+    /// - `LockoutPreventionException` : The provided resource policy would prevent the caller of this request from calling PutResourcePolicy in the future.
+    /// - `MalformedPolicyDocumentException` : Invalid policy document provided in request.
+    /// - `PolicyCountLimitExceededException` : Exceeded the maximum number of resource policies for a target Amazon Web Services account.
+    /// - `PolicySizeLimitExceededException` : Exceeded the maximum size for a resource policy.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
+    /// Performs the `PutTelemetryRecords` operation on the `AWSXRay` service.
+    ///
     /// Used by the Amazon Web Services X-Ray daemon to upload telemetry.
-    func putTelemetryRecords(input: PutTelemetryRecordsInput) async throws -> PutTelemetryRecordsOutputResponse
+    ///
+    /// - Parameter PutTelemetryRecordsInput : [no documentation found]
+    ///
+    /// - Returns: `PutTelemetryRecordsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func putTelemetryRecords(input: PutTelemetryRecordsInput) async throws -> PutTelemetryRecordsOutput
+    /// Performs the `PutTraceSegments` operation on the `AWSXRay` service.
+    ///
     /// Uploads segment documents to Amazon Web Services X-Ray. The [X-Ray SDK](https://docs.aws.amazon.com/xray/index.html) generates segment documents and sends them to the X-Ray daemon, which uploads them in batches. A segment document can be a completed segment, an in-progress segment, or an array of subsegments. Segments must include the following fields. For the full segment document schema, see [Amazon Web Services X-Ray Segment Documents](https://docs.aws.amazon.com/xray/latest/devguide/xray-api-segmentdocuments.html) in the Amazon Web Services X-Ray Developer Guide. Required segment document fields
     ///
     /// * name - The name of the service that handled the request.
@@ -76,15 +385,76 @@ public protocol XRayClientProtocol {
     /// * The time of the original request, in Unix epoch time, in 8 hexadecimal digits. For example, 10:00AM December 2nd, 2016 PST in epoch time is 1480615200 seconds, or 58406520 in hexadecimal.
     ///
     /// * A 96-bit identifier for the trace, globally unique, in 24 hexadecimal digits.
-    func putTraceSegments(input: PutTraceSegmentsInput) async throws -> PutTraceSegmentsOutputResponse
+    ///
+    /// - Parameter PutTraceSegmentsInput : [no documentation found]
+    ///
+    /// - Returns: `PutTraceSegmentsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func putTraceSegments(input: PutTraceSegmentsInput) async throws -> PutTraceSegmentsOutput
+    /// Performs the `TagResource` operation on the `AWSXRay` service.
+    ///
     /// Applies tags to an existing Amazon Web Services X-Ray group or sampling rule.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ResourceNotFoundException` : The resource was not found. Verify that the name or Amazon Resource Name (ARN) of the resource is correct.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `AWSXRay` service.
+    ///
     /// Removes tags from an Amazon Web Services X-Ray group or sampling rule. You cannot edit or delete system tags (those with an aws: prefix).
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ResourceNotFoundException` : The resource was not found. Verify that the name or Amazon Resource Name (ARN) of the resource is correct.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateGroup` operation on the `AWSXRay` service.
+    ///
     /// Updates a group resource.
-    func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutputResponse
+    ///
+    /// - Parameter UpdateGroupInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput
+    /// Performs the `UpdateSamplingRule` operation on the `AWSXRay` service.
+    ///
     /// Modifies a sampling rule's configuration.
-    func updateSamplingRule(input: UpdateSamplingRuleInput) async throws -> UpdateSamplingRuleOutputResponse
+    ///
+    /// - Parameter UpdateSamplingRuleInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSamplingRuleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
+    /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
+    func updateSamplingRule(input: UpdateSamplingRuleInput) async throws -> UpdateSamplingRuleOutput
 }
 
 public enum XRayClientTypes {}

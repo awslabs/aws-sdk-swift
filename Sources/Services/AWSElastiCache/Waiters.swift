@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension ElastiCacheClientProtocol {
 
-    static func cacheClusterAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeCacheClustersInput, DescribeCacheClustersOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeCacheClustersInput, DescribeCacheClustersOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutputResponse, Error>) -> Bool in
+    static func cacheClusterAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeCacheClustersInput, DescribeCacheClustersOutput> {
+        let acceptors: [WaiterConfiguration<DescribeCacheClustersInput, DescribeCacheClustersOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "CacheClusters[].CacheClusterStatus"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "available"
@@ -18,7 +18,7 @@ extension ElastiCacheClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "available") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "CacheClusters[].CacheClusterStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "deleted"
@@ -30,7 +30,7 @@ extension ElastiCacheClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "deleted") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "CacheClusters[].CacheClusterStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "deleting"
@@ -42,7 +42,7 @@ extension ElastiCacheClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "deleting") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "CacheClusters[].CacheClusterStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "incompatible-network"
@@ -54,7 +54,7 @@ extension ElastiCacheClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "incompatible-network") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "CacheClusters[].CacheClusterStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "restore-failed"
@@ -67,7 +67,7 @@ extension ElastiCacheClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "restore-failed") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeCacheClustersInput, DescribeCacheClustersOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeCacheClustersInput, DescribeCacheClustersOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the CacheClusterAvailable event on the describeCacheClusters operation.
@@ -81,14 +81,14 @@ extension ElastiCacheClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilCacheClusterAvailable(options: WaiterOptions, input: DescribeCacheClustersInput) async throws -> WaiterOutcome<DescribeCacheClustersOutputResponse> {
+    public func waitUntilCacheClusterAvailable(options: WaiterOptions, input: DescribeCacheClustersInput) async throws -> WaiterOutcome<DescribeCacheClustersOutput> {
         let waiter = Waiter(config: try Self.cacheClusterAvailableWaiterConfig(), operation: self.describeCacheClusters(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func cacheClusterDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeCacheClustersInput, DescribeCacheClustersOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeCacheClustersInput, DescribeCacheClustersOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutputResponse, Error>) -> Bool in
+    static func cacheClusterDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeCacheClustersInput, DescribeCacheClustersOutput> {
+        let acceptors: [WaiterConfiguration<DescribeCacheClustersInput, DescribeCacheClustersOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "CacheClusters[].CacheClusterStatus"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "deleted"
@@ -100,11 +100,11 @@ extension ElastiCacheClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "deleted") } ?? false)
             }),
-            .init(state: .success, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "CacheClusterNotFound"
             }),
-            .init(state: .failure, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "CacheClusters[].CacheClusterStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "available"
@@ -116,7 +116,7 @@ extension ElastiCacheClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "available") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "CacheClusters[].CacheClusterStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "creating"
@@ -128,7 +128,7 @@ extension ElastiCacheClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "creating") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "CacheClusters[].CacheClusterStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "incompatible-network"
@@ -140,7 +140,7 @@ extension ElastiCacheClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "incompatible-network") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "CacheClusters[].CacheClusterStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "modifying"
@@ -152,7 +152,7 @@ extension ElastiCacheClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "modifying") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "CacheClusters[].CacheClusterStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "restore-failed"
@@ -164,7 +164,7 @@ extension ElastiCacheClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "restore-failed") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "CacheClusters[].CacheClusterStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "snapshotting"
@@ -177,7 +177,7 @@ extension ElastiCacheClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "snapshotting") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeCacheClustersInput, DescribeCacheClustersOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeCacheClustersInput, DescribeCacheClustersOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the CacheClusterDeleted event on the describeCacheClusters operation.
@@ -191,14 +191,14 @@ extension ElastiCacheClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilCacheClusterDeleted(options: WaiterOptions, input: DescribeCacheClustersInput) async throws -> WaiterOutcome<DescribeCacheClustersOutputResponse> {
+    public func waitUntilCacheClusterDeleted(options: WaiterOptions, input: DescribeCacheClustersInput) async throws -> WaiterOutcome<DescribeCacheClustersOutput> {
         let waiter = Waiter(config: try Self.cacheClusterDeletedWaiterConfig(), operation: self.describeCacheClusters(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func replicationGroupAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeReplicationGroupsInput, result: Result<DescribeReplicationGroupsOutputResponse, Error>) -> Bool in
+    static func replicationGroupAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeReplicationGroupsInput, result: Result<DescribeReplicationGroupsOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationGroups[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "available"
@@ -210,7 +210,7 @@ extension ElastiCacheClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "available") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationGroupsInput, result: Result<DescribeReplicationGroupsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationGroupsInput, result: Result<DescribeReplicationGroupsOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationGroups[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "deleted"
@@ -223,7 +223,7 @@ extension ElastiCacheClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "deleted") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ReplicationGroupAvailable event on the describeReplicationGroups operation.
@@ -237,14 +237,14 @@ extension ElastiCacheClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilReplicationGroupAvailable(options: WaiterOptions, input: DescribeReplicationGroupsInput) async throws -> WaiterOutcome<DescribeReplicationGroupsOutputResponse> {
+    public func waitUntilReplicationGroupAvailable(options: WaiterOptions, input: DescribeReplicationGroupsInput) async throws -> WaiterOutcome<DescribeReplicationGroupsOutput> {
         let waiter = Waiter(config: try Self.replicationGroupAvailableWaiterConfig(), operation: self.describeReplicationGroups(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func replicationGroupDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeReplicationGroupsInput, result: Result<DescribeReplicationGroupsOutputResponse, Error>) -> Bool in
+    static func replicationGroupDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeReplicationGroupsInput, result: Result<DescribeReplicationGroupsOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationGroups[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "deleted"
@@ -256,7 +256,7 @@ extension ElastiCacheClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "deleted") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationGroupsInput, result: Result<DescribeReplicationGroupsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationGroupsInput, result: Result<DescribeReplicationGroupsOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationGroups[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "available"
@@ -268,12 +268,12 @@ extension ElastiCacheClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "available") }) ?? false
             }),
-            .init(state: .success, matcher: { (input: DescribeReplicationGroupsInput, result: Result<DescribeReplicationGroupsOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeReplicationGroupsInput, result: Result<DescribeReplicationGroupsOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ReplicationGroupNotFoundFault"
             }),
         ]
-        return try WaiterConfiguration<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ReplicationGroupDeleted event on the describeReplicationGroups operation.
@@ -287,7 +287,7 @@ extension ElastiCacheClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilReplicationGroupDeleted(options: WaiterOptions, input: DescribeReplicationGroupsInput) async throws -> WaiterOutcome<DescribeReplicationGroupsOutputResponse> {
+    public func waitUntilReplicationGroupDeleted(options: WaiterOptions, input: DescribeReplicationGroupsInput) async throws -> WaiterOutcome<DescribeReplicationGroupsOutput> {
         let waiter = Waiter(config: try Self.replicationGroupDeletedWaiterConfig(), operation: self.describeReplicationGroups(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

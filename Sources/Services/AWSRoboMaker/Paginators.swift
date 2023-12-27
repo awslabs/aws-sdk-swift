@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension RoboMakerClient {
-    /// Paginate over `[ListDeploymentJobsOutputResponse]` results.
+    /// Paginate over `[ListDeploymentJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDeploymentJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDeploymentJobsOutputResponse`
-    public func listDeploymentJobsPaginated(input: ListDeploymentJobsInput) -> ClientRuntime.PaginatorSequence<ListDeploymentJobsInput, ListDeploymentJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDeploymentJobsInput, ListDeploymentJobsOutputResponse>(input: input, inputKey: \ListDeploymentJobsInput.nextToken, outputKey: \ListDeploymentJobsOutputResponse.nextToken, paginationFunction: self.listDeploymentJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDeploymentJobsOutput`
+    public func listDeploymentJobsPaginated(input: ListDeploymentJobsInput) -> ClientRuntime.PaginatorSequence<ListDeploymentJobsInput, ListDeploymentJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDeploymentJobsInput, ListDeploymentJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDeploymentJobs(input:))
     }
 }
 
@@ -24,17 +24,26 @@ extension ListDeploymentJobsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListDeploymentJobsInput, OperationStackOutput == ListDeploymentJobsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listDeploymentJobsPaginated`
+    /// to access the nested member `[RoboMakerClientTypes.DeploymentJob]`
+    /// - Returns: `[RoboMakerClientTypes.DeploymentJob]`
+    public func deploymentJobs() async throws -> [RoboMakerClientTypes.DeploymentJob] {
+        return try await self.asyncCompactMap { item in item.deploymentJobs }
+    }
+}
 extension RoboMakerClient {
-    /// Paginate over `[ListFleetsOutputResponse]` results.
+    /// Paginate over `[ListFleetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFleetsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFleetsOutputResponse`
-    public func listFleetsPaginated(input: ListFleetsInput) -> ClientRuntime.PaginatorSequence<ListFleetsInput, ListFleetsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFleetsInput, ListFleetsOutputResponse>(input: input, inputKey: \ListFleetsInput.nextToken, outputKey: \ListFleetsOutputResponse.nextToken, paginationFunction: self.listFleets(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFleetsOutput`
+    public func listFleetsPaginated(input: ListFleetsInput) -> ClientRuntime.PaginatorSequence<ListFleetsInput, ListFleetsOutput> {
+        return ClientRuntime.PaginatorSequence<ListFleetsInput, ListFleetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFleets(input:))
     }
 }
 
@@ -46,17 +55,26 @@ extension ListFleetsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListFleetsInput, OperationStackOutput == ListFleetsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listFleetsPaginated`
+    /// to access the nested member `[RoboMakerClientTypes.Fleet]`
+    /// - Returns: `[RoboMakerClientTypes.Fleet]`
+    public func fleetDetails() async throws -> [RoboMakerClientTypes.Fleet] {
+        return try await self.asyncCompactMap { item in item.fleetDetails }
+    }
+}
 extension RoboMakerClient {
-    /// Paginate over `[ListRobotApplicationsOutputResponse]` results.
+    /// Paginate over `[ListRobotApplicationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRobotApplicationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRobotApplicationsOutputResponse`
-    public func listRobotApplicationsPaginated(input: ListRobotApplicationsInput) -> ClientRuntime.PaginatorSequence<ListRobotApplicationsInput, ListRobotApplicationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRobotApplicationsInput, ListRobotApplicationsOutputResponse>(input: input, inputKey: \ListRobotApplicationsInput.nextToken, outputKey: \ListRobotApplicationsOutputResponse.nextToken, paginationFunction: self.listRobotApplications(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRobotApplicationsOutput`
+    public func listRobotApplicationsPaginated(input: ListRobotApplicationsInput) -> ClientRuntime.PaginatorSequence<ListRobotApplicationsInput, ListRobotApplicationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListRobotApplicationsInput, ListRobotApplicationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRobotApplications(input:))
     }
 }
 
@@ -69,17 +87,26 @@ extension ListRobotApplicationsInput: ClientRuntime.PaginateToken {
             versionQualifier: self.versionQualifier
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListRobotApplicationsInput, OperationStackOutput == ListRobotApplicationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRobotApplicationsPaginated`
+    /// to access the nested member `[RoboMakerClientTypes.RobotApplicationSummary]`
+    /// - Returns: `[RoboMakerClientTypes.RobotApplicationSummary]`
+    public func robotApplicationSummaries() async throws -> [RoboMakerClientTypes.RobotApplicationSummary] {
+        return try await self.asyncCompactMap { item in item.robotApplicationSummaries }
+    }
+}
 extension RoboMakerClient {
-    /// Paginate over `[ListRobotsOutputResponse]` results.
+    /// Paginate over `[ListRobotsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRobotsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRobotsOutputResponse`
-    public func listRobotsPaginated(input: ListRobotsInput) -> ClientRuntime.PaginatorSequence<ListRobotsInput, ListRobotsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRobotsInput, ListRobotsOutputResponse>(input: input, inputKey: \ListRobotsInput.nextToken, outputKey: \ListRobotsOutputResponse.nextToken, paginationFunction: self.listRobots(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRobotsOutput`
+    public func listRobotsPaginated(input: ListRobotsInput) -> ClientRuntime.PaginatorSequence<ListRobotsInput, ListRobotsOutput> {
+        return ClientRuntime.PaginatorSequence<ListRobotsInput, ListRobotsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRobots(input:))
     }
 }
 
@@ -91,17 +118,26 @@ extension ListRobotsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListRobotsInput, OperationStackOutput == ListRobotsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRobotsPaginated`
+    /// to access the nested member `[RoboMakerClientTypes.Robot]`
+    /// - Returns: `[RoboMakerClientTypes.Robot]`
+    public func robots() async throws -> [RoboMakerClientTypes.Robot] {
+        return try await self.asyncCompactMap { item in item.robots }
+    }
+}
 extension RoboMakerClient {
-    /// Paginate over `[ListSimulationApplicationsOutputResponse]` results.
+    /// Paginate over `[ListSimulationApplicationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSimulationApplicationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSimulationApplicationsOutputResponse`
-    public func listSimulationApplicationsPaginated(input: ListSimulationApplicationsInput) -> ClientRuntime.PaginatorSequence<ListSimulationApplicationsInput, ListSimulationApplicationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSimulationApplicationsInput, ListSimulationApplicationsOutputResponse>(input: input, inputKey: \ListSimulationApplicationsInput.nextToken, outputKey: \ListSimulationApplicationsOutputResponse.nextToken, paginationFunction: self.listSimulationApplications(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSimulationApplicationsOutput`
+    public func listSimulationApplicationsPaginated(input: ListSimulationApplicationsInput) -> ClientRuntime.PaginatorSequence<ListSimulationApplicationsInput, ListSimulationApplicationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSimulationApplicationsInput, ListSimulationApplicationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSimulationApplications(input:))
     }
 }
 
@@ -114,17 +150,26 @@ extension ListSimulationApplicationsInput: ClientRuntime.PaginateToken {
             versionQualifier: self.versionQualifier
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListSimulationApplicationsInput, OperationStackOutput == ListSimulationApplicationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSimulationApplicationsPaginated`
+    /// to access the nested member `[RoboMakerClientTypes.SimulationApplicationSummary]`
+    /// - Returns: `[RoboMakerClientTypes.SimulationApplicationSummary]`
+    public func simulationApplicationSummaries() async throws -> [RoboMakerClientTypes.SimulationApplicationSummary] {
+        return try await self.asyncCompactMap { item in item.simulationApplicationSummaries }
+    }
+}
 extension RoboMakerClient {
-    /// Paginate over `[ListSimulationJobBatchesOutputResponse]` results.
+    /// Paginate over `[ListSimulationJobBatchesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSimulationJobBatchesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSimulationJobBatchesOutputResponse`
-    public func listSimulationJobBatchesPaginated(input: ListSimulationJobBatchesInput) -> ClientRuntime.PaginatorSequence<ListSimulationJobBatchesInput, ListSimulationJobBatchesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSimulationJobBatchesInput, ListSimulationJobBatchesOutputResponse>(input: input, inputKey: \ListSimulationJobBatchesInput.nextToken, outputKey: \ListSimulationJobBatchesOutputResponse.nextToken, paginationFunction: self.listSimulationJobBatches(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSimulationJobBatchesOutput`
+    public func listSimulationJobBatchesPaginated(input: ListSimulationJobBatchesInput) -> ClientRuntime.PaginatorSequence<ListSimulationJobBatchesInput, ListSimulationJobBatchesOutput> {
+        return ClientRuntime.PaginatorSequence<ListSimulationJobBatchesInput, ListSimulationJobBatchesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSimulationJobBatches(input:))
     }
 }
 
@@ -136,17 +181,26 @@ extension ListSimulationJobBatchesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListSimulationJobBatchesInput, OperationStackOutput == ListSimulationJobBatchesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSimulationJobBatchesPaginated`
+    /// to access the nested member `[RoboMakerClientTypes.SimulationJobBatchSummary]`
+    /// - Returns: `[RoboMakerClientTypes.SimulationJobBatchSummary]`
+    public func simulationJobBatchSummaries() async throws -> [RoboMakerClientTypes.SimulationJobBatchSummary] {
+        return try await self.asyncCompactMap { item in item.simulationJobBatchSummaries }
+    }
+}
 extension RoboMakerClient {
-    /// Paginate over `[ListSimulationJobsOutputResponse]` results.
+    /// Paginate over `[ListSimulationJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSimulationJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSimulationJobsOutputResponse`
-    public func listSimulationJobsPaginated(input: ListSimulationJobsInput) -> ClientRuntime.PaginatorSequence<ListSimulationJobsInput, ListSimulationJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSimulationJobsInput, ListSimulationJobsOutputResponse>(input: input, inputKey: \ListSimulationJobsInput.nextToken, outputKey: \ListSimulationJobsOutputResponse.nextToken, paginationFunction: self.listSimulationJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSimulationJobsOutput`
+    public func listSimulationJobsPaginated(input: ListSimulationJobsInput) -> ClientRuntime.PaginatorSequence<ListSimulationJobsInput, ListSimulationJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSimulationJobsInput, ListSimulationJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSimulationJobs(input:))
     }
 }
 
@@ -158,17 +212,26 @@ extension ListSimulationJobsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListSimulationJobsInput, OperationStackOutput == ListSimulationJobsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSimulationJobsPaginated`
+    /// to access the nested member `[RoboMakerClientTypes.SimulationJobSummary]`
+    /// - Returns: `[RoboMakerClientTypes.SimulationJobSummary]`
+    public func simulationJobSummaries() async throws -> [RoboMakerClientTypes.SimulationJobSummary] {
+        return try await self.asyncCompactMap { item in item.simulationJobSummaries }
+    }
+}
 extension RoboMakerClient {
-    /// Paginate over `[ListWorldExportJobsOutputResponse]` results.
+    /// Paginate over `[ListWorldExportJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListWorldExportJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListWorldExportJobsOutputResponse`
-    public func listWorldExportJobsPaginated(input: ListWorldExportJobsInput) -> ClientRuntime.PaginatorSequence<ListWorldExportJobsInput, ListWorldExportJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListWorldExportJobsInput, ListWorldExportJobsOutputResponse>(input: input, inputKey: \ListWorldExportJobsInput.nextToken, outputKey: \ListWorldExportJobsOutputResponse.nextToken, paginationFunction: self.listWorldExportJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWorldExportJobsOutput`
+    public func listWorldExportJobsPaginated(input: ListWorldExportJobsInput) -> ClientRuntime.PaginatorSequence<ListWorldExportJobsInput, ListWorldExportJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListWorldExportJobsInput, ListWorldExportJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorldExportJobs(input:))
     }
 }
 
@@ -180,17 +243,26 @@ extension ListWorldExportJobsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListWorldExportJobsInput, OperationStackOutput == ListWorldExportJobsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listWorldExportJobsPaginated`
+    /// to access the nested member `[RoboMakerClientTypes.WorldExportJobSummary]`
+    /// - Returns: `[RoboMakerClientTypes.WorldExportJobSummary]`
+    public func worldExportJobSummaries() async throws -> [RoboMakerClientTypes.WorldExportJobSummary] {
+        return try await self.asyncCompactMap { item in item.worldExportJobSummaries }
+    }
+}
 extension RoboMakerClient {
-    /// Paginate over `[ListWorldGenerationJobsOutputResponse]` results.
+    /// Paginate over `[ListWorldGenerationJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListWorldGenerationJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListWorldGenerationJobsOutputResponse`
-    public func listWorldGenerationJobsPaginated(input: ListWorldGenerationJobsInput) -> ClientRuntime.PaginatorSequence<ListWorldGenerationJobsInput, ListWorldGenerationJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListWorldGenerationJobsInput, ListWorldGenerationJobsOutputResponse>(input: input, inputKey: \ListWorldGenerationJobsInput.nextToken, outputKey: \ListWorldGenerationJobsOutputResponse.nextToken, paginationFunction: self.listWorldGenerationJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWorldGenerationJobsOutput`
+    public func listWorldGenerationJobsPaginated(input: ListWorldGenerationJobsInput) -> ClientRuntime.PaginatorSequence<ListWorldGenerationJobsInput, ListWorldGenerationJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListWorldGenerationJobsInput, ListWorldGenerationJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorldGenerationJobs(input:))
     }
 }
 
@@ -202,17 +274,26 @@ extension ListWorldGenerationJobsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListWorldGenerationJobsInput, OperationStackOutput == ListWorldGenerationJobsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listWorldGenerationJobsPaginated`
+    /// to access the nested member `[RoboMakerClientTypes.WorldGenerationJobSummary]`
+    /// - Returns: `[RoboMakerClientTypes.WorldGenerationJobSummary]`
+    public func worldGenerationJobSummaries() async throws -> [RoboMakerClientTypes.WorldGenerationJobSummary] {
+        return try await self.asyncCompactMap { item in item.worldGenerationJobSummaries }
+    }
+}
 extension RoboMakerClient {
-    /// Paginate over `[ListWorldsOutputResponse]` results.
+    /// Paginate over `[ListWorldsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListWorldsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListWorldsOutputResponse`
-    public func listWorldsPaginated(input: ListWorldsInput) -> ClientRuntime.PaginatorSequence<ListWorldsInput, ListWorldsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListWorldsInput, ListWorldsOutputResponse>(input: input, inputKey: \ListWorldsInput.nextToken, outputKey: \ListWorldsOutputResponse.nextToken, paginationFunction: self.listWorlds(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWorldsOutput`
+    public func listWorldsPaginated(input: ListWorldsInput) -> ClientRuntime.PaginatorSequence<ListWorldsInput, ListWorldsOutput> {
+        return ClientRuntime.PaginatorSequence<ListWorldsInput, ListWorldsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorlds(input:))
     }
 }
 
@@ -224,17 +305,26 @@ extension ListWorldsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListWorldsInput, OperationStackOutput == ListWorldsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listWorldsPaginated`
+    /// to access the nested member `[RoboMakerClientTypes.WorldSummary]`
+    /// - Returns: `[RoboMakerClientTypes.WorldSummary]`
+    public func worldSummaries() async throws -> [RoboMakerClientTypes.WorldSummary] {
+        return try await self.asyncCompactMap { item in item.worldSummaries }
+    }
+}
 extension RoboMakerClient {
-    /// Paginate over `[ListWorldTemplatesOutputResponse]` results.
+    /// Paginate over `[ListWorldTemplatesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListWorldTemplatesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListWorldTemplatesOutputResponse`
-    public func listWorldTemplatesPaginated(input: ListWorldTemplatesInput) -> ClientRuntime.PaginatorSequence<ListWorldTemplatesInput, ListWorldTemplatesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListWorldTemplatesInput, ListWorldTemplatesOutputResponse>(input: input, inputKey: \ListWorldTemplatesInput.nextToken, outputKey: \ListWorldTemplatesOutputResponse.nextToken, paginationFunction: self.listWorldTemplates(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWorldTemplatesOutput`
+    public func listWorldTemplatesPaginated(input: ListWorldTemplatesInput) -> ClientRuntime.PaginatorSequence<ListWorldTemplatesInput, ListWorldTemplatesOutput> {
+        return ClientRuntime.PaginatorSequence<ListWorldTemplatesInput, ListWorldTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorldTemplates(input:))
     }
 }
 
@@ -244,4 +334,13 @@ extension ListWorldTemplatesInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListWorldTemplatesInput, OperationStackOutput == ListWorldTemplatesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listWorldTemplatesPaginated`
+    /// to access the nested member `[RoboMakerClientTypes.TemplateSummary]`
+    /// - Returns: `[RoboMakerClientTypes.TemplateSummary]`
+    public func templateSummaries() async throws -> [RoboMakerClientTypes.TemplateSummary] {
+        return try await self.asyncCompactMap { item in item.templateSummaries }
+    }
 }

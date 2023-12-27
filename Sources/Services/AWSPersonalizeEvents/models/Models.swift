@@ -2,6 +2,205 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension PersonalizeEventsClientTypes.Action: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionId
+        case properties
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actionId = self.actionId {
+            try encodeContainer.encode(actionId, forKey: .actionId)
+        }
+        if let properties = self.properties {
+            try encodeContainer.encode(properties, forKey: .properties)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionId)
+        actionId = actionIdDecoded
+        let propertiesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .properties)
+        properties = propertiesDecoded
+    }
+}
+
+extension PersonalizeEventsClientTypes.Action: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Action(actionId: \(Swift.String(describing: actionId)), properties: \"CONTENT_REDACTED\")"}
+}
+
+extension PersonalizeEventsClientTypes {
+    /// Represents action metadata added to an Action dataset using the PutActions API. For more information see [Importing actions individually](https://docs.aws.amazon.com/personalize/latest/dg/importing-actions.html).
+    public struct Action: Swift.Equatable {
+        /// The ID associated with the action.
+        /// This member is required.
+        public var actionId: Swift.String?
+        /// A string map of action-specific metadata. Each element in the map consists of a key-value pair. For example, {"value": "100"}. The keys use camel case names that match the fields in the schema for the Actions dataset. In the previous example, the value matches the 'VALUE' field defined in the Actions schema. For categorical string data, to include multiple categories for a single action, separate each category with a pipe separator (|). For example, \"Deluxe|Premium\".
+        public var properties: Swift.String?
+
+        public init(
+            actionId: Swift.String? = nil,
+            properties: Swift.String? = nil
+        )
+        {
+            self.actionId = actionId
+            self.properties = properties
+        }
+    }
+
+}
+
+extension PersonalizeEventsClientTypes.ActionInteraction: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionId
+        case eventId
+        case eventType
+        case impression
+        case properties
+        case recommendationId
+        case sessionId
+        case timestamp
+        case userId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actionId = self.actionId {
+            try encodeContainer.encode(actionId, forKey: .actionId)
+        }
+        if let eventId = self.eventId {
+            try encodeContainer.encode(eventId, forKey: .eventId)
+        }
+        if let eventType = self.eventType {
+            try encodeContainer.encode(eventType, forKey: .eventType)
+        }
+        if let impression = impression {
+            var impressionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .impression)
+            for actionid0 in impression {
+                try impressionContainer.encode(actionid0)
+            }
+        }
+        if let properties = self.properties {
+            try encodeContainer.encode(properties, forKey: .properties)
+        }
+        if let recommendationId = self.recommendationId {
+            try encodeContainer.encode(recommendationId, forKey: .recommendationId)
+        }
+        if let sessionId = self.sessionId {
+            try encodeContainer.encode(sessionId, forKey: .sessionId)
+        }
+        if let timestamp = self.timestamp {
+            try encodeContainer.encodeTimestamp(timestamp, format: .epochSeconds, forKey: .timestamp)
+        }
+        if let userId = self.userId {
+            try encodeContainer.encode(userId, forKey: .userId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionId)
+        actionId = actionIdDecoded
+        let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
+        userId = userIdDecoded
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
+        let timestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .timestamp)
+        timestamp = timestampDecoded
+        let eventTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventType)
+        eventType = eventTypeDecoded
+        let eventIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventId)
+        eventId = eventIdDecoded
+        let recommendationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendationId)
+        recommendationId = recommendationIdDecoded
+        let impressionContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .impression)
+        var impressionDecoded0:[Swift.String]? = nil
+        if let impressionContainer = impressionContainer {
+            impressionDecoded0 = [Swift.String]()
+            for string0 in impressionContainer {
+                if let string0 = string0 {
+                    impressionDecoded0?.append(string0)
+                }
+            }
+        }
+        impression = impressionDecoded0
+        let propertiesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .properties)
+        properties = propertiesDecoded
+    }
+}
+
+extension PersonalizeEventsClientTypes.ActionInteraction: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ActionInteraction(eventId: \(Swift.String(describing: eventId)), eventType: \(Swift.String(describing: eventType)), impression: \(Swift.String(describing: impression)), recommendationId: \(Swift.String(describing: recommendationId)), sessionId: \(Swift.String(describing: sessionId)), timestamp: \(Swift.String(describing: timestamp)), actionId: \"CONTENT_REDACTED\", properties: \"CONTENT_REDACTED\", userId: \"CONTENT_REDACTED\")"}
+}
+
+extension PersonalizeEventsClientTypes {
+    /// Represents an action interaction event sent using the PutActionInteractions API.
+    public struct ActionInteraction: Swift.Equatable {
+        /// The ID of the action the user interacted with. This corresponds to the ACTION_ID field of the Action interaction schema.
+        /// This member is required.
+        public var actionId: Swift.String?
+        /// An ID associated with the event. If an event ID is not provided, Amazon Personalize generates a unique ID for the event. An event ID is not used as an input to the model. Amazon Personalize uses the event ID to distinguish unique events. Any subsequent events after the first with the same event ID are not used in model training.
+        public var eventId: Swift.String?
+        /// The type of action interaction event. You can specify Viewed, Taken, and Not Taken event types. For more information about action interaction event type data, see [Event type data](https://docs.aws.amazon.com/personalize/latest/dg/action-interaction-event-type-data.html).
+        /// This member is required.
+        public var eventType: Swift.String?
+        /// A list of action IDs that represents the sequence of actions you have shown the user. For example, ["actionId1", "actionId2", "actionId3"]. Amazon Personalize doesn't use impressions data from action interaction events. Instead, record multiple events for each action and use the Viewed event type.
+        public var impression: [Swift.String]?
+        /// A string map of event-specific data that you might choose to record. For example, if a user takes an action, other than the action ID, you might also send the number of actions taken by the user. Each item in the map consists of a key-value pair. For example, {"numberOfActions": "12"} The keys use camel case names that match the fields in the Action interactions schema. In the above example, the numberOfActions would match the 'NUMBER_OF_ACTIONS' field defined in the Action interactions schema. The following can't be included as a keyword for properties (case insensitive).
+        ///
+        /// * userId
+        ///
+        /// * sessionId
+        ///
+        /// * eventType
+        ///
+        /// * timestamp
+        ///
+        /// * recommendationId
+        ///
+        /// * impression
+        public var properties: Swift.String?
+        /// The ID of the list of recommendations that contains the action the user interacted with.
+        public var recommendationId: Swift.String?
+        /// The ID associated with the user's visit. Your application generates a unique sessionId when a user first visits your website or uses your application.
+        /// This member is required.
+        public var sessionId: Swift.String?
+        /// The timestamp for when the action interaction event occurred. Timestamps must be in Unix epoch time format, in seconds.
+        /// This member is required.
+        public var timestamp: ClientRuntime.Date?
+        /// The ID of the user who interacted with the action. This corresponds to the USER_ID field of the Action interaction schema.
+        public var userId: Swift.String?
+
+        public init(
+            actionId: Swift.String? = nil,
+            eventId: Swift.String? = nil,
+            eventType: Swift.String? = nil,
+            impression: [Swift.String]? = nil,
+            properties: Swift.String? = nil,
+            recommendationId: Swift.String? = nil,
+            sessionId: Swift.String? = nil,
+            timestamp: ClientRuntime.Date? = nil,
+            userId: Swift.String? = nil
+        )
+        {
+            self.actionId = actionId
+            self.eventId = eventId
+            self.eventType = eventType
+            self.impression = impression
+            self.properties = properties
+            self.recommendationId = recommendationId
+            self.sessionId = sessionId
+            self.timestamp = timestamp
+            self.userId = userId
+        }
+    }
+
+}
+
 extension PersonalizeEventsClientTypes.Event: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eventId
@@ -88,22 +287,34 @@ extension PersonalizeEventsClientTypes.Event: Swift.CustomDebugStringConvertible
 }
 
 extension PersonalizeEventsClientTypes {
-    /// Represents user interaction event information sent using the PutEvents API.
+    /// Represents item interaction event information sent using the PutEvents API.
     public struct Event: Swift.Equatable {
-        /// An ID associated with the event. If an event ID is not provided, Amazon Personalize generates a unique ID for the event. An event ID is not used as an input to the model. Amazon Personalize uses the event ID to distinquish unique events. Any subsequent events after the first with the same event ID are not used in model training.
+        /// An ID associated with the event. If an event ID is not provided, Amazon Personalize generates a unique ID for the event. An event ID is not used as an input to the model. Amazon Personalize uses the event ID to distinguish unique events. Any subsequent events after the first with the same event ID are not used in model training.
         public var eventId: Swift.String?
-        /// The type of event, such as click or download. This property corresponds to the EVENT_TYPE field of your Interactions schema and depends on the types of events you are tracking.
+        /// The type of event, such as click or download. This property corresponds to the EVENT_TYPE field of your Item interactions dataset's schema and depends on the types of events you are tracking.
         /// This member is required.
         public var eventType: Swift.String?
-        /// The event value that corresponds to the EVENT_VALUE field of the Interactions schema.
+        /// The event value that corresponds to the EVENT_VALUE field of the Item interactions schema.
         public var eventValue: Swift.Float?
         /// A list of item IDs that represents the sequence of items you have shown the user. For example, ["itemId1", "itemId2", "itemId3"]. Provide a list of items to manually record impressions data for an event. For more information on recording impressions data, see [Recording impressions data](https://docs.aws.amazon.com/personalize/latest/dg/recording-events.html#putevents-including-impressions-data).
         public var impression: [Swift.String]?
-        /// The item ID key that corresponds to the ITEM_ID field of the Interactions schema.
+        /// The item ID key that corresponds to the ITEM_ID field of the Item interactions dataset's schema.
         public var itemId: Swift.String?
         /// Contains information about the metric attribution associated with an event. For more information about metric attributions, see [Measuring impact of recommendations](https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html).
         public var metricAttribution: PersonalizeEventsClientTypes.MetricAttribution?
-        /// A string map of event-specific data that you might choose to record. For example, if a user rates a movie on your site, other than movie ID (itemId) and rating (eventValue) , you might also send the number of movie ratings made by the user. Each item in the map consists of a key-value pair. For example, {"numberOfRatings": "12"} The keys use camel case names that match the fields in the Interactions schema. In the above example, the numberOfRatings would match the 'NUMBER_OF_RATINGS' field defined in the Interactions schema.
+        /// A string map of event-specific data that you might choose to record. For example, if a user rates a movie on your site, other than movie ID (itemId) and rating (eventValue) , you might also send the number of movie ratings made by the user. Each item in the map consists of a key-value pair. For example, {"numberOfRatings": "12"} The keys use camel case names that match the fields in the Item interactions dataset's schema. In the above example, the numberOfRatings would match the 'NUMBER_OF_RATINGS' field defined in the Item interactions dataset's schema. The following can't be included as a keyword for properties (case insensitive).
+        ///
+        /// * userId
+        ///
+        /// * sessionId
+        ///
+        /// * eventType
+        ///
+        /// * timestamp
+        ///
+        /// * recommendationId
+        ///
+        /// * impression
         public var properties: Swift.String?
         /// The ID of the list of recommendations that contains the item the user interacted with. Provide a recommendationId to have Amazon Personalize implicitly record the recommendations you show your user as impressions data. Or provide a recommendationId if you use a metric attribution to measure the impact of recommendations. For more information on recording impressions data, see [Recording impressions data](https://docs.aws.amazon.com/personalize/latest/dg/recording-events.html#putevents-including-impressions-data). For more information on creating a metric attribution see [Measuring impact of recommendations](https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html).
         public var recommendationId: Swift.String?
@@ -223,7 +434,7 @@ extension PersonalizeEventsClientTypes.Item: Swift.CustomDebugStringConvertible 
 }
 
 extension PersonalizeEventsClientTypes {
-    /// Represents item metadata added to an Items dataset using the PutItems API. For more information see [Importing Items Incrementally](https://docs.aws.amazon.com/personalize/latest/dg/importing-items.html).
+    /// Represents item metadata added to an Items dataset using the PutItems API. For more information see [Importing items individually](https://docs.aws.amazon.com/personalize/latest/dg/importing-items.html).
     public struct Item: Swift.Equatable {
         /// The ID associated with the item.
         /// This member is required.
@@ -279,6 +490,198 @@ extension PersonalizeEventsClientTypes {
 
 }
 
+extension PutActionInteractionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionInteractions
+        case trackingId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actionInteractions = actionInteractions {
+            var actionInteractionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actionInteractions)
+            for actioninteraction0 in actionInteractions {
+                try actionInteractionsContainer.encode(actioninteraction0)
+            }
+        }
+        if let trackingId = self.trackingId {
+            try encodeContainer.encode(trackingId, forKey: .trackingId)
+        }
+    }
+}
+
+extension PutActionInteractionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/action-interactions"
+    }
+}
+
+public struct PutActionInteractionsInput: Swift.Equatable {
+    /// A list of action interaction events from the session.
+    /// This member is required.
+    public var actionInteractions: [PersonalizeEventsClientTypes.ActionInteraction]?
+    /// The ID of your action interaction event tracker. When you create an Action interactions dataset, Amazon Personalize creates an action interaction event tracker for you. For more information, see [Action interaction event tracker ID](https://docs.aws.amazon.com/personalize/latest/dg/action-interaction-tracker-id.html).
+    /// This member is required.
+    public var trackingId: Swift.String?
+
+    public init(
+        actionInteractions: [PersonalizeEventsClientTypes.ActionInteraction]? = nil,
+        trackingId: Swift.String? = nil
+    )
+    {
+        self.actionInteractions = actionInteractions
+        self.trackingId = trackingId
+    }
+}
+
+struct PutActionInteractionsInputBody: Swift.Equatable {
+    let trackingId: Swift.String?
+    let actionInteractions: [PersonalizeEventsClientTypes.ActionInteraction]?
+}
+
+extension PutActionInteractionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionInteractions
+        case trackingId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trackingIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trackingId)
+        trackingId = trackingIdDecoded
+        let actionInteractionsContainer = try containerValues.decodeIfPresent([PersonalizeEventsClientTypes.ActionInteraction?].self, forKey: .actionInteractions)
+        var actionInteractionsDecoded0:[PersonalizeEventsClientTypes.ActionInteraction]? = nil
+        if let actionInteractionsContainer = actionInteractionsContainer {
+            actionInteractionsDecoded0 = [PersonalizeEventsClientTypes.ActionInteraction]()
+            for structure0 in actionInteractionsContainer {
+                if let structure0 = structure0 {
+                    actionInteractionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        actionInteractions = actionInteractionsDecoded0
+    }
+}
+
+extension PutActionInteractionsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutActionInteractionsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutActionInteractionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension PutActionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actions
+        case datasetArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actions = actions {
+            var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
+            for action0 in actions {
+                try actionsContainer.encode(action0)
+            }
+        }
+        if let datasetArn = self.datasetArn {
+            try encodeContainer.encode(datasetArn, forKey: .datasetArn)
+        }
+    }
+}
+
+extension PutActionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/actions"
+    }
+}
+
+public struct PutActionsInput: Swift.Equatable {
+    /// A list of action data.
+    /// This member is required.
+    public var actions: [PersonalizeEventsClientTypes.Action]?
+    /// The Amazon Resource Name (ARN) of the Actions dataset you are adding the action or actions to.
+    /// This member is required.
+    public var datasetArn: Swift.String?
+
+    public init(
+        actions: [PersonalizeEventsClientTypes.Action]? = nil,
+        datasetArn: Swift.String? = nil
+    )
+    {
+        self.actions = actions
+        self.datasetArn = datasetArn
+    }
+}
+
+struct PutActionsInputBody: Swift.Equatable {
+    let datasetArn: Swift.String?
+    let actions: [PersonalizeEventsClientTypes.Action]?
+}
+
+extension PutActionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actions
+        case datasetArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let datasetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetArn)
+        datasetArn = datasetArnDecoded
+        let actionsContainer = try containerValues.decodeIfPresent([PersonalizeEventsClientTypes.Action?].self, forKey: .actions)
+        var actionsDecoded0:[PersonalizeEventsClientTypes.Action]? = nil
+        if let actionsContainer = actionsContainer {
+            actionsDecoded0 = [PersonalizeEventsClientTypes.Action]()
+            for structure0 in actionsContainer {
+                if let structure0 = structure0 {
+                    actionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        actions = actionsDecoded0
+    }
+}
+
+extension PutActionsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutActionsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension PutEventsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "PutEventsInput(eventList: \(Swift.String(describing: eventList)), sessionId: \(Swift.String(describing: sessionId)), trackingId: \(Swift.String(describing: trackingId)), userId: \"CONTENT_REDACTED\")"}
@@ -322,7 +725,7 @@ public struct PutEventsInput: Swift.Equatable {
     /// A list of event data from the session.
     /// This member is required.
     public var eventList: [PersonalizeEventsClientTypes.Event]?
-    /// The session ID associated with the user's visit. Your application generates the sessionId when a user first visits your website or uses your application. Amazon Personalize uses the sessionId to associate events with the user before they log in. For more information, see [Recording Events](https://docs.aws.amazon.com/personalize/latest/dg/recording-events.html).
+    /// The session ID associated with the user's visit. Your application generates the sessionId when a user first visits your website or uses your application. Amazon Personalize uses the sessionId to associate events with the user before they log in. For more information, see [Recording item interaction events](https://docs.aws.amazon.com/personalize/latest/dg/recording-item-interaction-events.html).
     /// This member is required.
     public var sessionId: Swift.String?
     /// The tracking ID for the event. The ID is generated by a call to the [CreateEventTracker](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateEventTracker.html) API.
@@ -382,8 +785,18 @@ extension PutEventsInputBody: Swift.Decodable {
     }
 }
 
-public enum PutEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension PutEventsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutEventsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -391,16 +804,6 @@ public enum PutEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension PutEventsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutEventsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension PutItemsInput: Swift.Encodable {
@@ -476,8 +879,18 @@ extension PutItemsInputBody: Swift.Decodable {
     }
 }
 
-public enum PutItemsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension PutItemsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutItemsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutItemsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -487,16 +900,6 @@ public enum PutItemsOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension PutItemsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutItemsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension PutUsersInput: Swift.Encodable {
@@ -572,8 +975,18 @@ extension PutUsersInputBody: Swift.Decodable {
     }
 }
 
-public enum PutUsersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension PutUsersOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutUsersOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutUsersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -583,16 +996,6 @@ public enum PutUsersOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension PutUsersOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutUsersOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ResourceInUseException {
@@ -736,7 +1139,7 @@ extension PersonalizeEventsClientTypes.User: Swift.CustomDebugStringConvertible 
 }
 
 extension PersonalizeEventsClientTypes {
-    /// Represents user metadata added to a Users dataset using the PutUsers API. For more information see [Importing Users Incrementally](https://docs.aws.amazon.com/personalize/latest/dg/importing-users.html).
+    /// Represents user metadata added to a Users dataset using the PutUsers API. For more information see [Importing users individually](https://docs.aws.amazon.com/personalize/latest/dg/importing-users.html).
     public struct User: Swift.Equatable {
         /// A string map of user-specific metadata. Each element in the map consists of a key-value pair. For example, {"numberOfVideosWatched": "45"}. The keys use camel case names that match the fields in the schema for the Users dataset. In the previous example, the numberOfVideosWatched matches the 'NUMBER_OF_VIDEOS_WATCHED' field defined in the Users schema. For categorical string data, to include multiple categories for a single user, separate each category with a pipe separator (|). For example, \"Member|Frequent shopper\".
         public var properties: Swift.String?

@@ -17,7 +17,7 @@ extension AccessDeniedException {
     }
 }
 
-/// User does not have sufficient access to perform this action.
+/// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -73,7 +73,7 @@ extension ConflictException {
     }
 }
 
-/// Updating or deleting a resource can cause an inconsistent state.
+/// Updating or deleting the resource can cause an inconsistent state.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -228,12 +228,14 @@ extension ControlTowerClientTypes {
     public enum ControlOperationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disableControl
         case enableControl
+        case updateEnabledControl
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ControlOperationType] {
             return [
                 .disableControl,
                 .enableControl,
+                .updateEnabledControl,
                 .sdkUnknown("")
             ]
         }
@@ -245,6 +247,7 @@ extension ControlTowerClientTypes {
             switch self {
             case .disableControl: return "DISABLE_CONTROL"
             case .enableControl: return "ENABLE_CONTROL"
+            case .updateEnabledControl: return "UPDATE_ENABLED_CONTROL"
             case let .sdkUnknown(s): return s
             }
         }
@@ -252,6 +255,263 @@ extension ControlTowerClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ControlOperationType(rawValue: rawValue) ?? ControlOperationType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CreateLandingZoneInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case manifest
+        case tags
+        case version
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let manifest = self.manifest {
+            try encodeContainer.encode(manifest, forKey: .manifest)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let version = self.version {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+    }
+}
+
+extension CreateLandingZoneInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/create-landingzone"
+    }
+}
+
+public struct CreateLandingZoneInput: Swift.Equatable {
+    /// The manifest JSON file is a text file that describes your Amazon Web Services resources. For examples, review [Launch your landing zone](https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-launch).
+    /// This member is required.
+    public var manifest: ClientRuntime.Document?
+    /// Tags to be applied to the landing zone.
+    public var tags: [Swift.String:Swift.String]?
+    /// The landing zone version, for example, 3.0.
+    /// This member is required.
+    public var version: Swift.String?
+
+    public init(
+        manifest: ClientRuntime.Document? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        version: Swift.String? = nil
+    )
+    {
+        self.manifest = manifest
+        self.tags = tags
+        self.version = version
+    }
+}
+
+struct CreateLandingZoneInputBody: Swift.Equatable {
+    let version: Swift.String?
+    let manifest: ClientRuntime.Document?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateLandingZoneInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case manifest
+        case tags
+        case version
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+        let manifestDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .manifest)
+        manifest = manifestDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateLandingZoneOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateLandingZoneOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.operationIdentifier = output.operationIdentifier
+        } else {
+            self.arn = nil
+            self.operationIdentifier = nil
+        }
+    }
+}
+
+public struct CreateLandingZoneOutput: Swift.Equatable {
+    /// The ARN of the landing zone resource.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// A unique identifier assigned to a CreateLandingZone operation. You can use this identifier as an input of GetLandingZoneOperation to check the operation's status.
+    /// This member is required.
+    public var operationIdentifier: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        operationIdentifier: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.operationIdentifier = operationIdentifier
+    }
+}
+
+struct CreateLandingZoneOutputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let operationIdentifier: Swift.String?
+}
+
+extension CreateLandingZoneOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case operationIdentifier
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let operationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationIdentifier)
+        operationIdentifier = operationIdentifierDecoded
+    }
+}
+
+enum CreateLandingZoneOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteLandingZoneInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case landingZoneIdentifier
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let landingZoneIdentifier = self.landingZoneIdentifier {
+            try encodeContainer.encode(landingZoneIdentifier, forKey: .landingZoneIdentifier)
+        }
+    }
+}
+
+extension DeleteLandingZoneInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/delete-landingzone"
+    }
+}
+
+public struct DeleteLandingZoneInput: Swift.Equatable {
+    /// The unique identifier of the landing zone.
+    /// This member is required.
+    public var landingZoneIdentifier: Swift.String?
+
+    public init(
+        landingZoneIdentifier: Swift.String? = nil
+    )
+    {
+        self.landingZoneIdentifier = landingZoneIdentifier
+    }
+}
+
+struct DeleteLandingZoneInputBody: Swift.Equatable {
+    let landingZoneIdentifier: Swift.String?
+}
+
+extension DeleteLandingZoneInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case landingZoneIdentifier
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let landingZoneIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .landingZoneIdentifier)
+        landingZoneIdentifier = landingZoneIdentifierDecoded
+    }
+}
+
+extension DeleteLandingZoneOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteLandingZoneOutputBody = try responseDecoder.decode(responseBody: data)
+            self.operationIdentifier = output.operationIdentifier
+        } else {
+            self.operationIdentifier = nil
+        }
+    }
+}
+
+public struct DeleteLandingZoneOutput: Swift.Equatable {
+    /// >A unique identifier assigned to a DeleteLandingZone operation. You can use this identifier as an input parameter of GetLandingZoneOperation to check the operation's status.
+    /// This member is required.
+    public var operationIdentifier: Swift.String?
+
+    public init(
+        operationIdentifier: Swift.String? = nil
+    )
+    {
+        self.operationIdentifier = operationIdentifier
+    }
+}
+
+struct DeleteLandingZoneOutputBody: Swift.Equatable {
+    let operationIdentifier: Swift.String?
+}
+
+extension DeleteLandingZoneOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case operationIdentifier
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let operationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationIdentifier)
+        operationIdentifier = operationIdentifierDecoded
+    }
+}
+
+enum DeleteLandingZoneOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
@@ -280,10 +540,10 @@ extension DisableControlInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DisableControlInput: Swift.Equatable {
-    /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the Region deny guardrail.
+    /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the landing zone Region deny control. For information on how to find the controlIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
     /// This member is required.
     public var controlIdentifier: Swift.String?
-    /// The ARN of the organizational unit.
+    /// The ARN of the organizational unit. For information on how to find the targetIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
     /// This member is required.
     public var targetIdentifier: Swift.String?
 
@@ -317,8 +577,49 @@ extension DisableControlInputBody: Swift.Decodable {
     }
 }
 
-public enum DisableControlOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DisableControlOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DisableControlOutputBody = try responseDecoder.decode(responseBody: data)
+            self.operationIdentifier = output.operationIdentifier
+        } else {
+            self.operationIdentifier = nil
+        }
+    }
+}
+
+public struct DisableControlOutput: Swift.Equatable {
+    /// The ID of the asynchronous operation, which is used to track status. The operation is available for 90 days.
+    /// This member is required.
+    public var operationIdentifier: Swift.String?
+
+    public init(
+        operationIdentifier: Swift.String? = nil
+    )
+    {
+        self.operationIdentifier = operationIdentifier
+    }
+}
+
+struct DisableControlOutputBody: Swift.Equatable {
+    let operationIdentifier: Swift.String?
+}
+
+extension DisableControlOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case operationIdentifier
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let operationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationIdentifier)
+        operationIdentifier = operationIdentifierDecoded
+    }
+}
+
+enum DisableControlOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -334,50 +635,92 @@ public enum DisableControlOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DisableControlOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DisableControlOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.operationIdentifier = output.operationIdentifier
-        } else {
-            self.operationIdentifier = nil
+extension ControlTowerClientTypes {
+    public enum DriftStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case drifted
+        case inSync
+        case notChecking
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DriftStatus] {
+            return [
+                .drifted,
+                .inSync,
+                .notChecking,
+                .unknown,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .drifted: return "DRIFTED"
+            case .inSync: return "IN_SYNC"
+            case .notChecking: return "NOT_CHECKING"
+            case .unknown: return "UNKNOWN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DriftStatus(rawValue: rawValue) ?? DriftStatus.sdkUnknown(rawValue)
         }
     }
 }
 
-public struct DisableControlOutputResponse: Swift.Equatable {
-    /// The ID of the asynchronous operation, which is used to track status. The operation is available for 90 days.
-    /// This member is required.
-    public var operationIdentifier: Swift.String?
-
-    public init(
-        operationIdentifier: Swift.String? = nil
-    )
-    {
-        self.operationIdentifier = operationIdentifier
-    }
-}
-
-struct DisableControlOutputResponseBody: Swift.Equatable {
-    let operationIdentifier: Swift.String?
-}
-
-extension DisableControlOutputResponseBody: Swift.Decodable {
+extension ControlTowerClientTypes.DriftStatusSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case operationIdentifier
+        case driftStatus
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let driftStatus = self.driftStatus {
+            try encodeContainer.encode(driftStatus.rawValue, forKey: .driftStatus)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let operationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationIdentifier)
-        operationIdentifier = operationIdentifierDecoded
+        let driftStatusDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.DriftStatus.self, forKey: .driftStatus)
+        driftStatus = driftStatusDecoded
     }
+}
+
+extension ControlTowerClientTypes {
+    /// The drift summary of the enabled control. Amazon Web Services Control Tower expects the enabled control configuration to include all supported and governed Regions. If the enabled control differs from the expected configuration, it is defined to be in a state of drift. You can repair this drift by resetting the enabled control.
+    public struct DriftStatusSummary: Swift.Equatable {
+        /// The drift status of the enabled control. Valid values:
+        ///
+        /// * DRIFTED: The enabledControl deployed in this configuration doesn’t match the configuration that Amazon Web Services Control Tower expected.
+        ///
+        /// * IN_SYNC: The enabledControl deployed in this configuration matches the configuration that Amazon Web Services Control Tower expected.
+        ///
+        /// * NOT_CHECKING: Amazon Web Services Control Tower does not check drift for this enabled control. Drift is not supported for the control type.
+        ///
+        /// * UNKNOWN: Amazon Web Services Control Tower is not able to check the drift status for the enabled control.
+        public var driftStatus: ControlTowerClientTypes.DriftStatus?
+
+        public init(
+            driftStatus: ControlTowerClientTypes.DriftStatus? = nil
+        )
+        {
+            self.driftStatus = driftStatus
+        }
+    }
+
 }
 
 extension EnableControlInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case controlIdentifier
+        case parameters
+        case tags
         case targetIdentifier
     }
 
@@ -385,6 +728,18 @@ extension EnableControlInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let controlIdentifier = self.controlIdentifier {
             try encodeContainer.encode(controlIdentifier, forKey: .controlIdentifier)
+        }
+        if let parameters = parameters {
+            var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
+            for enabledcontrolparameter0 in parameters {
+                try parametersContainer.encode(enabledcontrolparameter0)
+            }
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let targetIdentifier = self.targetIdentifier {
             try encodeContainer.encode(targetIdentifier, forKey: .targetIdentifier)
@@ -399,19 +754,27 @@ extension EnableControlInput: ClientRuntime.URLPathProvider {
 }
 
 public struct EnableControlInput: Swift.Equatable {
-    /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the Region deny guardrail.
+    /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the landing zone Region deny control. For information on how to find the controlIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
     /// This member is required.
     public var controlIdentifier: Swift.String?
-    /// The ARN of the organizational unit.
+    /// An array of EnabledControlParameter objects
+    public var parameters: [ControlTowerClientTypes.EnabledControlParameter]?
+    /// Tags to be applied to the EnabledControl resource.
+    public var tags: [Swift.String:Swift.String]?
+    /// The ARN of the organizational unit. For information on how to find the targetIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
     /// This member is required.
     public var targetIdentifier: Swift.String?
 
     public init(
         controlIdentifier: Swift.String? = nil,
+        parameters: [ControlTowerClientTypes.EnabledControlParameter]? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
         targetIdentifier: Swift.String? = nil
     )
     {
         self.controlIdentifier = controlIdentifier
+        self.parameters = parameters
+        self.tags = tags
         self.targetIdentifier = targetIdentifier
     }
 }
@@ -419,11 +782,15 @@ public struct EnableControlInput: Swift.Equatable {
 struct EnableControlInputBody: Swift.Equatable {
     let controlIdentifier: Swift.String?
     let targetIdentifier: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+    let parameters: [ControlTowerClientTypes.EnabledControlParameter]?
 }
 
 extension EnableControlInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case controlIdentifier
+        case parameters
+        case tags
         case targetIdentifier
     }
 
@@ -433,11 +800,84 @@ extension EnableControlInputBody: Swift.Decodable {
         controlIdentifier = controlIdentifierDecoded
         let targetIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetIdentifier)
         targetIdentifier = targetIdentifierDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let parametersContainer = try containerValues.decodeIfPresent([ControlTowerClientTypes.EnabledControlParameter?].self, forKey: .parameters)
+        var parametersDecoded0:[ControlTowerClientTypes.EnabledControlParameter]? = nil
+        if let parametersContainer = parametersContainer {
+            parametersDecoded0 = [ControlTowerClientTypes.EnabledControlParameter]()
+            for structure0 in parametersContainer {
+                if let structure0 = structure0 {
+                    parametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        parameters = parametersDecoded0
     }
 }
 
-public enum EnableControlOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension EnableControlOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: EnableControlOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.operationIdentifier = output.operationIdentifier
+        } else {
+            self.arn = nil
+            self.operationIdentifier = nil
+        }
+    }
+}
+
+public struct EnableControlOutput: Swift.Equatable {
+    /// The ARN of the EnabledControl resource.
+    public var arn: Swift.String?
+    /// The ID of the asynchronous operation, which is used to track status. The operation is available for 90 days.
+    /// This member is required.
+    public var operationIdentifier: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        operationIdentifier: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.operationIdentifier = operationIdentifier
+    }
+}
+
+struct EnableControlOutputBody: Swift.Equatable {
+    let operationIdentifier: Swift.String?
+    let arn: Swift.String?
+}
+
+extension EnableControlOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case operationIdentifier
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let operationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationIdentifier)
+        operationIdentifier = operationIdentifierDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+    }
+}
+
+enum EnableControlOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -453,56 +893,244 @@ public enum EnableControlOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension EnableControlOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: EnableControlOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.operationIdentifier = output.operationIdentifier
-        } else {
-            self.operationIdentifier = nil
-        }
-    }
-}
-
-public struct EnableControlOutputResponse: Swift.Equatable {
-    /// The ID of the asynchronous operation, which is used to track status. The operation is available for 90 days.
-    /// This member is required.
-    public var operationIdentifier: Swift.String?
-
-    public init(
-        operationIdentifier: Swift.String? = nil
-    )
-    {
-        self.operationIdentifier = operationIdentifier
-    }
-}
-
-struct EnableControlOutputResponseBody: Swift.Equatable {
-    let operationIdentifier: Swift.String?
-}
-
-extension EnableControlOutputResponseBody: Swift.Decodable {
+extension ControlTowerClientTypes.EnabledControlDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case operationIdentifier
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let operationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationIdentifier)
-        operationIdentifier = operationIdentifierDecoded
-    }
-}
-
-extension ControlTowerClientTypes.EnabledControlSummary: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
         case controlIdentifier
+        case driftStatusSummary
+        case parameters
+        case statusSummary
+        case targetIdentifier
+        case targetRegions
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
         if let controlIdentifier = self.controlIdentifier {
             try encodeContainer.encode(controlIdentifier, forKey: .controlIdentifier)
+        }
+        if let driftStatusSummary = self.driftStatusSummary {
+            try encodeContainer.encode(driftStatusSummary, forKey: .driftStatusSummary)
+        }
+        if let parameters = parameters {
+            var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
+            for enabledcontrolparametersummary0 in parameters {
+                try parametersContainer.encode(enabledcontrolparametersummary0)
+            }
+        }
+        if let statusSummary = self.statusSummary {
+            try encodeContainer.encode(statusSummary, forKey: .statusSummary)
+        }
+        if let targetIdentifier = self.targetIdentifier {
+            try encodeContainer.encode(targetIdentifier, forKey: .targetIdentifier)
+        }
+        if let targetRegions = targetRegions {
+            var targetRegionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetRegions)
+            for region0 in targetRegions {
+                try targetRegionsContainer.encode(region0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let controlIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .controlIdentifier)
+        controlIdentifier = controlIdentifierDecoded
+        let targetIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetIdentifier)
+        targetIdentifier = targetIdentifierDecoded
+        let targetRegionsContainer = try containerValues.decodeIfPresent([ControlTowerClientTypes.Region?].self, forKey: .targetRegions)
+        var targetRegionsDecoded0:[ControlTowerClientTypes.Region]? = nil
+        if let targetRegionsContainer = targetRegionsContainer {
+            targetRegionsDecoded0 = [ControlTowerClientTypes.Region]()
+            for structure0 in targetRegionsContainer {
+                if let structure0 = structure0 {
+                    targetRegionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        targetRegions = targetRegionsDecoded0
+        let statusSummaryDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.EnablementStatusSummary.self, forKey: .statusSummary)
+        statusSummary = statusSummaryDecoded
+        let driftStatusSummaryDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.DriftStatusSummary.self, forKey: .driftStatusSummary)
+        driftStatusSummary = driftStatusSummaryDecoded
+        let parametersContainer = try containerValues.decodeIfPresent([ControlTowerClientTypes.EnabledControlParameterSummary?].self, forKey: .parameters)
+        var parametersDecoded0:[ControlTowerClientTypes.EnabledControlParameterSummary]? = nil
+        if let parametersContainer = parametersContainer {
+            parametersDecoded0 = [ControlTowerClientTypes.EnabledControlParameterSummary]()
+            for structure0 in parametersContainer {
+                if let structure0 = structure0 {
+                    parametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        parameters = parametersDecoded0
+    }
+}
+
+extension ControlTowerClientTypes {
+    /// Information about the enabled control.
+    public struct EnabledControlDetails: Swift.Equatable {
+        /// The ARN of the enabled control.
+        public var arn: Swift.String?
+        /// The control identifier of the enabled control. For information on how to find the controlIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
+        public var controlIdentifier: Swift.String?
+        /// The drift status of the enabled control.
+        public var driftStatusSummary: ControlTowerClientTypes.DriftStatusSummary?
+        /// Array of EnabledControlParameter objects.
+        public var parameters: [ControlTowerClientTypes.EnabledControlParameterSummary]?
+        /// The deployment summary of the enabled control.
+        public var statusSummary: ControlTowerClientTypes.EnablementStatusSummary?
+        /// The ARN of the organizational unit. For information on how to find the targetIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
+        public var targetIdentifier: Swift.String?
+        /// Target Amazon Web Services Regions for the enabled control.
+        public var targetRegions: [ControlTowerClientTypes.Region]?
+
+        public init(
+            arn: Swift.String? = nil,
+            controlIdentifier: Swift.String? = nil,
+            driftStatusSummary: ControlTowerClientTypes.DriftStatusSummary? = nil,
+            parameters: [ControlTowerClientTypes.EnabledControlParameterSummary]? = nil,
+            statusSummary: ControlTowerClientTypes.EnablementStatusSummary? = nil,
+            targetIdentifier: Swift.String? = nil,
+            targetRegions: [ControlTowerClientTypes.Region]? = nil
+        )
+        {
+            self.arn = arn
+            self.controlIdentifier = controlIdentifier
+            self.driftStatusSummary = driftStatusSummary
+            self.parameters = parameters
+            self.statusSummary = statusSummary
+            self.targetIdentifier = targetIdentifier
+            self.targetRegions = targetRegions
+        }
+    }
+
+}
+
+extension ControlTowerClientTypes.EnabledControlParameter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension ControlTowerClientTypes {
+    /// A set of parameters that configure the behavior of the enabled control. A key/value pair, where Key is of type String and Value is of type Document.
+    public struct EnabledControlParameter: Swift.Equatable {
+        /// The key of a key/value pair. It is of type string.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value of a key/value pair. It can be of type arraystring, number, object, or boolean.
+        /// This member is required.
+        public var value: ClientRuntime.Document?
+
+        public init(
+            key: Swift.String? = nil,
+            value: ClientRuntime.Document? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
+}
+
+extension ControlTowerClientTypes.EnabledControlParameterSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension ControlTowerClientTypes {
+    /// Returns a summary of information about the parameters of an enabled control.
+    public struct EnabledControlParameterSummary: Swift.Equatable {
+        /// The key of a key/value pair.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value of a key/value pair.
+        /// This member is required.
+        public var value: ClientRuntime.Document?
+
+        public init(
+            key: Swift.String? = nil,
+            value: ClientRuntime.Document? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
+}
+
+extension ControlTowerClientTypes.EnabledControlSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case controlIdentifier
+        case driftStatusSummary
+        case statusSummary
+        case targetIdentifier
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let controlIdentifier = self.controlIdentifier {
+            try encodeContainer.encode(controlIdentifier, forKey: .controlIdentifier)
+        }
+        if let driftStatusSummary = self.driftStatusSummary {
+            try encodeContainer.encode(driftStatusSummary, forKey: .driftStatusSummary)
+        }
+        if let statusSummary = self.statusSummary {
+            try encodeContainer.encode(statusSummary, forKey: .statusSummary)
+        }
+        if let targetIdentifier = self.targetIdentifier {
+            try encodeContainer.encode(targetIdentifier, forKey: .targetIdentifier)
         }
     }
 
@@ -510,20 +1138,130 @@ extension ControlTowerClientTypes.EnabledControlSummary: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let controlIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .controlIdentifier)
         controlIdentifier = controlIdentifierDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let targetIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetIdentifier)
+        targetIdentifier = targetIdentifierDecoded
+        let statusSummaryDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.EnablementStatusSummary.self, forKey: .statusSummary)
+        statusSummary = statusSummaryDecoded
+        let driftStatusSummaryDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.DriftStatusSummary.self, forKey: .driftStatusSummary)
+        driftStatusSummary = driftStatusSummaryDecoded
     }
 }
 
 extension ControlTowerClientTypes {
-    /// A summary of enabled controls.
+    /// Returns a summary of information about an enabled control.
     public struct EnabledControlSummary: Swift.Equatable {
-        /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the Region deny guardrail.
+        /// The ARN of the enabled control.
+        public var arn: Swift.String?
+        /// The controlIdentifier of the enabled control.
         public var controlIdentifier: Swift.String?
+        /// The drift status of the enabled control.
+        public var driftStatusSummary: ControlTowerClientTypes.DriftStatusSummary?
+        /// A short description of the status of the enabled control.
+        public var statusSummary: ControlTowerClientTypes.EnablementStatusSummary?
+        /// The ARN of the organizational unit.
+        public var targetIdentifier: Swift.String?
 
         public init(
-            controlIdentifier: Swift.String? = nil
+            arn: Swift.String? = nil,
+            controlIdentifier: Swift.String? = nil,
+            driftStatusSummary: ControlTowerClientTypes.DriftStatusSummary? = nil,
+            statusSummary: ControlTowerClientTypes.EnablementStatusSummary? = nil,
+            targetIdentifier: Swift.String? = nil
         )
         {
+            self.arn = arn
             self.controlIdentifier = controlIdentifier
+            self.driftStatusSummary = driftStatusSummary
+            self.statusSummary = statusSummary
+            self.targetIdentifier = targetIdentifier
+        }
+    }
+
+}
+
+extension ControlTowerClientTypes {
+    public enum EnablementStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case succeeded
+        case underChange
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EnablementStatus] {
+            return [
+                .failed,
+                .succeeded,
+                .underChange,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .succeeded: return "SUCCEEDED"
+            case .underChange: return "UNDER_CHANGE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EnablementStatus(rawValue: rawValue) ?? EnablementStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ControlTowerClientTypes.EnablementStatusSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastOperationIdentifier
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lastOperationIdentifier = self.lastOperationIdentifier {
+            try encodeContainer.encode(lastOperationIdentifier, forKey: .lastOperationIdentifier)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.EnablementStatus.self, forKey: .status)
+        status = statusDecoded
+        let lastOperationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastOperationIdentifier)
+        lastOperationIdentifier = lastOperationIdentifierDecoded
+    }
+}
+
+extension ControlTowerClientTypes {
+    /// The deployment summary of the enabled control.
+    public struct EnablementStatusSummary: Swift.Equatable {
+        /// The last operation identifier for the enabled control.
+        public var lastOperationIdentifier: Swift.String?
+        /// The deployment status of the enabled control. Valid values:
+        ///
+        /// * SUCCEEDED: The enabledControl configuration was deployed successfully.
+        ///
+        /// * UNDER_CHANGE: The enabledControl configuration is changing.
+        ///
+        /// * FAILED: The enabledControl configuration failed to deploy.
+        public var status: ControlTowerClientTypes.EnablementStatus?
+
+        public init(
+            lastOperationIdentifier: Swift.String? = nil,
+            status: ControlTowerClientTypes.EnablementStatus? = nil
+        )
+        {
+            self.lastOperationIdentifier = lastOperationIdentifier
+            self.status = status
         }
     }
 
@@ -577,8 +1315,49 @@ extension GetControlOperationInputBody: Swift.Decodable {
     }
 }
 
-public enum GetControlOperationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension GetControlOperationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetControlOperationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.controlOperation = output.controlOperation
+        } else {
+            self.controlOperation = nil
+        }
+    }
+}
+
+public struct GetControlOperationOutput: Swift.Equatable {
+    /// An operation performed by the control.
+    /// This member is required.
+    public var controlOperation: ControlTowerClientTypes.ControlOperation?
+
+    public init(
+        controlOperation: ControlTowerClientTypes.ControlOperation? = nil
+    )
+    {
+        self.controlOperation = controlOperation
+    }
+}
+
+struct GetControlOperationOutputBody: Swift.Equatable {
+    let controlOperation: ControlTowerClientTypes.ControlOperation?
+}
+
+extension GetControlOperationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case controlOperation
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let controlOperationDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.ControlOperation.self, forKey: .controlOperation)
+        controlOperation = controlOperationDecoded
+    }
+}
+
+enum GetControlOperationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -592,44 +1371,315 @@ public enum GetControlOperationOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension GetControlOperationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetControlOperationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.controlOperation = output.controlOperation
-        } else {
-            self.controlOperation = nil
+extension GetEnabledControlInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabledControlIdentifier
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enabledControlIdentifier = self.enabledControlIdentifier {
+            try encodeContainer.encode(enabledControlIdentifier, forKey: .enabledControlIdentifier)
         }
     }
 }
 
-public struct GetControlOperationOutputResponse: Swift.Equatable {
-    ///
-    /// This member is required.
-    public var controlOperation: ControlTowerClientTypes.ControlOperation?
-
-    public init(
-        controlOperation: ControlTowerClientTypes.ControlOperation? = nil
-    )
-    {
-        self.controlOperation = controlOperation
+extension GetEnabledControlInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/get-enabled-control"
     }
 }
 
-struct GetControlOperationOutputResponseBody: Swift.Equatable {
-    let controlOperation: ControlTowerClientTypes.ControlOperation?
+public struct GetEnabledControlInput: Swift.Equatable {
+    /// The controlIdentifier of the enabled control.
+    /// This member is required.
+    public var enabledControlIdentifier: Swift.String?
+
+    public init(
+        enabledControlIdentifier: Swift.String? = nil
+    )
+    {
+        self.enabledControlIdentifier = enabledControlIdentifier
+    }
 }
 
-extension GetControlOperationOutputResponseBody: Swift.Decodable {
+struct GetEnabledControlInputBody: Swift.Equatable {
+    let enabledControlIdentifier: Swift.String?
+}
+
+extension GetEnabledControlInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case controlOperation
+        case enabledControlIdentifier
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let controlOperationDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.ControlOperation.self, forKey: .controlOperation)
-        controlOperation = controlOperationDecoded
+        let enabledControlIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .enabledControlIdentifier)
+        enabledControlIdentifier = enabledControlIdentifierDecoded
+    }
+}
+
+extension GetEnabledControlOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetEnabledControlOutputBody = try responseDecoder.decode(responseBody: data)
+            self.enabledControlDetails = output.enabledControlDetails
+        } else {
+            self.enabledControlDetails = nil
+        }
+    }
+}
+
+public struct GetEnabledControlOutput: Swift.Equatable {
+    /// Information about the enabled control.
+    /// This member is required.
+    public var enabledControlDetails: ControlTowerClientTypes.EnabledControlDetails?
+
+    public init(
+        enabledControlDetails: ControlTowerClientTypes.EnabledControlDetails? = nil
+    )
+    {
+        self.enabledControlDetails = enabledControlDetails
+    }
+}
+
+struct GetEnabledControlOutputBody: Swift.Equatable {
+    let enabledControlDetails: ControlTowerClientTypes.EnabledControlDetails?
+}
+
+extension GetEnabledControlOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabledControlDetails
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledControlDetailsDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.EnabledControlDetails.self, forKey: .enabledControlDetails)
+        enabledControlDetails = enabledControlDetailsDecoded
+    }
+}
+
+enum GetEnabledControlOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetLandingZoneInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case landingZoneIdentifier
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let landingZoneIdentifier = self.landingZoneIdentifier {
+            try encodeContainer.encode(landingZoneIdentifier, forKey: .landingZoneIdentifier)
+        }
+    }
+}
+
+extension GetLandingZoneInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/get-landingzone"
+    }
+}
+
+public struct GetLandingZoneInput: Swift.Equatable {
+    /// The unique identifier of the landing zone.
+    /// This member is required.
+    public var landingZoneIdentifier: Swift.String?
+
+    public init(
+        landingZoneIdentifier: Swift.String? = nil
+    )
+    {
+        self.landingZoneIdentifier = landingZoneIdentifier
+    }
+}
+
+struct GetLandingZoneInputBody: Swift.Equatable {
+    let landingZoneIdentifier: Swift.String?
+}
+
+extension GetLandingZoneInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case landingZoneIdentifier
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let landingZoneIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .landingZoneIdentifier)
+        landingZoneIdentifier = landingZoneIdentifierDecoded
+    }
+}
+
+extension GetLandingZoneOperationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case operationIdentifier
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let operationIdentifier = self.operationIdentifier {
+            try encodeContainer.encode(operationIdentifier, forKey: .operationIdentifier)
+        }
+    }
+}
+
+extension GetLandingZoneOperationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/get-landingzone-operation"
+    }
+}
+
+public struct GetLandingZoneOperationInput: Swift.Equatable {
+    /// A unique identifier assigned to a landing zone operation.
+    /// This member is required.
+    public var operationIdentifier: Swift.String?
+
+    public init(
+        operationIdentifier: Swift.String? = nil
+    )
+    {
+        self.operationIdentifier = operationIdentifier
+    }
+}
+
+struct GetLandingZoneOperationInputBody: Swift.Equatable {
+    let operationIdentifier: Swift.String?
+}
+
+extension GetLandingZoneOperationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case operationIdentifier
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let operationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationIdentifier)
+        operationIdentifier = operationIdentifierDecoded
+    }
+}
+
+extension GetLandingZoneOperationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetLandingZoneOperationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.operationDetails = output.operationDetails
+        } else {
+            self.operationDetails = nil
+        }
+    }
+}
+
+public struct GetLandingZoneOperationOutput: Swift.Equatable {
+    /// Details about a landing zone operation.
+    /// This member is required.
+    public var operationDetails: ControlTowerClientTypes.LandingZoneOperationDetail?
+
+    public init(
+        operationDetails: ControlTowerClientTypes.LandingZoneOperationDetail? = nil
+    )
+    {
+        self.operationDetails = operationDetails
+    }
+}
+
+struct GetLandingZoneOperationOutputBody: Swift.Equatable {
+    let operationDetails: ControlTowerClientTypes.LandingZoneOperationDetail?
+}
+
+extension GetLandingZoneOperationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case operationDetails
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let operationDetailsDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.LandingZoneOperationDetail.self, forKey: .operationDetails)
+        operationDetails = operationDetailsDecoded
+    }
+}
+
+enum GetLandingZoneOperationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetLandingZoneOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetLandingZoneOutputBody = try responseDecoder.decode(responseBody: data)
+            self.landingZone = output.landingZone
+        } else {
+            self.landingZone = nil
+        }
+    }
+}
+
+public struct GetLandingZoneOutput: Swift.Equatable {
+    /// Information about the landing zone.
+    /// This member is required.
+    public var landingZone: ControlTowerClientTypes.LandingZoneDetail?
+
+    public init(
+        landingZone: ControlTowerClientTypes.LandingZoneDetail? = nil
+    )
+    {
+        self.landingZone = landingZone
+    }
+}
+
+struct GetLandingZoneOutputBody: Swift.Equatable {
+    let landingZone: ControlTowerClientTypes.LandingZoneDetail?
+}
+
+extension GetLandingZoneOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case landingZone
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let landingZoneDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.LandingZoneDetail.self, forKey: .landingZone)
+        landingZone = landingZoneDecoded
+    }
+}
+
+enum GetLandingZoneOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -648,7 +1698,7 @@ extension InternalServerException {
     }
 }
 
-/// Unexpected error during processing of request.
+/// An unexpected error occurred during processing of a request.
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -689,6 +1739,396 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
+extension ControlTowerClientTypes.LandingZoneDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case driftStatus
+        case latestAvailableVersion
+        case manifest
+        case status
+        case version
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let driftStatus = self.driftStatus {
+            try encodeContainer.encode(driftStatus, forKey: .driftStatus)
+        }
+        if let latestAvailableVersion = self.latestAvailableVersion {
+            try encodeContainer.encode(latestAvailableVersion, forKey: .latestAvailableVersion)
+        }
+        if let manifest = self.manifest {
+            try encodeContainer.encode(manifest, forKey: .manifest)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let version = self.version {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+        let manifestDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .manifest)
+        manifest = manifestDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.LandingZoneStatus.self, forKey: .status)
+        status = statusDecoded
+        let latestAvailableVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .latestAvailableVersion)
+        latestAvailableVersion = latestAvailableVersionDecoded
+        let driftStatusDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.LandingZoneDriftStatusSummary.self, forKey: .driftStatus)
+        driftStatus = driftStatusDecoded
+    }
+}
+
+extension ControlTowerClientTypes {
+    /// Information about the landing zone.
+    public struct LandingZoneDetail: Swift.Equatable {
+        /// The ARN of the landing zone.
+        public var arn: Swift.String?
+        /// The drift status of the landing zone.
+        public var driftStatus: ControlTowerClientTypes.LandingZoneDriftStatusSummary?
+        /// The latest available version of the landing zone.
+        public var latestAvailableVersion: Swift.String?
+        /// The landing zone manifest JSON text file that specifies the landing zone configurations.
+        /// This member is required.
+        public var manifest: ClientRuntime.Document?
+        /// The landing zone deployment status.
+        public var status: ControlTowerClientTypes.LandingZoneStatus?
+        /// The landing zone's current deployed version.
+        /// This member is required.
+        public var version: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            driftStatus: ControlTowerClientTypes.LandingZoneDriftStatusSummary? = nil,
+            latestAvailableVersion: Swift.String? = nil,
+            manifest: ClientRuntime.Document? = nil,
+            status: ControlTowerClientTypes.LandingZoneStatus? = nil,
+            version: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.driftStatus = driftStatus
+            self.latestAvailableVersion = latestAvailableVersion
+            self.manifest = manifest
+            self.status = status
+            self.version = version
+        }
+    }
+
+}
+
+extension ControlTowerClientTypes {
+    public enum LandingZoneDriftStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case drifted
+        case inSync
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LandingZoneDriftStatus] {
+            return [
+                .drifted,
+                .inSync,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .drifted: return "DRIFTED"
+            case .inSync: return "IN_SYNC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LandingZoneDriftStatus(rawValue: rawValue) ?? LandingZoneDriftStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ControlTowerClientTypes.LandingZoneDriftStatusSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.LandingZoneDriftStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension ControlTowerClientTypes {
+    /// The drift status summary of the landing zone. If the landing zone differs from the expected configuration, it is defined to be in a state of drift. You can repair this drift by resetting the landing zone.
+    public struct LandingZoneDriftStatusSummary: Swift.Equatable {
+        /// The drift status of the landing zone. Valid values:
+        ///
+        /// * DRIFTED: The landing zone deployed in this configuration does not match the configuration that Amazon Web Services Control Tower expected.
+        ///
+        /// * IN_SYNC: The landing zone deployed in this configuration matches the configuration that Amazon Web Services Control Tower expected.
+        public var status: ControlTowerClientTypes.LandingZoneDriftStatus?
+
+        public init(
+            status: ControlTowerClientTypes.LandingZoneDriftStatus? = nil
+        )
+        {
+            self.status = status
+        }
+    }
+
+}
+
+extension ControlTowerClientTypes.LandingZoneOperationDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime
+        case operationType
+        case startTime
+        case status
+        case statusMessage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .dateTime, forKey: .endTime)
+        }
+        if let operationType = self.operationType {
+            try encodeContainer.encode(operationType.rawValue, forKey: .operationType)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .dateTime, forKey: .startTime)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let operationTypeDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.LandingZoneOperationType.self, forKey: .operationType)
+        operationType = operationTypeDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .endTime)
+        endTime = endTimeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.LandingZoneOperationStatus.self, forKey: .status)
+        status = statusDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+    }
+}
+
+extension ControlTowerClientTypes {
+    /// Information about a landing zone operation.
+    public struct LandingZoneOperationDetail: Swift.Equatable {
+        /// The landing zone operation end time.
+        public var endTime: ClientRuntime.Date?
+        /// The landing zone operation type. Valid values:
+        ///
+        /// * DELETE: The DeleteLandingZone operation.
+        ///
+        /// * CREATE: The CreateLandingZone operation.
+        ///
+        /// * UPDATE: The UpdateLandingZone operation.
+        ///
+        /// * RESET: The ResetLandingZone operation.
+        public var operationType: ControlTowerClientTypes.LandingZoneOperationType?
+        /// The landing zone operation start time.
+        public var startTime: ClientRuntime.Date?
+        /// Valid values:
+        ///
+        /// * SUCCEEDED: The landing zone operation succeeded.
+        ///
+        /// * IN_PROGRESS: The landing zone operation is in progress.
+        ///
+        /// * FAILED: The landing zone operation failed.
+        public var status: ControlTowerClientTypes.LandingZoneOperationStatus?
+        /// If the operation result is FAILED, this string contains a message explaining why the operation failed.
+        public var statusMessage: Swift.String?
+
+        public init(
+            endTime: ClientRuntime.Date? = nil,
+            operationType: ControlTowerClientTypes.LandingZoneOperationType? = nil,
+            startTime: ClientRuntime.Date? = nil,
+            status: ControlTowerClientTypes.LandingZoneOperationStatus? = nil,
+            statusMessage: Swift.String? = nil
+        )
+        {
+            self.endTime = endTime
+            self.operationType = operationType
+            self.startTime = startTime
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+
+}
+
+extension ControlTowerClientTypes {
+    public enum LandingZoneOperationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case inProgress
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LandingZoneOperationStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LandingZoneOperationStatus(rawValue: rawValue) ?? LandingZoneOperationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ControlTowerClientTypes {
+    public enum LandingZoneOperationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case create
+        case delete
+        case reset
+        case update
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LandingZoneOperationType] {
+            return [
+                .create,
+                .delete,
+                .reset,
+                .update,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .create: return "CREATE"
+            case .delete: return "DELETE"
+            case .reset: return "RESET"
+            case .update: return "UPDATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LandingZoneOperationType(rawValue: rawValue) ?? LandingZoneOperationType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ControlTowerClientTypes {
+    public enum LandingZoneStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case failed
+        case processing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LandingZoneStatus] {
+            return [
+                .active,
+                .failed,
+                .processing,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .failed: return "FAILED"
+            case .processing: return "PROCESSING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LandingZoneStatus(rawValue: rawValue) ?? LandingZoneStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ControlTowerClientTypes.LandingZoneSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+    }
+}
+
+extension ControlTowerClientTypes {
+    /// Returns a summary of information about a landing zone.
+    public struct LandingZoneSummary: Swift.Equatable {
+        /// The ARN of the landing zone.
+        public var arn: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+        }
+    }
+
+}
+
 extension ListEnabledControlsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults
@@ -721,7 +2161,7 @@ public struct ListEnabledControlsInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// The token to continue the list from a previous API call with the same parameters.
     public var nextToken: Swift.String?
-    /// The ARN of the organizational unit.
+    /// The ARN of the organizational unit. For information on how to find the targetIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
     /// This member is required.
     public var targetIdentifier: Swift.String?
 
@@ -761,26 +2201,11 @@ extension ListEnabledControlsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListEnabledControlsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListEnabledControlsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListEnabledControlsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListEnabledControlsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListEnabledControlsOutputBody = try responseDecoder.decode(responseBody: data)
             self.enabledControls = output.enabledControls
             self.nextToken = output.nextToken
         } else {
@@ -790,11 +2215,11 @@ extension ListEnabledControlsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEnabledControlsOutputResponse: Swift.Equatable {
-    /// Lists the controls enabled by AWS Control Tower on the specified organizational unit and the accounts it contains.
+public struct ListEnabledControlsOutput: Swift.Equatable {
+    /// Lists the controls enabled by Amazon Web Services Control Tower on the specified organizational unit and the accounts it contains.
     /// This member is required.
     public var enabledControls: [ControlTowerClientTypes.EnabledControlSummary]?
-    /// Retrieves the next page of results. If the string is empty, the current response is the end of the results.
+    /// Retrieves the next page of results. If the string is empty, the response is the end of the results.
     public var nextToken: Swift.String?
 
     public init(
@@ -807,12 +2232,12 @@ public struct ListEnabledControlsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListEnabledControlsOutputResponseBody: Swift.Equatable {
+struct ListEnabledControlsOutputBody: Swift.Equatable {
     let enabledControls: [ControlTowerClientTypes.EnabledControlSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListEnabledControlsOutputResponseBody: Swift.Decodable {
+extension ListEnabledControlsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enabledControls
         case nextToken
@@ -836,6 +2261,388 @@ extension ListEnabledControlsOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListEnabledControlsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListLandingZonesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListLandingZonesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/list-landingzones"
+    }
+}
+
+public struct ListLandingZonesInput: Swift.Equatable {
+    /// The maximum number of returned landing zone ARNs, which is one.
+    public var maxResults: Swift.Int?
+    /// The token to continue the list from a previous API call with the same parameters.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListLandingZonesInputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListLandingZonesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListLandingZonesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListLandingZonesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.landingZones = output.landingZones
+            self.nextToken = output.nextToken
+        } else {
+            self.landingZones = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListLandingZonesOutput: Swift.Equatable {
+    /// The ARN of the landing zone.
+    /// This member is required.
+    public var landingZones: [ControlTowerClientTypes.LandingZoneSummary]?
+    /// Retrieves the next page of results. If the string is empty, the response is the end of the results.
+    public var nextToken: Swift.String?
+
+    public init(
+        landingZones: [ControlTowerClientTypes.LandingZoneSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.landingZones = landingZones
+        self.nextToken = nextToken
+    }
+}
+
+struct ListLandingZonesOutputBody: Swift.Equatable {
+    let landingZones: [ControlTowerClientTypes.LandingZoneSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListLandingZonesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case landingZones
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let landingZonesContainer = try containerValues.decodeIfPresent([ControlTowerClientTypes.LandingZoneSummary?].self, forKey: .landingZones)
+        var landingZonesDecoded0:[ControlTowerClientTypes.LandingZoneSummary]? = nil
+        if let landingZonesContainer = landingZonesContainer {
+            landingZonesDecoded0 = [ControlTowerClientTypes.LandingZoneSummary]()
+            for structure0 in landingZonesContainer {
+                if let structure0 = structure0 {
+                    landingZonesDecoded0?.append(structure0)
+                }
+            }
+        }
+        landingZones = landingZonesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListLandingZonesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let resourceArn = resourceArn else {
+            return nil
+        }
+        return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+public struct ListTagsForResourceInput: Swift.Equatable {
+    /// The ARN of the resource.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+struct ListTagsForResourceInputBody: Swift.Equatable {
+}
+
+extension ListTagsForResourceInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.tags = output.tags
+        } else {
+            self.tags = nil
+        }
+    }
+}
+
+public struct ListTagsForResourceOutput: Swift.Equatable {
+    /// A list of tags, as key:value strings.
+    /// This member is required.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.tags = tags
+    }
+}
+
+struct ListTagsForResourceOutputBody: Swift.Equatable {
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension ListTagsForResourceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ControlTowerClientTypes.Region: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension ControlTowerClientTypes {
+    /// An Amazon Web Services Region in which Amazon Web Services Control Tower expects to find the control deployed. The expected Regions are based on the Regions that are governed by the landing zone. In certain cases, a control is not actually enabled in the Region as expected, such as during drift, or [mixed governance](https://docs.aws.amazon.com/controltower/latest/userguide/region-how.html#mixed-governance).
+    public struct Region: Swift.Equatable {
+        /// The Amazon Web Services Region name.
+        public var name: Swift.String?
+
+        public init(
+            name: Swift.String? = nil
+        )
+        {
+            self.name = name
+        }
+    }
+
+}
+
+extension ResetLandingZoneInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case landingZoneIdentifier
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let landingZoneIdentifier = self.landingZoneIdentifier {
+            try encodeContainer.encode(landingZoneIdentifier, forKey: .landingZoneIdentifier)
+        }
+    }
+}
+
+extension ResetLandingZoneInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/reset-landingzone"
+    }
+}
+
+public struct ResetLandingZoneInput: Swift.Equatable {
+    /// The unique identifier of the landing zone.
+    /// This member is required.
+    public var landingZoneIdentifier: Swift.String?
+
+    public init(
+        landingZoneIdentifier: Swift.String? = nil
+    )
+    {
+        self.landingZoneIdentifier = landingZoneIdentifier
+    }
+}
+
+struct ResetLandingZoneInputBody: Swift.Equatable {
+    let landingZoneIdentifier: Swift.String?
+}
+
+extension ResetLandingZoneInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case landingZoneIdentifier
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let landingZoneIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .landingZoneIdentifier)
+        landingZoneIdentifier = landingZoneIdentifierDecoded
+    }
+}
+
+extension ResetLandingZoneOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ResetLandingZoneOutputBody = try responseDecoder.decode(responseBody: data)
+            self.operationIdentifier = output.operationIdentifier
+        } else {
+            self.operationIdentifier = nil
+        }
+    }
+}
+
+public struct ResetLandingZoneOutput: Swift.Equatable {
+    /// A unique identifier assigned to a ResetLandingZone operation. You can use this identifier as an input parameter of GetLandingZoneOperation to check the operation's status.
+    /// This member is required.
+    public var operationIdentifier: Swift.String?
+
+    public init(
+        operationIdentifier: Swift.String? = nil
+    )
+    {
+        self.operationIdentifier = operationIdentifier
+    }
+}
+
+struct ResetLandingZoneOutputBody: Swift.Equatable {
+    let operationIdentifier: Swift.String?
+}
+
+extension ResetLandingZoneOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case operationIdentifier
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let operationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationIdentifier)
+        operationIdentifier = operationIdentifierDecoded
+    }
+}
+
+enum ResetLandingZoneOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ResourceNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -851,7 +2658,7 @@ extension ResourceNotFoundException {
     }
 }
 
-/// Request references a resource which does not exist.
+/// The request references a resource that does not exist.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -907,7 +2714,7 @@ extension ServiceQuotaExceededException {
     }
 }
 
-/// Request would cause a service quota to be exceeded. The limit is 10 concurrent operations.
+/// The request would cause a service quota to be exceeded. The limit is 10 concurrent operations.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -948,6 +2755,97 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
     }
 }
 
+extension TagResourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension TagResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let resourceArn = resourceArn else {
+            return nil
+        }
+        return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+public struct TagResourceInput: Swift.Equatable {
+    /// The ARN of the resource to be tagged.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// Tags to be applied to the resource.
+    /// This member is required.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.tags = tags
+    }
+}
+
+struct TagResourceInputBody: Swift.Equatable {
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension TagResourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ThrottlingException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
@@ -972,7 +2870,7 @@ extension ThrottlingException {
     }
 }
 
-/// Request was denied due to request throttling.
+/// The request was denied due to request throttling.
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -980,7 +2878,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the service quota that was exceeded.
         public internal(set) var quotaCode: Swift.String? = nil
-        /// The number of seconds the caller should wait before retrying.
+        /// The number of seconds to wait before retrying.
         public internal(set) var retryAfterSeconds: Swift.Int? = nil
         /// The ID of the service that is associated with the error.
         public internal(set) var serviceCode: Swift.String? = nil
@@ -1033,6 +2931,344 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let tagKeys = tagKeys else {
+                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            tagKeys.forEach { queryItemValue in
+                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension UntagResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let resourceArn = resourceArn else {
+            return nil
+        }
+        return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+public struct UntagResourceInput: Swift.Equatable {
+    /// The ARN of the resource.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// Tag keys to be removed from the resource.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.tagKeys = tagKeys
+    }
+}
+
+struct UntagResourceInputBody: Swift.Equatable {
+}
+
+extension UntagResourceInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateEnabledControlInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabledControlIdentifier
+        case parameters
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enabledControlIdentifier = self.enabledControlIdentifier {
+            try encodeContainer.encode(enabledControlIdentifier, forKey: .enabledControlIdentifier)
+        }
+        if let parameters = parameters {
+            var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
+            for enabledcontrolparameter0 in parameters {
+                try parametersContainer.encode(enabledcontrolparameter0)
+            }
+        }
+    }
+}
+
+extension UpdateEnabledControlInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/update-enabled-control"
+    }
+}
+
+public struct UpdateEnabledControlInput: Swift.Equatable {
+    /// The ARN of the enabled control that will be updated.
+    /// This member is required.
+    public var enabledControlIdentifier: Swift.String?
+    /// A key/value pair, where Key is of type String and Value is of type Document.
+    /// This member is required.
+    public var parameters: [ControlTowerClientTypes.EnabledControlParameter]?
+
+    public init(
+        enabledControlIdentifier: Swift.String? = nil,
+        parameters: [ControlTowerClientTypes.EnabledControlParameter]? = nil
+    )
+    {
+        self.enabledControlIdentifier = enabledControlIdentifier
+        self.parameters = parameters
+    }
+}
+
+struct UpdateEnabledControlInputBody: Swift.Equatable {
+    let parameters: [ControlTowerClientTypes.EnabledControlParameter]?
+    let enabledControlIdentifier: Swift.String?
+}
+
+extension UpdateEnabledControlInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabledControlIdentifier
+        case parameters
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let parametersContainer = try containerValues.decodeIfPresent([ControlTowerClientTypes.EnabledControlParameter?].self, forKey: .parameters)
+        var parametersDecoded0:[ControlTowerClientTypes.EnabledControlParameter]? = nil
+        if let parametersContainer = parametersContainer {
+            parametersDecoded0 = [ControlTowerClientTypes.EnabledControlParameter]()
+            for structure0 in parametersContainer {
+                if let structure0 = structure0 {
+                    parametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        parameters = parametersDecoded0
+        let enabledControlIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .enabledControlIdentifier)
+        enabledControlIdentifier = enabledControlIdentifierDecoded
+    }
+}
+
+extension UpdateEnabledControlOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateEnabledControlOutputBody = try responseDecoder.decode(responseBody: data)
+            self.operationIdentifier = output.operationIdentifier
+        } else {
+            self.operationIdentifier = nil
+        }
+    }
+}
+
+public struct UpdateEnabledControlOutput: Swift.Equatable {
+    /// The operation identifier for this UpdateEnabledControl operation.
+    /// This member is required.
+    public var operationIdentifier: Swift.String?
+
+    public init(
+        operationIdentifier: Swift.String? = nil
+    )
+    {
+        self.operationIdentifier = operationIdentifier
+    }
+}
+
+struct UpdateEnabledControlOutputBody: Swift.Equatable {
+    let operationIdentifier: Swift.String?
+}
+
+extension UpdateEnabledControlOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case operationIdentifier
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let operationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationIdentifier)
+        operationIdentifier = operationIdentifierDecoded
+    }
+}
+
+enum UpdateEnabledControlOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateLandingZoneInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case landingZoneIdentifier
+        case manifest
+        case version
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let landingZoneIdentifier = self.landingZoneIdentifier {
+            try encodeContainer.encode(landingZoneIdentifier, forKey: .landingZoneIdentifier)
+        }
+        if let manifest = self.manifest {
+            try encodeContainer.encode(manifest, forKey: .manifest)
+        }
+        if let version = self.version {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+    }
+}
+
+extension UpdateLandingZoneInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/update-landingzone"
+    }
+}
+
+public struct UpdateLandingZoneInput: Swift.Equatable {
+    /// The unique identifier of the landing zone.
+    /// This member is required.
+    public var landingZoneIdentifier: Swift.String?
+    /// The manifest JSON file is a text file that describes your Amazon Web Services resources. For examples, review [Launch your landing zone](https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-launch).
+    /// This member is required.
+    public var manifest: ClientRuntime.Document?
+    /// The landing zone version, for example, 3.2.
+    /// This member is required.
+    public var version: Swift.String?
+
+    public init(
+        landingZoneIdentifier: Swift.String? = nil,
+        manifest: ClientRuntime.Document? = nil,
+        version: Swift.String? = nil
+    )
+    {
+        self.landingZoneIdentifier = landingZoneIdentifier
+        self.manifest = manifest
+        self.version = version
+    }
+}
+
+struct UpdateLandingZoneInputBody: Swift.Equatable {
+    let version: Swift.String?
+    let manifest: ClientRuntime.Document?
+    let landingZoneIdentifier: Swift.String?
+}
+
+extension UpdateLandingZoneInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case landingZoneIdentifier
+        case manifest
+        case version
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+        let manifestDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .manifest)
+        manifest = manifestDecoded
+        let landingZoneIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .landingZoneIdentifier)
+        landingZoneIdentifier = landingZoneIdentifierDecoded
+    }
+}
+
+extension UpdateLandingZoneOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateLandingZoneOutputBody = try responseDecoder.decode(responseBody: data)
+            self.operationIdentifier = output.operationIdentifier
+        } else {
+            self.operationIdentifier = nil
+        }
+    }
+}
+
+public struct UpdateLandingZoneOutput: Swift.Equatable {
+    /// A unique identifier assigned to a UpdateLandingZone operation. You can use this identifier as an input of GetLandingZoneOperation to check the operation's status.
+    /// This member is required.
+    public var operationIdentifier: Swift.String?
+
+    public init(
+        operationIdentifier: Swift.String? = nil
+    )
+    {
+        self.operationIdentifier = operationIdentifier
+    }
+}
+
+struct UpdateLandingZoneOutputBody: Swift.Equatable {
+    let operationIdentifier: Swift.String?
+}
+
+extension UpdateLandingZoneOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case operationIdentifier
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let operationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationIdentifier)
+        operationIdentifier = operationIdentifierDecoded
+    }
+}
+
+enum UpdateLandingZoneOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ValidationException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -1048,7 +3284,7 @@ extension ValidationException {
     }
 }
 
-/// The input fails to satisfy the constraints specified by an AWS service.
+/// The input does not satisfy the constraints specified by an Amazon Web Services service.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {

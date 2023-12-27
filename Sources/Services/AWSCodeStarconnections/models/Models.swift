@@ -2,6 +2,232 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension AccessDeniedException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// You do not have sufficient access to perform this action.
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccessDeniedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct AccessDeniedExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension AccessDeniedExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension CodeStarconnectionsClientTypes {
+    public enum BlockerStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case resolved
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BlockerStatus] {
+            return [
+                .active,
+                .resolved,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .resolved: return "RESOLVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BlockerStatus(rawValue: rawValue) ?? BlockerStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CodeStarconnectionsClientTypes {
+    public enum BlockerType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case automated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BlockerType] {
+            return [
+                .automated,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .automated: return "AUTOMATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BlockerType(rawValue: rawValue) ?? BlockerType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ConcurrentModificationException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ConcurrentModificationExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// Exception thrown as a result of concurrent modification to an application. For example, two individuals attempting to edit the same application at the same time.
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConcurrentModificationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ConcurrentModificationExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ConcurrentModificationExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension ConditionalCheckFailedException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ConditionalCheckFailedExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The conditional check failed. Try again later.
+public struct ConditionalCheckFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConditionalCheckFailedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ConditionalCheckFailedExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ConditionalCheckFailedExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension ConflictException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -273,24 +499,11 @@ extension CreateConnectionInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateConnectionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateConnectionOutputBody = try responseDecoder.decode(responseBody: data)
             self.connectionArn = output.connectionArn
             self.tags = output.tags
         } else {
@@ -300,7 +513,7 @@ extension CreateConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateConnectionOutputResponse: Swift.Equatable {
+public struct CreateConnectionOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the connection to be created. The ARN is used as the connection reference when the connection is shared between Amazon Web Services services. The ARN is never reused if the connection is deleted.
     /// This member is required.
     public var connectionArn: Swift.String?
@@ -317,12 +530,12 @@ public struct CreateConnectionOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateConnectionOutputResponseBody: Swift.Equatable {
+struct CreateConnectionOutputBody: Swift.Equatable {
     let connectionArn: Swift.String?
     let tags: [CodeStarconnectionsClientTypes.Tag]?
 }
 
-extension CreateConnectionOutputResponseBody: Swift.Decodable {
+extension CreateConnectionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connectionArn = "ConnectionArn"
         case tags = "Tags"
@@ -343,6 +556,19 @@ extension CreateConnectionOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum CreateConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -394,6 +620,7 @@ public struct CreateHostInput: Swift.Equatable {
     /// The name of the installed provider to be associated with your connection. The host resource represents the infrastructure where your provider type is installed. The valid provider type is GitHub Enterprise Server.
     /// This member is required.
     public var providerType: CodeStarconnectionsClientTypes.ProviderType?
+    /// Tags for the host to be created.
     public var tags: [CodeStarconnectionsClientTypes.Tag]?
     /// The VPC configuration to be provisioned for the host. A VPC must be configured and the infrastructure to be represented by the host must already be connected to the VPC.
     public var vpcConfiguration: CodeStarconnectionsClientTypes.VpcConfiguration?
@@ -455,22 +682,11 @@ extension CreateHostInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateHostOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateHostOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateHostOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateHostOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateHostOutputBody = try responseDecoder.decode(responseBody: data)
             self.hostArn = output.hostArn
             self.tags = output.tags
         } else {
@@ -480,9 +696,10 @@ extension CreateHostOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateHostOutputResponse: Swift.Equatable {
+public struct CreateHostOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the host to be created.
     public var hostArn: Swift.String?
+    /// Tags for the created host.
     public var tags: [CodeStarconnectionsClientTypes.Tag]?
 
     public init(
@@ -495,12 +712,12 @@ public struct CreateHostOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateHostOutputResponseBody: Swift.Equatable {
+struct CreateHostOutputBody: Swift.Equatable {
     let hostArn: Swift.String?
     let tags: [CodeStarconnectionsClientTypes.Tag]?
 }
 
-extension CreateHostOutputResponseBody: Swift.Decodable {
+extension CreateHostOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case hostArn = "HostArn"
         case tags = "Tags"
@@ -521,6 +738,356 @@ extension CreateHostOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum CreateHostOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateRepositoryLinkInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectionArn = "ConnectionArn"
+        case encryptionKeyArn = "EncryptionKeyArn"
+        case ownerId = "OwnerId"
+        case repositoryName = "RepositoryName"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let connectionArn = self.connectionArn {
+            try encodeContainer.encode(connectionArn, forKey: .connectionArn)
+        }
+        if let encryptionKeyArn = self.encryptionKeyArn {
+            try encodeContainer.encode(encryptionKeyArn, forKey: .encryptionKeyArn)
+        }
+        if let ownerId = self.ownerId {
+            try encodeContainer.encode(ownerId, forKey: .ownerId)
+        }
+        if let repositoryName = self.repositoryName {
+            try encodeContainer.encode(repositoryName, forKey: .repositoryName)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreateRepositoryLinkInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateRepositoryLinkInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the connection to be associated with the repository link.
+    /// This member is required.
+    public var connectionArn: Swift.String?
+    /// The Amazon Resource Name (ARN) encryption key for the repository to be associated with the repository link.
+    public var encryptionKeyArn: Swift.String?
+    /// The owner ID for the repository associated with a specific sync configuration, such as the owner ID in GitHub.
+    /// This member is required.
+    public var ownerId: Swift.String?
+    /// The name of the repository to be associated with the repository link.
+    /// This member is required.
+    public var repositoryName: Swift.String?
+    /// The tags for the repository to be associated with the repository link.
+    public var tags: [CodeStarconnectionsClientTypes.Tag]?
+
+    public init(
+        connectionArn: Swift.String? = nil,
+        encryptionKeyArn: Swift.String? = nil,
+        ownerId: Swift.String? = nil,
+        repositoryName: Swift.String? = nil,
+        tags: [CodeStarconnectionsClientTypes.Tag]? = nil
+    )
+    {
+        self.connectionArn = connectionArn
+        self.encryptionKeyArn = encryptionKeyArn
+        self.ownerId = ownerId
+        self.repositoryName = repositoryName
+        self.tags = tags
+    }
+}
+
+struct CreateRepositoryLinkInputBody: Swift.Equatable {
+    let connectionArn: Swift.String?
+    let ownerId: Swift.String?
+    let repositoryName: Swift.String?
+    let encryptionKeyArn: Swift.String?
+    let tags: [CodeStarconnectionsClientTypes.Tag]?
+}
+
+extension CreateRepositoryLinkInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectionArn = "ConnectionArn"
+        case encryptionKeyArn = "EncryptionKeyArn"
+        case ownerId = "OwnerId"
+        case repositoryName = "RepositoryName"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let connectionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionArn)
+        connectionArn = connectionArnDecoded
+        let ownerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerId)
+        ownerId = ownerIdDecoded
+        let repositoryNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryName)
+        repositoryName = repositoryNameDecoded
+        let encryptionKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encryptionKeyArn)
+        encryptionKeyArn = encryptionKeyArnDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([CodeStarconnectionsClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[CodeStarconnectionsClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [CodeStarconnectionsClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateRepositoryLinkOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateRepositoryLinkOutputBody = try responseDecoder.decode(responseBody: data)
+            self.repositoryLinkInfo = output.repositoryLinkInfo
+        } else {
+            self.repositoryLinkInfo = nil
+        }
+    }
+}
+
+public struct CreateRepositoryLinkOutput: Swift.Equatable {
+    /// The returned information about the created repository link.
+    /// This member is required.
+    public var repositoryLinkInfo: CodeStarconnectionsClientTypes.RepositoryLinkInfo?
+
+    public init(
+        repositoryLinkInfo: CodeStarconnectionsClientTypes.RepositoryLinkInfo? = nil
+    )
+    {
+        self.repositoryLinkInfo = repositoryLinkInfo
+    }
+}
+
+struct CreateRepositoryLinkOutputBody: Swift.Equatable {
+    let repositoryLinkInfo: CodeStarconnectionsClientTypes.RepositoryLinkInfo?
+}
+
+extension CreateRepositoryLinkOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case repositoryLinkInfo = "RepositoryLinkInfo"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let repositoryLinkInfoDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.RepositoryLinkInfo.self, forKey: .repositoryLinkInfo)
+        repositoryLinkInfo = repositoryLinkInfoDecoded
+    }
+}
+
+enum CreateRepositoryLinkOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateSyncConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case branch = "Branch"
+        case configFile = "ConfigFile"
+        case repositoryLinkId = "RepositoryLinkId"
+        case resourceName = "ResourceName"
+        case roleArn = "RoleArn"
+        case syncType = "SyncType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let branch = self.branch {
+            try encodeContainer.encode(branch, forKey: .branch)
+        }
+        if let configFile = self.configFile {
+            try encodeContainer.encode(configFile, forKey: .configFile)
+        }
+        if let repositoryLinkId = self.repositoryLinkId {
+            try encodeContainer.encode(repositoryLinkId, forKey: .repositoryLinkId)
+        }
+        if let resourceName = self.resourceName {
+            try encodeContainer.encode(resourceName, forKey: .resourceName)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let syncType = self.syncType {
+            try encodeContainer.encode(syncType.rawValue, forKey: .syncType)
+        }
+    }
+}
+
+extension CreateSyncConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateSyncConfigurationInput: Swift.Equatable {
+    /// The branch in the repository from which changes will be synced.
+    /// This member is required.
+    public var branch: Swift.String?
+    /// The file name of the configuration file that manages syncing between the connection and the repository. This configuration file is stored in the repository.
+    /// This member is required.
+    public var configFile: Swift.String?
+    /// The ID of the repository link created for the connection. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.
+    /// This member is required.
+    public var repositoryLinkId: Swift.String?
+    /// The name of the Amazon Web Services resource (for example, a CloudFormation stack in the case of CFN_STACK_SYNC) that will be synchronized from the linked repository.
+    /// This member is required.
+    public var resourceName: Swift.String?
+    /// The ARN of the IAM role that grants permission for Amazon Web Services to use Git sync to update a given Amazon Web Services resource on your behalf.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// The type of sync configuration.
+    /// This member is required.
+    public var syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+
+    public init(
+        branch: Swift.String? = nil,
+        configFile: Swift.String? = nil,
+        repositoryLinkId: Swift.String? = nil,
+        resourceName: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil
+    )
+    {
+        self.branch = branch
+        self.configFile = configFile
+        self.repositoryLinkId = repositoryLinkId
+        self.resourceName = resourceName
+        self.roleArn = roleArn
+        self.syncType = syncType
+    }
+}
+
+struct CreateSyncConfigurationInputBody: Swift.Equatable {
+    let branch: Swift.String?
+    let configFile: Swift.String?
+    let repositoryLinkId: Swift.String?
+    let resourceName: Swift.String?
+    let roleArn: Swift.String?
+    let syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+}
+
+extension CreateSyncConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case branch = "Branch"
+        case configFile = "ConfigFile"
+        case repositoryLinkId = "RepositoryLinkId"
+        case resourceName = "ResourceName"
+        case roleArn = "RoleArn"
+        case syncType = "SyncType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let branchDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .branch)
+        branch = branchDecoded
+        let configFileDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configFile)
+        configFile = configFileDecoded
+        let repositoryLinkIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryLinkId)
+        repositoryLinkId = repositoryLinkIdDecoded
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let syncTypeDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.SyncConfigurationType.self, forKey: .syncType)
+        syncType = syncTypeDecoded
+    }
+}
+
+extension CreateSyncConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateSyncConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.syncConfiguration = output.syncConfiguration
+        } else {
+            self.syncConfiguration = nil
+        }
+    }
+}
+
+public struct CreateSyncConfigurationOutput: Swift.Equatable {
+    /// The created sync configuration for the connection. A sync configuration allows Amazon Web Services to sync content from a Git repository to update a specified Amazon Web Services resource.
+    /// This member is required.
+    public var syncConfiguration: CodeStarconnectionsClientTypes.SyncConfiguration?
+
+    public init(
+        syncConfiguration: CodeStarconnectionsClientTypes.SyncConfiguration? = nil
+    )
+    {
+        self.syncConfiguration = syncConfiguration
+    }
+}
+
+struct CreateSyncConfigurationOutputBody: Swift.Equatable {
+    let syncConfiguration: CodeStarconnectionsClientTypes.SyncConfiguration?
+}
+
+extension CreateSyncConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case syncConfiguration = "SyncConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let syncConfigurationDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.SyncConfiguration.self, forKey: .syncConfiguration)
+        syncConfiguration = syncConfigurationDecoded
+    }
+}
+
+enum CreateSyncConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -572,8 +1139,18 @@ extension DeleteConnectionInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteConnectionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteConnectionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -581,16 +1158,6 @@ public enum DeleteConnectionOutputError: ClientRuntime.HttpResponseErrorBinding 
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteConnectionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteHostInput: Swift.Encodable {
@@ -641,8 +1208,18 @@ extension DeleteHostInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteHostOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteHostOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteHostOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteHostOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -653,14 +1230,167 @@ public enum DeleteHostOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteHostOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteRepositoryLinkInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case repositoryLinkId = "RepositoryLinkId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let repositoryLinkId = self.repositoryLinkId {
+            try encodeContainer.encode(repositoryLinkId, forKey: .repositoryLinkId)
+        }
+    }
+}
+
+extension DeleteRepositoryLinkInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteRepositoryLinkInput: Swift.Equatable {
+    /// The ID of the repository link to be deleted.
+    /// This member is required.
+    public var repositoryLinkId: Swift.String?
+
+    public init(
+        repositoryLinkId: Swift.String? = nil
+    )
+    {
+        self.repositoryLinkId = repositoryLinkId
+    }
+}
+
+struct DeleteRepositoryLinkInputBody: Swift.Equatable {
+    let repositoryLinkId: Swift.String?
+}
+
+extension DeleteRepositoryLinkInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case repositoryLinkId = "RepositoryLinkId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let repositoryLinkIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryLinkId)
+        repositoryLinkId = repositoryLinkIdDecoded
+    }
+}
+
+extension DeleteRepositoryLinkOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
-public struct DeleteHostOutputResponse: Swift.Equatable {
+public struct DeleteRepositoryLinkOutput: Swift.Equatable {
 
     public init() { }
+}
+
+enum DeleteRepositoryLinkOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SyncConfigurationStillExistsException": return try await SyncConfigurationStillExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedProviderTypeException": return try await UnsupportedProviderTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteSyncConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceName = "ResourceName"
+        case syncType = "SyncType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceName = self.resourceName {
+            try encodeContainer.encode(resourceName, forKey: .resourceName)
+        }
+        if let syncType = self.syncType {
+            try encodeContainer.encode(syncType.rawValue, forKey: .syncType)
+        }
+    }
+}
+
+extension DeleteSyncConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteSyncConfigurationInput: Swift.Equatable {
+    /// The name of the Amazon Web Services resource associated with the sync configuration to be deleted.
+    /// This member is required.
+    public var resourceName: Swift.String?
+    /// The type of sync configuration to be deleted.
+    /// This member is required.
+    public var syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+
+    public init(
+        resourceName: Swift.String? = nil,
+        syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil
+    )
+    {
+        self.resourceName = resourceName
+        self.syncType = syncType
+    }
+}
+
+struct DeleteSyncConfigurationInputBody: Swift.Equatable {
+    let syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+    let resourceName: Swift.String?
+}
+
+extension DeleteSyncConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceName = "ResourceName"
+        case syncType = "SyncType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let syncTypeDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.SyncConfigurationType.self, forKey: .syncType)
+        syncType = syncTypeDecoded
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
+    }
+}
+
+extension DeleteSyncConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteSyncConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteSyncConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension GetConnectionInput: Swift.Encodable {
@@ -711,23 +1441,11 @@ extension GetConnectionInputBody: Swift.Decodable {
     }
 }
 
-public enum GetConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetConnectionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetConnectionOutputBody = try responseDecoder.decode(responseBody: data)
             self.connection = output.connection
         } else {
             self.connection = nil
@@ -735,7 +1453,7 @@ extension GetConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConnectionOutputResponse: Swift.Equatable {
+public struct GetConnectionOutput: Swift.Equatable {
     /// The connection details, such as status, owner, and provider type.
     public var connection: CodeStarconnectionsClientTypes.Connection?
 
@@ -747,11 +1465,11 @@ public struct GetConnectionOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetConnectionOutputResponseBody: Swift.Equatable {
+struct GetConnectionOutputBody: Swift.Equatable {
     let connection: CodeStarconnectionsClientTypes.Connection?
 }
 
-extension GetConnectionOutputResponseBody: Swift.Decodable {
+extension GetConnectionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connection = "Connection"
     }
@@ -760,6 +1478,18 @@ extension GetConnectionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.Connection.self, forKey: .connection)
         connection = connectionDecoded
+    }
+}
+
+enum GetConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -811,23 +1541,11 @@ extension GetHostInputBody: Swift.Decodable {
     }
 }
 
-public enum GetHostOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetHostOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetHostOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetHostOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetHostOutputBody = try responseDecoder.decode(responseBody: data)
             self.name = output.name
             self.providerEndpoint = output.providerEndpoint
             self.providerType = output.providerType
@@ -843,7 +1561,7 @@ extension GetHostOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetHostOutputResponse: Swift.Equatable {
+public struct GetHostOutput: Swift.Equatable {
     /// The name of the requested host.
     public var name: Swift.String?
     /// The endpoint of the infrastructure represented by the requested host.
@@ -871,7 +1589,7 @@ public struct GetHostOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetHostOutputResponseBody: Swift.Equatable {
+struct GetHostOutputBody: Swift.Equatable {
     let name: Swift.String?
     let status: Swift.String?
     let providerType: CodeStarconnectionsClientTypes.ProviderType?
@@ -879,7 +1597,7 @@ struct GetHostOutputResponseBody: Swift.Equatable {
     let vpcConfiguration: CodeStarconnectionsClientTypes.VpcConfiguration?
 }
 
-extension GetHostOutputResponseBody: Swift.Decodable {
+extension GetHostOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
         case providerEndpoint = "ProviderEndpoint"
@@ -900,6 +1618,624 @@ extension GetHostOutputResponseBody: Swift.Decodable {
         providerEndpoint = providerEndpointDecoded
         let vpcConfigurationDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.VpcConfiguration.self, forKey: .vpcConfiguration)
         vpcConfiguration = vpcConfigurationDecoded
+    }
+}
+
+enum GetHostOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetRepositoryLinkInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case repositoryLinkId = "RepositoryLinkId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let repositoryLinkId = self.repositoryLinkId {
+            try encodeContainer.encode(repositoryLinkId, forKey: .repositoryLinkId)
+        }
+    }
+}
+
+extension GetRepositoryLinkInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetRepositoryLinkInput: Swift.Equatable {
+    /// The ID of the repository link to get.
+    /// This member is required.
+    public var repositoryLinkId: Swift.String?
+
+    public init(
+        repositoryLinkId: Swift.String? = nil
+    )
+    {
+        self.repositoryLinkId = repositoryLinkId
+    }
+}
+
+struct GetRepositoryLinkInputBody: Swift.Equatable {
+    let repositoryLinkId: Swift.String?
+}
+
+extension GetRepositoryLinkInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case repositoryLinkId = "RepositoryLinkId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let repositoryLinkIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryLinkId)
+        repositoryLinkId = repositoryLinkIdDecoded
+    }
+}
+
+extension GetRepositoryLinkOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetRepositoryLinkOutputBody = try responseDecoder.decode(responseBody: data)
+            self.repositoryLinkInfo = output.repositoryLinkInfo
+        } else {
+            self.repositoryLinkInfo = nil
+        }
+    }
+}
+
+public struct GetRepositoryLinkOutput: Swift.Equatable {
+    /// The information returned for a specified repository link.
+    /// This member is required.
+    public var repositoryLinkInfo: CodeStarconnectionsClientTypes.RepositoryLinkInfo?
+
+    public init(
+        repositoryLinkInfo: CodeStarconnectionsClientTypes.RepositoryLinkInfo? = nil
+    )
+    {
+        self.repositoryLinkInfo = repositoryLinkInfo
+    }
+}
+
+struct GetRepositoryLinkOutputBody: Swift.Equatable {
+    let repositoryLinkInfo: CodeStarconnectionsClientTypes.RepositoryLinkInfo?
+}
+
+extension GetRepositoryLinkOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case repositoryLinkInfo = "RepositoryLinkInfo"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let repositoryLinkInfoDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.RepositoryLinkInfo.self, forKey: .repositoryLinkInfo)
+        repositoryLinkInfo = repositoryLinkInfoDecoded
+    }
+}
+
+enum GetRepositoryLinkOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetRepositorySyncStatusInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case branch = "Branch"
+        case repositoryLinkId = "RepositoryLinkId"
+        case syncType = "SyncType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let branch = self.branch {
+            try encodeContainer.encode(branch, forKey: .branch)
+        }
+        if let repositoryLinkId = self.repositoryLinkId {
+            try encodeContainer.encode(repositoryLinkId, forKey: .repositoryLinkId)
+        }
+        if let syncType = self.syncType {
+            try encodeContainer.encode(syncType.rawValue, forKey: .syncType)
+        }
+    }
+}
+
+extension GetRepositorySyncStatusInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetRepositorySyncStatusInput: Swift.Equatable {
+    /// The branch of the repository link for the requested repository sync status.
+    /// This member is required.
+    public var branch: Swift.String?
+    /// The repository link ID for the requested repository sync status.
+    /// This member is required.
+    public var repositoryLinkId: Swift.String?
+    /// The sync type of the requested sync status.
+    /// This member is required.
+    public var syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+
+    public init(
+        branch: Swift.String? = nil,
+        repositoryLinkId: Swift.String? = nil,
+        syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil
+    )
+    {
+        self.branch = branch
+        self.repositoryLinkId = repositoryLinkId
+        self.syncType = syncType
+    }
+}
+
+struct GetRepositorySyncStatusInputBody: Swift.Equatable {
+    let branch: Swift.String?
+    let repositoryLinkId: Swift.String?
+    let syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+}
+
+extension GetRepositorySyncStatusInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case branch = "Branch"
+        case repositoryLinkId = "RepositoryLinkId"
+        case syncType = "SyncType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let branchDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .branch)
+        branch = branchDecoded
+        let repositoryLinkIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryLinkId)
+        repositoryLinkId = repositoryLinkIdDecoded
+        let syncTypeDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.SyncConfigurationType.self, forKey: .syncType)
+        syncType = syncTypeDecoded
+    }
+}
+
+extension GetRepositorySyncStatusOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetRepositorySyncStatusOutputBody = try responseDecoder.decode(responseBody: data)
+            self.latestSync = output.latestSync
+        } else {
+            self.latestSync = nil
+        }
+    }
+}
+
+public struct GetRepositorySyncStatusOutput: Swift.Equatable {
+    /// The status of the latest sync returned for a specified repository and branch.
+    /// This member is required.
+    public var latestSync: CodeStarconnectionsClientTypes.RepositorySyncAttempt?
+
+    public init(
+        latestSync: CodeStarconnectionsClientTypes.RepositorySyncAttempt? = nil
+    )
+    {
+        self.latestSync = latestSync
+    }
+}
+
+struct GetRepositorySyncStatusOutputBody: Swift.Equatable {
+    let latestSync: CodeStarconnectionsClientTypes.RepositorySyncAttempt?
+}
+
+extension GetRepositorySyncStatusOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case latestSync = "LatestSync"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let latestSyncDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.RepositorySyncAttempt.self, forKey: .latestSync)
+        latestSync = latestSyncDecoded
+    }
+}
+
+enum GetRepositorySyncStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetResourceSyncStatusInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceName = "ResourceName"
+        case syncType = "SyncType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceName = self.resourceName {
+            try encodeContainer.encode(resourceName, forKey: .resourceName)
+        }
+        if let syncType = self.syncType {
+            try encodeContainer.encode(syncType.rawValue, forKey: .syncType)
+        }
+    }
+}
+
+extension GetResourceSyncStatusInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetResourceSyncStatusInput: Swift.Equatable {
+    /// The name of the Amazon Web Services resource for the sync status with the Git repository.
+    /// This member is required.
+    public var resourceName: Swift.String?
+    /// The sync type for the sync status with the Git repository.
+    /// This member is required.
+    public var syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+
+    public init(
+        resourceName: Swift.String? = nil,
+        syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil
+    )
+    {
+        self.resourceName = resourceName
+        self.syncType = syncType
+    }
+}
+
+struct GetResourceSyncStatusInputBody: Swift.Equatable {
+    let resourceName: Swift.String?
+    let syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+}
+
+extension GetResourceSyncStatusInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceName = "ResourceName"
+        case syncType = "SyncType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
+        let syncTypeDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.SyncConfigurationType.self, forKey: .syncType)
+        syncType = syncTypeDecoded
+    }
+}
+
+extension GetResourceSyncStatusOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetResourceSyncStatusOutputBody = try responseDecoder.decode(responseBody: data)
+            self.desiredState = output.desiredState
+            self.latestSuccessfulSync = output.latestSuccessfulSync
+            self.latestSync = output.latestSync
+        } else {
+            self.desiredState = nil
+            self.latestSuccessfulSync = nil
+            self.latestSync = nil
+        }
+    }
+}
+
+public struct GetResourceSyncStatusOutput: Swift.Equatable {
+    /// The desired state of the Amazon Web Services resource for the sync status with the Git repository.
+    public var desiredState: CodeStarconnectionsClientTypes.Revision?
+    /// The latest successful sync for the sync status with the Git repository.
+    public var latestSuccessfulSync: CodeStarconnectionsClientTypes.ResourceSyncAttempt?
+    /// The latest sync for the sync status with the Git repository, whether successful or not.
+    /// This member is required.
+    public var latestSync: CodeStarconnectionsClientTypes.ResourceSyncAttempt?
+
+    public init(
+        desiredState: CodeStarconnectionsClientTypes.Revision? = nil,
+        latestSuccessfulSync: CodeStarconnectionsClientTypes.ResourceSyncAttempt? = nil,
+        latestSync: CodeStarconnectionsClientTypes.ResourceSyncAttempt? = nil
+    )
+    {
+        self.desiredState = desiredState
+        self.latestSuccessfulSync = latestSuccessfulSync
+        self.latestSync = latestSync
+    }
+}
+
+struct GetResourceSyncStatusOutputBody: Swift.Equatable {
+    let desiredState: CodeStarconnectionsClientTypes.Revision?
+    let latestSuccessfulSync: CodeStarconnectionsClientTypes.ResourceSyncAttempt?
+    let latestSync: CodeStarconnectionsClientTypes.ResourceSyncAttempt?
+}
+
+extension GetResourceSyncStatusOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case desiredState = "DesiredState"
+        case latestSuccessfulSync = "LatestSuccessfulSync"
+        case latestSync = "LatestSync"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let desiredStateDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.Revision.self, forKey: .desiredState)
+        desiredState = desiredStateDecoded
+        let latestSuccessfulSyncDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.ResourceSyncAttempt.self, forKey: .latestSuccessfulSync)
+        latestSuccessfulSync = latestSuccessfulSyncDecoded
+        let latestSyncDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.ResourceSyncAttempt.self, forKey: .latestSync)
+        latestSync = latestSyncDecoded
+    }
+}
+
+enum GetResourceSyncStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetSyncBlockerSummaryInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceName = "ResourceName"
+        case syncType = "SyncType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceName = self.resourceName {
+            try encodeContainer.encode(resourceName, forKey: .resourceName)
+        }
+        if let syncType = self.syncType {
+            try encodeContainer.encode(syncType.rawValue, forKey: .syncType)
+        }
+    }
+}
+
+extension GetSyncBlockerSummaryInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetSyncBlockerSummaryInput: Swift.Equatable {
+    /// The name of the Amazon Web Services resource currently blocked from automatically being synced from a Git repository.
+    /// This member is required.
+    public var resourceName: Swift.String?
+    /// The sync type for the sync blocker summary.
+    /// This member is required.
+    public var syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+
+    public init(
+        resourceName: Swift.String? = nil,
+        syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil
+    )
+    {
+        self.resourceName = resourceName
+        self.syncType = syncType
+    }
+}
+
+struct GetSyncBlockerSummaryInputBody: Swift.Equatable {
+    let syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+    let resourceName: Swift.String?
+}
+
+extension GetSyncBlockerSummaryInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceName = "ResourceName"
+        case syncType = "SyncType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let syncTypeDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.SyncConfigurationType.self, forKey: .syncType)
+        syncType = syncTypeDecoded
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
+    }
+}
+
+extension GetSyncBlockerSummaryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetSyncBlockerSummaryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.syncBlockerSummary = output.syncBlockerSummary
+        } else {
+            self.syncBlockerSummary = nil
+        }
+    }
+}
+
+public struct GetSyncBlockerSummaryOutput: Swift.Equatable {
+    /// The list of sync blockers for a specified resource.
+    /// This member is required.
+    public var syncBlockerSummary: CodeStarconnectionsClientTypes.SyncBlockerSummary?
+
+    public init(
+        syncBlockerSummary: CodeStarconnectionsClientTypes.SyncBlockerSummary? = nil
+    )
+    {
+        self.syncBlockerSummary = syncBlockerSummary
+    }
+}
+
+struct GetSyncBlockerSummaryOutputBody: Swift.Equatable {
+    let syncBlockerSummary: CodeStarconnectionsClientTypes.SyncBlockerSummary?
+}
+
+extension GetSyncBlockerSummaryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case syncBlockerSummary = "SyncBlockerSummary"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let syncBlockerSummaryDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.SyncBlockerSummary.self, forKey: .syncBlockerSummary)
+        syncBlockerSummary = syncBlockerSummaryDecoded
+    }
+}
+
+enum GetSyncBlockerSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetSyncConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceName = "ResourceName"
+        case syncType = "SyncType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceName = self.resourceName {
+            try encodeContainer.encode(resourceName, forKey: .resourceName)
+        }
+        if let syncType = self.syncType {
+            try encodeContainer.encode(syncType.rawValue, forKey: .syncType)
+        }
+    }
+}
+
+extension GetSyncConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetSyncConfigurationInput: Swift.Equatable {
+    /// The name of the Amazon Web Services resource for the sync configuration for which you want to retrieve information.
+    /// This member is required.
+    public var resourceName: Swift.String?
+    /// The sync type for the sync configuration for which you want to retrieve information.
+    /// This member is required.
+    public var syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+
+    public init(
+        resourceName: Swift.String? = nil,
+        syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil
+    )
+    {
+        self.resourceName = resourceName
+        self.syncType = syncType
+    }
+}
+
+struct GetSyncConfigurationInputBody: Swift.Equatable {
+    let syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+    let resourceName: Swift.String?
+}
+
+extension GetSyncConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceName = "ResourceName"
+        case syncType = "SyncType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let syncTypeDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.SyncConfigurationType.self, forKey: .syncType)
+        syncType = syncTypeDecoded
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
+    }
+}
+
+extension GetSyncConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetSyncConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.syncConfiguration = output.syncConfiguration
+        } else {
+            self.syncConfiguration = nil
+        }
+    }
+}
+
+public struct GetSyncConfigurationOutput: Swift.Equatable {
+    /// The details about the sync configuration for which you want to retrieve information.
+    /// This member is required.
+    public var syncConfiguration: CodeStarconnectionsClientTypes.SyncConfiguration?
+
+    public init(
+        syncConfiguration: CodeStarconnectionsClientTypes.SyncConfiguration? = nil
+    )
+    {
+        self.syncConfiguration = syncConfiguration
+    }
+}
+
+struct GetSyncConfigurationOutputBody: Swift.Equatable {
+    let syncConfiguration: CodeStarconnectionsClientTypes.SyncConfiguration?
+}
+
+extension GetSyncConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case syncConfiguration = "SyncConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let syncConfigurationDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.SyncConfiguration.self, forKey: .syncConfiguration)
+        syncConfiguration = syncConfigurationDecoded
+    }
+}
+
+enum GetSyncConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -996,6 +2332,116 @@ extension CodeStarconnectionsClientTypes {
         }
     }
 
+}
+
+extension InternalServerException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// Received an internal server exception. Try again later.
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct InternalServerExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InternalServerExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension InvalidInputException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: InvalidInputExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The input is not valid. Verify that the action is typed correctly.
+public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidInputException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct InvalidInputExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InvalidInputExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension LimitExceededException {
@@ -1136,22 +2582,11 @@ extension ListConnectionsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListConnectionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListConnectionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListConnectionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListConnectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListConnectionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.connections = output.connections
             self.nextToken = output.nextToken
         } else {
@@ -1161,7 +2596,7 @@ extension ListConnectionsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListConnectionsOutputResponse: Swift.Equatable {
+public struct ListConnectionsOutput: Swift.Equatable {
     /// A list of connections and the details for each connection, such as status, owner, and provider type.
     public var connections: [CodeStarconnectionsClientTypes.Connection]?
     /// A token that can be used in the next ListConnections call. To view all items in the list, continue to call this operation with each subsequent token until no more nextToken values are returned.
@@ -1177,12 +2612,12 @@ public struct ListConnectionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListConnectionsOutputResponseBody: Swift.Equatable {
+struct ListConnectionsOutputBody: Swift.Equatable {
     let connections: [CodeStarconnectionsClientTypes.Connection]?
     let nextToken: Swift.String?
 }
 
-extension ListConnectionsOutputResponseBody: Swift.Decodable {
+extension ListConnectionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connections = "Connections"
         case nextToken = "NextToken"
@@ -1203,6 +2638,17 @@ extension ListConnectionsOutputResponseBody: Swift.Decodable {
         connections = connectionsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListConnectionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1265,21 +2711,11 @@ extension ListHostsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListHostsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListHostsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListHostsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListHostsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListHostsOutputBody = try responseDecoder.decode(responseBody: data)
             self.hosts = output.hosts
             self.nextToken = output.nextToken
         } else {
@@ -1289,7 +2725,7 @@ extension ListHostsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListHostsOutputResponse: Swift.Equatable {
+public struct ListHostsOutput: Swift.Equatable {
     /// A list of hosts and the details for each host, such as status, endpoint, and provider type.
     public var hosts: [CodeStarconnectionsClientTypes.Host]?
     /// A token that can be used in the next ListHosts call. To view all items in the list, continue to call this operation with each subsequent token until no more nextToken values are returned.
@@ -1305,12 +2741,12 @@ public struct ListHostsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListHostsOutputResponseBody: Swift.Equatable {
+struct ListHostsOutputBody: Swift.Equatable {
     let hosts: [CodeStarconnectionsClientTypes.Host]?
     let nextToken: Swift.String?
 }
 
-extension ListHostsOutputResponseBody: Swift.Decodable {
+extension ListHostsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case hosts = "Hosts"
         case nextToken = "NextToken"
@@ -1331,6 +2767,447 @@ extension ListHostsOutputResponseBody: Swift.Decodable {
         hosts = hostsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListHostsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListRepositoryLinksInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListRepositoryLinksInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListRepositoryLinksInput: Swift.Equatable {
+    /// A non-zero, non-negative integer used to limit the number of returned results.
+    public var maxResults: Swift.Int?
+    /// An enumeration token that, when provided in a request, returns the next batch of the results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListRepositoryLinksInputBody: Swift.Equatable {
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListRepositoryLinksInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListRepositoryLinksOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListRepositoryLinksOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.repositoryLinks = output.repositoryLinks
+        } else {
+            self.nextToken = nil
+            self.repositoryLinks = nil
+        }
+    }
+}
+
+public struct ListRepositoryLinksOutput: Swift.Equatable {
+    /// An enumeration token that allows the operation to batch the results of the operation.
+    public var nextToken: Swift.String?
+    /// Lists the repository links called by the list repository links operation.
+    /// This member is required.
+    public var repositoryLinks: [CodeStarconnectionsClientTypes.RepositoryLinkInfo]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        repositoryLinks: [CodeStarconnectionsClientTypes.RepositoryLinkInfo]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.repositoryLinks = repositoryLinks
+    }
+}
+
+struct ListRepositoryLinksOutputBody: Swift.Equatable {
+    let repositoryLinks: [CodeStarconnectionsClientTypes.RepositoryLinkInfo]?
+    let nextToken: Swift.String?
+}
+
+extension ListRepositoryLinksOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case repositoryLinks = "RepositoryLinks"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let repositoryLinksContainer = try containerValues.decodeIfPresent([CodeStarconnectionsClientTypes.RepositoryLinkInfo?].self, forKey: .repositoryLinks)
+        var repositoryLinksDecoded0:[CodeStarconnectionsClientTypes.RepositoryLinkInfo]? = nil
+        if let repositoryLinksContainer = repositoryLinksContainer {
+            repositoryLinksDecoded0 = [CodeStarconnectionsClientTypes.RepositoryLinkInfo]()
+            for structure0 in repositoryLinksContainer {
+                if let structure0 = structure0 {
+                    repositoryLinksDecoded0?.append(structure0)
+                }
+            }
+        }
+        repositoryLinks = repositoryLinksDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListRepositoryLinksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListRepositorySyncDefinitionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case repositoryLinkId = "RepositoryLinkId"
+        case syncType = "SyncType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let repositoryLinkId = self.repositoryLinkId {
+            try encodeContainer.encode(repositoryLinkId, forKey: .repositoryLinkId)
+        }
+        if let syncType = self.syncType {
+            try encodeContainer.encode(syncType.rawValue, forKey: .syncType)
+        }
+    }
+}
+
+extension ListRepositorySyncDefinitionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListRepositorySyncDefinitionsInput: Swift.Equatable {
+    /// The ID of the repository link for the sync definition for which you want to retrieve information.
+    /// This member is required.
+    public var repositoryLinkId: Swift.String?
+    /// The sync type of the repository link for the the sync definition for which you want to retrieve information.
+    /// This member is required.
+    public var syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+
+    public init(
+        repositoryLinkId: Swift.String? = nil,
+        syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil
+    )
+    {
+        self.repositoryLinkId = repositoryLinkId
+        self.syncType = syncType
+    }
+}
+
+struct ListRepositorySyncDefinitionsInputBody: Swift.Equatable {
+    let repositoryLinkId: Swift.String?
+    let syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+}
+
+extension ListRepositorySyncDefinitionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case repositoryLinkId = "RepositoryLinkId"
+        case syncType = "SyncType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let repositoryLinkIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryLinkId)
+        repositoryLinkId = repositoryLinkIdDecoded
+        let syncTypeDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.SyncConfigurationType.self, forKey: .syncType)
+        syncType = syncTypeDecoded
+    }
+}
+
+extension ListRepositorySyncDefinitionsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListRepositorySyncDefinitionsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.repositorySyncDefinitions = output.repositorySyncDefinitions
+        } else {
+            self.nextToken = nil
+            self.repositorySyncDefinitions = nil
+        }
+    }
+}
+
+public struct ListRepositorySyncDefinitionsOutput: Swift.Equatable {
+    /// An enumeration token that, when provided in a request, returns the next batch of the results.
+    public var nextToken: Swift.String?
+    /// The list of repository sync definitions returned by the request. A RepositorySyncDefinition is a mapping from a repository branch to all the Amazon Web Services resources that are being synced from that branch.
+    /// This member is required.
+    public var repositorySyncDefinitions: [CodeStarconnectionsClientTypes.RepositorySyncDefinition]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        repositorySyncDefinitions: [CodeStarconnectionsClientTypes.RepositorySyncDefinition]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.repositorySyncDefinitions = repositorySyncDefinitions
+    }
+}
+
+struct ListRepositorySyncDefinitionsOutputBody: Swift.Equatable {
+    let repositorySyncDefinitions: [CodeStarconnectionsClientTypes.RepositorySyncDefinition]?
+    let nextToken: Swift.String?
+}
+
+extension ListRepositorySyncDefinitionsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case repositorySyncDefinitions = "RepositorySyncDefinitions"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let repositorySyncDefinitionsContainer = try containerValues.decodeIfPresent([CodeStarconnectionsClientTypes.RepositorySyncDefinition?].self, forKey: .repositorySyncDefinitions)
+        var repositorySyncDefinitionsDecoded0:[CodeStarconnectionsClientTypes.RepositorySyncDefinition]? = nil
+        if let repositorySyncDefinitionsContainer = repositorySyncDefinitionsContainer {
+            repositorySyncDefinitionsDecoded0 = [CodeStarconnectionsClientTypes.RepositorySyncDefinition]()
+            for structure0 in repositorySyncDefinitionsContainer {
+                if let structure0 = structure0 {
+                    repositorySyncDefinitionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        repositorySyncDefinitions = repositorySyncDefinitionsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListRepositorySyncDefinitionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListSyncConfigurationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case repositoryLinkId = "RepositoryLinkId"
+        case syncType = "SyncType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let repositoryLinkId = self.repositoryLinkId {
+            try encodeContainer.encode(repositoryLinkId, forKey: .repositoryLinkId)
+        }
+        if let syncType = self.syncType {
+            try encodeContainer.encode(syncType.rawValue, forKey: .syncType)
+        }
+    }
+}
+
+extension ListSyncConfigurationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListSyncConfigurationsInput: Swift.Equatable {
+    /// A non-zero, non-negative integer used to limit the number of returned results.
+    public var maxResults: Swift.Int?
+    /// An enumeration token that allows the operation to batch the results of the operation.
+    public var nextToken: Swift.String?
+    /// The ID of the repository link for the requested list of sync configurations.
+    /// This member is required.
+    public var repositoryLinkId: Swift.String?
+    /// The sync type for the requested list of sync configurations.
+    /// This member is required.
+    public var syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        repositoryLinkId: Swift.String? = nil,
+        syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.repositoryLinkId = repositoryLinkId
+        self.syncType = syncType
+    }
+}
+
+struct ListSyncConfigurationsInputBody: Swift.Equatable {
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+    let repositoryLinkId: Swift.String?
+    let syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+}
+
+extension ListSyncConfigurationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case repositoryLinkId = "RepositoryLinkId"
+        case syncType = "SyncType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let repositoryLinkIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryLinkId)
+        repositoryLinkId = repositoryLinkIdDecoded
+        let syncTypeDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.SyncConfigurationType.self, forKey: .syncType)
+        syncType = syncTypeDecoded
+    }
+}
+
+extension ListSyncConfigurationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListSyncConfigurationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.syncConfigurations = output.syncConfigurations
+        } else {
+            self.nextToken = nil
+            self.syncConfigurations = nil
+        }
+    }
+}
+
+public struct ListSyncConfigurationsOutput: Swift.Equatable {
+    /// An enumeration token that allows the operation to batch the next results of the operation.
+    public var nextToken: Swift.String?
+    /// The list of repository sync definitions returned by the request.
+    /// This member is required.
+    public var syncConfigurations: [CodeStarconnectionsClientTypes.SyncConfiguration]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        syncConfigurations: [CodeStarconnectionsClientTypes.SyncConfiguration]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.syncConfigurations = syncConfigurations
+    }
+}
+
+struct ListSyncConfigurationsOutputBody: Swift.Equatable {
+    let syncConfigurations: [CodeStarconnectionsClientTypes.SyncConfiguration]?
+    let nextToken: Swift.String?
+}
+
+extension ListSyncConfigurationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case syncConfigurations = "SyncConfigurations"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let syncConfigurationsContainer = try containerValues.decodeIfPresent([CodeStarconnectionsClientTypes.SyncConfiguration?].self, forKey: .syncConfigurations)
+        var syncConfigurationsDecoded0:[CodeStarconnectionsClientTypes.SyncConfiguration]? = nil
+        if let syncConfigurationsContainer = syncConfigurationsContainer {
+            syncConfigurationsDecoded0 = [CodeStarconnectionsClientTypes.SyncConfiguration]()
+            for structure0 in syncConfigurationsContainer {
+                if let structure0 = structure0 {
+                    syncConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        syncConfigurations = syncConfigurationsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListSyncConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1382,22 +3259,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -1405,7 +3271,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// A list of tag key and value pairs associated with the specified resource.
     public var tags: [CodeStarconnectionsClientTypes.Tag]?
 
@@ -1417,11 +3283,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [CodeStarconnectionsClientTypes.Tag]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
     }
@@ -1439,6 +3305,17 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1477,6 +3354,420 @@ extension CodeStarconnectionsClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = ProviderType(rawValue: rawValue) ?? ProviderType.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension CodeStarconnectionsClientTypes.RepositoryLinkInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectionArn = "ConnectionArn"
+        case encryptionKeyArn = "EncryptionKeyArn"
+        case ownerId = "OwnerId"
+        case providerType = "ProviderType"
+        case repositoryLinkArn = "RepositoryLinkArn"
+        case repositoryLinkId = "RepositoryLinkId"
+        case repositoryName = "RepositoryName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let connectionArn = self.connectionArn {
+            try encodeContainer.encode(connectionArn, forKey: .connectionArn)
+        }
+        if let encryptionKeyArn = self.encryptionKeyArn {
+            try encodeContainer.encode(encryptionKeyArn, forKey: .encryptionKeyArn)
+        }
+        if let ownerId = self.ownerId {
+            try encodeContainer.encode(ownerId, forKey: .ownerId)
+        }
+        if let providerType = self.providerType {
+            try encodeContainer.encode(providerType.rawValue, forKey: .providerType)
+        }
+        if let repositoryLinkArn = self.repositoryLinkArn {
+            try encodeContainer.encode(repositoryLinkArn, forKey: .repositoryLinkArn)
+        }
+        if let repositoryLinkId = self.repositoryLinkId {
+            try encodeContainer.encode(repositoryLinkId, forKey: .repositoryLinkId)
+        }
+        if let repositoryName = self.repositoryName {
+            try encodeContainer.encode(repositoryName, forKey: .repositoryName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let connectionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionArn)
+        connectionArn = connectionArnDecoded
+        let encryptionKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encryptionKeyArn)
+        encryptionKeyArn = encryptionKeyArnDecoded
+        let ownerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerId)
+        ownerId = ownerIdDecoded
+        let providerTypeDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.ProviderType.self, forKey: .providerType)
+        providerType = providerTypeDecoded
+        let repositoryLinkArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryLinkArn)
+        repositoryLinkArn = repositoryLinkArnDecoded
+        let repositoryLinkIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryLinkId)
+        repositoryLinkId = repositoryLinkIdDecoded
+        let repositoryNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryName)
+        repositoryName = repositoryNameDecoded
+    }
+}
+
+extension CodeStarconnectionsClientTypes {
+    /// Information about the repository link resource, such as the repository link ARN, the associated connection ARN, encryption key ARN, and owner ID.
+    public struct RepositoryLinkInfo: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the connection associated with the repository link.
+        /// This member is required.
+        public var connectionArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the encryption key for the repository associated with the repository link.
+        public var encryptionKeyArn: Swift.String?
+        /// The owner ID for the repository associated with the repository link, such as the owner ID in GitHub.
+        /// This member is required.
+        public var ownerId: Swift.String?
+        /// The provider type for the connection, such as GitHub, associated with the repository link.
+        /// This member is required.
+        public var providerType: CodeStarconnectionsClientTypes.ProviderType?
+        /// The Amazon Resource Name (ARN) of the repository link.
+        /// This member is required.
+        public var repositoryLinkArn: Swift.String?
+        /// The ID of the repository link.
+        /// This member is required.
+        public var repositoryLinkId: Swift.String?
+        /// The name of the repository associated with the repository link.
+        /// This member is required.
+        public var repositoryName: Swift.String?
+
+        public init(
+            connectionArn: Swift.String? = nil,
+            encryptionKeyArn: Swift.String? = nil,
+            ownerId: Swift.String? = nil,
+            providerType: CodeStarconnectionsClientTypes.ProviderType? = nil,
+            repositoryLinkArn: Swift.String? = nil,
+            repositoryLinkId: Swift.String? = nil,
+            repositoryName: Swift.String? = nil
+        )
+        {
+            self.connectionArn = connectionArn
+            self.encryptionKeyArn = encryptionKeyArn
+            self.ownerId = ownerId
+            self.providerType = providerType
+            self.repositoryLinkArn = repositoryLinkArn
+            self.repositoryLinkId = repositoryLinkId
+            self.repositoryName = repositoryName
+        }
+    }
+
+}
+
+extension CodeStarconnectionsClientTypes.RepositorySyncAttempt: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case events = "Events"
+        case startedAt = "StartedAt"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let events = events {
+            var eventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .events)
+            for repositorysyncevent0 in events {
+                try eventsContainer.encode(repositorysyncevent0)
+            }
+        }
+        if let startedAt = self.startedAt {
+            try encodeContainer.encodeTimestamp(startedAt, format: .epochSeconds, forKey: .startedAt)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startedAt)
+        startedAt = startedAtDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.RepositorySyncStatus.self, forKey: .status)
+        status = statusDecoded
+        let eventsContainer = try containerValues.decodeIfPresent([CodeStarconnectionsClientTypes.RepositorySyncEvent?].self, forKey: .events)
+        var eventsDecoded0:[CodeStarconnectionsClientTypes.RepositorySyncEvent]? = nil
+        if let eventsContainer = eventsContainer {
+            eventsDecoded0 = [CodeStarconnectionsClientTypes.RepositorySyncEvent]()
+            for structure0 in eventsContainer {
+                if let structure0 = structure0 {
+                    eventsDecoded0?.append(structure0)
+                }
+            }
+        }
+        events = eventsDecoded0
+    }
+}
+
+extension CodeStarconnectionsClientTypes {
+    /// Information about a repository sync attempt for a repository with a sync configuration.
+    public struct RepositorySyncAttempt: Swift.Equatable {
+        /// The events associated with a specific sync attempt.
+        /// This member is required.
+        public var events: [CodeStarconnectionsClientTypes.RepositorySyncEvent]?
+        /// The start time of a specific sync attempt.
+        /// This member is required.
+        public var startedAt: ClientRuntime.Date?
+        /// The status of a specific sync attempt. The following are valid statuses:
+        ///
+        /// * INITIATED - A repository sync attempt has been created and will begin soon.
+        ///
+        /// * IN_PROGRESS - A repository sync attempt has started and work is being done to reconcile the branch.
+        ///
+        /// * SUCCEEDED - The repository sync attempt has completed successfully.
+        ///
+        /// * FAILED - The repository sync attempt has failed.
+        ///
+        /// * QUEUED - The repository sync attempt didn't execute and was queued.
+        /// This member is required.
+        public var status: CodeStarconnectionsClientTypes.RepositorySyncStatus?
+
+        public init(
+            events: [CodeStarconnectionsClientTypes.RepositorySyncEvent]? = nil,
+            startedAt: ClientRuntime.Date? = nil,
+            status: CodeStarconnectionsClientTypes.RepositorySyncStatus? = nil
+        )
+        {
+            self.events = events
+            self.startedAt = startedAt
+            self.status = status
+        }
+    }
+
+}
+
+extension CodeStarconnectionsClientTypes.RepositorySyncDefinition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case branch = "Branch"
+        case directory = "Directory"
+        case parent = "Parent"
+        case target = "Target"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let branch = self.branch {
+            try encodeContainer.encode(branch, forKey: .branch)
+        }
+        if let directory = self.directory {
+            try encodeContainer.encode(directory, forKey: .directory)
+        }
+        if let parent = self.parent {
+            try encodeContainer.encode(parent, forKey: .parent)
+        }
+        if let target = self.target {
+            try encodeContainer.encode(target, forKey: .target)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let branchDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .branch)
+        branch = branchDecoded
+        let directoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directory)
+        directory = directoryDecoded
+        let parentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parent)
+        parent = parentDecoded
+        let targetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .target)
+        target = targetDecoded
+    }
+}
+
+extension CodeStarconnectionsClientTypes {
+    /// The definition for a repository with a sync configuration.
+    public struct RepositorySyncDefinition: Swift.Equatable {
+        /// The branch specified for a repository sync definition.
+        /// This member is required.
+        public var branch: Swift.String?
+        /// The configuration file for a repository sync definition. This value comes from creating or updating the config-file field of a sync-configuration.
+        /// This member is required.
+        public var directory: Swift.String?
+        /// The parent resource specified for a repository sync definition.
+        /// This member is required.
+        public var parent: Swift.String?
+        /// The target resource specified for a repository sync definition. In some cases, such as CFN_STACK_SYNC, the parent and target resource are the same.
+        /// This member is required.
+        public var target: Swift.String?
+
+        public init(
+            branch: Swift.String? = nil,
+            directory: Swift.String? = nil,
+            parent: Swift.String? = nil,
+            target: Swift.String? = nil
+        )
+        {
+            self.branch = branch
+            self.directory = directory
+            self.parent = parent
+            self.target = target
+        }
+    }
+
+}
+
+extension CodeStarconnectionsClientTypes.RepositorySyncEvent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case event = "Event"
+        case externalId = "ExternalId"
+        case time = "Time"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let event = self.event {
+            try encodeContainer.encode(event, forKey: .event)
+        }
+        if let externalId = self.externalId {
+            try encodeContainer.encode(externalId, forKey: .externalId)
+        }
+        if let time = self.time {
+            try encodeContainer.encodeTimestamp(time, format: .epochSeconds, forKey: .time)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .event)
+        event = eventDecoded
+        let externalIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .externalId)
+        externalId = externalIdDecoded
+        let timeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .time)
+        time = timeDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension CodeStarconnectionsClientTypes {
+    /// Information about a repository sync event.
+    public struct RepositorySyncEvent: Swift.Equatable {
+        /// A description of a repository sync event.
+        /// This member is required.
+        public var event: Swift.String?
+        /// The ID for a repository sync event.
+        public var externalId: Swift.String?
+        /// The time that a repository sync event occurred.
+        /// This member is required.
+        public var time: ClientRuntime.Date?
+        /// The event type for a repository sync event.
+        /// This member is required.
+        public var type: Swift.String?
+
+        public init(
+            event: Swift.String? = nil,
+            externalId: Swift.String? = nil,
+            time: ClientRuntime.Date? = nil,
+            type: Swift.String? = nil
+        )
+        {
+            self.event = event
+            self.externalId = externalId
+            self.time = time
+            self.type = type
+        }
+    }
+
+}
+
+extension CodeStarconnectionsClientTypes {
+    public enum RepositorySyncStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case initiated
+        case inProgress
+        case queued
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RepositorySyncStatus] {
+            return [
+                .failed,
+                .initiated,
+                .inProgress,
+                .queued,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .initiated: return "INITIATED"
+            case .inProgress: return "IN_PROGRESS"
+            case .queued: return "QUEUED"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RepositorySyncStatus(rawValue: rawValue) ?? RepositorySyncStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ResourceAlreadyExistsException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ResourceAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// Unable to create resource. Resource already exists.
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceAlreadyExistsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ResourceAlreadyExistsExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -1535,6 +3826,223 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+extension CodeStarconnectionsClientTypes.ResourceSyncAttempt: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case events = "Events"
+        case initialRevision = "InitialRevision"
+        case startedAt = "StartedAt"
+        case status = "Status"
+        case target = "Target"
+        case targetRevision = "TargetRevision"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let events = events {
+            var eventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .events)
+            for resourcesyncevent0 in events {
+                try eventsContainer.encode(resourcesyncevent0)
+            }
+        }
+        if let initialRevision = self.initialRevision {
+            try encodeContainer.encode(initialRevision, forKey: .initialRevision)
+        }
+        if let startedAt = self.startedAt {
+            try encodeContainer.encodeTimestamp(startedAt, format: .epochSeconds, forKey: .startedAt)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let target = self.target {
+            try encodeContainer.encode(target, forKey: .target)
+        }
+        if let targetRevision = self.targetRevision {
+            try encodeContainer.encode(targetRevision, forKey: .targetRevision)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventsContainer = try containerValues.decodeIfPresent([CodeStarconnectionsClientTypes.ResourceSyncEvent?].self, forKey: .events)
+        var eventsDecoded0:[CodeStarconnectionsClientTypes.ResourceSyncEvent]? = nil
+        if let eventsContainer = eventsContainer {
+            eventsDecoded0 = [CodeStarconnectionsClientTypes.ResourceSyncEvent]()
+            for structure0 in eventsContainer {
+                if let structure0 = structure0 {
+                    eventsDecoded0?.append(structure0)
+                }
+            }
+        }
+        events = eventsDecoded0
+        let initialRevisionDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.Revision.self, forKey: .initialRevision)
+        initialRevision = initialRevisionDecoded
+        let startedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startedAt)
+        startedAt = startedAtDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.ResourceSyncStatus.self, forKey: .status)
+        status = statusDecoded
+        let targetRevisionDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.Revision.self, forKey: .targetRevision)
+        targetRevision = targetRevisionDecoded
+        let targetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .target)
+        target = targetDecoded
+    }
+}
+
+extension CodeStarconnectionsClientTypes {
+    /// Information about a resource sync attempt.
+    public struct ResourceSyncAttempt: Swift.Equatable {
+        /// The events related to a resource sync attempt.
+        /// This member is required.
+        public var events: [CodeStarconnectionsClientTypes.ResourceSyncEvent]?
+        /// The current state of the resource as defined in the resource's config-file in the linked repository.
+        /// This member is required.
+        public var initialRevision: CodeStarconnectionsClientTypes.Revision?
+        /// The start time for a resource sync attempt.
+        /// This member is required.
+        public var startedAt: ClientRuntime.Date?
+        /// The status for a resource sync attempt. The follow are valid statuses:
+        ///
+        /// * SYNC-INITIATED - A resource sync attempt has been created and will begin soon.
+        ///
+        /// * SYNCING - Syncing has started and work is being done to reconcile state.
+        ///
+        /// * SYNCED - Syncing has completed successfully.
+        ///
+        /// * SYNC_FAILED - A resource sync attempt has failed.
+        /// This member is required.
+        public var status: CodeStarconnectionsClientTypes.ResourceSyncStatus?
+        /// The name of the Amazon Web Services resource that is attempted to be synchronized.
+        /// This member is required.
+        public var target: Swift.String?
+        /// The desired state of the resource as defined in the resource's config-file in the linked repository. Git sync attempts to update the resource to this state.
+        /// This member is required.
+        public var targetRevision: CodeStarconnectionsClientTypes.Revision?
+
+        public init(
+            events: [CodeStarconnectionsClientTypes.ResourceSyncEvent]? = nil,
+            initialRevision: CodeStarconnectionsClientTypes.Revision? = nil,
+            startedAt: ClientRuntime.Date? = nil,
+            status: CodeStarconnectionsClientTypes.ResourceSyncStatus? = nil,
+            target: Swift.String? = nil,
+            targetRevision: CodeStarconnectionsClientTypes.Revision? = nil
+        )
+        {
+            self.events = events
+            self.initialRevision = initialRevision
+            self.startedAt = startedAt
+            self.status = status
+            self.target = target
+            self.targetRevision = targetRevision
+        }
+    }
+
+}
+
+extension CodeStarconnectionsClientTypes.ResourceSyncEvent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case event = "Event"
+        case externalId = "ExternalId"
+        case time = "Time"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let event = self.event {
+            try encodeContainer.encode(event, forKey: .event)
+        }
+        if let externalId = self.externalId {
+            try encodeContainer.encode(externalId, forKey: .externalId)
+        }
+        if let time = self.time {
+            try encodeContainer.encodeTimestamp(time, format: .epochSeconds, forKey: .time)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .event)
+        event = eventDecoded
+        let externalIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .externalId)
+        externalId = externalIdDecoded
+        let timeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .time)
+        time = timeDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension CodeStarconnectionsClientTypes {
+    /// Information about a resource sync event for the resource associated with a sync configuration.
+    public struct ResourceSyncEvent: Swift.Equatable {
+        /// The event for a resource sync event.
+        /// This member is required.
+        public var event: Swift.String?
+        /// The ID for a resource sync event.
+        public var externalId: Swift.String?
+        /// The time that a resource sync event occurred.
+        /// This member is required.
+        public var time: ClientRuntime.Date?
+        /// The type of resource sync event.
+        /// This member is required.
+        public var type: Swift.String?
+
+        public init(
+            event: Swift.String? = nil,
+            externalId: Swift.String? = nil,
+            time: ClientRuntime.Date? = nil,
+            type: Swift.String? = nil
+        )
+        {
+            self.event = event
+            self.externalId = externalId
+            self.time = time
+            self.type = type
+        }
+    }
+
+}
+
+extension CodeStarconnectionsClientTypes {
+    public enum ResourceSyncStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case initiated
+        case inProgress
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceSyncStatus] {
+            return [
+                .failed,
+                .initiated,
+                .inProgress,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .initiated: return "INITIATED"
+            case .inProgress: return "IN_PROGRESS"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ResourceSyncStatus(rawValue: rawValue) ?? ResourceSyncStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ResourceUnavailableException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -1587,6 +4095,651 @@ extension ResourceUnavailableExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension RetryLatestCommitFailedException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RetryLatestCommitFailedExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// Retrying the latest commit failed. Try again later.
+public struct RetryLatestCommitFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RetryLatestCommitFailedException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct RetryLatestCommitFailedExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension RetryLatestCommitFailedExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension CodeStarconnectionsClientTypes.Revision: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case branch = "Branch"
+        case directory = "Directory"
+        case ownerId = "OwnerId"
+        case providerType = "ProviderType"
+        case repositoryName = "RepositoryName"
+        case sha = "Sha"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let branch = self.branch {
+            try encodeContainer.encode(branch, forKey: .branch)
+        }
+        if let directory = self.directory {
+            try encodeContainer.encode(directory, forKey: .directory)
+        }
+        if let ownerId = self.ownerId {
+            try encodeContainer.encode(ownerId, forKey: .ownerId)
+        }
+        if let providerType = self.providerType {
+            try encodeContainer.encode(providerType.rawValue, forKey: .providerType)
+        }
+        if let repositoryName = self.repositoryName {
+            try encodeContainer.encode(repositoryName, forKey: .repositoryName)
+        }
+        if let sha = self.sha {
+            try encodeContainer.encode(sha, forKey: .sha)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let branchDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .branch)
+        branch = branchDecoded
+        let directoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directory)
+        directory = directoryDecoded
+        let ownerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerId)
+        ownerId = ownerIdDecoded
+        let repositoryNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryName)
+        repositoryName = repositoryNameDecoded
+        let providerTypeDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.ProviderType.self, forKey: .providerType)
+        providerType = providerTypeDecoded
+        let shaDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sha)
+        sha = shaDecoded
+    }
+}
+
+extension CodeStarconnectionsClientTypes {
+    /// Information about the revision for a specific sync event, such as the branch, owner ID, and name of the repository.
+    public struct Revision: Swift.Equatable {
+        /// The branch name for a specific revision.
+        /// This member is required.
+        public var branch: Swift.String?
+        /// The directory, if any, for a specific revision.
+        /// This member is required.
+        public var directory: Swift.String?
+        /// The owner ID for a specific revision, such as the GitHub owner ID for a GitHub repository.
+        /// This member is required.
+        public var ownerId: Swift.String?
+        /// The provider type for a revision, such as GitHub.
+        /// This member is required.
+        public var providerType: CodeStarconnectionsClientTypes.ProviderType?
+        /// The repository name for a specific revision.
+        /// This member is required.
+        public var repositoryName: Swift.String?
+        /// The SHA, such as the commit ID, for a specific revision.
+        /// This member is required.
+        public var sha: Swift.String?
+
+        public init(
+            branch: Swift.String? = nil,
+            directory: Swift.String? = nil,
+            ownerId: Swift.String? = nil,
+            providerType: CodeStarconnectionsClientTypes.ProviderType? = nil,
+            repositoryName: Swift.String? = nil,
+            sha: Swift.String? = nil
+        )
+        {
+            self.branch = branch
+            self.directory = directory
+            self.ownerId = ownerId
+            self.providerType = providerType
+            self.repositoryName = repositoryName
+            self.sha = sha
+        }
+    }
+
+}
+
+extension CodeStarconnectionsClientTypes.SyncBlocker: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contexts = "Contexts"
+        case createdAt = "CreatedAt"
+        case createdReason = "CreatedReason"
+        case id = "Id"
+        case resolvedAt = "ResolvedAt"
+        case resolvedReason = "ResolvedReason"
+        case status = "Status"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contexts = contexts {
+            var contextsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contexts)
+            for syncblockercontext0 in contexts {
+                try contextsContainer.encode(syncblockercontext0)
+            }
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let createdReason = self.createdReason {
+            try encodeContainer.encode(createdReason, forKey: .createdReason)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let resolvedAt = self.resolvedAt {
+            try encodeContainer.encodeTimestamp(resolvedAt, format: .epochSeconds, forKey: .resolvedAt)
+        }
+        if let resolvedReason = self.resolvedReason {
+            try encodeContainer.encode(resolvedReason, forKey: .resolvedReason)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.BlockerType.self, forKey: .type)
+        type = typeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.BlockerStatus.self, forKey: .status)
+        status = statusDecoded
+        let createdReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdReason)
+        createdReason = createdReasonDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let contextsContainer = try containerValues.decodeIfPresent([CodeStarconnectionsClientTypes.SyncBlockerContext?].self, forKey: .contexts)
+        var contextsDecoded0:[CodeStarconnectionsClientTypes.SyncBlockerContext]? = nil
+        if let contextsContainer = contextsContainer {
+            contextsDecoded0 = [CodeStarconnectionsClientTypes.SyncBlockerContext]()
+            for structure0 in contextsContainer {
+                if let structure0 = structure0 {
+                    contextsDecoded0?.append(structure0)
+                }
+            }
+        }
+        contexts = contextsDecoded0
+        let resolvedReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resolvedReason)
+        resolvedReason = resolvedReasonDecoded
+        let resolvedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .resolvedAt)
+        resolvedAt = resolvedAtDecoded
+    }
+}
+
+extension CodeStarconnectionsClientTypes {
+    /// Information about a blocker for a sync event.
+    public struct SyncBlocker: Swift.Equatable {
+        /// The contexts for a specific sync blocker.
+        public var contexts: [CodeStarconnectionsClientTypes.SyncBlockerContext]?
+        /// The creation time for a specific sync blocker.
+        /// This member is required.
+        public var createdAt: ClientRuntime.Date?
+        /// The provided reason for a specific sync blocker.
+        /// This member is required.
+        public var createdReason: Swift.String?
+        /// The ID for a specific sync blocker.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The time that a specific sync blocker was resolved.
+        public var resolvedAt: ClientRuntime.Date?
+        /// The resolved reason for a specific sync blocker.
+        public var resolvedReason: Swift.String?
+        /// The status for a specific sync blocker.
+        /// This member is required.
+        public var status: CodeStarconnectionsClientTypes.BlockerStatus?
+        /// The sync blocker type.
+        /// This member is required.
+        public var type: CodeStarconnectionsClientTypes.BlockerType?
+
+        public init(
+            contexts: [CodeStarconnectionsClientTypes.SyncBlockerContext]? = nil,
+            createdAt: ClientRuntime.Date? = nil,
+            createdReason: Swift.String? = nil,
+            id: Swift.String? = nil,
+            resolvedAt: ClientRuntime.Date? = nil,
+            resolvedReason: Swift.String? = nil,
+            status: CodeStarconnectionsClientTypes.BlockerStatus? = nil,
+            type: CodeStarconnectionsClientTypes.BlockerType? = nil
+        )
+        {
+            self.contexts = contexts
+            self.createdAt = createdAt
+            self.createdReason = createdReason
+            self.id = id
+            self.resolvedAt = resolvedAt
+            self.resolvedReason = resolvedReason
+            self.status = status
+            self.type = type
+        }
+    }
+
+}
+
+extension CodeStarconnectionsClientTypes.SyncBlockerContext: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key = "Key"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension CodeStarconnectionsClientTypes {
+    /// The context for a specific sync blocker.
+    public struct SyncBlockerContext: Swift.Equatable {
+        /// The key provided for a context key-value pair for a specific sync blocker.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value provided for a context key-value pair for a specific sync blocker.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
+}
+
+extension SyncBlockerDoesNotExistException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: SyncBlockerDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// Unable to continue. The sync blocker does not exist.
+public struct SyncBlockerDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SyncBlockerDoesNotExistException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct SyncBlockerDoesNotExistExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension SyncBlockerDoesNotExistExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension CodeStarconnectionsClientTypes.SyncBlockerSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case latestBlockers = "LatestBlockers"
+        case parentResourceName = "ParentResourceName"
+        case resourceName = "ResourceName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let latestBlockers = latestBlockers {
+            var latestBlockersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .latestBlockers)
+            for syncblocker0 in latestBlockers {
+                try latestBlockersContainer.encode(syncblocker0)
+            }
+        }
+        if let parentResourceName = self.parentResourceName {
+            try encodeContainer.encode(parentResourceName, forKey: .parentResourceName)
+        }
+        if let resourceName = self.resourceName {
+            try encodeContainer.encode(resourceName, forKey: .resourceName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
+        let parentResourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parentResourceName)
+        parentResourceName = parentResourceNameDecoded
+        let latestBlockersContainer = try containerValues.decodeIfPresent([CodeStarconnectionsClientTypes.SyncBlocker?].self, forKey: .latestBlockers)
+        var latestBlockersDecoded0:[CodeStarconnectionsClientTypes.SyncBlocker]? = nil
+        if let latestBlockersContainer = latestBlockersContainer {
+            latestBlockersDecoded0 = [CodeStarconnectionsClientTypes.SyncBlocker]()
+            for structure0 in latestBlockersContainer {
+                if let structure0 = structure0 {
+                    latestBlockersDecoded0?.append(structure0)
+                }
+            }
+        }
+        latestBlockers = latestBlockersDecoded0
+    }
+}
+
+extension CodeStarconnectionsClientTypes {
+    /// A summary for sync blockers.
+    public struct SyncBlockerSummary: Swift.Equatable {
+        /// The latest events for a sync blocker summary.
+        public var latestBlockers: [CodeStarconnectionsClientTypes.SyncBlocker]?
+        /// The parent resource name for a sync blocker summary.
+        public var parentResourceName: Swift.String?
+        /// The resource name for sync blocker summary.
+        /// This member is required.
+        public var resourceName: Swift.String?
+
+        public init(
+            latestBlockers: [CodeStarconnectionsClientTypes.SyncBlocker]? = nil,
+            parentResourceName: Swift.String? = nil,
+            resourceName: Swift.String? = nil
+        )
+        {
+            self.latestBlockers = latestBlockers
+            self.parentResourceName = parentResourceName
+            self.resourceName = resourceName
+        }
+    }
+
+}
+
+extension CodeStarconnectionsClientTypes.SyncConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case branch = "Branch"
+        case configFile = "ConfigFile"
+        case ownerId = "OwnerId"
+        case providerType = "ProviderType"
+        case repositoryLinkId = "RepositoryLinkId"
+        case repositoryName = "RepositoryName"
+        case resourceName = "ResourceName"
+        case roleArn = "RoleArn"
+        case syncType = "SyncType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let branch = self.branch {
+            try encodeContainer.encode(branch, forKey: .branch)
+        }
+        if let configFile = self.configFile {
+            try encodeContainer.encode(configFile, forKey: .configFile)
+        }
+        if let ownerId = self.ownerId {
+            try encodeContainer.encode(ownerId, forKey: .ownerId)
+        }
+        if let providerType = self.providerType {
+            try encodeContainer.encode(providerType.rawValue, forKey: .providerType)
+        }
+        if let repositoryLinkId = self.repositoryLinkId {
+            try encodeContainer.encode(repositoryLinkId, forKey: .repositoryLinkId)
+        }
+        if let repositoryName = self.repositoryName {
+            try encodeContainer.encode(repositoryName, forKey: .repositoryName)
+        }
+        if let resourceName = self.resourceName {
+            try encodeContainer.encode(resourceName, forKey: .resourceName)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let syncType = self.syncType {
+            try encodeContainer.encode(syncType.rawValue, forKey: .syncType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let branchDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .branch)
+        branch = branchDecoded
+        let configFileDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configFile)
+        configFile = configFileDecoded
+        let ownerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerId)
+        ownerId = ownerIdDecoded
+        let providerTypeDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.ProviderType.self, forKey: .providerType)
+        providerType = providerTypeDecoded
+        let repositoryLinkIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryLinkId)
+        repositoryLinkId = repositoryLinkIdDecoded
+        let repositoryNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryName)
+        repositoryName = repositoryNameDecoded
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let syncTypeDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.SyncConfigurationType.self, forKey: .syncType)
+        syncType = syncTypeDecoded
+    }
+}
+
+extension CodeStarconnectionsClientTypes {
+    /// Information, such as repository, branch, provider, and resource names for a specific sync configuration.
+    public struct SyncConfiguration: Swift.Equatable {
+        /// The branch associated with a specific sync configuration.
+        /// This member is required.
+        public var branch: Swift.String?
+        /// The file path to the configuration file associated with a specific sync configuration. The path should point to an actual file in the sync configurations linked repository.
+        public var configFile: Swift.String?
+        /// The owner ID for the repository associated with a specific sync configuration, such as the owner ID in GitHub.
+        /// This member is required.
+        public var ownerId: Swift.String?
+        /// The connection provider type associated with a specific sync configuration, such as GitHub.
+        /// This member is required.
+        public var providerType: CodeStarconnectionsClientTypes.ProviderType?
+        /// The ID of the repository link associated with a specific sync configuration.
+        /// This member is required.
+        public var repositoryLinkId: Swift.String?
+        /// The name of the repository associated with a specific sync configuration.
+        /// This member is required.
+        public var repositoryName: Swift.String?
+        /// The name of the connection resource associated with a specific sync configuration.
+        /// This member is required.
+        public var resourceName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the IAM role associated with a specific sync configuration.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// The type of sync for a specific sync configuration.
+        /// This member is required.
+        public var syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+
+        public init(
+            branch: Swift.String? = nil,
+            configFile: Swift.String? = nil,
+            ownerId: Swift.String? = nil,
+            providerType: CodeStarconnectionsClientTypes.ProviderType? = nil,
+            repositoryLinkId: Swift.String? = nil,
+            repositoryName: Swift.String? = nil,
+            resourceName: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil
+        )
+        {
+            self.branch = branch
+            self.configFile = configFile
+            self.ownerId = ownerId
+            self.providerType = providerType
+            self.repositoryLinkId = repositoryLinkId
+            self.repositoryName = repositoryName
+            self.resourceName = resourceName
+            self.roleArn = roleArn
+            self.syncType = syncType
+        }
+    }
+
+}
+
+extension SyncConfigurationStillExistsException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: SyncConfigurationStillExistsExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// Unable to continue. The sync blocker still exists.
+public struct SyncConfigurationStillExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SyncConfigurationStillExistsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct SyncConfigurationStillExistsExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension SyncConfigurationStillExistsExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension CodeStarconnectionsClientTypes {
+    public enum SyncConfigurationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cfnStackSync
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SyncConfigurationType] {
+            return [
+                .cfnStackSync,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cfnStackSync: return "CFN_STACK_SYNC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SyncConfigurationType(rawValue: rawValue) ?? SyncConfigurationType.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -1710,8 +4863,18 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1722,14 +4885,59 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+extension ThrottlingException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
-public struct TagResourceOutputResponse: Swift.Equatable {
+/// The request was denied due to request throttling.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init() { }
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ThrottlingExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ThrottlingExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension UnsupportedOperationException {
@@ -1776,6 +4984,61 @@ struct UnsupportedOperationExceptionBody: Swift.Equatable {
 }
 
 extension UnsupportedOperationExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension UnsupportedProviderTypeException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UnsupportedProviderTypeExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The specified provider type is not supported for connections.
+public struct UnsupportedProviderTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnsupportedProviderTypeException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct UnsupportedProviderTypeExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension UnsupportedProviderTypeExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message = "Message"
     }
@@ -1860,8 +5123,18 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1869,16 +5142,6 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateHostInput: Swift.Encodable {
@@ -1953,8 +5216,18 @@ extension UpdateHostInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateHostOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateHostOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateHostOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateHostOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1967,14 +5240,522 @@ public enum UpdateHostOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateHostOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+extension UpdateOutOfSyncException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateOutOfSyncExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
-public struct UpdateHostOutputResponse: Swift.Equatable {
+/// The update is out of sync. Try syncing again.
+public struct UpdateOutOfSyncException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init() { }
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UpdateOutOfSyncException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct UpdateOutOfSyncExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension UpdateOutOfSyncExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension UpdateRepositoryLinkInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectionArn = "ConnectionArn"
+        case encryptionKeyArn = "EncryptionKeyArn"
+        case repositoryLinkId = "RepositoryLinkId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let connectionArn = self.connectionArn {
+            try encodeContainer.encode(connectionArn, forKey: .connectionArn)
+        }
+        if let encryptionKeyArn = self.encryptionKeyArn {
+            try encodeContainer.encode(encryptionKeyArn, forKey: .encryptionKeyArn)
+        }
+        if let repositoryLinkId = self.repositoryLinkId {
+            try encodeContainer.encode(repositoryLinkId, forKey: .repositoryLinkId)
+        }
+    }
+}
+
+extension UpdateRepositoryLinkInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateRepositoryLinkInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the connection for the repository link to be updated. The updated connection ARN must have the same providerType (such as GitHub) as the original connection ARN for the repo link.
+    public var connectionArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the encryption key for the repository link to be updated.
+    public var encryptionKeyArn: Swift.String?
+    /// The ID of the repository link to be updated.
+    /// This member is required.
+    public var repositoryLinkId: Swift.String?
+
+    public init(
+        connectionArn: Swift.String? = nil,
+        encryptionKeyArn: Swift.String? = nil,
+        repositoryLinkId: Swift.String? = nil
+    )
+    {
+        self.connectionArn = connectionArn
+        self.encryptionKeyArn = encryptionKeyArn
+        self.repositoryLinkId = repositoryLinkId
+    }
+}
+
+struct UpdateRepositoryLinkInputBody: Swift.Equatable {
+    let connectionArn: Swift.String?
+    let encryptionKeyArn: Swift.String?
+    let repositoryLinkId: Swift.String?
+}
+
+extension UpdateRepositoryLinkInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectionArn = "ConnectionArn"
+        case encryptionKeyArn = "EncryptionKeyArn"
+        case repositoryLinkId = "RepositoryLinkId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let connectionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionArn)
+        connectionArn = connectionArnDecoded
+        let encryptionKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encryptionKeyArn)
+        encryptionKeyArn = encryptionKeyArnDecoded
+        let repositoryLinkIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryLinkId)
+        repositoryLinkId = repositoryLinkIdDecoded
+    }
+}
+
+extension UpdateRepositoryLinkOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateRepositoryLinkOutputBody = try responseDecoder.decode(responseBody: data)
+            self.repositoryLinkInfo = output.repositoryLinkInfo
+        } else {
+            self.repositoryLinkInfo = nil
+        }
+    }
+}
+
+public struct UpdateRepositoryLinkOutput: Swift.Equatable {
+    /// Information about the repository link to be updated.
+    /// This member is required.
+    public var repositoryLinkInfo: CodeStarconnectionsClientTypes.RepositoryLinkInfo?
+
+    public init(
+        repositoryLinkInfo: CodeStarconnectionsClientTypes.RepositoryLinkInfo? = nil
+    )
+    {
+        self.repositoryLinkInfo = repositoryLinkInfo
+    }
+}
+
+struct UpdateRepositoryLinkOutputBody: Swift.Equatable {
+    let repositoryLinkInfo: CodeStarconnectionsClientTypes.RepositoryLinkInfo?
+}
+
+extension UpdateRepositoryLinkOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case repositoryLinkInfo = "RepositoryLinkInfo"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let repositoryLinkInfoDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.RepositoryLinkInfo.self, forKey: .repositoryLinkInfo)
+        repositoryLinkInfo = repositoryLinkInfoDecoded
+    }
+}
+
+enum UpdateRepositoryLinkOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConditionalCheckFailedException": return try await ConditionalCheckFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UpdateOutOfSyncException": return try await UpdateOutOfSyncException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateSyncBlockerInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id = "Id"
+        case resolvedReason = "ResolvedReason"
+        case resourceName = "ResourceName"
+        case syncType = "SyncType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let resolvedReason = self.resolvedReason {
+            try encodeContainer.encode(resolvedReason, forKey: .resolvedReason)
+        }
+        if let resourceName = self.resourceName {
+            try encodeContainer.encode(resourceName, forKey: .resourceName)
+        }
+        if let syncType = self.syncType {
+            try encodeContainer.encode(syncType.rawValue, forKey: .syncType)
+        }
+    }
+}
+
+extension UpdateSyncBlockerInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateSyncBlockerInput: Swift.Equatable {
+    /// The ID of the sync blocker to be updated.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The reason for resolving the sync blocker.
+    /// This member is required.
+    public var resolvedReason: Swift.String?
+    /// The name of the resource for the sync blocker to be updated.
+    /// This member is required.
+    public var resourceName: Swift.String?
+    /// The sync type of the sync blocker to be updated.
+    /// This member is required.
+    public var syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+
+    public init(
+        id: Swift.String? = nil,
+        resolvedReason: Swift.String? = nil,
+        resourceName: Swift.String? = nil,
+        syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil
+    )
+    {
+        self.id = id
+        self.resolvedReason = resolvedReason
+        self.resourceName = resourceName
+        self.syncType = syncType
+    }
+}
+
+struct UpdateSyncBlockerInputBody: Swift.Equatable {
+    let id: Swift.String?
+    let syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+    let resourceName: Swift.String?
+    let resolvedReason: Swift.String?
+}
+
+extension UpdateSyncBlockerInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id = "Id"
+        case resolvedReason = "ResolvedReason"
+        case resourceName = "ResourceName"
+        case syncType = "SyncType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let syncTypeDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.SyncConfigurationType.self, forKey: .syncType)
+        syncType = syncTypeDecoded
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
+        let resolvedReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resolvedReason)
+        resolvedReason = resolvedReasonDecoded
+    }
+}
+
+extension UpdateSyncBlockerOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateSyncBlockerOutputBody = try responseDecoder.decode(responseBody: data)
+            self.parentResourceName = output.parentResourceName
+            self.resourceName = output.resourceName
+            self.syncBlocker = output.syncBlocker
+        } else {
+            self.parentResourceName = nil
+            self.resourceName = nil
+            self.syncBlocker = nil
+        }
+    }
+}
+
+public struct UpdateSyncBlockerOutput: Swift.Equatable {
+    /// The parent resource name for the sync blocker.
+    public var parentResourceName: Swift.String?
+    /// The resource name for the sync blocker.
+    /// This member is required.
+    public var resourceName: Swift.String?
+    /// Information about the sync blocker to be updated.
+    /// This member is required.
+    public var syncBlocker: CodeStarconnectionsClientTypes.SyncBlocker?
+
+    public init(
+        parentResourceName: Swift.String? = nil,
+        resourceName: Swift.String? = nil,
+        syncBlocker: CodeStarconnectionsClientTypes.SyncBlocker? = nil
+    )
+    {
+        self.parentResourceName = parentResourceName
+        self.resourceName = resourceName
+        self.syncBlocker = syncBlocker
+    }
+}
+
+struct UpdateSyncBlockerOutputBody: Swift.Equatable {
+    let resourceName: Swift.String?
+    let parentResourceName: Swift.String?
+    let syncBlocker: CodeStarconnectionsClientTypes.SyncBlocker?
+}
+
+extension UpdateSyncBlockerOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case parentResourceName = "ParentResourceName"
+        case resourceName = "ResourceName"
+        case syncBlocker = "SyncBlocker"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
+        let parentResourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parentResourceName)
+        parentResourceName = parentResourceNameDecoded
+        let syncBlockerDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.SyncBlocker.self, forKey: .syncBlocker)
+        syncBlocker = syncBlockerDecoded
+    }
+}
+
+enum UpdateSyncBlockerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RetryLatestCommitFailedException": return try await RetryLatestCommitFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SyncBlockerDoesNotExistException": return try await SyncBlockerDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateSyncConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case branch = "Branch"
+        case configFile = "ConfigFile"
+        case repositoryLinkId = "RepositoryLinkId"
+        case resourceName = "ResourceName"
+        case roleArn = "RoleArn"
+        case syncType = "SyncType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let branch = self.branch {
+            try encodeContainer.encode(branch, forKey: .branch)
+        }
+        if let configFile = self.configFile {
+            try encodeContainer.encode(configFile, forKey: .configFile)
+        }
+        if let repositoryLinkId = self.repositoryLinkId {
+            try encodeContainer.encode(repositoryLinkId, forKey: .repositoryLinkId)
+        }
+        if let resourceName = self.resourceName {
+            try encodeContainer.encode(resourceName, forKey: .resourceName)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let syncType = self.syncType {
+            try encodeContainer.encode(syncType.rawValue, forKey: .syncType)
+        }
+    }
+}
+
+extension UpdateSyncConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateSyncConfigurationInput: Swift.Equatable {
+    /// The branch for the sync configuration to be updated.
+    public var branch: Swift.String?
+    /// The configuration file for the sync configuration to be updated.
+    public var configFile: Swift.String?
+    /// The ID of the repository link for the sync configuration to be updated.
+    public var repositoryLinkId: Swift.String?
+    /// The name of the Amazon Web Services resource for the sync configuration to be updated.
+    /// This member is required.
+    public var resourceName: Swift.String?
+    /// The ARN of the IAM role for the sync configuration to be updated.
+    public var roleArn: Swift.String?
+    /// The sync type for the sync configuration to be updated.
+    /// This member is required.
+    public var syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+
+    public init(
+        branch: Swift.String? = nil,
+        configFile: Swift.String? = nil,
+        repositoryLinkId: Swift.String? = nil,
+        resourceName: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil
+    )
+    {
+        self.branch = branch
+        self.configFile = configFile
+        self.repositoryLinkId = repositoryLinkId
+        self.resourceName = resourceName
+        self.roleArn = roleArn
+        self.syncType = syncType
+    }
+}
+
+struct UpdateSyncConfigurationInputBody: Swift.Equatable {
+    let branch: Swift.String?
+    let configFile: Swift.String?
+    let repositoryLinkId: Swift.String?
+    let resourceName: Swift.String?
+    let roleArn: Swift.String?
+    let syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+}
+
+extension UpdateSyncConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case branch = "Branch"
+        case configFile = "ConfigFile"
+        case repositoryLinkId = "RepositoryLinkId"
+        case resourceName = "ResourceName"
+        case roleArn = "RoleArn"
+        case syncType = "SyncType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let branchDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .branch)
+        branch = branchDecoded
+        let configFileDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configFile)
+        configFile = configFileDecoded
+        let repositoryLinkIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryLinkId)
+        repositoryLinkId = repositoryLinkIdDecoded
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let syncTypeDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.SyncConfigurationType.self, forKey: .syncType)
+        syncType = syncTypeDecoded
+    }
+}
+
+extension UpdateSyncConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateSyncConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.syncConfiguration = output.syncConfiguration
+        } else {
+            self.syncConfiguration = nil
+        }
+    }
+}
+
+public struct UpdateSyncConfigurationOutput: Swift.Equatable {
+    /// The information returned for the sync configuration to be updated.
+    /// This member is required.
+    public var syncConfiguration: CodeStarconnectionsClientTypes.SyncConfiguration?
+
+    public init(
+        syncConfiguration: CodeStarconnectionsClientTypes.SyncConfiguration? = nil
+    )
+    {
+        self.syncConfiguration = syncConfiguration
+    }
+}
+
+struct UpdateSyncConfigurationOutputBody: Swift.Equatable {
+    let syncConfiguration: CodeStarconnectionsClientTypes.SyncConfiguration?
+}
+
+extension UpdateSyncConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case syncConfiguration = "SyncConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let syncConfigurationDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.SyncConfiguration.self, forKey: .syncConfiguration)
+        syncConfiguration = syncConfigurationDecoded
+    }
+}
+
+enum UpdateSyncConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UpdateOutOfSyncException": return try await UpdateOutOfSyncException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension CodeStarconnectionsClientTypes.VpcConfiguration: Swift.Codable {

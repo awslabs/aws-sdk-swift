@@ -11,14 +11,13 @@ import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.traits.TimestampFormatTrait
+import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.integration.HttpProtocolTestGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysCustomizationXmlName
 import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysGenerator
 import software.amazon.smithy.swift.codegen.integration.codingKeys.DefaultCodingKeysGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
-import software.amazon.smithy.swift.codegen.integration.serde.DynamicNodeEncodingGeneratorStrategy
 import software.amazon.smithy.swift.codegen.integration.serde.json.StructEncodeXMLGenerator
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 
@@ -32,9 +31,29 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         unknownServiceErrorSymbol,
         defaultTimestampFormat,
         AWSRestXMLHttpResponseBindingErrorGenerator(),
-        AWSXMLHttpResponseBindingErrorInitGeneratorFactory()
+        AWSXMLHttpResponseBindingErrorInitGeneratorFactory(),
     )
+    override val shouldRenderDecodableBodyStructForInputShapes = false
     override val serdeContext = serdeContextXML
+    override val testsToIgnore = setOf(
+        "S3DefaultAddressing",
+        "S3VirtualHostAddressing",
+        "S3PathAddressing",
+        "S3VirtualHostDualstackAddressing",
+        "S3VirtualHostAccelerateAddressing",
+        "S3VirtualHostDualstackAccelerateAddressing",
+        "S3OperationAddressingPreferred",
+        "S3EscapeObjectKeyInUriLabel",
+        "S3EscapePathObjectKeyInUriLabel",
+        "SDKAppliedContentEncoding_restXml",
+        "SDKAppendedGzipAfterProvidedEncoding_restXml",
+        "S3OperationNoErrorWrappingResponse",
+    )
+    override val tagsToIgnore = setOf("defaults")
+
+    override val codableProtocol = SwiftTypes.Protocols.Decodable
+    override val encodableProtocol = null
+    override val decodableProtocol = SwiftTypes.Protocols.Decodable
 
     override fun renderStructEncode(
         ctx: ProtocolGenerator.GenerationContext,
@@ -43,13 +62,10 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         members: List<MemberShape>,
         writer: SwiftWriter,
         defaultTimestampFormat: TimestampFormatTrait.Format,
+        path: String?,
     ) {
-        val encoder = StructEncodeXMLGenerator(ctx, shapeContainingMembers, members, writer, defaultTimestampFormat)
+        val encoder = StructEncodeXMLGenerator(ctx, shapeContainingMembers, members, writer)
         encoder.render()
-
-        val xmlNamespaces = encoder.xmlNamespaces
-        val dynamicNodeEncoding = DynamicNodeEncodingGeneratorStrategy(ctx, shapeContainingMembers, xmlNamespaces)
-        dynamicNodeEncoding.renderIfNeeded()
     }
 
     override fun renderStructDecode(
@@ -57,33 +73,10 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         shapeMetadata: Map<ShapeMetadata, Any>,
         members: List<MemberShape>,
         writer: SwiftWriter,
-        defaultTimestampFormat: TimestampFormatTrait.Format
+        defaultTimestampFormat: TimestampFormatTrait.Format,
+        path: String,
     ) {
         val decoder = RestXmlStructDecodeXMLGenerator(ctx, members, shapeMetadata, writer, defaultTimestampFormat)
         decoder.render()
-    }
-
-    override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext): Int {
-        val testsToIgnore = setOf(
-            "S3DefaultAddressing",
-            "S3VirtualHostAddressing",
-            "S3PathAddressing",
-            "S3VirtualHostDualstackAddressing",
-            "S3VirtualHostAccelerateAddressing",
-            "S3VirtualHostDualstackAccelerateAddressing",
-            "S3OperationAddressingPreferred"
-        )
-        return HttpProtocolTestGenerator(
-            ctx,
-            requestTestBuilder,
-            responseTestBuilder,
-            errorTestBuilder,
-            httpProtocolCustomizable,
-            operationMiddleware,
-            getProtocolHttpBindingResolver(ctx, defaultContentType),
-            serdeContext,
-            listOf(),
-            testsToIgnore
-        ).generateProtocolTests() + renderEndpointsTests(ctx)
     }
 }

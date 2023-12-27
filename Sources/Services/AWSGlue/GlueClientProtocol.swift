@@ -4,190 +4,1594 @@ import ClientRuntime
 
 /// Glue Defines the public endpoint for the Glue service.
 public protocol GlueClientProtocol {
+    /// Performs the `BatchCreatePartition` operation on the `AWSGlue` service.
+    ///
     /// Creates one or more partitions in a batch operation.
-    func batchCreatePartition(input: BatchCreatePartitionInput) async throws -> BatchCreatePartitionOutputResponse
+    ///
+    /// - Parameter BatchCreatePartitionInput : [no documentation found]
+    ///
+    /// - Returns: `BatchCreatePartitionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func batchCreatePartition(input: BatchCreatePartitionInput) async throws -> BatchCreatePartitionOutput
+    /// Performs the `BatchDeleteConnection` operation on the `AWSGlue` service.
+    ///
     /// Deletes a list of connection definitions from the Data Catalog.
-    func batchDeleteConnection(input: BatchDeleteConnectionInput) async throws -> BatchDeleteConnectionOutputResponse
+    ///
+    /// - Parameter BatchDeleteConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDeleteConnectionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func batchDeleteConnection(input: BatchDeleteConnectionInput) async throws -> BatchDeleteConnectionOutput
+    /// Performs the `BatchDeletePartition` operation on the `AWSGlue` service.
+    ///
     /// Deletes one or more partitions in a batch operation.
-    func batchDeletePartition(input: BatchDeletePartitionInput) async throws -> BatchDeletePartitionOutputResponse
+    ///
+    /// - Parameter BatchDeletePartitionInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDeletePartitionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func batchDeletePartition(input: BatchDeletePartitionInput) async throws -> BatchDeletePartitionOutput
+    /// Performs the `BatchDeleteTable` operation on the `AWSGlue` service.
+    ///
     /// Deletes multiple tables at once. After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling BatchDeleteTable, use DeleteTableVersion or BatchDeleteTableVersion, and DeletePartition or BatchDeletePartition, to delete any resources that belong to the table.
-    func batchDeleteTable(input: BatchDeleteTableInput) async throws -> BatchDeleteTableOutputResponse
+    ///
+    /// - Parameter BatchDeleteTableInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDeleteTableOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNotReadyException` : A resource was not ready for a transaction.
+    func batchDeleteTable(input: BatchDeleteTableInput) async throws -> BatchDeleteTableOutput
+    /// Performs the `BatchDeleteTableVersion` operation on the `AWSGlue` service.
+    ///
     /// Deletes a specified batch of versions of a table.
-    func batchDeleteTableVersion(input: BatchDeleteTableVersionInput) async throws -> BatchDeleteTableVersionOutputResponse
+    ///
+    /// - Parameter BatchDeleteTableVersionInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDeleteTableVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func batchDeleteTableVersion(input: BatchDeleteTableVersionInput) async throws -> BatchDeleteTableVersionOutput
+    /// Performs the `BatchGetBlueprints` operation on the `AWSGlue` service.
+    ///
     /// Retrieves information about a list of blueprints.
-    func batchGetBlueprints(input: BatchGetBlueprintsInput) async throws -> BatchGetBlueprintsOutputResponse
+    ///
+    /// - Parameter BatchGetBlueprintsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetBlueprintsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func batchGetBlueprints(input: BatchGetBlueprintsInput) async throws -> BatchGetBlueprintsOutput
+    /// Performs the `BatchGetCrawlers` operation on the `AWSGlue` service.
+    ///
     /// Returns a list of resource metadata for a given list of crawler names. After calling the ListCrawlers operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
-    func batchGetCrawlers(input: BatchGetCrawlersInput) async throws -> BatchGetCrawlersOutputResponse
+    ///
+    /// - Parameter BatchGetCrawlersInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetCrawlersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func batchGetCrawlers(input: BatchGetCrawlersInput) async throws -> BatchGetCrawlersOutput
+    /// Performs the `BatchGetCustomEntityTypes` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the details for the custom patterns specified by a list of names.
-    func batchGetCustomEntityTypes(input: BatchGetCustomEntityTypesInput) async throws -> BatchGetCustomEntityTypesOutputResponse
+    ///
+    /// - Parameter BatchGetCustomEntityTypesInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetCustomEntityTypesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func batchGetCustomEntityTypes(input: BatchGetCustomEntityTypesInput) async throws -> BatchGetCustomEntityTypesOutput
+    /// Performs the `BatchGetDataQualityResult` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a list of data quality results for the specified result IDs.
-    func batchGetDataQualityResult(input: BatchGetDataQualityResultInput) async throws -> BatchGetDataQualityResultOutputResponse
+    ///
+    /// - Parameter BatchGetDataQualityResultInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetDataQualityResultOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func batchGetDataQualityResult(input: BatchGetDataQualityResultInput) async throws -> BatchGetDataQualityResultOutput
+    /// Performs the `BatchGetDevEndpoints` operation on the `AWSGlue` service.
+    ///
     /// Returns a list of resource metadata for a given list of development endpoint names. After calling the ListDevEndpoints operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
-    func batchGetDevEndpoints(input: BatchGetDevEndpointsInput) async throws -> BatchGetDevEndpointsOutputResponse
+    ///
+    /// - Parameter BatchGetDevEndpointsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetDevEndpointsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func batchGetDevEndpoints(input: BatchGetDevEndpointsInput) async throws -> BatchGetDevEndpointsOutput
+    /// Performs the `BatchGetJobs` operation on the `AWSGlue` service.
+    ///
     /// Returns a list of resource metadata for a given list of job names. After calling the ListJobs operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
-    func batchGetJobs(input: BatchGetJobsInput) async throws -> BatchGetJobsOutputResponse
+    ///
+    /// - Parameter BatchGetJobsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetJobsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func batchGetJobs(input: BatchGetJobsInput) async throws -> BatchGetJobsOutput
+    /// Performs the `BatchGetPartition` operation on the `AWSGlue` service.
+    ///
     /// Retrieves partitions in a batch request.
-    func batchGetPartition(input: BatchGetPartitionInput) async throws -> BatchGetPartitionOutputResponse
+    ///
+    /// - Parameter BatchGetPartitionInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetPartitionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `FederationSourceException` : A federation source failed.
+    /// - `FederationSourceRetryableException` : [no documentation found]
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `InvalidStateException` : An error that indicates your data is in an invalid state.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func batchGetPartition(input: BatchGetPartitionInput) async throws -> BatchGetPartitionOutput
+    /// Performs the `BatchGetTableOptimizer` operation on the `AWSGlue` service.
+    ///
+    /// Returns the configuration for the specified table optimizers.
+    ///
+    /// - Parameter BatchGetTableOptimizerInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetTableOptimizerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    func batchGetTableOptimizer(input: BatchGetTableOptimizerInput) async throws -> BatchGetTableOptimizerOutput
+    /// Performs the `BatchGetTriggers` operation on the `AWSGlue` service.
+    ///
     /// Returns a list of resource metadata for a given list of trigger names. After calling the ListTriggers operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
-    func batchGetTriggers(input: BatchGetTriggersInput) async throws -> BatchGetTriggersOutputResponse
+    ///
+    /// - Parameter BatchGetTriggersInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetTriggersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func batchGetTriggers(input: BatchGetTriggersInput) async throws -> BatchGetTriggersOutput
+    /// Performs the `BatchGetWorkflows` operation on the `AWSGlue` service.
+    ///
     /// Returns a list of resource metadata for a given list of workflow names. After calling the ListWorkflows operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
-    func batchGetWorkflows(input: BatchGetWorkflowsInput) async throws -> BatchGetWorkflowsOutputResponse
+    ///
+    /// - Parameter BatchGetWorkflowsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetWorkflowsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func batchGetWorkflows(input: BatchGetWorkflowsInput) async throws -> BatchGetWorkflowsOutput
+    /// Performs the `BatchStopJobRun` operation on the `AWSGlue` service.
+    ///
     /// Stops one or more job runs for a specified job definition.
-    func batchStopJobRun(input: BatchStopJobRunInput) async throws -> BatchStopJobRunOutputResponse
+    ///
+    /// - Parameter BatchStopJobRunInput : [no documentation found]
+    ///
+    /// - Returns: `BatchStopJobRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func batchStopJobRun(input: BatchStopJobRunInput) async throws -> BatchStopJobRunOutput
+    /// Performs the `BatchUpdatePartition` operation on the `AWSGlue` service.
+    ///
     /// Updates one or more partitions in a batch operation.
-    func batchUpdatePartition(input: BatchUpdatePartitionInput) async throws -> BatchUpdatePartitionOutputResponse
+    ///
+    /// - Parameter BatchUpdatePartitionInput : [no documentation found]
+    ///
+    /// - Returns: `BatchUpdatePartitionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func batchUpdatePartition(input: BatchUpdatePartitionInput) async throws -> BatchUpdatePartitionOutput
+    /// Performs the `CancelDataQualityRuleRecommendationRun` operation on the `AWSGlue` service.
+    ///
     /// Cancels the specified recommendation run that was being used to generate rules.
-    func cancelDataQualityRuleRecommendationRun(input: CancelDataQualityRuleRecommendationRunInput) async throws -> CancelDataQualityRuleRecommendationRunOutputResponse
+    ///
+    /// - Parameter CancelDataQualityRuleRecommendationRunInput : [no documentation found]
+    ///
+    /// - Returns: `CancelDataQualityRuleRecommendationRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func cancelDataQualityRuleRecommendationRun(input: CancelDataQualityRuleRecommendationRunInput) async throws -> CancelDataQualityRuleRecommendationRunOutput
+    /// Performs the `CancelDataQualityRulesetEvaluationRun` operation on the `AWSGlue` service.
+    ///
     /// Cancels a run where a ruleset is being evaluated against a data source.
-    func cancelDataQualityRulesetEvaluationRun(input: CancelDataQualityRulesetEvaluationRunInput) async throws -> CancelDataQualityRulesetEvaluationRunOutputResponse
+    ///
+    /// - Parameter CancelDataQualityRulesetEvaluationRunInput : [no documentation found]
+    ///
+    /// - Returns: `CancelDataQualityRulesetEvaluationRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func cancelDataQualityRulesetEvaluationRun(input: CancelDataQualityRulesetEvaluationRunInput) async throws -> CancelDataQualityRulesetEvaluationRunOutput
+    /// Performs the `CancelMLTaskRun` operation on the `AWSGlue` service.
+    ///
     /// Cancels (stops) a task run. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can cancel a machine learning task run at any time by calling CancelMLTaskRun with a task run's parent transform's TransformID and the task run's TaskRunId.
-    func cancelMLTaskRun(input: CancelMLTaskRunInput) async throws -> CancelMLTaskRunOutputResponse
+    ///
+    /// - Parameter CancelMLTaskRunInput : [no documentation found]
+    ///
+    /// - Returns: `CancelMLTaskRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func cancelMLTaskRun(input: CancelMLTaskRunInput) async throws -> CancelMLTaskRunOutput
+    /// Performs the `CancelStatement` operation on the `AWSGlue` service.
+    ///
     /// Cancels the statement.
-    func cancelStatement(input: CancelStatementInput) async throws -> CancelStatementOutputResponse
+    ///
+    /// - Parameter CancelStatementInput : [no documentation found]
+    ///
+    /// - Returns: `CancelStatementOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `IllegalSessionStateException` : The session is in an invalid state to perform a requested operation.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func cancelStatement(input: CancelStatementInput) async throws -> CancelStatementOutput
+    /// Performs the `CheckSchemaVersionValidity` operation on the `AWSGlue` service.
+    ///
     /// Validates the supplied schema. This call has no side effects, it simply validates using the supplied schema using DataFormat as the format. Since it does not take a schema set name, no compatibility checks are performed.
-    func checkSchemaVersionValidity(input: CheckSchemaVersionValidityInput) async throws -> CheckSchemaVersionValidityOutputResponse
+    ///
+    /// - Parameter CheckSchemaVersionValidityInput : [no documentation found]
+    ///
+    /// - Returns: `CheckSchemaVersionValidityOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    func checkSchemaVersionValidity(input: CheckSchemaVersionValidityInput) async throws -> CheckSchemaVersionValidityOutput
+    /// Performs the `CreateBlueprint` operation on the `AWSGlue` service.
+    ///
     /// Registers a blueprint with Glue.
-    func createBlueprint(input: CreateBlueprintInput) async throws -> CreateBlueprintOutputResponse
+    ///
+    /// - Parameter CreateBlueprintInput : [no documentation found]
+    ///
+    /// - Returns: `CreateBlueprintOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func createBlueprint(input: CreateBlueprintInput) async throws -> CreateBlueprintOutput
+    /// Performs the `CreateClassifier` operation on the `AWSGlue` service.
+    ///
     /// Creates a classifier in the user's account. This can be a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field of the request is present.
-    func createClassifier(input: CreateClassifierInput) async throws -> CreateClassifierOutputResponse
+    ///
+    /// - Parameter CreateClassifierInput : [no documentation found]
+    ///
+    /// - Returns: `CreateClassifierOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func createClassifier(input: CreateClassifierInput) async throws -> CreateClassifierOutput
+    /// Performs the `CreateConnection` operation on the `AWSGlue` service.
+    ///
     /// Creates a connection definition in the Data Catalog.
-    func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutputResponse
+    ///
+    /// - Parameter CreateConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateConnectionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutput
+    /// Performs the `CreateCrawler` operation on the `AWSGlue` service.
+    ///
     /// Creates a new crawler with specified targets, role, configuration, and optional schedule. At least one crawl target must be specified, in the s3Targets field, the jdbcTargets field, or the DynamoDBTargets field.
-    func createCrawler(input: CreateCrawlerInput) async throws -> CreateCrawlerOutputResponse
+    ///
+    /// - Parameter CreateCrawlerInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCrawlerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func createCrawler(input: CreateCrawlerInput) async throws -> CreateCrawlerOutput
+    /// Performs the `CreateCustomEntityType` operation on the `AWSGlue` service.
+    ///
     /// Creates a custom pattern that is used to detect sensitive data across the columns and rows of your structured data. Each custom pattern you create specifies a regular expression and an optional list of context words. If no context words are passed only a regular expression is checked.
-    func createCustomEntityType(input: CreateCustomEntityTypeInput) async throws -> CreateCustomEntityTypeOutputResponse
+    ///
+    /// - Parameter CreateCustomEntityTypeInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCustomEntityTypeOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `IdempotentParameterMismatchException` : The same unique identifier was associated with two different records.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func createCustomEntityType(input: CreateCustomEntityTypeInput) async throws -> CreateCustomEntityTypeOutput
+    /// Performs the `CreateDatabase` operation on the `AWSGlue` service.
+    ///
     /// Creates a new database in a Data Catalog.
-    func createDatabase(input: CreateDatabaseInput) async throws -> CreateDatabaseOutputResponse
+    ///
+    /// - Parameter CreateDatabaseInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDatabaseOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `FederatedResourceAlreadyExistsException` : A federated resource already exists.
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func createDatabase(input: CreateDatabaseInput) async throws -> CreateDatabaseOutput
+    /// Performs the `CreateDataQualityRuleset` operation on the `AWSGlue` service.
+    ///
     /// Creates a data quality ruleset with DQDL rules applied to a specified Glue table. You create the ruleset using the Data Quality Definition Language (DQDL). For more information, see the Glue developer guide.
-    func createDataQualityRuleset(input: CreateDataQualityRulesetInput) async throws -> CreateDataQualityRulesetOutputResponse
+    ///
+    /// - Parameter CreateDataQualityRulesetInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDataQualityRulesetOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func createDataQualityRuleset(input: CreateDataQualityRulesetInput) async throws -> CreateDataQualityRulesetOutput
+    /// Performs the `CreateDevEndpoint` operation on the `AWSGlue` service.
+    ///
     /// Creates a new development endpoint.
-    func createDevEndpoint(input: CreateDevEndpointInput) async throws -> CreateDevEndpointOutputResponse
+    ///
+    /// - Parameter CreateDevEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDevEndpointOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `IdempotentParameterMismatchException` : The same unique identifier was associated with two different records.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    /// - `ValidationException` : A value could not be validated.
+    func createDevEndpoint(input: CreateDevEndpointInput) async throws -> CreateDevEndpointOutput
+    /// Performs the `CreateJob` operation on the `AWSGlue` service.
+    ///
     /// Creates a new job definition.
-    func createJob(input: CreateJobInput) async throws -> CreateJobOutputResponse
+    ///
+    /// - Parameter CreateJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `IdempotentParameterMismatchException` : The same unique identifier was associated with two different records.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func createJob(input: CreateJobInput) async throws -> CreateJobOutput
+    /// Performs the `CreateMLTransform` operation on the `AWSGlue` service.
+    ///
     /// Creates an Glue machine learning transform. This operation creates the transform and all the necessary parameters to train it. Call this operation as the first step in the process of using a machine learning transform (such as the FindMatches transform) for deduplicating data. You can provide an optional Description, in addition to the parameters that you want to use for your algorithm. You must also specify certain parameters for the tasks that Glue runs on your behalf as part of learning from your data and creating a high-quality machine learning transform. These parameters include Role, and optionally, AllocatedCapacity, Timeout, and MaxRetries. For more information, see [Jobs](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-jobs-job.html).
-    func createMLTransform(input: CreateMLTransformInput) async throws -> CreateMLTransformOutputResponse
+    ///
+    /// - Parameter CreateMLTransformInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMLTransformOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `IdempotentParameterMismatchException` : The same unique identifier was associated with two different records.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func createMLTransform(input: CreateMLTransformInput) async throws -> CreateMLTransformOutput
+    /// Performs the `CreatePartition` operation on the `AWSGlue` service.
+    ///
     /// Creates a new partition.
-    func createPartition(input: CreatePartitionInput) async throws -> CreatePartitionOutputResponse
+    ///
+    /// - Parameter CreatePartitionInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePartitionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func createPartition(input: CreatePartitionInput) async throws -> CreatePartitionOutput
+    /// Performs the `CreatePartitionIndex` operation on the `AWSGlue` service.
+    ///
     /// Creates a specified partition index in an existing table.
-    func createPartitionIndex(input: CreatePartitionIndexInput) async throws -> CreatePartitionIndexOutputResponse
+    ///
+    /// - Parameter CreatePartitionIndexInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePartitionIndexOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func createPartitionIndex(input: CreatePartitionIndexInput) async throws -> CreatePartitionIndexOutput
+    /// Performs the `CreateRegistry` operation on the `AWSGlue` service.
+    ///
     /// Creates a new registry which may be used to hold a collection of schemas.
-    func createRegistry(input: CreateRegistryInput) async throws -> CreateRegistryOutputResponse
+    ///
+    /// - Parameter CreateRegistryInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRegistryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func createRegistry(input: CreateRegistryInput) async throws -> CreateRegistryOutput
+    /// Performs the `CreateSchema` operation on the `AWSGlue` service.
+    ///
     /// Creates a new schema set and registers the schema definition. Returns an error if the schema set already exists without actually registering the version. When the schema set is created, a version checkpoint will be set to the first version. Compatibility mode "DISABLED" restricts any additional schema versions from being added after the first schema version. For all other compatibility modes, validation of compatibility settings will be applied only from the second version onwards when the RegisterSchemaVersion API is used. When this API is called without a RegistryId, this will create an entry for a "default-registry" in the registry database tables, if it is not already present.
-    func createSchema(input: CreateSchemaInput) async throws -> CreateSchemaOutputResponse
+    ///
+    /// - Parameter CreateSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSchemaOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func createSchema(input: CreateSchemaInput) async throws -> CreateSchemaOutput
+    /// Performs the `CreateScript` operation on the `AWSGlue` service.
+    ///
     /// Transforms a directed acyclic graph (DAG) into code.
-    func createScript(input: CreateScriptInput) async throws -> CreateScriptOutputResponse
+    ///
+    /// - Parameter CreateScriptInput : [no documentation found]
+    ///
+    /// - Returns: `CreateScriptOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func createScript(input: CreateScriptInput) async throws -> CreateScriptOutput
+    /// Performs the `CreateSecurityConfiguration` operation on the `AWSGlue` service.
+    ///
     /// Creates a new security configuration. A security configuration is a set of security properties that can be used by Glue. You can use a security configuration to encrypt data at rest. For information about using security configurations in Glue, see [Encrypting Data Written by Crawlers, Jobs, and Development Endpoints](https://docs.aws.amazon.com/glue/latest/dg/encryption-security-configuration.html).
-    func createSecurityConfiguration(input: CreateSecurityConfigurationInput) async throws -> CreateSecurityConfigurationOutputResponse
+    ///
+    /// - Parameter CreateSecurityConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSecurityConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func createSecurityConfiguration(input: CreateSecurityConfigurationInput) async throws -> CreateSecurityConfigurationOutput
+    /// Performs the `CreateSession` operation on the `AWSGlue` service.
+    ///
     /// Creates a new session.
-    func createSession(input: CreateSessionInput) async throws -> CreateSessionOutputResponse
+    ///
+    /// - Parameter CreateSessionInput : Request to create a new session.
+    ///
+    /// - Returns: `CreateSessionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `IdempotentParameterMismatchException` : The same unique identifier was associated with two different records.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    /// - `ValidationException` : A value could not be validated.
+    func createSession(input: CreateSessionInput) async throws -> CreateSessionOutput
+    /// Performs the `CreateTable` operation on the `AWSGlue` service.
+    ///
     /// Creates a new table definition in the Data Catalog.
-    func createTable(input: CreateTableInput) async throws -> CreateTableOutputResponse
+    ///
+    /// - Parameter CreateTableInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTableOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNotReadyException` : A resource was not ready for a transaction.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func createTable(input: CreateTableInput) async throws -> CreateTableOutput
+    /// Performs the `CreateTableOptimizer` operation on the `AWSGlue` service.
+    ///
+    /// Creates a new table optimizer for a specific function. compaction is the only currently supported optimizer type.
+    ///
+    /// - Parameter CreateTableOptimizerInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTableOptimizerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    func createTableOptimizer(input: CreateTableOptimizerInput) async throws -> CreateTableOptimizerOutput
+    /// Performs the `CreateTrigger` operation on the `AWSGlue` service.
+    ///
     /// Creates a new trigger.
-    func createTrigger(input: CreateTriggerInput) async throws -> CreateTriggerOutputResponse
+    ///
+    /// - Parameter CreateTriggerInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTriggerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `IdempotentParameterMismatchException` : The same unique identifier was associated with two different records.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func createTrigger(input: CreateTriggerInput) async throws -> CreateTriggerOutput
+    /// Performs the `CreateUserDefinedFunction` operation on the `AWSGlue` service.
+    ///
     /// Creates a new function definition in the Data Catalog.
-    func createUserDefinedFunction(input: CreateUserDefinedFunctionInput) async throws -> CreateUserDefinedFunctionOutputResponse
+    ///
+    /// - Parameter CreateUserDefinedFunctionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateUserDefinedFunctionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func createUserDefinedFunction(input: CreateUserDefinedFunctionInput) async throws -> CreateUserDefinedFunctionOutput
+    /// Performs the `CreateWorkflow` operation on the `AWSGlue` service.
+    ///
     /// Creates a new workflow.
-    func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutputResponse
+    ///
+    /// - Parameter CreateWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkflowOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutput
+    /// Performs the `DeleteBlueprint` operation on the `AWSGlue` service.
+    ///
     /// Deletes an existing blueprint.
-    func deleteBlueprint(input: DeleteBlueprintInput) async throws -> DeleteBlueprintOutputResponse
+    ///
+    /// - Parameter DeleteBlueprintInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBlueprintOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func deleteBlueprint(input: DeleteBlueprintInput) async throws -> DeleteBlueprintOutput
+    /// Performs the `DeleteClassifier` operation on the `AWSGlue` service.
+    ///
     /// Removes a classifier from the Data Catalog.
-    func deleteClassifier(input: DeleteClassifierInput) async throws -> DeleteClassifierOutputResponse
+    ///
+    /// - Parameter DeleteClassifierInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteClassifierOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `OperationTimeoutException` : The operation timed out.
+    func deleteClassifier(input: DeleteClassifierInput) async throws -> DeleteClassifierOutput
+    /// Performs the `DeleteColumnStatisticsForPartition` operation on the `AWSGlue` service.
+    ///
     /// Delete the partition column statistics of a column. The Identity and Access Management (IAM) permission required for this operation is DeletePartition.
-    func deleteColumnStatisticsForPartition(input: DeleteColumnStatisticsForPartitionInput) async throws -> DeleteColumnStatisticsForPartitionOutputResponse
+    ///
+    /// - Parameter DeleteColumnStatisticsForPartitionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteColumnStatisticsForPartitionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func deleteColumnStatisticsForPartition(input: DeleteColumnStatisticsForPartitionInput) async throws -> DeleteColumnStatisticsForPartitionOutput
+    /// Performs the `DeleteColumnStatisticsForTable` operation on the `AWSGlue` service.
+    ///
     /// Retrieves table statistics of columns. The Identity and Access Management (IAM) permission required for this operation is DeleteTable.
-    func deleteColumnStatisticsForTable(input: DeleteColumnStatisticsForTableInput) async throws -> DeleteColumnStatisticsForTableOutputResponse
+    ///
+    /// - Parameter DeleteColumnStatisticsForTableInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteColumnStatisticsForTableOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func deleteColumnStatisticsForTable(input: DeleteColumnStatisticsForTableInput) async throws -> DeleteColumnStatisticsForTableOutput
+    /// Performs the `DeleteConnection` operation on the `AWSGlue` service.
+    ///
     /// Deletes a connection from the Data Catalog.
-    func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutputResponse
+    ///
+    /// - Parameter DeleteConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteConnectionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `OperationTimeoutException` : The operation timed out.
+    func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput
+    /// Performs the `DeleteCrawler` operation on the `AWSGlue` service.
+    ///
     /// Removes a specified crawler from the Glue Data Catalog, unless the crawler state is RUNNING.
-    func deleteCrawler(input: DeleteCrawlerInput) async throws -> DeleteCrawlerOutputResponse
+    ///
+    /// - Parameter DeleteCrawlerInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCrawlerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CrawlerRunningException` : The operation cannot be performed because the crawler is already running.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `SchedulerTransitioningException` : The specified scheduler is transitioning.
+    func deleteCrawler(input: DeleteCrawlerInput) async throws -> DeleteCrawlerOutput
+    /// Performs the `DeleteCustomEntityType` operation on the `AWSGlue` service.
+    ///
     /// Deletes a custom pattern by specifying its name.
-    func deleteCustomEntityType(input: DeleteCustomEntityTypeInput) async throws -> DeleteCustomEntityTypeOutputResponse
+    ///
+    /// - Parameter DeleteCustomEntityTypeInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCustomEntityTypeOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func deleteCustomEntityType(input: DeleteCustomEntityTypeInput) async throws -> DeleteCustomEntityTypeOutput
+    /// Performs the `DeleteDatabase` operation on the `AWSGlue` service.
+    ///
     /// Removes a specified database from a Data Catalog. After completing this operation, you no longer have access to the tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted database. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteDatabase, use DeleteTableVersion or BatchDeleteTableVersion, DeletePartition or BatchDeletePartition, DeleteUserDefinedFunction, and DeleteTable or BatchDeleteTable, to delete any resources that belong to the database.
-    func deleteDatabase(input: DeleteDatabaseInput) async throws -> DeleteDatabaseOutputResponse
+    ///
+    /// - Parameter DeleteDatabaseInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDatabaseOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func deleteDatabase(input: DeleteDatabaseInput) async throws -> DeleteDatabaseOutput
+    /// Performs the `DeleteDataQualityRuleset` operation on the `AWSGlue` service.
+    ///
     /// Deletes a data quality ruleset.
-    func deleteDataQualityRuleset(input: DeleteDataQualityRulesetInput) async throws -> DeleteDataQualityRulesetOutputResponse
+    ///
+    /// - Parameter DeleteDataQualityRulesetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDataQualityRulesetOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func deleteDataQualityRuleset(input: DeleteDataQualityRulesetInput) async throws -> DeleteDataQualityRulesetOutput
+    /// Performs the `DeleteDevEndpoint` operation on the `AWSGlue` service.
+    ///
     /// Deletes a specified development endpoint.
-    func deleteDevEndpoint(input: DeleteDevEndpointInput) async throws -> DeleteDevEndpointOutputResponse
+    ///
+    /// - Parameter DeleteDevEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDevEndpointOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func deleteDevEndpoint(input: DeleteDevEndpointInput) async throws -> DeleteDevEndpointOutput
+    /// Performs the `DeleteJob` operation on the `AWSGlue` service.
+    ///
     /// Deletes a specified job definition. If the job definition is not found, no exception is thrown.
-    func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutputResponse
+    ///
+    /// - Parameter DeleteJobInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutput
+    /// Performs the `DeleteMLTransform` operation on the `AWSGlue` service.
+    ///
     /// Deletes an Glue machine learning transform. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue. If you no longer need a transform, you can delete it by calling DeleteMLTransforms. However, any Glue jobs that still reference the deleted transform will no longer succeed.
-    func deleteMLTransform(input: DeleteMLTransformInput) async throws -> DeleteMLTransformOutputResponse
+    ///
+    /// - Parameter DeleteMLTransformInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMLTransformOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func deleteMLTransform(input: DeleteMLTransformInput) async throws -> DeleteMLTransformOutput
+    /// Performs the `DeletePartition` operation on the `AWSGlue` service.
+    ///
     /// Deletes a specified partition.
-    func deletePartition(input: DeletePartitionInput) async throws -> DeletePartitionOutputResponse
+    ///
+    /// - Parameter DeletePartitionInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePartitionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func deletePartition(input: DeletePartitionInput) async throws -> DeletePartitionOutput
+    /// Performs the `DeletePartitionIndex` operation on the `AWSGlue` service.
+    ///
     /// Deletes a specified partition index from an existing table.
-    func deletePartitionIndex(input: DeletePartitionIndexInput) async throws -> DeletePartitionIndexOutputResponse
+    ///
+    /// - Parameter DeletePartitionIndexInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePartitionIndexOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The CreatePartitions API was called on a table that has indexes enabled.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func deletePartitionIndex(input: DeletePartitionIndexInput) async throws -> DeletePartitionIndexOutput
+    /// Performs the `DeleteRegistry` operation on the `AWSGlue` service.
+    ///
     /// Delete the entire registry including schema and all of its versions. To get the status of the delete operation, you can call the GetRegistry API after the asynchronous call. Deleting a registry will deactivate all online operations for the registry such as the UpdateRegistry, CreateSchema, UpdateSchema, and RegisterSchemaVersion APIs.
-    func deleteRegistry(input: DeleteRegistryInput) async throws -> DeleteRegistryOutputResponse
+    ///
+    /// - Parameter DeleteRegistryInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRegistryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InvalidInputException` : The input provided was not valid.
+    func deleteRegistry(input: DeleteRegistryInput) async throws -> DeleteRegistryOutput
+    /// Performs the `DeleteResourcePolicy` operation on the `AWSGlue` service.
+    ///
     /// Deletes a specified policy.
-    func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutputResponse
+    ///
+    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConditionCheckFailureException` : A specified condition was not satisfied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
+    /// Performs the `DeleteSchema` operation on the `AWSGlue` service.
+    ///
     /// Deletes the entire schema set, including the schema set and all of its versions. To get the status of the delete operation, you can call GetSchema API after the asynchronous call. Deleting a registry will deactivate all online operations for the schema, such as the GetSchemaByDefinition, and RegisterSchemaVersion APIs.
-    func deleteSchema(input: DeleteSchemaInput) async throws -> DeleteSchemaOutputResponse
+    ///
+    /// - Parameter DeleteSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSchemaOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InvalidInputException` : The input provided was not valid.
+    func deleteSchema(input: DeleteSchemaInput) async throws -> DeleteSchemaOutput
+    /// Performs the `DeleteSchemaVersions` operation on the `AWSGlue` service.
+    ///
     /// Remove versions from the specified schema. A version number or range may be supplied. If the compatibility mode forbids deleting of a version that is necessary, such as BACKWARDS_FULL, an error is returned. Calling the GetSchemaVersions API after this call will list the status of the deleted versions. When the range of version numbers contain check pointed version, the API will return a 409 conflict and will not proceed with the deletion. You have to remove the checkpoint first using the DeleteSchemaCheckpoint API before using this API. You cannot use the DeleteSchemaVersions API to delete the first schema version in the schema set. The first schema version can only be deleted by the DeleteSchema API. This operation will also delete the attached SchemaVersionMetadata under the schema versions. Hard deletes will be enforced on the database. If the compatibility mode forbids deleting of a version that is necessary, such as BACKWARDS_FULL, an error is returned.
-    func deleteSchemaVersions(input: DeleteSchemaVersionsInput) async throws -> DeleteSchemaVersionsOutputResponse
+    ///
+    /// - Parameter DeleteSchemaVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSchemaVersionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InvalidInputException` : The input provided was not valid.
+    func deleteSchemaVersions(input: DeleteSchemaVersionsInput) async throws -> DeleteSchemaVersionsOutput
+    /// Performs the `DeleteSecurityConfiguration` operation on the `AWSGlue` service.
+    ///
     /// Deletes a specified security configuration.
-    func deleteSecurityConfiguration(input: DeleteSecurityConfigurationInput) async throws -> DeleteSecurityConfigurationOutputResponse
+    ///
+    /// - Parameter DeleteSecurityConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSecurityConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func deleteSecurityConfiguration(input: DeleteSecurityConfigurationInput) async throws -> DeleteSecurityConfigurationOutput
+    /// Performs the `DeleteSession` operation on the `AWSGlue` service.
+    ///
     /// Deletes the session.
-    func deleteSession(input: DeleteSessionInput) async throws -> DeleteSessionOutputResponse
+    ///
+    /// - Parameter DeleteSessionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSessionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `IllegalSessionStateException` : The session is in an invalid state to perform a requested operation.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func deleteSession(input: DeleteSessionInput) async throws -> DeleteSessionOutput
+    /// Performs the `DeleteTable` operation on the `AWSGlue` service.
+    ///
     /// Removes a table definition from the Data Catalog. After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteTable, use DeleteTableVersion or BatchDeleteTableVersion, and DeletePartition or BatchDeletePartition, to delete any resources that belong to the table.
-    func deleteTable(input: DeleteTableInput) async throws -> DeleteTableOutputResponse
+    ///
+    /// - Parameter DeleteTableInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTableOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNotReadyException` : A resource was not ready for a transaction.
+    func deleteTable(input: DeleteTableInput) async throws -> DeleteTableOutput
+    /// Performs the `DeleteTableOptimizer` operation on the `AWSGlue` service.
+    ///
+    /// Deletes an optimizer and all associated metadata for a table. The optimization will no longer be performed on the table.
+    ///
+    /// - Parameter DeleteTableOptimizerInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTableOptimizerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    func deleteTableOptimizer(input: DeleteTableOptimizerInput) async throws -> DeleteTableOptimizerOutput
+    /// Performs the `DeleteTableVersion` operation on the `AWSGlue` service.
+    ///
     /// Deletes a specified version of a table.
-    func deleteTableVersion(input: DeleteTableVersionInput) async throws -> DeleteTableVersionOutputResponse
+    ///
+    /// - Parameter DeleteTableVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTableVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func deleteTableVersion(input: DeleteTableVersionInput) async throws -> DeleteTableVersionOutput
+    /// Performs the `DeleteTrigger` operation on the `AWSGlue` service.
+    ///
     /// Deletes a specified trigger. If the trigger is not found, no exception is thrown.
-    func deleteTrigger(input: DeleteTriggerInput) async throws -> DeleteTriggerOutputResponse
+    ///
+    /// - Parameter DeleteTriggerInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTriggerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func deleteTrigger(input: DeleteTriggerInput) async throws -> DeleteTriggerOutput
+    /// Performs the `DeleteUserDefinedFunction` operation on the `AWSGlue` service.
+    ///
     /// Deletes an existing function definition from the Data Catalog.
-    func deleteUserDefinedFunction(input: DeleteUserDefinedFunctionInput) async throws -> DeleteUserDefinedFunctionOutputResponse
+    ///
+    /// - Parameter DeleteUserDefinedFunctionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteUserDefinedFunctionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func deleteUserDefinedFunction(input: DeleteUserDefinedFunctionInput) async throws -> DeleteUserDefinedFunctionOutput
+    /// Performs the `DeleteWorkflow` operation on the `AWSGlue` service.
+    ///
     /// Deletes a workflow.
-    func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutputResponse
+    ///
+    /// - Parameter DeleteWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorkflowOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutput
+    /// Performs the `GetBlueprint` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the details of a blueprint.
-    func getBlueprint(input: GetBlueprintInput) async throws -> GetBlueprintOutputResponse
+    ///
+    /// - Parameter GetBlueprintInput : [no documentation found]
+    ///
+    /// - Returns: `GetBlueprintOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getBlueprint(input: GetBlueprintInput) async throws -> GetBlueprintOutput
+    /// Performs the `GetBlueprintRun` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the details of a blueprint run.
-    func getBlueprintRun(input: GetBlueprintRunInput) async throws -> GetBlueprintRunOutputResponse
+    ///
+    /// - Parameter GetBlueprintRunInput : [no documentation found]
+    ///
+    /// - Returns: `GetBlueprintRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getBlueprintRun(input: GetBlueprintRunInput) async throws -> GetBlueprintRunOutput
+    /// Performs the `GetBlueprintRuns` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the details of blueprint runs for a specified blueprint.
-    func getBlueprintRuns(input: GetBlueprintRunsInput) async throws -> GetBlueprintRunsOutputResponse
+    ///
+    /// - Parameter GetBlueprintRunsInput : [no documentation found]
+    ///
+    /// - Returns: `GetBlueprintRunsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getBlueprintRuns(input: GetBlueprintRunsInput) async throws -> GetBlueprintRunsOutput
+    /// Performs the `GetCatalogImportStatus` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the status of a migration operation.
-    func getCatalogImportStatus(input: GetCatalogImportStatusInput) async throws -> GetCatalogImportStatusOutputResponse
+    ///
+    /// - Parameter GetCatalogImportStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetCatalogImportStatusOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getCatalogImportStatus(input: GetCatalogImportStatusInput) async throws -> GetCatalogImportStatusOutput
+    /// Performs the `GetClassifier` operation on the `AWSGlue` service.
+    ///
     /// Retrieve a classifier by name.
-    func getClassifier(input: GetClassifierInput) async throws -> GetClassifierOutputResponse
+    ///
+    /// - Parameter GetClassifierInput : [no documentation found]
+    ///
+    /// - Returns: `GetClassifierOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getClassifier(input: GetClassifierInput) async throws -> GetClassifierOutput
+    /// Performs the `GetClassifiers` operation on the `AWSGlue` service.
+    ///
     /// Lists all classifier objects in the Data Catalog.
-    func getClassifiers(input: GetClassifiersInput) async throws -> GetClassifiersOutputResponse
+    ///
+    /// - Parameter GetClassifiersInput : [no documentation found]
+    ///
+    /// - Returns: `GetClassifiersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getClassifiers(input: GetClassifiersInput) async throws -> GetClassifiersOutput
+    /// Performs the `GetColumnStatisticsForPartition` operation on the `AWSGlue` service.
+    ///
     /// Retrieves partition statistics of columns. The Identity and Access Management (IAM) permission required for this operation is GetPartition.
-    func getColumnStatisticsForPartition(input: GetColumnStatisticsForPartitionInput) async throws -> GetColumnStatisticsForPartitionOutputResponse
+    ///
+    /// - Parameter GetColumnStatisticsForPartitionInput : [no documentation found]
+    ///
+    /// - Returns: `GetColumnStatisticsForPartitionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getColumnStatisticsForPartition(input: GetColumnStatisticsForPartitionInput) async throws -> GetColumnStatisticsForPartitionOutput
+    /// Performs the `GetColumnStatisticsForTable` operation on the `AWSGlue` service.
+    ///
     /// Retrieves table statistics of columns. The Identity and Access Management (IAM) permission required for this operation is GetTable.
-    func getColumnStatisticsForTable(input: GetColumnStatisticsForTableInput) async throws -> GetColumnStatisticsForTableOutputResponse
+    ///
+    /// - Parameter GetColumnStatisticsForTableInput : [no documentation found]
+    ///
+    /// - Returns: `GetColumnStatisticsForTableOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getColumnStatisticsForTable(input: GetColumnStatisticsForTableInput) async throws -> GetColumnStatisticsForTableOutput
+    /// Performs the `GetColumnStatisticsTaskRun` operation on the `AWSGlue` service.
+    ///
+    /// Get the associated metadata/information for a task run, given a task run ID.
+    ///
+    /// - Parameter GetColumnStatisticsTaskRunInput : [no documentation found]
+    ///
+    /// - Returns: `GetColumnStatisticsTaskRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getColumnStatisticsTaskRun(input: GetColumnStatisticsTaskRunInput) async throws -> GetColumnStatisticsTaskRunOutput
+    /// Performs the `GetColumnStatisticsTaskRuns` operation on the `AWSGlue` service.
+    ///
+    /// Retrieves information about all runs associated with the specified table.
+    ///
+    /// - Parameter GetColumnStatisticsTaskRunsInput : [no documentation found]
+    ///
+    /// - Returns: `GetColumnStatisticsTaskRunsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getColumnStatisticsTaskRuns(input: GetColumnStatisticsTaskRunsInput) async throws -> GetColumnStatisticsTaskRunsOutput
+    /// Performs the `GetConnection` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a connection definition from the Data Catalog.
-    func getConnection(input: GetConnectionInput) async throws -> GetConnectionOutputResponse
+    ///
+    /// - Parameter GetConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `GetConnectionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getConnection(input: GetConnectionInput) async throws -> GetConnectionOutput
+    /// Performs the `GetConnections` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a list of connection definitions from the Data Catalog.
-    func getConnections(input: GetConnectionsInput) async throws -> GetConnectionsOutputResponse
+    ///
+    /// - Parameter GetConnectionsInput : [no documentation found]
+    ///
+    /// - Returns: `GetConnectionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getConnections(input: GetConnectionsInput) async throws -> GetConnectionsOutput
+    /// Performs the `GetCrawler` operation on the `AWSGlue` service.
+    ///
     /// Retrieves metadata for a specified crawler.
-    func getCrawler(input: GetCrawlerInput) async throws -> GetCrawlerOutputResponse
+    ///
+    /// - Parameter GetCrawlerInput : [no documentation found]
+    ///
+    /// - Returns: `GetCrawlerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getCrawler(input: GetCrawlerInput) async throws -> GetCrawlerOutput
+    /// Performs the `GetCrawlerMetrics` operation on the `AWSGlue` service.
+    ///
     /// Retrieves metrics about specified crawlers.
-    func getCrawlerMetrics(input: GetCrawlerMetricsInput) async throws -> GetCrawlerMetricsOutputResponse
+    ///
+    /// - Parameter GetCrawlerMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `GetCrawlerMetricsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getCrawlerMetrics(input: GetCrawlerMetricsInput) async throws -> GetCrawlerMetricsOutput
+    /// Performs the `GetCrawlers` operation on the `AWSGlue` service.
+    ///
     /// Retrieves metadata for all crawlers defined in the customer account.
-    func getCrawlers(input: GetCrawlersInput) async throws -> GetCrawlersOutputResponse
+    ///
+    /// - Parameter GetCrawlersInput : [no documentation found]
+    ///
+    /// - Returns: `GetCrawlersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getCrawlers(input: GetCrawlersInput) async throws -> GetCrawlersOutput
+    /// Performs the `GetCustomEntityType` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the details of a custom pattern by specifying its name.
-    func getCustomEntityType(input: GetCustomEntityTypeInput) async throws -> GetCustomEntityTypeOutputResponse
+    ///
+    /// - Parameter GetCustomEntityTypeInput : [no documentation found]
+    ///
+    /// - Returns: `GetCustomEntityTypeOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getCustomEntityType(input: GetCustomEntityTypeInput) async throws -> GetCustomEntityTypeOutput
+    /// Performs the `GetDatabase` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the definition of a specified database.
-    func getDatabase(input: GetDatabaseInput) async throws -> GetDatabaseOutputResponse
+    ///
+    /// - Parameter GetDatabaseInput : [no documentation found]
+    ///
+    /// - Returns: `GetDatabaseOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `FederationSourceException` : A federation source failed.
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getDatabase(input: GetDatabaseInput) async throws -> GetDatabaseOutput
+    /// Performs the `GetDatabases` operation on the `AWSGlue` service.
+    ///
     /// Retrieves all databases defined in a given Data Catalog.
-    func getDatabases(input: GetDatabasesInput) async throws -> GetDatabasesOutputResponse
+    ///
+    /// - Parameter GetDatabasesInput : [no documentation found]
+    ///
+    /// - Returns: `GetDatabasesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getDatabases(input: GetDatabasesInput) async throws -> GetDatabasesOutput
+    /// Performs the `GetDataCatalogEncryptionSettings` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the security configuration for a specified catalog.
-    func getDataCatalogEncryptionSettings(input: GetDataCatalogEncryptionSettingsInput) async throws -> GetDataCatalogEncryptionSettingsOutputResponse
+    ///
+    /// - Parameter GetDataCatalogEncryptionSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetDataCatalogEncryptionSettingsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getDataCatalogEncryptionSettings(input: GetDataCatalogEncryptionSettingsInput) async throws -> GetDataCatalogEncryptionSettingsOutput
+    /// Performs the `GetDataflowGraph` operation on the `AWSGlue` service.
+    ///
     /// Transforms a Python script into a directed acyclic graph (DAG).
-    func getDataflowGraph(input: GetDataflowGraphInput) async throws -> GetDataflowGraphOutputResponse
+    ///
+    /// - Parameter GetDataflowGraphInput : [no documentation found]
+    ///
+    /// - Returns: `GetDataflowGraphOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getDataflowGraph(input: GetDataflowGraphInput) async throws -> GetDataflowGraphOutput
+    /// Performs the `GetDataQualityResult` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the result of a data quality rule evaluation.
-    func getDataQualityResult(input: GetDataQualityResultInput) async throws -> GetDataQualityResultOutputResponse
+    ///
+    /// - Parameter GetDataQualityResultInput : [no documentation found]
+    ///
+    /// - Returns: `GetDataQualityResultOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getDataQualityResult(input: GetDataQualityResultInput) async throws -> GetDataQualityResultOutput
+    /// Performs the `GetDataQualityRuleRecommendationRun` operation on the `AWSGlue` service.
+    ///
     /// Gets the specified recommendation run that was used to generate rules.
-    func getDataQualityRuleRecommendationRun(input: GetDataQualityRuleRecommendationRunInput) async throws -> GetDataQualityRuleRecommendationRunOutputResponse
+    ///
+    /// - Parameter GetDataQualityRuleRecommendationRunInput : [no documentation found]
+    ///
+    /// - Returns: `GetDataQualityRuleRecommendationRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getDataQualityRuleRecommendationRun(input: GetDataQualityRuleRecommendationRunInput) async throws -> GetDataQualityRuleRecommendationRunOutput
+    /// Performs the `GetDataQualityRuleset` operation on the `AWSGlue` service.
+    ///
     /// Returns an existing ruleset by identifier or name.
-    func getDataQualityRuleset(input: GetDataQualityRulesetInput) async throws -> GetDataQualityRulesetOutputResponse
+    ///
+    /// - Parameter GetDataQualityRulesetInput : [no documentation found]
+    ///
+    /// - Returns: `GetDataQualityRulesetOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getDataQualityRuleset(input: GetDataQualityRulesetInput) async throws -> GetDataQualityRulesetOutput
+    /// Performs the `GetDataQualityRulesetEvaluationRun` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a specific run where a ruleset is evaluated against a data source.
-    func getDataQualityRulesetEvaluationRun(input: GetDataQualityRulesetEvaluationRunInput) async throws -> GetDataQualityRulesetEvaluationRunOutputResponse
+    ///
+    /// - Parameter GetDataQualityRulesetEvaluationRunInput : [no documentation found]
+    ///
+    /// - Returns: `GetDataQualityRulesetEvaluationRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getDataQualityRulesetEvaluationRun(input: GetDataQualityRulesetEvaluationRunInput) async throws -> GetDataQualityRulesetEvaluationRunOutput
+    /// Performs the `GetDevEndpoint` operation on the `AWSGlue` service.
+    ///
     /// Retrieves information about a specified development endpoint. When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address, and the public IP address field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address.
-    func getDevEndpoint(input: GetDevEndpointInput) async throws -> GetDevEndpointOutputResponse
+    ///
+    /// - Parameter GetDevEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `GetDevEndpointOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getDevEndpoint(input: GetDevEndpointInput) async throws -> GetDevEndpointOutput
+    /// Performs the `GetDevEndpoints` operation on the `AWSGlue` service.
+    ///
     /// Retrieves all the development endpoints in this Amazon Web Services account. When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address and the public IP address field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address.
-    func getDevEndpoints(input: GetDevEndpointsInput) async throws -> GetDevEndpointsOutputResponse
+    ///
+    /// - Parameter GetDevEndpointsInput : [no documentation found]
+    ///
+    /// - Returns: `GetDevEndpointsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getDevEndpoints(input: GetDevEndpointsInput) async throws -> GetDevEndpointsOutput
+    /// Performs the `GetJob` operation on the `AWSGlue` service.
+    ///
     /// Retrieves an existing job definition.
-    func getJob(input: GetJobInput) async throws -> GetJobOutputResponse
+    ///
+    /// - Parameter GetJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getJob(input: GetJobInput) async throws -> GetJobOutput
+    /// Performs the `GetJobBookmark` operation on the `AWSGlue` service.
+    ///
     /// Returns information on a job bookmark entry. For more information about enabling and using job bookmarks, see:
     ///
     /// * [Tracking processed data using job bookmarks](https://docs.aws.amazon.com/glue/latest/dg/monitor-continuations.html)
@@ -195,91 +1599,751 @@ public protocol GlueClientProtocol {
     /// * [Job parameters used by Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html)
     ///
     /// * [Job structure](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-jobs-job.html#aws-glue-api-jobs-job-Job)
-    func getJobBookmark(input: GetJobBookmarkInput) async throws -> GetJobBookmarkOutputResponse
+    ///
+    /// - Parameter GetJobBookmarkInput : [no documentation found]
+    ///
+    /// - Returns: `GetJobBookmarkOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ValidationException` : A value could not be validated.
+    func getJobBookmark(input: GetJobBookmarkInput) async throws -> GetJobBookmarkOutput
+    /// Performs the `GetJobRun` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the metadata for a given job run.
-    func getJobRun(input: GetJobRunInput) async throws -> GetJobRunOutputResponse
+    ///
+    /// - Parameter GetJobRunInput : [no documentation found]
+    ///
+    /// - Returns: `GetJobRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getJobRun(input: GetJobRunInput) async throws -> GetJobRunOutput
+    /// Performs the `GetJobRuns` operation on the `AWSGlue` service.
+    ///
     /// Retrieves metadata for all runs of a given job definition.
-    func getJobRuns(input: GetJobRunsInput) async throws -> GetJobRunsOutputResponse
+    ///
+    /// - Parameter GetJobRunsInput : [no documentation found]
+    ///
+    /// - Returns: `GetJobRunsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getJobRuns(input: GetJobRunsInput) async throws -> GetJobRunsOutput
+    /// Performs the `GetJobs` operation on the `AWSGlue` service.
+    ///
     /// Retrieves all current job definitions.
-    func getJobs(input: GetJobsInput) async throws -> GetJobsOutputResponse
+    ///
+    /// - Parameter GetJobsInput : [no documentation found]
+    ///
+    /// - Returns: `GetJobsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getJobs(input: GetJobsInput) async throws -> GetJobsOutput
+    /// Performs the `GetMapping` operation on the `AWSGlue` service.
+    ///
     /// Creates mappings.
-    func getMapping(input: GetMappingInput) async throws -> GetMappingOutputResponse
+    ///
+    /// - Parameter GetMappingInput : [no documentation found]
+    ///
+    /// - Returns: `GetMappingOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getMapping(input: GetMappingInput) async throws -> GetMappingOutput
+    /// Performs the `GetMLTaskRun` operation on the `AWSGlue` service.
+    ///
     /// Gets details for a specific task run on a machine learning transform. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can check the stats of any task run by calling GetMLTaskRun with the TaskRunID and its parent transform's TransformID.
-    func getMLTaskRun(input: GetMLTaskRunInput) async throws -> GetMLTaskRunOutputResponse
+    ///
+    /// - Parameter GetMLTaskRunInput : [no documentation found]
+    ///
+    /// - Returns: `GetMLTaskRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getMLTaskRun(input: GetMLTaskRunInput) async throws -> GetMLTaskRunOutput
+    /// Performs the `GetMLTaskRuns` operation on the `AWSGlue` service.
+    ///
     /// Gets a list of runs for a machine learning transform. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can get a sortable, filterable list of machine learning task runs by calling GetMLTaskRuns with their parent transform's TransformID and other optional parameters as documented in this section. This operation returns a list of historic runs and must be paginated.
-    func getMLTaskRuns(input: GetMLTaskRunsInput) async throws -> GetMLTaskRunsOutputResponse
+    ///
+    /// - Parameter GetMLTaskRunsInput : [no documentation found]
+    ///
+    /// - Returns: `GetMLTaskRunsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getMLTaskRuns(input: GetMLTaskRunsInput) async throws -> GetMLTaskRunsOutput
+    /// Performs the `GetMLTransform` operation on the `AWSGlue` service.
+    ///
     /// Gets an Glue machine learning transform artifact and all its corresponding metadata. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue. You can retrieve their metadata by calling GetMLTransform.
-    func getMLTransform(input: GetMLTransformInput) async throws -> GetMLTransformOutputResponse
+    ///
+    /// - Parameter GetMLTransformInput : [no documentation found]
+    ///
+    /// - Returns: `GetMLTransformOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getMLTransform(input: GetMLTransformInput) async throws -> GetMLTransformOutput
+    /// Performs the `GetMLTransforms` operation on the `AWSGlue` service.
+    ///
     /// Gets a sortable, filterable list of existing Glue machine learning transforms. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue, and you can retrieve their metadata by calling GetMLTransforms.
-    func getMLTransforms(input: GetMLTransformsInput) async throws -> GetMLTransformsOutputResponse
+    ///
+    /// - Parameter GetMLTransformsInput : [no documentation found]
+    ///
+    /// - Returns: `GetMLTransformsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getMLTransforms(input: GetMLTransformsInput) async throws -> GetMLTransformsOutput
+    /// Performs the `GetPartition` operation on the `AWSGlue` service.
+    ///
     /// Retrieves information about a specified partition.
-    func getPartition(input: GetPartitionInput) async throws -> GetPartitionOutputResponse
+    ///
+    /// - Parameter GetPartitionInput : [no documentation found]
+    ///
+    /// - Returns: `GetPartitionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `FederationSourceException` : A federation source failed.
+    /// - `FederationSourceRetryableException` : [no documentation found]
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getPartition(input: GetPartitionInput) async throws -> GetPartitionOutput
+    /// Performs the `GetPartitionIndexes` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the partition indexes associated with a table.
-    func getPartitionIndexes(input: GetPartitionIndexesInput) async throws -> GetPartitionIndexesOutputResponse
+    ///
+    /// - Parameter GetPartitionIndexesInput : [no documentation found]
+    ///
+    /// - Returns: `GetPartitionIndexesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The CreatePartitions API was called on a table that has indexes enabled.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getPartitionIndexes(input: GetPartitionIndexesInput) async throws -> GetPartitionIndexesOutput
+    /// Performs the `GetPartitions` operation on the `AWSGlue` service.
+    ///
     /// Retrieves information about the partitions in a table.
-    func getPartitions(input: GetPartitionsInput) async throws -> GetPartitionsOutputResponse
+    ///
+    /// - Parameter GetPartitionsInput : [no documentation found]
+    ///
+    /// - Returns: `GetPartitionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `FederationSourceException` : A federation source failed.
+    /// - `FederationSourceRetryableException` : [no documentation found]
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `InvalidStateException` : An error that indicates your data is in an invalid state.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNotReadyException` : A resource was not ready for a transaction.
+    func getPartitions(input: GetPartitionsInput) async throws -> GetPartitionsOutput
+    /// Performs the `GetPlan` operation on the `AWSGlue` service.
+    ///
     /// Gets code to perform a specified mapping.
-    func getPlan(input: GetPlanInput) async throws -> GetPlanOutputResponse
+    ///
+    /// - Parameter GetPlanInput : [no documentation found]
+    ///
+    /// - Returns: `GetPlanOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getPlan(input: GetPlanInput) async throws -> GetPlanOutput
+    /// Performs the `GetRegistry` operation on the `AWSGlue` service.
+    ///
     /// Describes the specified registry in detail.
-    func getRegistry(input: GetRegistryInput) async throws -> GetRegistryOutputResponse
+    ///
+    /// - Parameter GetRegistryInput : [no documentation found]
+    ///
+    /// - Returns: `GetRegistryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    func getRegistry(input: GetRegistryInput) async throws -> GetRegistryOutput
+    /// Performs the `GetResourcePolicies` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the resource policies set on individual resources by Resource Access Manager during cross-account permission grants. Also retrieves the Data Catalog resource policy. If you enabled metadata encryption in Data Catalog settings, and you do not have permission on the KMS key, the operation can't return the Data Catalog resource policy.
-    func getResourcePolicies(input: GetResourcePoliciesInput) async throws -> GetResourcePoliciesOutputResponse
+    ///
+    /// - Parameter GetResourcePoliciesInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourcePoliciesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getResourcePolicies(input: GetResourcePoliciesInput) async throws -> GetResourcePoliciesOutput
+    /// Performs the `GetResourcePolicy` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a specified resource policy.
-    func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutputResponse
+    ///
+    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
+    /// Performs the `GetSchema` operation on the `AWSGlue` service.
+    ///
     /// Describes the specified schema in detail.
-    func getSchema(input: GetSchemaInput) async throws -> GetSchemaOutputResponse
+    ///
+    /// - Parameter GetSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `GetSchemaOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    func getSchema(input: GetSchemaInput) async throws -> GetSchemaOutput
+    /// Performs the `GetSchemaByDefinition` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a schema by the SchemaDefinition. The schema definition is sent to the Schema Registry, canonicalized, and hashed. If the hash is matched within the scope of the SchemaName or ARN (or the default registry, if none is supplied), that schema’s metadata is returned. Otherwise, a 404 or NotFound error is returned. Schema versions in Deleted statuses will not be included in the results.
-    func getSchemaByDefinition(input: GetSchemaByDefinitionInput) async throws -> GetSchemaByDefinitionOutputResponse
+    ///
+    /// - Parameter GetSchemaByDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `GetSchemaByDefinitionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    func getSchemaByDefinition(input: GetSchemaByDefinitionInput) async throws -> GetSchemaByDefinitionOutput
+    /// Performs the `GetSchemaVersion` operation on the `AWSGlue` service.
+    ///
     /// Get the specified schema by its unique ID assigned when a version of the schema is created or registered. Schema versions in Deleted status will not be included in the results.
-    func getSchemaVersion(input: GetSchemaVersionInput) async throws -> GetSchemaVersionOutputResponse
+    ///
+    /// - Parameter GetSchemaVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetSchemaVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    func getSchemaVersion(input: GetSchemaVersionInput) async throws -> GetSchemaVersionOutput
+    /// Performs the `GetSchemaVersionsDiff` operation on the `AWSGlue` service.
+    ///
     /// Fetches the schema version difference in the specified difference type between two stored schema versions in the Schema Registry. This API allows you to compare two schema versions between two schema definitions under the same schema.
-    func getSchemaVersionsDiff(input: GetSchemaVersionsDiffInput) async throws -> GetSchemaVersionsDiffOutputResponse
+    ///
+    /// - Parameter GetSchemaVersionsDiffInput : [no documentation found]
+    ///
+    /// - Returns: `GetSchemaVersionsDiffOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    func getSchemaVersionsDiff(input: GetSchemaVersionsDiffInput) async throws -> GetSchemaVersionsDiffOutput
+    /// Performs the `GetSecurityConfiguration` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a specified security configuration.
-    func getSecurityConfiguration(input: GetSecurityConfigurationInput) async throws -> GetSecurityConfigurationOutputResponse
+    ///
+    /// - Parameter GetSecurityConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetSecurityConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getSecurityConfiguration(input: GetSecurityConfigurationInput) async throws -> GetSecurityConfigurationOutput
+    /// Performs the `GetSecurityConfigurations` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a list of all security configurations.
-    func getSecurityConfigurations(input: GetSecurityConfigurationsInput) async throws -> GetSecurityConfigurationsOutputResponse
+    ///
+    /// - Parameter GetSecurityConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `GetSecurityConfigurationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getSecurityConfigurations(input: GetSecurityConfigurationsInput) async throws -> GetSecurityConfigurationsOutput
+    /// Performs the `GetSession` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the session.
-    func getSession(input: GetSessionInput) async throws -> GetSessionOutputResponse
+    ///
+    /// - Parameter GetSessionInput : [no documentation found]
+    ///
+    /// - Returns: `GetSessionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getSession(input: GetSessionInput) async throws -> GetSessionOutput
+    /// Performs the `GetStatement` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the statement.
-    func getStatement(input: GetStatementInput) async throws -> GetStatementOutputResponse
+    ///
+    /// - Parameter GetStatementInput : [no documentation found]
+    ///
+    /// - Returns: `GetStatementOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `IllegalSessionStateException` : The session is in an invalid state to perform a requested operation.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getStatement(input: GetStatementInput) async throws -> GetStatementOutput
+    /// Performs the `GetTable` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the Table definition in a Data Catalog for a specified table.
-    func getTable(input: GetTableInput) async throws -> GetTableOutputResponse
+    ///
+    /// - Parameter GetTableInput : [no documentation found]
+    ///
+    /// - Returns: `GetTableOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `FederationSourceException` : A federation source failed.
+    /// - `FederationSourceRetryableException` : [no documentation found]
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNotReadyException` : A resource was not ready for a transaction.
+    func getTable(input: GetTableInput) async throws -> GetTableOutput
+    /// Performs the `GetTableOptimizer` operation on the `AWSGlue` service.
+    ///
+    /// Returns the configuration of all optimizers associated with a specified table.
+    ///
+    /// - Parameter GetTableOptimizerInput : [no documentation found]
+    ///
+    /// - Returns: `GetTableOptimizerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    func getTableOptimizer(input: GetTableOptimizerInput) async throws -> GetTableOptimizerOutput
+    /// Performs the `GetTables` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the definitions of some or all of the tables in a given Database.
-    func getTables(input: GetTablesInput) async throws -> GetTablesOutputResponse
+    ///
+    /// - Parameter GetTablesInput : [no documentation found]
+    ///
+    /// - Returns: `GetTablesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `FederationSourceException` : A federation source failed.
+    /// - `FederationSourceRetryableException` : [no documentation found]
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getTables(input: GetTablesInput) async throws -> GetTablesOutput
+    /// Performs the `GetTableVersion` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a specified version of a table.
-    func getTableVersion(input: GetTableVersionInput) async throws -> GetTableVersionOutputResponse
+    ///
+    /// - Parameter GetTableVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetTableVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getTableVersion(input: GetTableVersionInput) async throws -> GetTableVersionOutput
+    /// Performs the `GetTableVersions` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a list of strings that identify available versions of a specified table.
-    func getTableVersions(input: GetTableVersionsInput) async throws -> GetTableVersionsOutputResponse
+    ///
+    /// - Parameter GetTableVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `GetTableVersionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getTableVersions(input: GetTableVersionsInput) async throws -> GetTableVersionsOutput
+    /// Performs the `GetTags` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a list of tags associated with a resource.
-    func getTags(input: GetTagsInput) async throws -> GetTagsOutputResponse
+    ///
+    /// - Parameter GetTagsInput : [no documentation found]
+    ///
+    /// - Returns: `GetTagsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getTags(input: GetTagsInput) async throws -> GetTagsOutput
+    /// Performs the `GetTrigger` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the definition of a trigger.
-    func getTrigger(input: GetTriggerInput) async throws -> GetTriggerOutputResponse
+    ///
+    /// - Parameter GetTriggerInput : [no documentation found]
+    ///
+    /// - Returns: `GetTriggerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getTrigger(input: GetTriggerInput) async throws -> GetTriggerOutput
+    /// Performs the `GetTriggers` operation on the `AWSGlue` service.
+    ///
     /// Gets all the triggers associated with a job.
-    func getTriggers(input: GetTriggersInput) async throws -> GetTriggersOutputResponse
+    ///
+    /// - Parameter GetTriggersInput : [no documentation found]
+    ///
+    /// - Returns: `GetTriggersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getTriggers(input: GetTriggersInput) async throws -> GetTriggersOutput
+    /// Performs the `GetUnfilteredPartitionMetadata` operation on the `AWSGlue` service.
+    ///
     /// Retrieves partition metadata from the Data Catalog that contains unfiltered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartition.
-    func getUnfilteredPartitionMetadata(input: GetUnfilteredPartitionMetadataInput) async throws -> GetUnfilteredPartitionMetadataOutputResponse
+    ///
+    /// - Parameter GetUnfilteredPartitionMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `GetUnfilteredPartitionMetadataOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `FederationSourceException` : A federation source failed.
+    /// - `FederationSourceRetryableException` : [no documentation found]
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `PermissionTypeMismatchException` : The operation timed out.
+    func getUnfilteredPartitionMetadata(input: GetUnfilteredPartitionMetadataInput) async throws -> GetUnfilteredPartitionMetadataOutput
+    /// Performs the `GetUnfilteredPartitionsMetadata` operation on the `AWSGlue` service.
+    ///
     /// Retrieves partition metadata from the Data Catalog that contains unfiltered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartitions.
-    func getUnfilteredPartitionsMetadata(input: GetUnfilteredPartitionsMetadataInput) async throws -> GetUnfilteredPartitionsMetadataOutputResponse
+    ///
+    /// - Parameter GetUnfilteredPartitionsMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `GetUnfilteredPartitionsMetadataOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `FederationSourceException` : A federation source failed.
+    /// - `FederationSourceRetryableException` : [no documentation found]
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `PermissionTypeMismatchException` : The operation timed out.
+    func getUnfilteredPartitionsMetadata(input: GetUnfilteredPartitionsMetadataInput) async throws -> GetUnfilteredPartitionsMetadataOutput
+    /// Performs the `GetUnfilteredTableMetadata` operation on the `AWSGlue` service.
+    ///
     /// Retrieves table metadata from the Data Catalog that contains unfiltered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetTable.
-    func getUnfilteredTableMetadata(input: GetUnfilteredTableMetadataInput) async throws -> GetUnfilteredTableMetadataOutputResponse
+    ///
+    /// - Parameter GetUnfilteredTableMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `GetUnfilteredTableMetadataOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `FederationSourceException` : A federation source failed.
+    /// - `FederationSourceRetryableException` : [no documentation found]
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `PermissionTypeMismatchException` : The operation timed out.
+    func getUnfilteredTableMetadata(input: GetUnfilteredTableMetadataInput) async throws -> GetUnfilteredTableMetadataOutput
+    /// Performs the `GetUserDefinedFunction` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a specified function definition from the Data Catalog.
-    func getUserDefinedFunction(input: GetUserDefinedFunctionInput) async throws -> GetUserDefinedFunctionOutputResponse
+    ///
+    /// - Parameter GetUserDefinedFunctionInput : [no documentation found]
+    ///
+    /// - Returns: `GetUserDefinedFunctionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getUserDefinedFunction(input: GetUserDefinedFunctionInput) async throws -> GetUserDefinedFunctionOutput
+    /// Performs the `GetUserDefinedFunctions` operation on the `AWSGlue` service.
+    ///
     /// Retrieves multiple function definitions from the Data Catalog.
-    func getUserDefinedFunctions(input: GetUserDefinedFunctionsInput) async throws -> GetUserDefinedFunctionsOutputResponse
+    ///
+    /// - Parameter GetUserDefinedFunctionsInput : [no documentation found]
+    ///
+    /// - Returns: `GetUserDefinedFunctionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getUserDefinedFunctions(input: GetUserDefinedFunctionsInput) async throws -> GetUserDefinedFunctionsOutput
+    /// Performs the `GetWorkflow` operation on the `AWSGlue` service.
+    ///
     /// Retrieves resource metadata for a workflow.
-    func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutputResponse
+    ///
+    /// - Parameter GetWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkflowOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutput
+    /// Performs the `GetWorkflowRun` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the metadata for a given workflow run.
-    func getWorkflowRun(input: GetWorkflowRunInput) async throws -> GetWorkflowRunOutputResponse
+    ///
+    /// - Parameter GetWorkflowRunInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkflowRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getWorkflowRun(input: GetWorkflowRunInput) async throws -> GetWorkflowRunOutput
+    /// Performs the `GetWorkflowRunProperties` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the workflow run properties which were set during the run.
-    func getWorkflowRunProperties(input: GetWorkflowRunPropertiesInput) async throws -> GetWorkflowRunPropertiesOutputResponse
+    ///
+    /// - Parameter GetWorkflowRunPropertiesInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkflowRunPropertiesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getWorkflowRunProperties(input: GetWorkflowRunPropertiesInput) async throws -> GetWorkflowRunPropertiesOutput
+    /// Performs the `GetWorkflowRuns` operation on the `AWSGlue` service.
+    ///
     /// Retrieves metadata for all runs of a given workflow.
-    func getWorkflowRuns(input: GetWorkflowRunsInput) async throws -> GetWorkflowRunsOutputResponse
+    ///
+    /// - Parameter GetWorkflowRunsInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkflowRunsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func getWorkflowRuns(input: GetWorkflowRunsInput) async throws -> GetWorkflowRunsOutput
+    /// Performs the `ImportCatalogToGlue` operation on the `AWSGlue` service.
+    ///
     /// Imports an existing Amazon Athena Data Catalog to Glue.
-    func importCatalogToGlue(input: ImportCatalogToGlueInput) async throws -> ImportCatalogToGlueOutputResponse
+    ///
+    /// - Parameter ImportCatalogToGlueInput : [no documentation found]
+    ///
+    /// - Returns: `ImportCatalogToGlueOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func importCatalogToGlue(input: ImportCatalogToGlueInput) async throws -> ImportCatalogToGlueOutput
+    /// Performs the `ListBlueprints` operation on the `AWSGlue` service.
+    ///
     /// Lists all the blueprint names in an account.
-    func listBlueprints(input: ListBlueprintsInput) async throws -> ListBlueprintsOutputResponse
+    ///
+    /// - Parameter ListBlueprintsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBlueprintsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func listBlueprints(input: ListBlueprintsInput) async throws -> ListBlueprintsOutput
+    /// Performs the `ListColumnStatisticsTaskRuns` operation on the `AWSGlue` service.
+    ///
+    /// List all task runs for a particular account.
+    ///
+    /// - Parameter ListColumnStatisticsTaskRunsInput : [no documentation found]
+    ///
+    /// - Returns: `ListColumnStatisticsTaskRunsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationTimeoutException` : The operation timed out.
+    func listColumnStatisticsTaskRuns(input: ListColumnStatisticsTaskRunsInput) async throws -> ListColumnStatisticsTaskRunsOutput
+    /// Performs the `ListCrawlers` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the names of all crawler resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
-    func listCrawlers(input: ListCrawlersInput) async throws -> ListCrawlersOutputResponse
+    ///
+    /// - Parameter ListCrawlersInput : [no documentation found]
+    ///
+    /// - Returns: `ListCrawlersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationTimeoutException` : The operation timed out.
+    func listCrawlers(input: ListCrawlersInput) async throws -> ListCrawlersOutput
+    /// Performs the `ListCrawls` operation on the `AWSGlue` service.
+    ///
     /// Returns all the crawls of a specified crawler. Returns only the crawls that have occurred since the launch date of the crawler history feature, and only retains up to 12 months of crawls. Older crawls will not be returned. You may use this API to:
     ///
     /// * Retrive all the crawls of a specified crawler.
@@ -289,51 +2353,388 @@ public protocol GlueClientProtocol {
     /// * Retrieve all the crawls of a specified crawler in a specific time range.
     ///
     /// * Retrieve all the crawls of a specified crawler with a particular state, crawl ID, or DPU hour value.
-    func listCrawls(input: ListCrawlsInput) async throws -> ListCrawlsOutputResponse
+    ///
+    /// - Parameter ListCrawlsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCrawlsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func listCrawls(input: ListCrawlsInput) async throws -> ListCrawlsOutput
+    /// Performs the `ListCustomEntityTypes` operation on the `AWSGlue` service.
+    ///
     /// Lists all the custom patterns that have been created.
-    func listCustomEntityTypes(input: ListCustomEntityTypesInput) async throws -> ListCustomEntityTypesOutputResponse
+    ///
+    /// - Parameter ListCustomEntityTypesInput : [no documentation found]
+    ///
+    /// - Returns: `ListCustomEntityTypesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func listCustomEntityTypes(input: ListCustomEntityTypesInput) async throws -> ListCustomEntityTypesOutput
+    /// Performs the `ListDataQualityResults` operation on the `AWSGlue` service.
+    ///
     /// Returns all data quality execution results for your account.
-    func listDataQualityResults(input: ListDataQualityResultsInput) async throws -> ListDataQualityResultsOutputResponse
+    ///
+    /// - Parameter ListDataQualityResultsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDataQualityResultsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func listDataQualityResults(input: ListDataQualityResultsInput) async throws -> ListDataQualityResultsOutput
+    /// Performs the `ListDataQualityRuleRecommendationRuns` operation on the `AWSGlue` service.
+    ///
     /// Lists the recommendation runs meeting the filter criteria.
-    func listDataQualityRuleRecommendationRuns(input: ListDataQualityRuleRecommendationRunsInput) async throws -> ListDataQualityRuleRecommendationRunsOutputResponse
+    ///
+    /// - Parameter ListDataQualityRuleRecommendationRunsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDataQualityRuleRecommendationRunsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func listDataQualityRuleRecommendationRuns(input: ListDataQualityRuleRecommendationRunsInput) async throws -> ListDataQualityRuleRecommendationRunsOutput
+    /// Performs the `ListDataQualityRulesetEvaluationRuns` operation on the `AWSGlue` service.
+    ///
     /// Lists all the runs meeting the filter criteria, where a ruleset is evaluated against a data source.
-    func listDataQualityRulesetEvaluationRuns(input: ListDataQualityRulesetEvaluationRunsInput) async throws -> ListDataQualityRulesetEvaluationRunsOutputResponse
+    ///
+    /// - Parameter ListDataQualityRulesetEvaluationRunsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDataQualityRulesetEvaluationRunsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func listDataQualityRulesetEvaluationRuns(input: ListDataQualityRulesetEvaluationRunsInput) async throws -> ListDataQualityRulesetEvaluationRunsOutput
+    /// Performs the `ListDataQualityRulesets` operation on the `AWSGlue` service.
+    ///
     /// Returns a paginated list of rulesets for the specified list of Glue tables.
-    func listDataQualityRulesets(input: ListDataQualityRulesetsInput) async throws -> ListDataQualityRulesetsOutputResponse
+    ///
+    /// - Parameter ListDataQualityRulesetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDataQualityRulesetsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func listDataQualityRulesets(input: ListDataQualityRulesetsInput) async throws -> ListDataQualityRulesetsOutput
+    /// Performs the `ListDevEndpoints` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the names of all DevEndpoint resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
-    func listDevEndpoints(input: ListDevEndpointsInput) async throws -> ListDevEndpointsOutputResponse
+    ///
+    /// - Parameter ListDevEndpointsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDevEndpointsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func listDevEndpoints(input: ListDevEndpointsInput) async throws -> ListDevEndpointsOutput
+    /// Performs the `ListJobs` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the names of all job resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
-    func listJobs(input: ListJobsInput) async throws -> ListJobsOutputResponse
+    ///
+    /// - Parameter ListJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListJobsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
+    /// Performs the `ListMLTransforms` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a sortable, filterable list of existing Glue machine learning transforms in this Amazon Web Services account, or the resources with the specified tag. This operation takes the optional Tags field, which you can use as a filter of the responses so that tagged resources can be retrieved as a group. If you choose to use tag filtering, only resources with the tags are retrieved.
-    func listMLTransforms(input: ListMLTransformsInput) async throws -> ListMLTransformsOutputResponse
+    ///
+    /// - Parameter ListMLTransformsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMLTransformsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func listMLTransforms(input: ListMLTransformsInput) async throws -> ListMLTransformsOutput
+    /// Performs the `ListRegistries` operation on the `AWSGlue` service.
+    ///
     /// Returns a list of registries that you have created, with minimal registry information. Registries in the Deleting status will not be included in the results. Empty results will be returned if there are no registries available.
-    func listRegistries(input: ListRegistriesInput) async throws -> ListRegistriesOutputResponse
+    ///
+    /// - Parameter ListRegistriesInput : [no documentation found]
+    ///
+    /// - Returns: `ListRegistriesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    func listRegistries(input: ListRegistriesInput) async throws -> ListRegistriesOutput
+    /// Performs the `ListSchemas` operation on the `AWSGlue` service.
+    ///
     /// Returns a list of schemas with minimal details. Schemas in Deleting status will not be included in the results. Empty results will be returned if there are no schemas available. When the RegistryId is not provided, all the schemas across registries will be part of the API response.
-    func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutputResponse
+    ///
+    /// - Parameter ListSchemasInput : [no documentation found]
+    ///
+    /// - Returns: `ListSchemasOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutput
+    /// Performs the `ListSchemaVersions` operation on the `AWSGlue` service.
+    ///
     /// Returns a list of schema versions that you have created, with minimal information. Schema versions in Deleted status will not be included in the results. Empty results will be returned if there are no schema versions available.
-    func listSchemaVersions(input: ListSchemaVersionsInput) async throws -> ListSchemaVersionsOutputResponse
+    ///
+    /// - Parameter ListSchemaVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSchemaVersionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    func listSchemaVersions(input: ListSchemaVersionsInput) async throws -> ListSchemaVersionsOutput
+    /// Performs the `ListSessions` operation on the `AWSGlue` service.
+    ///
     /// Retrieve a list of sessions.
-    func listSessions(input: ListSessionsInput) async throws -> ListSessionsOutputResponse
+    ///
+    /// - Parameter ListSessionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSessionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func listSessions(input: ListSessionsInput) async throws -> ListSessionsOutput
+    /// Performs the `ListStatements` operation on the `AWSGlue` service.
+    ///
     /// Lists statements for the session.
-    func listStatements(input: ListStatementsInput) async throws -> ListStatementsOutputResponse
+    ///
+    /// - Parameter ListStatementsInput : [no documentation found]
+    ///
+    /// - Returns: `ListStatementsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `IllegalSessionStateException` : The session is in an invalid state to perform a requested operation.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func listStatements(input: ListStatementsInput) async throws -> ListStatementsOutput
+    /// Performs the `ListTableOptimizerRuns` operation on the `AWSGlue` service.
+    ///
+    /// Lists the history of previous optimizer runs for a specific table.
+    ///
+    /// - Parameter ListTableOptimizerRunsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTableOptimizerRunsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    func listTableOptimizerRuns(input: ListTableOptimizerRunsInput) async throws -> ListTableOptimizerRunsOutput
+    /// Performs the `ListTriggers` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the names of all trigger resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
-    func listTriggers(input: ListTriggersInput) async throws -> ListTriggersOutputResponse
+    ///
+    /// - Parameter ListTriggersInput : [no documentation found]
+    ///
+    /// - Returns: `ListTriggersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func listTriggers(input: ListTriggersInput) async throws -> ListTriggersOutput
+    /// Performs the `ListWorkflows` operation on the `AWSGlue` service.
+    ///
     /// Lists names of workflows created in the account.
-    func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutputResponse
+    ///
+    /// - Parameter ListWorkflowsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkflowsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutput
+    /// Performs the `PutDataCatalogEncryptionSettings` operation on the `AWSGlue` service.
+    ///
     /// Sets the security configuration for a specified catalog. After the configuration has been set, the specified encryption is applied to every catalog write thereafter.
-    func putDataCatalogEncryptionSettings(input: PutDataCatalogEncryptionSettingsInput) async throws -> PutDataCatalogEncryptionSettingsOutputResponse
+    ///
+    /// - Parameter PutDataCatalogEncryptionSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `PutDataCatalogEncryptionSettingsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func putDataCatalogEncryptionSettings(input: PutDataCatalogEncryptionSettingsInput) async throws -> PutDataCatalogEncryptionSettingsOutput
+    /// Performs the `PutResourcePolicy` operation on the `AWSGlue` service.
+    ///
     /// Sets the Data Catalog resource policy for access control.
-    func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutputResponse
+    ///
+    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConditionCheckFailureException` : A specified condition was not satisfied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
+    /// Performs the `PutSchemaVersionMetadata` operation on the `AWSGlue` service.
+    ///
     /// Puts the metadata key value pair for a specified schema version ID. A maximum of 10 key value pairs will be allowed per schema version. They can be added over one or more calls.
-    func putSchemaVersionMetadata(input: PutSchemaVersionMetadataInput) async throws -> PutSchemaVersionMetadataOutputResponse
+    ///
+    /// - Parameter PutSchemaVersionMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `PutSchemaVersionMetadataOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func putSchemaVersionMetadata(input: PutSchemaVersionMetadataInput) async throws -> PutSchemaVersionMetadataOutput
+    /// Performs the `PutWorkflowRunProperties` operation on the `AWSGlue` service.
+    ///
     /// Puts the specified workflow run properties for the given workflow run. If a property already exists for the specified run, then it overrides the value otherwise adds the property to existing properties.
-    func putWorkflowRunProperties(input: PutWorkflowRunPropertiesInput) async throws -> PutWorkflowRunPropertiesOutputResponse
+    ///
+    /// - Parameter PutWorkflowRunPropertiesInput : [no documentation found]
+    ///
+    /// - Returns: `PutWorkflowRunPropertiesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func putWorkflowRunProperties(input: PutWorkflowRunPropertiesInput) async throws -> PutWorkflowRunPropertiesOutput
+    /// Performs the `QuerySchemaVersionMetadata` operation on the `AWSGlue` service.
+    ///
     /// Queries for the schema version metadata information.
-    func querySchemaVersionMetadata(input: QuerySchemaVersionMetadataInput) async throws -> QuerySchemaVersionMetadataOutputResponse
+    ///
+    /// - Parameter QuerySchemaVersionMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `QuerySchemaVersionMetadataOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InvalidInputException` : The input provided was not valid.
+    func querySchemaVersionMetadata(input: QuerySchemaVersionMetadataInput) async throws -> QuerySchemaVersionMetadataOutput
+    /// Performs the `RegisterSchemaVersion` operation on the `AWSGlue` service.
+    ///
     /// Adds a new version to the existing schema. Returns an error if new version of schema does not meet the compatibility requirements of the schema set. This API will not create a new schema set and will return a 404 error if the schema set is not already present in the Schema Registry. If this is the first schema definition to be registered in the Schema Registry, this API will store the schema version and return immediately. Otherwise, this call has the potential to run longer than other operations due to compatibility modes. You can call the GetSchemaVersion API with the SchemaVersionId to check compatibility modes. If the same schema definition is already stored in Schema Registry as a version, the schema ID of the existing schema is returned to the caller.
-    func registerSchemaVersion(input: RegisterSchemaVersionInput) async throws -> RegisterSchemaVersionOutputResponse
+    ///
+    /// - Parameter RegisterSchemaVersionInput : [no documentation found]
+    ///
+    /// - Returns: `RegisterSchemaVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func registerSchemaVersion(input: RegisterSchemaVersionInput) async throws -> RegisterSchemaVersionOutput
+    /// Performs the `RemoveSchemaVersionMetadata` operation on the `AWSGlue` service.
+    ///
     /// Removes a key value pair from the schema version metadata for the specified schema version ID.
-    func removeSchemaVersionMetadata(input: RemoveSchemaVersionMetadataInput) async throws -> RemoveSchemaVersionMetadataOutputResponse
+    ///
+    /// - Parameter RemoveSchemaVersionMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveSchemaVersionMetadataOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InvalidInputException` : The input provided was not valid.
+    func removeSchemaVersionMetadata(input: RemoveSchemaVersionMetadataInput) async throws -> RemoveSchemaVersionMetadataOutput
+    /// Performs the `ResetJobBookmark` operation on the `AWSGlue` service.
+    ///
     /// Resets a bookmark entry. For more information about enabling and using job bookmarks, see:
     ///
     /// * [Tracking processed data using job bookmarks](https://docs.aws.amazon.com/glue/latest/dg/monitor-continuations.html)
@@ -341,93 +2742,809 @@ public protocol GlueClientProtocol {
     /// * [Job parameters used by Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html)
     ///
     /// * [Job structure](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-jobs-job.html#aws-glue-api-jobs-job-Job)
-    func resetJobBookmark(input: ResetJobBookmarkInput) async throws -> ResetJobBookmarkOutputResponse
+    ///
+    /// - Parameter ResetJobBookmarkInput : [no documentation found]
+    ///
+    /// - Returns: `ResetJobBookmarkOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func resetJobBookmark(input: ResetJobBookmarkInput) async throws -> ResetJobBookmarkOutput
+    /// Performs the `ResumeWorkflowRun` operation on the `AWSGlue` service.
+    ///
     /// Restarts selected nodes of a previous partially completed workflow run and resumes the workflow run. The selected nodes and all nodes that are downstream from the selected nodes are run.
-    func resumeWorkflowRun(input: ResumeWorkflowRunInput) async throws -> ResumeWorkflowRunOutputResponse
+    ///
+    /// - Parameter ResumeWorkflowRunInput : [no documentation found]
+    ///
+    /// - Returns: `ResumeWorkflowRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentRunsExceededException` : Too many jobs are being run concurrently.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `IllegalWorkflowStateException` : The workflow is in an invalid state to perform a requested operation.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func resumeWorkflowRun(input: ResumeWorkflowRunInput) async throws -> ResumeWorkflowRunOutput
+    /// Performs the `RunStatement` operation on the `AWSGlue` service.
+    ///
     /// Executes the statement.
-    func runStatement(input: RunStatementInput) async throws -> RunStatementOutputResponse
+    ///
+    /// - Parameter RunStatementInput : [no documentation found]
+    ///
+    /// - Returns: `RunStatementOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `IllegalSessionStateException` : The session is in an invalid state to perform a requested operation.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    /// - `ValidationException` : A value could not be validated.
+    func runStatement(input: RunStatementInput) async throws -> RunStatementOutput
+    /// Performs the `SearchTables` operation on the `AWSGlue` service.
+    ///
     /// Searches a set of tables based on properties in the table metadata as well as on the parent database. You can search against text or filter conditions. You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only access to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have access to the columns but not the data in the columns, those columns and the associated metadata for those columns will be included in the search.
-    func searchTables(input: SearchTablesInput) async throws -> SearchTablesOutputResponse
+    ///
+    /// - Parameter SearchTablesInput : [no documentation found]
+    ///
+    /// - Returns: `SearchTablesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func searchTables(input: SearchTablesInput) async throws -> SearchTablesOutput
+    /// Performs the `StartBlueprintRun` operation on the `AWSGlue` service.
+    ///
     /// Starts a new run of the specified blueprint.
-    func startBlueprintRun(input: StartBlueprintRunInput) async throws -> StartBlueprintRunOutputResponse
+    ///
+    /// - Parameter StartBlueprintRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartBlueprintRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `IllegalBlueprintStateException` : The blueprint is in an invalid state to perform a requested operation.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func startBlueprintRun(input: StartBlueprintRunInput) async throws -> StartBlueprintRunOutput
+    /// Performs the `StartColumnStatisticsTaskRun` operation on the `AWSGlue` service.
+    ///
+    /// Starts a column statistics task run, for a specified table and columns.
+    ///
+    /// - Parameter StartColumnStatisticsTaskRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartColumnStatisticsTaskRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ColumnStatisticsTaskRunningException` : An exception thrown when you try to start another job while running a column stats generation job.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func startColumnStatisticsTaskRun(input: StartColumnStatisticsTaskRunInput) async throws -> StartColumnStatisticsTaskRunOutput
+    /// Performs the `StartCrawler` operation on the `AWSGlue` service.
+    ///
     /// Starts a crawl using the specified crawler, regardless of what is scheduled. If the crawler is already running, returns a [CrawlerRunningException](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-exceptions.html#aws-glue-api-exceptions-CrawlerRunningException).
-    func startCrawler(input: StartCrawlerInput) async throws -> StartCrawlerOutputResponse
+    ///
+    /// - Parameter StartCrawlerInput : [no documentation found]
+    ///
+    /// - Returns: `StartCrawlerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CrawlerRunningException` : The operation cannot be performed because the crawler is already running.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `OperationTimeoutException` : The operation timed out.
+    func startCrawler(input: StartCrawlerInput) async throws -> StartCrawlerOutput
+    /// Performs the `StartCrawlerSchedule` operation on the `AWSGlue` service.
+    ///
     /// Changes the schedule state of the specified crawler to SCHEDULED, unless the crawler is already running or the schedule state is already SCHEDULED.
-    func startCrawlerSchedule(input: StartCrawlerScheduleInput) async throws -> StartCrawlerScheduleOutputResponse
-    /// Starts a recommendation run that is used to generate rules when you don't know what rules to write. Glue Data Quality analyzes the data and comes up with recommendations for a potential ruleset. You can then triage the ruleset and modify the generated ruleset to your liking.
-    func startDataQualityRuleRecommendationRun(input: StartDataQualityRuleRecommendationRunInput) async throws -> StartDataQualityRuleRecommendationRunOutputResponse
+    ///
+    /// - Parameter StartCrawlerScheduleInput : [no documentation found]
+    ///
+    /// - Returns: `StartCrawlerScheduleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `NoScheduleException` : There is no applicable schedule.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `SchedulerRunningException` : The specified scheduler is already running.
+    /// - `SchedulerTransitioningException` : The specified scheduler is transitioning.
+    func startCrawlerSchedule(input: StartCrawlerScheduleInput) async throws -> StartCrawlerScheduleOutput
+    /// Performs the `StartDataQualityRuleRecommendationRun` operation on the `AWSGlue` service.
+    ///
+    /// Starts a recommendation run that is used to generate rules when you don't know what rules to write. Glue Data Quality analyzes the data and comes up with recommendations for a potential ruleset. You can then triage the ruleset and modify the generated ruleset to your liking. Recommendation runs are automatically deleted after 90 days.
+    ///
+    /// - Parameter StartDataQualityRuleRecommendationRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartDataQualityRuleRecommendationRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The CreatePartitions API was called on a table that has indexes enabled.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func startDataQualityRuleRecommendationRun(input: StartDataQualityRuleRecommendationRunInput) async throws -> StartDataQualityRuleRecommendationRunOutput
+    /// Performs the `StartDataQualityRulesetEvaluationRun` operation on the `AWSGlue` service.
+    ///
     /// Once you have a ruleset definition (either recommended or your own), you call this operation to evaluate the ruleset against a data source (Glue table). The evaluation computes results which you can retrieve with the GetDataQualityResult API.
-    func startDataQualityRulesetEvaluationRun(input: StartDataQualityRulesetEvaluationRunInput) async throws -> StartDataQualityRulesetEvaluationRunOutputResponse
+    ///
+    /// - Parameter StartDataQualityRulesetEvaluationRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartDataQualityRulesetEvaluationRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The CreatePartitions API was called on a table that has indexes enabled.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func startDataQualityRulesetEvaluationRun(input: StartDataQualityRulesetEvaluationRunInput) async throws -> StartDataQualityRulesetEvaluationRunOutput
+    /// Performs the `StartExportLabelsTaskRun` operation on the `AWSGlue` service.
+    ///
     /// Begins an asynchronous task to export all labeled data for a particular transform. This task is the only label-related API call that is not part of the typical active learning workflow. You typically use StartExportLabelsTaskRun when you want to work with all of your existing labels at the same time, such as when you want to remove or change labels that were previously submitted as truth. This API operation accepts the TransformId whose labels you want to export and an Amazon Simple Storage Service (Amazon S3) path to export the labels to. The operation returns a TaskRunId. You can check on the status of your task run by calling the GetMLTaskRun API.
-    func startExportLabelsTaskRun(input: StartExportLabelsTaskRunInput) async throws -> StartExportLabelsTaskRunOutputResponse
+    ///
+    /// - Parameter StartExportLabelsTaskRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartExportLabelsTaskRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func startExportLabelsTaskRun(input: StartExportLabelsTaskRunInput) async throws -> StartExportLabelsTaskRunOutput
+    /// Performs the `StartImportLabelsTaskRun` operation on the `AWSGlue` service.
+    ///
     /// Enables you to provide additional labels (examples of truth) to be used to teach the machine learning transform and improve its quality. This API operation is generally used as part of the active learning workflow that starts with the StartMLLabelingSetGenerationTaskRun call and that ultimately results in improving the quality of your machine learning transform. After the StartMLLabelingSetGenerationTaskRun finishes, Glue machine learning will have generated a series of questions for humans to answer. (Answering these questions is often called 'labeling' in the machine learning workflows). In the case of the FindMatches transform, these questions are of the form, “What is the correct way to group these rows together into groups composed entirely of matching records?” After the labeling process is finished, users upload their answers/labels with a call to StartImportLabelsTaskRun. After StartImportLabelsTaskRun finishes, all future runs of the machine learning transform use the new and improved labels and perform a higher-quality transformation. By default, StartMLLabelingSetGenerationTaskRun continually learns from and combines all labels that you upload unless you set Replace to true. If you set Replace to true, StartImportLabelsTaskRun deletes and forgets all previously uploaded labels and learns only from the exact set that you upload. Replacing labels can be helpful if you realize that you previously uploaded incorrect labels, and you believe that they are having a negative effect on your transform quality. You can check on the status of your task run by calling the GetMLTaskRun operation.
-    func startImportLabelsTaskRun(input: StartImportLabelsTaskRunInput) async throws -> StartImportLabelsTaskRunOutputResponse
+    ///
+    /// - Parameter StartImportLabelsTaskRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartImportLabelsTaskRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func startImportLabelsTaskRun(input: StartImportLabelsTaskRunInput) async throws -> StartImportLabelsTaskRunOutput
+    /// Performs the `StartJobRun` operation on the `AWSGlue` service.
+    ///
     /// Starts a job run using a job definition.
-    func startJobRun(input: StartJobRunInput) async throws -> StartJobRunOutputResponse
+    ///
+    /// - Parameter StartJobRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartJobRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentRunsExceededException` : Too many jobs are being run concurrently.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func startJobRun(input: StartJobRunInput) async throws -> StartJobRunOutput
+    /// Performs the `StartMLEvaluationTaskRun` operation on the `AWSGlue` service.
+    ///
     /// Starts a task to estimate the quality of the transform. When you provide label sets as examples of truth, Glue machine learning uses some of those examples to learn from them. The rest of the labels are used as a test to estimate quality. Returns a unique identifier for the run. You can call GetMLTaskRun to get more information about the stats of the EvaluationTaskRun.
-    func startMLEvaluationTaskRun(input: StartMLEvaluationTaskRunInput) async throws -> StartMLEvaluationTaskRunOutputResponse
+    ///
+    /// - Parameter StartMLEvaluationTaskRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartMLEvaluationTaskRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentRunsExceededException` : Too many jobs are being run concurrently.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `MLTransformNotReadyException` : The machine learning transform is not ready to run.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func startMLEvaluationTaskRun(input: StartMLEvaluationTaskRunInput) async throws -> StartMLEvaluationTaskRunOutput
+    /// Performs the `StartMLLabelingSetGenerationTaskRun` operation on the `AWSGlue` service.
+    ///
     /// Starts the active learning workflow for your machine learning transform to improve the transform's quality by generating label sets and adding labels. When the StartMLLabelingSetGenerationTaskRun finishes, Glue will have generated a "labeling set" or a set of questions for humans to answer. In the case of the FindMatches transform, these questions are of the form, “What is the correct way to group these rows together into groups composed entirely of matching records?” After the labeling process is finished, you can upload your labels with a call to StartImportLabelsTaskRun. After StartImportLabelsTaskRun finishes, all future runs of the machine learning transform will use the new and improved labels and perform a higher-quality transformation.
-    func startMLLabelingSetGenerationTaskRun(input: StartMLLabelingSetGenerationTaskRunInput) async throws -> StartMLLabelingSetGenerationTaskRunOutputResponse
+    ///
+    /// - Parameter StartMLLabelingSetGenerationTaskRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartMLLabelingSetGenerationTaskRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentRunsExceededException` : Too many jobs are being run concurrently.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func startMLLabelingSetGenerationTaskRun(input: StartMLLabelingSetGenerationTaskRunInput) async throws -> StartMLLabelingSetGenerationTaskRunOutput
+    /// Performs the `StartTrigger` operation on the `AWSGlue` service.
+    ///
     /// Starts an existing trigger. See [Triggering Jobs](https://docs.aws.amazon.com/glue/latest/dg/trigger-job.html) for information about how different types of trigger are started.
-    func startTrigger(input: StartTriggerInput) async throws -> StartTriggerOutputResponse
+    ///
+    /// - Parameter StartTriggerInput : [no documentation found]
+    ///
+    /// - Returns: `StartTriggerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentRunsExceededException` : Too many jobs are being run concurrently.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func startTrigger(input: StartTriggerInput) async throws -> StartTriggerOutput
+    /// Performs the `StartWorkflowRun` operation on the `AWSGlue` service.
+    ///
     /// Starts a new run of the specified workflow.
-    func startWorkflowRun(input: StartWorkflowRunInput) async throws -> StartWorkflowRunOutputResponse
+    ///
+    /// - Parameter StartWorkflowRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartWorkflowRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentRunsExceededException` : Too many jobs are being run concurrently.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func startWorkflowRun(input: StartWorkflowRunInput) async throws -> StartWorkflowRunOutput
+    /// Performs the `StopColumnStatisticsTaskRun` operation on the `AWSGlue` service.
+    ///
+    /// Stops a task run for the specified table.
+    ///
+    /// - Parameter StopColumnStatisticsTaskRunInput : [no documentation found]
+    ///
+    /// - Returns: `StopColumnStatisticsTaskRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ColumnStatisticsTaskNotRunningException` : An exception thrown when you try to stop a task run when there is no task running.
+    /// - `ColumnStatisticsTaskStoppingException` : An exception thrown when you try to stop a task run.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `OperationTimeoutException` : The operation timed out.
+    func stopColumnStatisticsTaskRun(input: StopColumnStatisticsTaskRunInput) async throws -> StopColumnStatisticsTaskRunOutput
+    /// Performs the `StopCrawler` operation on the `AWSGlue` service.
+    ///
     /// If the specified crawler is running, stops the crawl.
-    func stopCrawler(input: StopCrawlerInput) async throws -> StopCrawlerOutputResponse
+    ///
+    /// - Parameter StopCrawlerInput : [no documentation found]
+    ///
+    /// - Returns: `StopCrawlerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CrawlerNotRunningException` : The specified crawler is not running.
+    /// - `CrawlerStoppingException` : The specified crawler is stopping.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `OperationTimeoutException` : The operation timed out.
+    func stopCrawler(input: StopCrawlerInput) async throws -> StopCrawlerOutput
+    /// Performs the `StopCrawlerSchedule` operation on the `AWSGlue` service.
+    ///
     /// Sets the schedule state of the specified crawler to NOT_SCHEDULED, but does not stop the crawler if it is already running.
-    func stopCrawlerSchedule(input: StopCrawlerScheduleInput) async throws -> StopCrawlerScheduleOutputResponse
+    ///
+    /// - Parameter StopCrawlerScheduleInput : [no documentation found]
+    ///
+    /// - Returns: `StopCrawlerScheduleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `SchedulerNotRunningException` : The specified scheduler is not running.
+    /// - `SchedulerTransitioningException` : The specified scheduler is transitioning.
+    func stopCrawlerSchedule(input: StopCrawlerScheduleInput) async throws -> StopCrawlerScheduleOutput
+    /// Performs the `StopSession` operation on the `AWSGlue` service.
+    ///
     /// Stops the session.
-    func stopSession(input: StopSessionInput) async throws -> StopSessionOutputResponse
+    ///
+    /// - Parameter StopSessionInput : [no documentation found]
+    ///
+    /// - Returns: `StopSessionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `IllegalSessionStateException` : The session is in an invalid state to perform a requested operation.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func stopSession(input: StopSessionInput) async throws -> StopSessionOutput
+    /// Performs the `StopTrigger` operation on the `AWSGlue` service.
+    ///
     /// Stops a specified trigger.
-    func stopTrigger(input: StopTriggerInput) async throws -> StopTriggerOutputResponse
+    ///
+    /// - Parameter StopTriggerInput : [no documentation found]
+    ///
+    /// - Returns: `StopTriggerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func stopTrigger(input: StopTriggerInput) async throws -> StopTriggerOutput
+    /// Performs the `StopWorkflowRun` operation on the `AWSGlue` service.
+    ///
     /// Stops the execution of the specified workflow run.
-    func stopWorkflowRun(input: StopWorkflowRunInput) async throws -> StopWorkflowRunOutputResponse
+    ///
+    /// - Parameter StopWorkflowRunInput : [no documentation found]
+    ///
+    /// - Returns: `StopWorkflowRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `IllegalWorkflowStateException` : The workflow is in an invalid state to perform a requested operation.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func stopWorkflowRun(input: StopWorkflowRunInput) async throws -> StopWorkflowRunOutput
+    /// Performs the `TagResource` operation on the `AWSGlue` service.
+    ///
     /// Adds tags to a resource. A tag is a label you can assign to an Amazon Web Services resource. In Glue, you can tag only certain resources. For information about what resources you can tag, see [Amazon Web Services Tags in Glue](https://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html).
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `AWSGlue` service.
+    ///
     /// Removes tags from a resource.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateBlueprint` operation on the `AWSGlue` service.
+    ///
     /// Updates a registered blueprint.
-    func updateBlueprint(input: UpdateBlueprintInput) async throws -> UpdateBlueprintOutputResponse
+    ///
+    /// - Parameter UpdateBlueprintInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateBlueprintOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `IllegalBlueprintStateException` : The blueprint is in an invalid state to perform a requested operation.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func updateBlueprint(input: UpdateBlueprintInput) async throws -> UpdateBlueprintOutput
+    /// Performs the `UpdateClassifier` operation on the `AWSGlue` service.
+    ///
     /// Modifies an existing classifier (a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field is present).
-    func updateClassifier(input: UpdateClassifierInput) async throws -> UpdateClassifierOutputResponse
+    ///
+    /// - Parameter UpdateClassifierInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateClassifierOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `VersionMismatchException` : There was a version conflict.
+    func updateClassifier(input: UpdateClassifierInput) async throws -> UpdateClassifierOutput
+    /// Performs the `UpdateColumnStatisticsForPartition` operation on the `AWSGlue` service.
+    ///
     /// Creates or updates partition statistics of columns. The Identity and Access Management (IAM) permission required for this operation is UpdatePartition.
-    func updateColumnStatisticsForPartition(input: UpdateColumnStatisticsForPartitionInput) async throws -> UpdateColumnStatisticsForPartitionOutputResponse
+    ///
+    /// - Parameter UpdateColumnStatisticsForPartitionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateColumnStatisticsForPartitionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func updateColumnStatisticsForPartition(input: UpdateColumnStatisticsForPartitionInput) async throws -> UpdateColumnStatisticsForPartitionOutput
+    /// Performs the `UpdateColumnStatisticsForTable` operation on the `AWSGlue` service.
+    ///
     /// Creates or updates table statistics of columns. The Identity and Access Management (IAM) permission required for this operation is UpdateTable.
-    func updateColumnStatisticsForTable(input: UpdateColumnStatisticsForTableInput) async throws -> UpdateColumnStatisticsForTableOutputResponse
+    ///
+    /// - Parameter UpdateColumnStatisticsForTableInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateColumnStatisticsForTableOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func updateColumnStatisticsForTable(input: UpdateColumnStatisticsForTableInput) async throws -> UpdateColumnStatisticsForTableOutput
+    /// Performs the `UpdateConnection` operation on the `AWSGlue` service.
+    ///
     /// Updates a connection definition in the Data Catalog.
-    func updateConnection(input: UpdateConnectionInput) async throws -> UpdateConnectionOutputResponse
+    ///
+    /// - Parameter UpdateConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateConnectionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func updateConnection(input: UpdateConnectionInput) async throws -> UpdateConnectionOutput
+    /// Performs the `UpdateCrawler` operation on the `AWSGlue` service.
+    ///
     /// Updates a crawler. If a crawler is running, you must stop it using StopCrawler before updating it.
-    func updateCrawler(input: UpdateCrawlerInput) async throws -> UpdateCrawlerOutputResponse
+    ///
+    /// - Parameter UpdateCrawlerInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCrawlerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CrawlerRunningException` : The operation cannot be performed because the crawler is already running.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `VersionMismatchException` : There was a version conflict.
+    func updateCrawler(input: UpdateCrawlerInput) async throws -> UpdateCrawlerOutput
+    /// Performs the `UpdateCrawlerSchedule` operation on the `AWSGlue` service.
+    ///
     /// Updates the schedule of a crawler using a cron expression.
-    func updateCrawlerSchedule(input: UpdateCrawlerScheduleInput) async throws -> UpdateCrawlerScheduleOutputResponse
+    ///
+    /// - Parameter UpdateCrawlerScheduleInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCrawlerScheduleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `SchedulerTransitioningException` : The specified scheduler is transitioning.
+    /// - `VersionMismatchException` : There was a version conflict.
+    func updateCrawlerSchedule(input: UpdateCrawlerScheduleInput) async throws -> UpdateCrawlerScheduleOutput
+    /// Performs the `UpdateDatabase` operation on the `AWSGlue` service.
+    ///
     /// Updates an existing database definition in a Data Catalog.
-    func updateDatabase(input: UpdateDatabaseInput) async throws -> UpdateDatabaseOutputResponse
+    ///
+    /// - Parameter UpdateDatabaseInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDatabaseOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func updateDatabase(input: UpdateDatabaseInput) async throws -> UpdateDatabaseOutput
+    /// Performs the `UpdateDataQualityRuleset` operation on the `AWSGlue` service.
+    ///
     /// Updates the specified data quality ruleset.
-    func updateDataQualityRuleset(input: UpdateDataQualityRulesetInput) async throws -> UpdateDataQualityRulesetOutputResponse
+    ///
+    /// - Parameter UpdateDataQualityRulesetInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDataQualityRulesetOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `IdempotentParameterMismatchException` : The same unique identifier was associated with two different records.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func updateDataQualityRuleset(input: UpdateDataQualityRulesetInput) async throws -> UpdateDataQualityRulesetOutput
+    /// Performs the `UpdateDevEndpoint` operation on the `AWSGlue` service.
+    ///
     /// Updates a specified development endpoint.
-    func updateDevEndpoint(input: UpdateDevEndpointInput) async throws -> UpdateDevEndpointOutputResponse
+    ///
+    /// - Parameter UpdateDevEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDevEndpointOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ValidationException` : A value could not be validated.
+    func updateDevEndpoint(input: UpdateDevEndpointInput) async throws -> UpdateDevEndpointOutput
+    /// Performs the `UpdateJob` operation on the `AWSGlue` service.
+    ///
     /// Updates an existing job definition. The previous job definition is completely overwritten by this information.
-    func updateJob(input: UpdateJobInput) async throws -> UpdateJobOutputResponse
+    ///
+    /// - Parameter UpdateJobInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func updateJob(input: UpdateJobInput) async throws -> UpdateJobOutput
+    /// Performs the `UpdateJobFromSourceControl` operation on the `AWSGlue` service.
+    ///
     /// Synchronizes a job from the source control repository. This operation takes the job artifacts that are located in the remote repository and updates the Glue internal stores with these artifacts. This API supports optional parameters which take in the repository information.
-    func updateJobFromSourceControl(input: UpdateJobFromSourceControlInput) async throws -> UpdateJobFromSourceControlOutputResponse
+    ///
+    /// - Parameter UpdateJobFromSourceControlInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateJobFromSourceControlOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ValidationException` : A value could not be validated.
+    func updateJobFromSourceControl(input: UpdateJobFromSourceControlInput) async throws -> UpdateJobFromSourceControlOutput
+    /// Performs the `UpdateMLTransform` operation on the `AWSGlue` service.
+    ///
     /// Updates an existing machine learning transform. Call this operation to tune the algorithm parameters to achieve better results. After calling this operation, you can call the StartMLEvaluationTaskRun operation to assess how well your new parameters achieved your goals (such as improving the quality of your machine learning transform, or making it more cost-effective).
-    func updateMLTransform(input: UpdateMLTransformInput) async throws -> UpdateMLTransformOutputResponse
+    ///
+    /// - Parameter UpdateMLTransformInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateMLTransformOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func updateMLTransform(input: UpdateMLTransformInput) async throws -> UpdateMLTransformOutput
+    /// Performs the `UpdatePartition` operation on the `AWSGlue` service.
+    ///
     /// Updates a partition.
-    func updatePartition(input: UpdatePartitionInput) async throws -> UpdatePartitionOutputResponse
+    ///
+    /// - Parameter UpdatePartitionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePartitionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func updatePartition(input: UpdatePartitionInput) async throws -> UpdatePartitionOutput
+    /// Performs the `UpdateRegistry` operation on the `AWSGlue` service.
+    ///
     /// Updates an existing registry which is used to hold a collection of schemas. The updated properties relate to the registry, and do not modify any of the schemas within the registry.
-    func updateRegistry(input: UpdateRegistryInput) async throws -> UpdateRegistryOutputResponse
+    ///
+    /// - Parameter UpdateRegistryInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRegistryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    func updateRegistry(input: UpdateRegistryInput) async throws -> UpdateRegistryOutput
+    /// Performs the `UpdateSchema` operation on the `AWSGlue` service.
+    ///
     /// Updates the description, compatibility setting, or version checkpoint for a schema set. For updating the compatibility setting, the call will not validate compatibility for the entire set of schema versions with the new compatibility setting. If the value for Compatibility is provided, the VersionNumber (a checkpoint) is also required. The API will validate the checkpoint version number for consistency. If the value for the VersionNumber (checkpoint) is provided, Compatibility is optional and this can be used to set/reset a checkpoint for the schema. This update will happen only if the schema is in the AVAILABLE state.
-    func updateSchema(input: UpdateSchemaInput) async throws -> UpdateSchemaOutputResponse
+    ///
+    /// - Parameter UpdateSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSchemaOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    func updateSchema(input: UpdateSchemaInput) async throws -> UpdateSchemaOutput
+    /// Performs the `UpdateSourceControlFromJob` operation on the `AWSGlue` service.
+    ///
     /// Synchronizes a job to the source control repository. This operation takes the job artifacts from the Glue internal stores and makes a commit to the remote repository that is configured on the job. This API supports optional parameters which take in the repository information.
-    func updateSourceControlFromJob(input: UpdateSourceControlFromJobInput) async throws -> UpdateSourceControlFromJobOutputResponse
+    ///
+    /// - Parameter UpdateSourceControlFromJobInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSourceControlFromJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ValidationException` : A value could not be validated.
+    func updateSourceControlFromJob(input: UpdateSourceControlFromJobInput) async throws -> UpdateSourceControlFromJobOutput
+    /// Performs the `UpdateTable` operation on the `AWSGlue` service.
+    ///
     /// Updates a metadata table in the Data Catalog.
-    func updateTable(input: UpdateTableInput) async throws -> UpdateTableOutputResponse
+    ///
+    /// - Parameter UpdateTableInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTableOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNotReadyException` : A resource was not ready for a transaction.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    func updateTable(input: UpdateTableInput) async throws -> UpdateTableOutput
+    /// Performs the `UpdateTableOptimizer` operation on the `AWSGlue` service.
+    ///
+    /// Updates the configuration for an existing table optimizer.
+    ///
+    /// - Parameter UpdateTableOptimizerInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTableOptimizerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    func updateTableOptimizer(input: UpdateTableOptimizerInput) async throws -> UpdateTableOptimizerOutput
+    /// Performs the `UpdateTrigger` operation on the `AWSGlue` service.
+    ///
     /// Updates a trigger definition.
-    func updateTrigger(input: UpdateTriggerInput) async throws -> UpdateTriggerOutputResponse
+    ///
+    /// - Parameter UpdateTriggerInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTriggerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func updateTrigger(input: UpdateTriggerInput) async throws -> UpdateTriggerOutput
+    /// Performs the `UpdateUserDefinedFunction` operation on the `AWSGlue` service.
+    ///
     /// Updates an existing function definition in the Data Catalog.
-    func updateUserDefinedFunction(input: UpdateUserDefinedFunctionInput) async throws -> UpdateUserDefinedFunctionOutputResponse
+    ///
+    /// - Parameter UpdateUserDefinedFunctionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateUserDefinedFunctionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func updateUserDefinedFunction(input: UpdateUserDefinedFunctionInput) async throws -> UpdateUserDefinedFunctionOutput
+    /// Performs the `UpdateWorkflow` operation on the `AWSGlue` service.
+    ///
     /// Updates an existing workflow.
-    func updateWorkflow(input: UpdateWorkflowInput) async throws -> UpdateWorkflowOutputResponse
+    ///
+    /// - Parameter UpdateWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorkflowOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func updateWorkflow(input: UpdateWorkflowInput) async throws -> UpdateWorkflowOutput
 }
 
 public enum GlueClientTypes {}

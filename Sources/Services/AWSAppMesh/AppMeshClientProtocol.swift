@@ -4,82 +4,725 @@ import ClientRuntime
 
 /// App Mesh is a service mesh based on the Envoy proxy that makes it easy to monitor and control microservices. App Mesh standardizes how your microservices communicate, giving you end-to-end visibility and helping to ensure high availability for your applications. App Mesh gives you consistent visibility and network traffic controls for every microservice in an application. You can use App Mesh with Amazon Web Services Fargate, Amazon ECS, Amazon EKS, Kubernetes on Amazon Web Services, and Amazon EC2. App Mesh supports microservice applications that use service discovery naming for their components. For more information about service discovery on Amazon ECS, see [Service Discovery](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html) in the Amazon Elastic Container Service Developer Guide. Kubernetes kube-dns and coredns are supported. For more information, see [DNS for Services and Pods](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/) in the Kubernetes documentation.
 public protocol AppMeshClientProtocol {
+    /// Performs the `CreateGatewayRoute` operation on the `AppMesh` service.
+    ///
     /// Creates a gateway route. A gateway route is attached to a virtual gateway and routes traffic to an existing virtual service. If a route matches a request, it can distribute traffic to a target virtual service. For more information about gateway routes, see [Gateway routes](https://docs.aws.amazon.com/app-mesh/latest/userguide/gateway-routes.html).
-    func createGatewayRoute(input: CreateGatewayRouteInput) async throws -> CreateGatewayRouteOutputResponse
+    ///
+    /// - Parameter CreateGatewayRouteInput : [no documentation found]
+    ///
+    /// - Returns: `CreateGatewayRouteOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ConflictException` : The request contains a client token that was used for a previous update resource call with different specifications. Try the request again with a new client token.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `LimitExceededException` : You have exceeded a service limit for your account. For more information, see [Service Limits](https://docs.aws.amazon.com/app-mesh/latest/userguide/service-quotas.html) in the App Mesh User Guide.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func createGatewayRoute(input: CreateGatewayRouteInput) async throws -> CreateGatewayRouteOutput
+    /// Performs the `CreateMesh` operation on the `AppMesh` service.
+    ///
     /// Creates a service mesh. A service mesh is a logical boundary for network traffic between services that are represented by resources within the mesh. After you create your service mesh, you can create virtual services, virtual nodes, virtual routers, and routes to distribute traffic between the applications in your mesh. For more information about service meshes, see [Service meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/meshes.html).
-    func createMesh(input: CreateMeshInput) async throws -> CreateMeshOutputResponse
+    ///
+    /// - Parameter CreateMeshInput :
+    ///
+    /// - Returns: `CreateMeshOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ConflictException` : The request contains a client token that was used for a previous update resource call with different specifications. Try the request again with a new client token.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `LimitExceededException` : You have exceeded a service limit for your account. For more information, see [Service Limits](https://docs.aws.amazon.com/app-mesh/latest/userguide/service-quotas.html) in the App Mesh User Guide.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func createMesh(input: CreateMeshInput) async throws -> CreateMeshOutput
+    /// Performs the `CreateRoute` operation on the `AppMesh` service.
+    ///
     /// Creates a route that is associated with a virtual router. You can route several different protocols and define a retry policy for a route. Traffic can be routed to one or more virtual nodes. For more information about routes, see [Routes](https://docs.aws.amazon.com/app-mesh/latest/userguide/routes.html).
-    func createRoute(input: CreateRouteInput) async throws -> CreateRouteOutputResponse
+    ///
+    /// - Parameter CreateRouteInput :
+    ///
+    /// - Returns: `CreateRouteOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ConflictException` : The request contains a client token that was used for a previous update resource call with different specifications. Try the request again with a new client token.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `LimitExceededException` : You have exceeded a service limit for your account. For more information, see [Service Limits](https://docs.aws.amazon.com/app-mesh/latest/userguide/service-quotas.html) in the App Mesh User Guide.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func createRoute(input: CreateRouteInput) async throws -> CreateRouteOutput
+    /// Performs the `CreateVirtualGateway` operation on the `AppMesh` service.
+    ///
     /// Creates a virtual gateway. A virtual gateway allows resources outside your mesh to communicate to resources that are inside your mesh. The virtual gateway represents an Envoy proxy running in an Amazon ECS task, in a Kubernetes service, or on an Amazon EC2 instance. Unlike a virtual node, which represents an Envoy running with an application, a virtual gateway represents Envoy deployed by itself. For more information about virtual gateways, see [Virtual gateways](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_gateways.html).
-    func createVirtualGateway(input: CreateVirtualGatewayInput) async throws -> CreateVirtualGatewayOutputResponse
+    ///
+    /// - Parameter CreateVirtualGatewayInput : [no documentation found]
+    ///
+    /// - Returns: `CreateVirtualGatewayOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ConflictException` : The request contains a client token that was used for a previous update resource call with different specifications. Try the request again with a new client token.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `LimitExceededException` : You have exceeded a service limit for your account. For more information, see [Service Limits](https://docs.aws.amazon.com/app-mesh/latest/userguide/service-quotas.html) in the App Mesh User Guide.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func createVirtualGateway(input: CreateVirtualGatewayInput) async throws -> CreateVirtualGatewayOutput
+    /// Performs the `CreateVirtualNode` operation on the `AppMesh` service.
+    ///
     /// Creates a virtual node within a service mesh. A virtual node acts as a logical pointer to a particular task group, such as an Amazon ECS service or a Kubernetes deployment. When you create a virtual node, you can specify the service discovery information for your task group, and whether the proxy running in a task group will communicate with other proxies using Transport Layer Security (TLS). You define a listener for any inbound traffic that your virtual node expects. Any virtual service that your virtual node expects to communicate to is specified as a backend. The response metadata for your new virtual node contains the arn that is associated with the virtual node. Set this value to the full ARN; for example, arn:aws:appmesh:us-west-2:123456789012:myMesh/default/virtualNode/myApp) as the APPMESH_RESOURCE_ARN environment variable for your task group's Envoy proxy container in your task definition or pod spec. This is then mapped to the node.id and node.cluster Envoy parameters. By default, App Mesh uses the name of the resource you specified in APPMESH_RESOURCE_ARN when Envoy is referring to itself in metrics and traces. You can override this behavior by setting the APPMESH_RESOURCE_CLUSTER environment variable with your own name. For more information about virtual nodes, see [Virtual nodes](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_nodes.html). You must be using 1.15.0 or later of the Envoy image when setting these variables. For more information aboutApp Mesh Envoy variables, see [Envoy image](https://docs.aws.amazon.com/app-mesh/latest/userguide/envoy.html) in the App Mesh User Guide.
-    func createVirtualNode(input: CreateVirtualNodeInput) async throws -> CreateVirtualNodeOutputResponse
+    ///
+    /// - Parameter CreateVirtualNodeInput :
+    ///
+    /// - Returns: `CreateVirtualNodeOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ConflictException` : The request contains a client token that was used for a previous update resource call with different specifications. Try the request again with a new client token.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `LimitExceededException` : You have exceeded a service limit for your account. For more information, see [Service Limits](https://docs.aws.amazon.com/app-mesh/latest/userguide/service-quotas.html) in the App Mesh User Guide.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func createVirtualNode(input: CreateVirtualNodeInput) async throws -> CreateVirtualNodeOutput
+    /// Performs the `CreateVirtualRouter` operation on the `AppMesh` service.
+    ///
     /// Creates a virtual router within a service mesh. Specify a listener for any inbound traffic that your virtual router receives. Create a virtual router for each protocol and port that you need to route. Virtual routers handle traffic for one or more virtual services within your mesh. After you create your virtual router, create and associate routes for your virtual router that direct incoming requests to different virtual nodes. For more information about virtual routers, see [Virtual routers](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_routers.html).
-    func createVirtualRouter(input: CreateVirtualRouterInput) async throws -> CreateVirtualRouterOutputResponse
+    ///
+    /// - Parameter CreateVirtualRouterInput :
+    ///
+    /// - Returns: `CreateVirtualRouterOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ConflictException` : The request contains a client token that was used for a previous update resource call with different specifications. Try the request again with a new client token.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `LimitExceededException` : You have exceeded a service limit for your account. For more information, see [Service Limits](https://docs.aws.amazon.com/app-mesh/latest/userguide/service-quotas.html) in the App Mesh User Guide.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func createVirtualRouter(input: CreateVirtualRouterInput) async throws -> CreateVirtualRouterOutput
+    /// Performs the `CreateVirtualService` operation on the `AppMesh` service.
+    ///
     /// Creates a virtual service within a service mesh. A virtual service is an abstraction of a real service that is provided by a virtual node directly or indirectly by means of a virtual router. Dependent services call your virtual service by its virtualServiceName, and those requests are routed to the virtual node or virtual router that is specified as the provider for the virtual service. For more information about virtual services, see [Virtual services](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_services.html).
-    func createVirtualService(input: CreateVirtualServiceInput) async throws -> CreateVirtualServiceOutputResponse
+    ///
+    /// - Parameter CreateVirtualServiceInput :
+    ///
+    /// - Returns: `CreateVirtualServiceOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ConflictException` : The request contains a client token that was used for a previous update resource call with different specifications. Try the request again with a new client token.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `LimitExceededException` : You have exceeded a service limit for your account. For more information, see [Service Limits](https://docs.aws.amazon.com/app-mesh/latest/userguide/service-quotas.html) in the App Mesh User Guide.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func createVirtualService(input: CreateVirtualServiceInput) async throws -> CreateVirtualServiceOutput
+    /// Performs the `DeleteGatewayRoute` operation on the `AppMesh` service.
+    ///
     /// Deletes an existing gateway route.
-    func deleteGatewayRoute(input: DeleteGatewayRouteInput) async throws -> DeleteGatewayRouteOutputResponse
+    ///
+    /// - Parameter DeleteGatewayRouteInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteGatewayRouteOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ResourceInUseException` : You can't delete the specified resource because it's in use or required by another resource.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func deleteGatewayRoute(input: DeleteGatewayRouteInput) async throws -> DeleteGatewayRouteOutput
+    /// Performs the `DeleteMesh` operation on the `AppMesh` service.
+    ///
     /// Deletes an existing service mesh. You must delete all resources (virtual services, routes, virtual routers, and virtual nodes) in the service mesh before you can delete the mesh itself.
-    func deleteMesh(input: DeleteMeshInput) async throws -> DeleteMeshOutputResponse
+    ///
+    /// - Parameter DeleteMeshInput :
+    ///
+    /// - Returns: `DeleteMeshOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ResourceInUseException` : You can't delete the specified resource because it's in use or required by another resource.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func deleteMesh(input: DeleteMeshInput) async throws -> DeleteMeshOutput
+    /// Performs the `DeleteRoute` operation on the `AppMesh` service.
+    ///
     /// Deletes an existing route.
-    func deleteRoute(input: DeleteRouteInput) async throws -> DeleteRouteOutputResponse
+    ///
+    /// - Parameter DeleteRouteInput :
+    ///
+    /// - Returns: `DeleteRouteOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ResourceInUseException` : You can't delete the specified resource because it's in use or required by another resource.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func deleteRoute(input: DeleteRouteInput) async throws -> DeleteRouteOutput
+    /// Performs the `DeleteVirtualGateway` operation on the `AppMesh` service.
+    ///
     /// Deletes an existing virtual gateway. You cannot delete a virtual gateway if any gateway routes are associated to it.
-    func deleteVirtualGateway(input: DeleteVirtualGatewayInput) async throws -> DeleteVirtualGatewayOutputResponse
+    ///
+    /// - Parameter DeleteVirtualGatewayInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVirtualGatewayOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ResourceInUseException` : You can't delete the specified resource because it's in use or required by another resource.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func deleteVirtualGateway(input: DeleteVirtualGatewayInput) async throws -> DeleteVirtualGatewayOutput
+    /// Performs the `DeleteVirtualNode` operation on the `AppMesh` service.
+    ///
     /// Deletes an existing virtual node. You must delete any virtual services that list a virtual node as a service provider before you can delete the virtual node itself.
-    func deleteVirtualNode(input: DeleteVirtualNodeInput) async throws -> DeleteVirtualNodeOutputResponse
+    ///
+    /// - Parameter DeleteVirtualNodeInput : Deletes a virtual node input.
+    ///
+    /// - Returns: `DeleteVirtualNodeOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ResourceInUseException` : You can't delete the specified resource because it's in use or required by another resource.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func deleteVirtualNode(input: DeleteVirtualNodeInput) async throws -> DeleteVirtualNodeOutput
+    /// Performs the `DeleteVirtualRouter` operation on the `AppMesh` service.
+    ///
     /// Deletes an existing virtual router. You must delete any routes associated with the virtual router before you can delete the router itself.
-    func deleteVirtualRouter(input: DeleteVirtualRouterInput) async throws -> DeleteVirtualRouterOutputResponse
+    ///
+    /// - Parameter DeleteVirtualRouterInput :
+    ///
+    /// - Returns: `DeleteVirtualRouterOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ResourceInUseException` : You can't delete the specified resource because it's in use or required by another resource.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func deleteVirtualRouter(input: DeleteVirtualRouterInput) async throws -> DeleteVirtualRouterOutput
+    /// Performs the `DeleteVirtualService` operation on the `AppMesh` service.
+    ///
     /// Deletes an existing virtual service.
-    func deleteVirtualService(input: DeleteVirtualServiceInput) async throws -> DeleteVirtualServiceOutputResponse
+    ///
+    /// - Parameter DeleteVirtualServiceInput :
+    ///
+    /// - Returns: `DeleteVirtualServiceOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ResourceInUseException` : You can't delete the specified resource because it's in use or required by another resource.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func deleteVirtualService(input: DeleteVirtualServiceInput) async throws -> DeleteVirtualServiceOutput
+    /// Performs the `DescribeGatewayRoute` operation on the `AppMesh` service.
+    ///
     /// Describes an existing gateway route.
-    func describeGatewayRoute(input: DescribeGatewayRouteInput) async throws -> DescribeGatewayRouteOutputResponse
+    ///
+    /// - Parameter DescribeGatewayRouteInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeGatewayRouteOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func describeGatewayRoute(input: DescribeGatewayRouteInput) async throws -> DescribeGatewayRouteOutput
+    /// Performs the `DescribeMesh` operation on the `AppMesh` service.
+    ///
     /// Describes an existing service mesh.
-    func describeMesh(input: DescribeMeshInput) async throws -> DescribeMeshOutputResponse
+    ///
+    /// - Parameter DescribeMeshInput :
+    ///
+    /// - Returns: `DescribeMeshOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func describeMesh(input: DescribeMeshInput) async throws -> DescribeMeshOutput
+    /// Performs the `DescribeRoute` operation on the `AppMesh` service.
+    ///
     /// Describes an existing route.
-    func describeRoute(input: DescribeRouteInput) async throws -> DescribeRouteOutputResponse
+    ///
+    /// - Parameter DescribeRouteInput :
+    ///
+    /// - Returns: `DescribeRouteOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func describeRoute(input: DescribeRouteInput) async throws -> DescribeRouteOutput
+    /// Performs the `DescribeVirtualGateway` operation on the `AppMesh` service.
+    ///
     /// Describes an existing virtual gateway.
-    func describeVirtualGateway(input: DescribeVirtualGatewayInput) async throws -> DescribeVirtualGatewayOutputResponse
+    ///
+    /// - Parameter DescribeVirtualGatewayInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeVirtualGatewayOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func describeVirtualGateway(input: DescribeVirtualGatewayInput) async throws -> DescribeVirtualGatewayOutput
+    /// Performs the `DescribeVirtualNode` operation on the `AppMesh` service.
+    ///
     /// Describes an existing virtual node.
-    func describeVirtualNode(input: DescribeVirtualNodeInput) async throws -> DescribeVirtualNodeOutputResponse
+    ///
+    /// - Parameter DescribeVirtualNodeInput :
+    ///
+    /// - Returns: `DescribeVirtualNodeOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func describeVirtualNode(input: DescribeVirtualNodeInput) async throws -> DescribeVirtualNodeOutput
+    /// Performs the `DescribeVirtualRouter` operation on the `AppMesh` service.
+    ///
     /// Describes an existing virtual router.
-    func describeVirtualRouter(input: DescribeVirtualRouterInput) async throws -> DescribeVirtualRouterOutputResponse
+    ///
+    /// - Parameter DescribeVirtualRouterInput :
+    ///
+    /// - Returns: `DescribeVirtualRouterOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func describeVirtualRouter(input: DescribeVirtualRouterInput) async throws -> DescribeVirtualRouterOutput
+    /// Performs the `DescribeVirtualService` operation on the `AppMesh` service.
+    ///
     /// Describes an existing virtual service.
-    func describeVirtualService(input: DescribeVirtualServiceInput) async throws -> DescribeVirtualServiceOutputResponse
+    ///
+    /// - Parameter DescribeVirtualServiceInput :
+    ///
+    /// - Returns: `DescribeVirtualServiceOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func describeVirtualService(input: DescribeVirtualServiceInput) async throws -> DescribeVirtualServiceOutput
+    /// Performs the `ListGatewayRoutes` operation on the `AppMesh` service.
+    ///
     /// Returns a list of existing gateway routes that are associated to a virtual gateway.
-    func listGatewayRoutes(input: ListGatewayRoutesInput) async throws -> ListGatewayRoutesOutputResponse
+    ///
+    /// - Parameter ListGatewayRoutesInput : [no documentation found]
+    ///
+    /// - Returns: `ListGatewayRoutesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func listGatewayRoutes(input: ListGatewayRoutesInput) async throws -> ListGatewayRoutesOutput
+    /// Performs the `ListMeshes` operation on the `AppMesh` service.
+    ///
     /// Returns a list of existing service meshes.
-    func listMeshes(input: ListMeshesInput) async throws -> ListMeshesOutputResponse
+    ///
+    /// - Parameter ListMeshesInput :
+    ///
+    /// - Returns: `ListMeshesOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func listMeshes(input: ListMeshesInput) async throws -> ListMeshesOutput
+    /// Performs the `ListRoutes` operation on the `AppMesh` service.
+    ///
     /// Returns a list of existing routes in a service mesh.
-    func listRoutes(input: ListRoutesInput) async throws -> ListRoutesOutputResponse
+    ///
+    /// - Parameter ListRoutesInput :
+    ///
+    /// - Returns: `ListRoutesOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func listRoutes(input: ListRoutesInput) async throws -> ListRoutesOutput
+    /// Performs the `ListTagsForResource` operation on the `AppMesh` service.
+    ///
     /// List the tags for an App Mesh resource.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    ///
+    /// - Parameter ListTagsForResourceInput :
+    ///
+    /// - Returns: `ListTagsForResourceOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `ListVirtualGateways` operation on the `AppMesh` service.
+    ///
     /// Returns a list of existing virtual gateways in a service mesh.
-    func listVirtualGateways(input: ListVirtualGatewaysInput) async throws -> ListVirtualGatewaysOutputResponse
+    ///
+    /// - Parameter ListVirtualGatewaysInput : [no documentation found]
+    ///
+    /// - Returns: `ListVirtualGatewaysOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func listVirtualGateways(input: ListVirtualGatewaysInput) async throws -> ListVirtualGatewaysOutput
+    /// Performs the `ListVirtualNodes` operation on the `AppMesh` service.
+    ///
     /// Returns a list of existing virtual nodes.
-    func listVirtualNodes(input: ListVirtualNodesInput) async throws -> ListVirtualNodesOutputResponse
+    ///
+    /// - Parameter ListVirtualNodesInput :
+    ///
+    /// - Returns: `ListVirtualNodesOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func listVirtualNodes(input: ListVirtualNodesInput) async throws -> ListVirtualNodesOutput
+    /// Performs the `ListVirtualRouters` operation on the `AppMesh` service.
+    ///
     /// Returns a list of existing virtual routers in a service mesh.
-    func listVirtualRouters(input: ListVirtualRoutersInput) async throws -> ListVirtualRoutersOutputResponse
+    ///
+    /// - Parameter ListVirtualRoutersInput :
+    ///
+    /// - Returns: `ListVirtualRoutersOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func listVirtualRouters(input: ListVirtualRoutersInput) async throws -> ListVirtualRoutersOutput
+    /// Performs the `ListVirtualServices` operation on the `AppMesh` service.
+    ///
     /// Returns a list of existing virtual services in a service mesh.
-    func listVirtualServices(input: ListVirtualServicesInput) async throws -> ListVirtualServicesOutputResponse
+    ///
+    /// - Parameter ListVirtualServicesInput :
+    ///
+    /// - Returns: `ListVirtualServicesOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func listVirtualServices(input: ListVirtualServicesInput) async throws -> ListVirtualServicesOutput
+    /// Performs the `TagResource` operation on the `AppMesh` service.
+    ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource aren't specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    ///
+    /// - Parameter TagResourceInput :
+    ///
+    /// - Returns: `TagResourceOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    /// - `TooManyTagsException` : The request exceeds the maximum allowed number of tags allowed per resource. The current limit is 50 user tags per resource. You must reduce the number of tags in the request. None of the tags in this request were applied.
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `AppMesh` service.
+    ///
     /// Deletes specified tags from a resource.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    ///
+    /// - Parameter UntagResourceInput :
+    ///
+    /// - Returns: `UntagResourceOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateGatewayRoute` operation on the `AppMesh` service.
+    ///
     /// Updates an existing gateway route that is associated to a specified virtual gateway in a service mesh.
-    func updateGatewayRoute(input: UpdateGatewayRouteInput) async throws -> UpdateGatewayRouteOutputResponse
+    ///
+    /// - Parameter UpdateGatewayRouteInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateGatewayRouteOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ConflictException` : The request contains a client token that was used for a previous update resource call with different specifications. Try the request again with a new client token.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `LimitExceededException` : You have exceeded a service limit for your account. For more information, see [Service Limits](https://docs.aws.amazon.com/app-mesh/latest/userguide/service-quotas.html) in the App Mesh User Guide.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func updateGatewayRoute(input: UpdateGatewayRouteInput) async throws -> UpdateGatewayRouteOutput
+    /// Performs the `UpdateMesh` operation on the `AppMesh` service.
+    ///
     /// Updates an existing service mesh.
-    func updateMesh(input: UpdateMeshInput) async throws -> UpdateMeshOutputResponse
+    ///
+    /// - Parameter UpdateMeshInput :
+    ///
+    /// - Returns: `UpdateMeshOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ConflictException` : The request contains a client token that was used for a previous update resource call with different specifications. Try the request again with a new client token.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func updateMesh(input: UpdateMeshInput) async throws -> UpdateMeshOutput
+    /// Performs the `UpdateRoute` operation on the `AppMesh` service.
+    ///
     /// Updates an existing route for a specified service mesh and virtual router.
-    func updateRoute(input: UpdateRouteInput) async throws -> UpdateRouteOutputResponse
+    ///
+    /// - Parameter UpdateRouteInput :
+    ///
+    /// - Returns: `UpdateRouteOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ConflictException` : The request contains a client token that was used for a previous update resource call with different specifications. Try the request again with a new client token.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `LimitExceededException` : You have exceeded a service limit for your account. For more information, see [Service Limits](https://docs.aws.amazon.com/app-mesh/latest/userguide/service-quotas.html) in the App Mesh User Guide.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func updateRoute(input: UpdateRouteInput) async throws -> UpdateRouteOutput
+    /// Performs the `UpdateVirtualGateway` operation on the `AppMesh` service.
+    ///
     /// Updates an existing virtual gateway in a specified service mesh.
-    func updateVirtualGateway(input: UpdateVirtualGatewayInput) async throws -> UpdateVirtualGatewayOutputResponse
+    ///
+    /// - Parameter UpdateVirtualGatewayInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateVirtualGatewayOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ConflictException` : The request contains a client token that was used for a previous update resource call with different specifications. Try the request again with a new client token.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `LimitExceededException` : You have exceeded a service limit for your account. For more information, see [Service Limits](https://docs.aws.amazon.com/app-mesh/latest/userguide/service-quotas.html) in the App Mesh User Guide.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func updateVirtualGateway(input: UpdateVirtualGatewayInput) async throws -> UpdateVirtualGatewayOutput
+    /// Performs the `UpdateVirtualNode` operation on the `AppMesh` service.
+    ///
     /// Updates an existing virtual node in a specified service mesh.
-    func updateVirtualNode(input: UpdateVirtualNodeInput) async throws -> UpdateVirtualNodeOutputResponse
+    ///
+    /// - Parameter UpdateVirtualNodeInput :
+    ///
+    /// - Returns: `UpdateVirtualNodeOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ConflictException` : The request contains a client token that was used for a previous update resource call with different specifications. Try the request again with a new client token.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `LimitExceededException` : You have exceeded a service limit for your account. For more information, see [Service Limits](https://docs.aws.amazon.com/app-mesh/latest/userguide/service-quotas.html) in the App Mesh User Guide.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func updateVirtualNode(input: UpdateVirtualNodeInput) async throws -> UpdateVirtualNodeOutput
+    /// Performs the `UpdateVirtualRouter` operation on the `AppMesh` service.
+    ///
     /// Updates an existing virtual router in a specified service mesh.
-    func updateVirtualRouter(input: UpdateVirtualRouterInput) async throws -> UpdateVirtualRouterOutputResponse
+    ///
+    /// - Parameter UpdateVirtualRouterInput :
+    ///
+    /// - Returns: `UpdateVirtualRouterOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ConflictException` : The request contains a client token that was used for a previous update resource call with different specifications. Try the request again with a new client token.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `LimitExceededException` : You have exceeded a service limit for your account. For more information, see [Service Limits](https://docs.aws.amazon.com/app-mesh/latest/userguide/service-quotas.html) in the App Mesh User Guide.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func updateVirtualRouter(input: UpdateVirtualRouterInput) async throws -> UpdateVirtualRouterOutput
+    /// Performs the `UpdateVirtualService` operation on the `AppMesh` service.
+    ///
     /// Updates an existing virtual service in a specified service mesh.
-    func updateVirtualService(input: UpdateVirtualServiceInput) async throws -> UpdateVirtualServiceOutputResponse
+    ///
+    /// - Parameter UpdateVirtualServiceInput :
+    ///
+    /// - Returns: `UpdateVirtualServiceOutput` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request syntax was malformed. Check your request syntax and try again.
+    /// - `ConflictException` : The request contains a client token that was used for a previous update resource call with different specifications. Try the request again with a new client token.
+    /// - `ForbiddenException` : You don't have permissions to perform this action.
+    /// - `InternalServerErrorException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `LimitExceededException` : You have exceeded a service limit for your account. For more information, see [Service Limits](https://docs.aws.amazon.com/app-mesh/latest/userguide/service-quotas.html) in the App Mesh User Guide.
+    /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
+    /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
+    func updateVirtualService(input: UpdateVirtualServiceInput) async throws -> UpdateVirtualServiceOutput
 }
 
 public enum AppMeshClientTypes {}

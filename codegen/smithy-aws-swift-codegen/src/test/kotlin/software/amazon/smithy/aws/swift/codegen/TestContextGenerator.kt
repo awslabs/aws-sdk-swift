@@ -8,6 +8,7 @@ package software.amazon.smithy.aws.swift.codegen
 import org.junit.jupiter.api.Assertions
 import software.amazon.smithy.build.MockManifest
 import software.amazon.smithy.build.PluginContext
+import software.amazon.smithy.codegen.core.SymbolProvider
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.node.ObjectNode
@@ -80,7 +81,7 @@ class TestContextGenerator {
                 .withMember("homepage", Node.from("https://docs.amplify.aws/"))
                 .withMember("author", Node.from("Amazon Web Services"))
                 .withMember("gitRepo", Node.from("https://github.com/awslabs/aws-sdk-swift.git"))
-                .withMember("swiftVersion", Node.from("5.5.0"))
+                .withMember("swiftVersion", Node.from("5.7"))
                 .build()
         }
         fun listFilesFromManifest(manifest: MockManifest): String {
@@ -138,4 +139,33 @@ fun String.toSmithyModel(sourceLocation: String? = null, serviceShapeId: String?
         throw e
     }
     return model
+}
+
+fun Model.newTestContext(
+    serviceShapeId: String = "com.test#Example",
+    generator: ProtocolGenerator
+): TestContext {
+    return newTestContext(MockManifest(), serviceShapeId, generator)
+}
+
+fun Model.newTestContext(
+    manifest: MockManifest,
+    serviceShapeId: String,
+    generator: ProtocolGenerator
+): TestContext {
+    val settings = SwiftSettings.from(this, TestContextGenerator.buildDefaultSwiftSettingsObjectNode("com.test#Example"))
+    val provider: SymbolProvider = SwiftCodegenPlugin.createSymbolProvider(this, settings)
+    val service = this.getShape(ShapeId.from(serviceShapeId)).get().asServiceShape().get()
+    val delegator = SwiftDelegator(settings, this, manifest, provider)
+
+    val ctx = ProtocolGenerator.GenerationContext(
+        settings,
+        this,
+        service,
+        provider,
+        listOf(),
+        generator.protocol,
+        delegator
+    )
+    return TestContext(ctx, manifest)
 }

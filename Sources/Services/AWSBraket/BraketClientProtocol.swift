@@ -6,32 +6,224 @@ import ClientRuntime
 ///
 /// * [Amazon Braket Developer Guide](https://docs.aws.amazon.com/braket/latest/developerguide/what-is-braket.html)
 public protocol BraketClientProtocol {
+    /// Performs the `CancelJob` operation on the `Braket` service.
+    ///
     /// Cancels an Amazon Braket job.
-    func cancelJob(input: CancelJobInput) async throws -> CancelJobOutputResponse
+    ///
+    /// - Parameter CancelJobInput : [no documentation found]
+    ///
+    /// - Returns: `CancelJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : An error occurred due to a conflict.
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling rate limit is met.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput
+    /// Performs the `CancelQuantumTask` operation on the `Braket` service.
+    ///
     /// Cancels the specified task.
-    func cancelQuantumTask(input: CancelQuantumTaskInput) async throws -> CancelQuantumTaskOutputResponse
+    ///
+    /// - Parameter CancelQuantumTaskInput : [no documentation found]
+    ///
+    /// - Returns: `CancelQuantumTaskOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : An error occurred due to a conflict.
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling rate limit is met.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func cancelQuantumTask(input: CancelQuantumTaskInput) async throws -> CancelQuantumTaskOutput
+    /// Performs the `CreateJob` operation on the `Braket` service.
+    ///
     /// Creates an Amazon Braket job.
-    func createJob(input: CreateJobInput) async throws -> CreateJobOutputResponse
+    ///
+    /// - Parameter CreateJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : An error occurred due to a conflict.
+    /// - `DeviceRetiredException` : The specified device has been retired.
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
+    /// - `ThrottlingException` : The throttling rate limit is met.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func createJob(input: CreateJobInput) async throws -> CreateJobOutput
+    /// Performs the `CreateQuantumTask` operation on the `Braket` service.
+    ///
     /// Creates a quantum task.
-    func createQuantumTask(input: CreateQuantumTaskInput) async throws -> CreateQuantumTaskOutputResponse
+    ///
+    /// - Parameter CreateQuantumTaskInput : [no documentation found]
+    ///
+    /// - Returns: `CreateQuantumTaskOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DeviceOfflineException` : The specified device is currently offline.
+    /// - `DeviceRetiredException` : The specified device has been retired.
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
+    /// - `ThrottlingException` : The throttling rate limit is met.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func createQuantumTask(input: CreateQuantumTaskInput) async throws -> CreateQuantumTaskOutput
+    /// Performs the `GetDevice` operation on the `Braket` service.
+    ///
     /// Retrieves the devices available in Amazon Braket. For backwards compatibility with older versions of BraketSchemas, OpenQASM information is omitted from GetDevice API calls. To get this information the user-agent needs to present a recent version of the BraketSchemas (1.8.0 or later). The Braket SDK automatically reports this for you. If you do not see OpenQASM results in the GetDevice response when using a Braket SDK, you may need to set AWS_EXECUTION_ENV environment variable to configure user-agent. See the code examples provided below for how to do this for the AWS CLI, Boto3, and the Go, Java, and JavaScript/TypeScript SDKs.
-    func getDevice(input: GetDeviceInput) async throws -> GetDeviceOutputResponse
+    ///
+    /// - Parameter GetDeviceInput : [no documentation found]
+    ///
+    /// - Returns: `GetDeviceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling rate limit is met.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func getDevice(input: GetDeviceInput) async throws -> GetDeviceOutput
+    /// Performs the `GetJob` operation on the `Braket` service.
+    ///
     /// Retrieves the specified Amazon Braket job.
-    func getJob(input: GetJobInput) async throws -> GetJobOutputResponse
+    ///
+    /// - Parameter GetJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling rate limit is met.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func getJob(input: GetJobInput) async throws -> GetJobOutput
+    /// Performs the `GetQuantumTask` operation on the `Braket` service.
+    ///
     /// Retrieves the specified quantum task.
-    func getQuantumTask(input: GetQuantumTaskInput) async throws -> GetQuantumTaskOutputResponse
+    ///
+    /// - Parameter GetQuantumTaskInput : [no documentation found]
+    ///
+    /// - Returns: `GetQuantumTaskOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling rate limit is met.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func getQuantumTask(input: GetQuantumTaskInput) async throws -> GetQuantumTaskOutput
+    /// Performs the `ListTagsForResource` operation on the `Braket` service.
+    ///
     /// Shows the tags associated with this resource.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `SearchDevices` operation on the `Braket` service.
+    ///
     /// Searches for devices using the specified filters.
-    func searchDevices(input: SearchDevicesInput) async throws -> SearchDevicesOutputResponse
+    ///
+    /// - Parameter SearchDevicesInput : [no documentation found]
+    ///
+    /// - Returns: `SearchDevicesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ThrottlingException` : The throttling rate limit is met.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func searchDevices(input: SearchDevicesInput) async throws -> SearchDevicesOutput
+    /// Performs the `SearchJobs` operation on the `Braket` service.
+    ///
     /// Searches for Amazon Braket jobs that match the specified filter values.
-    func searchJobs(input: SearchJobsInput) async throws -> SearchJobsOutputResponse
+    ///
+    /// - Parameter SearchJobsInput : [no documentation found]
+    ///
+    /// - Returns: `SearchJobsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ThrottlingException` : The throttling rate limit is met.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func searchJobs(input: SearchJobsInput) async throws -> SearchJobsOutput
+    /// Performs the `SearchQuantumTasks` operation on the `Braket` service.
+    ///
     /// Searches for tasks that match the specified filter values.
-    func searchQuantumTasks(input: SearchQuantumTasksInput) async throws -> SearchQuantumTasksOutputResponse
+    ///
+    /// - Parameter SearchQuantumTasksInput : [no documentation found]
+    ///
+    /// - Returns: `SearchQuantumTasksOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ThrottlingException` : The throttling rate limit is met.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func searchQuantumTasks(input: SearchQuantumTasksInput) async throws -> SearchQuantumTasksOutput
+    /// Performs the `TagResource` operation on the `Braket` service.
+    ///
     /// Add a tag to the specified resource.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `Braket` service.
+    ///
     /// Remove tags from a resource.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
 }
 
 public enum BraketClientTypes {}

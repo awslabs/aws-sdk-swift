@@ -10,6 +10,8 @@ import ClientRuntime
 ///
 /// * Call Analytics transcriptions are designed for use with call center audio on two different channels; if you're looking for insight into customer service calls, use this option. Refer to for details.
 public protocol TranscribeStreamingClientProtocol {
+    /// Performs the `StartCallAnalyticsStreamTranscription` operation on the `Transcribe` service.
+    ///
     /// Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to Amazon Transcribe and the transcription results are streamed to your application. Use this operation for [Call Analytics](https://docs.aws.amazon.com/transcribe/latest/dg/call-analytics.html) transcriptions. The following parameters are required:
     ///
     /// * language-code
@@ -20,7 +22,22 @@ public protocol TranscribeStreamingClientProtocol {
     ///
     ///
     /// For more information on streaming with Amazon Transcribe, see [Transcribing streaming audio](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html).
-    func startCallAnalyticsStreamTranscription(input: StartCallAnalyticsStreamTranscriptionInput) async throws -> StartCallAnalyticsStreamTranscriptionOutputResponse
+    ///
+    /// - Parameter StartCallAnalyticsStreamTranscriptionInput : [no documentation found]
+    ///
+    /// - Returns: `StartCallAnalyticsStreamTranscriptionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : One or more arguments to the StartStreamTranscription, StartMedicalStreamTranscription, or StartCallAnalyticsStreamTranscription operation was not valid. For example, MediaEncoding or LanguageCode used not valid values. Check the specified parameters and try your request again.
+    /// - `ConflictException` : A new stream started with the same session ID. The current stream has been terminated.
+    /// - `InternalFailureException` : A problem occurred while processing the audio. Amazon Transcribe terminated processing.
+    /// - `LimitExceededException` : Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
+    /// - `ServiceUnavailableException` : The service is currently unavailable. Try your request later.
+    func startCallAnalyticsStreamTranscription(input: StartCallAnalyticsStreamTranscriptionInput) async throws -> StartCallAnalyticsStreamTranscriptionOutput
+    /// Performs the `StartMedicalStreamTranscription` operation on the `Transcribe` service.
+    ///
     /// Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to Amazon Transcribe Medical and the transcription results are streamed to your application. The following parameters are required:
     ///
     /// * language-code
@@ -31,10 +48,25 @@ public protocol TranscribeStreamingClientProtocol {
     ///
     ///
     /// For more information on streaming with Amazon Transcribe Medical, see [Transcribing streaming audio](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html).
-    func startMedicalStreamTranscription(input: StartMedicalStreamTranscriptionInput) async throws -> StartMedicalStreamTranscriptionOutputResponse
+    ///
+    /// - Parameter StartMedicalStreamTranscriptionInput : [no documentation found]
+    ///
+    /// - Returns: `StartMedicalStreamTranscriptionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : One or more arguments to the StartStreamTranscription, StartMedicalStreamTranscription, or StartCallAnalyticsStreamTranscription operation was not valid. For example, MediaEncoding or LanguageCode used not valid values. Check the specified parameters and try your request again.
+    /// - `ConflictException` : A new stream started with the same session ID. The current stream has been terminated.
+    /// - `InternalFailureException` : A problem occurred while processing the audio. Amazon Transcribe terminated processing.
+    /// - `LimitExceededException` : Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
+    /// - `ServiceUnavailableException` : The service is currently unavailable. Try your request later.
+    func startMedicalStreamTranscription(input: StartMedicalStreamTranscriptionInput) async throws -> StartMedicalStreamTranscriptionOutput
+    /// Performs the `StartStreamTranscription` operation on the `Transcribe` service.
+    ///
     /// Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to Amazon Transcribe and the transcription results are streamed to your application. The following parameters are required:
     ///
-    /// * language-code or identify-language
+    /// * language-code or identify-language or identify-multiple-language
     ///
     /// * media-encoding
     ///
@@ -42,7 +74,20 @@ public protocol TranscribeStreamingClientProtocol {
     ///
     ///
     /// For more information on streaming with Amazon Transcribe, see [Transcribing streaming audio](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html).
-    func startStreamTranscription(input: StartStreamTranscriptionInput) async throws -> StartStreamTranscriptionOutputResponse
+    ///
+    /// - Parameter StartStreamTranscriptionInput : [no documentation found]
+    ///
+    /// - Returns: `StartStreamTranscriptionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : One or more arguments to the StartStreamTranscription, StartMedicalStreamTranscription, or StartCallAnalyticsStreamTranscription operation was not valid. For example, MediaEncoding or LanguageCode used not valid values. Check the specified parameters and try your request again.
+    /// - `ConflictException` : A new stream started with the same session ID. The current stream has been terminated.
+    /// - `InternalFailureException` : A problem occurred while processing the audio. Amazon Transcribe terminated processing.
+    /// - `LimitExceededException` : Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
+    /// - `ServiceUnavailableException` : The service is currently unavailable. Try your request later.
+    func startStreamTranscription(input: StartStreamTranscriptionInput) async throws -> StartStreamTranscriptionOutput
 }
 
 public enum TranscribeStreamingClientTypes {}

@@ -19,15 +19,15 @@ class OperationEndpointResolverMiddlewareTests {
         val context = setupGenerationContext("endpoints.smithy", "smithy.example#ExampleService")
         val operation = context.model.operationShapes.toList().first { it.id.name == "GetThing" }
         val middleware = OperationEndpointResolverMiddleware(context)
-        middleware.render(writer, operation, "operationStack")
+        middleware.render(context, writer, operation, "operationStack")
         var contents = writer.toString()
         val expected = """
-            guard let region = config.region else {
-                throw SdkError<GetThingOutputError>.client(ClientError.unknownError(("Missing required parameter: region")))
-            }
-            let endpointParams = EndpointParams(boolBar: true, boolBaz: input.fuzz, boolFoo: config.serviceSpecific.boolFoo, endpoint: config.endpoint, region: region, stringBar: "some value", stringBaz: input.buzz, stringFoo: config.serviceSpecific.stringFoo)
-            operationStack.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetThingOutputResponse, GetThingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        """.trimIndent()
+guard let region = config.region else {
+    throw SdkError<GetThingOutputError>.client(ClientError.unknownError(("Missing required parameter: region")))
+}
+let endpointParams = EndpointParams(boolBar: true, boolBaz: input.fuzz, boolFoo: config.serviceSpecific.boolFoo, endpoint: config.endpoint, region: region, stringBar: "some value", stringBaz: input.buzz, stringFoo: config.serviceSpecific.stringFoo)
+operationStack.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetThingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+"""
         contents.shouldContainOnlyOnce(expected)
     }
 }

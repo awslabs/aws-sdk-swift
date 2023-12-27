@@ -7,7 +7,6 @@ plugins {
     jacoco
 }
 
-// TODO: remove once we have all the dependencies in the maven-publish plugin
 configurations.implementation {
     exclude(group = "brazil")
 }
@@ -31,6 +30,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
     implementation("software.amazon.smithy:smithy-rules-engine:$smithyVersion")
+    implementation("software.amazon.smithy:smithy-aws-endpoints:$smithyVersion")
 }
 
 jacoco {

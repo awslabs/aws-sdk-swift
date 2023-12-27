@@ -2,100 +2,762 @@
 
 import ClientRuntime
 
-/// Amazon Inspector is a vulnerability discovery service that automates continuous scanning for security vulnerabilities within your Amazon EC2 and Amazon ECR environments.
+/// Amazon Inspector is a vulnerability discovery service that automates continuous scanning for security vulnerabilities within your Amazon EC2, Amazon ECR, and Amazon Web Services Lambda environments.
 public protocol Inspector2ClientProtocol {
+    /// Performs the `AssociateMember` operation on the `Inspector2` service.
+    ///
     /// Associates an Amazon Web Services account with an Amazon Inspector delegated administrator. An HTTP 200 response indicates the association was successfully started, but doesn’t indicate whether it was completed. You can check if the association completed by using [ListMembers](https://docs.aws.amazon.com/inspector/v2/APIReference/API_ListMembers.html) for multiple accounts or [GetMembers](https://docs.aws.amazon.com/inspector/v2/APIReference/API_GetMember.html) for a single account.
-    func associateMember(input: AssociateMemberInput) async throws -> AssociateMemberOutputResponse
+    ///
+    /// - Parameter AssociateMemberInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateMemberOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func associateMember(input: AssociateMemberInput) async throws -> AssociateMemberOutput
+    /// Performs the `BatchGetAccountStatus` operation on the `Inspector2` service.
+    ///
     /// Retrieves the Amazon Inspector status of multiple Amazon Web Services accounts within your environment.
-    func batchGetAccountStatus(input: BatchGetAccountStatusInput) async throws -> BatchGetAccountStatusOutputResponse
+    ///
+    /// - Parameter BatchGetAccountStatusInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetAccountStatusOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func batchGetAccountStatus(input: BatchGetAccountStatusInput) async throws -> BatchGetAccountStatusOutput
+    /// Performs the `BatchGetCodeSnippet` operation on the `Inspector2` service.
+    ///
     /// Retrieves code snippets from findings that Amazon Inspector detected code vulnerabilities in.
-    func batchGetCodeSnippet(input: BatchGetCodeSnippetInput) async throws -> BatchGetCodeSnippetOutputResponse
+    ///
+    /// - Parameter BatchGetCodeSnippetInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetCodeSnippetOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func batchGetCodeSnippet(input: BatchGetCodeSnippetInput) async throws -> BatchGetCodeSnippetOutput
+    /// Performs the `BatchGetFindingDetails` operation on the `Inspector2` service.
+    ///
     /// Gets vulnerability details for findings.
-    func batchGetFindingDetails(input: BatchGetFindingDetailsInput) async throws -> BatchGetFindingDetailsOutputResponse
+    ///
+    /// - Parameter BatchGetFindingDetailsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetFindingDetailsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func batchGetFindingDetails(input: BatchGetFindingDetailsInput) async throws -> BatchGetFindingDetailsOutput
+    /// Performs the `BatchGetFreeTrialInfo` operation on the `Inspector2` service.
+    ///
     /// Gets free trial status for multiple Amazon Web Services accounts.
-    func batchGetFreeTrialInfo(input: BatchGetFreeTrialInfoInput) async throws -> BatchGetFreeTrialInfoOutputResponse
+    ///
+    /// - Parameter BatchGetFreeTrialInfoInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetFreeTrialInfoOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func batchGetFreeTrialInfo(input: BatchGetFreeTrialInfoInput) async throws -> BatchGetFreeTrialInfoOutput
+    /// Performs the `BatchGetMemberEc2DeepInspectionStatus` operation on the `Inspector2` service.
+    ///
     /// Retrieves Amazon Inspector deep inspection activation status of multiple member accounts within your organization. You must be the delegated administrator of an organization in Amazon Inspector to use this API.
-    func batchGetMemberEc2DeepInspectionStatus(input: BatchGetMemberEc2DeepInspectionStatusInput) async throws -> BatchGetMemberEc2DeepInspectionStatusOutputResponse
+    ///
+    /// - Parameter BatchGetMemberEc2DeepInspectionStatusInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetMemberEc2DeepInspectionStatusOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func batchGetMemberEc2DeepInspectionStatus(input: BatchGetMemberEc2DeepInspectionStatusInput) async throws -> BatchGetMemberEc2DeepInspectionStatusOutput
+    /// Performs the `BatchUpdateMemberEc2DeepInspectionStatus` operation on the `Inspector2` service.
+    ///
     /// Activates or deactivates Amazon Inspector deep inspection for the provided member accounts in your organization. You must be the delegated administrator of an organization in Amazon Inspector to use this API.
-    func batchUpdateMemberEc2DeepInspectionStatus(input: BatchUpdateMemberEc2DeepInspectionStatusInput) async throws -> BatchUpdateMemberEc2DeepInspectionStatusOutputResponse
+    ///
+    /// - Parameter BatchUpdateMemberEc2DeepInspectionStatusInput : [no documentation found]
+    ///
+    /// - Returns: `BatchUpdateMemberEc2DeepInspectionStatusOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func batchUpdateMemberEc2DeepInspectionStatus(input: BatchUpdateMemberEc2DeepInspectionStatusInput) async throws -> BatchUpdateMemberEc2DeepInspectionStatusOutput
+    /// Performs the `CancelFindingsReport` operation on the `Inspector2` service.
+    ///
     /// Cancels the given findings report.
-    func cancelFindingsReport(input: CancelFindingsReportInput) async throws -> CancelFindingsReportOutputResponse
+    ///
+    /// - Parameter CancelFindingsReportInput : [no documentation found]
+    ///
+    /// - Returns: `CancelFindingsReportOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func cancelFindingsReport(input: CancelFindingsReportInput) async throws -> CancelFindingsReportOutput
+    /// Performs the `CancelSbomExport` operation on the `Inspector2` service.
+    ///
     /// Cancels a software bill of materials (SBOM) report.
-    func cancelSbomExport(input: CancelSbomExportInput) async throws -> CancelSbomExportOutputResponse
-    /// Creates a filter resource using specified filter criteria.
-    func createFilter(input: CreateFilterInput) async throws -> CreateFilterOutputResponse
+    ///
+    /// - Parameter CancelSbomExportInput : [no documentation found]
+    ///
+    /// - Returns: `CancelSbomExportOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func cancelSbomExport(input: CancelSbomExportInput) async throws -> CancelSbomExportOutput
+    /// Performs the `CreateFilter` operation on the `Inspector2` service.
+    ///
+    /// Creates a filter resource using specified filter criteria. When the filter action is set to SUPPRESS this action creates a suppression rule.
+    ///
+    /// - Parameter CreateFilterInput : [no documentation found]
+    ///
+    /// - Returns: `CreateFilterOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `BadRequestException` : One or more tags submitted as part of the request is not valid.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ServiceQuotaExceededException` : You have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func createFilter(input: CreateFilterInput) async throws -> CreateFilterOutput
+    /// Performs the `CreateFindingsReport` operation on the `Inspector2` service.
+    ///
     /// Creates a finding report. By default only ACTIVE findings are returned in the report. To see SUPRESSED or CLOSED findings you must specify a value for the findingStatus filter criteria.
-    func createFindingsReport(input: CreateFindingsReportInput) async throws -> CreateFindingsReportOutputResponse
+    ///
+    /// - Parameter CreateFindingsReportInput : [no documentation found]
+    ///
+    /// - Returns: `CreateFindingsReportOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func createFindingsReport(input: CreateFindingsReportInput) async throws -> CreateFindingsReportOutput
+    /// Performs the `CreateSbomExport` operation on the `Inspector2` service.
+    ///
     /// Creates a software bill of materials (SBOM) report.
-    func createSbomExport(input: CreateSbomExportInput) async throws -> CreateSbomExportOutputResponse
+    ///
+    /// - Parameter CreateSbomExportInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSbomExportOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func createSbomExport(input: CreateSbomExportInput) async throws -> CreateSbomExportOutput
+    /// Performs the `DeleteFilter` operation on the `Inspector2` service.
+    ///
     /// Deletes a filter resource.
-    func deleteFilter(input: DeleteFilterInput) async throws -> DeleteFilterOutputResponse
+    ///
+    /// - Parameter DeleteFilterInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteFilterOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func deleteFilter(input: DeleteFilterInput) async throws -> DeleteFilterOutput
+    /// Performs the `DescribeOrganizationConfiguration` operation on the `Inspector2` service.
+    ///
     /// Describe Amazon Inspector configuration settings for an Amazon Web Services organization.
-    func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutputResponse
+    ///
+    /// - Parameter DescribeOrganizationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeOrganizationConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutput
+    /// Performs the `Disable` operation on the `Inspector2` service.
+    ///
     /// Disables Amazon Inspector scans for one or more Amazon Web Services accounts. Disabling all scan types in an account disables the Amazon Inspector service.
-    func disable(input: DisableInput) async throws -> DisableOutputResponse
+    ///
+    /// - Parameter DisableInput : [no documentation found]
+    ///
+    /// - Returns: `DisableOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func disable(input: DisableInput) async throws -> DisableOutput
+    /// Performs the `DisableDelegatedAdminAccount` operation on the `Inspector2` service.
+    ///
     /// Disables the Amazon Inspector delegated administrator for your organization.
-    func disableDelegatedAdminAccount(input: DisableDelegatedAdminAccountInput) async throws -> DisableDelegatedAdminAccountOutputResponse
+    ///
+    /// - Parameter DisableDelegatedAdminAccountInput : [no documentation found]
+    ///
+    /// - Returns: `DisableDelegatedAdminAccountOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func disableDelegatedAdminAccount(input: DisableDelegatedAdminAccountInput) async throws -> DisableDelegatedAdminAccountOutput
+    /// Performs the `DisassociateMember` operation on the `Inspector2` service.
+    ///
     /// Disassociates a member account from an Amazon Inspector delegated administrator.
-    func disassociateMember(input: DisassociateMemberInput) async throws -> DisassociateMemberOutputResponse
+    ///
+    /// - Parameter DisassociateMemberInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateMemberOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func disassociateMember(input: DisassociateMemberInput) async throws -> DisassociateMemberOutput
+    /// Performs the `Enable` operation on the `Inspector2` service.
+    ///
     /// Enables Amazon Inspector scans for one or more Amazon Web Services accounts.
-    func enable(input: EnableInput) async throws -> EnableOutputResponse
+    ///
+    /// - Parameter EnableInput : [no documentation found]
+    ///
+    /// - Returns: `EnableOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func enable(input: EnableInput) async throws -> EnableOutput
+    /// Performs the `EnableDelegatedAdminAccount` operation on the `Inspector2` service.
+    ///
     /// Enables the Amazon Inspector delegated administrator for your Organizations organization.
-    func enableDelegatedAdminAccount(input: EnableDelegatedAdminAccountInput) async throws -> EnableDelegatedAdminAccountOutputResponse
+    ///
+    /// - Parameter EnableDelegatedAdminAccountInput : [no documentation found]
+    ///
+    /// - Returns: `EnableDelegatedAdminAccountOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func enableDelegatedAdminAccount(input: EnableDelegatedAdminAccountInput) async throws -> EnableDelegatedAdminAccountOutput
+    /// Performs the `GetConfiguration` operation on the `Inspector2` service.
+    ///
     /// Retrieves setting configurations for Inspector scans.
-    func getConfiguration(input: GetConfigurationInput) async throws -> GetConfigurationOutputResponse
+    ///
+    /// - Parameter GetConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    func getConfiguration(input: GetConfigurationInput) async throws -> GetConfigurationOutput
+    /// Performs the `GetDelegatedAdminAccount` operation on the `Inspector2` service.
+    ///
     /// Retrieves information about the Amazon Inspector delegated administrator for your organization.
-    func getDelegatedAdminAccount(input: GetDelegatedAdminAccountInput) async throws -> GetDelegatedAdminAccountOutputResponse
+    ///
+    /// - Parameter GetDelegatedAdminAccountInput : [no documentation found]
+    ///
+    /// - Returns: `GetDelegatedAdminAccountOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func getDelegatedAdminAccount(input: GetDelegatedAdminAccountInput) async throws -> GetDelegatedAdminAccountOutput
+    /// Performs the `GetEc2DeepInspectionConfiguration` operation on the `Inspector2` service.
+    ///
     /// Retrieves the activation status of Amazon Inspector deep inspection and custom paths associated with your account.
-    func getEc2DeepInspectionConfiguration(input: GetEc2DeepInspectionConfigurationInput) async throws -> GetEc2DeepInspectionConfigurationOutputResponse
+    ///
+    /// - Parameter GetEc2DeepInspectionConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetEc2DeepInspectionConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    func getEc2DeepInspectionConfiguration(input: GetEc2DeepInspectionConfigurationInput) async throws -> GetEc2DeepInspectionConfigurationOutput
+    /// Performs the `GetEncryptionKey` operation on the `Inspector2` service.
+    ///
     /// Gets an encryption key.
-    func getEncryptionKey(input: GetEncryptionKeyInput) async throws -> GetEncryptionKeyOutputResponse
+    ///
+    /// - Parameter GetEncryptionKeyInput : [no documentation found]
+    ///
+    /// - Returns: `GetEncryptionKeyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func getEncryptionKey(input: GetEncryptionKeyInput) async throws -> GetEncryptionKeyOutput
+    /// Performs the `GetFindingsReportStatus` operation on the `Inspector2` service.
+    ///
     /// Gets the status of a findings report.
-    func getFindingsReportStatus(input: GetFindingsReportStatusInput) async throws -> GetFindingsReportStatusOutputResponse
+    ///
+    /// - Parameter GetFindingsReportStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetFindingsReportStatusOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func getFindingsReportStatus(input: GetFindingsReportStatusInput) async throws -> GetFindingsReportStatusOutput
+    /// Performs the `GetMember` operation on the `Inspector2` service.
+    ///
     /// Gets member information for your organization.
-    func getMember(input: GetMemberInput) async throws -> GetMemberOutputResponse
+    ///
+    /// - Parameter GetMemberInput : [no documentation found]
+    ///
+    /// - Returns: `GetMemberOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func getMember(input: GetMemberInput) async throws -> GetMemberOutput
+    /// Performs the `GetSbomExport` operation on the `Inspector2` service.
+    ///
     /// Gets details of a software bill of materials (SBOM) report.
-    func getSbomExport(input: GetSbomExportInput) async throws -> GetSbomExportOutputResponse
+    ///
+    /// - Parameter GetSbomExportInput : [no documentation found]
+    ///
+    /// - Returns: `GetSbomExportOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func getSbomExport(input: GetSbomExportInput) async throws -> GetSbomExportOutput
+    /// Performs the `ListAccountPermissions` operation on the `Inspector2` service.
+    ///
     /// Lists the permissions an account has to configure Amazon Inspector.
-    func listAccountPermissions(input: ListAccountPermissionsInput) async throws -> ListAccountPermissionsOutputResponse
+    ///
+    /// - Parameter ListAccountPermissionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAccountPermissionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func listAccountPermissions(input: ListAccountPermissionsInput) async throws -> ListAccountPermissionsOutput
+    /// Performs the `ListCoverage` operation on the `Inspector2` service.
+    ///
     /// Lists coverage details for you environment.
-    func listCoverage(input: ListCoverageInput) async throws -> ListCoverageOutputResponse
+    ///
+    /// - Parameter ListCoverageInput : [no documentation found]
+    ///
+    /// - Returns: `ListCoverageOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func listCoverage(input: ListCoverageInput) async throws -> ListCoverageOutput
+    /// Performs the `ListCoverageStatistics` operation on the `Inspector2` service.
+    ///
     /// Lists Amazon Inspector coverage statistics for your environment.
-    func listCoverageStatistics(input: ListCoverageStatisticsInput) async throws -> ListCoverageStatisticsOutputResponse
+    ///
+    /// - Parameter ListCoverageStatisticsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCoverageStatisticsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func listCoverageStatistics(input: ListCoverageStatisticsInput) async throws -> ListCoverageStatisticsOutput
+    /// Performs the `ListDelegatedAdminAccounts` operation on the `Inspector2` service.
+    ///
     /// Lists information about the Amazon Inspector delegated administrator of your organization.
-    func listDelegatedAdminAccounts(input: ListDelegatedAdminAccountsInput) async throws -> ListDelegatedAdminAccountsOutputResponse
+    ///
+    /// - Parameter ListDelegatedAdminAccountsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDelegatedAdminAccountsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func listDelegatedAdminAccounts(input: ListDelegatedAdminAccountsInput) async throws -> ListDelegatedAdminAccountsOutput
+    /// Performs the `ListFilters` operation on the `Inspector2` service.
+    ///
     /// Lists the filters associated with your account.
-    func listFilters(input: ListFiltersInput) async throws -> ListFiltersOutputResponse
+    ///
+    /// - Parameter ListFiltersInput : [no documentation found]
+    ///
+    /// - Returns: `ListFiltersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func listFilters(input: ListFiltersInput) async throws -> ListFiltersOutput
+    /// Performs the `ListFindingAggregations` operation on the `Inspector2` service.
+    ///
     /// Lists aggregated finding data for your environment based on specific criteria.
-    func listFindingAggregations(input: ListFindingAggregationsInput) async throws -> ListFindingAggregationsOutputResponse
+    ///
+    /// - Parameter ListFindingAggregationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFindingAggregationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func listFindingAggregations(input: ListFindingAggregationsInput) async throws -> ListFindingAggregationsOutput
+    /// Performs the `ListFindings` operation on the `Inspector2` service.
+    ///
     /// Lists findings for your environment.
-    func listFindings(input: ListFindingsInput) async throws -> ListFindingsOutputResponse
+    ///
+    /// - Parameter ListFindingsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFindingsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func listFindings(input: ListFindingsInput) async throws -> ListFindingsOutput
+    /// Performs the `ListMembers` operation on the `Inspector2` service.
+    ///
     /// List members associated with the Amazon Inspector delegated administrator for your organization.
-    func listMembers(input: ListMembersInput) async throws -> ListMembersOutputResponse
+    ///
+    /// - Parameter ListMembersInput : [no documentation found]
+    ///
+    /// - Returns: `ListMembersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func listMembers(input: ListMembersInput) async throws -> ListMembersOutput
+    /// Performs the `ListTagsForResource` operation on the `Inspector2` service.
+    ///
     /// Lists all tags attached to a given resource.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `ListUsageTotals` operation on the `Inspector2` service.
+    ///
     /// Lists the Amazon Inspector usage totals over the last 30 days.
-    func listUsageTotals(input: ListUsageTotalsInput) async throws -> ListUsageTotalsOutputResponse
+    ///
+    /// - Parameter ListUsageTotalsInput : [no documentation found]
+    ///
+    /// - Returns: `ListUsageTotalsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func listUsageTotals(input: ListUsageTotalsInput) async throws -> ListUsageTotalsOutput
+    /// Performs the `ResetEncryptionKey` operation on the `Inspector2` service.
+    ///
     /// Resets an encryption key. After the key is reset your resources will be encrypted by an Amazon Web Services owned key.
-    func resetEncryptionKey(input: ResetEncryptionKeyInput) async throws -> ResetEncryptionKeyOutputResponse
+    ///
+    /// - Parameter ResetEncryptionKeyInput : [no documentation found]
+    ///
+    /// - Returns: `ResetEncryptionKeyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func resetEncryptionKey(input: ResetEncryptionKeyInput) async throws -> ResetEncryptionKeyOutput
+    /// Performs the `SearchVulnerabilities` operation on the `Inspector2` service.
+    ///
     /// Lists Amazon Inspector coverage details for a specific vulnerability.
-    func searchVulnerabilities(input: SearchVulnerabilitiesInput) async throws -> SearchVulnerabilitiesOutputResponse
+    ///
+    /// - Parameter SearchVulnerabilitiesInput : [no documentation found]
+    ///
+    /// - Returns: `SearchVulnerabilitiesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func searchVulnerabilities(input: SearchVulnerabilitiesInput) async throws -> SearchVulnerabilitiesOutput
+    /// Performs the `TagResource` operation on the `Inspector2` service.
+    ///
     /// Adds tags to a resource.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : One or more tags submitted as part of the request is not valid.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `Inspector2` service.
+    ///
     /// Removes tags from a resource.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateConfiguration` operation on the `Inspector2` service.
+    ///
     /// Updates setting configurations for your Amazon Inspector account. When you use this API as an Amazon Inspector delegated administrator this updates the setting for all accounts you manage. Member accounts in an organization cannot update this setting.
-    func updateConfiguration(input: UpdateConfigurationInput) async throws -> UpdateConfigurationOutputResponse
+    ///
+    /// - Parameter UpdateConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func updateConfiguration(input: UpdateConfigurationInput) async throws -> UpdateConfigurationOutput
+    /// Performs the `UpdateEc2DeepInspectionConfiguration` operation on the `Inspector2` service.
+    ///
     /// Activates, deactivates Amazon Inspector deep inspection, or updates custom paths for your account.
-    func updateEc2DeepInspectionConfiguration(input: UpdateEc2DeepInspectionConfigurationInput) async throws -> UpdateEc2DeepInspectionConfigurationOutputResponse
+    ///
+    /// - Parameter UpdateEc2DeepInspectionConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEc2DeepInspectionConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func updateEc2DeepInspectionConfiguration(input: UpdateEc2DeepInspectionConfigurationInput) async throws -> UpdateEc2DeepInspectionConfigurationOutput
+    /// Performs the `UpdateEncryptionKey` operation on the `Inspector2` service.
+    ///
     /// Updates an encryption key. A ResourceNotFoundException means that an AWS owned key is being used for encryption.
-    func updateEncryptionKey(input: UpdateEncryptionKeyInput) async throws -> UpdateEncryptionKeyOutputResponse
+    ///
+    /// - Parameter UpdateEncryptionKeyInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEncryptionKeyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func updateEncryptionKey(input: UpdateEncryptionKeyInput) async throws -> UpdateEncryptionKeyOutput
+    /// Performs the `UpdateFilter` operation on the `Inspector2` service.
+    ///
     /// Specifies the action that is to be applied to the findings that match the filter.
-    func updateFilter(input: UpdateFilterInput) async throws -> UpdateFilterOutputResponse
+    ///
+    /// - Parameter UpdateFilterInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateFilterOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func updateFilter(input: UpdateFilterInput) async throws -> UpdateFilterOutput
+    /// Performs the `UpdateOrganizationConfiguration` operation on the `Inspector2` service.
+    ///
     /// Updates the configurations for your Amazon Inspector organization.
-    func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutputResponse
+    ///
+    /// - Parameter UpdateOrganizationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateOrganizationConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutput
+    /// Performs the `UpdateOrgEc2DeepInspectionConfiguration` operation on the `Inspector2` service.
+    ///
     /// Updates the Amazon Inspector deep inspection custom paths for your organization. You must be an Amazon Inspector delegated administrator to use this API.
-    func updateOrgEc2DeepInspectionConfiguration(input: UpdateOrgEc2DeepInspectionConfigurationInput) async throws -> UpdateOrgEc2DeepInspectionConfigurationOutputResponse
+    ///
+    /// - Parameter UpdateOrgEc2DeepInspectionConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateOrgEc2DeepInspectionConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    func updateOrgEc2DeepInspectionConfiguration(input: UpdateOrgEc2DeepInspectionConfigurationInput) async throws -> UpdateOrgEc2DeepInspectionConfigurationOutput
 }
 
 public enum Inspector2ClientTypes {}

@@ -4,186 +4,1297 @@ import ClientRuntime
 
 /// Service Catalog [Service Catalog](http://aws.amazon.com/servicecatalog) enables organizations to create and manage catalogs of IT services that are approved for Amazon Web Services. To get the most out of this documentation, you should be familiar with the terminology discussed in [Service Catalog Concepts](http://docs.aws.amazon.com/servicecatalog/latest/adminguide/what-is_concepts.html).
 public protocol ServiceCatalogClientProtocol {
+    /// Performs the `AcceptPortfolioShare` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Accepts an offer to share the specified portfolio.
-    func acceptPortfolioShare(input: AcceptPortfolioShareInput) async throws -> AcceptPortfolioShareOutputResponse
+    ///
+    /// - Parameter AcceptPortfolioShareInput : [no documentation found]
+    ///
+    /// - Returns: `AcceptPortfolioShareOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func acceptPortfolioShare(input: AcceptPortfolioShareInput) async throws -> AcceptPortfolioShareOutput
+    /// Performs the `AssociateBudgetWithResource` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Associates the specified budget with the specified resource.
-    func associateBudgetWithResource(input: AssociateBudgetWithResourceInput) async throws -> AssociateBudgetWithResourceOutputResponse
-    /// Associates the specified principal ARN with the specified portfolio. If you share the portfolio with principal name sharing enabled, the PrincipalARN association is included in the share. The PortfolioID, PrincipalARN, and PrincipalType parameters are required. You can associate a maximum of 10 Principals with a portfolio using PrincipalType as IAM_PATTERN When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is then shared with other accounts. For a user in a recipient account who is not an Service Catalog Admin, but still has the ability to create Principals (Users/Groups/Roles), that user could create a role that matches a principal name association for the portfolio. Although this user may not know which principal names are associated through Service Catalog, they may be able to guess the user. If this potential escalation path is a concern, then Service Catalog recommends using PrincipalType as IAM. With this configuration, the PrincipalARN must already exist in the recipient account before it can be associated.
-    func associatePrincipalWithPortfolio(input: AssociatePrincipalWithPortfolioInput) async throws -> AssociatePrincipalWithPortfolioOutputResponse
+    ///
+    /// - Parameter AssociateBudgetWithResourceInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateBudgetWithResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : The specified resource is a duplicate.
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func associateBudgetWithResource(input: AssociateBudgetWithResourceInput) async throws -> AssociateBudgetWithResourceOutput
+    /// Performs the `AssociatePrincipalWithPortfolio` operation on the `AWS242ServiceCatalogService` service.
+    ///
+    /// Associates the specified principal ARN with the specified portfolio. If you share the portfolio with principal name sharing enabled, the PrincipalARN association is included in the share. The PortfolioID, PrincipalARN, and PrincipalType parameters are required. You can associate a maximum of 10 Principals with a portfolio using PrincipalType as IAM_PATTERN. When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is then shared with other accounts. For a user in a recipient account who is not an Service Catalog Admin, but still has the ability to create Principals (Users/Groups/Roles), that user could create a role that matches a principal name association for the portfolio. Although this user may not know which principal names are associated through Service Catalog, they may be able to guess the user. If this potential escalation path is a concern, then Service Catalog recommends using PrincipalType as IAM. With this configuration, the PrincipalARN must already exist in the recipient account before it can be associated.
+    ///
+    /// - Parameter AssociatePrincipalWithPortfolioInput : [no documentation found]
+    ///
+    /// - Returns: `AssociatePrincipalWithPortfolioOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func associatePrincipalWithPortfolio(input: AssociatePrincipalWithPortfolioInput) async throws -> AssociatePrincipalWithPortfolioOutput
+    /// Performs the `AssociateProductWithPortfolio` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Associates the specified product with the specified portfolio. A delegated admin is authorized to invoke this command.
-    func associateProductWithPortfolio(input: AssociateProductWithPortfolioInput) async throws -> AssociateProductWithPortfolioOutputResponse
+    ///
+    /// - Parameter AssociateProductWithPortfolioInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateProductWithPortfolioOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func associateProductWithPortfolio(input: AssociateProductWithPortfolioInput) async throws -> AssociateProductWithPortfolioOutput
+    /// Performs the `AssociateServiceActionWithProvisioningArtifact` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Associates a self-service action with a provisioning artifact.
-    func associateServiceActionWithProvisioningArtifact(input: AssociateServiceActionWithProvisioningArtifactInput) async throws -> AssociateServiceActionWithProvisioningArtifactOutputResponse
+    ///
+    /// - Parameter AssociateServiceActionWithProvisioningArtifactInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateServiceActionWithProvisioningArtifactOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : The specified resource is a duplicate.
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func associateServiceActionWithProvisioningArtifact(input: AssociateServiceActionWithProvisioningArtifactInput) async throws -> AssociateServiceActionWithProvisioningArtifactOutput
+    /// Performs the `AssociateTagOptionWithResource` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Associate the specified TagOption with the specified portfolio or product.
-    func associateTagOptionWithResource(input: AssociateTagOptionWithResourceInput) async throws -> AssociateTagOptionWithResourceOutputResponse
+    ///
+    /// - Parameter AssociateTagOptionWithResourceInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateTagOptionWithResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : The specified resource is a duplicate.
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
+    /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
+    func associateTagOptionWithResource(input: AssociateTagOptionWithResourceInput) async throws -> AssociateTagOptionWithResourceOutput
+    /// Performs the `BatchAssociateServiceActionWithProvisioningArtifact` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Associates multiple self-service actions with provisioning artifacts.
-    func batchAssociateServiceActionWithProvisioningArtifact(input: BatchAssociateServiceActionWithProvisioningArtifactInput) async throws -> BatchAssociateServiceActionWithProvisioningArtifactOutputResponse
+    ///
+    /// - Parameter BatchAssociateServiceActionWithProvisioningArtifactInput : [no documentation found]
+    ///
+    /// - Returns: `BatchAssociateServiceActionWithProvisioningArtifactOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    func batchAssociateServiceActionWithProvisioningArtifact(input: BatchAssociateServiceActionWithProvisioningArtifactInput) async throws -> BatchAssociateServiceActionWithProvisioningArtifactOutput
+    /// Performs the `BatchDisassociateServiceActionFromProvisioningArtifact` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Disassociates a batch of self-service actions from the specified provisioning artifact.
-    func batchDisassociateServiceActionFromProvisioningArtifact(input: BatchDisassociateServiceActionFromProvisioningArtifactInput) async throws -> BatchDisassociateServiceActionFromProvisioningArtifactOutputResponse
+    ///
+    /// - Parameter BatchDisassociateServiceActionFromProvisioningArtifactInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDisassociateServiceActionFromProvisioningArtifactOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    func batchDisassociateServiceActionFromProvisioningArtifact(input: BatchDisassociateServiceActionFromProvisioningArtifactInput) async throws -> BatchDisassociateServiceActionFromProvisioningArtifactOutput
+    /// Performs the `CopyProduct` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Copies the specified source product to the specified target product or a new product. You can copy a product to the same account or another account. You can copy a product to the same Region or another Region. If you copy a product to another account, you must first share the product in a portfolio using [CreatePortfolioShare]. This operation is performed asynchronously. To track the progress of the operation, use [DescribeCopyProductStatus].
-    func copyProduct(input: CopyProductInput) async throws -> CopyProductOutputResponse
+    ///
+    /// - Parameter CopyProductInput : [no documentation found]
+    ///
+    /// - Returns: `CopyProductOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func copyProduct(input: CopyProductInput) async throws -> CopyProductOutput
+    /// Performs the `CreateConstraint` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Creates a constraint. A delegated admin is authorized to invoke this command.
-    func createConstraint(input: CreateConstraintInput) async throws -> CreateConstraintOutputResponse
+    ///
+    /// - Parameter CreateConstraintInput : [no documentation found]
+    ///
+    /// - Returns: `CreateConstraintOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : The specified resource is a duplicate.
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func createConstraint(input: CreateConstraintInput) async throws -> CreateConstraintOutput
+    /// Performs the `CreatePortfolio` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Creates a portfolio. A delegated admin is authorized to invoke this command.
-    func createPortfolio(input: CreatePortfolioInput) async throws -> CreatePortfolioOutputResponse
+    ///
+    /// - Parameter CreatePortfolioInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePortfolioOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
+    /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
+    func createPortfolio(input: CreatePortfolioInput) async throws -> CreatePortfolioOutput
+    /// Performs the `CreatePortfolioShare` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Shares the specified portfolio with the specified account or organization node. Shares to an organization node can only be created by the management account of an organization or by a delegated administrator. You can share portfolios to an organization, an organizational unit, or a specific account. Note that if a delegated admin is de-registered, they can no longer create portfolio shares. AWSOrganizationsAccess must be enabled in order to create a portfolio share to an organization node. You can't share a shared resource, including portfolios that contain a shared product. If the portfolio share with the specified account or organization node already exists, this action will have no effect and will not return an error. To update an existing share, you must use the  UpdatePortfolioShare API instead. When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is then shared with other accounts. For a user in a recipient account who is not an Service Catalog Admin, but still has the ability to create Principals (Users/Groups/Roles), that user could create a role that matches a principal name association for the portfolio. Although this user may not know which principal names are associated through Service Catalog, they may be able to guess the user. If this potential escalation path is a concern, then Service Catalog recommends using PrincipalType as IAM. With this configuration, the PrincipalARN must already exist in the recipient account before it can be associated.
-    func createPortfolioShare(input: CreatePortfolioShareInput) async throws -> CreatePortfolioShareOutputResponse
+    ///
+    /// - Parameter CreatePortfolioShareInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePortfolioShareOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
+    /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
+    /// - `OperationNotSupportedException` : The operation is not supported.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func createPortfolioShare(input: CreatePortfolioShareInput) async throws -> CreatePortfolioShareOutput
+    /// Performs the `CreateProduct` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Creates a product. A delegated admin is authorized to invoke this command. The user or role that performs this operation must have the cloudformation:GetTemplate IAM policy permission. This policy permission is required when using the ImportFromPhysicalId template source in the information data section.
-    func createProduct(input: CreateProductInput) async throws -> CreateProductOutputResponse
+    ///
+    /// - Parameter CreateProductInput : [no documentation found]
+    ///
+    /// - Returns: `CreateProductOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
+    /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
+    func createProduct(input: CreateProductInput) async throws -> CreateProductOutput
+    /// Performs the `CreateProvisionedProductPlan` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Creates a plan. A plan includes the list of resources to be created (when provisioning a new product) or modified (when updating a provisioned product) when the plan is executed. You can create one plan for each provisioned product. To create a plan for an existing provisioned product, the product status must be AVAILABLE or TAINTED. To view the resource changes in the change set, use [DescribeProvisionedProductPlan]. To create or modify the provisioned product, use [ExecuteProvisionedProductPlan].
-    func createProvisionedProductPlan(input: CreateProvisionedProductPlanInput) async throws -> CreateProvisionedProductPlanOutputResponse
+    ///
+    /// - Parameter CreateProvisionedProductPlanInput : [no documentation found]
+    ///
+    /// - Returns: `CreateProvisionedProductPlanOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func createProvisionedProductPlan(input: CreateProvisionedProductPlanInput) async throws -> CreateProvisionedProductPlanOutput
+    /// Performs the `CreateProvisioningArtifact` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Creates a provisioning artifact (also known as a version) for the specified product. You cannot create a provisioning artifact for a product that was shared with you. The user or role that performs this operation must have the cloudformation:GetTemplate IAM policy permission. This policy permission is required when using the ImportFromPhysicalId template source in the information data section.
-    func createProvisioningArtifact(input: CreateProvisioningArtifactInput) async throws -> CreateProvisioningArtifactOutputResponse
+    ///
+    /// - Parameter CreateProvisioningArtifactInput : [no documentation found]
+    ///
+    /// - Returns: `CreateProvisioningArtifactOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func createProvisioningArtifact(input: CreateProvisioningArtifactInput) async throws -> CreateProvisioningArtifactOutput
+    /// Performs the `CreateServiceAction` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Creates a self-service action.
-    func createServiceAction(input: CreateServiceActionInput) async throws -> CreateServiceActionOutputResponse
+    ///
+    /// - Parameter CreateServiceActionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateServiceActionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
+    func createServiceAction(input: CreateServiceActionInput) async throws -> CreateServiceActionOutput
+    /// Performs the `CreateTagOption` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Creates a TagOption.
-    func createTagOption(input: CreateTagOptionInput) async throws -> CreateTagOptionOutputResponse
+    ///
+    /// - Parameter CreateTagOptionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTagOptionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : The specified resource is a duplicate.
+    /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
+    /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
+    func createTagOption(input: CreateTagOptionInput) async throws -> CreateTagOptionOutput
+    /// Performs the `DeleteConstraint` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Deletes the specified constraint. A delegated admin is authorized to invoke this command.
-    func deleteConstraint(input: DeleteConstraintInput) async throws -> DeleteConstraintOutputResponse
+    ///
+    /// - Parameter DeleteConstraintInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteConstraintOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func deleteConstraint(input: DeleteConstraintInput) async throws -> DeleteConstraintOutput
+    /// Performs the `DeletePortfolio` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Deletes the specified portfolio. You cannot delete a portfolio if it was shared with you or if it has associated products, users, constraints, or shared accounts. A delegated admin is authorized to invoke this command.
-    func deletePortfolio(input: DeletePortfolioInput) async throws -> DeletePortfolioOutputResponse
+    ///
+    /// - Parameter DeletePortfolioInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePortfolioOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceInUseException` : A resource that is currently in use. Ensure that the resource is not in use and retry the operation.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
+    func deletePortfolio(input: DeletePortfolioInput) async throws -> DeletePortfolioOutput
+    /// Performs the `DeletePortfolioShare` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Stops sharing the specified portfolio with the specified account or organization node. Shares to an organization node can only be deleted by the management account of an organization or by a delegated administrator. Note that if a delegated admin is de-registered, portfolio shares created from that account are removed.
-    func deletePortfolioShare(input: DeletePortfolioShareInput) async throws -> DeletePortfolioShareOutputResponse
+    ///
+    /// - Parameter DeletePortfolioShareInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePortfolioShareOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
+    /// - `OperationNotSupportedException` : The operation is not supported.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func deletePortfolioShare(input: DeletePortfolioShareInput) async throws -> DeletePortfolioShareOutput
+    /// Performs the `DeleteProduct` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Deletes the specified product. You cannot delete a product if it was shared with you or is associated with a portfolio. A delegated admin is authorized to invoke this command.
-    func deleteProduct(input: DeleteProductInput) async throws -> DeleteProductOutputResponse
+    ///
+    /// - Parameter DeleteProductInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteProductOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceInUseException` : A resource that is currently in use. Ensure that the resource is not in use and retry the operation.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
+    func deleteProduct(input: DeleteProductInput) async throws -> DeleteProductOutput
+    /// Performs the `DeleteProvisionedProductPlan` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Deletes the specified plan.
-    func deleteProvisionedProductPlan(input: DeleteProvisionedProductPlanInput) async throws -> DeleteProvisionedProductPlanOutputResponse
+    ///
+    /// - Parameter DeleteProvisionedProductPlanInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteProvisionedProductPlanOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func deleteProvisionedProductPlan(input: DeleteProvisionedProductPlanInput) async throws -> DeleteProvisionedProductPlanOutput
+    /// Performs the `DeleteProvisioningArtifact` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Deletes the specified provisioning artifact (also known as a version) for the specified product. You cannot delete a provisioning artifact associated with a product that was shared with you. You cannot delete the last provisioning artifact for a product, because a product must have at least one provisioning artifact.
-    func deleteProvisioningArtifact(input: DeleteProvisioningArtifactInput) async throws -> DeleteProvisioningArtifactOutputResponse
+    ///
+    /// - Parameter DeleteProvisioningArtifactInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteProvisioningArtifactOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceInUseException` : A resource that is currently in use. Ensure that the resource is not in use and retry the operation.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func deleteProvisioningArtifact(input: DeleteProvisioningArtifactInput) async throws -> DeleteProvisioningArtifactOutput
+    /// Performs the `DeleteServiceAction` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Deletes a self-service action.
-    func deleteServiceAction(input: DeleteServiceActionInput) async throws -> DeleteServiceActionOutputResponse
+    ///
+    /// - Parameter DeleteServiceActionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteServiceActionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceInUseException` : A resource that is currently in use. Ensure that the resource is not in use and retry the operation.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func deleteServiceAction(input: DeleteServiceActionInput) async throws -> DeleteServiceActionOutput
+    /// Performs the `DeleteTagOption` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Deletes the specified TagOption. You cannot delete a TagOption if it is associated with a product or portfolio.
-    func deleteTagOption(input: DeleteTagOptionInput) async throws -> DeleteTagOptionOutputResponse
+    ///
+    /// - Parameter DeleteTagOptionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTagOptionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceInUseException` : A resource that is currently in use. Ensure that the resource is not in use and retry the operation.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
+    func deleteTagOption(input: DeleteTagOptionInput) async throws -> DeleteTagOptionOutput
+    /// Performs the `DescribeConstraint` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Gets information about the specified constraint.
-    func describeConstraint(input: DescribeConstraintInput) async throws -> DescribeConstraintOutputResponse
+    ///
+    /// - Parameter DescribeConstraintInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeConstraintOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func describeConstraint(input: DescribeConstraintInput) async throws -> DescribeConstraintOutput
+    /// Performs the `DescribeCopyProductStatus` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Gets the status of the specified copy product operation.
-    func describeCopyProductStatus(input: DescribeCopyProductStatusInput) async throws -> DescribeCopyProductStatusOutputResponse
+    ///
+    /// - Parameter DescribeCopyProductStatusInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCopyProductStatusOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func describeCopyProductStatus(input: DescribeCopyProductStatusInput) async throws -> DescribeCopyProductStatusOutput
+    /// Performs the `DescribePortfolio` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Gets information about the specified portfolio. A delegated admin is authorized to invoke this command.
-    func describePortfolio(input: DescribePortfolioInput) async throws -> DescribePortfolioOutputResponse
+    ///
+    /// - Parameter DescribePortfolioInput : [no documentation found]
+    ///
+    /// - Returns: `DescribePortfolioOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func describePortfolio(input: DescribePortfolioInput) async throws -> DescribePortfolioOutput
+    /// Performs the `DescribePortfolioShares` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Returns a summary of each of the portfolio shares that were created for the specified portfolio. You can use this API to determine which accounts or organizational nodes this portfolio have been shared, whether the recipient entity has imported the share, and whether TagOptions are included with the share. The PortfolioId and Type parameters are both required.
-    func describePortfolioShares(input: DescribePortfolioSharesInput) async throws -> DescribePortfolioSharesOutputResponse
+    ///
+    /// - Parameter DescribePortfolioSharesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribePortfolioSharesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func describePortfolioShares(input: DescribePortfolioSharesInput) async throws -> DescribePortfolioSharesOutput
+    /// Performs the `DescribePortfolioShareStatus` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Gets the status of the specified portfolio share operation. This API can only be called by the management account in the organization or by a delegated admin.
-    func describePortfolioShareStatus(input: DescribePortfolioShareStatusInput) async throws -> DescribePortfolioShareStatusOutputResponse
+    ///
+    /// - Parameter DescribePortfolioShareStatusInput : [no documentation found]
+    ///
+    /// - Returns: `DescribePortfolioShareStatusOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `OperationNotSupportedException` : The operation is not supported.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func describePortfolioShareStatus(input: DescribePortfolioShareStatusInput) async throws -> DescribePortfolioShareStatusOutput
+    /// Performs the `DescribeProduct` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Gets information about the specified product. Running this operation with administrator access results in a failure. [DescribeProductAsAdmin] should be used instead.
-    func describeProduct(input: DescribeProductInput) async throws -> DescribeProductOutputResponse
+    ///
+    /// - Parameter DescribeProductInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeProductOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func describeProduct(input: DescribeProductInput) async throws -> DescribeProductOutput
+    /// Performs the `DescribeProductAsAdmin` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Gets information about the specified product. This operation is run with administrator access.
-    func describeProductAsAdmin(input: DescribeProductAsAdminInput) async throws -> DescribeProductAsAdminOutputResponse
+    ///
+    /// - Parameter DescribeProductAsAdminInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeProductAsAdminOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func describeProductAsAdmin(input: DescribeProductAsAdminInput) async throws -> DescribeProductAsAdminOutput
+    /// Performs the `DescribeProductView` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Gets information about the specified product.
-    func describeProductView(input: DescribeProductViewInput) async throws -> DescribeProductViewOutputResponse
+    ///
+    /// - Parameter DescribeProductViewInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeProductViewOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func describeProductView(input: DescribeProductViewInput) async throws -> DescribeProductViewOutput
+    /// Performs the `DescribeProvisionedProduct` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Gets information about the specified provisioned product.
-    func describeProvisionedProduct(input: DescribeProvisionedProductInput) async throws -> DescribeProvisionedProductOutputResponse
+    ///
+    /// - Parameter DescribeProvisionedProductInput : DescribeProvisionedProductAPI input structure. AcceptLanguage - [Optional] The language code for localization. Id - [Optional] The provisioned product identifier. Name - [Optional] Another provisioned product identifier. Customers must provide either Id or Name.
+    ///
+    /// - Returns: `DescribeProvisionedProductOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func describeProvisionedProduct(input: DescribeProvisionedProductInput) async throws -> DescribeProvisionedProductOutput
+    /// Performs the `DescribeProvisionedProductPlan` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Gets information about the resource changes for the specified plan.
-    func describeProvisionedProductPlan(input: DescribeProvisionedProductPlanInput) async throws -> DescribeProvisionedProductPlanOutputResponse
+    ///
+    /// - Parameter DescribeProvisionedProductPlanInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeProvisionedProductPlanOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func describeProvisionedProductPlan(input: DescribeProvisionedProductPlanInput) async throws -> DescribeProvisionedProductPlanOutput
+    /// Performs the `DescribeProvisioningArtifact` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Gets information about the specified provisioning artifact (also known as a version) for the specified product.
-    func describeProvisioningArtifact(input: DescribeProvisioningArtifactInput) async throws -> DescribeProvisioningArtifactOutputResponse
+    ///
+    /// - Parameter DescribeProvisioningArtifactInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeProvisioningArtifactOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func describeProvisioningArtifact(input: DescribeProvisioningArtifactInput) async throws -> DescribeProvisioningArtifactOutput
+    /// Performs the `DescribeProvisioningParameters` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Gets information about the configuration required to provision the specified product using the specified provisioning artifact. If the output contains a TagOption key with an empty list of values, there is a TagOption conflict for that key. The end user cannot take action to fix the conflict, and launch is not blocked. In subsequent calls to [ProvisionProduct], do not include conflicted TagOption keys as tags, or this causes the error "Parameter validation failed: Missing required parameter in Tags[N]:Value". Tag the provisioned product with the value sc-tagoption-conflict-portfolioId-productId.
-    func describeProvisioningParameters(input: DescribeProvisioningParametersInput) async throws -> DescribeProvisioningParametersOutputResponse
+    ///
+    /// - Parameter DescribeProvisioningParametersInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeProvisioningParametersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func describeProvisioningParameters(input: DescribeProvisioningParametersInput) async throws -> DescribeProvisioningParametersOutput
+    /// Performs the `DescribeRecord` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Gets information about the specified request operation. Use this operation after calling a request operation (for example, [ProvisionProduct], [TerminateProvisionedProduct], or [UpdateProvisionedProduct]). If a provisioned product was transferred to a new owner using [UpdateProvisionedProductProperties], the new owner will be able to describe all past records for that product. The previous owner will no longer be able to describe the records, but will be able to use [ListRecordHistory] to see the product's history from when he was the owner.
-    func describeRecord(input: DescribeRecordInput) async throws -> DescribeRecordOutputResponse
+    ///
+    /// - Parameter DescribeRecordInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeRecordOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func describeRecord(input: DescribeRecordInput) async throws -> DescribeRecordOutput
+    /// Performs the `DescribeServiceAction` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Describes a self-service action.
-    func describeServiceAction(input: DescribeServiceActionInput) async throws -> DescribeServiceActionOutputResponse
+    ///
+    /// - Parameter DescribeServiceActionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeServiceActionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func describeServiceAction(input: DescribeServiceActionInput) async throws -> DescribeServiceActionOutput
+    /// Performs the `DescribeServiceActionExecutionParameters` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Finds the default parameters for a specific self-service action on a specific provisioned product and returns a map of the results to the user.
-    func describeServiceActionExecutionParameters(input: DescribeServiceActionExecutionParametersInput) async throws -> DescribeServiceActionExecutionParametersOutputResponse
+    ///
+    /// - Parameter DescribeServiceActionExecutionParametersInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeServiceActionExecutionParametersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func describeServiceActionExecutionParameters(input: DescribeServiceActionExecutionParametersInput) async throws -> DescribeServiceActionExecutionParametersOutput
+    /// Performs the `DescribeTagOption` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Gets information about the specified TagOption.
-    func describeTagOption(input: DescribeTagOptionInput) async throws -> DescribeTagOptionOutputResponse
+    ///
+    /// - Parameter DescribeTagOptionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeTagOptionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
+    func describeTagOption(input: DescribeTagOptionInput) async throws -> DescribeTagOptionOutput
+    /// Performs the `DisableAWSOrganizationsAccess` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Disable portfolio sharing through the Organizations service. This command will not delete your current shares, but prevents you from creating new shares throughout your organization. Current shares are not kept in sync with your organization structure if the structure changes after calling this API. Only the management account in the organization can call this API. You cannot call this API if there are active delegated administrators in the organization. Note that a delegated administrator is not authorized to invoke DisableAWSOrganizationsAccess. If you share an Service Catalog portfolio in an organization within Organizations, and then disable Organizations access for Service Catalog, the portfolio access permissions will not sync with the latest changes to the organization structure. Specifically, accounts that you removed from the organization after disabling Service Catalog access will retain access to the previously shared portfolio.
-    func disableAWSOrganizationsAccess(input: DisableAWSOrganizationsAccessInput) async throws -> DisableAWSOrganizationsAccessOutputResponse
+    ///
+    /// - Parameter DisableAWSOrganizationsAccessInput : [no documentation found]
+    ///
+    /// - Returns: `DisableAWSOrganizationsAccessOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
+    /// - `OperationNotSupportedException` : The operation is not supported.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func disableAWSOrganizationsAccess(input: DisableAWSOrganizationsAccessInput) async throws -> DisableAWSOrganizationsAccessOutput
+    /// Performs the `DisassociateBudgetFromResource` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Disassociates the specified budget from the specified resource.
-    func disassociateBudgetFromResource(input: DisassociateBudgetFromResourceInput) async throws -> DisassociateBudgetFromResourceOutputResponse
+    ///
+    /// - Parameter DisassociateBudgetFromResourceInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateBudgetFromResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func disassociateBudgetFromResource(input: DisassociateBudgetFromResourceInput) async throws -> DisassociateBudgetFromResourceOutput
+    /// Performs the `DisassociatePrincipalFromPortfolio` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Disassociates a previously associated principal ARN from a specified portfolio. The PrincipalType and PrincipalARN must match the AssociatePrincipalWithPortfolio call request details. For example, to disassociate an association created with a PrincipalARN of PrincipalType IAM you must use the PrincipalType IAM when calling DisassociatePrincipalFromPortfolio. For portfolios that have been shared with principal name sharing enabled: after disassociating a principal, share recipient accounts will no longer be able to provision products in this portfolio using a role matching the name of the associated principal. For more information, review [associate-principal-with-portfolio](https://docs.aws.amazon.com/cli/latest/reference/servicecatalog/associate-principal-with-portfolio.html#options) in the Amazon Web Services CLI Command Reference. If you disassociate a principal from a portfolio, with PrincipalType as IAM, the same principal will still have access to the portfolio if it matches one of the associated principals of type IAM_PATTERN. To fully remove access for a principal, verify all the associated Principals of type IAM_PATTERN, and then ensure you disassociate any IAM_PATTERN principals that match the principal whose access you are removing.
-    func disassociatePrincipalFromPortfolio(input: DisassociatePrincipalFromPortfolioInput) async throws -> DisassociatePrincipalFromPortfolioOutputResponse
+    ///
+    /// - Parameter DisassociatePrincipalFromPortfolioInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociatePrincipalFromPortfolioOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func disassociatePrincipalFromPortfolio(input: DisassociatePrincipalFromPortfolioInput) async throws -> DisassociatePrincipalFromPortfolioOutput
+    /// Performs the `DisassociateProductFromPortfolio` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Disassociates the specified product from the specified portfolio. A delegated admin is authorized to invoke this command.
-    func disassociateProductFromPortfolio(input: DisassociateProductFromPortfolioInput) async throws -> DisassociateProductFromPortfolioOutputResponse
+    ///
+    /// - Parameter DisassociateProductFromPortfolioInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateProductFromPortfolioOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceInUseException` : A resource that is currently in use. Ensure that the resource is not in use and retry the operation.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func disassociateProductFromPortfolio(input: DisassociateProductFromPortfolioInput) async throws -> DisassociateProductFromPortfolioOutput
+    /// Performs the `DisassociateServiceActionFromProvisioningArtifact` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Disassociates the specified self-service action association from the specified provisioning artifact.
-    func disassociateServiceActionFromProvisioningArtifact(input: DisassociateServiceActionFromProvisioningArtifactInput) async throws -> DisassociateServiceActionFromProvisioningArtifactOutputResponse
+    ///
+    /// - Parameter DisassociateServiceActionFromProvisioningArtifactInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateServiceActionFromProvisioningArtifactOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func disassociateServiceActionFromProvisioningArtifact(input: DisassociateServiceActionFromProvisioningArtifactInput) async throws -> DisassociateServiceActionFromProvisioningArtifactOutput
+    /// Performs the `DisassociateTagOptionFromResource` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Disassociates the specified TagOption from the specified resource.
-    func disassociateTagOptionFromResource(input: DisassociateTagOptionFromResourceInput) async throws -> DisassociateTagOptionFromResourceOutputResponse
+    ///
+    /// - Parameter DisassociateTagOptionFromResourceInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateTagOptionFromResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
+    func disassociateTagOptionFromResource(input: DisassociateTagOptionFromResourceInput) async throws -> DisassociateTagOptionFromResourceOutput
+    /// Performs the `EnableAWSOrganizationsAccess` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Enable portfolio sharing feature through Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the current structure. This API can only be called by the management account in the organization. When you call this API, Service Catalog calls organizations:EnableAWSServiceAccess on your behalf so that your shares stay in sync with any changes in your Organizations structure. Note that a delegated administrator is not authorized to invoke EnableAWSOrganizationsAccess. If you have previously disabled Organizations access for Service Catalog, and then enable access again, the portfolio access permissions might not sync with the latest changes to the organization structure. Specifically, accounts that you removed from the organization after disabling Service Catalog access, and before you enabled access again, can retain access to the previously shared portfolio. As a result, an account that has been removed from the organization might still be able to create or manage Amazon Web Services resources when it is no longer authorized to do so. Amazon Web Services is working to resolve this issue.
-    func enableAWSOrganizationsAccess(input: EnableAWSOrganizationsAccessInput) async throws -> EnableAWSOrganizationsAccessOutputResponse
+    ///
+    /// - Parameter EnableAWSOrganizationsAccessInput : [no documentation found]
+    ///
+    /// - Returns: `EnableAWSOrganizationsAccessOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
+    /// - `OperationNotSupportedException` : The operation is not supported.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func enableAWSOrganizationsAccess(input: EnableAWSOrganizationsAccessInput) async throws -> EnableAWSOrganizationsAccessOutput
+    /// Performs the `ExecuteProvisionedProductPlan` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Provisions or modifies a product based on the resource changes for the specified plan.
-    func executeProvisionedProductPlan(input: ExecuteProvisionedProductPlanInput) async throws -> ExecuteProvisionedProductPlanOutputResponse
+    ///
+    /// - Parameter ExecuteProvisionedProductPlanInput : [no documentation found]
+    ///
+    /// - Returns: `ExecuteProvisionedProductPlanOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func executeProvisionedProductPlan(input: ExecuteProvisionedProductPlanInput) async throws -> ExecuteProvisionedProductPlanOutput
+    /// Performs the `ExecuteProvisionedProductServiceAction` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Executes a self-service action against a provisioned product.
-    func executeProvisionedProductServiceAction(input: ExecuteProvisionedProductServiceActionInput) async throws -> ExecuteProvisionedProductServiceActionOutputResponse
+    ///
+    /// - Parameter ExecuteProvisionedProductServiceActionInput : [no documentation found]
+    ///
+    /// - Returns: `ExecuteProvisionedProductServiceActionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func executeProvisionedProductServiceAction(input: ExecuteProvisionedProductServiceActionInput) async throws -> ExecuteProvisionedProductServiceActionOutput
+    /// Performs the `GetAWSOrganizationsAccessStatus` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Get the Access Status for Organizations portfolio share feature. This API can only be called by the management account in the organization or by a delegated admin.
-    func getAWSOrganizationsAccessStatus(input: GetAWSOrganizationsAccessStatusInput) async throws -> GetAWSOrganizationsAccessStatusOutputResponse
+    ///
+    /// - Parameter GetAWSOrganizationsAccessStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetAWSOrganizationsAccessStatusOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotSupportedException` : The operation is not supported.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func getAWSOrganizationsAccessStatus(input: GetAWSOrganizationsAccessStatusInput) async throws -> GetAWSOrganizationsAccessStatusOutput
+    /// Performs the `GetProvisionedProductOutputs` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// This API takes either a ProvisonedProductId or a ProvisionedProductName, along with a list of one or more output keys, and responds with the key/value pairs of those outputs.
-    func getProvisionedProductOutputs(input: GetProvisionedProductOutputsInput) async throws -> GetProvisionedProductOutputsOutputResponse
-    /// Requests the import of a resource as an Service Catalog provisioned product that is associated to an Service Catalog product and provisioning artifact. Once imported, all supported governance actions are supported on the provisioned product. Resource import only supports CloudFormation stack ARNs. CloudFormation StackSets, and non-root nested stacks are not supported. The CloudFormation stack must have one of the following statuses to be imported: CREATE_COMPLETE, UPDATE_COMPLETE, UPDATE_ROLLBACK_COMPLETE, IMPORT_COMPLETE, and IMPORT_ROLLBACK_COMPLETE. Import of the resource requires that the CloudFormation stack template matches the associated Service Catalog product provisioning artifact. When you import an existing CloudFormation stack into a portfolio, constraints that are associated with the product aren't applied during the import process. The constraints are applied after you call UpdateProvisionedProduct for the provisioned product. The user or role that performs this operation must have the cloudformation:GetTemplate and cloudformation:DescribeStacks IAM policy permissions.
-    func importAsProvisionedProduct(input: ImportAsProvisionedProductInput) async throws -> ImportAsProvisionedProductOutputResponse
+    ///
+    /// - Parameter GetProvisionedProductOutputsInput : [no documentation found]
+    ///
+    /// - Returns: `GetProvisionedProductOutputsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func getProvisionedProductOutputs(input: GetProvisionedProductOutputsInput) async throws -> GetProvisionedProductOutputsOutput
+    /// Performs the `ImportAsProvisionedProduct` operation on the `AWS242ServiceCatalogService` service.
+    ///
+    /// Requests the import of a resource as an Service Catalog provisioned product that is associated to an Service Catalog product and provisioning artifact. Once imported, all supported governance actions are supported on the provisioned product. Resource import only supports CloudFormation stack ARNs. CloudFormation StackSets, and non-root nested stacks, are not supported. The CloudFormation stack must have one of the following statuses to be imported: CREATE_COMPLETE, UPDATE_COMPLETE, UPDATE_ROLLBACK_COMPLETE, IMPORT_COMPLETE, and IMPORT_ROLLBACK_COMPLETE. Import of the resource requires that the CloudFormation stack template matches the associated Service Catalog product provisioning artifact. When you import an existing CloudFormation stack into a portfolio, Service Catalog does not apply the product's associated constraints during the import process. Service Catalog applies the constraints after you call UpdateProvisionedProduct for the provisioned product. The user or role that performs this operation must have the cloudformation:GetTemplate and cloudformation:DescribeStacks IAM policy permissions. You can only import one provisioned product at a time. The product's CloudFormation stack must have the IMPORT_COMPLETE status before you import another.
+    ///
+    /// - Parameter ImportAsProvisionedProductInput : [no documentation found]
+    ///
+    /// - Returns: `ImportAsProvisionedProductOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : The specified resource is a duplicate.
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func importAsProvisionedProduct(input: ImportAsProvisionedProductInput) async throws -> ImportAsProvisionedProductOutput
+    /// Performs the `ListAcceptedPortfolioShares` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Lists all imported portfolios for which account-to-account shares were accepted by this account. By specifying the PortfolioShareType, you can list portfolios for which organizational shares were accepted by this account.
-    func listAcceptedPortfolioShares(input: ListAcceptedPortfolioSharesInput) async throws -> ListAcceptedPortfolioSharesOutputResponse
+    ///
+    /// - Parameter ListAcceptedPortfolioSharesInput : [no documentation found]
+    ///
+    /// - Returns: `ListAcceptedPortfolioSharesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `OperationNotSupportedException` : The operation is not supported.
+    func listAcceptedPortfolioShares(input: ListAcceptedPortfolioSharesInput) async throws -> ListAcceptedPortfolioSharesOutput
+    /// Performs the `ListBudgetsForResource` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Lists all the budgets associated to the specified resource.
-    func listBudgetsForResource(input: ListBudgetsForResourceInput) async throws -> ListBudgetsForResourceOutputResponse
+    ///
+    /// - Parameter ListBudgetsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListBudgetsForResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func listBudgetsForResource(input: ListBudgetsForResourceInput) async throws -> ListBudgetsForResourceOutput
+    /// Performs the `ListConstraintsForPortfolio` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Lists the constraints for the specified portfolio and product.
-    func listConstraintsForPortfolio(input: ListConstraintsForPortfolioInput) async throws -> ListConstraintsForPortfolioOutputResponse
+    ///
+    /// - Parameter ListConstraintsForPortfolioInput : [no documentation found]
+    ///
+    /// - Returns: `ListConstraintsForPortfolioOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func listConstraintsForPortfolio(input: ListConstraintsForPortfolioInput) async throws -> ListConstraintsForPortfolioOutput
+    /// Performs the `ListLaunchPaths` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Lists the paths to the specified product. A path describes how the user gets access to a specified product and is necessary when provisioning a product. A path also determines the constraints that are put on a product. A path is dependent on a specific product, porfolio, and principal. When provisioning a product that's been added to a portfolio, you must grant your user, group, or role access to the portfolio. For more information, see [Granting users access](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/catalogs_portfolios_users.html) in the Service Catalog User Guide.
-    func listLaunchPaths(input: ListLaunchPathsInput) async throws -> ListLaunchPathsOutputResponse
+    ///
+    /// - Parameter ListLaunchPathsInput : [no documentation found]
+    ///
+    /// - Returns: `ListLaunchPathsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func listLaunchPaths(input: ListLaunchPathsInput) async throws -> ListLaunchPathsOutput
+    /// Performs the `ListOrganizationPortfolioAccess` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Lists the organization nodes that have access to the specified portfolio. This API can only be called by the management account in the organization or by a delegated admin. If a delegated admin is de-registered, they can no longer perform this operation.
-    func listOrganizationPortfolioAccess(input: ListOrganizationPortfolioAccessInput) async throws -> ListOrganizationPortfolioAccessOutputResponse
+    ///
+    /// - Parameter ListOrganizationPortfolioAccessInput : [no documentation found]
+    ///
+    /// - Returns: `ListOrganizationPortfolioAccessOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `OperationNotSupportedException` : The operation is not supported.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func listOrganizationPortfolioAccess(input: ListOrganizationPortfolioAccessInput) async throws -> ListOrganizationPortfolioAccessOutput
+    /// Performs the `ListPortfolioAccess` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Lists the account IDs that have access to the specified portfolio. A delegated admin can list the accounts that have access to the shared portfolio. Note that if a delegated admin is de-registered, they can no longer perform this operation.
-    func listPortfolioAccess(input: ListPortfolioAccessInput) async throws -> ListPortfolioAccessOutputResponse
+    ///
+    /// - Parameter ListPortfolioAccessInput : [no documentation found]
+    ///
+    /// - Returns: `ListPortfolioAccessOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func listPortfolioAccess(input: ListPortfolioAccessInput) async throws -> ListPortfolioAccessOutput
+    /// Performs the `ListPortfolios` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Lists all portfolios in the catalog.
-    func listPortfolios(input: ListPortfoliosInput) async throws -> ListPortfoliosOutputResponse
+    ///
+    /// - Parameter ListPortfoliosInput : [no documentation found]
+    ///
+    /// - Returns: `ListPortfoliosOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    func listPortfolios(input: ListPortfoliosInput) async throws -> ListPortfoliosOutput
+    /// Performs the `ListPortfoliosForProduct` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Lists all portfolios that the specified product is associated with.
-    func listPortfoliosForProduct(input: ListPortfoliosForProductInput) async throws -> ListPortfoliosForProductOutputResponse
+    ///
+    /// - Parameter ListPortfoliosForProductInput : [no documentation found]
+    ///
+    /// - Returns: `ListPortfoliosForProductOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func listPortfoliosForProduct(input: ListPortfoliosForProductInput) async throws -> ListPortfoliosForProductOutput
+    /// Performs the `ListPrincipalsForPortfolio` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Lists all PrincipalARNs and corresponding PrincipalTypes associated with the specified portfolio.
-    func listPrincipalsForPortfolio(input: ListPrincipalsForPortfolioInput) async throws -> ListPrincipalsForPortfolioOutputResponse
+    ///
+    /// - Parameter ListPrincipalsForPortfolioInput : [no documentation found]
+    ///
+    /// - Returns: `ListPrincipalsForPortfolioOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func listPrincipalsForPortfolio(input: ListPrincipalsForPortfolioInput) async throws -> ListPrincipalsForPortfolioOutput
+    /// Performs the `ListProvisionedProductPlans` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Lists the plans for the specified provisioned product or all plans to which the user has access.
-    func listProvisionedProductPlans(input: ListProvisionedProductPlansInput) async throws -> ListProvisionedProductPlansOutputResponse
+    ///
+    /// - Parameter ListProvisionedProductPlansInput : [no documentation found]
+    ///
+    /// - Returns: `ListProvisionedProductPlansOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func listProvisionedProductPlans(input: ListProvisionedProductPlansInput) async throws -> ListProvisionedProductPlansOutput
+    /// Performs the `ListProvisioningArtifacts` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Lists all provisioning artifacts (also known as versions) for the specified product.
-    func listProvisioningArtifacts(input: ListProvisioningArtifactsInput) async throws -> ListProvisioningArtifactsOutputResponse
+    ///
+    /// - Parameter ListProvisioningArtifactsInput : [no documentation found]
+    ///
+    /// - Returns: `ListProvisioningArtifactsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func listProvisioningArtifacts(input: ListProvisioningArtifactsInput) async throws -> ListProvisioningArtifactsOutput
+    /// Performs the `ListProvisioningArtifactsForServiceAction` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Lists all provisioning artifacts (also known as versions) for the specified self-service action.
-    func listProvisioningArtifactsForServiceAction(input: ListProvisioningArtifactsForServiceActionInput) async throws -> ListProvisioningArtifactsForServiceActionOutputResponse
+    ///
+    /// - Parameter ListProvisioningArtifactsForServiceActionInput : [no documentation found]
+    ///
+    /// - Returns: `ListProvisioningArtifactsForServiceActionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func listProvisioningArtifactsForServiceAction(input: ListProvisioningArtifactsForServiceActionInput) async throws -> ListProvisioningArtifactsForServiceActionOutput
+    /// Performs the `ListRecordHistory` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Lists the specified requests or all performed requests.
-    func listRecordHistory(input: ListRecordHistoryInput) async throws -> ListRecordHistoryOutputResponse
+    ///
+    /// - Parameter ListRecordHistoryInput : [no documentation found]
+    ///
+    /// - Returns: `ListRecordHistoryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    func listRecordHistory(input: ListRecordHistoryInput) async throws -> ListRecordHistoryOutput
+    /// Performs the `ListResourcesForTagOption` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Lists the resources associated with the specified TagOption.
-    func listResourcesForTagOption(input: ListResourcesForTagOptionInput) async throws -> ListResourcesForTagOptionOutputResponse
+    ///
+    /// - Parameter ListResourcesForTagOptionInput : [no documentation found]
+    ///
+    /// - Returns: `ListResourcesForTagOptionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
+    func listResourcesForTagOption(input: ListResourcesForTagOptionInput) async throws -> ListResourcesForTagOptionOutput
+    /// Performs the `ListServiceActions` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Lists all self-service actions.
-    func listServiceActions(input: ListServiceActionsInput) async throws -> ListServiceActionsOutputResponse
+    ///
+    /// - Parameter ListServiceActionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListServiceActionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    func listServiceActions(input: ListServiceActionsInput) async throws -> ListServiceActionsOutput
+    /// Performs the `ListServiceActionsForProvisioningArtifact` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Returns a paginated list of self-service actions associated with the specified Product ID and Provisioning Artifact ID.
-    func listServiceActionsForProvisioningArtifact(input: ListServiceActionsForProvisioningArtifactInput) async throws -> ListServiceActionsForProvisioningArtifactOutputResponse
+    ///
+    /// - Parameter ListServiceActionsForProvisioningArtifactInput : [no documentation found]
+    ///
+    /// - Returns: `ListServiceActionsForProvisioningArtifactOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func listServiceActionsForProvisioningArtifact(input: ListServiceActionsForProvisioningArtifactInput) async throws -> ListServiceActionsForProvisioningArtifactOutput
+    /// Performs the `ListStackInstancesForProvisionedProduct` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Returns summary information about stack instances that are associated with the specified CFN_STACKSET type provisioned product. You can filter for stack instances that are associated with a specific Amazon Web Services account name or Region.
-    func listStackInstancesForProvisionedProduct(input: ListStackInstancesForProvisionedProductInput) async throws -> ListStackInstancesForProvisionedProductOutputResponse
+    ///
+    /// - Parameter ListStackInstancesForProvisionedProductInput : [no documentation found]
+    ///
+    /// - Returns: `ListStackInstancesForProvisionedProductOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func listStackInstancesForProvisionedProduct(input: ListStackInstancesForProvisionedProductInput) async throws -> ListStackInstancesForProvisionedProductOutput
+    /// Performs the `ListTagOptions` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Lists the specified TagOptions or all TagOptions.
-    func listTagOptions(input: ListTagOptionsInput) async throws -> ListTagOptionsOutputResponse
+    ///
+    /// - Parameter ListTagOptionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagOptionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
+    func listTagOptions(input: ListTagOptionsInput) async throws -> ListTagOptionsOutput
+    /// Performs the `NotifyProvisionProductEngineWorkflowResult` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Notifies the result of the provisioning engine execution.
-    func notifyProvisionProductEngineWorkflowResult(input: NotifyProvisionProductEngineWorkflowResultInput) async throws -> NotifyProvisionProductEngineWorkflowResultOutputResponse
+    ///
+    /// - Parameter NotifyProvisionProductEngineWorkflowResultInput : [no documentation found]
+    ///
+    /// - Returns: `NotifyProvisionProductEngineWorkflowResultOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func notifyProvisionProductEngineWorkflowResult(input: NotifyProvisionProductEngineWorkflowResultInput) async throws -> NotifyProvisionProductEngineWorkflowResultOutput
+    /// Performs the `NotifyTerminateProvisionedProductEngineWorkflowResult` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Notifies the result of the terminate engine execution.
-    func notifyTerminateProvisionedProductEngineWorkflowResult(input: NotifyTerminateProvisionedProductEngineWorkflowResultInput) async throws -> NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse
+    ///
+    /// - Parameter NotifyTerminateProvisionedProductEngineWorkflowResultInput : [no documentation found]
+    ///
+    /// - Returns: `NotifyTerminateProvisionedProductEngineWorkflowResultOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func notifyTerminateProvisionedProductEngineWorkflowResult(input: NotifyTerminateProvisionedProductEngineWorkflowResultInput) async throws -> NotifyTerminateProvisionedProductEngineWorkflowResultOutput
+    /// Performs the `NotifyUpdateProvisionedProductEngineWorkflowResult` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Notifies the result of the update engine execution.
-    func notifyUpdateProvisionedProductEngineWorkflowResult(input: NotifyUpdateProvisionedProductEngineWorkflowResultInput) async throws -> NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse
+    ///
+    /// - Parameter NotifyUpdateProvisionedProductEngineWorkflowResultInput : [no documentation found]
+    ///
+    /// - Returns: `NotifyUpdateProvisionedProductEngineWorkflowResultOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func notifyUpdateProvisionedProductEngineWorkflowResult(input: NotifyUpdateProvisionedProductEngineWorkflowResultInput) async throws -> NotifyUpdateProvisionedProductEngineWorkflowResultOutput
+    /// Performs the `ProvisionProduct` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Provisions the specified product. A provisioned product is a resourced instance of a product. For example, provisioning a product that's based on an CloudFormation template launches an CloudFormation stack and its underlying resources. You can check the status of this request using [DescribeRecord]. If the request contains a tag key with an empty list of values, there's a tag conflict for that key. Don't include conflicted keys as tags, or this will cause the error "Parameter validation failed: Missing required parameter in Tags[N]:Value". When provisioning a product that's been added to a portfolio, you must grant your user, group, or role access to the portfolio. For more information, see [Granting users access](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/catalogs_portfolios_users.html) in the Service Catalog User Guide.
-    func provisionProduct(input: ProvisionProductInput) async throws -> ProvisionProductOutputResponse
+    ///
+    /// - Parameter ProvisionProductInput : [no documentation found]
+    ///
+    /// - Returns: `ProvisionProductOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : The specified resource is a duplicate.
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func provisionProduct(input: ProvisionProductInput) async throws -> ProvisionProductOutput
+    /// Performs the `RejectPortfolioShare` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Rejects an offer to share the specified portfolio.
-    func rejectPortfolioShare(input: RejectPortfolioShareInput) async throws -> RejectPortfolioShareOutputResponse
+    ///
+    /// - Parameter RejectPortfolioShareInput : [no documentation found]
+    ///
+    /// - Returns: `RejectPortfolioShareOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func rejectPortfolioShare(input: RejectPortfolioShareInput) async throws -> RejectPortfolioShareOutput
+    /// Performs the `ScanProvisionedProducts` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Lists the provisioned products that are available (not terminated). To use additional filtering, see [SearchProvisionedProducts].
-    func scanProvisionedProducts(input: ScanProvisionedProductsInput) async throws -> ScanProvisionedProductsOutputResponse
+    ///
+    /// - Parameter ScanProvisionedProductsInput : [no documentation found]
+    ///
+    /// - Returns: `ScanProvisionedProductsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    func scanProvisionedProducts(input: ScanProvisionedProductsInput) async throws -> ScanProvisionedProductsOutput
+    /// Performs the `SearchProducts` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Gets information about the products to which the caller has access.
-    func searchProducts(input: SearchProductsInput) async throws -> SearchProductsOutputResponse
+    ///
+    /// - Parameter SearchProductsInput : [no documentation found]
+    ///
+    /// - Returns: `SearchProductsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    func searchProducts(input: SearchProductsInput) async throws -> SearchProductsOutput
+    /// Performs the `SearchProductsAsAdmin` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Gets information about the products for the specified portfolio or all products.
-    func searchProductsAsAdmin(input: SearchProductsAsAdminInput) async throws -> SearchProductsAsAdminOutputResponse
+    ///
+    /// - Parameter SearchProductsAsAdminInput : [no documentation found]
+    ///
+    /// - Returns: `SearchProductsAsAdminOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func searchProductsAsAdmin(input: SearchProductsAsAdminInput) async throws -> SearchProductsAsAdminOutput
+    /// Performs the `SearchProvisionedProducts` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Gets information about the provisioned products that meet the specified criteria.
-    func searchProvisionedProducts(input: SearchProvisionedProductsInput) async throws -> SearchProvisionedProductsOutputResponse
+    ///
+    /// - Parameter SearchProvisionedProductsInput : [no documentation found]
+    ///
+    /// - Returns: `SearchProvisionedProductsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    func searchProvisionedProducts(input: SearchProvisionedProductsInput) async throws -> SearchProvisionedProductsOutput
+    /// Performs the `TerminateProvisionedProduct` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Terminates the specified provisioned product. This operation does not delete any records associated with the provisioned product. You can check the status of this request using [DescribeRecord].
-    func terminateProvisionedProduct(input: TerminateProvisionedProductInput) async throws -> TerminateProvisionedProductOutputResponse
+    ///
+    /// - Parameter TerminateProvisionedProductInput : [no documentation found]
+    ///
+    /// - Returns: `TerminateProvisionedProductOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func terminateProvisionedProduct(input: TerminateProvisionedProductInput) async throws -> TerminateProvisionedProductOutput
+    /// Performs the `UpdateConstraint` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Updates the specified constraint.
-    func updateConstraint(input: UpdateConstraintInput) async throws -> UpdateConstraintOutputResponse
+    ///
+    /// - Parameter UpdateConstraintInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateConstraintOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func updateConstraint(input: UpdateConstraintInput) async throws -> UpdateConstraintOutput
+    /// Performs the `UpdatePortfolio` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Updates the specified portfolio. You cannot update a product that was shared with you.
-    func updatePortfolio(input: UpdatePortfolioInput) async throws -> UpdatePortfolioOutputResponse
-    /// Updates the specified portfolio share. You can use this API to enable or disable TagOptions sharing or Principal sharing for an existing portfolio share. The portfolio share cannot be updated if the CreatePortfolioShare operation is IN_PROGRESS, as the share is not available to recipient entities. In this case, you must wait for the portfolio share to be COMPLETED. You must provide the accountId or organization node in the input, but not both. If the portfolio is shared to both an external account and an organization node, and both shares need to be updated, you must invoke UpdatePortfolioShare separately for each share type. This API cannot be used for removing the portfolio share. You must use DeletePortfolioShare API for that action. When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is then shared with other accounts. For a user in a recipient account who is not an Service Catalog Admin, but still has the ability to create Principals (Users/Groups/Roles), that user could create a role that matches a principal name association for the portfolio. Although this user may not know which principal names are associated through Service Catalog, they may be able to guess the user. If this potential escalation path is a concern, then Service Catalog recommends using PrincipalType as IAM. With this configuration, the PrincipalARN must already exist in the recipient account before it can be associated.
-    func updatePortfolioShare(input: UpdatePortfolioShareInput) async throws -> UpdatePortfolioShareOutputResponse
+    ///
+    /// - Parameter UpdatePortfolioInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePortfolioOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
+    func updatePortfolio(input: UpdatePortfolioInput) async throws -> UpdatePortfolioOutput
+    /// Performs the `UpdatePortfolioShare` operation on the `AWS242ServiceCatalogService` service.
+    ///
+    /// Updates the specified portfolio share. You can use this API to enable or disable TagOptions sharing or Principal sharing for an existing portfolio share. The portfolio share cannot be updated if the CreatePortfolioShare operation is IN_PROGRESS, as the share is not available to recipient entities. In this case, you must wait for the portfolio share to be completed. You must provide the accountId or organization node in the input, but not both. If the portfolio is shared to both an external account and an organization node, and both shares need to be updated, you must invoke UpdatePortfolioShare separately for each share type. This API cannot be used for removing the portfolio share. You must use DeletePortfolioShare API for that action. When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is then shared with other accounts. For a user in a recipient account who is not an Service Catalog Admin, but still has the ability to create Principals (Users/Groups/Roles), that user could create a role that matches a principal name association for the portfolio. Although this user may not know which principal names are associated through Service Catalog, they may be able to guess the user. If this potential escalation path is a concern, then Service Catalog recommends using PrincipalType as IAM. With this configuration, the PrincipalARN must already exist in the recipient account before it can be associated.
+    ///
+    /// - Parameter UpdatePortfolioShareInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePortfolioShareOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
+    /// - `OperationNotSupportedException` : The operation is not supported.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func updatePortfolioShare(input: UpdatePortfolioShareInput) async throws -> UpdatePortfolioShareOutput
+    /// Performs the `UpdateProduct` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Updates the specified product.
-    func updateProduct(input: UpdateProductInput) async throws -> UpdateProductOutputResponse
+    ///
+    /// - Parameter UpdateProductInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateProductOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
+    func updateProduct(input: UpdateProductInput) async throws -> UpdateProductOutput
+    /// Performs the `UpdateProvisionedProduct` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Requests updates to the configuration of the specified provisioned product. If there are tags associated with the object, they cannot be updated or added. Depending on the specific updates requested, this operation can update with no interruption, with some interruption, or replace the provisioned product entirely. You can check the status of this request using [DescribeRecord].
-    func updateProvisionedProduct(input: UpdateProvisionedProductInput) async throws -> UpdateProvisionedProductOutputResponse
+    ///
+    /// - Parameter UpdateProvisionedProductInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateProvisionedProductOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func updateProvisionedProduct(input: UpdateProvisionedProductInput) async throws -> UpdateProvisionedProductOutput
+    /// Performs the `UpdateProvisionedProductProperties` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Requests updates to the properties of the specified provisioned product.
-    func updateProvisionedProductProperties(input: UpdateProvisionedProductPropertiesInput) async throws -> UpdateProvisionedProductPropertiesOutputResponse
+    ///
+    /// - Parameter UpdateProvisionedProductPropertiesInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateProvisionedProductPropertiesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func updateProvisionedProductProperties(input: UpdateProvisionedProductPropertiesInput) async throws -> UpdateProvisionedProductPropertiesOutput
+    /// Performs the `UpdateProvisioningArtifact` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Updates the specified provisioning artifact (also known as a version) for the specified product. You cannot update a provisioning artifact for a product that was shared with you.
-    func updateProvisioningArtifact(input: UpdateProvisioningArtifactInput) async throws -> UpdateProvisioningArtifactOutputResponse
+    ///
+    /// - Parameter UpdateProvisioningArtifactInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateProvisioningArtifactOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func updateProvisioningArtifact(input: UpdateProvisioningArtifactInput) async throws -> UpdateProvisioningArtifactOutput
+    /// Performs the `UpdateServiceAction` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Updates a self-service action.
-    func updateServiceAction(input: UpdateServiceActionInput) async throws -> UpdateServiceActionOutputResponse
+    ///
+    /// - Parameter UpdateServiceActionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateServiceActionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    func updateServiceAction(input: UpdateServiceActionInput) async throws -> UpdateServiceActionOutput
+    /// Performs the `UpdateTagOption` operation on the `AWS242ServiceCatalogService` service.
+    ///
     /// Updates the specified TagOption.
-    func updateTagOption(input: UpdateTagOptionInput) async throws -> UpdateTagOptionOutputResponse
+    ///
+    /// - Parameter UpdateTagOptionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTagOptionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : The specified resource is a duplicate.
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
+    func updateTagOption(input: UpdateTagOptionInput) async throws -> UpdateTagOptionOutput
 }
 
 public enum ServiceCatalogClientTypes {}

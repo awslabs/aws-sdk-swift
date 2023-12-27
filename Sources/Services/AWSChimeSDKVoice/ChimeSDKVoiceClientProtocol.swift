@@ -4,192 +4,1820 @@ import ClientRuntime
 
 /// The Amazon Chime SDK telephony APIs in this section enable developers to create PSTN calling solutions that use Amazon Chime SDK Voice Connectors, and Amazon Chime SDK SIP media applications. Developers can also order and manage phone numbers, create and manage Voice Connectors and SIP media applications, and run voice analytics.
 public protocol ChimeSDKVoiceClientProtocol {
+    /// Performs the `AssociatePhoneNumbersWithVoiceConnector` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Associates phone numbers with the specified Amazon Chime SDK Voice Connector.
-    func associatePhoneNumbersWithVoiceConnector(input: AssociatePhoneNumbersWithVoiceConnectorInput) async throws -> AssociatePhoneNumbersWithVoiceConnectorOutputResponse
+    ///
+    /// - Parameter AssociatePhoneNumbersWithVoiceConnectorInput : [no documentation found]
+    ///
+    /// - Returns: `AssociatePhoneNumbersWithVoiceConnectorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func associatePhoneNumbersWithVoiceConnector(input: AssociatePhoneNumbersWithVoiceConnectorInput) async throws -> AssociatePhoneNumbersWithVoiceConnectorOutput
+    /// Performs the `AssociatePhoneNumbersWithVoiceConnectorGroup` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Associates phone numbers with the specified Amazon Chime SDK Voice Connector group.
-    func associatePhoneNumbersWithVoiceConnectorGroup(input: AssociatePhoneNumbersWithVoiceConnectorGroupInput) async throws -> AssociatePhoneNumbersWithVoiceConnectorGroupOutputResponse
+    ///
+    /// - Parameter AssociatePhoneNumbersWithVoiceConnectorGroupInput : [no documentation found]
+    ///
+    /// - Returns: `AssociatePhoneNumbersWithVoiceConnectorGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func associatePhoneNumbersWithVoiceConnectorGroup(input: AssociatePhoneNumbersWithVoiceConnectorGroupInput) async throws -> AssociatePhoneNumbersWithVoiceConnectorGroupOutput
+    /// Performs the `BatchDeletePhoneNumber` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Moves phone numbers into the Deletion queue. Phone numbers must be disassociated from any users or Amazon Chime SDK Voice Connectors before they can be deleted. Phone numbers remain in the Deletion queue for 7 days before they are deleted permanently.
-    func batchDeletePhoneNumber(input: BatchDeletePhoneNumberInput) async throws -> BatchDeletePhoneNumberOutputResponse
+    ///
+    /// - Parameter BatchDeletePhoneNumberInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDeletePhoneNumberOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func batchDeletePhoneNumber(input: BatchDeletePhoneNumberInput) async throws -> BatchDeletePhoneNumberOutput
+    /// Performs the `BatchUpdatePhoneNumber` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates one or more phone numbers.
-    func batchUpdatePhoneNumber(input: BatchUpdatePhoneNumberInput) async throws -> BatchUpdatePhoneNumberOutputResponse
+    ///
+    /// - Parameter BatchUpdatePhoneNumberInput : [no documentation found]
+    ///
+    /// - Returns: `BatchUpdatePhoneNumberOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func batchUpdatePhoneNumber(input: BatchUpdatePhoneNumberInput) async throws -> BatchUpdatePhoneNumberOutput
+    /// Performs the `CreatePhoneNumberOrder` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Creates an order for phone numbers to be provisioned. For numbers outside the U.S., you must use the Amazon Chime SDK SIP media application dial-in product type.
-    func createPhoneNumberOrder(input: CreatePhoneNumberOrderInput) async throws -> CreatePhoneNumberOrderOutputResponse
+    ///
+    /// - Parameter CreatePhoneNumberOrderInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePhoneNumberOrderOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func createPhoneNumberOrder(input: CreatePhoneNumberOrderInput) async throws -> CreatePhoneNumberOrderOutput
+    /// Performs the `CreateProxySession` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Creates a proxy session for the specified Amazon Chime SDK Voice Connector for the specified participant phone numbers.
-    func createProxySession(input: CreateProxySessionInput) async throws -> CreateProxySessionOutputResponse
+    ///
+    /// - Parameter CreateProxySessionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateProxySessionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func createProxySession(input: CreateProxySessionInput) async throws -> CreateProxySessionOutput
+    /// Performs the `CreateSipMediaApplication` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Creates a SIP media application. For more information about SIP media applications, see [Managing SIP media applications and rules](https://docs.aws.amazon.com/chime-sdk/latest/ag/manage-sip-applications.html) in the Amazon Chime SDK Administrator Guide.
-    func createSipMediaApplication(input: CreateSipMediaApplicationInput) async throws -> CreateSipMediaApplicationOutputResponse
+    ///
+    /// - Parameter CreateSipMediaApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSipMediaApplicationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : Multiple instances of the same request were made simultaneously.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func createSipMediaApplication(input: CreateSipMediaApplicationInput) async throws -> CreateSipMediaApplicationOutput
+    /// Performs the `CreateSipMediaApplicationCall` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Creates an outbound call to a phone number from the phone number specified in the request, and it invokes the endpoint of the specified sipMediaApplicationId.
-    func createSipMediaApplicationCall(input: CreateSipMediaApplicationCallInput) async throws -> CreateSipMediaApplicationCallOutputResponse
+    ///
+    /// - Parameter CreateSipMediaApplicationCallInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSipMediaApplicationCallOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func createSipMediaApplicationCall(input: CreateSipMediaApplicationCallInput) async throws -> CreateSipMediaApplicationCallOutput
+    /// Performs the `CreateSipRule` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Creates a SIP rule, which can be used to run a SIP media application as a target for a specific trigger type. For more information about SIP rules, see [Managing SIP media applications and rules](https://docs.aws.amazon.com/chime-sdk/latest/ag/manage-sip-applications.html) in the Amazon Chime SDK Administrator Guide.
-    func createSipRule(input: CreateSipRuleInput) async throws -> CreateSipRuleOutputResponse
+    ///
+    /// - Parameter CreateSipRuleInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSipRuleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : Multiple instances of the same request were made simultaneously.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func createSipRule(input: CreateSipRuleInput) async throws -> CreateSipRuleOutput
+    /// Performs the `CreateVoiceConnector` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Creates an Amazon Chime SDK Voice Connector. For more information about Voice Connectors, see [Managing Amazon Chime SDK Voice Connector groups](https://docs.aws.amazon.com/chime-sdk/latest/ag/voice-connector-groups.html) in the Amazon Chime SDK Administrator Guide.
-    func createVoiceConnector(input: CreateVoiceConnectorInput) async throws -> CreateVoiceConnectorOutputResponse
+    ///
+    /// - Parameter CreateVoiceConnectorInput : [no documentation found]
+    ///
+    /// - Returns: `CreateVoiceConnectorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func createVoiceConnector(input: CreateVoiceConnectorInput) async throws -> CreateVoiceConnectorOutput
+    /// Performs the `CreateVoiceConnectorGroup` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Creates an Amazon Chime SDK Voice Connector group under the administrator's AWS account. You can associate Amazon Chime SDK Voice Connectors with the Voice Connector group by including VoiceConnectorItems in the request. You can include Voice Connectors from different AWS Regions in your group. This creates a fault tolerant mechanism for fallback in case of availability events.
-    func createVoiceConnectorGroup(input: CreateVoiceConnectorGroupInput) async throws -> CreateVoiceConnectorGroupOutputResponse
+    ///
+    /// - Parameter CreateVoiceConnectorGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateVoiceConnectorGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func createVoiceConnectorGroup(input: CreateVoiceConnectorGroupInput) async throws -> CreateVoiceConnectorGroupOutput
+    /// Performs the `CreateVoiceProfile` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Creates a voice profile, which consists of an enrolled user and their latest voice print. Before creating any voice profiles, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK. For more information about voice profiles and voice analytics, see [Using Amazon Chime SDK Voice Analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html) in the Amazon Chime SDK Developer Guide.
-    func createVoiceProfile(input: CreateVoiceProfileInput) async throws -> CreateVoiceProfileOutputResponse
+    ///
+    /// - Parameter CreateVoiceProfileInput : [no documentation found]
+    ///
+    /// - Returns: `CreateVoiceProfileOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : Multiple instances of the same request were made simultaneously.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `GoneException` : Access to the target resource is no longer available at the origin server. This condition is likely to be permanent.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func createVoiceProfile(input: CreateVoiceProfileInput) async throws -> CreateVoiceProfileOutput
+    /// Performs the `CreateVoiceProfileDomain` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Creates a voice profile domain, a collection of voice profiles, their voice prints, and encrypted enrollment audio. Before creating any voice profiles, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK. For more information about voice profile domains, see [Using Amazon Chime SDK Voice Analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html) in the Amazon Chime SDK Developer Guide.
-    func createVoiceProfileDomain(input: CreateVoiceProfileDomainInput) async throws -> CreateVoiceProfileDomainOutputResponse
+    ///
+    /// - Parameter CreateVoiceProfileDomainInput : [no documentation found]
+    ///
+    /// - Returns: `CreateVoiceProfileDomainOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : Multiple instances of the same request were made simultaneously.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func createVoiceProfileDomain(input: CreateVoiceProfileDomainInput) async throws -> CreateVoiceProfileDomainOutput
+    /// Performs the `DeletePhoneNumber` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Moves the specified phone number into the Deletion queue. A phone number must be disassociated from any users or Amazon Chime SDK Voice Connectors before it can be deleted. Deleted phone numbers remain in the Deletion queue queue for 7 days before they are deleted permanently.
-    func deletePhoneNumber(input: DeletePhoneNumberInput) async throws -> DeletePhoneNumberOutputResponse
+    ///
+    /// - Parameter DeletePhoneNumberInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePhoneNumberOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func deletePhoneNumber(input: DeletePhoneNumberInput) async throws -> DeletePhoneNumberOutput
+    /// Performs the `DeleteProxySession` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes the specified proxy session from the specified Amazon Chime SDK Voice Connector.
-    func deleteProxySession(input: DeleteProxySessionInput) async throws -> DeleteProxySessionOutputResponse
+    ///
+    /// - Parameter DeleteProxySessionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteProxySessionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func deleteProxySession(input: DeleteProxySessionInput) async throws -> DeleteProxySessionOutput
+    /// Performs the `DeleteSipMediaApplication` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes a SIP media application.
-    func deleteSipMediaApplication(input: DeleteSipMediaApplicationInput) async throws -> DeleteSipMediaApplicationOutputResponse
+    ///
+    /// - Parameter DeleteSipMediaApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSipMediaApplicationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : Multiple instances of the same request were made simultaneously.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func deleteSipMediaApplication(input: DeleteSipMediaApplicationInput) async throws -> DeleteSipMediaApplicationOutput
+    /// Performs the `DeleteSipRule` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes a SIP rule.
-    func deleteSipRule(input: DeleteSipRuleInput) async throws -> DeleteSipRuleOutputResponse
+    ///
+    /// - Parameter DeleteSipRuleInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSipRuleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : Multiple instances of the same request were made simultaneously.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func deleteSipRule(input: DeleteSipRuleInput) async throws -> DeleteSipRuleOutput
+    /// Performs the `DeleteVoiceConnector` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes an Amazon Chime SDK Voice Connector. Any phone numbers associated with the Amazon Chime SDK Voice Connector must be disassociated from it before it can be deleted.
-    func deleteVoiceConnector(input: DeleteVoiceConnectorInput) async throws -> DeleteVoiceConnectorOutputResponse
+    ///
+    /// - Parameter DeleteVoiceConnectorInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVoiceConnectorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : Multiple instances of the same request were made simultaneously.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func deleteVoiceConnector(input: DeleteVoiceConnectorInput) async throws -> DeleteVoiceConnectorOutput
+    /// Performs the `DeleteVoiceConnectorEmergencyCallingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes the emergency calling details from the specified Amazon Chime SDK Voice Connector.
-    func deleteVoiceConnectorEmergencyCallingConfiguration(input: DeleteVoiceConnectorEmergencyCallingConfigurationInput) async throws -> DeleteVoiceConnectorEmergencyCallingConfigurationOutputResponse
+    ///
+    /// - Parameter DeleteVoiceConnectorEmergencyCallingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVoiceConnectorEmergencyCallingConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func deleteVoiceConnectorEmergencyCallingConfiguration(input: DeleteVoiceConnectorEmergencyCallingConfigurationInput) async throws -> DeleteVoiceConnectorEmergencyCallingConfigurationOutput
+    /// Performs the `DeleteVoiceConnectorGroup` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes an Amazon Chime SDK Voice Connector group. Any VoiceConnectorItems and phone numbers associated with the group must be removed before it can be deleted.
-    func deleteVoiceConnectorGroup(input: DeleteVoiceConnectorGroupInput) async throws -> DeleteVoiceConnectorGroupOutputResponse
+    ///
+    /// - Parameter DeleteVoiceConnectorGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVoiceConnectorGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : Multiple instances of the same request were made simultaneously.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func deleteVoiceConnectorGroup(input: DeleteVoiceConnectorGroupInput) async throws -> DeleteVoiceConnectorGroupOutput
+    /// Performs the `DeleteVoiceConnectorOrigination` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes the origination settings for the specified Amazon Chime SDK Voice Connector. If emergency calling is configured for the Voice Connector, it must be deleted prior to deleting the origination settings.
-    func deleteVoiceConnectorOrigination(input: DeleteVoiceConnectorOriginationInput) async throws -> DeleteVoiceConnectorOriginationOutputResponse
+    ///
+    /// - Parameter DeleteVoiceConnectorOriginationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVoiceConnectorOriginationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func deleteVoiceConnectorOrigination(input: DeleteVoiceConnectorOriginationInput) async throws -> DeleteVoiceConnectorOriginationOutput
+    /// Performs the `DeleteVoiceConnectorProxy` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes the proxy configuration from the specified Amazon Chime SDK Voice Connector.
-    func deleteVoiceConnectorProxy(input: DeleteVoiceConnectorProxyInput) async throws -> DeleteVoiceConnectorProxyOutputResponse
+    ///
+    /// - Parameter DeleteVoiceConnectorProxyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVoiceConnectorProxyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func deleteVoiceConnectorProxy(input: DeleteVoiceConnectorProxyInput) async throws -> DeleteVoiceConnectorProxyOutput
+    /// Performs the `DeleteVoiceConnectorStreamingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes a Voice Connector's streaming configuration.
-    func deleteVoiceConnectorStreamingConfiguration(input: DeleteVoiceConnectorStreamingConfigurationInput) async throws -> DeleteVoiceConnectorStreamingConfigurationOutputResponse
+    ///
+    /// - Parameter DeleteVoiceConnectorStreamingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVoiceConnectorStreamingConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func deleteVoiceConnectorStreamingConfiguration(input: DeleteVoiceConnectorStreamingConfigurationInput) async throws -> DeleteVoiceConnectorStreamingConfigurationOutput
+    /// Performs the `DeleteVoiceConnectorTermination` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes the termination settings for the specified Amazon Chime SDK Voice Connector. If emergency calling is configured for the Voice Connector, it must be deleted prior to deleting the termination settings.
-    func deleteVoiceConnectorTermination(input: DeleteVoiceConnectorTerminationInput) async throws -> DeleteVoiceConnectorTerminationOutputResponse
+    ///
+    /// - Parameter DeleteVoiceConnectorTerminationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVoiceConnectorTerminationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func deleteVoiceConnectorTermination(input: DeleteVoiceConnectorTerminationInput) async throws -> DeleteVoiceConnectorTerminationOutput
+    /// Performs the `DeleteVoiceConnectorTerminationCredentials` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes the specified SIP credentials used by your equipment to authenticate during call termination.
-    func deleteVoiceConnectorTerminationCredentials(input: DeleteVoiceConnectorTerminationCredentialsInput) async throws -> DeleteVoiceConnectorTerminationCredentialsOutputResponse
+    ///
+    /// - Parameter DeleteVoiceConnectorTerminationCredentialsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVoiceConnectorTerminationCredentialsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func deleteVoiceConnectorTerminationCredentials(input: DeleteVoiceConnectorTerminationCredentialsInput) async throws -> DeleteVoiceConnectorTerminationCredentialsOutput
+    /// Performs the `DeleteVoiceProfile` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes a voice profile, including its voice print and enrollment data. WARNING: This action is not reversible.
-    func deleteVoiceProfile(input: DeleteVoiceProfileInput) async throws -> DeleteVoiceProfileOutputResponse
+    ///
+    /// - Parameter DeleteVoiceProfileInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVoiceProfileOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : Multiple instances of the same request were made simultaneously.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func deleteVoiceProfile(input: DeleteVoiceProfileInput) async throws -> DeleteVoiceProfileOutput
+    /// Performs the `DeleteVoiceProfileDomain` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes all voice profiles in the domain. WARNING: This action is not reversible.
-    func deleteVoiceProfileDomain(input: DeleteVoiceProfileDomainInput) async throws -> DeleteVoiceProfileDomainOutputResponse
+    ///
+    /// - Parameter DeleteVoiceProfileDomainInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVoiceProfileDomainOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : Multiple instances of the same request were made simultaneously.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func deleteVoiceProfileDomain(input: DeleteVoiceProfileDomainInput) async throws -> DeleteVoiceProfileDomainOutput
+    /// Performs the `DisassociatePhoneNumbersFromVoiceConnector` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Disassociates the specified phone numbers from the specified Amazon Chime SDK Voice Connector.
-    func disassociatePhoneNumbersFromVoiceConnector(input: DisassociatePhoneNumbersFromVoiceConnectorInput) async throws -> DisassociatePhoneNumbersFromVoiceConnectorOutputResponse
+    ///
+    /// - Parameter DisassociatePhoneNumbersFromVoiceConnectorInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociatePhoneNumbersFromVoiceConnectorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func disassociatePhoneNumbersFromVoiceConnector(input: DisassociatePhoneNumbersFromVoiceConnectorInput) async throws -> DisassociatePhoneNumbersFromVoiceConnectorOutput
+    /// Performs the `DisassociatePhoneNumbersFromVoiceConnectorGroup` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Disassociates the specified phone numbers from the specified Amazon Chime SDK Voice Connector group.
-    func disassociatePhoneNumbersFromVoiceConnectorGroup(input: DisassociatePhoneNumbersFromVoiceConnectorGroupInput) async throws -> DisassociatePhoneNumbersFromVoiceConnectorGroupOutputResponse
+    ///
+    /// - Parameter DisassociatePhoneNumbersFromVoiceConnectorGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociatePhoneNumbersFromVoiceConnectorGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func disassociatePhoneNumbersFromVoiceConnectorGroup(input: DisassociatePhoneNumbersFromVoiceConnectorGroupInput) async throws -> DisassociatePhoneNumbersFromVoiceConnectorGroupOutput
+    /// Performs the `GetGlobalSettings` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the global settings for the Amazon Chime SDK Voice Connectors in an AWS account.
-    func getGlobalSettings(input: GetGlobalSettingsInput) async throws -> GetGlobalSettingsOutputResponse
+    ///
+    /// - Parameter GetGlobalSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetGlobalSettingsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func getGlobalSettings(input: GetGlobalSettingsInput) async throws -> GetGlobalSettingsOutput
+    /// Performs the `GetPhoneNumber` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves details for the specified phone number ID, such as associations, capabilities, and product type.
-    func getPhoneNumber(input: GetPhoneNumberInput) async throws -> GetPhoneNumberOutputResponse
+    ///
+    /// - Parameter GetPhoneNumberInput : [no documentation found]
+    ///
+    /// - Returns: `GetPhoneNumberOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func getPhoneNumber(input: GetPhoneNumberInput) async throws -> GetPhoneNumberOutput
+    /// Performs the `GetPhoneNumberOrder` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves details for the specified phone number order, such as the order creation timestamp, phone numbers in E.164 format, product type, and order status.
-    func getPhoneNumberOrder(input: GetPhoneNumberOrderInput) async throws -> GetPhoneNumberOrderOutputResponse
+    ///
+    /// - Parameter GetPhoneNumberOrderInput : [no documentation found]
+    ///
+    /// - Returns: `GetPhoneNumberOrderOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func getPhoneNumberOrder(input: GetPhoneNumberOrderInput) async throws -> GetPhoneNumberOrderOutput
+    /// Performs the `GetPhoneNumberSettings` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the phone number settings for the administrator's AWS account, such as the default outbound calling name.
-    func getPhoneNumberSettings(input: GetPhoneNumberSettingsInput) async throws -> GetPhoneNumberSettingsOutputResponse
+    ///
+    /// - Parameter GetPhoneNumberSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetPhoneNumberSettingsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func getPhoneNumberSettings(input: GetPhoneNumberSettingsInput) async throws -> GetPhoneNumberSettingsOutput
+    /// Performs the `GetProxySession` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the specified proxy session details for the specified Amazon Chime SDK Voice Connector.
-    func getProxySession(input: GetProxySessionInput) async throws -> GetProxySessionOutputResponse
+    ///
+    /// - Parameter GetProxySessionInput : [no documentation found]
+    ///
+    /// - Returns: `GetProxySessionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func getProxySession(input: GetProxySessionInput) async throws -> GetProxySessionOutput
+    /// Performs the `GetSipMediaApplication` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the information for a SIP media application, including name, AWS Region, and endpoints.
-    func getSipMediaApplication(input: GetSipMediaApplicationInput) async throws -> GetSipMediaApplicationOutputResponse
+    ///
+    /// - Parameter GetSipMediaApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `GetSipMediaApplicationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func getSipMediaApplication(input: GetSipMediaApplicationInput) async throws -> GetSipMediaApplicationOutput
+    /// Performs the `GetSipMediaApplicationAlexaSkillConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Gets the Alexa Skill configuration for the SIP media application.
-    func getSipMediaApplicationAlexaSkillConfiguration(input: GetSipMediaApplicationAlexaSkillConfigurationInput) async throws -> GetSipMediaApplicationAlexaSkillConfigurationOutputResponse
+    ///
+    /// - Parameter GetSipMediaApplicationAlexaSkillConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetSipMediaApplicationAlexaSkillConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func getSipMediaApplicationAlexaSkillConfiguration(input: GetSipMediaApplicationAlexaSkillConfigurationInput) async throws -> GetSipMediaApplicationAlexaSkillConfigurationOutput
+    /// Performs the `GetSipMediaApplicationLoggingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the logging configuration for the specified SIP media application.
-    func getSipMediaApplicationLoggingConfiguration(input: GetSipMediaApplicationLoggingConfigurationInput) async throws -> GetSipMediaApplicationLoggingConfigurationOutputResponse
+    ///
+    /// - Parameter GetSipMediaApplicationLoggingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetSipMediaApplicationLoggingConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func getSipMediaApplicationLoggingConfiguration(input: GetSipMediaApplicationLoggingConfigurationInput) async throws -> GetSipMediaApplicationLoggingConfigurationOutput
+    /// Performs the `GetSipRule` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the details of a SIP rule, such as the rule ID, name, triggers, and target endpoints.
-    func getSipRule(input: GetSipRuleInput) async throws -> GetSipRuleOutputResponse
+    ///
+    /// - Parameter GetSipRuleInput : [no documentation found]
+    ///
+    /// - Returns: `GetSipRuleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func getSipRule(input: GetSipRuleInput) async throws -> GetSipRuleOutput
+    /// Performs the `GetSpeakerSearchTask` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the details of the specified speaker search task.
-    func getSpeakerSearchTask(input: GetSpeakerSearchTaskInput) async throws -> GetSpeakerSearchTaskOutputResponse
+    ///
+    /// - Parameter GetSpeakerSearchTaskInput : [no documentation found]
+    ///
+    /// - Returns: `GetSpeakerSearchTaskOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : Multiple instances of the same request were made simultaneously.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func getSpeakerSearchTask(input: GetSpeakerSearchTaskInput) async throws -> GetSpeakerSearchTaskOutput
+    /// Performs the `GetVoiceConnector` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves details for the specified Amazon Chime SDK Voice Connector, such as timestamps,name, outbound host, and encryption requirements.
-    func getVoiceConnector(input: GetVoiceConnectorInput) async throws -> GetVoiceConnectorOutputResponse
+    ///
+    /// - Parameter GetVoiceConnectorInput : [no documentation found]
+    ///
+    /// - Returns: `GetVoiceConnectorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func getVoiceConnector(input: GetVoiceConnectorInput) async throws -> GetVoiceConnectorOutput
+    /// Performs the `GetVoiceConnectorEmergencyCallingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the emergency calling configuration details for the specified Voice Connector.
-    func getVoiceConnectorEmergencyCallingConfiguration(input: GetVoiceConnectorEmergencyCallingConfigurationInput) async throws -> GetVoiceConnectorEmergencyCallingConfigurationOutputResponse
+    ///
+    /// - Parameter GetVoiceConnectorEmergencyCallingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetVoiceConnectorEmergencyCallingConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func getVoiceConnectorEmergencyCallingConfiguration(input: GetVoiceConnectorEmergencyCallingConfigurationInput) async throws -> GetVoiceConnectorEmergencyCallingConfigurationOutput
+    /// Performs the `GetVoiceConnectorGroup` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves details for the specified Amazon Chime SDK Voice Connector group, such as timestamps,name, and associated VoiceConnectorItems.
-    func getVoiceConnectorGroup(input: GetVoiceConnectorGroupInput) async throws -> GetVoiceConnectorGroupOutputResponse
+    ///
+    /// - Parameter GetVoiceConnectorGroupInput : [no documentation found]
+    ///
+    /// - Returns: `GetVoiceConnectorGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func getVoiceConnectorGroup(input: GetVoiceConnectorGroupInput) async throws -> GetVoiceConnectorGroupOutput
+    /// Performs the `GetVoiceConnectorLoggingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the logging configuration settings for the specified Voice Connector. Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
-    func getVoiceConnectorLoggingConfiguration(input: GetVoiceConnectorLoggingConfigurationInput) async throws -> GetVoiceConnectorLoggingConfigurationOutputResponse
+    ///
+    /// - Parameter GetVoiceConnectorLoggingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetVoiceConnectorLoggingConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func getVoiceConnectorLoggingConfiguration(input: GetVoiceConnectorLoggingConfigurationInput) async throws -> GetVoiceConnectorLoggingConfigurationOutput
+    /// Performs the `GetVoiceConnectorOrigination` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the origination settings for the specified Voice Connector.
-    func getVoiceConnectorOrigination(input: GetVoiceConnectorOriginationInput) async throws -> GetVoiceConnectorOriginationOutputResponse
+    ///
+    /// - Parameter GetVoiceConnectorOriginationInput : [no documentation found]
+    ///
+    /// - Returns: `GetVoiceConnectorOriginationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func getVoiceConnectorOrigination(input: GetVoiceConnectorOriginationInput) async throws -> GetVoiceConnectorOriginationOutput
+    /// Performs the `GetVoiceConnectorProxy` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the proxy configuration details for the specified Amazon Chime SDK Voice Connector.
-    func getVoiceConnectorProxy(input: GetVoiceConnectorProxyInput) async throws -> GetVoiceConnectorProxyOutputResponse
+    ///
+    /// - Parameter GetVoiceConnectorProxyInput : [no documentation found]
+    ///
+    /// - Returns: `GetVoiceConnectorProxyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func getVoiceConnectorProxy(input: GetVoiceConnectorProxyInput) async throws -> GetVoiceConnectorProxyOutput
+    /// Performs the `GetVoiceConnectorStreamingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the streaming configuration details for the specified Amazon Chime SDK Voice Connector. Shows whether media streaming is enabled for sending to Amazon Kinesis. It also shows the retention period, in hours, for the Amazon Kinesis data.
-    func getVoiceConnectorStreamingConfiguration(input: GetVoiceConnectorStreamingConfigurationInput) async throws -> GetVoiceConnectorStreamingConfigurationOutputResponse
+    ///
+    /// - Parameter GetVoiceConnectorStreamingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetVoiceConnectorStreamingConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func getVoiceConnectorStreamingConfiguration(input: GetVoiceConnectorStreamingConfigurationInput) async throws -> GetVoiceConnectorStreamingConfigurationOutput
+    /// Performs the `GetVoiceConnectorTermination` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the termination setting details for the specified Voice Connector.
-    func getVoiceConnectorTermination(input: GetVoiceConnectorTerminationInput) async throws -> GetVoiceConnectorTerminationOutputResponse
+    ///
+    /// - Parameter GetVoiceConnectorTerminationInput : [no documentation found]
+    ///
+    /// - Returns: `GetVoiceConnectorTerminationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func getVoiceConnectorTermination(input: GetVoiceConnectorTerminationInput) async throws -> GetVoiceConnectorTerminationOutput
+    /// Performs the `GetVoiceConnectorTerminationHealth` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves information about the last time a SIP OPTIONS ping was received from your SIP infrastructure for the specified Amazon Chime SDK Voice Connector.
-    func getVoiceConnectorTerminationHealth(input: GetVoiceConnectorTerminationHealthInput) async throws -> GetVoiceConnectorTerminationHealthOutputResponse
+    ///
+    /// - Parameter GetVoiceConnectorTerminationHealthInput : [no documentation found]
+    ///
+    /// - Returns: `GetVoiceConnectorTerminationHealthOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func getVoiceConnectorTerminationHealth(input: GetVoiceConnectorTerminationHealthInput) async throws -> GetVoiceConnectorTerminationHealthOutput
+    /// Performs the `GetVoiceProfile` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the details of the specified voice profile.
-    func getVoiceProfile(input: GetVoiceProfileInput) async throws -> GetVoiceProfileOutputResponse
+    ///
+    /// - Parameter GetVoiceProfileInput : [no documentation found]
+    ///
+    /// - Returns: `GetVoiceProfileOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func getVoiceProfile(input: GetVoiceProfileInput) async throws -> GetVoiceProfileOutput
+    /// Performs the `GetVoiceProfileDomain` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the details of the specified voice profile domain.
-    func getVoiceProfileDomain(input: GetVoiceProfileDomainInput) async throws -> GetVoiceProfileDomainOutputResponse
+    ///
+    /// - Parameter GetVoiceProfileDomainInput : [no documentation found]
+    ///
+    /// - Returns: `GetVoiceProfileDomainOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func getVoiceProfileDomain(input: GetVoiceProfileDomainInput) async throws -> GetVoiceProfileDomainOutput
+    /// Performs the `GetVoiceToneAnalysisTask` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the details of a voice tone analysis task.
-    func getVoiceToneAnalysisTask(input: GetVoiceToneAnalysisTaskInput) async throws -> GetVoiceToneAnalysisTaskOutputResponse
+    ///
+    /// - Parameter GetVoiceToneAnalysisTaskInput : [no documentation found]
+    ///
+    /// - Returns: `GetVoiceToneAnalysisTaskOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : Multiple instances of the same request were made simultaneously.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func getVoiceToneAnalysisTask(input: GetVoiceToneAnalysisTaskInput) async throws -> GetVoiceToneAnalysisTaskOutput
+    /// Performs the `ListAvailableVoiceConnectorRegions` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Lists the available AWS Regions in which you can create an Amazon Chime SDK Voice Connector.
-    func listAvailableVoiceConnectorRegions(input: ListAvailableVoiceConnectorRegionsInput) async throws -> ListAvailableVoiceConnectorRegionsOutputResponse
+    ///
+    /// - Parameter ListAvailableVoiceConnectorRegionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAvailableVoiceConnectorRegionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func listAvailableVoiceConnectorRegions(input: ListAvailableVoiceConnectorRegionsInput) async throws -> ListAvailableVoiceConnectorRegionsOutput
+    /// Performs the `ListPhoneNumberOrders` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Lists the phone numbers for an administrator's Amazon Chime SDK account.
-    func listPhoneNumberOrders(input: ListPhoneNumberOrdersInput) async throws -> ListPhoneNumberOrdersOutputResponse
+    ///
+    /// - Parameter ListPhoneNumberOrdersInput : [no documentation found]
+    ///
+    /// - Returns: `ListPhoneNumberOrdersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func listPhoneNumberOrders(input: ListPhoneNumberOrdersInput) async throws -> ListPhoneNumberOrdersOutput
+    /// Performs the `ListPhoneNumbers` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Lists the phone numbers for the specified Amazon Chime SDK account, Amazon Chime SDK user, Amazon Chime SDK Voice Connector, or Amazon Chime SDK Voice Connector group.
-    func listPhoneNumbers(input: ListPhoneNumbersInput) async throws -> ListPhoneNumbersOutputResponse
+    ///
+    /// - Parameter ListPhoneNumbersInput : [no documentation found]
+    ///
+    /// - Returns: `ListPhoneNumbersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func listPhoneNumbers(input: ListPhoneNumbersInput) async throws -> ListPhoneNumbersOutput
+    /// Performs the `ListProxySessions` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Lists the proxy sessions for the specified Amazon Chime SDK Voice Connector.
-    func listProxySessions(input: ListProxySessionsInput) async throws -> ListProxySessionsOutputResponse
+    ///
+    /// - Parameter ListProxySessionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListProxySessionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func listProxySessions(input: ListProxySessionsInput) async throws -> ListProxySessionsOutput
+    /// Performs the `ListSipMediaApplications` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Lists the SIP media applications under the administrator's AWS account.
-    func listSipMediaApplications(input: ListSipMediaApplicationsInput) async throws -> ListSipMediaApplicationsOutputResponse
+    ///
+    /// - Parameter ListSipMediaApplicationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSipMediaApplicationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func listSipMediaApplications(input: ListSipMediaApplicationsInput) async throws -> ListSipMediaApplicationsOutput
+    /// Performs the `ListSipRules` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Lists the SIP rules under the administrator's AWS account.
-    func listSipRules(input: ListSipRulesInput) async throws -> ListSipRulesOutputResponse
+    ///
+    /// - Parameter ListSipRulesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSipRulesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func listSipRules(input: ListSipRulesInput) async throws -> ListSipRulesOutput
+    /// Performs the `ListSupportedPhoneNumberCountries` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Lists the countries that you can order phone numbers from.
-    func listSupportedPhoneNumberCountries(input: ListSupportedPhoneNumberCountriesInput) async throws -> ListSupportedPhoneNumberCountriesOutputResponse
+    ///
+    /// - Parameter ListSupportedPhoneNumberCountriesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSupportedPhoneNumberCountriesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func listSupportedPhoneNumberCountries(input: ListSupportedPhoneNumberCountriesInput) async throws -> ListSupportedPhoneNumberCountriesOutput
+    /// Performs the `ListTagsForResource` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Returns a list of the tags in a given resource.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `ListVoiceConnectorGroups` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Lists the Amazon Chime SDK Voice Connector groups in the administrator's AWS account.
-    func listVoiceConnectorGroups(input: ListVoiceConnectorGroupsInput) async throws -> ListVoiceConnectorGroupsOutputResponse
+    ///
+    /// - Parameter ListVoiceConnectorGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListVoiceConnectorGroupsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func listVoiceConnectorGroups(input: ListVoiceConnectorGroupsInput) async throws -> ListVoiceConnectorGroupsOutput
+    /// Performs the `ListVoiceConnectors` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Lists the Amazon Chime SDK Voice Connectors in the administrators AWS account.
-    func listVoiceConnectors(input: ListVoiceConnectorsInput) async throws -> ListVoiceConnectorsOutputResponse
+    ///
+    /// - Parameter ListVoiceConnectorsInput : [no documentation found]
+    ///
+    /// - Returns: `ListVoiceConnectorsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func listVoiceConnectors(input: ListVoiceConnectorsInput) async throws -> ListVoiceConnectorsOutput
+    /// Performs the `ListVoiceConnectorTerminationCredentials` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Lists the SIP credentials for the specified Amazon Chime SDK Voice Connector.
-    func listVoiceConnectorTerminationCredentials(input: ListVoiceConnectorTerminationCredentialsInput) async throws -> ListVoiceConnectorTerminationCredentialsOutputResponse
+    ///
+    /// - Parameter ListVoiceConnectorTerminationCredentialsInput : [no documentation found]
+    ///
+    /// - Returns: `ListVoiceConnectorTerminationCredentialsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func listVoiceConnectorTerminationCredentials(input: ListVoiceConnectorTerminationCredentialsInput) async throws -> ListVoiceConnectorTerminationCredentialsOutput
+    /// Performs the `ListVoiceProfileDomains` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Lists the specified voice profile domains in the administrator's AWS account.
-    func listVoiceProfileDomains(input: ListVoiceProfileDomainsInput) async throws -> ListVoiceProfileDomainsOutputResponse
+    ///
+    /// - Parameter ListVoiceProfileDomainsInput : [no documentation found]
+    ///
+    /// - Returns: `ListVoiceProfileDomainsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func listVoiceProfileDomains(input: ListVoiceProfileDomainsInput) async throws -> ListVoiceProfileDomainsOutput
+    /// Performs the `ListVoiceProfiles` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Lists the voice profiles in a voice profile domain.
-    func listVoiceProfiles(input: ListVoiceProfilesInput) async throws -> ListVoiceProfilesOutputResponse
+    ///
+    /// - Parameter ListVoiceProfilesInput : [no documentation found]
+    ///
+    /// - Returns: `ListVoiceProfilesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func listVoiceProfiles(input: ListVoiceProfilesInput) async throws -> ListVoiceProfilesOutput
+    /// Performs the `PutSipMediaApplicationAlexaSkillConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates the Alexa Skill configuration for the SIP media application.
-    func putSipMediaApplicationAlexaSkillConfiguration(input: PutSipMediaApplicationAlexaSkillConfigurationInput) async throws -> PutSipMediaApplicationAlexaSkillConfigurationOutputResponse
+    ///
+    /// - Parameter PutSipMediaApplicationAlexaSkillConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutSipMediaApplicationAlexaSkillConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func putSipMediaApplicationAlexaSkillConfiguration(input: PutSipMediaApplicationAlexaSkillConfigurationInput) async throws -> PutSipMediaApplicationAlexaSkillConfigurationOutput
+    /// Performs the `PutSipMediaApplicationLoggingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates the logging configuration for the specified SIP media application.
-    func putSipMediaApplicationLoggingConfiguration(input: PutSipMediaApplicationLoggingConfigurationInput) async throws -> PutSipMediaApplicationLoggingConfigurationOutputResponse
+    ///
+    /// - Parameter PutSipMediaApplicationLoggingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutSipMediaApplicationLoggingConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func putSipMediaApplicationLoggingConfiguration(input: PutSipMediaApplicationLoggingConfigurationInput) async throws -> PutSipMediaApplicationLoggingConfigurationOutput
+    /// Performs the `PutVoiceConnectorEmergencyCallingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates a Voice Connector's emergency calling configuration.
-    func putVoiceConnectorEmergencyCallingConfiguration(input: PutVoiceConnectorEmergencyCallingConfigurationInput) async throws -> PutVoiceConnectorEmergencyCallingConfigurationOutputResponse
+    ///
+    /// - Parameter PutVoiceConnectorEmergencyCallingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutVoiceConnectorEmergencyCallingConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func putVoiceConnectorEmergencyCallingConfiguration(input: PutVoiceConnectorEmergencyCallingConfigurationInput) async throws -> PutVoiceConnectorEmergencyCallingConfigurationOutput
+    /// Performs the `PutVoiceConnectorLoggingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates a Voice Connector's logging configuration.
-    func putVoiceConnectorLoggingConfiguration(input: PutVoiceConnectorLoggingConfigurationInput) async throws -> PutVoiceConnectorLoggingConfigurationOutputResponse
+    ///
+    /// - Parameter PutVoiceConnectorLoggingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutVoiceConnectorLoggingConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func putVoiceConnectorLoggingConfiguration(input: PutVoiceConnectorLoggingConfigurationInput) async throws -> PutVoiceConnectorLoggingConfigurationOutput
+    /// Performs the `PutVoiceConnectorOrigination` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates a Voice Connector's origination settings.
-    func putVoiceConnectorOrigination(input: PutVoiceConnectorOriginationInput) async throws -> PutVoiceConnectorOriginationOutputResponse
+    ///
+    /// - Parameter PutVoiceConnectorOriginationInput : [no documentation found]
+    ///
+    /// - Returns: `PutVoiceConnectorOriginationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func putVoiceConnectorOrigination(input: PutVoiceConnectorOriginationInput) async throws -> PutVoiceConnectorOriginationOutput
+    /// Performs the `PutVoiceConnectorProxy` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Puts the specified proxy configuration to the specified Amazon Chime SDK Voice Connector.
-    func putVoiceConnectorProxy(input: PutVoiceConnectorProxyInput) async throws -> PutVoiceConnectorProxyOutputResponse
+    ///
+    /// - Parameter PutVoiceConnectorProxyInput : [no documentation found]
+    ///
+    /// - Returns: `PutVoiceConnectorProxyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func putVoiceConnectorProxy(input: PutVoiceConnectorProxyInput) async throws -> PutVoiceConnectorProxyOutput
+    /// Performs the `PutVoiceConnectorStreamingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates a Voice Connector's streaming configuration settings.
-    func putVoiceConnectorStreamingConfiguration(input: PutVoiceConnectorStreamingConfigurationInput) async throws -> PutVoiceConnectorStreamingConfigurationOutputResponse
+    ///
+    /// - Parameter PutVoiceConnectorStreamingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutVoiceConnectorStreamingConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func putVoiceConnectorStreamingConfiguration(input: PutVoiceConnectorStreamingConfigurationInput) async throws -> PutVoiceConnectorStreamingConfigurationOutput
+    /// Performs the `PutVoiceConnectorTermination` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates a Voice Connector's termination settings.
-    func putVoiceConnectorTermination(input: PutVoiceConnectorTerminationInput) async throws -> PutVoiceConnectorTerminationOutputResponse
+    ///
+    /// - Parameter PutVoiceConnectorTerminationInput : [no documentation found]
+    ///
+    /// - Returns: `PutVoiceConnectorTerminationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func putVoiceConnectorTermination(input: PutVoiceConnectorTerminationInput) async throws -> PutVoiceConnectorTerminationOutput
+    /// Performs the `PutVoiceConnectorTerminationCredentials` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates a Voice Connector's termination credentials.
-    func putVoiceConnectorTerminationCredentials(input: PutVoiceConnectorTerminationCredentialsInput) async throws -> PutVoiceConnectorTerminationCredentialsOutputResponse
+    ///
+    /// - Parameter PutVoiceConnectorTerminationCredentialsInput : [no documentation found]
+    ///
+    /// - Returns: `PutVoiceConnectorTerminationCredentialsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func putVoiceConnectorTerminationCredentials(input: PutVoiceConnectorTerminationCredentialsInput) async throws -> PutVoiceConnectorTerminationCredentialsOutput
+    /// Performs the `RestorePhoneNumber` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Restores a deleted phone number.
-    func restorePhoneNumber(input: RestorePhoneNumberInput) async throws -> RestorePhoneNumberOutputResponse
+    ///
+    /// - Parameter RestorePhoneNumberInput : [no documentation found]
+    ///
+    /// - Returns: `RestorePhoneNumberOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func restorePhoneNumber(input: RestorePhoneNumberInput) async throws -> RestorePhoneNumberOutput
+    /// Performs the `SearchAvailablePhoneNumbers` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Searches the provisioned phone numbers in an organization.
-    func searchAvailablePhoneNumbers(input: SearchAvailablePhoneNumbersInput) async throws -> SearchAvailablePhoneNumbersOutputResponse
+    ///
+    /// - Parameter SearchAvailablePhoneNumbersInput : [no documentation found]
+    ///
+    /// - Returns: `SearchAvailablePhoneNumbersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func searchAvailablePhoneNumbers(input: SearchAvailablePhoneNumbersInput) async throws -> SearchAvailablePhoneNumbersOutput
+    /// Performs the `StartSpeakerSearchTask` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Starts a speaker search task. Before starting any speaker search tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK.
-    func startSpeakerSearchTask(input: StartSpeakerSearchTaskInput) async throws -> StartSpeakerSearchTaskOutputResponse
+    ///
+    /// - Parameter StartSpeakerSearchTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StartSpeakerSearchTaskOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : Multiple instances of the same request were made simultaneously.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `GoneException` : Access to the target resource is no longer available at the origin server. This condition is likely to be permanent.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    /// - `UnprocessableEntityException` : A well-formed request couldn't be followed due to semantic errors.
+    func startSpeakerSearchTask(input: StartSpeakerSearchTaskInput) async throws -> StartSpeakerSearchTaskOutput
+    /// Performs the `StartVoiceToneAnalysisTask` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Starts a voice tone analysis task. For more information about voice tone analysis, see [Using Amazon Chime SDK voice analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html) in the Amazon Chime SDK Developer Guide. Before starting any voice tone analysis tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK.
-    func startVoiceToneAnalysisTask(input: StartVoiceToneAnalysisTaskInput) async throws -> StartVoiceToneAnalysisTaskOutputResponse
+    ///
+    /// - Parameter StartVoiceToneAnalysisTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StartVoiceToneAnalysisTaskOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : Multiple instances of the same request were made simultaneously.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `GoneException` : Access to the target resource is no longer available at the origin server. This condition is likely to be permanent.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    /// - `UnprocessableEntityException` : A well-formed request couldn't be followed due to semantic errors.
+    func startVoiceToneAnalysisTask(input: StartVoiceToneAnalysisTaskInput) async throws -> StartVoiceToneAnalysisTaskOutput
+    /// Performs the `StopSpeakerSearchTask` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Stops a speaker search task.
-    func stopSpeakerSearchTask(input: StopSpeakerSearchTaskInput) async throws -> StopSpeakerSearchTaskOutputResponse
+    ///
+    /// - Parameter StopSpeakerSearchTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StopSpeakerSearchTaskOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : Multiple instances of the same request were made simultaneously.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    /// - `UnprocessableEntityException` : A well-formed request couldn't be followed due to semantic errors.
+    func stopSpeakerSearchTask(input: StopSpeakerSearchTaskInput) async throws -> StopSpeakerSearchTaskOutput
+    /// Performs the `StopVoiceToneAnalysisTask` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Stops a voice tone analysis task.
-    func stopVoiceToneAnalysisTask(input: StopVoiceToneAnalysisTaskInput) async throws -> StopVoiceToneAnalysisTaskOutputResponse
+    ///
+    /// - Parameter StopVoiceToneAnalysisTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StopVoiceToneAnalysisTaskOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : Multiple instances of the same request were made simultaneously.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    /// - `UnprocessableEntityException` : A well-formed request couldn't be followed due to semantic errors.
+    func stopVoiceToneAnalysisTask(input: StopVoiceToneAnalysisTaskInput) async throws -> StopVoiceToneAnalysisTaskOutput
+    /// Performs the `TagResource` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Adds a tag to the specified resource.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Removes tags from a resource.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateGlobalSettings` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates global settings for the Amazon Chime SDK Voice Connectors in an AWS account.
-    func updateGlobalSettings(input: UpdateGlobalSettingsInput) async throws -> UpdateGlobalSettingsOutputResponse
+    ///
+    /// - Parameter UpdateGlobalSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateGlobalSettingsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func updateGlobalSettings(input: UpdateGlobalSettingsInput) async throws -> UpdateGlobalSettingsOutput
+    /// Performs the `UpdatePhoneNumber` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates phone number details, such as product type or calling name, for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type or the calling name in one action. For numbers outside the U.S., you must use the Amazon Chime SDK SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
-    func updatePhoneNumber(input: UpdatePhoneNumberInput) async throws -> UpdatePhoneNumberOutputResponse
+    ///
+    /// - Parameter UpdatePhoneNumberInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePhoneNumberOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : Multiple instances of the same request were made simultaneously.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func updatePhoneNumber(input: UpdatePhoneNumberInput) async throws -> UpdatePhoneNumberOutput
+    /// Performs the `UpdatePhoneNumberSettings` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates the phone number settings for the administrator's AWS account, such as the default outbound calling name. You can update the default outbound calling name once every seven days. Outbound calling names can take up to 72 hours to update.
-    func updatePhoneNumberSettings(input: UpdatePhoneNumberSettingsInput) async throws -> UpdatePhoneNumberSettingsOutputResponse
+    ///
+    /// - Parameter UpdatePhoneNumberSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePhoneNumberSettingsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func updatePhoneNumberSettings(input: UpdatePhoneNumberSettingsInput) async throws -> UpdatePhoneNumberSettingsOutput
+    /// Performs the `UpdateProxySession` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates the specified proxy session details, such as voice or SMS capabilities.
-    func updateProxySession(input: UpdateProxySessionInput) async throws -> UpdateProxySessionOutputResponse
+    ///
+    /// - Parameter UpdateProxySessionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateProxySessionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func updateProxySession(input: UpdateProxySessionInput) async throws -> UpdateProxySessionOutput
+    /// Performs the `UpdateSipMediaApplication` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates the details of the specified SIP media application.
-    func updateSipMediaApplication(input: UpdateSipMediaApplicationInput) async throws -> UpdateSipMediaApplicationOutputResponse
+    ///
+    /// - Parameter UpdateSipMediaApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSipMediaApplicationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : Multiple instances of the same request were made simultaneously.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func updateSipMediaApplication(input: UpdateSipMediaApplicationInput) async throws -> UpdateSipMediaApplicationOutput
+    /// Performs the `UpdateSipMediaApplicationCall` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Invokes the AWS Lambda function associated with the SIP media application and transaction ID in an update request. The Lambda function can then return a new set of actions.
-    func updateSipMediaApplicationCall(input: UpdateSipMediaApplicationCallInput) async throws -> UpdateSipMediaApplicationCallOutputResponse
+    ///
+    /// - Parameter UpdateSipMediaApplicationCallInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSipMediaApplicationCallOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func updateSipMediaApplicationCall(input: UpdateSipMediaApplicationCallInput) async throws -> UpdateSipMediaApplicationCallOutput
+    /// Performs the `UpdateSipRule` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates the details of the specified SIP rule.
-    func updateSipRule(input: UpdateSipRuleInput) async throws -> UpdateSipRuleOutputResponse
+    ///
+    /// - Parameter UpdateSipRuleInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSipRuleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : Multiple instances of the same request were made simultaneously.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func updateSipRule(input: UpdateSipRuleInput) async throws -> UpdateSipRuleOutput
+    /// Performs the `UpdateVoiceConnector` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates the details for the specified Amazon Chime SDK Voice Connector.
-    func updateVoiceConnector(input: UpdateVoiceConnectorInput) async throws -> UpdateVoiceConnectorOutputResponse
+    ///
+    /// - Parameter UpdateVoiceConnectorInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateVoiceConnectorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func updateVoiceConnector(input: UpdateVoiceConnectorInput) async throws -> UpdateVoiceConnectorOutput
+    /// Performs the `UpdateVoiceConnectorGroup` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates the settings for the specified Amazon Chime SDK Voice Connector group.
-    func updateVoiceConnectorGroup(input: UpdateVoiceConnectorGroupInput) async throws -> UpdateVoiceConnectorGroupOutputResponse
+    ///
+    /// - Parameter UpdateVoiceConnectorGroupInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateVoiceConnectorGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : Multiple instances of the same request were made simultaneously.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func updateVoiceConnectorGroup(input: UpdateVoiceConnectorGroupInput) async throws -> UpdateVoiceConnectorGroupOutput
+    /// Performs the `UpdateVoiceProfile` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates the specified voice profile’s voice print and refreshes its expiration timestamp. As a condition of using this feature, you acknowledge that the collection, use, storage, and retention of your caller’s biometric identifiers and biometric information (“biometric data”) in the form of a digital voiceprint requires the caller’s informed consent via a written release. Such consent is required under various state laws, including biometrics laws in Illinois, Texas, Washington and other state privacy laws. You must provide a written release to each caller through a process that clearly reflects each caller’s informed consent before using Amazon Chime SDK Voice Insights service, as required under the terms of your agreement with AWS governing your use of the service.
-    func updateVoiceProfile(input: UpdateVoiceProfileInput) async throws -> UpdateVoiceProfileOutputResponse
+    ///
+    /// - Parameter UpdateVoiceProfileInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateVoiceProfileOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : Multiple instances of the same request were made simultaneously.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `GoneException` : Access to the target resource is no longer available at the origin server. This condition is likely to be permanent.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func updateVoiceProfile(input: UpdateVoiceProfileInput) async throws -> UpdateVoiceProfileOutput
+    /// Performs the `UpdateVoiceProfileDomain` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates the settings for the specified voice profile domain.
-    func updateVoiceProfileDomain(input: UpdateVoiceProfileDomainInput) async throws -> UpdateVoiceProfileDomainOutputResponse
+    ///
+    /// - Parameter UpdateVoiceProfileDomainInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateVoiceProfileDomainOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func updateVoiceProfileDomain(input: UpdateVoiceProfileDomainInput) async throws -> UpdateVoiceProfileDomainOutput
+    /// Performs the `ValidateE911Address` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Validates an address to be used for 911 calls made with Amazon Chime SDK Voice Connectors. You can use validated addresses in a Presence Information Data Format Location Object file that you include in SIP requests. That helps ensure that addresses are routed to the appropriate Public Safety Answering Point.
-    func validateE911Address(input: ValidateE911AddressInput) async throws -> ValidateE911AddressOutputResponse
+    ///
+    /// - Parameter ValidateE911AddressInput : [no documentation found]
+    ///
+    /// - Returns: `ValidateE911AddressOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    func validateE911Address(input: ValidateE911AddressInput) async throws -> ValidateE911AddressOutput
 }
 
 public enum ChimeSDKVoiceClientTypes {}

@@ -31,52 +31,421 @@ import ClientRuntime
 ///
 /// For information about costs that are associated with the Amazon Web Services Budgets API, see [Amazon Web Services Cost Management Pricing](https://aws.amazon.com/aws-cost-management/pricing/).
 public protocol BudgetsClientProtocol {
+    /// Performs the `CreateBudget` operation on the `AWSBudgetServiceGateway` service.
+    ///
     /// Creates a budget and, if included, notifications and subscribers. Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_CreateBudget.html#API_CreateBudget_Examples) section.
-    func createBudget(input: CreateBudgetInput) async throws -> CreateBudgetOutputResponse
+    ///
+    /// - Parameter CreateBudgetInput : Request of CreateBudget
+    ///
+    /// - Returns: `CreateBudgetOutput` : Response of CreateBudget
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `CreationLimitExceededException` : You've exceeded the notification or subscriber limit.
+    /// - `DuplicateRecordException` : The budget name already exists. Budget names must be unique within an account.
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
+    /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    func createBudget(input: CreateBudgetInput) async throws -> CreateBudgetOutput
+    /// Performs the `CreateBudgetAction` operation on the `AWSBudgetServiceGateway` service.
+    ///
     /// Creates a budget action.
-    func createBudgetAction(input: CreateBudgetActionInput) async throws -> CreateBudgetActionOutputResponse
+    ///
+    /// - Parameter CreateBudgetActionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateBudgetActionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `CreationLimitExceededException` : You've exceeded the notification or subscriber limit.
+    /// - `DuplicateRecordException` : The budget name already exists. Budget names must be unique within an account.
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
+    /// - `NotFoundException` : We can’t locate the resource that you specified.
+    /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    func createBudgetAction(input: CreateBudgetActionInput) async throws -> CreateBudgetActionOutput
+    /// Performs the `CreateNotification` operation on the `AWSBudgetServiceGateway` service.
+    ///
     /// Creates a notification. You must create the budget before you create the associated notification.
-    func createNotification(input: CreateNotificationInput) async throws -> CreateNotificationOutputResponse
+    ///
+    /// - Parameter CreateNotificationInput : Request of CreateNotification
+    ///
+    /// - Returns: `CreateNotificationOutput` : Response of CreateNotification
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `CreationLimitExceededException` : You've exceeded the notification or subscriber limit.
+    /// - `DuplicateRecordException` : The budget name already exists. Budget names must be unique within an account.
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
+    /// - `NotFoundException` : We can’t locate the resource that you specified.
+    /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    func createNotification(input: CreateNotificationInput) async throws -> CreateNotificationOutput
+    /// Performs the `CreateSubscriber` operation on the `AWSBudgetServiceGateway` service.
+    ///
     /// Creates a subscriber. You must create the associated budget and notification before you create the subscriber.
-    func createSubscriber(input: CreateSubscriberInput) async throws -> CreateSubscriberOutputResponse
+    ///
+    /// - Parameter CreateSubscriberInput : Request of CreateSubscriber
+    ///
+    /// - Returns: `CreateSubscriberOutput` : Response of CreateSubscriber
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `CreationLimitExceededException` : You've exceeded the notification or subscriber limit.
+    /// - `DuplicateRecordException` : The budget name already exists. Budget names must be unique within an account.
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
+    /// - `NotFoundException` : We can’t locate the resource that you specified.
+    /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    func createSubscriber(input: CreateSubscriberInput) async throws -> CreateSubscriberOutput
+    /// Performs the `DeleteBudget` operation on the `AWSBudgetServiceGateway` service.
+    ///
     /// Deletes a budget. You can delete your budget at any time. Deleting a budget also deletes the notifications and subscribers that are associated with that budget.
-    func deleteBudget(input: DeleteBudgetInput) async throws -> DeleteBudgetOutputResponse
+    ///
+    /// - Parameter DeleteBudgetInput : Request of DeleteBudget
+    ///
+    /// - Returns: `DeleteBudgetOutput` : Response of DeleteBudget
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
+    /// - `NotFoundException` : We can’t locate the resource that you specified.
+    /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    func deleteBudget(input: DeleteBudgetInput) async throws -> DeleteBudgetOutput
+    /// Performs the `DeleteBudgetAction` operation on the `AWSBudgetServiceGateway` service.
+    ///
     /// Deletes a budget action.
-    func deleteBudgetAction(input: DeleteBudgetActionInput) async throws -> DeleteBudgetActionOutputResponse
+    ///
+    /// - Parameter DeleteBudgetActionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBudgetActionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
+    /// - `NotFoundException` : We can’t locate the resource that you specified.
+    /// - `ResourceLockedException` : The request was received and recognized by the server, but the server rejected that particular method for the requested resource.
+    /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    func deleteBudgetAction(input: DeleteBudgetActionInput) async throws -> DeleteBudgetActionOutput
+    /// Performs the `DeleteNotification` operation on the `AWSBudgetServiceGateway` service.
+    ///
     /// Deletes a notification. Deleting a notification also deletes the subscribers that are associated with the notification.
-    func deleteNotification(input: DeleteNotificationInput) async throws -> DeleteNotificationOutputResponse
+    ///
+    /// - Parameter DeleteNotificationInput : Request of DeleteNotification
+    ///
+    /// - Returns: `DeleteNotificationOutput` : Response of DeleteNotification
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
+    /// - `NotFoundException` : We can’t locate the resource that you specified.
+    /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    func deleteNotification(input: DeleteNotificationInput) async throws -> DeleteNotificationOutput
+    /// Performs the `DeleteSubscriber` operation on the `AWSBudgetServiceGateway` service.
+    ///
     /// Deletes a subscriber. Deleting the last subscriber to a notification also deletes the notification.
-    func deleteSubscriber(input: DeleteSubscriberInput) async throws -> DeleteSubscriberOutputResponse
+    ///
+    /// - Parameter DeleteSubscriberInput : Request of DeleteSubscriber
+    ///
+    /// - Returns: `DeleteSubscriberOutput` : Response of DeleteSubscriber
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
+    /// - `NotFoundException` : We can’t locate the resource that you specified.
+    /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    func deleteSubscriber(input: DeleteSubscriberInput) async throws -> DeleteSubscriberOutput
+    /// Performs the `DescribeBudget` operation on the `AWSBudgetServiceGateway` service.
+    ///
     /// Describes a budget. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DescribeBudget.html#API_DescribeBudget_Examples) section.
-    func describeBudget(input: DescribeBudgetInput) async throws -> DescribeBudgetOutputResponse
+    ///
+    /// - Parameter DescribeBudgetInput : Request of DescribeBudget
+    ///
+    /// - Returns: `DescribeBudgetOutput` : Response of DescribeBudget
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
+    /// - `NotFoundException` : We can’t locate the resource that you specified.
+    /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    func describeBudget(input: DescribeBudgetInput) async throws -> DescribeBudgetOutput
+    /// Performs the `DescribeBudgetAction` operation on the `AWSBudgetServiceGateway` service.
+    ///
     /// Describes a budget action detail.
-    func describeBudgetAction(input: DescribeBudgetActionInput) async throws -> DescribeBudgetActionOutputResponse
+    ///
+    /// - Parameter DescribeBudgetActionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBudgetActionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
+    /// - `NotFoundException` : We can’t locate the resource that you specified.
+    /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    func describeBudgetAction(input: DescribeBudgetActionInput) async throws -> DescribeBudgetActionOutput
+    /// Performs the `DescribeBudgetActionHistories` operation on the `AWSBudgetServiceGateway` service.
+    ///
     /// Describes a budget action history detail.
-    func describeBudgetActionHistories(input: DescribeBudgetActionHistoriesInput) async throws -> DescribeBudgetActionHistoriesOutputResponse
+    ///
+    /// - Parameter DescribeBudgetActionHistoriesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBudgetActionHistoriesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `InvalidNextTokenException` : The pagination token is invalid.
+    /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
+    /// - `NotFoundException` : We can’t locate the resource that you specified.
+    /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    func describeBudgetActionHistories(input: DescribeBudgetActionHistoriesInput) async throws -> DescribeBudgetActionHistoriesOutput
+    /// Performs the `DescribeBudgetActionsForAccount` operation on the `AWSBudgetServiceGateway` service.
+    ///
     /// Describes all of the budget actions for an account.
-    func describeBudgetActionsForAccount(input: DescribeBudgetActionsForAccountInput) async throws -> DescribeBudgetActionsForAccountOutputResponse
+    ///
+    /// - Parameter DescribeBudgetActionsForAccountInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBudgetActionsForAccountOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `InvalidNextTokenException` : The pagination token is invalid.
+    /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
+    /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    func describeBudgetActionsForAccount(input: DescribeBudgetActionsForAccountInput) async throws -> DescribeBudgetActionsForAccountOutput
+    /// Performs the `DescribeBudgetActionsForBudget` operation on the `AWSBudgetServiceGateway` service.
+    ///
     /// Describes all of the budget actions for a budget.
-    func describeBudgetActionsForBudget(input: DescribeBudgetActionsForBudgetInput) async throws -> DescribeBudgetActionsForBudgetOutputResponse
+    ///
+    /// - Parameter DescribeBudgetActionsForBudgetInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBudgetActionsForBudgetOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `InvalidNextTokenException` : The pagination token is invalid.
+    /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
+    /// - `NotFoundException` : We can’t locate the resource that you specified.
+    /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    func describeBudgetActionsForBudget(input: DescribeBudgetActionsForBudgetInput) async throws -> DescribeBudgetActionsForBudgetOutput
+    /// Performs the `DescribeBudgetNotificationsForAccount` operation on the `AWSBudgetServiceGateway` service.
+    ///
     /// Lists the budget names and notifications that are associated with an account.
-    func describeBudgetNotificationsForAccount(input: DescribeBudgetNotificationsForAccountInput) async throws -> DescribeBudgetNotificationsForAccountOutputResponse
+    ///
+    /// - Parameter DescribeBudgetNotificationsForAccountInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBudgetNotificationsForAccountOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `ExpiredNextTokenException` : The pagination token expired.
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `InvalidNextTokenException` : The pagination token is invalid.
+    /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
+    /// - `NotFoundException` : We can’t locate the resource that you specified.
+    /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    func describeBudgetNotificationsForAccount(input: DescribeBudgetNotificationsForAccountInput) async throws -> DescribeBudgetNotificationsForAccountOutput
+    /// Performs the `DescribeBudgetPerformanceHistory` operation on the `AWSBudgetServiceGateway` service.
+    ///
     /// Describes the history for DAILY, MONTHLY, and QUARTERLY budgets. Budget history isn't available for ANNUAL budgets.
-    func describeBudgetPerformanceHistory(input: DescribeBudgetPerformanceHistoryInput) async throws -> DescribeBudgetPerformanceHistoryOutputResponse
+    ///
+    /// - Parameter DescribeBudgetPerformanceHistoryInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBudgetPerformanceHistoryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `ExpiredNextTokenException` : The pagination token expired.
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `InvalidNextTokenException` : The pagination token is invalid.
+    /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
+    /// - `NotFoundException` : We can’t locate the resource that you specified.
+    /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    func describeBudgetPerformanceHistory(input: DescribeBudgetPerformanceHistoryInput) async throws -> DescribeBudgetPerformanceHistoryOutput
+    /// Performs the `DescribeBudgets` operation on the `AWSBudgetServiceGateway` service.
+    ///
     /// Lists the budgets that are associated with an account. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DescribeBudgets.html#API_DescribeBudgets_Examples) section.
-    func describeBudgets(input: DescribeBudgetsInput) async throws -> DescribeBudgetsOutputResponse
+    ///
+    /// - Parameter DescribeBudgetsInput : Request of DescribeBudgets
+    ///
+    /// - Returns: `DescribeBudgetsOutput` : Response of DescribeBudgets
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `ExpiredNextTokenException` : The pagination token expired.
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `InvalidNextTokenException` : The pagination token is invalid.
+    /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
+    /// - `NotFoundException` : We can’t locate the resource that you specified.
+    /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    func describeBudgets(input: DescribeBudgetsInput) async throws -> DescribeBudgetsOutput
+    /// Performs the `DescribeNotificationsForBudget` operation on the `AWSBudgetServiceGateway` service.
+    ///
     /// Lists the notifications that are associated with a budget.
-    func describeNotificationsForBudget(input: DescribeNotificationsForBudgetInput) async throws -> DescribeNotificationsForBudgetOutputResponse
+    ///
+    /// - Parameter DescribeNotificationsForBudgetInput : Request of DescribeNotificationsForBudget
+    ///
+    /// - Returns: `DescribeNotificationsForBudgetOutput` : Response of GetNotificationsForBudget
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `ExpiredNextTokenException` : The pagination token expired.
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `InvalidNextTokenException` : The pagination token is invalid.
+    /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
+    /// - `NotFoundException` : We can’t locate the resource that you specified.
+    /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    func describeNotificationsForBudget(input: DescribeNotificationsForBudgetInput) async throws -> DescribeNotificationsForBudgetOutput
+    /// Performs the `DescribeSubscribersForNotification` operation on the `AWSBudgetServiceGateway` service.
+    ///
     /// Lists the subscribers that are associated with a notification.
-    func describeSubscribersForNotification(input: DescribeSubscribersForNotificationInput) async throws -> DescribeSubscribersForNotificationOutputResponse
+    ///
+    /// - Parameter DescribeSubscribersForNotificationInput : Request of DescribeSubscribersForNotification
+    ///
+    /// - Returns: `DescribeSubscribersForNotificationOutput` : Response of DescribeSubscribersForNotification
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `ExpiredNextTokenException` : The pagination token expired.
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `InvalidNextTokenException` : The pagination token is invalid.
+    /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
+    /// - `NotFoundException` : We can’t locate the resource that you specified.
+    /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    func describeSubscribersForNotification(input: DescribeSubscribersForNotificationInput) async throws -> DescribeSubscribersForNotificationOutput
+    /// Performs the `ExecuteBudgetAction` operation on the `AWSBudgetServiceGateway` service.
+    ///
     /// Executes a budget action.
-    func executeBudgetAction(input: ExecuteBudgetActionInput) async throws -> ExecuteBudgetActionOutputResponse
+    ///
+    /// - Parameter ExecuteBudgetActionInput : [no documentation found]
+    ///
+    /// - Returns: `ExecuteBudgetActionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
+    /// - `NotFoundException` : We can’t locate the resource that you specified.
+    /// - `ResourceLockedException` : The request was received and recognized by the server, but the server rejected that particular method for the requested resource.
+    /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    func executeBudgetAction(input: ExecuteBudgetActionInput) async throws -> ExecuteBudgetActionOutput
+    /// Performs the `UpdateBudget` operation on the `AWSBudgetServiceGateway` service.
+    ///
     /// Updates a budget. You can change every part of a budget except for the budgetName and the calculatedSpend. When you modify a budget, the calculatedSpend drops to zero until Amazon Web Services has new usage data to use for forecasting. Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_UpdateBudget.html#API_UpdateBudget_Examples) section.
-    func updateBudget(input: UpdateBudgetInput) async throws -> UpdateBudgetOutputResponse
+    ///
+    /// - Parameter UpdateBudgetInput : Request of UpdateBudget
+    ///
+    /// - Returns: `UpdateBudgetOutput` : Response of UpdateBudget
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
+    /// - `NotFoundException` : We can’t locate the resource that you specified.
+    /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    func updateBudget(input: UpdateBudgetInput) async throws -> UpdateBudgetOutput
+    /// Performs the `UpdateBudgetAction` operation on the `AWSBudgetServiceGateway` service.
+    ///
     /// Updates a budget action.
-    func updateBudgetAction(input: UpdateBudgetActionInput) async throws -> UpdateBudgetActionOutputResponse
+    ///
+    /// - Parameter UpdateBudgetActionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateBudgetActionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
+    /// - `NotFoundException` : We can’t locate the resource that you specified.
+    /// - `ResourceLockedException` : The request was received and recognized by the server, but the server rejected that particular method for the requested resource.
+    /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    func updateBudgetAction(input: UpdateBudgetActionInput) async throws -> UpdateBudgetActionOutput
+    /// Performs the `UpdateNotification` operation on the `AWSBudgetServiceGateway` service.
+    ///
     /// Updates a notification.
-    func updateNotification(input: UpdateNotificationInput) async throws -> UpdateNotificationOutputResponse
+    ///
+    /// - Parameter UpdateNotificationInput : Request of UpdateNotification
+    ///
+    /// - Returns: `UpdateNotificationOutput` : Response of UpdateNotification
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `DuplicateRecordException` : The budget name already exists. Budget names must be unique within an account.
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
+    /// - `NotFoundException` : We can’t locate the resource that you specified.
+    /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    func updateNotification(input: UpdateNotificationInput) async throws -> UpdateNotificationOutput
+    /// Performs the `UpdateSubscriber` operation on the `AWSBudgetServiceGateway` service.
+    ///
     /// Updates a subscriber.
-    func updateSubscriber(input: UpdateSubscriberInput) async throws -> UpdateSubscriberOutputResponse
+    ///
+    /// - Parameter UpdateSubscriberInput : Request of UpdateSubscriber
+    ///
+    /// - Returns: `UpdateSubscriberOutput` : Response of UpdateSubscriber
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `DuplicateRecordException` : The budget name already exists. Budget names must be unique within an account.
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
+    /// - `NotFoundException` : We can’t locate the resource that you specified.
+    /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    func updateSubscriber(input: UpdateSubscriberInput) async throws -> UpdateSubscriberOutput
 }
 
 public enum BudgetsClientTypes {}

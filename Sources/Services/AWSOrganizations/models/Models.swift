@@ -105,8 +105,48 @@ extension AcceptHandshakeInputBody: Swift.Decodable {
     }
 }
 
-public enum AcceptHandshakeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension AcceptHandshakeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AcceptHandshakeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.handshake = output.handshake
+        } else {
+            self.handshake = nil
+        }
+    }
+}
+
+public struct AcceptHandshakeOutput: Swift.Equatable {
+    /// A structure that contains details about the accepted handshake.
+    public var handshake: OrganizationsClientTypes.Handshake?
+
+    public init(
+        handshake: OrganizationsClientTypes.Handshake? = nil
+    )
+    {
+        self.handshake = handshake
+    }
+}
+
+struct AcceptHandshakeOutputBody: Swift.Equatable {
+    let handshake: OrganizationsClientTypes.Handshake?
+}
+
+extension AcceptHandshakeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case handshake = "Handshake"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let handshakeDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Handshake.self, forKey: .handshake)
+        handshake = handshakeDecoded
+    }
+}
+
+enum AcceptHandshakeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -123,46 +163,6 @@ public enum AcceptHandshakeOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension AcceptHandshakeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: AcceptHandshakeOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.handshake = output.handshake
-        } else {
-            self.handshake = nil
-        }
-    }
-}
-
-public struct AcceptHandshakeOutputResponse: Swift.Equatable {
-    /// A structure that contains details about the accepted handshake.
-    public var handshake: OrganizationsClientTypes.Handshake?
-
-    public init(
-        handshake: OrganizationsClientTypes.Handshake? = nil
-    )
-    {
-        self.handshake = handshake
-    }
-}
-
-struct AcceptHandshakeOutputResponseBody: Swift.Equatable {
-    let handshake: OrganizationsClientTypes.Handshake?
-}
-
-extension AcceptHandshakeOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case handshake = "Handshake"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let handshakeDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Handshake.self, forKey: .handshake)
-        handshake = handshakeDecoded
     }
 }
 
@@ -681,7 +681,7 @@ extension AccountOwnerNotVerifiedException {
     }
 }
 
-/// You can't invite an existing account to your organization until you verify that you own the email address associated with the management account. For more information, see [Email Address Verification](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_create.html#about-email-verification) in the Organizations User Guide.
+/// You can't invite an existing account to your organization until you verify that you own the email address associated with the management account. For more information, see [Email address verification](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_create.html#about-email-verification) in the Organizations User Guide.
 public struct AccountOwnerNotVerifiedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -916,8 +916,18 @@ extension AttachPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum AttachPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension AttachPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AttachPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum AttachPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -937,16 +947,6 @@ public enum AttachPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension AttachPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct AttachPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CancelHandshakeInput: Swift.Encodable {
@@ -997,8 +997,48 @@ extension CancelHandshakeInputBody: Swift.Decodable {
     }
 }
 
-public enum CancelHandshakeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CancelHandshakeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CancelHandshakeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.handshake = output.handshake
+        } else {
+            self.handshake = nil
+        }
+    }
+}
+
+public struct CancelHandshakeOutput: Swift.Equatable {
+    /// A structure that contains details about the handshake that you canceled.
+    public var handshake: OrganizationsClientTypes.Handshake?
+
+    public init(
+        handshake: OrganizationsClientTypes.Handshake? = nil
+    )
+    {
+        self.handshake = handshake
+    }
+}
+
+struct CancelHandshakeOutputBody: Swift.Equatable {
+    let handshake: OrganizationsClientTypes.Handshake?
+}
+
+extension CancelHandshakeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case handshake = "Handshake"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let handshakeDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Handshake.self, forKey: .handshake)
+        handshake = handshakeDecoded
+    }
+}
+
+enum CancelHandshakeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1012,46 +1052,6 @@ public enum CancelHandshakeOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CancelHandshakeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CancelHandshakeOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.handshake = output.handshake
-        } else {
-            self.handshake = nil
-        }
-    }
-}
-
-public struct CancelHandshakeOutputResponse: Swift.Equatable {
-    /// A structure that contains details about the handshake that you canceled.
-    public var handshake: OrganizationsClientTypes.Handshake?
-
-    public init(
-        handshake: OrganizationsClientTypes.Handshake? = nil
-    )
-    {
-        self.handshake = handshake
-    }
-}
-
-struct CancelHandshakeOutputResponseBody: Swift.Equatable {
-    let handshake: OrganizationsClientTypes.Handshake?
-}
-
-extension CancelHandshakeOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case handshake = "Handshake"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let handshakeDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Handshake.self, forKey: .handshake)
-        handshake = handshakeDecoded
     }
 }
 
@@ -1239,8 +1239,18 @@ extension CloseAccountInputBody: Swift.Decodable {
     }
 }
 
-public enum CloseAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CloseAccountOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CloseAccountOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CloseAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1258,16 +1268,6 @@ public enum CloseAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension CloseAccountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CloseAccountOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ConcurrentModificationException {
@@ -1407,7 +1407,9 @@ extension ConstraintViolationException {
 ///
 /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
 ///
-/// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://docs.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://docs.aws.amazon.com/support/home#/).
+/// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
+///
+/// * CANNOT_REGISTER_SUSPENDED_ACCOUNT_AS_DELEGATED_ADMINISTRATOR: You cannot register a suspended account as a delegated administrator.
 ///
 /// * CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You attempted to register the management account of the organization as a delegated administrator for an Amazon Web Services service integrated with Organizations. You can designate only a member account as a delegated administrator.
 ///
@@ -1437,7 +1439,7 @@ extension ConstraintViolationException {
 ///
 /// * MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the management account must have an associated account in the Amazon Web Services GovCloud (US-West) Region. For more information, see [Organizations](https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html) in the Amazon Web Services GovCloud User Guide.
 ///
-/// * MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this management account, you first must associate a valid payment instrument, such as a credit card, with the account. Follow the steps at [To leave an organization when all required account information has not yet been provided](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info) in the Organizations User Guide.
+/// * MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this management account, you first must associate a valid payment instrument, such as a credit card, with the account. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
 ///
 /// * MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register more delegated administrators than allowed for the service principal.
 ///
@@ -1445,7 +1447,7 @@ extension ConstraintViolationException {
 ///
 /// * MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
 ///
-/// * MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member account, you first must associate a valid payment instrument, such as a credit card, with the account. Follow the steps at [To leave an organization when all required account information has not yet been provided](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info) in the Organizations User Guide.
+/// * MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member account, you first must associate a valid payment instrument, such as a credit card, with the account. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
 ///
 /// * MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an entity that would cause the entity to have fewer than the minimum number of policies of a certain type required.
 ///
@@ -1778,13 +1780,13 @@ public struct CreateAccountInput: Swift.Equatable {
     /// You can't access the root user of the account or remove an account that was created with an invalid email address.
     /// This member is required.
     public var email: Swift.String?
-    /// If set to ALLOW, the new account enables IAM users to access account billing information if they have the required permissions. If set to DENY, only the root user of the new account can access account billing information. For more information, see [Activating Access to the Billing and Cost Management Console](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate) in the Amazon Web Services Billing and Cost Management User Guide. If you don't specify this parameter, the value defaults to ALLOW, and IAM users and roles with the required permissions can access billing information for the new account.
+    /// If set to ALLOW, the new account enables IAM users to access account billing information if they have the required permissions. If set to DENY, only the root user of the new account can access account billing information. For more information, see [About IAM access to the Billing and Cost Management console](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate) in the Amazon Web Services Billing and Cost Management User Guide. If you don't specify this parameter, the value defaults to ALLOW, and IAM users and roles with the required permissions can access billing information for the new account.
     public var iamUserAccessToBilling: OrganizationsClientTypes.IAMUserAccessToBilling?
     /// The name of an IAM role that Organizations automatically preconfigures in the new member account. This role trusts the management account, allowing users in the management account to assume the role, as permitted by the management account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see the following links:
     ///
-    /// * [Accessing and Administering the Member Accounts in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role) in the Organizations User Guide
+    /// * [Creating the OrganizationAccountAccessRole in an invited member account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role) in the Organizations User Guide
     ///
-    /// * Steps 2 and 3 in [Tutorial: Delegate Access Across Amazon Web Services accounts Using IAM Roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html) in the IAM User Guide
+    /// * Steps 2 and 3 in [IAM Tutorial: Delegate access across Amazon Web Services accounts using IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html) in the IAM User Guide
     ///
     ///
     /// The [regex pattern](http://wikipedia.org/wiki/regex) that is used to validate this parameter. The pattern can include uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
@@ -1849,8 +1851,48 @@ extension CreateAccountInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateAccountOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateAccountOutputBody = try responseDecoder.decode(responseBody: data)
+            self.createAccountStatus = output.createAccountStatus
+        } else {
+            self.createAccountStatus = nil
+        }
+    }
+}
+
+public struct CreateAccountOutput: Swift.Equatable {
+    /// A structure that contains details about the request to create an account. This response structure might not be fully populated when you first receive it because account creation is an asynchronous process. You can pass the returned CreateAccountStatus ID as a parameter to [DescribeCreateAccountStatus] to get status about the progress of the request at later times. You can also check the CloudTrail log for the CreateAccountResult event. For more information, see [Logging and monitoring in Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_security_incident-response.html) in the Organizations User Guide.
+    public var createAccountStatus: OrganizationsClientTypes.CreateAccountStatus?
+
+    public init(
+        createAccountStatus: OrganizationsClientTypes.CreateAccountStatus? = nil
+    )
+    {
+        self.createAccountStatus = createAccountStatus
+    }
+}
+
+struct CreateAccountOutputBody: Swift.Equatable {
+    let createAccountStatus: OrganizationsClientTypes.CreateAccountStatus?
+}
+
+extension CreateAccountOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createAccountStatus = "CreateAccountStatus"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let createAccountStatusDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.CreateAccountStatus.self, forKey: .createAccountStatus)
+        createAccountStatus = createAccountStatusDecoded
+    }
+}
+
+enum CreateAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1865,46 +1907,6 @@ public enum CreateAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateAccountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.createAccountStatus = output.createAccountStatus
-        } else {
-            self.createAccountStatus = nil
-        }
-    }
-}
-
-public struct CreateAccountOutputResponse: Swift.Equatable {
-    /// A structure that contains details about the request to create an account. This response structure might not be fully populated when you first receive it because account creation is an asynchronous process. You can pass the returned CreateAccountStatus ID as a parameter to [DescribeCreateAccountStatus] to get status about the progress of the request at later times. You can also check the CloudTrail log for the CreateAccountResult event. For more information, see [Monitoring the Activity in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_monitoring.html) in the Organizations User Guide.
-    public var createAccountStatus: OrganizationsClientTypes.CreateAccountStatus?
-
-    public init(
-        createAccountStatus: OrganizationsClientTypes.CreateAccountStatus? = nil
-    )
-    {
-        self.createAccountStatus = createAccountStatus
-    }
-}
-
-struct CreateAccountOutputResponseBody: Swift.Equatable {
-    let createAccountStatus: OrganizationsClientTypes.CreateAccountStatus?
-}
-
-extension CreateAccountOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case createAccountStatus = "CreateAccountStatus"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let createAccountStatusDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.CreateAccountStatus.self, forKey: .createAccountStatus)
-        createAccountStatus = createAccountStatusDecoded
     }
 }
 
@@ -2205,9 +2207,16 @@ public struct CreateGovCloudAccountInput: Swift.Equatable {
     /// You can't access the root user of the account or remove an account that was created with an invalid email address. Like all request parameters for CreateGovCloudAccount, the request for the email address for the Amazon Web Services GovCloud (US) account originates from the commercial Region, not from the Amazon Web Services GovCloud (US) Region.
     /// This member is required.
     public var email: Swift.String?
-    /// If set to ALLOW, the new linked account in the commercial Region enables IAM users to access account billing information if they have the required permissions. If set to DENY, only the root user of the new account can access account billing information. For more information, see [Activating Access to the Billing and Cost Management Console](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate) in the Amazon Web Services Billing and Cost Management User Guide. If you don't specify this parameter, the value defaults to ALLOW, and IAM users and roles with the required permissions can access billing information for the new account.
+    /// If set to ALLOW, the new linked account in the commercial Region enables IAM users to access account billing information if they have the required permissions. If set to DENY, only the root user of the new account can access account billing information. For more information, see [About IAM access to the Billing and Cost Management console](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate) in the Amazon Web Services Billing and Cost Management User Guide. If you don't specify this parameter, the value defaults to ALLOW, and IAM users and roles with the required permissions can access billing information for the new account.
     public var iamUserAccessToBilling: OrganizationsClientTypes.IAMUserAccessToBilling?
-    /// (Optional) The name of an IAM role that Organizations automatically preconfigures in the new member accounts in both the Amazon Web Services GovCloud (US) Region and in the commercial Region. This role trusts the management account, allowing users in the management account to assume the role, as permitted by the management account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see [Accessing and Administering the Member Accounts in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role) in the Organizations User Guide and steps 2 and 3 in [Tutorial: Delegate Access Across Amazon Web Services accounts Using IAM Roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html) in the IAM User Guide. The [regex pattern](http://wikipedia.org/wiki/regex) that is used to validate this parameter. The pattern can include uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
+    /// (Optional) The name of an IAM role that Organizations automatically preconfigures in the new member accounts in both the Amazon Web Services GovCloud (US) Region and in the commercial Region. This role trusts the management account, allowing users in the management account to assume the role, as permitted by the management account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see the following links:
+    ///
+    /// * [Creating the OrganizationAccountAccessRole in an invited member account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role) in the Organizations User Guide
+    ///
+    /// * Steps 2 and 3 in [IAM Tutorial: Delegate access across Amazon Web Services accounts using IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html) in the IAM User Guide
+    ///
+    ///
+    /// The [regex pattern](http://wikipedia.org/wiki/regex) that is used to validate this parameter. The pattern can include uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
     public var roleName: Swift.String?
     /// A list of tags that you want to attach to the newly created account. These tags are attached to the commercial account associated with the GovCloud account, and not to the GovCloud account itself. To add tags to the actual GovCloud account, call the [TagResource] operation in the GovCloud region after the new GovCloud account exists. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see [Tagging Organizations resources](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html) in the Organizations User Guide. If any one of the tags is not valid or if you exceed the maximum allowed number of tags for an account, then the entire request fails and the account is not created.
     public var tags: [OrganizationsClientTypes.Tag]?
@@ -2269,8 +2278,48 @@ extension CreateGovCloudAccountInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateGovCloudAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateGovCloudAccountOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateGovCloudAccountOutputBody = try responseDecoder.decode(responseBody: data)
+            self.createAccountStatus = output.createAccountStatus
+        } else {
+            self.createAccountStatus = nil
+        }
+    }
+}
+
+public struct CreateGovCloudAccountOutput: Swift.Equatable {
+    /// Contains the status about a [CreateAccount] or [CreateGovCloudAccount] request to create an Amazon Web Services account or an Amazon Web Services GovCloud (US) account in an organization.
+    public var createAccountStatus: OrganizationsClientTypes.CreateAccountStatus?
+
+    public init(
+        createAccountStatus: OrganizationsClientTypes.CreateAccountStatus? = nil
+    )
+    {
+        self.createAccountStatus = createAccountStatus
+    }
+}
+
+struct CreateGovCloudAccountOutputBody: Swift.Equatable {
+    let createAccountStatus: OrganizationsClientTypes.CreateAccountStatus?
+}
+
+extension CreateGovCloudAccountOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createAccountStatus = "CreateAccountStatus"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let createAccountStatusDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.CreateAccountStatus.self, forKey: .createAccountStatus)
+        createAccountStatus = createAccountStatusDecoded
+    }
+}
+
+enum CreateGovCloudAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2285,46 +2334,6 @@ public enum CreateGovCloudAccountOutputError: ClientRuntime.HttpResponseErrorBin
             case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateGovCloudAccountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateGovCloudAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.createAccountStatus = output.createAccountStatus
-        } else {
-            self.createAccountStatus = nil
-        }
-    }
-}
-
-public struct CreateGovCloudAccountOutputResponse: Swift.Equatable {
-    /// Contains the status about a [CreateAccount] or [CreateGovCloudAccount] request to create an Amazon Web Services account or an Amazon Web Services GovCloud (US) account in an organization.
-    public var createAccountStatus: OrganizationsClientTypes.CreateAccountStatus?
-
-    public init(
-        createAccountStatus: OrganizationsClientTypes.CreateAccountStatus? = nil
-    )
-    {
-        self.createAccountStatus = createAccountStatus
-    }
-}
-
-struct CreateGovCloudAccountOutputResponseBody: Swift.Equatable {
-    let createAccountStatus: OrganizationsClientTypes.CreateAccountStatus?
-}
-
-extension CreateGovCloudAccountOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case createAccountStatus = "CreateAccountStatus"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let createAccountStatusDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.CreateAccountStatus.self, forKey: .createAccountStatus)
-        createAccountStatus = createAccountStatusDecoded
     }
 }
 
@@ -2379,8 +2388,48 @@ extension CreateOrganizationInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateOrganizationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateOrganizationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.organization = output.organization
+        } else {
+            self.organization = nil
+        }
+    }
+}
+
+public struct CreateOrganizationOutput: Swift.Equatable {
+    /// A structure that contains details about the newly created organization.
+    public var organization: OrganizationsClientTypes.Organization?
+
+    public init(
+        organization: OrganizationsClientTypes.Organization? = nil
+    )
+    {
+        self.organization = organization
+    }
+}
+
+struct CreateOrganizationOutputBody: Swift.Equatable {
+    let organization: OrganizationsClientTypes.Organization?
+}
+
+extension CreateOrganizationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case organization = "Organization"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let organizationDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Organization.self, forKey: .organization)
+        organization = organizationDecoded
+    }
+}
+
+enum CreateOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2394,46 +2443,6 @@ public enum CreateOrganizationOutputError: ClientRuntime.HttpResponseErrorBindin
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.organization = output.organization
-        } else {
-            self.organization = nil
-        }
-    }
-}
-
-public struct CreateOrganizationOutputResponse: Swift.Equatable {
-    /// A structure that contains details about the newly created organization.
-    public var organization: OrganizationsClientTypes.Organization?
-
-    public init(
-        organization: OrganizationsClientTypes.Organization? = nil
-    )
-    {
-        self.organization = organization
-    }
-}
-
-struct CreateOrganizationOutputResponseBody: Swift.Equatable {
-    let organization: OrganizationsClientTypes.Organization?
-}
-
-extension CreateOrganizationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case organization = "Organization"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let organizationDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Organization.self, forKey: .organization)
-        organization = organizationDecoded
     }
 }
 
@@ -2526,8 +2535,48 @@ extension CreateOrganizationalUnitInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateOrganizationalUnitOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreateOrganizationalUnitOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateOrganizationalUnitOutputBody = try responseDecoder.decode(responseBody: data)
+            self.organizationalUnit = output.organizationalUnit
+        } else {
+            self.organizationalUnit = nil
+        }
+    }
+}
+
+public struct CreateOrganizationalUnitOutput: Swift.Equatable {
+    /// A structure that contains details about the newly created OU.
+    public var organizationalUnit: OrganizationsClientTypes.OrganizationalUnit?
+
+    public init(
+        organizationalUnit: OrganizationsClientTypes.OrganizationalUnit? = nil
+    )
+    {
+        self.organizationalUnit = organizationalUnit
+    }
+}
+
+struct CreateOrganizationalUnitOutputBody: Swift.Equatable {
+    let organizationalUnit: OrganizationsClientTypes.OrganizationalUnit?
+}
+
+extension CreateOrganizationalUnitOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case organizationalUnit = "OrganizationalUnit"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let organizationalUnitDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.OrganizationalUnit.self, forKey: .organizationalUnit)
+        organizationalUnit = organizationalUnitDecoded
+    }
+}
+
+enum CreateOrganizationalUnitOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2542,46 +2591,6 @@ public enum CreateOrganizationalUnitOutputError: ClientRuntime.HttpResponseError
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateOrganizationalUnitOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateOrganizationalUnitOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.organizationalUnit = output.organizationalUnit
-        } else {
-            self.organizationalUnit = nil
-        }
-    }
-}
-
-public struct CreateOrganizationalUnitOutputResponse: Swift.Equatable {
-    /// A structure that contains details about the newly created OU.
-    public var organizationalUnit: OrganizationsClientTypes.OrganizationalUnit?
-
-    public init(
-        organizationalUnit: OrganizationsClientTypes.OrganizationalUnit? = nil
-    )
-    {
-        self.organizationalUnit = organizationalUnit
-    }
-}
-
-struct CreateOrganizationalUnitOutputResponseBody: Swift.Equatable {
-    let organizationalUnit: OrganizationsClientTypes.OrganizationalUnit?
-}
-
-extension CreateOrganizationalUnitOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case organizationalUnit = "OrganizationalUnit"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let organizationalUnitDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.OrganizationalUnit.self, forKey: .organizationalUnit)
-        organizationalUnit = organizationalUnitDecoded
     }
 }
 
@@ -2704,8 +2713,48 @@ extension CreatePolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum CreatePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension CreatePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreatePolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.policy = output.policy
+        } else {
+            self.policy = nil
+        }
+    }
+}
+
+public struct CreatePolicyOutput: Swift.Equatable {
+    /// A structure that contains details about the newly created policy.
+    public var policy: OrganizationsClientTypes.Policy?
+
+    public init(
+        policy: OrganizationsClientTypes.Policy? = nil
+    )
+    {
+        self.policy = policy
+    }
+}
+
+struct CreatePolicyOutputBody: Swift.Equatable {
+    let policy: OrganizationsClientTypes.Policy?
+}
+
+extension CreatePolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policy = "Policy"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Policy.self, forKey: .policy)
+        policy = policyDecoded
+    }
+}
+
+enum CreatePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2722,46 +2771,6 @@ public enum CreatePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreatePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreatePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.policy = output.policy
-        } else {
-            self.policy = nil
-        }
-    }
-}
-
-public struct CreatePolicyOutputResponse: Swift.Equatable {
-    /// A structure that contains details about the newly created policy.
-    public var policy: OrganizationsClientTypes.Policy?
-
-    public init(
-        policy: OrganizationsClientTypes.Policy? = nil
-    )
-    {
-        self.policy = policy
-    }
-}
-
-struct CreatePolicyOutputResponseBody: Swift.Equatable {
-    let policy: OrganizationsClientTypes.Policy?
-}
-
-extension CreatePolicyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case policy = "Policy"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let policyDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Policy.self, forKey: .policy)
-        policy = policyDecoded
     }
 }
 
@@ -2813,8 +2822,48 @@ extension DeclineHandshakeInputBody: Swift.Decodable {
     }
 }
 
-public enum DeclineHandshakeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeclineHandshakeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeclineHandshakeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.handshake = output.handshake
+        } else {
+            self.handshake = nil
+        }
+    }
+}
+
+public struct DeclineHandshakeOutput: Swift.Equatable {
+    /// A structure that contains details about the declined handshake. The state is updated to show the value DECLINED.
+    public var handshake: OrganizationsClientTypes.Handshake?
+
+    public init(
+        handshake: OrganizationsClientTypes.Handshake? = nil
+    )
+    {
+        self.handshake = handshake
+    }
+}
+
+struct DeclineHandshakeOutputBody: Swift.Equatable {
+    let handshake: OrganizationsClientTypes.Handshake?
+}
+
+extension DeclineHandshakeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case handshake = "Handshake"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let handshakeDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Handshake.self, forKey: .handshake)
+        handshake = handshakeDecoded
+    }
+}
+
+enum DeclineHandshakeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2828,46 +2877,6 @@ public enum DeclineHandshakeOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeclineHandshakeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeclineHandshakeOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.handshake = output.handshake
-        } else {
-            self.handshake = nil
-        }
-    }
-}
-
-public struct DeclineHandshakeOutputResponse: Swift.Equatable {
-    /// A structure that contains details about the declined handshake. The state is updated to show the value DECLINED.
-    public var handshake: OrganizationsClientTypes.Handshake?
-
-    public init(
-        handshake: OrganizationsClientTypes.Handshake? = nil
-    )
-    {
-        self.handshake = handshake
-    }
-}
-
-struct DeclineHandshakeOutputResponseBody: Swift.Equatable {
-    let handshake: OrganizationsClientTypes.Handshake?
-}
-
-extension DeclineHandshakeOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case handshake = "Handshake"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let handshakeDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Handshake.self, forKey: .handshake)
-        handshake = handshakeDecoded
     }
 }
 
@@ -3054,8 +3063,18 @@ extension DeleteOrganizationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteOrganizationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteOrganizationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3069,16 +3088,6 @@ public enum DeleteOrganizationOutputError: ClientRuntime.HttpResponseErrorBindin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteOrganizationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteOrganizationalUnitInput: Swift.Encodable {
@@ -3129,8 +3138,18 @@ extension DeleteOrganizationalUnitInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteOrganizationalUnitOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteOrganizationalUnitOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteOrganizationalUnitOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteOrganizationalUnitOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3145,16 +3164,6 @@ public enum DeleteOrganizationalUnitOutputError: ClientRuntime.HttpResponseError
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteOrganizationalUnitOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteOrganizationalUnitOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeletePolicyInput: Swift.Encodable {
@@ -3205,8 +3214,18 @@ extension DeletePolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum DeletePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeletePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeletePolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeletePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3222,16 +3241,6 @@ public enum DeletePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeletePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeletePolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteResourcePolicyInput: Swift.Encodable {
@@ -3262,8 +3271,18 @@ extension DeleteResourcePolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteResourcePolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3278,16 +3297,6 @@ public enum DeleteResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteResourcePolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeregisterDelegatedAdministratorInput: Swift.Encodable {
@@ -3351,8 +3360,18 @@ extension DeregisterDelegatedAdministratorInputBody: Swift.Decodable {
     }
 }
 
-public enum DeregisterDelegatedAdministratorOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeregisterDelegatedAdministratorOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeregisterDelegatedAdministratorOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeregisterDelegatedAdministratorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3369,16 +3388,6 @@ public enum DeregisterDelegatedAdministratorOutputError: ClientRuntime.HttpRespo
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeregisterDelegatedAdministratorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeregisterDelegatedAdministratorOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DescribeAccountInput: Swift.Encodable {
@@ -3429,27 +3438,11 @@ extension DescribeAccountInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeAccountOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeAccountOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeAccountOutputBody = try responseDecoder.decode(responseBody: data)
             self.account = output.account
         } else {
             self.account = nil
@@ -3457,7 +3450,7 @@ extension DescribeAccountOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAccountOutputResponse: Swift.Equatable {
+public struct DescribeAccountOutput: Swift.Equatable {
     /// A structure that contains information about the requested account.
     public var account: OrganizationsClientTypes.Account?
 
@@ -3469,11 +3462,11 @@ public struct DescribeAccountOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeAccountOutputResponseBody: Swift.Equatable {
+struct DescribeAccountOutputBody: Swift.Equatable {
     let account: OrganizationsClientTypes.Account?
 }
 
-extension DescribeAccountOutputResponseBody: Swift.Decodable {
+extension DescribeAccountOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case account = "Account"
     }
@@ -3482,6 +3475,22 @@ extension DescribeAccountOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Account.self, forKey: .account)
         account = accountDecoded
+    }
+}
+
+enum DescribeAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3533,8 +3542,48 @@ extension DescribeCreateAccountStatusInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeCreateAccountStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DescribeCreateAccountStatusOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeCreateAccountStatusOutputBody = try responseDecoder.decode(responseBody: data)
+            self.createAccountStatus = output.createAccountStatus
+        } else {
+            self.createAccountStatus = nil
+        }
+    }
+}
+
+public struct DescribeCreateAccountStatusOutput: Swift.Equatable {
+    /// A structure that contains the current status of an account creation request.
+    public var createAccountStatus: OrganizationsClientTypes.CreateAccountStatus?
+
+    public init(
+        createAccountStatus: OrganizationsClientTypes.CreateAccountStatus? = nil
+    )
+    {
+        self.createAccountStatus = createAccountStatus
+    }
+}
+
+struct DescribeCreateAccountStatusOutputBody: Swift.Equatable {
+    let createAccountStatus: OrganizationsClientTypes.CreateAccountStatus?
+}
+
+extension DescribeCreateAccountStatusOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createAccountStatus = "CreateAccountStatus"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let createAccountStatusDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.CreateAccountStatus.self, forKey: .createAccountStatus)
+        createAccountStatus = createAccountStatusDecoded
+    }
+}
+
+enum DescribeCreateAccountStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3547,46 +3596,6 @@ public enum DescribeCreateAccountStatusOutputError: ClientRuntime.HttpResponseEr
             case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DescribeCreateAccountStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DescribeCreateAccountStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.createAccountStatus = output.createAccountStatus
-        } else {
-            self.createAccountStatus = nil
-        }
-    }
-}
-
-public struct DescribeCreateAccountStatusOutputResponse: Swift.Equatable {
-    /// A structure that contains the current status of an account creation request.
-    public var createAccountStatus: OrganizationsClientTypes.CreateAccountStatus?
-
-    public init(
-        createAccountStatus: OrganizationsClientTypes.CreateAccountStatus? = nil
-    )
-    {
-        self.createAccountStatus = createAccountStatus
-    }
-}
-
-struct DescribeCreateAccountStatusOutputResponseBody: Swift.Equatable {
-    let createAccountStatus: OrganizationsClientTypes.CreateAccountStatus?
-}
-
-extension DescribeCreateAccountStatusOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case createAccountStatus = "CreateAccountStatus"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let createAccountStatusDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.CreateAccountStatus.self, forKey: .createAccountStatus)
-        createAccountStatus = createAccountStatusDecoded
     }
 }
 
@@ -3656,8 +3665,48 @@ extension DescribeEffectivePolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeEffectivePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DescribeEffectivePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeEffectivePolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.effectivePolicy = output.effectivePolicy
+        } else {
+            self.effectivePolicy = nil
+        }
+    }
+}
+
+public struct DescribeEffectivePolicyOutput: Swift.Equatable {
+    /// The contents of the effective policy.
+    public var effectivePolicy: OrganizationsClientTypes.EffectivePolicy?
+
+    public init(
+        effectivePolicy: OrganizationsClientTypes.EffectivePolicy? = nil
+    )
+    {
+        self.effectivePolicy = effectivePolicy
+    }
+}
+
+struct DescribeEffectivePolicyOutputBody: Swift.Equatable {
+    let effectivePolicy: OrganizationsClientTypes.EffectivePolicy?
+}
+
+extension DescribeEffectivePolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case effectivePolicy = "EffectivePolicy"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let effectivePolicyDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.EffectivePolicy.self, forKey: .effectivePolicy)
+        effectivePolicy = effectivePolicyDecoded
+    }
+}
+
+enum DescribeEffectivePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3672,46 +3721,6 @@ public enum DescribeEffectivePolicyOutputError: ClientRuntime.HttpResponseErrorB
             case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DescribeEffectivePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DescribeEffectivePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.effectivePolicy = output.effectivePolicy
-        } else {
-            self.effectivePolicy = nil
-        }
-    }
-}
-
-public struct DescribeEffectivePolicyOutputResponse: Swift.Equatable {
-    /// The contents of the effective policy.
-    public var effectivePolicy: OrganizationsClientTypes.EffectivePolicy?
-
-    public init(
-        effectivePolicy: OrganizationsClientTypes.EffectivePolicy? = nil
-    )
-    {
-        self.effectivePolicy = effectivePolicy
-    }
-}
-
-struct DescribeEffectivePolicyOutputResponseBody: Swift.Equatable {
-    let effectivePolicy: OrganizationsClientTypes.EffectivePolicy?
-}
-
-extension DescribeEffectivePolicyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case effectivePolicy = "EffectivePolicy"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let effectivePolicyDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.EffectivePolicy.self, forKey: .effectivePolicy)
-        effectivePolicy = effectivePolicyDecoded
     }
 }
 
@@ -3763,27 +3772,11 @@ extension DescribeHandshakeInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeHandshakeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "HandshakeNotFoundException": return try await HandshakeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeHandshakeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeHandshakeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeHandshakeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeHandshakeOutputBody = try responseDecoder.decode(responseBody: data)
             self.handshake = output.handshake
         } else {
             self.handshake = nil
@@ -3791,7 +3784,7 @@ extension DescribeHandshakeOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeHandshakeOutputResponse: Swift.Equatable {
+public struct DescribeHandshakeOutput: Swift.Equatable {
     /// A structure that contains information about the specified handshake.
     public var handshake: OrganizationsClientTypes.Handshake?
 
@@ -3803,11 +3796,11 @@ public struct DescribeHandshakeOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeHandshakeOutputResponseBody: Swift.Equatable {
+struct DescribeHandshakeOutputBody: Swift.Equatable {
     let handshake: OrganizationsClientTypes.Handshake?
 }
 
-extension DescribeHandshakeOutputResponseBody: Swift.Decodable {
+extension DescribeHandshakeOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case handshake = "Handshake"
     }
@@ -3816,6 +3809,22 @@ extension DescribeHandshakeOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let handshakeDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Handshake.self, forKey: .handshake)
         handshake = handshakeDecoded
+    }
+}
+
+enum DescribeHandshakeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "HandshakeNotFoundException": return try await HandshakeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3847,26 +3856,11 @@ extension DescribeOrganizationInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeOrganizationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeOrganizationOutputBody = try responseDecoder.decode(responseBody: data)
             self.organization = output.organization
         } else {
             self.organization = nil
@@ -3874,7 +3868,7 @@ extension DescribeOrganizationOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeOrganizationOutputResponse: Swift.Equatable {
+public struct DescribeOrganizationOutput: Swift.Equatable {
     /// A structure that contains information about the organization. The AvailablePolicyTypes part of the response is deprecated, and you shouldn't use it in your apps. It doesn't include any policy type supported by Organizations other than SCPs. To determine which policy types are enabled in your organization, use the [ListRoots] operation.
     public var organization: OrganizationsClientTypes.Organization?
 
@@ -3886,11 +3880,11 @@ public struct DescribeOrganizationOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeOrganizationOutputResponseBody: Swift.Equatable {
+struct DescribeOrganizationOutputBody: Swift.Equatable {
     let organization: OrganizationsClientTypes.Organization?
 }
 
-extension DescribeOrganizationOutputResponseBody: Swift.Decodable {
+extension DescribeOrganizationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case organization = "Organization"
     }
@@ -3899,6 +3893,21 @@ extension DescribeOrganizationOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Organization.self, forKey: .organization)
         organization = organizationDecoded
+    }
+}
+
+enum DescribeOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3950,27 +3959,11 @@ extension DescribeOrganizationalUnitInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeOrganizationalUnitOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OrganizationalUnitNotFoundException": return try await OrganizationalUnitNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeOrganizationalUnitOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeOrganizationalUnitOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeOrganizationalUnitOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeOrganizationalUnitOutputBody = try responseDecoder.decode(responseBody: data)
             self.organizationalUnit = output.organizationalUnit
         } else {
             self.organizationalUnit = nil
@@ -3978,7 +3971,7 @@ extension DescribeOrganizationalUnitOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DescribeOrganizationalUnitOutputResponse: Swift.Equatable {
+public struct DescribeOrganizationalUnitOutput: Swift.Equatable {
     /// A structure that contains details about the specified OU.
     public var organizationalUnit: OrganizationsClientTypes.OrganizationalUnit?
 
@@ -3990,11 +3983,11 @@ public struct DescribeOrganizationalUnitOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeOrganizationalUnitOutputResponseBody: Swift.Equatable {
+struct DescribeOrganizationalUnitOutputBody: Swift.Equatable {
     let organizationalUnit: OrganizationsClientTypes.OrganizationalUnit?
 }
 
-extension DescribeOrganizationalUnitOutputResponseBody: Swift.Decodable {
+extension DescribeOrganizationalUnitOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case organizationalUnit = "OrganizationalUnit"
     }
@@ -4003,6 +3996,22 @@ extension DescribeOrganizationalUnitOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationalUnitDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.OrganizationalUnit.self, forKey: .organizationalUnit)
         organizationalUnit = organizationalUnitDecoded
+    }
+}
+
+enum DescribeOrganizationalUnitOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationalUnitNotFoundException": return try await OrganizationalUnitNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4054,8 +4063,48 @@ extension DescribePolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DescribePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribePolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.policy = output.policy
+        } else {
+            self.policy = nil
+        }
+    }
+}
+
+public struct DescribePolicyOutput: Swift.Equatable {
+    /// A structure that contains details about the specified policy.
+    public var policy: OrganizationsClientTypes.Policy?
+
+    public init(
+        policy: OrganizationsClientTypes.Policy? = nil
+    )
+    {
+        self.policy = policy
+    }
+}
+
+struct DescribePolicyOutputBody: Swift.Equatable {
+    let policy: OrganizationsClientTypes.Policy?
+}
+
+extension DescribePolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policy = "Policy"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Policy.self, forKey: .policy)
+        policy = policyDecoded
+    }
+}
+
+enum DescribePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4068,46 +4117,6 @@ public enum DescribePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DescribePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DescribePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.policy = output.policy
-        } else {
-            self.policy = nil
-        }
-    }
-}
-
-public struct DescribePolicyOutputResponse: Swift.Equatable {
-    /// A structure that contains details about the specified policy.
-    public var policy: OrganizationsClientTypes.Policy?
-
-    public init(
-        policy: OrganizationsClientTypes.Policy? = nil
-    )
-    {
-        self.policy = policy
-    }
-}
-
-struct DescribePolicyOutputResponseBody: Swift.Equatable {
-    let policy: OrganizationsClientTypes.Policy?
-}
-
-extension DescribePolicyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case policy = "Policy"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let policyDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Policy.self, forKey: .policy)
-        policy = policyDecoded
     }
 }
 
@@ -4139,8 +4148,48 @@ extension DescribeResourcePolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DescribeResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeResourcePolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.resourcePolicy = output.resourcePolicy
+        } else {
+            self.resourcePolicy = nil
+        }
+    }
+}
+
+public struct DescribeResourcePolicyOutput: Swift.Equatable {
+    /// A structure that contains details about the resource policy.
+    public var resourcePolicy: OrganizationsClientTypes.ResourcePolicy?
+
+    public init(
+        resourcePolicy: OrganizationsClientTypes.ResourcePolicy? = nil
+    )
+    {
+        self.resourcePolicy = resourcePolicy
+    }
+}
+
+struct DescribeResourcePolicyOutputBody: Swift.Equatable {
+    let resourcePolicy: OrganizationsClientTypes.ResourcePolicy?
+}
+
+extension DescribeResourcePolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourcePolicy = "ResourcePolicy"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourcePolicyDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.ResourcePolicy.self, forKey: .resourcePolicy)
+        resourcePolicy = resourcePolicyDecoded
+    }
+}
+
+enum DescribeResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4153,46 +4202,6 @@ public enum DescribeResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBi
             case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DescribeResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DescribeResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.resourcePolicy = output.resourcePolicy
-        } else {
-            self.resourcePolicy = nil
-        }
-    }
-}
-
-public struct DescribeResourcePolicyOutputResponse: Swift.Equatable {
-    /// A structure that contains details about the resource policy.
-    public var resourcePolicy: OrganizationsClientTypes.ResourcePolicy?
-
-    public init(
-        resourcePolicy: OrganizationsClientTypes.ResourcePolicy? = nil
-    )
-    {
-        self.resourcePolicy = resourcePolicy
-    }
-}
-
-struct DescribeResourcePolicyOutputResponseBody: Swift.Equatable {
-    let resourcePolicy: OrganizationsClientTypes.ResourcePolicy?
-}
-
-extension DescribeResourcePolicyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case resourcePolicy = "ResourcePolicy"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let resourcePolicyDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.ResourcePolicy.self, forKey: .resourcePolicy)
-        resourcePolicy = resourcePolicyDecoded
     }
 }
 
@@ -4318,8 +4327,18 @@ extension DetachPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum DetachPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DetachPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DetachPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DetachPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4338,16 +4357,6 @@ public enum DetachPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DetachPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DetachPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DisableAWSServiceAccessInput: Swift.Encodable {
@@ -4398,8 +4407,18 @@ extension DisableAWSServiceAccessInputBody: Swift.Decodable {
     }
 }
 
-public enum DisableAWSServiceAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DisableAWSServiceAccessOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DisableAWSServiceAccessOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DisableAWSServiceAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4414,16 +4433,6 @@ public enum DisableAWSServiceAccessOutputError: ClientRuntime.HttpResponseErrorB
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DisableAWSServiceAccessOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DisableAWSServiceAccessOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DisablePolicyTypeInput: Swift.Encodable {
@@ -4495,8 +4504,48 @@ extension DisablePolicyTypeInputBody: Swift.Decodable {
     }
 }
 
-public enum DisablePolicyTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DisablePolicyTypeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DisablePolicyTypeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.root = output.root
+        } else {
+            self.root = nil
+        }
+    }
+}
+
+public struct DisablePolicyTypeOutput: Swift.Equatable {
+    /// A structure that shows the root with the updated list of enabled policy types.
+    public var root: OrganizationsClientTypes.Root?
+
+    public init(
+        root: OrganizationsClientTypes.Root? = nil
+    )
+    {
+        self.root = root
+    }
+}
+
+struct DisablePolicyTypeOutputBody: Swift.Equatable {
+    let root: OrganizationsClientTypes.Root?
+}
+
+extension DisablePolicyTypeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case root = "Root"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rootDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Root.self, forKey: .root)
+        root = rootDecoded
+    }
+}
+
+enum DisablePolicyTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4513,46 +4562,6 @@ public enum DisablePolicyTypeOutputError: ClientRuntime.HttpResponseErrorBinding
             case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DisablePolicyTypeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DisablePolicyTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.root = output.root
-        } else {
-            self.root = nil
-        }
-    }
-}
-
-public struct DisablePolicyTypeOutputResponse: Swift.Equatable {
-    /// A structure that shows the root with the updated list of enabled policy types.
-    public var root: OrganizationsClientTypes.Root?
-
-    public init(
-        root: OrganizationsClientTypes.Root? = nil
-    )
-    {
-        self.root = root
-    }
-}
-
-struct DisablePolicyTypeOutputResponseBody: Swift.Equatable {
-    let root: OrganizationsClientTypes.Root?
-}
-
-extension DisablePolicyTypeOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case root = "Root"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let rootDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Root.self, forKey: .root)
-        root = rootDecoded
     }
 }
 
@@ -5034,8 +5043,18 @@ extension EnableAWSServiceAccessInputBody: Swift.Decodable {
     }
 }
 
-public enum EnableAWSServiceAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension EnableAWSServiceAccessOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct EnableAWSServiceAccessOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum EnableAWSServiceAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5050,16 +5069,6 @@ public enum EnableAWSServiceAccessOutputError: ClientRuntime.HttpResponseErrorBi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension EnableAWSServiceAccessOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct EnableAWSServiceAccessOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension EnableAllFeaturesInput: Swift.Encodable {
@@ -5090,8 +5099,48 @@ extension EnableAllFeaturesInputBody: Swift.Decodable {
     }
 }
 
-public enum EnableAllFeaturesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension EnableAllFeaturesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: EnableAllFeaturesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.handshake = output.handshake
+        } else {
+            self.handshake = nil
+        }
+    }
+}
+
+public struct EnableAllFeaturesOutput: Swift.Equatable {
+    /// A structure that contains details about the handshake created to support this request to enable all features in the organization.
+    public var handshake: OrganizationsClientTypes.Handshake?
+
+    public init(
+        handshake: OrganizationsClientTypes.Handshake? = nil
+    )
+    {
+        self.handshake = handshake
+    }
+}
+
+struct EnableAllFeaturesOutputBody: Swift.Equatable {
+    let handshake: OrganizationsClientTypes.Handshake?
+}
+
+extension EnableAllFeaturesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case handshake = "Handshake"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let handshakeDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Handshake.self, forKey: .handshake)
+        handshake = handshakeDecoded
+    }
+}
+
+enum EnableAllFeaturesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5104,46 +5153,6 @@ public enum EnableAllFeaturesOutputError: ClientRuntime.HttpResponseErrorBinding
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension EnableAllFeaturesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: EnableAllFeaturesOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.handshake = output.handshake
-        } else {
-            self.handshake = nil
-        }
-    }
-}
-
-public struct EnableAllFeaturesOutputResponse: Swift.Equatable {
-    /// A structure that contains details about the handshake created to support this request to enable all features in the organization.
-    public var handshake: OrganizationsClientTypes.Handshake?
-
-    public init(
-        handshake: OrganizationsClientTypes.Handshake? = nil
-    )
-    {
-        self.handshake = handshake
-    }
-}
-
-struct EnableAllFeaturesOutputResponseBody: Swift.Equatable {
-    let handshake: OrganizationsClientTypes.Handshake?
-}
-
-extension EnableAllFeaturesOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case handshake = "Handshake"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let handshakeDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Handshake.self, forKey: .handshake)
-        handshake = handshakeDecoded
     }
 }
 
@@ -5216,8 +5225,48 @@ extension EnablePolicyTypeInputBody: Swift.Decodable {
     }
 }
 
-public enum EnablePolicyTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension EnablePolicyTypeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: EnablePolicyTypeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.root = output.root
+        } else {
+            self.root = nil
+        }
+    }
+}
+
+public struct EnablePolicyTypeOutput: Swift.Equatable {
+    /// A structure that shows the root with the updated list of enabled policy types.
+    public var root: OrganizationsClientTypes.Root?
+
+    public init(
+        root: OrganizationsClientTypes.Root? = nil
+    )
+    {
+        self.root = root
+    }
+}
+
+struct EnablePolicyTypeOutputBody: Swift.Equatable {
+    let root: OrganizationsClientTypes.Root?
+}
+
+extension EnablePolicyTypeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case root = "Root"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rootDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Root.self, forKey: .root)
+        root = rootDecoded
+    }
+}
+
+enum EnablePolicyTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5235,46 +5284,6 @@ public enum EnablePolicyTypeOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension EnablePolicyTypeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: EnablePolicyTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.root = output.root
-        } else {
-            self.root = nil
-        }
-    }
-}
-
-public struct EnablePolicyTypeOutputResponse: Swift.Equatable {
-    /// A structure that shows the root with the updated list of enabled policy types.
-    public var root: OrganizationsClientTypes.Root?
-
-    public init(
-        root: OrganizationsClientTypes.Root? = nil
-    )
-    {
-        self.root = root
-    }
-}
-
-struct EnablePolicyTypeOutputResponseBody: Swift.Equatable {
-    let root: OrganizationsClientTypes.Root?
-}
-
-extension EnablePolicyTypeOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case root = "Root"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let rootDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Root.self, forKey: .root)
-        root = rootDecoded
     }
 }
 
@@ -5599,7 +5608,7 @@ extension HandshakeConstraintViolationException {
 
 /// The requested operation would violate the constraint identified in the reason code. Some of the reasons in the following list might not be applicable to this specific API or operation:
 ///
-/// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. Note that deleted and closed accounts still count toward your limit. If you get this exception immediately after creating the organization, wait one hour and try again. If after an hour it continues to fail with this error, contact [Amazon Web Services Support](https://docs.aws.amazon.com/support/home#/).
+/// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. Note that deleted and closed accounts still count toward your limit. If you get this exception immediately after creating the organization, wait one hour and try again. If after an hour it continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
 ///
 /// * ALREADY_IN_AN_ORGANIZATION: The handshake request is invalid because the invited account is already a member of an organization.
 ///
@@ -6481,8 +6490,48 @@ extension InviteAccountToOrganizationInputBody: Swift.Decodable {
     }
 }
 
-public enum InviteAccountToOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension InviteAccountToOrganizationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: InviteAccountToOrganizationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.handshake = output.handshake
+        } else {
+            self.handshake = nil
+        }
+    }
+}
+
+public struct InviteAccountToOrganizationOutput: Swift.Equatable {
+    /// A structure that contains details about the handshake that is created to support this invitation request.
+    public var handshake: OrganizationsClientTypes.Handshake?
+
+    public init(
+        handshake: OrganizationsClientTypes.Handshake? = nil
+    )
+    {
+        self.handshake = handshake
+    }
+}
+
+struct InviteAccountToOrganizationOutputBody: Swift.Equatable {
+    let handshake: OrganizationsClientTypes.Handshake?
+}
+
+extension InviteAccountToOrganizationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case handshake = "Handshake"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let handshakeDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Handshake.self, forKey: .handshake)
+        handshake = handshakeDecoded
+    }
+}
+
+enum InviteAccountToOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6499,46 +6548,6 @@ public enum InviteAccountToOrganizationOutputError: ClientRuntime.HttpResponseEr
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension InviteAccountToOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: InviteAccountToOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.handshake = output.handshake
-        } else {
-            self.handshake = nil
-        }
-    }
-}
-
-public struct InviteAccountToOrganizationOutputResponse: Swift.Equatable {
-    /// A structure that contains details about the handshake that is created to support this invitation request.
-    public var handshake: OrganizationsClientTypes.Handshake?
-
-    public init(
-        handshake: OrganizationsClientTypes.Handshake? = nil
-    )
-    {
-        self.handshake = handshake
-    }
-}
-
-struct InviteAccountToOrganizationOutputResponseBody: Swift.Equatable {
-    let handshake: OrganizationsClientTypes.Handshake?
-}
-
-extension InviteAccountToOrganizationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case handshake = "Handshake"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let handshakeDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Handshake.self, forKey: .handshake)
-        handshake = handshakeDecoded
     }
 }
 
@@ -6570,8 +6579,18 @@ extension LeaveOrganizationInputBody: Swift.Decodable {
     }
 }
 
-public enum LeaveOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension LeaveOrganizationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct LeaveOrganizationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum LeaveOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6587,16 +6606,6 @@ public enum LeaveOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension LeaveOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct LeaveOrganizationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ListAWSServiceAccessForOrganizationInput: Swift.Encodable {
@@ -6658,28 +6667,11 @@ extension ListAWSServiceAccessForOrganizationInputBody: Swift.Decodable {
     }
 }
 
-public enum ListAWSServiceAccessForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAWSServiceAccessForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAWSServiceAccessForOrganizationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAWSServiceAccessForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAWSServiceAccessForOrganizationOutputBody = try responseDecoder.decode(responseBody: data)
             self.enabledServicePrincipals = output.enabledServicePrincipals
             self.nextToken = output.nextToken
         } else {
@@ -6689,7 +6681,7 @@ extension ListAWSServiceAccessForOrganizationOutputResponse: ClientRuntime.HttpR
     }
 }
 
-public struct ListAWSServiceAccessForOrganizationOutputResponse: Swift.Equatable {
+public struct ListAWSServiceAccessForOrganizationOutput: Swift.Equatable {
     /// A list of the service principals for the services that are enabled to integrate with your organization. Each principal is a structure that includes the name and the date that it was enabled for integration with Organizations.
     public var enabledServicePrincipals: [OrganizationsClientTypes.EnabledServicePrincipal]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -6705,12 +6697,12 @@ public struct ListAWSServiceAccessForOrganizationOutputResponse: Swift.Equatable
     }
 }
 
-struct ListAWSServiceAccessForOrganizationOutputResponseBody: Swift.Equatable {
+struct ListAWSServiceAccessForOrganizationOutputBody: Swift.Equatable {
     let enabledServicePrincipals: [OrganizationsClientTypes.EnabledServicePrincipal]?
     let nextToken: Swift.String?
 }
 
-extension ListAWSServiceAccessForOrganizationOutputResponseBody: Swift.Decodable {
+extension ListAWSServiceAccessForOrganizationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enabledServicePrincipals = "EnabledServicePrincipals"
         case nextToken = "NextToken"
@@ -6731,6 +6723,23 @@ extension ListAWSServiceAccessForOrganizationOutputResponseBody: Swift.Decodable
         enabledServicePrincipals = enabledServicePrincipalsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAWSServiceAccessForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6806,27 +6815,11 @@ extension ListAccountsForParentInputBody: Swift.Decodable {
     }
 }
 
-public enum ListAccountsForParentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ParentNotFoundException": return try await ParentNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAccountsForParentOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAccountsForParentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAccountsForParentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAccountsForParentOutputBody = try responseDecoder.decode(responseBody: data)
             self.accounts = output.accounts
             self.nextToken = output.nextToken
         } else {
@@ -6836,7 +6829,7 @@ extension ListAccountsForParentOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListAccountsForParentOutputResponse: Swift.Equatable {
+public struct ListAccountsForParentOutput: Swift.Equatable {
     /// A list of the accounts in the specified root or OU.
     public var accounts: [OrganizationsClientTypes.Account]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -6852,12 +6845,12 @@ public struct ListAccountsForParentOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAccountsForParentOutputResponseBody: Swift.Equatable {
+struct ListAccountsForParentOutputBody: Swift.Equatable {
     let accounts: [OrganizationsClientTypes.Account]?
     let nextToken: Swift.String?
 }
 
-extension ListAccountsForParentOutputResponseBody: Swift.Decodable {
+extension ListAccountsForParentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accounts = "Accounts"
         case nextToken = "NextToken"
@@ -6878,6 +6871,22 @@ extension ListAccountsForParentOutputResponseBody: Swift.Decodable {
         accounts = accountsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAccountsForParentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ParentNotFoundException": return try await ParentNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6940,26 +6949,11 @@ extension ListAccountsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListAccountsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAccountsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAccountsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAccountsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAccountsOutputBody = try responseDecoder.decode(responseBody: data)
             self.accounts = output.accounts
             self.nextToken = output.nextToken
         } else {
@@ -6969,7 +6963,7 @@ extension ListAccountsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAccountsOutputResponse: Swift.Equatable {
+public struct ListAccountsOutput: Swift.Equatable {
     /// A list of objects in the organization.
     public var accounts: [OrganizationsClientTypes.Account]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -6985,12 +6979,12 @@ public struct ListAccountsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAccountsOutputResponseBody: Swift.Equatable {
+struct ListAccountsOutputBody: Swift.Equatable {
     let accounts: [OrganizationsClientTypes.Account]?
     let nextToken: Swift.String?
 }
 
-extension ListAccountsOutputResponseBody: Swift.Decodable {
+extension ListAccountsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accounts = "Accounts"
         case nextToken = "NextToken"
@@ -7011,6 +7005,21 @@ extension ListAccountsOutputResponseBody: Swift.Decodable {
         accounts = accountsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAccountsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7103,27 +7112,11 @@ extension ListChildrenInputBody: Swift.Decodable {
     }
 }
 
-public enum ListChildrenOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ParentNotFoundException": return try await ParentNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListChildrenOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListChildrenOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListChildrenOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListChildrenOutputBody = try responseDecoder.decode(responseBody: data)
             self.children = output.children
             self.nextToken = output.nextToken
         } else {
@@ -7133,7 +7126,7 @@ extension ListChildrenOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListChildrenOutputResponse: Swift.Equatable {
+public struct ListChildrenOutput: Swift.Equatable {
     /// The list of children of the specified parent container.
     public var children: [OrganizationsClientTypes.Child]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -7149,12 +7142,12 @@ public struct ListChildrenOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListChildrenOutputResponseBody: Swift.Equatable {
+struct ListChildrenOutputBody: Swift.Equatable {
     let children: [OrganizationsClientTypes.Child]?
     let nextToken: Swift.String?
 }
 
-extension ListChildrenOutputResponseBody: Swift.Decodable {
+extension ListChildrenOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case children = "Children"
         case nextToken = "NextToken"
@@ -7175,6 +7168,22 @@ extension ListChildrenOutputResponseBody: Swift.Decodable {
         children = childrenDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListChildrenOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ParentNotFoundException": return try await ParentNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7261,27 +7270,11 @@ extension ListCreateAccountStatusInputBody: Swift.Decodable {
     }
 }
 
-public enum ListCreateAccountStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListCreateAccountStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListCreateAccountStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListCreateAccountStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListCreateAccountStatusOutputBody = try responseDecoder.decode(responseBody: data)
             self.createAccountStatuses = output.createAccountStatuses
             self.nextToken = output.nextToken
         } else {
@@ -7291,7 +7284,7 @@ extension ListCreateAccountStatusOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListCreateAccountStatusOutputResponse: Swift.Equatable {
+public struct ListCreateAccountStatusOutput: Swift.Equatable {
     /// A list of objects with details about the requests. Certain elements, such as the accountId number, are present in the output only after the account has been successfully created.
     public var createAccountStatuses: [OrganizationsClientTypes.CreateAccountStatus]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -7307,12 +7300,12 @@ public struct ListCreateAccountStatusOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListCreateAccountStatusOutputResponseBody: Swift.Equatable {
+struct ListCreateAccountStatusOutputBody: Swift.Equatable {
     let createAccountStatuses: [OrganizationsClientTypes.CreateAccountStatus]?
     let nextToken: Swift.String?
 }
 
-extension ListCreateAccountStatusOutputResponseBody: Swift.Decodable {
+extension ListCreateAccountStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createAccountStatuses = "CreateAccountStatuses"
         case nextToken = "NextToken"
@@ -7333,6 +7326,22 @@ extension ListCreateAccountStatusOutputResponseBody: Swift.Decodable {
         createAccountStatuses = createAccountStatusesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCreateAccountStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7407,28 +7416,11 @@ extension ListDelegatedAdministratorsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListDelegatedAdministratorsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListDelegatedAdministratorsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListDelegatedAdministratorsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListDelegatedAdministratorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListDelegatedAdministratorsOutputBody = try responseDecoder.decode(responseBody: data)
             self.delegatedAdministrators = output.delegatedAdministrators
             self.nextToken = output.nextToken
         } else {
@@ -7438,7 +7430,7 @@ extension ListDelegatedAdministratorsOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct ListDelegatedAdministratorsOutputResponse: Swift.Equatable {
+public struct ListDelegatedAdministratorsOutput: Swift.Equatable {
     /// The list of delegated administrators in your organization.
     public var delegatedAdministrators: [OrganizationsClientTypes.DelegatedAdministrator]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -7454,12 +7446,12 @@ public struct ListDelegatedAdministratorsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListDelegatedAdministratorsOutputResponseBody: Swift.Equatable {
+struct ListDelegatedAdministratorsOutputBody: Swift.Equatable {
     let delegatedAdministrators: [OrganizationsClientTypes.DelegatedAdministrator]?
     let nextToken: Swift.String?
 }
 
-extension ListDelegatedAdministratorsOutputResponseBody: Swift.Decodable {
+extension ListDelegatedAdministratorsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case delegatedAdministrators = "DelegatedAdministrators"
         case nextToken = "NextToken"
@@ -7480,6 +7472,23 @@ extension ListDelegatedAdministratorsOutputResponseBody: Swift.Decodable {
         delegatedAdministrators = delegatedAdministratorsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListDelegatedAdministratorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7555,30 +7564,11 @@ extension ListDelegatedServicesForAccountInputBody: Swift.Decodable {
     }
 }
 
-public enum ListDelegatedServicesForAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotRegisteredException": return try await AccountNotRegisteredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListDelegatedServicesForAccountOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListDelegatedServicesForAccountOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListDelegatedServicesForAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListDelegatedServicesForAccountOutputBody = try responseDecoder.decode(responseBody: data)
             self.delegatedServices = output.delegatedServices
             self.nextToken = output.nextToken
         } else {
@@ -7588,7 +7578,7 @@ extension ListDelegatedServicesForAccountOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct ListDelegatedServicesForAccountOutputResponse: Swift.Equatable {
+public struct ListDelegatedServicesForAccountOutput: Swift.Equatable {
     /// The services for which the account is a delegated administrator.
     public var delegatedServices: [OrganizationsClientTypes.DelegatedService]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -7604,12 +7594,12 @@ public struct ListDelegatedServicesForAccountOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListDelegatedServicesForAccountOutputResponseBody: Swift.Equatable {
+struct ListDelegatedServicesForAccountOutputBody: Swift.Equatable {
     let delegatedServices: [OrganizationsClientTypes.DelegatedService]?
     let nextToken: Swift.String?
 }
 
-extension ListDelegatedServicesForAccountOutputResponseBody: Swift.Decodable {
+extension ListDelegatedServicesForAccountOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case delegatedServices = "DelegatedServices"
         case nextToken = "NextToken"
@@ -7630,6 +7620,25 @@ extension ListDelegatedServicesForAccountOutputResponseBody: Swift.Decodable {
         delegatedServices = delegatedServicesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListDelegatedServicesForAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AccountNotRegisteredException": return try await AccountNotRegisteredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7704,26 +7713,11 @@ extension ListHandshakesForAccountInputBody: Swift.Decodable {
     }
 }
 
-public enum ListHandshakesForAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListHandshakesForAccountOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListHandshakesForAccountOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListHandshakesForAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListHandshakesForAccountOutputBody = try responseDecoder.decode(responseBody: data)
             self.handshakes = output.handshakes
             self.nextToken = output.nextToken
         } else {
@@ -7733,7 +7727,7 @@ extension ListHandshakesForAccountOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListHandshakesForAccountOutputResponse: Swift.Equatable {
+public struct ListHandshakesForAccountOutput: Swift.Equatable {
     /// A list of [Handshake] objects with details about each of the handshakes that is associated with the specified account.
     public var handshakes: [OrganizationsClientTypes.Handshake]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -7749,12 +7743,12 @@ public struct ListHandshakesForAccountOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListHandshakesForAccountOutputResponseBody: Swift.Equatable {
+struct ListHandshakesForAccountOutputBody: Swift.Equatable {
     let handshakes: [OrganizationsClientTypes.Handshake]?
     let nextToken: Swift.String?
 }
 
-extension ListHandshakesForAccountOutputResponseBody: Swift.Decodable {
+extension ListHandshakesForAccountOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case handshakes = "Handshakes"
         case nextToken = "NextToken"
@@ -7775,6 +7769,21 @@ extension ListHandshakesForAccountOutputResponseBody: Swift.Decodable {
         handshakes = handshakesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListHandshakesForAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7849,27 +7858,11 @@ extension ListHandshakesForOrganizationInputBody: Swift.Decodable {
     }
 }
 
-public enum ListHandshakesForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListHandshakesForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListHandshakesForOrganizationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListHandshakesForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListHandshakesForOrganizationOutputBody = try responseDecoder.decode(responseBody: data)
             self.handshakes = output.handshakes
             self.nextToken = output.nextToken
         } else {
@@ -7879,7 +7872,7 @@ extension ListHandshakesForOrganizationOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct ListHandshakesForOrganizationOutputResponse: Swift.Equatable {
+public struct ListHandshakesForOrganizationOutput: Swift.Equatable {
     /// A list of [Handshake] objects with details about each of the handshakes that are associated with an organization.
     public var handshakes: [OrganizationsClientTypes.Handshake]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -7895,12 +7888,12 @@ public struct ListHandshakesForOrganizationOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListHandshakesForOrganizationOutputResponseBody: Swift.Equatable {
+struct ListHandshakesForOrganizationOutputBody: Swift.Equatable {
     let handshakes: [OrganizationsClientTypes.Handshake]?
     let nextToken: Swift.String?
 }
 
-extension ListHandshakesForOrganizationOutputResponseBody: Swift.Decodable {
+extension ListHandshakesForOrganizationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case handshakes = "Handshakes"
         case nextToken = "NextToken"
@@ -7921,6 +7914,22 @@ extension ListHandshakesForOrganizationOutputResponseBody: Swift.Decodable {
         handshakes = handshakesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListHandshakesForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8000,27 +8009,11 @@ extension ListOrganizationalUnitsForParentInputBody: Swift.Decodable {
     }
 }
 
-public enum ListOrganizationalUnitsForParentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ParentNotFoundException": return try await ParentNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListOrganizationalUnitsForParentOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListOrganizationalUnitsForParentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListOrganizationalUnitsForParentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListOrganizationalUnitsForParentOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.organizationalUnits = output.organizationalUnits
         } else {
@@ -8030,7 +8023,7 @@ extension ListOrganizationalUnitsForParentOutputResponse: ClientRuntime.HttpResp
     }
 }
 
-public struct ListOrganizationalUnitsForParentOutputResponse: Swift.Equatable {
+public struct ListOrganizationalUnitsForParentOutput: Swift.Equatable {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// A list of the OUs in the specified root or parent OU.
@@ -8046,12 +8039,12 @@ public struct ListOrganizationalUnitsForParentOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListOrganizationalUnitsForParentOutputResponseBody: Swift.Equatable {
+struct ListOrganizationalUnitsForParentOutputBody: Swift.Equatable {
     let organizationalUnits: [OrganizationsClientTypes.OrganizationalUnit]?
     let nextToken: Swift.String?
 }
 
-extension ListOrganizationalUnitsForParentOutputResponseBody: Swift.Decodable {
+extension ListOrganizationalUnitsForParentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case organizationalUnits = "OrganizationalUnits"
@@ -8072,6 +8065,22 @@ extension ListOrganizationalUnitsForParentOutputResponseBody: Swift.Decodable {
         organizationalUnits = organizationalUnitsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListOrganizationalUnitsForParentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ParentNotFoundException": return try await ParentNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8151,27 +8160,11 @@ extension ListParentsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListParentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ChildNotFoundException": return try await ChildNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListParentsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListParentsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListParentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListParentsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.parents = output.parents
         } else {
@@ -8181,7 +8174,7 @@ extension ListParentsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListParentsOutputResponse: Swift.Equatable {
+public struct ListParentsOutput: Swift.Equatable {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// A list of parents for the specified child account or OU.
@@ -8197,12 +8190,12 @@ public struct ListParentsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListParentsOutputResponseBody: Swift.Equatable {
+struct ListParentsOutputBody: Swift.Equatable {
     let parents: [OrganizationsClientTypes.Parent]?
     let nextToken: Swift.String?
 }
 
-extension ListParentsOutputResponseBody: Swift.Decodable {
+extension ListParentsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case parents = "Parents"
@@ -8223,6 +8216,22 @@ extension ListParentsOutputResponseBody: Swift.Decodable {
         parents = parentsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListParentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ChildNotFoundException": return try await ChildNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8325,28 +8334,11 @@ extension ListPoliciesForTargetInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPoliciesForTargetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TargetNotFoundException": return try await TargetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListPoliciesForTargetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPoliciesForTargetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPoliciesForTargetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPoliciesForTargetOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.policies = output.policies
         } else {
@@ -8356,7 +8348,7 @@ extension ListPoliciesForTargetOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListPoliciesForTargetOutputResponse: Swift.Equatable {
+public struct ListPoliciesForTargetOutput: Swift.Equatable {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// The list of policies that match the criteria in the request.
@@ -8372,12 +8364,12 @@ public struct ListPoliciesForTargetOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPoliciesForTargetOutputResponseBody: Swift.Equatable {
+struct ListPoliciesForTargetOutputBody: Swift.Equatable {
     let policies: [OrganizationsClientTypes.PolicySummary]?
     let nextToken: Swift.String?
 }
 
-extension ListPoliciesForTargetOutputResponseBody: Swift.Decodable {
+extension ListPoliciesForTargetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case policies = "Policies"
@@ -8398,6 +8390,23 @@ extension ListPoliciesForTargetOutputResponseBody: Swift.Decodable {
         policies = policiesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListPoliciesForTargetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TargetNotFoundException": return try await TargetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8481,27 +8490,11 @@ extension ListPoliciesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPoliciesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPoliciesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.policies = output.policies
         } else {
@@ -8511,7 +8504,7 @@ extension ListPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPoliciesOutputResponse: Swift.Equatable {
+public struct ListPoliciesOutput: Swift.Equatable {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// A list of policies that match the filter criteria in the request. The output list doesn't include the policy contents. To see the content for a policy, see [DescribePolicy].
@@ -8527,12 +8520,12 @@ public struct ListPoliciesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPoliciesOutputResponseBody: Swift.Equatable {
+struct ListPoliciesOutputBody: Swift.Equatable {
     let policies: [OrganizationsClientTypes.PolicySummary]?
     let nextToken: Swift.String?
 }
 
-extension ListPoliciesOutputResponseBody: Swift.Decodable {
+extension ListPoliciesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case policies = "Policies"
@@ -8553,6 +8546,22 @@ extension ListPoliciesOutputResponseBody: Swift.Decodable {
         policies = policiesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8615,26 +8624,11 @@ extension ListRootsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListRootsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRootsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRootsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRootsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRootsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.roots = output.roots
         } else {
@@ -8644,7 +8638,7 @@ extension ListRootsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRootsOutputResponse: Swift.Equatable {
+public struct ListRootsOutput: Swift.Equatable {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// A list of roots that are defined in an organization.
@@ -8660,12 +8654,12 @@ public struct ListRootsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRootsOutputResponseBody: Swift.Equatable {
+struct ListRootsOutputBody: Swift.Equatable {
     let roots: [OrganizationsClientTypes.Root]?
     let nextToken: Swift.String?
 }
 
-extension ListRootsOutputResponseBody: Swift.Decodable {
+extension ListRootsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case roots = "Roots"
@@ -8686,6 +8680,21 @@ extension ListRootsOutputResponseBody: Swift.Decodable {
         roots = rootsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListRootsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8757,27 +8766,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TargetNotFoundException": return try await TargetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
         } else {
@@ -8787,7 +8780,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// The tags that are assigned to the resource.
@@ -8803,12 +8796,12 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [OrganizationsClientTypes.Tag]?
     let nextToken: Swift.String?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case tags = "Tags"
@@ -8829,6 +8822,22 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TargetNotFoundException": return try await TargetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8904,28 +8913,11 @@ extension ListTargetsForPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTargetsForPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PolicyNotFoundException": return try await PolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTargetsForPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTargetsForPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTargetsForPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTargetsForPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.targets = output.targets
         } else {
@@ -8935,7 +8927,7 @@ extension ListTargetsForPolicyOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListTargetsForPolicyOutputResponse: Swift.Equatable {
+public struct ListTargetsForPolicyOutput: Swift.Equatable {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// A list of structures, each of which contains details about one of the entities to which the specified policy is attached.
@@ -8951,12 +8943,12 @@ public struct ListTargetsForPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTargetsForPolicyOutputResponseBody: Swift.Equatable {
+struct ListTargetsForPolicyOutputBody: Swift.Equatable {
     let targets: [OrganizationsClientTypes.PolicyTargetSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListTargetsForPolicyOutputResponseBody: Swift.Decodable {
+extension ListTargetsForPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case targets = "Targets"
@@ -8980,6 +8972,23 @@ extension ListTargetsForPolicyOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListTargetsForPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWSOrganizationsNotInUseException": return try await AWSOrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PolicyNotFoundException": return try await PolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension MalformedPolicyDocumentException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -8995,7 +9004,7 @@ extension MalformedPolicyDocumentException {
     }
 }
 
-/// The provided policy document doesn't meet the requirements of the specified policy type. For example, the syntax might be incorrect. For details about service control policy syntax, see [Service Control Policy Syntax](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html) in the Organizations User Guide.
+/// The provided policy document doesn't meet the requirements of the specified policy type. For example, the syntax might be incorrect. For details about service control policy syntax, see [SCP syntax](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_syntax.html) in the Organizations User Guide.
 public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -9172,8 +9181,18 @@ extension MoveAccountInputBody: Swift.Decodable {
     }
 }
 
-public enum MoveAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension MoveAccountOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct MoveAccountOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum MoveAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -9190,16 +9209,6 @@ public enum MoveAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension MoveAccountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct MoveAccountOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension OrganizationsClientTypes.Organization: Swift.Codable {
@@ -9281,7 +9290,7 @@ extension OrganizationsClientTypes {
         public var arn: Swift.String?
         /// Do not use. This field is deprecated and doesn't provide complete information about the policies in your organization. To determine the policies that are enabled and available for use in your organization, use the [ListRoots] operation instead.
         public var availablePolicyTypes: [OrganizationsClientTypes.PolicyTypeSummary]?
-        /// Specifies the functionality that currently is available to the organization. If set to "ALL", then all features are enabled and policies can be applied to accounts in the organization. If set to "CONSOLIDATED_BILLING", then only consolidated billing functionality is available. For more information, see [Enabling All Features in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html) in the Organizations User Guide.
+        /// Specifies the functionality that currently is available to the organization. If set to "ALL", then all features are enabled and policies can be applied to accounts in the organization. If set to "CONSOLIDATED_BILLING", then only consolidated billing functionality is available. For more information, see [Enabling all features in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html) in the Organizations User Guide.
         public var featureSet: OrganizationsClientTypes.OrganizationFeatureSet?
         /// The unique identifier (ID) of an organization. The [regex pattern](http://wikipedia.org/wiki/regex) for an organization ID string requires "o-" followed by from 10 to 32 lowercase letters or digits.
         public var id: Swift.String?
@@ -9361,7 +9370,7 @@ extension OrganizationNotEmptyException {
     }
 }
 
-/// The organization isn't empty. To delete an organization, you must first remove all accounts except the management account, delete all OUs, and delete all policies.
+/// The organization isn't empty. To delete an organization, you must first remove all accounts except the management account.
 public struct OrganizationNotEmptyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -10231,7 +10240,7 @@ extension PolicyTypeNotAvailableForOrganizationException {
     }
 }
 
-/// You can't use the specified policy type with the feature set currently enabled for this organization. For example, you can enable SCPs only after you enable all features in the organization. For more information, see [Managing Organizations Policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html#enable_policies_on_root)in the Organizations User Guide.
+/// You can't use the specified policy type with the feature set currently enabled for this organization. For example, you can enable SCPs only after you enable all features in the organization. For more information, see [Managing Organizations policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html#enable_policies_on_root)in the Organizations User Guide.
 public struct PolicyTypeNotAvailableForOrganizationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -10286,7 +10295,7 @@ extension PolicyTypeNotEnabledException {
     }
 }
 
-/// The specified policy type isn't currently enabled in this root. You can't attach policies of the specified type to entities in a root until you enable that type in the root. For more information, see [Enabling All Features in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html) in the Organizations User Guide.
+/// The specified policy type isn't currently enabled in this root. You can't attach policies of the specified type to entities in a root until you enable that type in the root. For more information, see [Enabling all features in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html) in the Organizations User Guide.
 public struct PolicyTypeNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -10433,7 +10442,7 @@ extension PutResourcePolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutResourcePolicyInput: Swift.Equatable {
-    /// If provided, the new content for the resource policy. The text must be correctly formatted JSON that complies with the syntax for the resource policy's type. For more information, see [Service Control Policy Syntax](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html) in the Organizations User Guide.
+    /// If provided, the new content for the resource policy. The text must be correctly formatted JSON that complies with the syntax for the resource policy's type. For more information, see [SCP syntax](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_syntax.html) in the Organizations User Guide.
     /// This member is required.
     public var content: Swift.String?
     /// A list of tags that you want to attach to the newly created resource policy. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see [Tagging Organizations resources](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html) in the Organizations User Guide. Calls with tags apply to the initial creation of the resource policy, otherwise an exception is thrown. If any one of the tags is not valid or if you exceed the allowed number of tags for the resource policy, then the entire request fails and the resource policy is not created.
@@ -10478,8 +10487,48 @@ extension PutResourcePolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum PutResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension PutResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutResourcePolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.resourcePolicy = output.resourcePolicy
+        } else {
+            self.resourcePolicy = nil
+        }
+    }
+}
+
+public struct PutResourcePolicyOutput: Swift.Equatable {
+    /// A structure that contains details about the resource policy.
+    public var resourcePolicy: OrganizationsClientTypes.ResourcePolicy?
+
+    public init(
+        resourcePolicy: OrganizationsClientTypes.ResourcePolicy? = nil
+    )
+    {
+        self.resourcePolicy = resourcePolicy
+    }
+}
+
+struct PutResourcePolicyOutputBody: Swift.Equatable {
+    let resourcePolicy: OrganizationsClientTypes.ResourcePolicy?
+}
+
+extension PutResourcePolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourcePolicy = "ResourcePolicy"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourcePolicyDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.ResourcePolicy.self, forKey: .resourcePolicy)
+        resourcePolicy = resourcePolicyDecoded
+    }
+}
+
+enum PutResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -10493,46 +10542,6 @@ public enum PutResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding
             case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension PutResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: PutResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.resourcePolicy = output.resourcePolicy
-        } else {
-            self.resourcePolicy = nil
-        }
-    }
-}
-
-public struct PutResourcePolicyOutputResponse: Swift.Equatable {
-    /// A structure that contains details about the resource policy.
-    public var resourcePolicy: OrganizationsClientTypes.ResourcePolicy?
-
-    public init(
-        resourcePolicy: OrganizationsClientTypes.ResourcePolicy? = nil
-    )
-    {
-        self.resourcePolicy = resourcePolicy
-    }
-}
-
-struct PutResourcePolicyOutputResponseBody: Swift.Equatable {
-    let resourcePolicy: OrganizationsClientTypes.ResourcePolicy?
-}
-
-extension PutResourcePolicyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case resourcePolicy = "ResourcePolicy"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let resourcePolicyDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.ResourcePolicy.self, forKey: .resourcePolicy)
-        resourcePolicy = resourcePolicyDecoded
     }
 }
 
@@ -10597,8 +10606,18 @@ extension RegisterDelegatedAdministratorInputBody: Swift.Decodable {
     }
 }
 
-public enum RegisterDelegatedAdministratorOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension RegisterDelegatedAdministratorOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RegisterDelegatedAdministratorOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum RegisterDelegatedAdministratorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -10615,16 +10634,6 @@ public enum RegisterDelegatedAdministratorOutputError: ClientRuntime.HttpRespons
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension RegisterDelegatedAdministratorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct RegisterDelegatedAdministratorOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension RemoveAccountFromOrganizationInput: Swift.Encodable {
@@ -10675,8 +10684,18 @@ extension RemoveAccountFromOrganizationInputBody: Swift.Decodable {
     }
 }
 
-public enum RemoveAccountFromOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension RemoveAccountFromOrganizationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RemoveAccountFromOrganizationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum RemoveAccountFromOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -10692,16 +10711,6 @@ public enum RemoveAccountFromOrganizationOutputError: ClientRuntime.HttpResponse
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension RemoveAccountFromOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct RemoveAccountFromOrganizationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension OrganizationsClientTypes.ResourcePolicy: Swift.Codable {
@@ -11227,8 +11236,18 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -11243,16 +11262,6 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension TargetNotFoundException {
@@ -11362,7 +11371,7 @@ extension TooManyRequestsException {
     }
 }
 
-/// You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html)in the Organizations User Guide.
+/// You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
 public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -11545,8 +11554,18 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -11561,16 +11580,6 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateOrganizationalUnitInput: Swift.Encodable {
@@ -11633,8 +11642,48 @@ extension UpdateOrganizationalUnitInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateOrganizationalUnitOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdateOrganizationalUnitOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateOrganizationalUnitOutputBody = try responseDecoder.decode(responseBody: data)
+            self.organizationalUnit = output.organizationalUnit
+        } else {
+            self.organizationalUnit = nil
+        }
+    }
+}
+
+public struct UpdateOrganizationalUnitOutput: Swift.Equatable {
+    /// A structure that contains the details about the specified OU, including its new name.
+    public var organizationalUnit: OrganizationsClientTypes.OrganizationalUnit?
+
+    public init(
+        organizationalUnit: OrganizationsClientTypes.OrganizationalUnit? = nil
+    )
+    {
+        self.organizationalUnit = organizationalUnit
+    }
+}
+
+struct UpdateOrganizationalUnitOutputBody: Swift.Equatable {
+    let organizationalUnit: OrganizationsClientTypes.OrganizationalUnit?
+}
+
+extension UpdateOrganizationalUnitOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case organizationalUnit = "OrganizationalUnit"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let organizationalUnitDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.OrganizationalUnit.self, forKey: .organizationalUnit)
+        organizationalUnit = organizationalUnitDecoded
+    }
+}
+
+enum UpdateOrganizationalUnitOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -11648,46 +11697,6 @@ public enum UpdateOrganizationalUnitOutputError: ClientRuntime.HttpResponseError
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateOrganizationalUnitOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateOrganizationalUnitOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.organizationalUnit = output.organizationalUnit
-        } else {
-            self.organizationalUnit = nil
-        }
-    }
-}
-
-public struct UpdateOrganizationalUnitOutputResponse: Swift.Equatable {
-    /// A structure that contains the details about the specified OU, including its new name.
-    public var organizationalUnit: OrganizationsClientTypes.OrganizationalUnit?
-
-    public init(
-        organizationalUnit: OrganizationsClientTypes.OrganizationalUnit? = nil
-    )
-    {
-        self.organizationalUnit = organizationalUnit
-    }
-}
-
-struct UpdateOrganizationalUnitOutputResponseBody: Swift.Equatable {
-    let organizationalUnit: OrganizationsClientTypes.OrganizationalUnit?
-}
-
-extension UpdateOrganizationalUnitOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case organizationalUnit = "OrganizationalUnit"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let organizationalUnitDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.OrganizationalUnit.self, forKey: .organizationalUnit)
-        organizationalUnit = organizationalUnitDecoded
     }
 }
 
@@ -11723,7 +11732,7 @@ extension UpdatePolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdatePolicyInput: Swift.Equatable {
-    /// If provided, the new content for the policy. The text must be correctly formatted JSON that complies with the syntax for the policy's type. For more information, see [Service Control Policy Syntax](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html) in the Organizations User Guide.
+    /// If provided, the new content for the policy. The text must be correctly formatted JSON that complies with the syntax for the policy's type. For more information, see [SCP syntax](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_syntax.html) in the Organizations User Guide.
     public var content: Swift.String?
     /// If provided, the new description for the policy.
     public var description: Swift.String?
@@ -11775,8 +11784,48 @@ extension UpdatePolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdatePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension UpdatePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdatePolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.policy = output.policy
+        } else {
+            self.policy = nil
+        }
+    }
+}
+
+public struct UpdatePolicyOutput: Swift.Equatable {
+    /// A structure that contains details about the updated policy, showing the requested changes.
+    public var policy: OrganizationsClientTypes.Policy?
+
+    public init(
+        policy: OrganizationsClientTypes.Policy? = nil
+    )
+    {
+        self.policy = policy
+    }
+}
+
+struct UpdatePolicyOutputBody: Swift.Equatable {
+    let policy: OrganizationsClientTypes.Policy?
+}
+
+extension UpdatePolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policy = "Policy"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Policy.self, forKey: .policy)
+        policy = policyDecoded
+    }
+}
+
+enum UpdatePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -11794,45 +11843,5 @@ public enum UpdatePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedAPIEndpointException": return try await UnsupportedAPIEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdatePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdatePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.policy = output.policy
-        } else {
-            self.policy = nil
-        }
-    }
-}
-
-public struct UpdatePolicyOutputResponse: Swift.Equatable {
-    /// A structure that contains details about the updated policy, showing the requested changes.
-    public var policy: OrganizationsClientTypes.Policy?
-
-    public init(
-        policy: OrganizationsClientTypes.Policy? = nil
-    )
-    {
-        self.policy = policy
-    }
-}
-
-struct UpdatePolicyOutputResponseBody: Swift.Equatable {
-    let policy: OrganizationsClientTypes.Policy?
-}
-
-extension UpdatePolicyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case policy = "Policy"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let policyDecoded = try containerValues.decodeIfPresent(OrganizationsClientTypes.Policy.self, forKey: .policy)
-        policy = policyDecoded
     }
 }

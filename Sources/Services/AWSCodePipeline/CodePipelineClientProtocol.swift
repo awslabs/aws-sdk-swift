@@ -74,84 +74,616 @@ import ClientRuntime
 ///
 /// * [PutThirdPartyJobSuccessResult], which provides details of a job success.
 public protocol CodePipelineClientProtocol {
+    /// Performs the `AcknowledgeJob` operation on the `CodePipeline_20150709` service.
+    ///
     /// Returns information about a specified job and whether that job has been received by the job worker. Used for custom actions only.
-    func acknowledgeJob(input: AcknowledgeJobInput) async throws -> AcknowledgeJobOutputResponse
+    ///
+    /// - Parameter AcknowledgeJobInput : Represents the input of an AcknowledgeJob action.
+    ///
+    /// - Returns: `AcknowledgeJobOutput` : Represents the output of an AcknowledgeJob action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNonceException` : The nonce was specified in an invalid format.
+    /// - `JobNotFoundException` : The job was specified in an invalid format or cannot be found.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func acknowledgeJob(input: AcknowledgeJobInput) async throws -> AcknowledgeJobOutput
+    /// Performs the `AcknowledgeThirdPartyJob` operation on the `CodePipeline_20150709` service.
+    ///
     /// Confirms a job worker has received the specified job. Used for partner actions only.
-    func acknowledgeThirdPartyJob(input: AcknowledgeThirdPartyJobInput) async throws -> AcknowledgeThirdPartyJobOutputResponse
+    ///
+    /// - Parameter AcknowledgeThirdPartyJobInput : Represents the input of an AcknowledgeThirdPartyJob action.
+    ///
+    /// - Returns: `AcknowledgeThirdPartyJobOutput` : Represents the output of an AcknowledgeThirdPartyJob action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidClientTokenException` : The client token was specified in an invalid format
+    /// - `InvalidNonceException` : The nonce was specified in an invalid format.
+    /// - `JobNotFoundException` : The job was specified in an invalid format or cannot be found.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func acknowledgeThirdPartyJob(input: AcknowledgeThirdPartyJobInput) async throws -> AcknowledgeThirdPartyJobOutput
+    /// Performs the `CreateCustomActionType` operation on the `CodePipeline_20150709` service.
+    ///
     /// Creates a new custom action that can be used in all pipelines associated with the Amazon Web Services account. Only used for custom actions.
-    func createCustomActionType(input: CreateCustomActionTypeInput) async throws -> CreateCustomActionTypeOutputResponse
+    ///
+    /// - Parameter CreateCustomActionTypeInput : Represents the input of a CreateCustomActionType operation.
+    ///
+    /// - Returns: `CreateCustomActionTypeOutput` : Represents the output of a CreateCustomActionType operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Unable to modify the tag due to a simultaneous update request.
+    /// - `InvalidTagsException` : The specified resource tags are invalid.
+    /// - `LimitExceededException` : The number of pipelines associated with the Amazon Web Services account has exceeded the limit allowed for the account.
+    /// - `TooManyTagsException` : The tags limit for a resource has been exceeded.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func createCustomActionType(input: CreateCustomActionTypeInput) async throws -> CreateCustomActionTypeOutput
+    /// Performs the `CreatePipeline` operation on the `CodePipeline_20150709` service.
+    ///
     /// Creates a pipeline. In the pipeline structure, you must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores.
-    func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutputResponse
+    ///
+    /// - Parameter CreatePipelineInput : Represents the input of a CreatePipeline action.
+    ///
+    /// - Returns: `CreatePipelineOutput` : Represents the output of a CreatePipeline action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Unable to modify the tag due to a simultaneous update request.
+    /// - `InvalidActionDeclarationException` : The action declaration was specified in an invalid format.
+    /// - `InvalidBlockerDeclarationException` : Reserved for future use.
+    /// - `InvalidStageDeclarationException` : The stage declaration was specified in an invalid format.
+    /// - `InvalidStructureException` : The structure was specified in an invalid format.
+    /// - `InvalidTagsException` : The specified resource tags are invalid.
+    /// - `LimitExceededException` : The number of pipelines associated with the Amazon Web Services account has exceeded the limit allowed for the account.
+    /// - `PipelineNameInUseException` : The specified pipeline name is already in use.
+    /// - `TooManyTagsException` : The tags limit for a resource has been exceeded.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutput
+    /// Performs the `DeleteCustomActionType` operation on the `CodePipeline_20150709` service.
+    ///
     /// Marks a custom action as deleted. PollForJobs for the custom action fails after the action is marked for deletion. Used for custom actions only. To re-create a custom action after it has been deleted you must use a string in the version field that has never been used before. This string can be an incremented version number, for example. To restore a deleted custom action, use a JSON file that is identical to the deleted action, including the original string in the version field.
-    func deleteCustomActionType(input: DeleteCustomActionTypeInput) async throws -> DeleteCustomActionTypeOutputResponse
+    ///
+    /// - Parameter DeleteCustomActionTypeInput : Represents the input of a DeleteCustomActionType operation. The custom action will be marked as deleted.
+    ///
+    /// - Returns: `DeleteCustomActionTypeOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Unable to modify the tag due to a simultaneous update request.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func deleteCustomActionType(input: DeleteCustomActionTypeInput) async throws -> DeleteCustomActionTypeOutput
+    /// Performs the `DeletePipeline` operation on the `CodePipeline_20150709` service.
+    ///
     /// Deletes the specified pipeline.
-    func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutputResponse
+    ///
+    /// - Parameter DeletePipelineInput : Represents the input of a DeletePipeline action.
+    ///
+    /// - Returns: `DeletePipelineOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Unable to modify the tag due to a simultaneous update request.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutput
+    /// Performs the `DeleteWebhook` operation on the `CodePipeline_20150709` service.
+    ///
     /// Deletes a previously created webhook by name. Deleting the webhook stops CodePipeline from starting a pipeline every time an external event occurs. The API returns successfully when trying to delete a webhook that is already deleted. If a deleted webhook is re-created by calling PutWebhook with the same name, it will have a different URL.
-    func deleteWebhook(input: DeleteWebhookInput) async throws -> DeleteWebhookOutputResponse
+    ///
+    /// - Parameter DeleteWebhookInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWebhookOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Unable to modify the tag due to a simultaneous update request.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func deleteWebhook(input: DeleteWebhookInput) async throws -> DeleteWebhookOutput
+    /// Performs the `DeregisterWebhookWithThirdParty` operation on the `CodePipeline_20150709` service.
+    ///
     /// Removes the connection between the webhook that was created by CodePipeline and the external tool with events to be detected. Currently supported only for webhooks that target an action type of GitHub.
-    func deregisterWebhookWithThirdParty(input: DeregisterWebhookWithThirdPartyInput) async throws -> DeregisterWebhookWithThirdPartyOutputResponse
+    ///
+    /// - Parameter DeregisterWebhookWithThirdPartyInput : [no documentation found]
+    ///
+    /// - Returns: `DeregisterWebhookWithThirdPartyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    /// - `WebhookNotFoundException` : The specified webhook was entered in an invalid format or cannot be found.
+    func deregisterWebhookWithThirdParty(input: DeregisterWebhookWithThirdPartyInput) async throws -> DeregisterWebhookWithThirdPartyOutput
+    /// Performs the `DisableStageTransition` operation on the `CodePipeline_20150709` service.
+    ///
     /// Prevents artifacts in a pipeline from transitioning to the next stage in the pipeline.
-    func disableStageTransition(input: DisableStageTransitionInput) async throws -> DisableStageTransitionOutputResponse
+    ///
+    /// - Parameter DisableStageTransitionInput : Represents the input of a DisableStageTransition action.
+    ///
+    /// - Returns: `DisableStageTransitionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
+    /// - `StageNotFoundException` : The stage was specified in an invalid format or cannot be found.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func disableStageTransition(input: DisableStageTransitionInput) async throws -> DisableStageTransitionOutput
+    /// Performs the `EnableStageTransition` operation on the `CodePipeline_20150709` service.
+    ///
     /// Enables artifacts in a pipeline to transition to a stage in a pipeline.
-    func enableStageTransition(input: EnableStageTransitionInput) async throws -> EnableStageTransitionOutputResponse
+    ///
+    /// - Parameter EnableStageTransitionInput : Represents the input of an EnableStageTransition action.
+    ///
+    /// - Returns: `EnableStageTransitionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
+    /// - `StageNotFoundException` : The stage was specified in an invalid format or cannot be found.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func enableStageTransition(input: EnableStageTransitionInput) async throws -> EnableStageTransitionOutput
+    /// Performs the `GetActionType` operation on the `CodePipeline_20150709` service.
+    ///
     /// Returns information about an action type created for an external provider, where the action is to be used by customers of the external provider. The action can be created with any supported integration model.
-    func getActionType(input: GetActionTypeInput) async throws -> GetActionTypeOutputResponse
+    ///
+    /// - Parameter GetActionTypeInput : [no documentation found]
+    ///
+    /// - Returns: `GetActionTypeOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ActionTypeNotFoundException` : The specified action type cannot be found.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func getActionType(input: GetActionTypeInput) async throws -> GetActionTypeOutput
+    /// Performs the `GetJobDetails` operation on the `CodePipeline_20150709` service.
+    ///
     /// Returns information about a job. Used for custom actions only. When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action.
-    func getJobDetails(input: GetJobDetailsInput) async throws -> GetJobDetailsOutputResponse
+    ///
+    /// - Parameter GetJobDetailsInput : Represents the input of a GetJobDetails action.
+    ///
+    /// - Returns: `GetJobDetailsOutput` : Represents the output of a GetJobDetails action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `JobNotFoundException` : The job was specified in an invalid format or cannot be found.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func getJobDetails(input: GetJobDetailsInput) async throws -> GetJobDetailsOutput
+    /// Performs the `GetPipeline` operation on the `CodePipeline_20150709` service.
+    ///
     /// Returns the metadata, structure, stages, and actions of a pipeline. Can be used to return the entire structure of a pipeline in JSON format, which can then be modified and used to update the pipeline structure with [UpdatePipeline].
-    func getPipeline(input: GetPipelineInput) async throws -> GetPipelineOutputResponse
+    ///
+    /// - Parameter GetPipelineInput : Represents the input of a GetPipeline action.
+    ///
+    /// - Returns: `GetPipelineOutput` : Represents the output of a GetPipeline action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
+    /// - `PipelineVersionNotFoundException` : The pipeline version was specified in an invalid format or cannot be found.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func getPipeline(input: GetPipelineInput) async throws -> GetPipelineOutput
+    /// Performs the `GetPipelineExecution` operation on the `CodePipeline_20150709` service.
+    ///
     /// Returns information about an execution of a pipeline, including details about artifacts, the pipeline execution ID, and the name, version, and status of the pipeline.
-    func getPipelineExecution(input: GetPipelineExecutionInput) async throws -> GetPipelineExecutionOutputResponse
+    ///
+    /// - Parameter GetPipelineExecutionInput : Represents the input of a GetPipelineExecution action.
+    ///
+    /// - Returns: `GetPipelineExecutionOutput` : Represents the output of a GetPipelineExecution action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `PipelineExecutionNotFoundException` : The pipeline execution was specified in an invalid format or cannot be found, or an execution ID does not belong to the specified pipeline.
+    /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func getPipelineExecution(input: GetPipelineExecutionInput) async throws -> GetPipelineExecutionOutput
+    /// Performs the `GetPipelineState` operation on the `CodePipeline_20150709` service.
+    ///
     /// Returns information about the state of a pipeline, including the stages and actions. Values returned in the revisionId and revisionUrl fields indicate the source revision information, such as the commit ID, for the current state.
-    func getPipelineState(input: GetPipelineStateInput) async throws -> GetPipelineStateOutputResponse
+    ///
+    /// - Parameter GetPipelineStateInput : Represents the input of a GetPipelineState action.
+    ///
+    /// - Returns: `GetPipelineStateOutput` : Represents the output of a GetPipelineState action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func getPipelineState(input: GetPipelineStateInput) async throws -> GetPipelineStateOutput
+    /// Performs the `GetThirdPartyJobDetails` operation on the `CodePipeline_20150709` service.
+    ///
     /// Requests the details of a job for a third party action. Used for partner actions only. When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action.
-    func getThirdPartyJobDetails(input: GetThirdPartyJobDetailsInput) async throws -> GetThirdPartyJobDetailsOutputResponse
+    ///
+    /// - Parameter GetThirdPartyJobDetailsInput : Represents the input of a GetThirdPartyJobDetails action.
+    ///
+    /// - Returns: `GetThirdPartyJobDetailsOutput` : Represents the output of a GetThirdPartyJobDetails action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidClientTokenException` : The client token was specified in an invalid format
+    /// - `InvalidJobException` : The job was specified in an invalid format or cannot be found.
+    /// - `JobNotFoundException` : The job was specified in an invalid format or cannot be found.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func getThirdPartyJobDetails(input: GetThirdPartyJobDetailsInput) async throws -> GetThirdPartyJobDetailsOutput
+    /// Performs the `ListActionExecutions` operation on the `CodePipeline_20150709` service.
+    ///
     /// Lists the action executions that have occurred in a pipeline.
-    func listActionExecutions(input: ListActionExecutionsInput) async throws -> ListActionExecutionsOutputResponse
+    ///
+    /// - Parameter ListActionExecutionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListActionExecutionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The next token was specified in an invalid format. Make sure that the next token you provide is the token returned by a previous call.
+    /// - `PipelineExecutionNotFoundException` : The pipeline execution was specified in an invalid format or cannot be found, or an execution ID does not belong to the specified pipeline.
+    /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func listActionExecutions(input: ListActionExecutionsInput) async throws -> ListActionExecutionsOutput
+    /// Performs the `ListActionTypes` operation on the `CodePipeline_20150709` service.
+    ///
     /// Gets a summary of all CodePipeline action types associated with your account.
-    func listActionTypes(input: ListActionTypesInput) async throws -> ListActionTypesOutputResponse
+    ///
+    /// - Parameter ListActionTypesInput : Represents the input of a ListActionTypes action.
+    ///
+    /// - Returns: `ListActionTypesOutput` : Represents the output of a ListActionTypes action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The next token was specified in an invalid format. Make sure that the next token you provide is the token returned by a previous call.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func listActionTypes(input: ListActionTypesInput) async throws -> ListActionTypesOutput
+    /// Performs the `ListPipelineExecutions` operation on the `CodePipeline_20150709` service.
+    ///
     /// Gets a summary of the most recent executions for a pipeline.
-    func listPipelineExecutions(input: ListPipelineExecutionsInput) async throws -> ListPipelineExecutionsOutputResponse
+    ///
+    /// - Parameter ListPipelineExecutionsInput : Represents the input of a ListPipelineExecutions action.
+    ///
+    /// - Returns: `ListPipelineExecutionsOutput` : Represents the output of a ListPipelineExecutions action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The next token was specified in an invalid format. Make sure that the next token you provide is the token returned by a previous call.
+    /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func listPipelineExecutions(input: ListPipelineExecutionsInput) async throws -> ListPipelineExecutionsOutput
+    /// Performs the `ListPipelines` operation on the `CodePipeline_20150709` service.
+    ///
     /// Gets a summary of all of the pipelines associated with your account.
-    func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutputResponse
+    ///
+    /// - Parameter ListPipelinesInput : Represents the input of a ListPipelines action.
+    ///
+    /// - Returns: `ListPipelinesOutput` : Represents the output of a ListPipelines action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The next token was specified in an invalid format. Make sure that the next token you provide is the token returned by a previous call.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutput
+    /// Performs the `ListTagsForResource` operation on the `CodePipeline_20150709` service.
+    ///
     /// Gets the set of key-value pairs (metadata) that are used to manage the resource.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArnException` : The specified resource ARN is invalid.
+    /// - `InvalidNextTokenException` : The next token was specified in an invalid format. Make sure that the next token you provide is the token returned by a previous call.
+    /// - `ResourceNotFoundException` : The resource was specified in an invalid format.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `ListWebhooks` operation on the `CodePipeline_20150709` service.
+    ///
     /// Gets a listing of all the webhooks in this Amazon Web Services Region for this account. The output lists all webhooks and includes the webhook URL and ARN and the configuration for each webhook.
-    func listWebhooks(input: ListWebhooksInput) async throws -> ListWebhooksOutputResponse
+    ///
+    /// - Parameter ListWebhooksInput : [no documentation found]
+    ///
+    /// - Returns: `ListWebhooksOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The next token was specified in an invalid format. Make sure that the next token you provide is the token returned by a previous call.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func listWebhooks(input: ListWebhooksInput) async throws -> ListWebhooksOutput
+    /// Performs the `PollForJobs` operation on the `CodePipeline_20150709` service.
+    ///
     /// Returns information about any jobs for CodePipeline to act on. PollForJobs is valid only for action types with "Custom" in the owner field. If the action type contains AWS or ThirdParty in the owner field, the PollForJobs action returns an error. When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action.
-    func pollForJobs(input: PollForJobsInput) async throws -> PollForJobsOutputResponse
+    ///
+    /// - Parameter PollForJobsInput : Represents the input of a PollForJobs action.
+    ///
+    /// - Returns: `PollForJobsOutput` : Represents the output of a PollForJobs action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ActionTypeNotFoundException` : The specified action type cannot be found.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func pollForJobs(input: PollForJobsInput) async throws -> PollForJobsOutput
+    /// Performs the `PollForThirdPartyJobs` operation on the `CodePipeline_20150709` service.
+    ///
     /// Determines whether there are any third party jobs for a job worker to act on. Used for partner actions only. When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts.
-    func pollForThirdPartyJobs(input: PollForThirdPartyJobsInput) async throws -> PollForThirdPartyJobsOutputResponse
+    ///
+    /// - Parameter PollForThirdPartyJobsInput : Represents the input of a PollForThirdPartyJobs action.
+    ///
+    /// - Returns: `PollForThirdPartyJobsOutput` : Represents the output of a PollForThirdPartyJobs action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ActionTypeNotFoundException` : The specified action type cannot be found.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func pollForThirdPartyJobs(input: PollForThirdPartyJobsInput) async throws -> PollForThirdPartyJobsOutput
+    /// Performs the `PutActionRevision` operation on the `CodePipeline_20150709` service.
+    ///
     /// Provides information to CodePipeline about new revisions to a source.
-    func putActionRevision(input: PutActionRevisionInput) async throws -> PutActionRevisionOutputResponse
+    ///
+    /// - Parameter PutActionRevisionInput : Represents the input of a PutActionRevision action.
+    ///
+    /// - Returns: `PutActionRevisionOutput` : Represents the output of a PutActionRevision action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ActionNotFoundException` : The specified action cannot be found.
+    /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
+    /// - `StageNotFoundException` : The stage was specified in an invalid format or cannot be found.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func putActionRevision(input: PutActionRevisionInput) async throws -> PutActionRevisionOutput
+    /// Performs the `PutApprovalResult` operation on the `CodePipeline_20150709` service.
+    ///
     /// Provides the response to a manual approval request to CodePipeline. Valid responses include Approved and Rejected.
-    func putApprovalResult(input: PutApprovalResultInput) async throws -> PutApprovalResultOutputResponse
+    ///
+    /// - Parameter PutApprovalResultInput : Represents the input of a PutApprovalResult action.
+    ///
+    /// - Returns: `PutApprovalResultOutput` : Represents the output of a PutApprovalResult action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ActionNotFoundException` : The specified action cannot be found.
+    /// - `ApprovalAlreadyCompletedException` : The approval action has already been approved or rejected.
+    /// - `InvalidApprovalTokenException` : The approval request already received a response or has expired.
+    /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
+    /// - `StageNotFoundException` : The stage was specified in an invalid format or cannot be found.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func putApprovalResult(input: PutApprovalResultInput) async throws -> PutApprovalResultOutput
+    /// Performs the `PutJobFailureResult` operation on the `CodePipeline_20150709` service.
+    ///
     /// Represents the failure of a job as returned to the pipeline by a job worker. Used for custom actions only.
-    func putJobFailureResult(input: PutJobFailureResultInput) async throws -> PutJobFailureResultOutputResponse
+    ///
+    /// - Parameter PutJobFailureResultInput : Represents the input of a PutJobFailureResult action.
+    ///
+    /// - Returns: `PutJobFailureResultOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidJobStateException` : The job state was specified in an invalid format.
+    /// - `JobNotFoundException` : The job was specified in an invalid format or cannot be found.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func putJobFailureResult(input: PutJobFailureResultInput) async throws -> PutJobFailureResultOutput
+    /// Performs the `PutJobSuccessResult` operation on the `CodePipeline_20150709` service.
+    ///
     /// Represents the success of a job as returned to the pipeline by a job worker. Used for custom actions only.
-    func putJobSuccessResult(input: PutJobSuccessResultInput) async throws -> PutJobSuccessResultOutputResponse
+    ///
+    /// - Parameter PutJobSuccessResultInput : Represents the input of a PutJobSuccessResult action.
+    ///
+    /// - Returns: `PutJobSuccessResultOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidJobStateException` : The job state was specified in an invalid format.
+    /// - `JobNotFoundException` : The job was specified in an invalid format or cannot be found.
+    /// - `OutputVariablesSizeExceededException` : Exceeded the total size limit for all variables in the pipeline.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func putJobSuccessResult(input: PutJobSuccessResultInput) async throws -> PutJobSuccessResultOutput
+    /// Performs the `PutThirdPartyJobFailureResult` operation on the `CodePipeline_20150709` service.
+    ///
     /// Represents the failure of a third party job as returned to the pipeline by a job worker. Used for partner actions only.
-    func putThirdPartyJobFailureResult(input: PutThirdPartyJobFailureResultInput) async throws -> PutThirdPartyJobFailureResultOutputResponse
+    ///
+    /// - Parameter PutThirdPartyJobFailureResultInput : Represents the input of a PutThirdPartyJobFailureResult action.
+    ///
+    /// - Returns: `PutThirdPartyJobFailureResultOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidClientTokenException` : The client token was specified in an invalid format
+    /// - `InvalidJobStateException` : The job state was specified in an invalid format.
+    /// - `JobNotFoundException` : The job was specified in an invalid format or cannot be found.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func putThirdPartyJobFailureResult(input: PutThirdPartyJobFailureResultInput) async throws -> PutThirdPartyJobFailureResultOutput
+    /// Performs the `PutThirdPartyJobSuccessResult` operation on the `CodePipeline_20150709` service.
+    ///
     /// Represents the success of a third party job as returned to the pipeline by a job worker. Used for partner actions only.
-    func putThirdPartyJobSuccessResult(input: PutThirdPartyJobSuccessResultInput) async throws -> PutThirdPartyJobSuccessResultOutputResponse
+    ///
+    /// - Parameter PutThirdPartyJobSuccessResultInput : Represents the input of a PutThirdPartyJobSuccessResult action.
+    ///
+    /// - Returns: `PutThirdPartyJobSuccessResultOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidClientTokenException` : The client token was specified in an invalid format
+    /// - `InvalidJobStateException` : The job state was specified in an invalid format.
+    /// - `JobNotFoundException` : The job was specified in an invalid format or cannot be found.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func putThirdPartyJobSuccessResult(input: PutThirdPartyJobSuccessResultInput) async throws -> PutThirdPartyJobSuccessResultOutput
+    /// Performs the `PutWebhook` operation on the `CodePipeline_20150709` service.
+    ///
     /// Defines a webhook and returns a unique webhook URL generated by CodePipeline. This URL can be supplied to third party source hosting providers to call every time there's a code change. When CodePipeline receives a POST request on this URL, the pipeline defined in the webhook is started as long as the POST request satisfied the authentication and filtering requirements supplied when defining the webhook. RegisterWebhookWithThirdParty and DeregisterWebhookWithThirdParty APIs can be used to automatically configure supported third parties to call the generated webhook URL.
-    func putWebhook(input: PutWebhookInput) async throws -> PutWebhookOutputResponse
+    ///
+    /// - Parameter PutWebhookInput : [no documentation found]
+    ///
+    /// - Returns: `PutWebhookOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Unable to modify the tag due to a simultaneous update request.
+    /// - `InvalidTagsException` : The specified resource tags are invalid.
+    /// - `InvalidWebhookAuthenticationParametersException` : The specified authentication type is in an invalid format.
+    /// - `InvalidWebhookFilterPatternException` : The specified event filter rule is in an invalid format.
+    /// - `LimitExceededException` : The number of pipelines associated with the Amazon Web Services account has exceeded the limit allowed for the account.
+    /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
+    /// - `TooManyTagsException` : The tags limit for a resource has been exceeded.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func putWebhook(input: PutWebhookInput) async throws -> PutWebhookOutput
+    /// Performs the `RegisterWebhookWithThirdParty` operation on the `CodePipeline_20150709` service.
+    ///
     /// Configures a connection between the webhook that was created and the external tool with events to be detected.
-    func registerWebhookWithThirdParty(input: RegisterWebhookWithThirdPartyInput) async throws -> RegisterWebhookWithThirdPartyOutputResponse
-    /// Resumes the pipeline execution by retrying the last failed actions in a stage. You can retry a stage immediately if any of the actions in the stage fail. When you retry, all actions that are still in progress continue working, and failed actions are triggered again.
-    func retryStageExecution(input: RetryStageExecutionInput) async throws -> RetryStageExecutionOutputResponse
+    ///
+    /// - Parameter RegisterWebhookWithThirdPartyInput : [no documentation found]
+    ///
+    /// - Returns: `RegisterWebhookWithThirdPartyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    /// - `WebhookNotFoundException` : The specified webhook was entered in an invalid format or cannot be found.
+    func registerWebhookWithThirdParty(input: RegisterWebhookWithThirdPartyInput) async throws -> RegisterWebhookWithThirdPartyOutput
+    /// Performs the `RetryStageExecution` operation on the `CodePipeline_20150709` service.
+    ///
+    /// You can retry a stage that has failed without having to run a pipeline again from the beginning. You do this by either retrying the failed actions in a stage or by retrying all actions in the stage starting from the first action in the stage. When you retry the failed actions in a stage, all actions that are still in progress continue working, and failed actions are triggered again. When you retry a failed stage from the first action in the stage, the stage cannot have any actions in progress. Before a stage can be retried, it must either have all actions failed or some actions failed and some succeeded.
+    ///
+    /// - Parameter RetryStageExecutionInput : Represents the input of a RetryStageExecution action.
+    ///
+    /// - Returns: `RetryStageExecutionOutput` : Represents the output of a RetryStageExecution action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : Your request cannot be handled because the pipeline is busy handling ongoing activities. Try again later.
+    /// - `NotLatestPipelineExecutionException` : The stage has failed in a later run of the pipeline and the pipelineExecutionId associated with the request is out of date.
+    /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
+    /// - `StageNotFoundException` : The stage was specified in an invalid format or cannot be found.
+    /// - `StageNotRetryableException` : Unable to retry. The pipeline structure or stage state might have changed while actions awaited retry, or the stage contains no failed actions.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func retryStageExecution(input: RetryStageExecutionInput) async throws -> RetryStageExecutionOutput
+    /// Performs the `StartPipelineExecution` operation on the `CodePipeline_20150709` service.
+    ///
     /// Starts the specified pipeline. Specifically, it begins processing the latest commit to the source location specified as part of the pipeline.
-    func startPipelineExecution(input: StartPipelineExecutionInput) async throws -> StartPipelineExecutionOutputResponse
+    ///
+    /// - Parameter StartPipelineExecutionInput : Represents the input of a StartPipelineExecution action.
+    ///
+    /// - Returns: `StartPipelineExecutionOutput` : Represents the output of a StartPipelineExecution action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : Your request cannot be handled because the pipeline is busy handling ongoing activities. Try again later.
+    /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func startPipelineExecution(input: StartPipelineExecutionInput) async throws -> StartPipelineExecutionOutput
+    /// Performs the `StopPipelineExecution` operation on the `CodePipeline_20150709` service.
+    ///
     /// Stops the specified pipeline execution. You choose to either stop the pipeline execution by completing in-progress actions without starting subsequent actions, or by abandoning in-progress actions. While completing or abandoning in-progress actions, the pipeline execution is in a Stopping state. After all in-progress actions are completed or abandoned, the pipeline execution is in a Stopped state.
-    func stopPipelineExecution(input: StopPipelineExecutionInput) async throws -> StopPipelineExecutionOutputResponse
+    ///
+    /// - Parameter StopPipelineExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `StopPipelineExecutionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : Your request cannot be handled because the pipeline is busy handling ongoing activities. Try again later.
+    /// - `DuplicatedStopRequestException` : The pipeline execution is already in a Stopping state. If you already chose to stop and wait, you cannot make that request again. You can choose to stop and abandon now, but be aware that this option can lead to failed tasks or out of sequence tasks. If you already chose to stop and abandon, you cannot make that request again.
+    /// - `PipelineExecutionNotStoppableException` : Unable to stop the pipeline execution. The execution might already be in a Stopped state, or it might no longer be in progress.
+    /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func stopPipelineExecution(input: StopPipelineExecutionInput) async throws -> StopPipelineExecutionOutput
+    /// Performs the `TagResource` operation on the `CodePipeline_20150709` service.
+    ///
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Unable to modify the tag due to a simultaneous update request.
+    /// - `InvalidArnException` : The specified resource ARN is invalid.
+    /// - `InvalidTagsException` : The specified resource tags are invalid.
+    /// - `ResourceNotFoundException` : The resource was specified in an invalid format.
+    /// - `TooManyTagsException` : The tags limit for a resource has been exceeded.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `CodePipeline_20150709` service.
+    ///
     /// Removes tags from an Amazon Web Services resource.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Unable to modify the tag due to a simultaneous update request.
+    /// - `InvalidArnException` : The specified resource ARN is invalid.
+    /// - `InvalidTagsException` : The specified resource tags are invalid.
+    /// - `ResourceNotFoundException` : The resource was specified in an invalid format.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateActionType` operation on the `CodePipeline_20150709` service.
+    ///
     /// Updates an action type that was created with any supported integration model, where the action type is to be used by customers of the action type provider. Use a JSON file with the action definition and UpdateActionType to provide the full structure.
-    func updateActionType(input: UpdateActionTypeInput) async throws -> UpdateActionTypeOutputResponse
+    ///
+    /// - Parameter UpdateActionTypeInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateActionTypeOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ActionTypeNotFoundException` : The specified action type cannot be found.
+    /// - `RequestFailedException` : The request failed because of an unknown error, exception, or failure.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func updateActionType(input: UpdateActionTypeInput) async throws -> UpdateActionTypeOutput
+    /// Performs the `UpdatePipeline` operation on the `CodePipeline_20150709` service.
+    ///
     /// Updates a specified pipeline with edits or changes to its structure. Use a JSON file with the pipeline structure and UpdatePipeline to provide the full structure of the pipeline. Updating the pipeline increases the version number of the pipeline by 1.
-    func updatePipeline(input: UpdatePipelineInput) async throws -> UpdatePipelineOutputResponse
+    ///
+    /// - Parameter UpdatePipelineInput : Represents the input of an UpdatePipeline action.
+    ///
+    /// - Returns: `UpdatePipelineOutput` : Represents the output of an UpdatePipeline action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidActionDeclarationException` : The action declaration was specified in an invalid format.
+    /// - `InvalidBlockerDeclarationException` : Reserved for future use.
+    /// - `InvalidStageDeclarationException` : The stage declaration was specified in an invalid format.
+    /// - `InvalidStructureException` : The structure was specified in an invalid format.
+    /// - `LimitExceededException` : The number of pipelines associated with the Amazon Web Services account has exceeded the limit allowed for the account.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    func updatePipeline(input: UpdatePipelineInput) async throws -> UpdatePipelineOutput
 }
 
 public enum CodePipelineClientTypes {}

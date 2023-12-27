@@ -4,68 +4,502 @@ import ClientRuntime
 
 /// AWS Amplify Admin API
 public protocol AmplifyBackendClientProtocol {
+    /// Performs the `CloneBackend` operation on the `AmplifyBackend` service.
+    ///
     /// This operation clones an existing backend.
-    func cloneBackend(input: CloneBackendInput) async throws -> CloneBackendOutputResponse
+    ///
+    /// - Parameter CloneBackendInput : The request body for CloneBackend.
+    ///
+    /// - Returns: `CloneBackendOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func cloneBackend(input: CloneBackendInput) async throws -> CloneBackendOutput
+    /// Performs the `CreateBackend` operation on the `AmplifyBackend` service.
+    ///
     /// This operation creates a backend for an Amplify app. Backends are automatically created at the time of app creation.
-    func createBackend(input: CreateBackendInput) async throws -> CreateBackendOutputResponse
+    ///
+    /// - Parameter CreateBackendInput : The request body for CreateBackend.
+    ///
+    /// - Returns: `CreateBackendOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func createBackend(input: CreateBackendInput) async throws -> CreateBackendOutput
+    /// Performs the `CreateBackendAPI` operation on the `AmplifyBackend` service.
+    ///
     /// Creates a new backend API resource.
-    func createBackendAPI(input: CreateBackendAPIInput) async throws -> CreateBackendAPIOutputResponse
+    ///
+    /// - Parameter CreateBackendAPIInput : The request body for CreateBackendAPI.
+    ///
+    /// - Returns: `CreateBackendAPIOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func createBackendAPI(input: CreateBackendAPIInput) async throws -> CreateBackendAPIOutput
+    /// Performs the `CreateBackendAuth` operation on the `AmplifyBackend` service.
+    ///
     /// Creates a new backend authentication resource.
-    func createBackendAuth(input: CreateBackendAuthInput) async throws -> CreateBackendAuthOutputResponse
+    ///
+    /// - Parameter CreateBackendAuthInput : The request body for CreateBackendAuth.
+    ///
+    /// - Returns: `CreateBackendAuthOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func createBackendAuth(input: CreateBackendAuthInput) async throws -> CreateBackendAuthOutput
+    /// Performs the `CreateBackendConfig` operation on the `AmplifyBackend` service.
+    ///
     /// Creates a config object for a backend.
-    func createBackendConfig(input: CreateBackendConfigInput) async throws -> CreateBackendConfigOutputResponse
+    ///
+    /// - Parameter CreateBackendConfigInput : The request body for CreateBackendConfig.
+    ///
+    /// - Returns: `CreateBackendConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func createBackendConfig(input: CreateBackendConfigInput) async throws -> CreateBackendConfigOutput
+    /// Performs the `CreateBackendStorage` operation on the `AmplifyBackend` service.
+    ///
     /// Creates a backend storage resource.
-    func createBackendStorage(input: CreateBackendStorageInput) async throws -> CreateBackendStorageOutputResponse
+    ///
+    /// - Parameter CreateBackendStorageInput : The request body for CreateBackendStorage.
+    ///
+    /// - Returns: `CreateBackendStorageOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func createBackendStorage(input: CreateBackendStorageInput) async throws -> CreateBackendStorageOutput
+    /// Performs the `CreateToken` operation on the `AmplifyBackend` service.
+    ///
     /// Generates a one-time challenge code to authenticate a user into your Amplify Admin UI.
-    func createToken(input: CreateTokenInput) async throws -> CreateTokenOutputResponse
+    ///
+    /// - Parameter CreateTokenInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTokenOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func createToken(input: CreateTokenInput) async throws -> CreateTokenOutput
+    /// Performs the `DeleteBackend` operation on the `AmplifyBackend` service.
+    ///
     /// Removes an existing environment from your Amplify project.
-    func deleteBackend(input: DeleteBackendInput) async throws -> DeleteBackendOutputResponse
+    ///
+    /// - Parameter DeleteBackendInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBackendOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func deleteBackend(input: DeleteBackendInput) async throws -> DeleteBackendOutput
+    /// Performs the `DeleteBackendAPI` operation on the `AmplifyBackend` service.
+    ///
     /// Deletes an existing backend API resource.
-    func deleteBackendAPI(input: DeleteBackendAPIInput) async throws -> DeleteBackendAPIOutputResponse
+    ///
+    /// - Parameter DeleteBackendAPIInput : The request body for DeleteBackendAPI.
+    ///
+    /// - Returns: `DeleteBackendAPIOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func deleteBackendAPI(input: DeleteBackendAPIInput) async throws -> DeleteBackendAPIOutput
+    /// Performs the `DeleteBackendAuth` operation on the `AmplifyBackend` service.
+    ///
     /// Deletes an existing backend authentication resource.
-    func deleteBackendAuth(input: DeleteBackendAuthInput) async throws -> DeleteBackendAuthOutputResponse
+    ///
+    /// - Parameter DeleteBackendAuthInput : The request body for DeleteBackendAuth.
+    ///
+    /// - Returns: `DeleteBackendAuthOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func deleteBackendAuth(input: DeleteBackendAuthInput) async throws -> DeleteBackendAuthOutput
+    /// Performs the `DeleteBackendStorage` operation on the `AmplifyBackend` service.
+    ///
     /// Removes the specified backend storage resource.
-    func deleteBackendStorage(input: DeleteBackendStorageInput) async throws -> DeleteBackendStorageOutputResponse
+    ///
+    /// - Parameter DeleteBackendStorageInput : The request body for DeleteBackendStorage.
+    ///
+    /// - Returns: `DeleteBackendStorageOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func deleteBackendStorage(input: DeleteBackendStorageInput) async throws -> DeleteBackendStorageOutput
+    /// Performs the `DeleteToken` operation on the `AmplifyBackend` service.
+    ///
     /// Deletes the challenge token based on the given appId and sessionId.
-    func deleteToken(input: DeleteTokenInput) async throws -> DeleteTokenOutputResponse
+    ///
+    /// - Parameter DeleteTokenInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTokenOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func deleteToken(input: DeleteTokenInput) async throws -> DeleteTokenOutput
+    /// Performs the `GenerateBackendAPIModels` operation on the `AmplifyBackend` service.
+    ///
     /// Generates a model schema for an existing backend API resource.
-    func generateBackendAPIModels(input: GenerateBackendAPIModelsInput) async throws -> GenerateBackendAPIModelsOutputResponse
+    ///
+    /// - Parameter GenerateBackendAPIModelsInput : The request body for GenerateBackendAPIModels.
+    ///
+    /// - Returns: `GenerateBackendAPIModelsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func generateBackendAPIModels(input: GenerateBackendAPIModelsInput) async throws -> GenerateBackendAPIModelsOutput
+    /// Performs the `GetBackend` operation on the `AmplifyBackend` service.
+    ///
     /// Provides project-level details for your Amplify UI project.
-    func getBackend(input: GetBackendInput) async throws -> GetBackendOutputResponse
+    ///
+    /// - Parameter GetBackendInput : The request body for GetBackend.
+    ///
+    /// - Returns: `GetBackendOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func getBackend(input: GetBackendInput) async throws -> GetBackendOutput
+    /// Performs the `GetBackendAPI` operation on the `AmplifyBackend` service.
+    ///
     /// Gets the details for a backend API.
-    func getBackendAPI(input: GetBackendAPIInput) async throws -> GetBackendAPIOutputResponse
+    ///
+    /// - Parameter GetBackendAPIInput : The request body for GetBackendAPI.
+    ///
+    /// - Returns: `GetBackendAPIOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func getBackendAPI(input: GetBackendAPIInput) async throws -> GetBackendAPIOutput
+    /// Performs the `GetBackendAPIModels` operation on the `AmplifyBackend` service.
+    ///
     /// Gets a model introspection schema for an existing backend API resource.
-    func getBackendAPIModels(input: GetBackendAPIModelsInput) async throws -> GetBackendAPIModelsOutputResponse
+    ///
+    /// - Parameter GetBackendAPIModelsInput : The request body for GetBackendAPIModels.
+    ///
+    /// - Returns: `GetBackendAPIModelsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func getBackendAPIModels(input: GetBackendAPIModelsInput) async throws -> GetBackendAPIModelsOutput
+    /// Performs the `GetBackendAuth` operation on the `AmplifyBackend` service.
+    ///
     /// Gets a backend auth details.
-    func getBackendAuth(input: GetBackendAuthInput) async throws -> GetBackendAuthOutputResponse
+    ///
+    /// - Parameter GetBackendAuthInput : The request body for GetBackendAuth.
+    ///
+    /// - Returns: `GetBackendAuthOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func getBackendAuth(input: GetBackendAuthInput) async throws -> GetBackendAuthOutput
+    /// Performs the `GetBackendJob` operation on the `AmplifyBackend` service.
+    ///
     /// Returns information about a specific job.
-    func getBackendJob(input: GetBackendJobInput) async throws -> GetBackendJobOutputResponse
+    ///
+    /// - Parameter GetBackendJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetBackendJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func getBackendJob(input: GetBackendJobInput) async throws -> GetBackendJobOutput
+    /// Performs the `GetBackendStorage` operation on the `AmplifyBackend` service.
+    ///
     /// Gets details for a backend storage resource.
-    func getBackendStorage(input: GetBackendStorageInput) async throws -> GetBackendStorageOutputResponse
+    ///
+    /// - Parameter GetBackendStorageInput : The request body for GetBackendStorage.
+    ///
+    /// - Returns: `GetBackendStorageOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func getBackendStorage(input: GetBackendStorageInput) async throws -> GetBackendStorageOutput
+    /// Performs the `GetToken` operation on the `AmplifyBackend` service.
+    ///
     /// Gets the challenge token based on the given appId and sessionId.
-    func getToken(input: GetTokenInput) async throws -> GetTokenOutputResponse
+    ///
+    /// - Parameter GetTokenInput : [no documentation found]
+    ///
+    /// - Returns: `GetTokenOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func getToken(input: GetTokenInput) async throws -> GetTokenOutput
+    /// Performs the `ImportBackendAuth` operation on the `AmplifyBackend` service.
+    ///
     /// Imports an existing backend authentication resource.
-    func importBackendAuth(input: ImportBackendAuthInput) async throws -> ImportBackendAuthOutputResponse
+    ///
+    /// - Parameter ImportBackendAuthInput : The request body for ImportBackendAuth.
+    ///
+    /// - Returns: `ImportBackendAuthOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func importBackendAuth(input: ImportBackendAuthInput) async throws -> ImportBackendAuthOutput
+    /// Performs the `ImportBackendStorage` operation on the `AmplifyBackend` service.
+    ///
     /// Imports an existing backend storage resource.
-    func importBackendStorage(input: ImportBackendStorageInput) async throws -> ImportBackendStorageOutputResponse
+    ///
+    /// - Parameter ImportBackendStorageInput : The request body for ImportBackendStorage.
+    ///
+    /// - Returns: `ImportBackendStorageOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func importBackendStorage(input: ImportBackendStorageInput) async throws -> ImportBackendStorageOutput
+    /// Performs the `ListBackendJobs` operation on the `AmplifyBackend` service.
+    ///
     /// Lists the jobs for the backend of an Amplify app.
-    func listBackendJobs(input: ListBackendJobsInput) async throws -> ListBackendJobsOutputResponse
+    ///
+    /// - Parameter ListBackendJobsInput : The request body for ListBackendJobs.
+    ///
+    /// - Returns: `ListBackendJobsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func listBackendJobs(input: ListBackendJobsInput) async throws -> ListBackendJobsOutput
+    /// Performs the `ListS3Buckets` operation on the `AmplifyBackend` service.
+    ///
     /// The list of S3 buckets in your account.
-    func listS3Buckets(input: ListS3BucketsInput) async throws -> ListS3BucketsOutputResponse
+    ///
+    /// - Parameter ListS3BucketsInput : The request body for S3Buckets.
+    ///
+    /// - Returns: `ListS3BucketsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func listS3Buckets(input: ListS3BucketsInput) async throws -> ListS3BucketsOutput
+    /// Performs the `RemoveAllBackends` operation on the `AmplifyBackend` service.
+    ///
     /// Removes all backend environments from your Amplify project.
-    func removeAllBackends(input: RemoveAllBackendsInput) async throws -> RemoveAllBackendsOutputResponse
+    ///
+    /// - Parameter RemoveAllBackendsInput : The request body for RemoveAllBackends.
+    ///
+    /// - Returns: `RemoveAllBackendsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func removeAllBackends(input: RemoveAllBackendsInput) async throws -> RemoveAllBackendsOutput
+    /// Performs the `RemoveBackendConfig` operation on the `AmplifyBackend` service.
+    ///
     /// Removes the AWS resources required to access the Amplify Admin UI.
-    func removeBackendConfig(input: RemoveBackendConfigInput) async throws -> RemoveBackendConfigOutputResponse
+    ///
+    /// - Parameter RemoveBackendConfigInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveBackendConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func removeBackendConfig(input: RemoveBackendConfigInput) async throws -> RemoveBackendConfigOutput
+    /// Performs the `UpdateBackendAPI` operation on the `AmplifyBackend` service.
+    ///
     /// Updates an existing backend API resource.
-    func updateBackendAPI(input: UpdateBackendAPIInput) async throws -> UpdateBackendAPIOutputResponse
+    ///
+    /// - Parameter UpdateBackendAPIInput : The request body for UpdateBackendAPI.
+    ///
+    /// - Returns: `UpdateBackendAPIOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func updateBackendAPI(input: UpdateBackendAPIInput) async throws -> UpdateBackendAPIOutput
+    /// Performs the `UpdateBackendAuth` operation on the `AmplifyBackend` service.
+    ///
     /// Updates an existing backend authentication resource.
-    func updateBackendAuth(input: UpdateBackendAuthInput) async throws -> UpdateBackendAuthOutputResponse
+    ///
+    /// - Parameter UpdateBackendAuthInput : The request body for UpdateBackendAuth.
+    ///
+    /// - Returns: `UpdateBackendAuthOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func updateBackendAuth(input: UpdateBackendAuthInput) async throws -> UpdateBackendAuthOutput
+    /// Performs the `UpdateBackendConfig` operation on the `AmplifyBackend` service.
+    ///
     /// Updates the AWS resources required to access the Amplify Admin UI.
-    func updateBackendConfig(input: UpdateBackendConfigInput) async throws -> UpdateBackendConfigOutputResponse
+    ///
+    /// - Parameter UpdateBackendConfigInput : The request body for UpdateBackendConfig.
+    ///
+    /// - Returns: `UpdateBackendConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func updateBackendConfig(input: UpdateBackendConfigInput) async throws -> UpdateBackendConfigOutput
+    /// Performs the `UpdateBackendJob` operation on the `AmplifyBackend` service.
+    ///
     /// Updates a specific job.
-    func updateBackendJob(input: UpdateBackendJobInput) async throws -> UpdateBackendJobOutputResponse
+    ///
+    /// - Parameter UpdateBackendJobInput : The request body for GetBackendJob.
+    ///
+    /// - Returns: `UpdateBackendJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func updateBackendJob(input: UpdateBackendJobInput) async throws -> UpdateBackendJobOutput
+    /// Performs the `UpdateBackendStorage` operation on the `AmplifyBackend` service.
+    ///
     /// Updates an existing backend storage resource.
-    func updateBackendStorage(input: UpdateBackendStorageInput) async throws -> UpdateBackendStorageOutputResponse
+    ///
+    /// - Parameter UpdateBackendStorageInput : The request body for UpdateBackendStorage.
+    ///
+    /// - Returns: `UpdateBackendStorageOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : An error returned if a request is not formed properly.
+    /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
+    /// - `NotFoundException` : An error returned when a specific resource type is not found.
+    /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
+    func updateBackendStorage(input: UpdateBackendStorageInput) async throws -> UpdateBackendStorageOutput
 }
 
 public enum AmplifyBackendClientTypes {}

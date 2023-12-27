@@ -4,92 +4,672 @@ import ClientRuntime
 
 /// When you create a VPC using Amazon VPC, you automatically get DNS resolution within the VPC from Route 53 Resolver. By default, Resolver answers DNS queries for VPC domain names such as domain names for EC2 instances or Elastic Load Balancing load balancers. Resolver performs recursive lookups against public name servers for all other domain names. You can also configure DNS resolution between your VPC and your network over a Direct Connect or VPN connection: Forward DNS queries from resolvers on your network to Route 53 Resolver DNS resolvers on your network can forward DNS queries to Resolver in a specified VPC. This allows your DNS resolvers to easily resolve domain names for Amazon Web Services resources such as EC2 instances or records in a Route 53 private hosted zone. For more information, see [How DNS Resolvers on Your Network Forward DNS Queries to Route 53 Resolver](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver.html#resolver-overview-forward-network-to-vpc) in the Amazon Route 53 Developer Guide. Conditionally forward queries from a VPC to resolvers on your network You can configure Resolver to forward queries that it receives from EC2 instances in your VPCs to DNS resolvers on your network. To forward selected queries, you create Resolver rules that specify the domain names for the DNS queries that you want to forward (such as example.com), and the IP addresses of the DNS resolvers on your network that you want to forward the queries to. If a query matches multiple rules (example.com, acme.example.com), Resolver chooses the rule with the most specific match (acme.example.com) and forwards the query to the IP addresses that you specified in that rule. For more information, see [How Route 53 Resolver Forwards DNS Queries from Your VPCs to Your Network](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver.html#resolver-overview-forward-vpc-to-network) in the Amazon Route 53 Developer Guide. Like Amazon VPC, Resolver is Regional. In each Region where you have VPCs, you can choose whether to forward queries from your VPCs to your network (outbound queries), from your network to your VPCs (inbound queries), or both.
 public protocol Route53ResolverClientProtocol {
+    /// Performs the `AssociateFirewallRuleGroup` operation on the `Route53Resolver` service.
+    ///
     /// Associates a [FirewallRuleGroup] with a VPC, to provide DNS filtering for the VPC.
-    func associateFirewallRuleGroup(input: AssociateFirewallRuleGroupInput) async throws -> AssociateFirewallRuleGroupOutputResponse
+    ///
+    /// - Parameter AssociateFirewallRuleGroupInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateFirewallRuleGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `ConflictException` : The requested state transition isn't valid. For example, you can't delete a firewall domain list if it is in the process of being deleted, or you can't import domains into a domain list that is in the process of being deleted.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func associateFirewallRuleGroup(input: AssociateFirewallRuleGroupInput) async throws -> AssociateFirewallRuleGroupOutput
+    /// Performs the `AssociateResolverEndpointIpAddress` operation on the `Route53Resolver` service.
+    ///
     /// Adds IP addresses to an inbound or an outbound Resolver endpoint. If you want to add more than one IP address, submit one AssociateResolverEndpointIpAddress request for each IP address. To remove an IP address from an endpoint, see [DisassociateResolverEndpointIpAddress](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverEndpointIpAddress.html).
-    func associateResolverEndpointIpAddress(input: AssociateResolverEndpointIpAddressInput) async throws -> AssociateResolverEndpointIpAddressOutputResponse
+    ///
+    /// - Parameter AssociateResolverEndpointIpAddressInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateResolverEndpointIpAddressOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
+    /// - `ResourceExistsException` : The resource that you tried to create already exists.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func associateResolverEndpointIpAddress(input: AssociateResolverEndpointIpAddressInput) async throws -> AssociateResolverEndpointIpAddressOutput
+    /// Performs the `AssociateResolverQueryLogConfig` operation on the `Route53Resolver` service.
+    ///
     /// Associates an Amazon VPC with a specified query logging configuration. Route 53 Resolver logs DNS queries that originate in all of the Amazon VPCs that are associated with a specified query logging configuration. To associate more than one VPC with a configuration, submit one AssociateResolverQueryLogConfig request for each VPC. The VPCs that you associate with a query logging configuration must be in the same Region as the configuration. To remove a VPC from a query logging configuration, see [DisassociateResolverQueryLogConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverQueryLogConfig.html).
-    func associateResolverQueryLogConfig(input: AssociateResolverQueryLogConfigInput) async throws -> AssociateResolverQueryLogConfigOutputResponse
+    ///
+    /// - Parameter AssociateResolverQueryLogConfigInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateResolverQueryLogConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
+    /// - `ResourceExistsException` : The resource that you tried to create already exists.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func associateResolverQueryLogConfig(input: AssociateResolverQueryLogConfigInput) async throws -> AssociateResolverQueryLogConfigOutput
+    /// Performs the `AssociateResolverRule` operation on the `Route53Resolver` service.
+    ///
     /// Associates a Resolver rule with a VPC. When you associate a rule with a VPC, Resolver forwards all DNS queries for the domain name that is specified in the rule and that originate in the VPC. The queries are forwarded to the IP addresses for the DNS resolvers that are specified in the rule. For more information about rules, see [CreateResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverRule.html).
-    func associateResolverRule(input: AssociateResolverRuleInput) async throws -> AssociateResolverRuleOutputResponse
+    ///
+    /// - Parameter AssociateResolverRuleInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateResolverRuleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
+    /// - `ResourceExistsException` : The resource that you tried to create already exists.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ResourceUnavailableException` : The specified resource isn't available.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func associateResolverRule(input: AssociateResolverRuleInput) async throws -> AssociateResolverRuleOutput
+    /// Performs the `CreateFirewallDomainList` operation on the `Route53Resolver` service.
+    ///
     /// Creates an empty firewall domain list for use in DNS Firewall rules. You can populate the domains for the new list with a file, using [ImportFirewallDomains], or with domain strings, using [UpdateFirewallDomains].
-    func createFirewallDomainList(input: CreateFirewallDomainListInput) async throws -> CreateFirewallDomainListOutputResponse
+    ///
+    /// - Parameter CreateFirewallDomainListInput : [no documentation found]
+    ///
+    /// - Returns: `CreateFirewallDomainListOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func createFirewallDomainList(input: CreateFirewallDomainListInput) async throws -> CreateFirewallDomainListOutput
+    /// Performs the `CreateFirewallRule` operation on the `Route53Resolver` service.
+    ///
     /// Creates a single DNS Firewall rule in the specified rule group, using the specified domain list.
-    func createFirewallRule(input: CreateFirewallRuleInput) async throws -> CreateFirewallRuleOutputResponse
+    ///
+    /// - Parameter CreateFirewallRuleInput : [no documentation found]
+    ///
+    /// - Returns: `CreateFirewallRuleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func createFirewallRule(input: CreateFirewallRuleInput) async throws -> CreateFirewallRuleOutput
+    /// Performs the `CreateFirewallRuleGroup` operation on the `Route53Resolver` service.
+    ///
     /// Creates an empty DNS Firewall rule group for filtering DNS network traffic in a VPC. You can add rules to the new rule group by calling [CreateFirewallRule].
-    func createFirewallRuleGroup(input: CreateFirewallRuleGroupInput) async throws -> CreateFirewallRuleGroupOutputResponse
-    /// Creates an Route 53 Resolver on an Outpost.
-    func createOutpostResolver(input: CreateOutpostResolverInput) async throws -> CreateOutpostResolverOutputResponse
+    ///
+    /// - Parameter CreateFirewallRuleGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateFirewallRuleGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func createFirewallRuleGroup(input: CreateFirewallRuleGroupInput) async throws -> CreateFirewallRuleGroupOutput
+    /// Performs the `CreateOutpostResolver` operation on the `Route53Resolver` service.
+    ///
+    /// Creates a Route 53 Resolver on an Outpost.
+    ///
+    /// - Parameter CreateOutpostResolverInput : [no documentation found]
+    ///
+    /// - Returns: `CreateOutpostResolverOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ServiceQuotaExceededException` : Fulfilling the request would cause one or more quotas to be exceeded.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func createOutpostResolver(input: CreateOutpostResolverInput) async throws -> CreateOutpostResolverOutput
+    /// Performs the `CreateResolverEndpoint` operation on the `Route53Resolver` service.
+    ///
     /// Creates a Resolver endpoint. There are two types of Resolver endpoints, inbound and outbound:
     ///
     /// * An inbound Resolver endpoint forwards DNS queries to the DNS service for a VPC from your network.
     ///
     /// * An outbound Resolver endpoint forwards DNS queries from the DNS service for a VPC to your network.
-    func createResolverEndpoint(input: CreateResolverEndpointInput) async throws -> CreateResolverEndpointOutputResponse
+    ///
+    /// - Parameter CreateResolverEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `CreateResolverEndpointOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
+    /// - `ResourceExistsException` : The resource that you tried to create already exists.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func createResolverEndpoint(input: CreateResolverEndpointInput) async throws -> CreateResolverEndpointOutput
+    /// Performs the `CreateResolverQueryLogConfig` operation on the `Route53Resolver` service.
+    ///
     /// Creates a Resolver query logging configuration, which defines where you want Resolver to save DNS query logs that originate in your VPCs. Resolver can log queries only for VPCs that are in the same Region as the query logging configuration. To specify which VPCs you want to log queries for, you use AssociateResolverQueryLogConfig. For more information, see [AssociateResolverQueryLogConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_AssociateResolverQueryLogConfig.html). You can optionally use Resource Access Manager (RAM) to share a query logging configuration with other Amazon Web Services accounts. The other accounts can then associate VPCs with the configuration. The query logs that Resolver creates for a configuration include all DNS queries that originate in all VPCs that are associated with the configuration.
-    func createResolverQueryLogConfig(input: CreateResolverQueryLogConfigInput) async throws -> CreateResolverQueryLogConfigOutputResponse
+    ///
+    /// - Parameter CreateResolverQueryLogConfigInput : [no documentation found]
+    ///
+    /// - Returns: `CreateResolverQueryLogConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
+    /// - `ResourceExistsException` : The resource that you tried to create already exists.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func createResolverQueryLogConfig(input: CreateResolverQueryLogConfigInput) async throws -> CreateResolverQueryLogConfigOutput
+    /// Performs the `CreateResolverRule` operation on the `Route53Resolver` service.
+    ///
     /// For DNS queries that originate in your VPCs, specifies which Resolver endpoint the queries pass through, one domain name that you want to forward to your network, and the IP addresses of the DNS resolvers in your network.
-    func createResolverRule(input: CreateResolverRuleInput) async throws -> CreateResolverRuleOutputResponse
+    ///
+    /// - Parameter CreateResolverRuleInput : [no documentation found]
+    ///
+    /// - Returns: `CreateResolverRuleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
+    /// - `ResourceExistsException` : The resource that you tried to create already exists.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ResourceUnavailableException` : The specified resource isn't available.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func createResolverRule(input: CreateResolverRuleInput) async throws -> CreateResolverRuleOutput
+    /// Performs the `DeleteFirewallDomainList` operation on the `Route53Resolver` service.
+    ///
     /// Deletes the specified domain list.
-    func deleteFirewallDomainList(input: DeleteFirewallDomainListInput) async throws -> DeleteFirewallDomainListOutputResponse
+    ///
+    /// - Parameter DeleteFirewallDomainListInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteFirewallDomainListOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `ConflictException` : The requested state transition isn't valid. For example, you can't delete a firewall domain list if it is in the process of being deleted, or you can't import domains into a domain list that is in the process of being deleted.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func deleteFirewallDomainList(input: DeleteFirewallDomainListInput) async throws -> DeleteFirewallDomainListOutput
+    /// Performs the `DeleteFirewallRule` operation on the `Route53Resolver` service.
+    ///
     /// Deletes the specified firewall rule.
-    func deleteFirewallRule(input: DeleteFirewallRuleInput) async throws -> DeleteFirewallRuleOutputResponse
+    ///
+    /// - Parameter DeleteFirewallRuleInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteFirewallRuleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func deleteFirewallRule(input: DeleteFirewallRuleInput) async throws -> DeleteFirewallRuleOutput
+    /// Performs the `DeleteFirewallRuleGroup` operation on the `Route53Resolver` service.
+    ///
     /// Deletes the specified firewall rule group.
-    func deleteFirewallRuleGroup(input: DeleteFirewallRuleGroupInput) async throws -> DeleteFirewallRuleGroupOutputResponse
+    ///
+    /// - Parameter DeleteFirewallRuleGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteFirewallRuleGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `ConflictException` : The requested state transition isn't valid. For example, you can't delete a firewall domain list if it is in the process of being deleted, or you can't import domains into a domain list that is in the process of being deleted.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func deleteFirewallRuleGroup(input: DeleteFirewallRuleGroupInput) async throws -> DeleteFirewallRuleGroupOutput
+    /// Performs the `DeleteOutpostResolver` operation on the `Route53Resolver` service.
+    ///
     /// Deletes a Resolver on the Outpost.
-    func deleteOutpostResolver(input: DeleteOutpostResolverInput) async throws -> DeleteOutpostResolverOutputResponse
+    ///
+    /// - Parameter DeleteOutpostResolverInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteOutpostResolverOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `ConflictException` : The requested state transition isn't valid. For example, you can't delete a firewall domain list if it is in the process of being deleted, or you can't import domains into a domain list that is in the process of being deleted.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func deleteOutpostResolver(input: DeleteOutpostResolverInput) async throws -> DeleteOutpostResolverOutput
+    /// Performs the `DeleteResolverEndpoint` operation on the `Route53Resolver` service.
+    ///
     /// Deletes a Resolver endpoint. The effect of deleting a Resolver endpoint depends on whether it's an inbound or an outbound Resolver endpoint:
     ///
     /// * Inbound: DNS queries from your network are no longer routed to the DNS service for the specified VPC.
     ///
     /// * Outbound: DNS queries from a VPC are no longer routed to your network.
-    func deleteResolverEndpoint(input: DeleteResolverEndpointInput) async throws -> DeleteResolverEndpointOutputResponse
+    ///
+    /// - Parameter DeleteResolverEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResolverEndpointOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func deleteResolverEndpoint(input: DeleteResolverEndpointInput) async throws -> DeleteResolverEndpointOutput
+    /// Performs the `DeleteResolverQueryLogConfig` operation on the `Route53Resolver` service.
+    ///
     /// Deletes a query logging configuration. When you delete a configuration, Resolver stops logging DNS queries for all of the Amazon VPCs that are associated with the configuration. This also applies if the query logging configuration is shared with other Amazon Web Services accounts, and the other accounts have associated VPCs with the shared configuration. Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. See [DisassociateResolverQueryLogConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverQueryLogConfig.html). If you used Resource Access Manager (RAM) to share a query logging configuration with other accounts, you must stop sharing the configuration before you can delete a configuration. The accounts that you shared the configuration with can first disassociate VPCs that they associated with the configuration, but that's not necessary. If you stop sharing the configuration, those VPCs are automatically disassociated from the configuration.
-    func deleteResolverQueryLogConfig(input: DeleteResolverQueryLogConfigInput) async throws -> DeleteResolverQueryLogConfigOutputResponse
+    ///
+    /// - Parameter DeleteResolverQueryLogConfigInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResolverQueryLogConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func deleteResolverQueryLogConfig(input: DeleteResolverQueryLogConfigInput) async throws -> DeleteResolverQueryLogConfigOutput
+    /// Performs the `DeleteResolverRule` operation on the `Route53Resolver` service.
+    ///
     /// Deletes a Resolver rule. Before you can delete a Resolver rule, you must disassociate it from all the VPCs that you associated the Resolver rule with. For more information, see [DisassociateResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverRule.html).
-    func deleteResolverRule(input: DeleteResolverRuleInput) async throws -> DeleteResolverRuleOutputResponse
+    ///
+    /// - Parameter DeleteResolverRuleInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResolverRuleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `ResourceInUseException` : The resource that you tried to update or delete is currently in use.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func deleteResolverRule(input: DeleteResolverRuleInput) async throws -> DeleteResolverRuleOutput
+    /// Performs the `DisassociateFirewallRuleGroup` operation on the `Route53Resolver` service.
+    ///
     /// Disassociates a [FirewallRuleGroup] from a VPC, to remove DNS filtering from the VPC.
-    func disassociateFirewallRuleGroup(input: DisassociateFirewallRuleGroupInput) async throws -> DisassociateFirewallRuleGroupOutputResponse
+    ///
+    /// - Parameter DisassociateFirewallRuleGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateFirewallRuleGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `ConflictException` : The requested state transition isn't valid. For example, you can't delete a firewall domain list if it is in the process of being deleted, or you can't import domains into a domain list that is in the process of being deleted.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func disassociateFirewallRuleGroup(input: DisassociateFirewallRuleGroupInput) async throws -> DisassociateFirewallRuleGroupOutput
+    /// Performs the `DisassociateResolverEndpointIpAddress` operation on the `Route53Resolver` service.
+    ///
     /// Removes IP addresses from an inbound or an outbound Resolver endpoint. If you want to remove more than one IP address, submit one DisassociateResolverEndpointIpAddress request for each IP address. To add an IP address to an endpoint, see [AssociateResolverEndpointIpAddress](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_AssociateResolverEndpointIpAddress.html).
-    func disassociateResolverEndpointIpAddress(input: DisassociateResolverEndpointIpAddressInput) async throws -> DisassociateResolverEndpointIpAddressOutputResponse
+    ///
+    /// - Parameter DisassociateResolverEndpointIpAddressInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateResolverEndpointIpAddressOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `ResourceExistsException` : The resource that you tried to create already exists.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func disassociateResolverEndpointIpAddress(input: DisassociateResolverEndpointIpAddressInput) async throws -> DisassociateResolverEndpointIpAddressOutput
+    /// Performs the `DisassociateResolverQueryLogConfig` operation on the `Route53Resolver` service.
+    ///
     /// Disassociates a VPC from a query logging configuration. Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. If you used Resource Access Manager (RAM) to share a query logging configuration with other accounts, VPCs can be disassociated from the configuration in the following ways:
     ///
     /// * The accounts that you shared the configuration with can disassociate VPCs from the configuration.
     ///
     /// * You can stop sharing the configuration.
-    func disassociateResolverQueryLogConfig(input: DisassociateResolverQueryLogConfigInput) async throws -> DisassociateResolverQueryLogConfigOutputResponse
+    ///
+    /// - Parameter DisassociateResolverQueryLogConfigInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateResolverQueryLogConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func disassociateResolverQueryLogConfig(input: DisassociateResolverQueryLogConfigInput) async throws -> DisassociateResolverQueryLogConfigOutput
+    /// Performs the `DisassociateResolverRule` operation on the `Route53Resolver` service.
+    ///
     /// Removes the association between a specified Resolver rule and a specified VPC. If you disassociate a Resolver rule from a VPC, Resolver stops forwarding DNS queries for the domain name that you specified in the Resolver rule.
-    func disassociateResolverRule(input: DisassociateResolverRuleInput) async throws -> DisassociateResolverRuleOutputResponse
+    ///
+    /// - Parameter DisassociateResolverRuleInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateResolverRuleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func disassociateResolverRule(input: DisassociateResolverRuleInput) async throws -> DisassociateResolverRuleOutput
+    /// Performs the `GetFirewallConfig` operation on the `Route53Resolver` service.
+    ///
     /// Retrieves the configuration of the firewall behavior provided by DNS Firewall for a single VPC from Amazon Virtual Private Cloud (Amazon VPC).
-    func getFirewallConfig(input: GetFirewallConfigInput) async throws -> GetFirewallConfigOutputResponse
+    ///
+    /// - Parameter GetFirewallConfigInput : [no documentation found]
+    ///
+    /// - Returns: `GetFirewallConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func getFirewallConfig(input: GetFirewallConfigInput) async throws -> GetFirewallConfigOutput
+    /// Performs the `GetFirewallDomainList` operation on the `Route53Resolver` service.
+    ///
     /// Retrieves the specified firewall domain list.
-    func getFirewallDomainList(input: GetFirewallDomainListInput) async throws -> GetFirewallDomainListOutputResponse
+    ///
+    /// - Parameter GetFirewallDomainListInput : [no documentation found]
+    ///
+    /// - Returns: `GetFirewallDomainListOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func getFirewallDomainList(input: GetFirewallDomainListInput) async throws -> GetFirewallDomainListOutput
+    /// Performs the `GetFirewallRuleGroup` operation on the `Route53Resolver` service.
+    ///
     /// Retrieves the specified firewall rule group.
-    func getFirewallRuleGroup(input: GetFirewallRuleGroupInput) async throws -> GetFirewallRuleGroupOutputResponse
+    ///
+    /// - Parameter GetFirewallRuleGroupInput : [no documentation found]
+    ///
+    /// - Returns: `GetFirewallRuleGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func getFirewallRuleGroup(input: GetFirewallRuleGroupInput) async throws -> GetFirewallRuleGroupOutput
+    /// Performs the `GetFirewallRuleGroupAssociation` operation on the `Route53Resolver` service.
+    ///
     /// Retrieves a firewall rule group association, which enables DNS filtering for a VPC with one rule group. A VPC can have more than one firewall rule group association, and a rule group can be associated with more than one VPC.
-    func getFirewallRuleGroupAssociation(input: GetFirewallRuleGroupAssociationInput) async throws -> GetFirewallRuleGroupAssociationOutputResponse
+    ///
+    /// - Parameter GetFirewallRuleGroupAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `GetFirewallRuleGroupAssociationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func getFirewallRuleGroupAssociation(input: GetFirewallRuleGroupAssociationInput) async throws -> GetFirewallRuleGroupAssociationOutput
+    /// Performs the `GetFirewallRuleGroupPolicy` operation on the `Route53Resolver` service.
+    ///
     /// Returns the Identity and Access Management (Amazon Web Services IAM) policy for sharing the specified rule group. You can use the policy to share the rule group using Resource Access Manager (RAM).
-    func getFirewallRuleGroupPolicy(input: GetFirewallRuleGroupPolicyInput) async throws -> GetFirewallRuleGroupPolicyOutputResponse
+    ///
+    /// - Parameter GetFirewallRuleGroupPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetFirewallRuleGroupPolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func getFirewallRuleGroupPolicy(input: GetFirewallRuleGroupPolicyInput) async throws -> GetFirewallRuleGroupPolicyOutput
+    /// Performs the `GetOutpostResolver` operation on the `Route53Resolver` service.
+    ///
     /// Gets information about a specified Resolver on the Outpost, such as its instance count and type, name, and the current status of the Resolver.
-    func getOutpostResolver(input: GetOutpostResolverInput) async throws -> GetOutpostResolverOutputResponse
+    ///
+    /// - Parameter GetOutpostResolverInput : [no documentation found]
+    ///
+    /// - Returns: `GetOutpostResolverOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func getOutpostResolver(input: GetOutpostResolverInput) async throws -> GetOutpostResolverOutput
+    /// Performs the `GetResolverConfig` operation on the `Route53Resolver` service.
+    ///
     /// Retrieves the behavior configuration of Route 53 Resolver behavior for a single VPC from Amazon Virtual Private Cloud.
-    func getResolverConfig(input: GetResolverConfigInput) async throws -> GetResolverConfigOutputResponse
+    ///
+    /// - Parameter GetResolverConfigInput : [no documentation found]
+    ///
+    /// - Returns: `GetResolverConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func getResolverConfig(input: GetResolverConfigInput) async throws -> GetResolverConfigOutput
+    /// Performs the `GetResolverDnssecConfig` operation on the `Route53Resolver` service.
+    ///
     /// Gets DNSSEC validation information for a specified resource.
-    func getResolverDnssecConfig(input: GetResolverDnssecConfigInput) async throws -> GetResolverDnssecConfigOutputResponse
+    ///
+    /// - Parameter GetResolverDnssecConfigInput : [no documentation found]
+    ///
+    /// - Returns: `GetResolverDnssecConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func getResolverDnssecConfig(input: GetResolverDnssecConfigInput) async throws -> GetResolverDnssecConfigOutput
+    /// Performs the `GetResolverEndpoint` operation on the `Route53Resolver` service.
+    ///
     /// Gets information about a specified Resolver endpoint, such as whether it's an inbound or an outbound Resolver endpoint, and the current status of the endpoint.
-    func getResolverEndpoint(input: GetResolverEndpointInput) async throws -> GetResolverEndpointOutputResponse
+    ///
+    /// - Parameter GetResolverEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `GetResolverEndpointOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func getResolverEndpoint(input: GetResolverEndpointInput) async throws -> GetResolverEndpointOutput
+    /// Performs the `GetResolverQueryLogConfig` operation on the `Route53Resolver` service.
+    ///
     /// Gets information about a specified Resolver query logging configuration, such as the number of VPCs that the configuration is logging queries for and the location that logs are sent to.
-    func getResolverQueryLogConfig(input: GetResolverQueryLogConfigInput) async throws -> GetResolverQueryLogConfigOutputResponse
+    ///
+    /// - Parameter GetResolverQueryLogConfigInput : [no documentation found]
+    ///
+    /// - Returns: `GetResolverQueryLogConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func getResolverQueryLogConfig(input: GetResolverQueryLogConfigInput) async throws -> GetResolverQueryLogConfigOutput
+    /// Performs the `GetResolverQueryLogConfigAssociation` operation on the `Route53Resolver` service.
+    ///
     /// Gets information about a specified association between a Resolver query logging configuration and an Amazon VPC. When you associate a VPC with a query logging configuration, Resolver logs DNS queries that originate in that VPC.
-    func getResolverQueryLogConfigAssociation(input: GetResolverQueryLogConfigAssociationInput) async throws -> GetResolverQueryLogConfigAssociationOutputResponse
+    ///
+    /// - Parameter GetResolverQueryLogConfigAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `GetResolverQueryLogConfigAssociationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func getResolverQueryLogConfigAssociation(input: GetResolverQueryLogConfigAssociationInput) async throws -> GetResolverQueryLogConfigAssociationOutput
+    /// Performs the `GetResolverQueryLogConfigPolicy` operation on the `Route53Resolver` service.
+    ///
     /// Gets information about a query logging policy. A query logging policy specifies the Resolver query logging operations and resources that you want to allow another Amazon Web Services account to be able to use.
-    func getResolverQueryLogConfigPolicy(input: GetResolverQueryLogConfigPolicyInput) async throws -> GetResolverQueryLogConfigPolicyOutputResponse
+    ///
+    /// - Parameter GetResolverQueryLogConfigPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetResolverQueryLogConfigPolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `UnknownResourceException` : The specified resource doesn't exist.
+    func getResolverQueryLogConfigPolicy(input: GetResolverQueryLogConfigPolicyInput) async throws -> GetResolverQueryLogConfigPolicyOutput
+    /// Performs the `GetResolverRule` operation on the `Route53Resolver` service.
+    ///
     /// Gets information about a specified Resolver rule, such as the domain name that the rule forwards DNS queries for and the ID of the outbound Resolver endpoint that the rule is associated with.
-    func getResolverRule(input: GetResolverRuleInput) async throws -> GetResolverRuleOutputResponse
+    ///
+    /// - Parameter GetResolverRuleInput : [no documentation found]
+    ///
+    /// - Returns: `GetResolverRuleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func getResolverRule(input: GetResolverRuleInput) async throws -> GetResolverRuleOutput
+    /// Performs the `GetResolverRuleAssociation` operation on the `Route53Resolver` service.
+    ///
     /// Gets information about an association between a specified Resolver rule and a VPC. You associate a Resolver rule and a VPC using [AssociateResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_AssociateResolverRule.html).
-    func getResolverRuleAssociation(input: GetResolverRuleAssociationInput) async throws -> GetResolverRuleAssociationOutputResponse
+    ///
+    /// - Parameter GetResolverRuleAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `GetResolverRuleAssociationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func getResolverRuleAssociation(input: GetResolverRuleAssociationInput) async throws -> GetResolverRuleAssociationOutput
+    /// Performs the `GetResolverRulePolicy` operation on the `Route53Resolver` service.
+    ///
     /// Gets information about the Resolver rule policy for a specified rule. A Resolver rule policy includes the rule that you want to share with another account, the account that you want to share the rule with, and the Resolver operations that you want to allow the account to use.
-    func getResolverRulePolicy(input: GetResolverRulePolicyInput) async throws -> GetResolverRulePolicyOutputResponse
+    ///
+    /// - Parameter GetResolverRulePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetResolverRulePolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `UnknownResourceException` : The specified resource doesn't exist.
+    func getResolverRulePolicy(input: GetResolverRulePolicyInput) async throws -> GetResolverRulePolicyOutput
+    /// Performs the `ImportFirewallDomains` operation on the `Route53Resolver` service.
+    ///
     /// Imports domain names from a file into a domain list, for use in a DNS firewall rule group. Each domain specification in your domain list must satisfy the following requirements:
     ///
     /// * It can optionally start with * (asterisk).
@@ -97,67 +677,552 @@ public protocol Route53ResolverClientProtocol {
     /// * With the exception of the optional starting asterisk, it must only contain the following characters: A-Z, a-z, 0-9, - (hyphen).
     ///
     /// * It must be from 1-255 characters in length.
-    func importFirewallDomains(input: ImportFirewallDomainsInput) async throws -> ImportFirewallDomainsOutputResponse
+    ///
+    /// - Parameter ImportFirewallDomainsInput : [no documentation found]
+    ///
+    /// - Returns: `ImportFirewallDomainsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `ConflictException` : The requested state transition isn't valid. For example, you can't delete a firewall domain list if it is in the process of being deleted, or you can't import domains into a domain list that is in the process of being deleted.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func importFirewallDomains(input: ImportFirewallDomainsInput) async throws -> ImportFirewallDomainsOutput
+    /// Performs the `ListFirewallConfigs` operation on the `Route53Resolver` service.
+    ///
     /// Retrieves the firewall configurations that you have defined. DNS Firewall uses the configurations to manage firewall behavior for your VPCs. A single call might return only a partial list of the configurations. For information, see MaxResults.
-    func listFirewallConfigs(input: ListFirewallConfigsInput) async throws -> ListFirewallConfigsOutputResponse
+    ///
+    /// - Parameter ListFirewallConfigsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFirewallConfigsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func listFirewallConfigs(input: ListFirewallConfigsInput) async throws -> ListFirewallConfigsOutput
+    /// Performs the `ListFirewallDomainLists` operation on the `Route53Resolver` service.
+    ///
     /// Retrieves the firewall domain lists that you have defined. For each firewall domain list, you can retrieve the domains that are defined for a list by calling [ListFirewallDomains]. A single call to this list operation might return only a partial list of the domain lists. For information, see MaxResults.
-    func listFirewallDomainLists(input: ListFirewallDomainListsInput) async throws -> ListFirewallDomainListsOutputResponse
+    ///
+    /// - Parameter ListFirewallDomainListsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFirewallDomainListsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func listFirewallDomainLists(input: ListFirewallDomainListsInput) async throws -> ListFirewallDomainListsOutput
+    /// Performs the `ListFirewallDomains` operation on the `Route53Resolver` service.
+    ///
     /// Retrieves the domains that you have defined for the specified firewall domain list. A single call might return only a partial list of the domains. For information, see MaxResults.
-    func listFirewallDomains(input: ListFirewallDomainsInput) async throws -> ListFirewallDomainsOutputResponse
+    ///
+    /// - Parameter ListFirewallDomainsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFirewallDomainsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func listFirewallDomains(input: ListFirewallDomainsInput) async throws -> ListFirewallDomainsOutput
+    /// Performs the `ListFirewallRuleGroupAssociations` operation on the `Route53Resolver` service.
+    ///
     /// Retrieves the firewall rule group associations that you have defined. Each association enables DNS filtering for a VPC with one rule group. A single call might return only a partial list of the associations. For information, see MaxResults.
-    func listFirewallRuleGroupAssociations(input: ListFirewallRuleGroupAssociationsInput) async throws -> ListFirewallRuleGroupAssociationsOutputResponse
+    ///
+    /// - Parameter ListFirewallRuleGroupAssociationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFirewallRuleGroupAssociationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func listFirewallRuleGroupAssociations(input: ListFirewallRuleGroupAssociationsInput) async throws -> ListFirewallRuleGroupAssociationsOutput
+    /// Performs the `ListFirewallRuleGroups` operation on the `Route53Resolver` service.
+    ///
     /// Retrieves the minimal high-level information for the rule groups that you have defined. A single call might return only a partial list of the rule groups. For information, see MaxResults.
-    func listFirewallRuleGroups(input: ListFirewallRuleGroupsInput) async throws -> ListFirewallRuleGroupsOutputResponse
+    ///
+    /// - Parameter ListFirewallRuleGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFirewallRuleGroupsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func listFirewallRuleGroups(input: ListFirewallRuleGroupsInput) async throws -> ListFirewallRuleGroupsOutput
+    /// Performs the `ListFirewallRules` operation on the `Route53Resolver` service.
+    ///
     /// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC. A single call might return only a partial list of the rules. For information, see MaxResults.
-    func listFirewallRules(input: ListFirewallRulesInput) async throws -> ListFirewallRulesOutputResponse
+    ///
+    /// - Parameter ListFirewallRulesInput : [no documentation found]
+    ///
+    /// - Returns: `ListFirewallRulesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func listFirewallRules(input: ListFirewallRulesInput) async throws -> ListFirewallRulesOutput
+    /// Performs the `ListOutpostResolvers` operation on the `Route53Resolver` service.
+    ///
     /// Lists all the Resolvers on Outposts that were created using the current Amazon Web Services account.
-    func listOutpostResolvers(input: ListOutpostResolversInput) async throws -> ListOutpostResolversOutputResponse
+    ///
+    /// - Parameter ListOutpostResolversInput : [no documentation found]
+    ///
+    /// - Returns: `ListOutpostResolversOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func listOutpostResolvers(input: ListOutpostResolversInput) async throws -> ListOutpostResolversOutput
+    /// Performs the `ListResolverConfigs` operation on the `Route53Resolver` service.
+    ///
     /// Retrieves the Resolver configurations that you have defined. Route 53 Resolver uses the configurations to manage DNS resolution behavior for your VPCs.
-    func listResolverConfigs(input: ListResolverConfigsInput) async throws -> ListResolverConfigsOutputResponse
+    ///
+    /// - Parameter ListResolverConfigsInput : [no documentation found]
+    ///
+    /// - Returns: `ListResolverConfigsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidNextTokenException` : The value that you specified for NextToken in a List request isn't valid.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func listResolverConfigs(input: ListResolverConfigsInput) async throws -> ListResolverConfigsOutput
+    /// Performs the `ListResolverDnssecConfigs` operation on the `Route53Resolver` service.
+    ///
     /// Lists the configurations for DNSSEC validation that are associated with the current Amazon Web Services account.
-    func listResolverDnssecConfigs(input: ListResolverDnssecConfigsInput) async throws -> ListResolverDnssecConfigsOutputResponse
+    ///
+    /// - Parameter ListResolverDnssecConfigsInput : [no documentation found]
+    ///
+    /// - Returns: `ListResolverDnssecConfigsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidNextTokenException` : The value that you specified for NextToken in a List request isn't valid.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func listResolverDnssecConfigs(input: ListResolverDnssecConfigsInput) async throws -> ListResolverDnssecConfigsOutput
+    /// Performs the `ListResolverEndpointIpAddresses` operation on the `Route53Resolver` service.
+    ///
     /// Gets the IP addresses for a specified Resolver endpoint.
-    func listResolverEndpointIpAddresses(input: ListResolverEndpointIpAddressesInput) async throws -> ListResolverEndpointIpAddressesOutputResponse
+    ///
+    /// - Parameter ListResolverEndpointIpAddressesInput : [no documentation found]
+    ///
+    /// - Returns: `ListResolverEndpointIpAddressesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidNextTokenException` : The value that you specified for NextToken in a List request isn't valid.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func listResolverEndpointIpAddresses(input: ListResolverEndpointIpAddressesInput) async throws -> ListResolverEndpointIpAddressesOutput
+    /// Performs the `ListResolverEndpoints` operation on the `Route53Resolver` service.
+    ///
     /// Lists all the Resolver endpoints that were created using the current Amazon Web Services account.
-    func listResolverEndpoints(input: ListResolverEndpointsInput) async throws -> ListResolverEndpointsOutputResponse
+    ///
+    /// - Parameter ListResolverEndpointsInput : [no documentation found]
+    ///
+    /// - Returns: `ListResolverEndpointsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidNextTokenException` : The value that you specified for NextToken in a List request isn't valid.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func listResolverEndpoints(input: ListResolverEndpointsInput) async throws -> ListResolverEndpointsOutput
+    /// Performs the `ListResolverQueryLogConfigAssociations` operation on the `Route53Resolver` service.
+    ///
     /// Lists information about associations between Amazon VPCs and query logging configurations.
-    func listResolverQueryLogConfigAssociations(input: ListResolverQueryLogConfigAssociationsInput) async throws -> ListResolverQueryLogConfigAssociationsOutputResponse
+    ///
+    /// - Parameter ListResolverQueryLogConfigAssociationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListResolverQueryLogConfigAssociationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func listResolverQueryLogConfigAssociations(input: ListResolverQueryLogConfigAssociationsInput) async throws -> ListResolverQueryLogConfigAssociationsOutput
+    /// Performs the `ListResolverQueryLogConfigs` operation on the `Route53Resolver` service.
+    ///
     /// Lists information about the specified query logging configurations. Each configuration defines where you want Resolver to save DNS query logs and specifies the VPCs that you want to log queries for.
-    func listResolverQueryLogConfigs(input: ListResolverQueryLogConfigsInput) async throws -> ListResolverQueryLogConfigsOutputResponse
+    ///
+    /// - Parameter ListResolverQueryLogConfigsInput : [no documentation found]
+    ///
+    /// - Returns: `ListResolverQueryLogConfigsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidNextTokenException` : The value that you specified for NextToken in a List request isn't valid.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func listResolverQueryLogConfigs(input: ListResolverQueryLogConfigsInput) async throws -> ListResolverQueryLogConfigsOutput
+    /// Performs the `ListResolverRuleAssociations` operation on the `Route53Resolver` service.
+    ///
     /// Lists the associations that were created between Resolver rules and VPCs using the current Amazon Web Services account.
-    func listResolverRuleAssociations(input: ListResolverRuleAssociationsInput) async throws -> ListResolverRuleAssociationsOutputResponse
+    ///
+    /// - Parameter ListResolverRuleAssociationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListResolverRuleAssociationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidNextTokenException` : The value that you specified for NextToken in a List request isn't valid.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func listResolverRuleAssociations(input: ListResolverRuleAssociationsInput) async throws -> ListResolverRuleAssociationsOutput
+    /// Performs the `ListResolverRules` operation on the `Route53Resolver` service.
+    ///
     /// Lists the Resolver rules that were created using the current Amazon Web Services account.
-    func listResolverRules(input: ListResolverRulesInput) async throws -> ListResolverRulesOutputResponse
+    ///
+    /// - Parameter ListResolverRulesInput : [no documentation found]
+    ///
+    /// - Returns: `ListResolverRulesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidNextTokenException` : The value that you specified for NextToken in a List request isn't valid.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func listResolverRules(input: ListResolverRulesInput) async throws -> ListResolverRulesOutput
+    /// Performs the `ListTagsForResource` operation on the `Route53Resolver` service.
+    ///
     /// Lists the tags that you associated with the specified resource.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidNextTokenException` : The value that you specified for NextToken in a List request isn't valid.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `PutFirewallRuleGroupPolicy` operation on the `Route53Resolver` service.
+    ///
     /// Attaches an Identity and Access Management (Amazon Web Services IAM) policy for sharing the rule group. You can use the policy to share the rule group using Resource Access Manager (RAM).
-    func putFirewallRuleGroupPolicy(input: PutFirewallRuleGroupPolicyInput) async throws -> PutFirewallRuleGroupPolicyOutputResponse
+    ///
+    /// - Parameter PutFirewallRuleGroupPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutFirewallRuleGroupPolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func putFirewallRuleGroupPolicy(input: PutFirewallRuleGroupPolicyInput) async throws -> PutFirewallRuleGroupPolicyOutput
+    /// Performs the `PutResolverQueryLogConfigPolicy` operation on the `Route53Resolver` service.
+    ///
     /// Specifies an Amazon Web Services account that you want to share a query logging configuration with, the query logging configuration that you want to share, and the operations that you want the account to be able to perform on the configuration.
-    func putResolverQueryLogConfigPolicy(input: PutResolverQueryLogConfigPolicyInput) async throws -> PutResolverQueryLogConfigPolicyOutputResponse
+    ///
+    /// - Parameter PutResolverQueryLogConfigPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutResolverQueryLogConfigPolicyOutput` : The response to a PutResolverQueryLogConfigPolicy request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidPolicyDocument` : The specified Resolver rule policy is invalid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `UnknownResourceException` : The specified resource doesn't exist.
+    func putResolverQueryLogConfigPolicy(input: PutResolverQueryLogConfigPolicyInput) async throws -> PutResolverQueryLogConfigPolicyOutput
+    /// Performs the `PutResolverRulePolicy` operation on the `Route53Resolver` service.
+    ///
     /// Specifies an Amazon Web Services rule that you want to share with another account, the account that you want to share the rule with, and the operations that you want the account to be able to perform on the rule.
-    func putResolverRulePolicy(input: PutResolverRulePolicyInput) async throws -> PutResolverRulePolicyOutputResponse
+    ///
+    /// - Parameter PutResolverRulePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutResolverRulePolicyOutput` : The response to a PutResolverRulePolicy request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidPolicyDocument` : The specified Resolver rule policy is invalid.
+    /// - `UnknownResourceException` : The specified resource doesn't exist.
+    func putResolverRulePolicy(input: PutResolverRulePolicyInput) async throws -> PutResolverRulePolicyOutput
+    /// Performs the `TagResource` operation on the `Route53Resolver` service.
+    ///
     /// Adds one or more tags to a specified resource.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `InvalidTagException` : The specified tag is invalid.
+    /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `Route53Resolver` service.
+    ///
     /// Removes one or more tags from a specified resource.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateFirewallConfig` operation on the `Route53Resolver` service.
+    ///
     /// Updates the configuration of the firewall behavior provided by DNS Firewall for a single VPC from Amazon Virtual Private Cloud (Amazon VPC).
-    func updateFirewallConfig(input: UpdateFirewallConfigInput) async throws -> UpdateFirewallConfigOutputResponse
+    ///
+    /// - Parameter UpdateFirewallConfigInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateFirewallConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func updateFirewallConfig(input: UpdateFirewallConfigInput) async throws -> UpdateFirewallConfigOutput
+    /// Performs the `UpdateFirewallDomains` operation on the `Route53Resolver` service.
+    ///
     /// Updates the firewall domain list from an array of domain specifications.
-    func updateFirewallDomains(input: UpdateFirewallDomainsInput) async throws -> UpdateFirewallDomainsOutputResponse
+    ///
+    /// - Parameter UpdateFirewallDomainsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateFirewallDomainsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `ConflictException` : The requested state transition isn't valid. For example, you can't delete a firewall domain list if it is in the process of being deleted, or you can't import domains into a domain list that is in the process of being deleted.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func updateFirewallDomains(input: UpdateFirewallDomainsInput) async throws -> UpdateFirewallDomainsOutput
+    /// Performs the `UpdateFirewallRule` operation on the `Route53Resolver` service.
+    ///
     /// Updates the specified firewall rule.
-    func updateFirewallRule(input: UpdateFirewallRuleInput) async throws -> UpdateFirewallRuleOutputResponse
+    ///
+    /// - Parameter UpdateFirewallRuleInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateFirewallRuleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `ConflictException` : The requested state transition isn't valid. For example, you can't delete a firewall domain list if it is in the process of being deleted, or you can't import domains into a domain list that is in the process of being deleted.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func updateFirewallRule(input: UpdateFirewallRuleInput) async throws -> UpdateFirewallRuleOutput
+    /// Performs the `UpdateFirewallRuleGroupAssociation` operation on the `Route53Resolver` service.
+    ///
     /// Changes the association of a [FirewallRuleGroup] with a VPC. The association enables DNS filtering for the VPC.
-    func updateFirewallRuleGroupAssociation(input: UpdateFirewallRuleGroupAssociationInput) async throws -> UpdateFirewallRuleGroupAssociationOutputResponse
+    ///
+    /// - Parameter UpdateFirewallRuleGroupAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateFirewallRuleGroupAssociationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `ConflictException` : The requested state transition isn't valid. For example, you can't delete a firewall domain list if it is in the process of being deleted, or you can't import domains into a domain list that is in the process of being deleted.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func updateFirewallRuleGroupAssociation(input: UpdateFirewallRuleGroupAssociationInput) async throws -> UpdateFirewallRuleGroupAssociationOutput
+    /// Performs the `UpdateOutpostResolver` operation on the `Route53Resolver` service.
+    ///
     /// You can use UpdateOutpostResolver to update the instance count, type, or name of a Resolver on an Outpost.
-    func updateOutpostResolver(input: UpdateOutpostResolverInput) async throws -> UpdateOutpostResolverOutputResponse
+    ///
+    /// - Parameter UpdateOutpostResolverInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateOutpostResolverOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `ConflictException` : The requested state transition isn't valid. For example, you can't delete a firewall domain list if it is in the process of being deleted, or you can't import domains into a domain list that is in the process of being deleted.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ServiceQuotaExceededException` : Fulfilling the request would cause one or more quotas to be exceeded.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func updateOutpostResolver(input: UpdateOutpostResolverInput) async throws -> UpdateOutpostResolverOutput
+    /// Performs the `UpdateResolverConfig` operation on the `Route53Resolver` service.
+    ///
     /// Updates the behavior configuration of Route 53 Resolver behavior for a single VPC from Amazon Virtual Private Cloud.
-    func updateResolverConfig(input: UpdateResolverConfigInput) async throws -> UpdateResolverConfigOutputResponse
+    ///
+    /// - Parameter UpdateResolverConfigInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateResolverConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ResourceUnavailableException` : The specified resource isn't available.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    func updateResolverConfig(input: UpdateResolverConfigInput) async throws -> UpdateResolverConfigOutput
+    /// Performs the `UpdateResolverDnssecConfig` operation on the `Route53Resolver` service.
+    ///
     /// Updates an existing DNSSEC validation configuration. If there is no existing DNSSEC validation configuration, one is created.
-    func updateResolverDnssecConfig(input: UpdateResolverDnssecConfigInput) async throws -> UpdateResolverDnssecConfigOutputResponse
-    /// Updates the name, or enpoint type for an inbound or an outbound Resolver endpoint. You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type.
-    func updateResolverEndpoint(input: UpdateResolverEndpointInput) async throws -> UpdateResolverEndpointOutputResponse
+    ///
+    /// - Parameter UpdateResolverDnssecConfigInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateResolverDnssecConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func updateResolverDnssecConfig(input: UpdateResolverDnssecConfigInput) async throws -> UpdateResolverDnssecConfigOutput
+    /// Performs the `UpdateResolverEndpoint` operation on the `Route53Resolver` service.
+    ///
+    /// Updates the name, or endpoint type for an inbound or an outbound Resolver endpoint. You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type.
+    ///
+    /// - Parameter UpdateResolverEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateResolverEndpointOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func updateResolverEndpoint(input: UpdateResolverEndpointInput) async throws -> UpdateResolverEndpointOutput
+    /// Performs the `UpdateResolverRule` operation on the `Route53Resolver` service.
+    ///
     /// Updates settings for a specified Resolver rule. ResolverRuleId is required, and all other parameters are optional. If you don't specify a parameter, it retains its current value.
-    func updateResolverRule(input: UpdateResolverRuleInput) async throws -> UpdateResolverRuleOutputResponse
+    ///
+    /// - Parameter UpdateResolverRuleInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateResolverRuleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
+    /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ResourceUnavailableException` : The specified resource isn't available.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    func updateResolverRule(input: UpdateResolverRuleInput) async throws -> UpdateResolverRuleOutput
 }
 
 public enum Route53ResolverClientTypes {}

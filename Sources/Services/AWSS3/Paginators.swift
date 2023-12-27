@@ -3,16 +3,46 @@
 import ClientRuntime
 
 extension S3Client {
-    /// Paginate over `[ListObjectsV2OutputResponse]` results.
+    /// Paginate over `[ListDirectoryBucketsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDirectoryBucketsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDirectoryBucketsOutput`
+    public func listDirectoryBucketsPaginated(input: ListDirectoryBucketsInput) -> ClientRuntime.PaginatorSequence<ListDirectoryBucketsInput, ListDirectoryBucketsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDirectoryBucketsInput, ListDirectoryBucketsOutput>(input: input, inputKey: \.continuationToken, outputKey: \.continuationToken, paginationFunction: self.listDirectoryBuckets(input:))
+    }
+}
+
+extension ListDirectoryBucketsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDirectoryBucketsInput {
+        return ListDirectoryBucketsInput(
+            continuationToken: token,
+            maxDirectoryBuckets: self.maxDirectoryBuckets
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListDirectoryBucketsInput, OperationStackOutput == ListDirectoryBucketsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listDirectoryBucketsPaginated`
+    /// to access the nested member `[S3ClientTypes.Bucket]`
+    /// - Returns: `[S3ClientTypes.Bucket]`
+    public func buckets() async throws -> [S3ClientTypes.Bucket] {
+        return try await self.asyncCompactMap { item in item.buckets }
+    }
+}
+extension S3Client {
+    /// Paginate over `[ListObjectsV2Output]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListObjectsV2Input]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListObjectsV2OutputResponse`
-    public func listObjectsV2Paginated(input: ListObjectsV2Input) -> ClientRuntime.PaginatorSequence<ListObjectsV2Input, ListObjectsV2OutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListObjectsV2Input, ListObjectsV2OutputResponse>(input: input, inputKey: \ListObjectsV2Input.continuationToken, outputKey: \ListObjectsV2OutputResponse.nextContinuationToken, paginationFunction: self.listObjectsV2(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListObjectsV2Output`
+    public func listObjectsV2Paginated(input: ListObjectsV2Input) -> ClientRuntime.PaginatorSequence<ListObjectsV2Input, ListObjectsV2Output> {
+        return ClientRuntime.PaginatorSequence<ListObjectsV2Input, ListObjectsV2Output>(input: input, inputKey: \.continuationToken, outputKey: \.nextContinuationToken, paginationFunction: self.listObjectsV2(input:))
     }
 }
 
@@ -33,16 +63,16 @@ extension ListObjectsV2Input: ClientRuntime.PaginateToken {
         )}
 }
 extension S3Client {
-    /// Paginate over `[ListPartsOutputResponse]` results.
+    /// Paginate over `[ListPartsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPartsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPartsOutputResponse`
-    public func listPartsPaginated(input: ListPartsInput) -> ClientRuntime.PaginatorSequence<ListPartsInput, ListPartsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPartsInput, ListPartsOutputResponse>(input: input, inputKey: \ListPartsInput.partNumberMarker, outputKey: \ListPartsOutputResponse.nextPartNumberMarker, paginationFunction: self.listParts(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPartsOutput`
+    public func listPartsPaginated(input: ListPartsInput) -> ClientRuntime.PaginatorSequence<ListPartsInput, ListPartsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPartsInput, ListPartsOutput>(input: input, inputKey: \.partNumberMarker, outputKey: \.nextPartNumberMarker, isTruncatedKey: \.isTruncated, paginationFunction: self.listParts(input:))
     }
 }
 
@@ -62,7 +92,7 @@ extension ListPartsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPartsInput, Output == ListPartsOutputResponse {
+extension PaginatorSequence where OperationStackInput == ListPartsInput, OperationStackOutput == ListPartsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPartsPaginated`
     /// to access the nested member `[S3ClientTypes.Part]`
     /// - Returns: `[S3ClientTypes.Part]`

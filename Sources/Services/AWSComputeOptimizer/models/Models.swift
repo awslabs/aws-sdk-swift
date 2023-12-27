@@ -219,12 +219,58 @@ extension ComputeOptimizerClientTypes {
 
 }
 
+extension ComputeOptimizerClientTypes.AutoScalingGroupEstimatedMonthlySavings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currency
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let currency = self.currency {
+            try encodeContainer.encode(currency.rawValue, forKey: .currency)
+        }
+        if value != 0.0 {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let currencyDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.Currency.self, forKey: .currency)
+        currency = currencyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value) ?? 0.0
+        value = valueDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Auto Scaling group recommendations. This is based on the Savings Plans and Reserved Instances discounts.
+    public struct AutoScalingGroupEstimatedMonthlySavings: Swift.Equatable {
+        /// The currency of the estimated monthly savings.
+        public var currency: ComputeOptimizerClientTypes.Currency?
+        /// The value of the estimated monthly savings.
+        public var value: Swift.Double
+
+        public init(
+            currency: ComputeOptimizerClientTypes.Currency? = nil,
+            value: Swift.Double = 0.0
+        )
+        {
+            self.currency = currency
+            self.value = value
+        }
+    }
+
+}
+
 extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId
         case autoScalingGroupArn
         case autoScalingGroupName
         case currentConfiguration
+        case currentInstanceGpuInfo
         case currentPerformanceRisk
         case effectiveRecommendationPreferences
         case finding
@@ -248,6 +294,9 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendation: Swift.Coda
         }
         if let currentConfiguration = self.currentConfiguration {
             try encodeContainer.encode(currentConfiguration, forKey: .currentConfiguration)
+        }
+        if let currentInstanceGpuInfo = self.currentInstanceGpuInfo {
+            try encodeContainer.encode(currentInstanceGpuInfo, forKey: .currentInstanceGpuInfo)
         }
         if let currentPerformanceRisk = self.currentPerformanceRisk {
             try encodeContainer.encode(currentPerformanceRisk.rawValue, forKey: .currentPerformanceRisk)
@@ -337,6 +386,8 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendation: Swift.Coda
             }
         }
         inferredWorkloadTypes = inferredWorkloadTypesDecoded0
+        let currentInstanceGpuInfoDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.GpuInfo.self, forKey: .currentInstanceGpuInfo)
+        currentInstanceGpuInfo = currentInstanceGpuInfoDecoded
     }
 }
 
@@ -351,6 +402,8 @@ extension ComputeOptimizerClientTypes {
         public var autoScalingGroupName: Swift.String?
         /// An array of objects that describe the current configuration of the Auto Scaling group.
         public var currentConfiguration: ComputeOptimizerClientTypes.AutoScalingGroupConfiguration?
+        /// Describes the GPU accelerator settings for the current instance type of the Auto Scaling group.
+        public var currentInstanceGpuInfo: ComputeOptimizerClientTypes.GpuInfo?
         /// The risk of the current Auto Scaling group not meeting the performance needs of its workloads. The higher the risk, the more likely the current Auto Scaling group configuration has insufficient capacity and cannot meet workload requirements.
         public var currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk?
         /// An object that describes the effective recommendation preferences for the Auto Scaling group.
@@ -395,6 +448,7 @@ extension ComputeOptimizerClientTypes {
             autoScalingGroupArn: Swift.String? = nil,
             autoScalingGroupName: Swift.String? = nil,
             currentConfiguration: ComputeOptimizerClientTypes.AutoScalingGroupConfiguration? = nil,
+            currentInstanceGpuInfo: ComputeOptimizerClientTypes.GpuInfo? = nil,
             currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk? = nil,
             effectiveRecommendationPreferences: ComputeOptimizerClientTypes.EffectiveRecommendationPreferences? = nil,
             finding: ComputeOptimizerClientTypes.Finding? = nil,
@@ -409,6 +463,7 @@ extension ComputeOptimizerClientTypes {
             self.autoScalingGroupArn = autoScalingGroupArn
             self.autoScalingGroupName = autoScalingGroupName
             self.currentConfiguration = currentConfiguration
+            self.currentInstanceGpuInfo = currentInstanceGpuInfo
             self.currentPerformanceRisk = currentPerformanceRisk
             self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
             self.finding = finding
@@ -425,17 +480,22 @@ extension ComputeOptimizerClientTypes {
 extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendationOption: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuration
+        case instanceGpuInfo
         case migrationEffort
         case performanceRisk
         case projectedUtilizationMetrics
         case rank
         case savingsOpportunity
+        case savingsOpportunityAfterDiscounts
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let configuration = self.configuration {
             try encodeContainer.encode(configuration, forKey: .configuration)
+        }
+        if let instanceGpuInfo = self.instanceGpuInfo {
+            try encodeContainer.encode(instanceGpuInfo, forKey: .instanceGpuInfo)
         }
         if let migrationEffort = self.migrationEffort {
             try encodeContainer.encode(migrationEffort.rawValue, forKey: .migrationEffort)
@@ -454,6 +514,9 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendationOption: Swif
         }
         if let savingsOpportunity = self.savingsOpportunity {
             try encodeContainer.encode(savingsOpportunity, forKey: .savingsOpportunity)
+        }
+        if let savingsOpportunityAfterDiscounts = self.savingsOpportunityAfterDiscounts {
+            try encodeContainer.encode(savingsOpportunityAfterDiscounts, forKey: .savingsOpportunityAfterDiscounts)
         }
     }
 
@@ -480,6 +543,10 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendationOption: Swif
         savingsOpportunity = savingsOpportunityDecoded
         let migrationEffortDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.MigrationEffort.self, forKey: .migrationEffort)
         migrationEffort = migrationEffortDecoded
+        let instanceGpuInfoDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.GpuInfo.self, forKey: .instanceGpuInfo)
+        instanceGpuInfo = instanceGpuInfoDecoded
+        let savingsOpportunityAfterDiscountsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.AutoScalingGroupSavingsOpportunityAfterDiscounts.self, forKey: .savingsOpportunityAfterDiscounts)
+        savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscountsDecoded
     }
 }
 
@@ -488,6 +555,8 @@ extension ComputeOptimizerClientTypes {
     public struct AutoScalingGroupRecommendationOption: Swift.Equatable {
         /// An array of objects that describe an Auto Scaling group configuration.
         public var configuration: ComputeOptimizerClientTypes.AutoScalingGroupConfiguration?
+        /// Describes the GPU accelerator settings for the recommended instance type of the Auto Scaling group.
+        public var instanceGpuInfo: ComputeOptimizerClientTypes.GpuInfo?
         /// The level of effort required to migrate from the current instance type to the recommended instance type. For example, the migration effort is Low if Amazon EMR is the inferred workload type and an Amazon Web Services Graviton instance type is recommended. The migration effort is Medium if a workload type couldn't be inferred but an Amazon Web Services Graviton instance type is recommended. The migration effort is VeryLow if both the current and recommended instance types are of the same CPU architecture.
         public var migrationEffort: ComputeOptimizerClientTypes.MigrationEffort?
         /// The performance risk of the Auto Scaling group configuration recommendation. Performance risk indicates the likelihood of the recommended instance type not meeting the resource needs of your workload. Compute Optimizer calculates an individual performance risk score for each specification of the recommended instance, including CPU, memory, EBS throughput, EBS IOPS, disk throughput, disk IOPS, network throughput, and network PPS. The performance risk of the recommended instance is calculated as the maximum performance risk score across the analyzed resource specifications. The value ranges from 0 - 4, with 0 meaning that the recommended resource is predicted to always provide enough hardware capability. The higher the performance risk is, the more likely you should validate whether the recommendation will meet the performance requirements of your workload before migrating your resource.
@@ -498,22 +567,73 @@ extension ComputeOptimizerClientTypes {
         public var rank: Swift.Int
         /// An object that describes the savings opportunity for the Auto Scaling group recommendation option. Savings opportunity includes the estimated monthly savings amount and percentage.
         public var savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity?
+        /// An object that describes the savings opportunity for the Auto Scaling group recommendation option that includes Savings Plans and Reserved Instances discounts. Savings opportunity includes the estimated monthly savings and percentage.
+        public var savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.AutoScalingGroupSavingsOpportunityAfterDiscounts?
 
         public init(
             configuration: ComputeOptimizerClientTypes.AutoScalingGroupConfiguration? = nil,
+            instanceGpuInfo: ComputeOptimizerClientTypes.GpuInfo? = nil,
             migrationEffort: ComputeOptimizerClientTypes.MigrationEffort? = nil,
             performanceRisk: Swift.Double = 0.0,
             projectedUtilizationMetrics: [ComputeOptimizerClientTypes.UtilizationMetric]? = nil,
             rank: Swift.Int = 0,
-            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil
+            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil,
+            savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.AutoScalingGroupSavingsOpportunityAfterDiscounts? = nil
         )
         {
             self.configuration = configuration
+            self.instanceGpuInfo = instanceGpuInfo
             self.migrationEffort = migrationEffort
             self.performanceRisk = performanceRisk
             self.projectedUtilizationMetrics = projectedUtilizationMetrics
             self.rank = rank
             self.savingsOpportunity = savingsOpportunity
+            self.savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscounts
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.AutoScalingGroupSavingsOpportunityAfterDiscounts: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case estimatedMonthlySavings
+        case savingsOpportunityPercentage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let estimatedMonthlySavings = self.estimatedMonthlySavings {
+            try encodeContainer.encode(estimatedMonthlySavings, forKey: .estimatedMonthlySavings)
+        }
+        if savingsOpportunityPercentage != 0.0 {
+            try encodeContainer.encode(savingsOpportunityPercentage, forKey: .savingsOpportunityPercentage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let savingsOpportunityPercentageDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .savingsOpportunityPercentage) ?? 0.0
+        savingsOpportunityPercentage = savingsOpportunityPercentageDecoded
+        let estimatedMonthlySavingsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.AutoScalingGroupEstimatedMonthlySavings.self, forKey: .estimatedMonthlySavings)
+        estimatedMonthlySavings = estimatedMonthlySavingsDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the savings opportunity for Auto Scaling group recommendations after applying the Savings Plans and Reserved Instances discounts. Savings opportunity represents the estimated monthly savings you can achieve by implementing Compute Optimizer recommendations.
+    public struct AutoScalingGroupSavingsOpportunityAfterDiscounts: Swift.Equatable {
+        /// An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Auto Scaling group recommendations. This is based on the Savings Plans and Reserved Instances pricing discounts.
+        public var estimatedMonthlySavings: ComputeOptimizerClientTypes.AutoScalingGroupEstimatedMonthlySavings?
+        /// The estimated monthly savings possible as a percentage of monthly cost after applying the Savings Plans and Reserved Instances discounts. This saving can be achieved by adopting Compute Optimizer’s Auto Scaling group recommendations.
+        public var savingsOpportunityPercentage: Swift.Double
+
+        public init(
+            estimatedMonthlySavings: ComputeOptimizerClientTypes.AutoScalingGroupEstimatedMonthlySavings? = nil,
+            savingsOpportunityPercentage: Swift.Double = 0.0
+        )
+        {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.savingsOpportunityPercentage = savingsOpportunityPercentage
         }
     }
 
@@ -796,6 +916,150 @@ extension ComputeOptimizerClientTypes {
 
 }
 
+extension ComputeOptimizerClientTypes {
+    public enum CustomizableMetricHeadroom: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case percent0
+        case percent20
+        case percent30
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomizableMetricHeadroom] {
+            return [
+                .percent0,
+                .percent20,
+                .percent30,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .percent0: return "PERCENT_0"
+            case .percent20: return "PERCENT_20"
+            case .percent30: return "PERCENT_30"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CustomizableMetricHeadroom(rawValue: rawValue) ?? CustomizableMetricHeadroom.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum CustomizableMetricName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cpuUtilization
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomizableMetricName] {
+            return [
+                .cpuUtilization,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cpuUtilization: return "CpuUtilization"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CustomizableMetricName(rawValue: rawValue) ?? CustomizableMetricName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes.CustomizableMetricParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case headroom
+        case threshold
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let headroom = self.headroom {
+            try encodeContainer.encode(headroom.rawValue, forKey: .headroom)
+        }
+        if let threshold = self.threshold {
+            try encodeContainer.encode(threshold.rawValue, forKey: .threshold)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let thresholdDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.CustomizableMetricThreshold.self, forKey: .threshold)
+        threshold = thresholdDecoded
+        let headroomDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.CustomizableMetricHeadroom.self, forKey: .headroom)
+        headroom = headroomDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Defines the various metric parameters that can be customized, such as threshold and headroom.
+    public struct CustomizableMetricParameters: Swift.Equatable {
+        /// The headroom threshold value in percentage used for the specified metric parameter.
+        public var headroom: ComputeOptimizerClientTypes.CustomizableMetricHeadroom?
+        /// The threshold value used for the specified metric parameter.
+        public var threshold: ComputeOptimizerClientTypes.CustomizableMetricThreshold?
+
+        public init(
+            headroom: ComputeOptimizerClientTypes.CustomizableMetricHeadroom? = nil,
+            threshold: ComputeOptimizerClientTypes.CustomizableMetricThreshold? = nil
+        )
+        {
+            self.headroom = headroom
+            self.threshold = threshold
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum CustomizableMetricThreshold: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case p90
+        case p95
+        case p995
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomizableMetricThreshold] {
+            return [
+                .p90,
+                .p95,
+                .p995,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .p90: return "P90"
+            case .p95: return "P95"
+            case .p995: return "P99_5"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CustomizableMetricThreshold(rawValue: rawValue) ?? CustomizableMetricThreshold.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension DeleteRecommendationPreferencesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case recommendationPreferenceNames
@@ -881,8 +1145,18 @@ extension DeleteRecommendationPreferencesInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteRecommendationPreferencesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension DeleteRecommendationPreferencesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteRecommendationPreferencesOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteRecommendationPreferencesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -897,16 +1171,6 @@ public enum DeleteRecommendationPreferencesOutputError: ClientRuntime.HttpRespon
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteRecommendationPreferencesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteRecommendationPreferencesOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DescribeRecommendationExportJobsInput: Swift.Encodable {
@@ -1016,29 +1280,11 @@ extension DescribeRecommendationExportJobsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeRecommendationExportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeRecommendationExportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeRecommendationExportJobsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeRecommendationExportJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeRecommendationExportJobsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.recommendationExportJobs = output.recommendationExportJobs
         } else {
@@ -1048,7 +1294,7 @@ extension DescribeRecommendationExportJobsOutputResponse: ClientRuntime.HttpResp
     }
 }
 
-public struct DescribeRecommendationExportJobsOutputResponse: Swift.Equatable {
+public struct DescribeRecommendationExportJobsOutput: Swift.Equatable {
     /// The token to use to advance to the next page of export jobs. This value is null when there are no more pages of export jobs to return.
     public var nextToken: Swift.String?
     /// An array of objects that describe recommendation export jobs.
@@ -1064,12 +1310,12 @@ public struct DescribeRecommendationExportJobsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeRecommendationExportJobsOutputResponseBody: Swift.Equatable {
+struct DescribeRecommendationExportJobsOutputBody: Swift.Equatable {
     let recommendationExportJobs: [ComputeOptimizerClientTypes.RecommendationExportJob]?
     let nextToken: Swift.String?
 }
 
-extension DescribeRecommendationExportJobsOutputResponseBody: Swift.Decodable {
+extension DescribeRecommendationExportJobsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case recommendationExportJobs
@@ -1091,6 +1337,104 @@ extension DescribeRecommendationExportJobsOutputResponseBody: Swift.Decodable {
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
+}
+
+enum DescribeRecommendationExportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes.EBSEffectiveRecommendationPreferences: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case savingsEstimationMode
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let savingsEstimationMode = self.savingsEstimationMode {
+            try encodeContainer.encode(savingsEstimationMode, forKey: .savingsEstimationMode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let savingsEstimationModeDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.EBSSavingsEstimationMode.self, forKey: .savingsEstimationMode)
+        savingsEstimationMode = savingsEstimationModeDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the effective recommendation preferences for Amazon EBS volumes.
+    public struct EBSEffectiveRecommendationPreferences: Swift.Equatable {
+        /// Describes the savings estimation mode preference applied for calculating savings opportunity for Amazon EBS volumes.
+        public var savingsEstimationMode: ComputeOptimizerClientTypes.EBSSavingsEstimationMode?
+
+        public init(
+            savingsEstimationMode: ComputeOptimizerClientTypes.EBSSavingsEstimationMode? = nil
+        )
+        {
+            self.savingsEstimationMode = savingsEstimationMode
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.EBSEstimatedMonthlySavings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currency
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let currency = self.currency {
+            try encodeContainer.encode(currency.rawValue, forKey: .currency)
+        }
+        if value != 0.0 {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let currencyDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.Currency.self, forKey: .currency)
+        currency = currencyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value) ?? 0.0
+        value = valueDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Amazon EBS volume recommendations. This includes any applicable discounts.
+    public struct EBSEstimatedMonthlySavings: Swift.Equatable {
+        /// The currency of the estimated monthly savings.
+        public var currency: ComputeOptimizerClientTypes.Currency?
+        /// The value of the estimated monthly savings.
+        public var value: Swift.Double
+
+        public init(
+            currency: ComputeOptimizerClientTypes.Currency? = nil,
+            value: Swift.Double = 0.0
+        )
+        {
+            self.currency = currency
+            self.value = value
+        }
+    }
+
 }
 
 extension ComputeOptimizerClientTypes.EBSFilter: Swift.Codable {
@@ -1249,6 +1593,121 @@ extension ComputeOptimizerClientTypes {
     }
 }
 
+extension ComputeOptimizerClientTypes.EBSSavingsEstimationMode: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case source
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let source = self.source {
+            try encodeContainer.encode(source.rawValue, forKey: .source)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.EBSSavingsEstimationModeSource.self, forKey: .source)
+        source = sourceDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the savings estimation mode used for calculating savings opportunity for Amazon EBS volumes.
+    public struct EBSSavingsEstimationMode: Swift.Equatable {
+        /// Describes the source for calculating the savings opportunity for Amazon EBS volumes.
+        public var source: ComputeOptimizerClientTypes.EBSSavingsEstimationModeSource?
+
+        public init(
+            source: ComputeOptimizerClientTypes.EBSSavingsEstimationModeSource? = nil
+        )
+        {
+            self.source = source
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum EBSSavingsEstimationModeSource: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case costExplorerRightsizing
+        case costOptimizationHub
+        case publicPricing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EBSSavingsEstimationModeSource] {
+            return [
+                .costExplorerRightsizing,
+                .costOptimizationHub,
+                .publicPricing,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .costExplorerRightsizing: return "CostExplorerRightsizing"
+            case .costOptimizationHub: return "CostOptimizationHub"
+            case .publicPricing: return "PublicPricing"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EBSSavingsEstimationModeSource(rawValue: rawValue) ?? EBSSavingsEstimationModeSource.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes.EBSSavingsOpportunityAfterDiscounts: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case estimatedMonthlySavings
+        case savingsOpportunityPercentage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let estimatedMonthlySavings = self.estimatedMonthlySavings {
+            try encodeContainer.encode(estimatedMonthlySavings, forKey: .estimatedMonthlySavings)
+        }
+        if savingsOpportunityPercentage != 0.0 {
+            try encodeContainer.encode(savingsOpportunityPercentage, forKey: .savingsOpportunityPercentage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let savingsOpportunityPercentageDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .savingsOpportunityPercentage) ?? 0.0
+        savingsOpportunityPercentage = savingsOpportunityPercentageDecoded
+        let estimatedMonthlySavingsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.EBSEstimatedMonthlySavings.self, forKey: .estimatedMonthlySavings)
+        estimatedMonthlySavings = estimatedMonthlySavingsDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the savings opportunity for Amazon EBS volume recommendations after applying specific discounts.
+    public struct EBSSavingsOpportunityAfterDiscounts: Swift.Equatable {
+        /// The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer’s Amazon EBS volume recommendations. This saving includes any applicable discounts.
+        public var estimatedMonthlySavings: ComputeOptimizerClientTypes.EBSEstimatedMonthlySavings?
+        /// The estimated monthly savings possible as a percentage of monthly cost after applying the specific discounts. This saving can be achieved by adopting Compute Optimizer’s Amazon EBS volume recommendations.
+        public var savingsOpportunityPercentage: Swift.Double
+
+        public init(
+            estimatedMonthlySavings: ComputeOptimizerClientTypes.EBSEstimatedMonthlySavings? = nil,
+            savingsOpportunityPercentage: Swift.Double = 0.0
+        )
+        {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.savingsOpportunityPercentage = savingsOpportunityPercentage
+        }
+    }
+
+}
+
 extension ComputeOptimizerClientTypes.EBSUtilizationMetric: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name
@@ -1307,6 +1766,201 @@ extension ComputeOptimizerClientTypes {
             self.name = name
             self.statistic = statistic
             self.value = value
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.ECSEffectiveRecommendationPreferences: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case savingsEstimationMode
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let savingsEstimationMode = self.savingsEstimationMode {
+            try encodeContainer.encode(savingsEstimationMode, forKey: .savingsEstimationMode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let savingsEstimationModeDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ECSSavingsEstimationMode.self, forKey: .savingsEstimationMode)
+        savingsEstimationMode = savingsEstimationModeDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the effective recommendation preferences for Amazon ECS services.
+    public struct ECSEffectiveRecommendationPreferences: Swift.Equatable {
+        /// Describes the savings estimation mode preference applied for calculating savings opportunity for Amazon ECS services.
+        public var savingsEstimationMode: ComputeOptimizerClientTypes.ECSSavingsEstimationMode?
+
+        public init(
+            savingsEstimationMode: ComputeOptimizerClientTypes.ECSSavingsEstimationMode? = nil
+        )
+        {
+            self.savingsEstimationMode = savingsEstimationMode
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currency
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let currency = self.currency {
+            try encodeContainer.encode(currency.rawValue, forKey: .currency)
+        }
+        if value != 0.0 {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let currencyDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.Currency.self, forKey: .currency)
+        currency = currencyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value) ?? 0.0
+        value = valueDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the estimated monthly savings possible for Amazon ECS services by adopting Compute Optimizer recommendations. This is based on Amazon ECS service pricing after applying Savings Plans discounts.
+    public struct ECSEstimatedMonthlySavings: Swift.Equatable {
+        /// The currency of the estimated monthly savings.
+        public var currency: ComputeOptimizerClientTypes.Currency?
+        /// The value of the estimated monthly savings for Amazon ECS services.
+        public var value: Swift.Double
+
+        public init(
+            currency: ComputeOptimizerClientTypes.Currency? = nil,
+            value: Swift.Double = 0.0
+        )
+        {
+            self.currency = currency
+            self.value = value
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.ECSSavingsEstimationMode: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case source
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let source = self.source {
+            try encodeContainer.encode(source.rawValue, forKey: .source)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ECSSavingsEstimationModeSource.self, forKey: .source)
+        source = sourceDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the savings estimation mode used for calculating savings opportunity for Amazon ECS services.
+    public struct ECSSavingsEstimationMode: Swift.Equatable {
+        /// Describes the source for calculating the savings opportunity for Amazon ECS services.
+        public var source: ComputeOptimizerClientTypes.ECSSavingsEstimationModeSource?
+
+        public init(
+            source: ComputeOptimizerClientTypes.ECSSavingsEstimationModeSource? = nil
+        )
+        {
+            self.source = source
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum ECSSavingsEstimationModeSource: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case costExplorerRightsizing
+        case costOptimizationHub
+        case publicPricing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ECSSavingsEstimationModeSource] {
+            return [
+                .costExplorerRightsizing,
+                .costOptimizationHub,
+                .publicPricing,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .costExplorerRightsizing: return "CostExplorerRightsizing"
+            case .costOptimizationHub: return "CostOptimizationHub"
+            case .publicPricing: return "PublicPricing"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ECSSavingsEstimationModeSource(rawValue: rawValue) ?? ECSSavingsEstimationModeSource.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case estimatedMonthlySavings
+        case savingsOpportunityPercentage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let estimatedMonthlySavings = self.estimatedMonthlySavings {
+            try encodeContainer.encode(estimatedMonthlySavings, forKey: .estimatedMonthlySavings)
+        }
+        if savingsOpportunityPercentage != 0.0 {
+            try encodeContainer.encode(savingsOpportunityPercentage, forKey: .savingsOpportunityPercentage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let savingsOpportunityPercentageDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .savingsOpportunityPercentage) ?? 0.0
+        savingsOpportunityPercentage = savingsOpportunityPercentageDecoded
+        let estimatedMonthlySavingsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings.self, forKey: .estimatedMonthlySavings)
+        estimatedMonthlySavings = estimatedMonthlySavingsDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the savings opportunity for Amazon ECS service recommendations after applying Savings Plans discounts. Savings opportunity represents the estimated monthly savings after applying Savings Plans discounts. You can achieve this by implementing a given Compute Optimizer recommendation.
+    public struct ECSSavingsOpportunityAfterDiscounts: Swift.Equatable {
+        /// The estimated monthly savings possible by adopting Compute Optimizer’s Amazon ECS service recommendations. This includes any applicable Savings Plans discounts.
+        public var estimatedMonthlySavings: ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings?
+        /// The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer’s Amazon ECS service recommendations. This includes any applicable Savings Plans discounts.
+        public var savingsOpportunityPercentage: Swift.Double
+
+        public init(
+            estimatedMonthlySavings: ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings? = nil,
+            savingsOpportunityPercentage: Swift.Double = 0.0
+        )
+        {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.savingsOpportunityPercentage = savingsOpportunityPercentage
         }
     }
 
@@ -1587,6 +2241,7 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendation: Swift.Codable {
         case accountId
         case currentPerformanceRisk
         case currentServiceConfiguration
+        case effectiveRecommendationPreferences
         case finding
         case findingReasonCodes
         case lastRefreshTimestamp
@@ -1608,6 +2263,9 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendation: Swift.Codable {
         }
         if let currentServiceConfiguration = self.currentServiceConfiguration {
             try encodeContainer.encode(currentServiceConfiguration, forKey: .currentServiceConfiguration)
+        }
+        if let effectiveRecommendationPreferences = self.effectiveRecommendationPreferences {
+            try encodeContainer.encode(effectiveRecommendationPreferences, forKey: .effectiveRecommendationPreferences)
         }
         if let finding = self.finding {
             try encodeContainer.encode(finding.rawValue, forKey: .finding)
@@ -1712,6 +2370,8 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendation: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let effectiveRecommendationPreferencesDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ECSEffectiveRecommendationPreferences.self, forKey: .effectiveRecommendationPreferences)
+        effectiveRecommendationPreferences = effectiveRecommendationPreferencesDecoded
     }
 }
 
@@ -1724,6 +2384,8 @@ extension ComputeOptimizerClientTypes {
         public var currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk?
         /// The configuration of the current Amazon ECS service.
         public var currentServiceConfiguration: ComputeOptimizerClientTypes.ServiceConfiguration?
+        /// Describes the effective recommendation preferences for Amazon ECS services.
+        public var effectiveRecommendationPreferences: ComputeOptimizerClientTypes.ECSEffectiveRecommendationPreferences?
         /// The finding classification of an Amazon ECS service. Findings for Amazon ECS services include:
         ///
         /// * Underprovisioned — When Compute Optimizer detects that there’s not enough memory or CPU, an Amazon ECS service is considered under-provisioned. An under-provisioned service might result in poor application performance.
@@ -1761,6 +2423,7 @@ extension ComputeOptimizerClientTypes {
             accountId: Swift.String? = nil,
             currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk? = nil,
             currentServiceConfiguration: ComputeOptimizerClientTypes.ServiceConfiguration? = nil,
+            effectiveRecommendationPreferences: ComputeOptimizerClientTypes.ECSEffectiveRecommendationPreferences? = nil,
             finding: ComputeOptimizerClientTypes.ECSServiceRecommendationFinding? = nil,
             findingReasonCodes: [ComputeOptimizerClientTypes.ECSServiceRecommendationFindingReasonCode]? = nil,
             lastRefreshTimestamp: ClientRuntime.Date? = nil,
@@ -1775,6 +2438,7 @@ extension ComputeOptimizerClientTypes {
             self.accountId = accountId
             self.currentPerformanceRisk = currentPerformanceRisk
             self.currentServiceConfiguration = currentServiceConfiguration
+            self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
             self.finding = finding
             self.findingReasonCodes = findingReasonCodes
             self.lastRefreshTimestamp = lastRefreshTimestamp
@@ -1962,6 +2626,7 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendationOption: Swift.Coda
         case memory
         case projectedUtilizationMetrics
         case savingsOpportunity
+        case savingsOpportunityAfterDiscounts
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1986,6 +2651,9 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendationOption: Swift.Coda
         }
         if let savingsOpportunity = self.savingsOpportunity {
             try encodeContainer.encode(savingsOpportunity, forKey: .savingsOpportunity)
+        }
+        if let savingsOpportunityAfterDiscounts = self.savingsOpportunityAfterDiscounts {
+            try encodeContainer.encode(savingsOpportunityAfterDiscounts, forKey: .savingsOpportunityAfterDiscounts)
         }
     }
 
@@ -2019,6 +2687,8 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendationOption: Swift.Coda
             }
         }
         containerRecommendations = containerRecommendationsDecoded0
+        let savingsOpportunityAfterDiscountsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts.self, forKey: .savingsOpportunityAfterDiscounts)
+        savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscountsDecoded
     }
 }
 
@@ -2035,13 +2705,16 @@ extension ComputeOptimizerClientTypes {
         public var projectedUtilizationMetrics: [ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric]?
         /// Describes the savings opportunity for recommendations of a given resource type or for the recommendation option of an individual resource. Savings opportunity represents the estimated monthly savings you can achieve by implementing a given Compute Optimizer recommendation. Savings opportunity data requires that you opt in to Cost Explorer, as well as activate Receive Amazon EC2 resource recommendations in the Cost Explorer preferences page. That creates a connection between Cost Explorer and Compute Optimizer. With this connection, Cost Explorer generates savings estimates considering the price of existing resources, the price of recommended resources, and historical usage data. Estimated monthly savings reflects the projected dollar savings associated with each of the recommendations generated. For more information, see [Enabling Cost Explorer](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-enable.html) and [Optimizing your cost with Rightsizing Recommendations](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-rightsizing.html) in the Cost Management User Guide.
         public var savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity?
+        /// Describes the savings opportunity for Amazon ECS service recommendations or for the recommendation option. Savings opportunity represents the estimated monthly savings after applying Savings Plans discounts. You can achieve this by implementing a given Compute Optimizer recommendation.
+        public var savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts?
 
         public init(
             containerRecommendations: [ComputeOptimizerClientTypes.ContainerRecommendation]? = nil,
             cpu: Swift.Int? = nil,
             memory: Swift.Int? = nil,
             projectedUtilizationMetrics: [ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric]? = nil,
-            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil
+            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil,
+            savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts? = nil
         )
         {
             self.containerRecommendations = containerRecommendations
@@ -2049,6 +2722,7 @@ extension ComputeOptimizerClientTypes {
             self.memory = memory
             self.projectedUtilizationMetrics = projectedUtilizationMetrics
             self.savingsOpportunity = savingsOpportunity
+            self.savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscounts
         }
     }
 
@@ -2180,12 +2854,117 @@ extension ComputeOptimizerClientTypes {
 
 }
 
+extension ComputeOptimizerClientTypes.EffectivePreferredResource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case effectiveIncludeList
+        case excludeList
+        case includeList
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let effectiveIncludeList = effectiveIncludeList {
+            var effectiveIncludeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .effectiveIncludeList)
+            for preferredresourcevalue0 in effectiveIncludeList {
+                try effectiveIncludeListContainer.encode(preferredresourcevalue0)
+            }
+        }
+        if let excludeList = excludeList {
+            var excludeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludeList)
+            for preferredresourcevalue0 in excludeList {
+                try excludeListContainer.encode(preferredresourcevalue0)
+            }
+        }
+        if let includeList = includeList {
+            var includeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includeList)
+            for preferredresourcevalue0 in includeList {
+                try includeListContainer.encode(preferredresourcevalue0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.PreferredResourceName.self, forKey: .name)
+        name = nameDecoded
+        let includeListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .includeList)
+        var includeListDecoded0:[Swift.String]? = nil
+        if let includeListContainer = includeListContainer {
+            includeListDecoded0 = [Swift.String]()
+            for string0 in includeListContainer {
+                if let string0 = string0 {
+                    includeListDecoded0?.append(string0)
+                }
+            }
+        }
+        includeList = includeListDecoded0
+        let effectiveIncludeListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .effectiveIncludeList)
+        var effectiveIncludeListDecoded0:[Swift.String]? = nil
+        if let effectiveIncludeListContainer = effectiveIncludeListContainer {
+            effectiveIncludeListDecoded0 = [Swift.String]()
+            for string0 in effectiveIncludeListContainer {
+                if let string0 = string0 {
+                    effectiveIncludeListDecoded0?.append(string0)
+                }
+            }
+        }
+        effectiveIncludeList = effectiveIncludeListDecoded0
+        let excludeListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .excludeList)
+        var excludeListDecoded0:[Swift.String]? = nil
+        if let excludeListContainer = excludeListContainer {
+            excludeListDecoded0 = [Swift.String]()
+            for string0 in excludeListContainer {
+                if let string0 = string0 {
+                    excludeListDecoded0?.append(string0)
+                }
+            }
+        }
+        excludeList = excludeListDecoded0
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the effective preferred resources that Compute Optimizer considers as rightsizing recommendation candidates. Compute Optimizer only supports Amazon EC2 instance types.
+    public struct EffectivePreferredResource: Swift.Equatable {
+        /// The expanded version of your preferred resource's include list.
+        public var effectiveIncludeList: [Swift.String]?
+        /// The list of preferred resources values that you want excluded from rightsizing recommendation candidates.
+        public var excludeList: [Swift.String]?
+        /// The list of preferred resource values that you want considered as rightsizing recommendation candidates.
+        public var includeList: [Swift.String]?
+        /// The name of the preferred resource list.
+        public var name: ComputeOptimizerClientTypes.PreferredResourceName?
+
+        public init(
+            effectiveIncludeList: [Swift.String]? = nil,
+            excludeList: [Swift.String]? = nil,
+            includeList: [Swift.String]? = nil,
+            name: ComputeOptimizerClientTypes.PreferredResourceName? = nil
+        )
+        {
+            self.effectiveIncludeList = effectiveIncludeList
+            self.excludeList = excludeList
+            self.includeList = includeList
+            self.name = name
+        }
+    }
+
+}
+
 extension ComputeOptimizerClientTypes.EffectiveRecommendationPreferences: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cpuVendorArchitectures
         case enhancedInfrastructureMetrics
         case externalMetricsPreference
         case inferredWorkloadTypes
+        case lookBackPeriod
+        case preferredResources
+        case savingsEstimationMode
+        case utilizationPreferences
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2204,6 +2983,24 @@ extension ComputeOptimizerClientTypes.EffectiveRecommendationPreferences: Swift.
         }
         if let inferredWorkloadTypes = self.inferredWorkloadTypes {
             try encodeContainer.encode(inferredWorkloadTypes.rawValue, forKey: .inferredWorkloadTypes)
+        }
+        if let lookBackPeriod = self.lookBackPeriod {
+            try encodeContainer.encode(lookBackPeriod.rawValue, forKey: .lookBackPeriod)
+        }
+        if let preferredResources = preferredResources {
+            var preferredResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .preferredResources)
+            for effectivepreferredresource0 in preferredResources {
+                try preferredResourcesContainer.encode(effectivepreferredresource0)
+            }
+        }
+        if let savingsEstimationMode = self.savingsEstimationMode {
+            try encodeContainer.encode(savingsEstimationMode, forKey: .savingsEstimationMode)
+        }
+        if let utilizationPreferences = utilizationPreferences {
+            var utilizationPreferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .utilizationPreferences)
+            for utilizationpreference0 in utilizationPreferences {
+                try utilizationPreferencesContainer.encode(utilizationpreference0)
+            }
         }
     }
 
@@ -2226,6 +3023,32 @@ extension ComputeOptimizerClientTypes.EffectiveRecommendationPreferences: Swift.
         inferredWorkloadTypes = inferredWorkloadTypesDecoded
         let externalMetricsPreferenceDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ExternalMetricsPreference.self, forKey: .externalMetricsPreference)
         externalMetricsPreference = externalMetricsPreferenceDecoded
+        let lookBackPeriodDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LookBackPeriodPreference.self, forKey: .lookBackPeriod)
+        lookBackPeriod = lookBackPeriodDecoded
+        let utilizationPreferencesContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.UtilizationPreference?].self, forKey: .utilizationPreferences)
+        var utilizationPreferencesDecoded0:[ComputeOptimizerClientTypes.UtilizationPreference]? = nil
+        if let utilizationPreferencesContainer = utilizationPreferencesContainer {
+            utilizationPreferencesDecoded0 = [ComputeOptimizerClientTypes.UtilizationPreference]()
+            for structure0 in utilizationPreferencesContainer {
+                if let structure0 = structure0 {
+                    utilizationPreferencesDecoded0?.append(structure0)
+                }
+            }
+        }
+        utilizationPreferences = utilizationPreferencesDecoded0
+        let preferredResourcesContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.EffectivePreferredResource?].self, forKey: .preferredResources)
+        var preferredResourcesDecoded0:[ComputeOptimizerClientTypes.EffectivePreferredResource]? = nil
+        if let preferredResourcesContainer = preferredResourcesContainer {
+            preferredResourcesDecoded0 = [ComputeOptimizerClientTypes.EffectivePreferredResource]()
+            for structure0 in preferredResourcesContainer {
+                if let structure0 = structure0 {
+                    preferredResourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        preferredResources = preferredResourcesDecoded0
+        let savingsEstimationModeDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.InstanceSavingsEstimationMode.self, forKey: .savingsEstimationMode)
+        savingsEstimationMode = savingsEstimationModeDecoded
     }
 }
 
@@ -2246,18 +3069,34 @@ extension ComputeOptimizerClientTypes {
         public var externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
         /// Describes the activation status of the inferred workload types preference. A status of Active confirms that the preference is applied in the latest recommendation refresh. A status of Inactive confirms that it's not yet applied to recommendations.
         public var inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference?
+        /// The number of days the utilization metrics of the Amazon Web Services resource are analyzed.
+        public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
+        /// The resource type values that are considered as candidates when generating rightsizing recommendations.
+        public var preferredResources: [ComputeOptimizerClientTypes.EffectivePreferredResource]?
+        /// Describes the savings estimation mode applied for calculating savings opportunity for a resource.
+        public var savingsEstimationMode: ComputeOptimizerClientTypes.InstanceSavingsEstimationMode?
+        /// The resource’s CPU utilization threshold preferences, such as threshold and headroom, that are used to generate rightsizing recommendations. This preference is only available for the Amazon EC2 instance resource type.
+        public var utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]?
 
         public init(
             cpuVendorArchitectures: [ComputeOptimizerClientTypes.CpuVendorArchitecture]? = nil,
             enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics? = nil,
             externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference? = nil,
-            inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference? = nil
+            inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference? = nil,
+            lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference? = nil,
+            preferredResources: [ComputeOptimizerClientTypes.EffectivePreferredResource]? = nil,
+            savingsEstimationMode: ComputeOptimizerClientTypes.InstanceSavingsEstimationMode? = nil,
+            utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]? = nil
         )
         {
             self.cpuVendorArchitectures = cpuVendorArchitectures
             self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
             self.externalMetricsPreference = externalMetricsPreference
             self.inferredWorkloadTypes = inferredWorkloadTypes
+            self.lookBackPeriod = lookBackPeriod
+            self.preferredResources = preferredResources
+            self.savingsEstimationMode = savingsEstimationMode
+            self.utilizationPreferences = utilizationPreferences
         }
     }
 
@@ -2582,29 +3421,11 @@ extension ExportAutoScalingGroupRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ExportAutoScalingGroupRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ExportAutoScalingGroupRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ExportAutoScalingGroupRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ExportAutoScalingGroupRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ExportAutoScalingGroupRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.s3Destination = output.s3Destination
         } else {
@@ -2614,7 +3435,7 @@ extension ExportAutoScalingGroupRecommendationsOutputResponse: ClientRuntime.Htt
     }
 }
 
-public struct ExportAutoScalingGroupRecommendationsOutputResponse: Swift.Equatable {
+public struct ExportAutoScalingGroupRecommendationsOutput: Swift.Equatable {
     /// The identification number of the export job. Use the [DescribeRecommendationExportJobs] action, and specify the job ID to view the status of an export job.
     public var jobId: Swift.String?
     /// An object that describes the destination Amazon S3 bucket of a recommendations export file.
@@ -2630,12 +3451,12 @@ public struct ExportAutoScalingGroupRecommendationsOutputResponse: Swift.Equatab
     }
 }
 
-struct ExportAutoScalingGroupRecommendationsOutputResponseBody: Swift.Equatable {
+struct ExportAutoScalingGroupRecommendationsOutputBody: Swift.Equatable {
     let jobId: Swift.String?
     let s3Destination: ComputeOptimizerClientTypes.S3Destination?
 }
 
-extension ExportAutoScalingGroupRecommendationsOutputResponseBody: Swift.Decodable {
+extension ExportAutoScalingGroupRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId
         case s3Destination
@@ -2647,6 +3468,24 @@ extension ExportAutoScalingGroupRecommendationsOutputResponseBody: Swift.Decodab
         jobId = jobIdDecoded
         let s3DestinationDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.S3Destination.self, forKey: .s3Destination)
         s3Destination = s3DestinationDecoded
+    }
+}
+
+enum ExportAutoScalingGroupRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2829,29 +3668,11 @@ extension ExportEBSVolumeRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ExportEBSVolumeRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ExportEBSVolumeRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ExportEBSVolumeRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ExportEBSVolumeRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ExportEBSVolumeRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.s3Destination = output.s3Destination
         } else {
@@ -2861,7 +3682,7 @@ extension ExportEBSVolumeRecommendationsOutputResponse: ClientRuntime.HttpRespon
     }
 }
 
-public struct ExportEBSVolumeRecommendationsOutputResponse: Swift.Equatable {
+public struct ExportEBSVolumeRecommendationsOutput: Swift.Equatable {
     /// The identification number of the export job. Use the [DescribeRecommendationExportJobs] action, and specify the job ID to view the status of an export job.
     public var jobId: Swift.String?
     /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and object keys of a recommendations export file, and its associated metadata file.
@@ -2877,12 +3698,12 @@ public struct ExportEBSVolumeRecommendationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ExportEBSVolumeRecommendationsOutputResponseBody: Swift.Equatable {
+struct ExportEBSVolumeRecommendationsOutputBody: Swift.Equatable {
     let jobId: Swift.String?
     let s3Destination: ComputeOptimizerClientTypes.S3Destination?
 }
 
-extension ExportEBSVolumeRecommendationsOutputResponseBody: Swift.Decodable {
+extension ExportEBSVolumeRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId
         case s3Destination
@@ -2894,6 +3715,24 @@ extension ExportEBSVolumeRecommendationsOutputResponseBody: Swift.Decodable {
         jobId = jobIdDecoded
         let s3DestinationDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.S3Destination.self, forKey: .s3Destination)
         s3Destination = s3DestinationDecoded
+    }
+}
+
+enum ExportEBSVolumeRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3053,29 +3892,11 @@ extension ExportEC2InstanceRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ExportEC2InstanceRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ExportEC2InstanceRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ExportEC2InstanceRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ExportEC2InstanceRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ExportEC2InstanceRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.s3Destination = output.s3Destination
         } else {
@@ -3085,7 +3906,7 @@ extension ExportEC2InstanceRecommendationsOutputResponse: ClientRuntime.HttpResp
     }
 }
 
-public struct ExportEC2InstanceRecommendationsOutputResponse: Swift.Equatable {
+public struct ExportEC2InstanceRecommendationsOutput: Swift.Equatable {
     /// The identification number of the export job. Use the [DescribeRecommendationExportJobs] action, and specify the job ID to view the status of an export job.
     public var jobId: Swift.String?
     /// An object that describes the destination Amazon S3 bucket of a recommendations export file.
@@ -3101,12 +3922,12 @@ public struct ExportEC2InstanceRecommendationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ExportEC2InstanceRecommendationsOutputResponseBody: Swift.Equatable {
+struct ExportEC2InstanceRecommendationsOutputBody: Swift.Equatable {
     let jobId: Swift.String?
     let s3Destination: ComputeOptimizerClientTypes.S3Destination?
 }
 
-extension ExportEC2InstanceRecommendationsOutputResponseBody: Swift.Decodable {
+extension ExportEC2InstanceRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId
         case s3Destination
@@ -3118,6 +3939,24 @@ extension ExportEC2InstanceRecommendationsOutputResponseBody: Swift.Decodable {
         jobId = jobIdDecoded
         let s3DestinationDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.S3Destination.self, forKey: .s3Destination)
         s3Destination = s3DestinationDecoded
+    }
+}
+
+enum ExportEC2InstanceRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3265,29 +4104,11 @@ extension ExportECSServiceRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ExportECSServiceRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ExportECSServiceRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ExportECSServiceRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ExportECSServiceRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ExportECSServiceRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.s3Destination = output.s3Destination
         } else {
@@ -3297,7 +4118,7 @@ extension ExportECSServiceRecommendationsOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct ExportECSServiceRecommendationsOutputResponse: Swift.Equatable {
+public struct ExportECSServiceRecommendationsOutput: Swift.Equatable {
     /// The identification number of the export job. To view the status of an export job, use the [DescribeRecommendationExportJobs] action and specify the job ID.
     public var jobId: Swift.String?
     /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and object keys of a recommendations export file, and its associated metadata file.
@@ -3313,12 +4134,12 @@ public struct ExportECSServiceRecommendationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ExportECSServiceRecommendationsOutputResponseBody: Swift.Equatable {
+struct ExportECSServiceRecommendationsOutputBody: Swift.Equatable {
     let jobId: Swift.String?
     let s3Destination: ComputeOptimizerClientTypes.S3Destination?
 }
 
-extension ExportECSServiceRecommendationsOutputResponseBody: Swift.Decodable {
+extension ExportECSServiceRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId
         case s3Destination
@@ -3330,6 +4151,24 @@ extension ExportECSServiceRecommendationsOutputResponseBody: Swift.Decodable {
         jobId = jobIdDecoded
         let s3DestinationDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.S3Destination.self, forKey: .s3Destination)
         s3Destination = s3DestinationDecoded
+    }
+}
+
+enum ExportECSServiceRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3477,8 +4316,58 @@ extension ExportLambdaFunctionRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ExportLambdaFunctionRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension ExportLambdaFunctionRecommendationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ExportLambdaFunctionRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.jobId = output.jobId
+            self.s3Destination = output.s3Destination
+        } else {
+            self.jobId = nil
+            self.s3Destination = nil
+        }
+    }
+}
+
+public struct ExportLambdaFunctionRecommendationsOutput: Swift.Equatable {
+    /// The identification number of the export job. Use the [DescribeRecommendationExportJobs] action, and specify the job ID to view the status of an export job.
+    public var jobId: Swift.String?
+    /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and object keys of a recommendations export file, and its associated metadata file.
+    public var s3Destination: ComputeOptimizerClientTypes.S3Destination?
+
+    public init(
+        jobId: Swift.String? = nil,
+        s3Destination: ComputeOptimizerClientTypes.S3Destination? = nil
+    )
+    {
+        self.jobId = jobId
+        self.s3Destination = s3Destination
+    }
+}
+
+struct ExportLambdaFunctionRecommendationsOutputBody: Swift.Equatable {
+    let jobId: Swift.String?
+    let s3Destination: ComputeOptimizerClientTypes.S3Destination?
+}
+
+extension ExportLambdaFunctionRecommendationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jobId
+        case s3Destination
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
+        jobId = jobIdDecoded
+        let s3DestinationDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.S3Destination.self, forKey: .s3Destination)
+        s3Destination = s3DestinationDecoded
+    }
+}
+
+enum ExportLambdaFunctionRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3495,11 +4384,155 @@ public enum ExportLambdaFunctionRecommendationsOutputError: ClientRuntime.HttpRe
     }
 }
 
-extension ExportLambdaFunctionRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ExportLicenseRecommendationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+        case fieldsToExport
+        case fileFormat
+        case filters
+        case includeMemberAccounts
+        case s3DestinationConfig
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountIds = accountIds {
+            var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
+            }
+        }
+        if let fieldsToExport = fieldsToExport {
+            var fieldsToExportContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldsToExport)
+            for exportablelicensefield0 in fieldsToExport {
+                try fieldsToExportContainer.encode(exportablelicensefield0.rawValue)
+            }
+        }
+        if let fileFormat = self.fileFormat {
+            try encodeContainer.encode(fileFormat.rawValue, forKey: .fileFormat)
+        }
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for licenserecommendationfilter0 in filters {
+                try filtersContainer.encode(licenserecommendationfilter0)
+            }
+        }
+        if let includeMemberAccounts = self.includeMemberAccounts {
+            try encodeContainer.encode(includeMemberAccounts, forKey: .includeMemberAccounts)
+        }
+        if let s3DestinationConfig = self.s3DestinationConfig {
+            try encodeContainer.encode(s3DestinationConfig, forKey: .s3DestinationConfig)
+        }
+    }
+}
+
+extension ExportLicenseRecommendationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ExportLicenseRecommendationsInput: Swift.Equatable {
+    /// The IDs of the Amazon Web Services accounts for which to export license recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter can't be specified together with the include member accounts parameter. The parameters are mutually exclusive. If this parameter is omitted, recommendations for member accounts aren't included in the export. You can specify multiple account IDs per request.
+    public var accountIds: [Swift.String]?
+    /// The recommendations data to include in the export file. For more information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files) in the Compute Optimizer User Guide.
+    public var fieldsToExport: [ComputeOptimizerClientTypes.ExportableLicenseField]?
+    /// The format of the export file. A CSV file is the only export format currently supported.
+    public var fileFormat: ComputeOptimizerClientTypes.FileFormat?
+    /// An array of objects to specify a filter that exports a more specific set of license recommendations.
+    public var filters: [ComputeOptimizerClientTypes.LicenseRecommendationFilter]?
+    /// Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the management account of an organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access) in the Compute Optimizer User Guide. If this parameter is omitted, recommendations for member accounts of the organization aren't included in the export file . This parameter cannot be specified together with the account IDs parameter. The parameters are mutually exclusive.
+    public var includeMemberAccounts: Swift.Bool?
+    /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for a recommendations export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permission policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see [Amazon S3 Bucket Policy for Compute Optimizer](https://docs.aws.amazon.com/compute-optimizer/latest/ug/create-s3-bucket-policy-for-compute-optimizer.html) in the Compute Optimizer User Guide.
+    /// This member is required.
+    public var s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig?
+
+    public init(
+        accountIds: [Swift.String]? = nil,
+        fieldsToExport: [ComputeOptimizerClientTypes.ExportableLicenseField]? = nil,
+        fileFormat: ComputeOptimizerClientTypes.FileFormat? = nil,
+        filters: [ComputeOptimizerClientTypes.LicenseRecommendationFilter]? = nil,
+        includeMemberAccounts: Swift.Bool? = nil,
+        s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig? = nil
+    )
+    {
+        self.accountIds = accountIds
+        self.fieldsToExport = fieldsToExport
+        self.fileFormat = fileFormat
+        self.filters = filters
+        self.includeMemberAccounts = includeMemberAccounts
+        self.s3DestinationConfig = s3DestinationConfig
+    }
+}
+
+struct ExportLicenseRecommendationsInputBody: Swift.Equatable {
+    let accountIds: [Swift.String]?
+    let filters: [ComputeOptimizerClientTypes.LicenseRecommendationFilter]?
+    let fieldsToExport: [ComputeOptimizerClientTypes.ExportableLicenseField]?
+    let s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig?
+    let fileFormat: ComputeOptimizerClientTypes.FileFormat?
+    let includeMemberAccounts: Swift.Bool?
+}
+
+extension ExportLicenseRecommendationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+        case fieldsToExport
+        case fileFormat
+        case filters
+        case includeMemberAccounts
+        case s3DestinationConfig
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accountIds)
+        var accountIdsDecoded0:[Swift.String]? = nil
+        if let accountIdsContainer = accountIdsContainer {
+            accountIdsDecoded0 = [Swift.String]()
+            for string0 in accountIdsContainer {
+                if let string0 = string0 {
+                    accountIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        accountIds = accountIdsDecoded0
+        let filtersContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.LicenseRecommendationFilter?].self, forKey: .filters)
+        var filtersDecoded0:[ComputeOptimizerClientTypes.LicenseRecommendationFilter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [ComputeOptimizerClientTypes.LicenseRecommendationFilter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let fieldsToExportContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.ExportableLicenseField?].self, forKey: .fieldsToExport)
+        var fieldsToExportDecoded0:[ComputeOptimizerClientTypes.ExportableLicenseField]? = nil
+        if let fieldsToExportContainer = fieldsToExportContainer {
+            fieldsToExportDecoded0 = [ComputeOptimizerClientTypes.ExportableLicenseField]()
+            for enum0 in fieldsToExportContainer {
+                if let enum0 = enum0 {
+                    fieldsToExportDecoded0?.append(enum0)
+                }
+            }
+        }
+        fieldsToExport = fieldsToExportDecoded0
+        let s3DestinationConfigDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.S3DestinationConfig.self, forKey: .s3DestinationConfig)
+        s3DestinationConfig = s3DestinationConfigDecoded
+        let fileFormatDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.FileFormat.self, forKey: .fileFormat)
+        fileFormat = fileFormatDecoded
+        let includeMemberAccountsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeMemberAccounts)
+        includeMemberAccounts = includeMemberAccountsDecoded
+    }
+}
+
+extension ExportLicenseRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ExportLambdaFunctionRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ExportLicenseRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.s3Destination = output.s3Destination
         } else {
@@ -3509,8 +4542,8 @@ extension ExportLambdaFunctionRecommendationsOutputResponse: ClientRuntime.HttpR
     }
 }
 
-public struct ExportLambdaFunctionRecommendationsOutputResponse: Swift.Equatable {
-    /// The identification number of the export job. Use the [DescribeRecommendationExportJobs] action, and specify the job ID to view the status of an export job.
+public struct ExportLicenseRecommendationsOutput: Swift.Equatable {
+    /// The identification number of the export job. To view the status of an export job, use the [DescribeRecommendationExportJobs] action and specify the job ID.
     public var jobId: Swift.String?
     /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and object keys of a recommendations export file, and its associated metadata file.
     public var s3Destination: ComputeOptimizerClientTypes.S3Destination?
@@ -3525,12 +4558,12 @@ public struct ExportLambdaFunctionRecommendationsOutputResponse: Swift.Equatable
     }
 }
 
-struct ExportLambdaFunctionRecommendationsOutputResponseBody: Swift.Equatable {
+struct ExportLicenseRecommendationsOutputBody: Swift.Equatable {
     let jobId: Swift.String?
     let s3Destination: ComputeOptimizerClientTypes.S3Destination?
 }
 
-extension ExportLambdaFunctionRecommendationsOutputResponseBody: Swift.Decodable {
+extension ExportLicenseRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId
         case s3Destination
@@ -3545,6 +4578,24 @@ extension ExportLambdaFunctionRecommendationsOutputResponseBody: Swift.Decodable
     }
 }
 
+enum ExportLicenseRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ComputeOptimizerClientTypes {
     public enum ExportableAutoScalingGroupField: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case accountId
@@ -3554,6 +4605,7 @@ extension ComputeOptimizerClientTypes {
         case currentConfigurationInstanceType
         case currentConfigurationMaxSize
         case currentConfigurationMinSize
+        case currentInstanceGpuInfo
         case currentMemory
         case currentNetwork
         case currentOnDemandPrice
@@ -3565,6 +4617,9 @@ extension ComputeOptimizerClientTypes {
         case effectiveRecommendationPreferencesCpuVendorArchitectures
         case effectiveRecommendationPreferencesEnhancedInfrastructureMetrics
         case effectiveRecommendationPreferencesInferredWorkloadTypes
+        case effectiveRecommendationPreferencesLookbackPeriod
+        case effectiveRecommendationPreferencesPreferredResources
+        case effectiveRecommendationPreferencesSavingsEstimationMode
         case finding
         case inferredWorkloadTypes
         case lastRefreshTimestamp
@@ -3574,14 +4629,20 @@ extension ComputeOptimizerClientTypes {
         case recommendationOptionsConfigurationMaxSize
         case recommendationOptionsConfigurationMinSize
         case recommendationOptionsEstimatedMonthlySavingsCurrency
+        case recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts
         case recommendationOptionsEstimatedMonthlySavingsValue
+        case recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts
+        case recommendationOptionsInstanceGpuInfo
         case recommendationOptionsMemory
         case recommendationOptionsMigrationEffort
         case recommendationOptionsNetwork
         case recommendationOptionsOnDemandPrice
         case recommendationOptionsPerformanceRisk
         case recommendationOptionsProjectedUtilizationMetricsCpuMaximum
+        case recommendationOptionsProjectedUtilizationMetricsGpuMaximum
+        case recommendationOptionsProjectedUtilizationMetricsGpuMemoryMaximum
         case recommendationOptionsProjectedUtilizationMetricsMemoryMaximum
+        case recommendationOptionsSavingsOpportunityAfterDiscountsPercentage
         case recommendationOptionsSavingsOpportunityPercentage
         case recommendationOptionsStandardOneYearNoUpfrontReservedPrice
         case recommendationOptionsStandardThreeYearNoUpfrontReservedPrice
@@ -3596,6 +4657,8 @@ extension ComputeOptimizerClientTypes {
         case utilizationMetricsEbsReadOpsPerSecondMaximum
         case utilizationMetricsEbsWriteBytesPerSecondMaximum
         case utilizationMetricsEbsWriteOpsPerSecondMaximum
+        case utilizationMetricsGpuMemoryPercentageMaximum
+        case utilizationMetricsGpuPercentageMaximum
         case utilizationMetricsMemoryMaximum
         case utilizationMetricsNetworkInBytesPerSecondMaximum
         case utilizationMetricsNetworkOutBytesPerSecondMaximum
@@ -3612,6 +4675,7 @@ extension ComputeOptimizerClientTypes {
                 .currentConfigurationInstanceType,
                 .currentConfigurationMaxSize,
                 .currentConfigurationMinSize,
+                .currentInstanceGpuInfo,
                 .currentMemory,
                 .currentNetwork,
                 .currentOnDemandPrice,
@@ -3623,6 +4687,9 @@ extension ComputeOptimizerClientTypes {
                 .effectiveRecommendationPreferencesCpuVendorArchitectures,
                 .effectiveRecommendationPreferencesEnhancedInfrastructureMetrics,
                 .effectiveRecommendationPreferencesInferredWorkloadTypes,
+                .effectiveRecommendationPreferencesLookbackPeriod,
+                .effectiveRecommendationPreferencesPreferredResources,
+                .effectiveRecommendationPreferencesSavingsEstimationMode,
                 .finding,
                 .inferredWorkloadTypes,
                 .lastRefreshTimestamp,
@@ -3632,14 +4699,20 @@ extension ComputeOptimizerClientTypes {
                 .recommendationOptionsConfigurationMaxSize,
                 .recommendationOptionsConfigurationMinSize,
                 .recommendationOptionsEstimatedMonthlySavingsCurrency,
+                .recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts,
                 .recommendationOptionsEstimatedMonthlySavingsValue,
+                .recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts,
+                .recommendationOptionsInstanceGpuInfo,
                 .recommendationOptionsMemory,
                 .recommendationOptionsMigrationEffort,
                 .recommendationOptionsNetwork,
                 .recommendationOptionsOnDemandPrice,
                 .recommendationOptionsPerformanceRisk,
                 .recommendationOptionsProjectedUtilizationMetricsCpuMaximum,
+                .recommendationOptionsProjectedUtilizationMetricsGpuMaximum,
+                .recommendationOptionsProjectedUtilizationMetricsGpuMemoryMaximum,
                 .recommendationOptionsProjectedUtilizationMetricsMemoryMaximum,
+                .recommendationOptionsSavingsOpportunityAfterDiscountsPercentage,
                 .recommendationOptionsSavingsOpportunityPercentage,
                 .recommendationOptionsStandardOneYearNoUpfrontReservedPrice,
                 .recommendationOptionsStandardThreeYearNoUpfrontReservedPrice,
@@ -3654,6 +4727,8 @@ extension ComputeOptimizerClientTypes {
                 .utilizationMetricsEbsReadOpsPerSecondMaximum,
                 .utilizationMetricsEbsWriteBytesPerSecondMaximum,
                 .utilizationMetricsEbsWriteOpsPerSecondMaximum,
+                .utilizationMetricsGpuMemoryPercentageMaximum,
+                .utilizationMetricsGpuPercentageMaximum,
                 .utilizationMetricsMemoryMaximum,
                 .utilizationMetricsNetworkInBytesPerSecondMaximum,
                 .utilizationMetricsNetworkOutBytesPerSecondMaximum,
@@ -3675,6 +4750,7 @@ extension ComputeOptimizerClientTypes {
             case .currentConfigurationInstanceType: return "CurrentConfigurationInstanceType"
             case .currentConfigurationMaxSize: return "CurrentConfigurationMaxSize"
             case .currentConfigurationMinSize: return "CurrentConfigurationMinSize"
+            case .currentInstanceGpuInfo: return "CurrentInstanceGpuInfo"
             case .currentMemory: return "CurrentMemory"
             case .currentNetwork: return "CurrentNetwork"
             case .currentOnDemandPrice: return "CurrentOnDemandPrice"
@@ -3686,6 +4762,9 @@ extension ComputeOptimizerClientTypes {
             case .effectiveRecommendationPreferencesCpuVendorArchitectures: return "EffectiveRecommendationPreferencesCpuVendorArchitectures"
             case .effectiveRecommendationPreferencesEnhancedInfrastructureMetrics: return "EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics"
             case .effectiveRecommendationPreferencesInferredWorkloadTypes: return "EffectiveRecommendationPreferencesInferredWorkloadTypes"
+            case .effectiveRecommendationPreferencesLookbackPeriod: return "EffectiveRecommendationPreferencesLookBackPeriod"
+            case .effectiveRecommendationPreferencesPreferredResources: return "EffectiveRecommendationPreferencesPreferredResources"
+            case .effectiveRecommendationPreferencesSavingsEstimationMode: return "EffectiveRecommendationPreferencesSavingsEstimationMode"
             case .finding: return "Finding"
             case .inferredWorkloadTypes: return "InferredWorkloadTypes"
             case .lastRefreshTimestamp: return "LastRefreshTimestamp"
@@ -3695,14 +4774,20 @@ extension ComputeOptimizerClientTypes {
             case .recommendationOptionsConfigurationMaxSize: return "RecommendationOptionsConfigurationMaxSize"
             case .recommendationOptionsConfigurationMinSize: return "RecommendationOptionsConfigurationMinSize"
             case .recommendationOptionsEstimatedMonthlySavingsCurrency: return "RecommendationOptionsEstimatedMonthlySavingsCurrency"
+            case .recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts: return "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
             case .recommendationOptionsEstimatedMonthlySavingsValue: return "RecommendationOptionsEstimatedMonthlySavingsValue"
+            case .recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts: return "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
+            case .recommendationOptionsInstanceGpuInfo: return "RecommendationOptionsInstanceGpuInfo"
             case .recommendationOptionsMemory: return "RecommendationOptionsMemory"
             case .recommendationOptionsMigrationEffort: return "RecommendationOptionsMigrationEffort"
             case .recommendationOptionsNetwork: return "RecommendationOptionsNetwork"
             case .recommendationOptionsOnDemandPrice: return "RecommendationOptionsOnDemandPrice"
             case .recommendationOptionsPerformanceRisk: return "RecommendationOptionsPerformanceRisk"
             case .recommendationOptionsProjectedUtilizationMetricsCpuMaximum: return "RecommendationOptionsProjectedUtilizationMetricsCpuMaximum"
+            case .recommendationOptionsProjectedUtilizationMetricsGpuMaximum: return "RecommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum"
+            case .recommendationOptionsProjectedUtilizationMetricsGpuMemoryMaximum: return "RecommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum"
             case .recommendationOptionsProjectedUtilizationMetricsMemoryMaximum: return "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum"
+            case .recommendationOptionsSavingsOpportunityAfterDiscountsPercentage: return "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
             case .recommendationOptionsSavingsOpportunityPercentage: return "RecommendationOptionsSavingsOpportunityPercentage"
             case .recommendationOptionsStandardOneYearNoUpfrontReservedPrice: return "RecommendationOptionsStandardOneYearNoUpfrontReservedPrice"
             case .recommendationOptionsStandardThreeYearNoUpfrontReservedPrice: return "RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice"
@@ -3717,6 +4802,8 @@ extension ComputeOptimizerClientTypes {
             case .utilizationMetricsEbsReadOpsPerSecondMaximum: return "UtilizationMetricsEbsReadOpsPerSecondMaximum"
             case .utilizationMetricsEbsWriteBytesPerSecondMaximum: return "UtilizationMetricsEbsWriteBytesPerSecondMaximum"
             case .utilizationMetricsEbsWriteOpsPerSecondMaximum: return "UtilizationMetricsEbsWriteOpsPerSecondMaximum"
+            case .utilizationMetricsGpuMemoryPercentageMaximum: return "UtilizationMetricsGpuMemoryPercentageMaximum"
+            case .utilizationMetricsGpuPercentageMaximum: return "UtilizationMetricsGpuPercentageMaximum"
             case .utilizationMetricsMemoryMaximum: return "UtilizationMetricsMemoryMaximum"
             case .utilizationMetricsNetworkInBytesPerSecondMaximum: return "UtilizationMetricsNetworkInBytesPerSecondMaximum"
             case .utilizationMetricsNetworkOutBytesPerSecondMaximum: return "UtilizationMetricsNetworkOutBytesPerSecondMaximum"
@@ -3742,6 +4829,7 @@ extension ComputeOptimizerClientTypes {
         case currentServiceConfigurationMemory
         case currentServiceConfigurationTaskDefinitionArn
         case currentServiceContainerConfigurations
+        case effectiveRecommendationPreferencesSavingsEstimationMode
         case finding
         case findingReasonCodes
         case lastRefreshTimestamp
@@ -3750,10 +4838,13 @@ extension ComputeOptimizerClientTypes {
         case recommendationOptionsContainerRecommendations
         case recommendationOptionsCpu
         case recommendationOptionsEstimatedMonthlySavingsCurrency
+        case recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts
         case recommendationOptionsEstimatedMonthlySavingsValue
+        case recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts
         case recommendationOptionsMemory
         case recommendationOptionsProjectedUtilizationMetricsCpuMaximum
         case recommendationOptionsProjectedUtilizationMetricsMemoryMaximum
+        case recommendationOptionsSavingsOpportunityAfterDiscountsPercentage
         case recommendationOptionsSavingsOpportunityPercentage
         case serviceArn
         case tags
@@ -3770,6 +4861,7 @@ extension ComputeOptimizerClientTypes {
                 .currentServiceConfigurationMemory,
                 .currentServiceConfigurationTaskDefinitionArn,
                 .currentServiceContainerConfigurations,
+                .effectiveRecommendationPreferencesSavingsEstimationMode,
                 .finding,
                 .findingReasonCodes,
                 .lastRefreshTimestamp,
@@ -3778,10 +4870,13 @@ extension ComputeOptimizerClientTypes {
                 .recommendationOptionsContainerRecommendations,
                 .recommendationOptionsCpu,
                 .recommendationOptionsEstimatedMonthlySavingsCurrency,
+                .recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts,
                 .recommendationOptionsEstimatedMonthlySavingsValue,
+                .recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts,
                 .recommendationOptionsMemory,
                 .recommendationOptionsProjectedUtilizationMetricsCpuMaximum,
                 .recommendationOptionsProjectedUtilizationMetricsMemoryMaximum,
+                .recommendationOptionsSavingsOpportunityAfterDiscountsPercentage,
                 .recommendationOptionsSavingsOpportunityPercentage,
                 .serviceArn,
                 .tags,
@@ -3803,6 +4898,7 @@ extension ComputeOptimizerClientTypes {
             case .currentServiceConfigurationMemory: return "CurrentServiceConfigurationMemory"
             case .currentServiceConfigurationTaskDefinitionArn: return "CurrentServiceConfigurationTaskDefinitionArn"
             case .currentServiceContainerConfigurations: return "CurrentServiceContainerConfigurations"
+            case .effectiveRecommendationPreferencesSavingsEstimationMode: return "EffectiveRecommendationPreferencesSavingsEstimationMode"
             case .finding: return "Finding"
             case .findingReasonCodes: return "FindingReasonCodes"
             case .lastRefreshTimestamp: return "LastRefreshTimestamp"
@@ -3811,10 +4907,13 @@ extension ComputeOptimizerClientTypes {
             case .recommendationOptionsContainerRecommendations: return "RecommendationOptionsContainerRecommendations"
             case .recommendationOptionsCpu: return "RecommendationOptionsCpu"
             case .recommendationOptionsEstimatedMonthlySavingsCurrency: return "RecommendationOptionsEstimatedMonthlySavingsCurrency"
+            case .recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts: return "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
             case .recommendationOptionsEstimatedMonthlySavingsValue: return "RecommendationOptionsEstimatedMonthlySavingsValue"
+            case .recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts: return "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
             case .recommendationOptionsMemory: return "RecommendationOptionsMemory"
             case .recommendationOptionsProjectedUtilizationMetricsCpuMaximum: return "RecommendationOptionsProjectedUtilizationMetricsCpuMaximum"
             case .recommendationOptionsProjectedUtilizationMetricsMemoryMaximum: return "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum"
+            case .recommendationOptionsSavingsOpportunityAfterDiscountsPercentage: return "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
             case .recommendationOptionsSavingsOpportunityPercentage: return "RecommendationOptionsSavingsOpportunityPercentage"
             case .serviceArn: return "ServiceArn"
             case .tags: return "Tags"
@@ -3834,6 +4933,7 @@ extension ComputeOptimizerClientTypes {
 extension ComputeOptimizerClientTypes {
     public enum ExportableInstanceField: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case accountId
+        case currentInstanceGpuInfo
         case currentInstanceType
         case currentMemory
         case currentNetwork
@@ -3847,10 +4947,15 @@ extension ComputeOptimizerClientTypes {
         case effectiveRecommendationPreferencesEnhancedInfrastructureMetrics
         case effectiveRecommendationPreferencesExternalMetricsSource
         case effectiveRecommendationPreferencesInferredWorkloadTypes
+        case effectiveRecommendationPreferencesLookbackPeriod
+        case effectiveRecommendationPreferencesPreferredResources
+        case effectiveRecommendationPreferencesSavingsEstimationMode
+        case effectiveRecommendationPreferencesUtilizationPreferences
         case externalMetricStatusCode
         case externalMetricStatusReason
         case finding
         case findingReasonCodes
+        case idle
         case inferredWorkloadTypes
         case instanceArn
         case instanceName
@@ -3860,7 +4965,10 @@ extension ComputeOptimizerClientTypes {
         case recommendationsSourcesRecommendationSourceArn
         case recommendationsSourcesRecommendationSourceType
         case recommendationOptionsEstimatedMonthlySavingsCurrency
+        case recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts
         case recommendationOptionsEstimatedMonthlySavingsValue
+        case recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts
+        case recommendationOptionsInstanceGpuInfo
         case recommendationOptionsInstanceType
         case recommendationOptionsMemory
         case recommendationOptionsMigrationEffort
@@ -3869,7 +4977,10 @@ extension ComputeOptimizerClientTypes {
         case recommendationOptionsPerformanceRisk
         case recommendationOptionsPlatformDifferences
         case recommendationOptionsProjectedUtilizationMetricsCpuMaximum
+        case recommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum
+        case recommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum
         case recommendationOptionsProjectedUtilizationMetricsMemoryMaximum
+        case recommendationOptionsSavingsOpportunityAfterDiscountsPercentage
         case recommendationOptionsSavingsOpportunityPercentage
         case recommendationOptionsStandardOneYearNoUpfrontReservedPrice
         case recommendationOptionsStandardThreeYearNoUpfrontReservedPrice
@@ -3885,6 +4996,8 @@ extension ComputeOptimizerClientTypes {
         case utilizationMetricsEbsReadOpsPerSecondMaximum
         case utilizationMetricsEbsWriteBytesPerSecondMaximum
         case utilizationMetricsEbsWriteOpsPerSecondMaximum
+        case utilizationMetricsGpuMemoryPercentageMaximum
+        case utilizationMetricsGpuPercentageMaximum
         case utilizationMetricsMemoryMaximum
         case utilizationMetricsNetworkInBytesPerSecondMaximum
         case utilizationMetricsNetworkOutBytesPerSecondMaximum
@@ -3895,6 +5008,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [ExportableInstanceField] {
             return [
                 .accountId,
+                .currentInstanceGpuInfo,
                 .currentInstanceType,
                 .currentMemory,
                 .currentNetwork,
@@ -3908,10 +5022,15 @@ extension ComputeOptimizerClientTypes {
                 .effectiveRecommendationPreferencesEnhancedInfrastructureMetrics,
                 .effectiveRecommendationPreferencesExternalMetricsSource,
                 .effectiveRecommendationPreferencesInferredWorkloadTypes,
+                .effectiveRecommendationPreferencesLookbackPeriod,
+                .effectiveRecommendationPreferencesPreferredResources,
+                .effectiveRecommendationPreferencesSavingsEstimationMode,
+                .effectiveRecommendationPreferencesUtilizationPreferences,
                 .externalMetricStatusCode,
                 .externalMetricStatusReason,
                 .finding,
                 .findingReasonCodes,
+                .idle,
                 .inferredWorkloadTypes,
                 .instanceArn,
                 .instanceName,
@@ -3921,7 +5040,10 @@ extension ComputeOptimizerClientTypes {
                 .recommendationsSourcesRecommendationSourceArn,
                 .recommendationsSourcesRecommendationSourceType,
                 .recommendationOptionsEstimatedMonthlySavingsCurrency,
+                .recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts,
                 .recommendationOptionsEstimatedMonthlySavingsValue,
+                .recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts,
+                .recommendationOptionsInstanceGpuInfo,
                 .recommendationOptionsInstanceType,
                 .recommendationOptionsMemory,
                 .recommendationOptionsMigrationEffort,
@@ -3930,7 +5052,10 @@ extension ComputeOptimizerClientTypes {
                 .recommendationOptionsPerformanceRisk,
                 .recommendationOptionsPlatformDifferences,
                 .recommendationOptionsProjectedUtilizationMetricsCpuMaximum,
+                .recommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum,
+                .recommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum,
                 .recommendationOptionsProjectedUtilizationMetricsMemoryMaximum,
+                .recommendationOptionsSavingsOpportunityAfterDiscountsPercentage,
                 .recommendationOptionsSavingsOpportunityPercentage,
                 .recommendationOptionsStandardOneYearNoUpfrontReservedPrice,
                 .recommendationOptionsStandardThreeYearNoUpfrontReservedPrice,
@@ -3946,6 +5071,8 @@ extension ComputeOptimizerClientTypes {
                 .utilizationMetricsEbsReadOpsPerSecondMaximum,
                 .utilizationMetricsEbsWriteBytesPerSecondMaximum,
                 .utilizationMetricsEbsWriteOpsPerSecondMaximum,
+                .utilizationMetricsGpuMemoryPercentageMaximum,
+                .utilizationMetricsGpuPercentageMaximum,
                 .utilizationMetricsMemoryMaximum,
                 .utilizationMetricsNetworkInBytesPerSecondMaximum,
                 .utilizationMetricsNetworkOutBytesPerSecondMaximum,
@@ -3961,6 +5088,7 @@ extension ComputeOptimizerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .accountId: return "AccountId"
+            case .currentInstanceGpuInfo: return "CurrentInstanceGpuInfo"
             case .currentInstanceType: return "CurrentInstanceType"
             case .currentMemory: return "CurrentMemory"
             case .currentNetwork: return "CurrentNetwork"
@@ -3974,10 +5102,15 @@ extension ComputeOptimizerClientTypes {
             case .effectiveRecommendationPreferencesEnhancedInfrastructureMetrics: return "EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics"
             case .effectiveRecommendationPreferencesExternalMetricsSource: return "EffectiveRecommendationPreferencesExternalMetricsSource"
             case .effectiveRecommendationPreferencesInferredWorkloadTypes: return "EffectiveRecommendationPreferencesInferredWorkloadTypes"
+            case .effectiveRecommendationPreferencesLookbackPeriod: return "EffectiveRecommendationPreferencesLookBackPeriod"
+            case .effectiveRecommendationPreferencesPreferredResources: return "EffectiveRecommendationPreferencesPreferredResources"
+            case .effectiveRecommendationPreferencesSavingsEstimationMode: return "EffectiveRecommendationPreferencesSavingsEstimationMode"
+            case .effectiveRecommendationPreferencesUtilizationPreferences: return "EffectiveRecommendationPreferencesUtilizationPreferences"
             case .externalMetricStatusCode: return "ExternalMetricStatusCode"
             case .externalMetricStatusReason: return "ExternalMetricStatusReason"
             case .finding: return "Finding"
             case .findingReasonCodes: return "FindingReasonCodes"
+            case .idle: return "Idle"
             case .inferredWorkloadTypes: return "InferredWorkloadTypes"
             case .instanceArn: return "InstanceArn"
             case .instanceName: return "InstanceName"
@@ -3987,7 +5120,10 @@ extension ComputeOptimizerClientTypes {
             case .recommendationsSourcesRecommendationSourceArn: return "RecommendationsSourcesRecommendationSourceArn"
             case .recommendationsSourcesRecommendationSourceType: return "RecommendationsSourcesRecommendationSourceType"
             case .recommendationOptionsEstimatedMonthlySavingsCurrency: return "RecommendationOptionsEstimatedMonthlySavingsCurrency"
+            case .recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts: return "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
             case .recommendationOptionsEstimatedMonthlySavingsValue: return "RecommendationOptionsEstimatedMonthlySavingsValue"
+            case .recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts: return "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
+            case .recommendationOptionsInstanceGpuInfo: return "RecommendationOptionsInstanceGpuInfo"
             case .recommendationOptionsInstanceType: return "RecommendationOptionsInstanceType"
             case .recommendationOptionsMemory: return "RecommendationOptionsMemory"
             case .recommendationOptionsMigrationEffort: return "RecommendationOptionsMigrationEffort"
@@ -3996,7 +5132,10 @@ extension ComputeOptimizerClientTypes {
             case .recommendationOptionsPerformanceRisk: return "RecommendationOptionsPerformanceRisk"
             case .recommendationOptionsPlatformDifferences: return "RecommendationOptionsPlatformDifferences"
             case .recommendationOptionsProjectedUtilizationMetricsCpuMaximum: return "RecommendationOptionsProjectedUtilizationMetricsCpuMaximum"
+            case .recommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum: return "RecommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum"
+            case .recommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum: return "RecommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum"
             case .recommendationOptionsProjectedUtilizationMetricsMemoryMaximum: return "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum"
+            case .recommendationOptionsSavingsOpportunityAfterDiscountsPercentage: return "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
             case .recommendationOptionsSavingsOpportunityPercentage: return "RecommendationOptionsSavingsOpportunityPercentage"
             case .recommendationOptionsStandardOneYearNoUpfrontReservedPrice: return "RecommendationOptionsStandardOneYearNoUpfrontReservedPrice"
             case .recommendationOptionsStandardThreeYearNoUpfrontReservedPrice: return "RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice"
@@ -4012,6 +5151,8 @@ extension ComputeOptimizerClientTypes {
             case .utilizationMetricsEbsReadOpsPerSecondMaximum: return "UtilizationMetricsEbsReadOpsPerSecondMaximum"
             case .utilizationMetricsEbsWriteBytesPerSecondMaximum: return "UtilizationMetricsEbsWriteBytesPerSecondMaximum"
             case .utilizationMetricsEbsWriteOpsPerSecondMaximum: return "UtilizationMetricsEbsWriteOpsPerSecondMaximum"
+            case .utilizationMetricsGpuMemoryPercentageMaximum: return "UtilizationMetricsGpuMemoryPercentageMaximum"
+            case .utilizationMetricsGpuPercentageMaximum: return "UtilizationMetricsGpuPercentageMaximum"
             case .utilizationMetricsMemoryMaximum: return "UtilizationMetricsMemoryMaximum"
             case .utilizationMetricsNetworkInBytesPerSecondMaximum: return "UtilizationMetricsNetworkInBytesPerSecondMaximum"
             case .utilizationMetricsNetworkOutBytesPerSecondMaximum: return "UtilizationMetricsNetworkOutBytesPerSecondMaximum"
@@ -4036,6 +5177,7 @@ extension ComputeOptimizerClientTypes {
         case currentCostAverage
         case currentCostTotal
         case currentPerformanceRisk
+        case effectiveRecommendationPreferencesSavingsEstimationMode
         case finding
         case findingReasonCodes
         case functionArn
@@ -4047,10 +5189,13 @@ extension ComputeOptimizerClientTypes {
         case recommendationOptionsCostHigh
         case recommendationOptionsCostLow
         case recommendationOptionsEstimatedMonthlySavingsCurrency
+        case recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts
         case recommendationOptionsEstimatedMonthlySavingsValue
+        case recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts
         case recommendationOptionsProjectedUtilizationMetricsDurationExpected
         case recommendationOptionsProjectedUtilizationMetricsDurationLowerBound
         case recommendationOptionsProjectedUtilizationMetricsDurationUpperBound
+        case recommendationOptionsSavingsOpportunityAfterDiscountsPercentage
         case recommendationOptionsSavingsOpportunityPercentage
         case tags
         case utilizationMetricsDurationAverage
@@ -4067,6 +5212,7 @@ extension ComputeOptimizerClientTypes {
                 .currentCostAverage,
                 .currentCostTotal,
                 .currentPerformanceRisk,
+                .effectiveRecommendationPreferencesSavingsEstimationMode,
                 .finding,
                 .findingReasonCodes,
                 .functionArn,
@@ -4078,10 +5224,13 @@ extension ComputeOptimizerClientTypes {
                 .recommendationOptionsCostHigh,
                 .recommendationOptionsCostLow,
                 .recommendationOptionsEstimatedMonthlySavingsCurrency,
+                .recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts,
                 .recommendationOptionsEstimatedMonthlySavingsValue,
+                .recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts,
                 .recommendationOptionsProjectedUtilizationMetricsDurationExpected,
                 .recommendationOptionsProjectedUtilizationMetricsDurationLowerBound,
                 .recommendationOptionsProjectedUtilizationMetricsDurationUpperBound,
+                .recommendationOptionsSavingsOpportunityAfterDiscountsPercentage,
                 .recommendationOptionsSavingsOpportunityPercentage,
                 .tags,
                 .utilizationMetricsDurationAverage,
@@ -4103,6 +5252,7 @@ extension ComputeOptimizerClientTypes {
             case .currentCostAverage: return "CurrentCostAverage"
             case .currentCostTotal: return "CurrentCostTotal"
             case .currentPerformanceRisk: return "CurrentPerformanceRisk"
+            case .effectiveRecommendationPreferencesSavingsEstimationMode: return "EffectiveRecommendationPreferencesSavingsEstimationMode"
             case .finding: return "Finding"
             case .findingReasonCodes: return "FindingReasonCodes"
             case .functionArn: return "FunctionArn"
@@ -4114,10 +5264,13 @@ extension ComputeOptimizerClientTypes {
             case .recommendationOptionsCostHigh: return "RecommendationOptionsCostHigh"
             case .recommendationOptionsCostLow: return "RecommendationOptionsCostLow"
             case .recommendationOptionsEstimatedMonthlySavingsCurrency: return "RecommendationOptionsEstimatedMonthlySavingsCurrency"
+            case .recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts: return "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
             case .recommendationOptionsEstimatedMonthlySavingsValue: return "RecommendationOptionsEstimatedMonthlySavingsValue"
+            case .recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts: return "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
             case .recommendationOptionsProjectedUtilizationMetricsDurationExpected: return "RecommendationOptionsProjectedUtilizationMetricsDurationExpected"
             case .recommendationOptionsProjectedUtilizationMetricsDurationLowerBound: return "RecommendationOptionsProjectedUtilizationMetricsDurationLowerBound"
             case .recommendationOptionsProjectedUtilizationMetricsDurationUpperBound: return "RecommendationOptionsProjectedUtilizationMetricsDurationUpperBound"
+            case .recommendationOptionsSavingsOpportunityAfterDiscountsPercentage: return "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
             case .recommendationOptionsSavingsOpportunityPercentage: return "RecommendationOptionsSavingsOpportunityPercentage"
             case .tags: return "Tags"
             case .utilizationMetricsDurationAverage: return "UtilizationMetricsDurationAverage"
@@ -4136,8 +5289,98 @@ extension ComputeOptimizerClientTypes {
 }
 
 extension ComputeOptimizerClientTypes {
+    public enum ExportableLicenseField: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case accountId
+        case currentLicenseConfigurationInstanceType
+        case currentLicenseConfigurationLicenseEdition
+        case currentLicenseConfigurationLicenseModel
+        case currentLicenseConfigurationLicenseName
+        case currentLicenseConfigurationLicenseVersion
+        case currentLicenseConfigurationMetricsSource
+        case currentLicenseConfigurationNumberOfCores
+        case currentLicenseConfigurationOperatingSystem
+        case lastRefreshTimestamp
+        case licenseFinding
+        case licenseFindingReasonCodes
+        case lookbackPeriodInDays
+        case recommendationOptionsEstimatedMonthlySavingsCurrency
+        case recommendationOptionsEstimatedMonthlySavingsValue
+        case recommendationOptionsLicenseEdition
+        case recommendationOptionsLicenseModel
+        case recommendationOptionsOperatingSystem
+        case recommendationOptionsSavingsOpportunityPercentage
+        case resourceArn
+        case tags
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExportableLicenseField] {
+            return [
+                .accountId,
+                .currentLicenseConfigurationInstanceType,
+                .currentLicenseConfigurationLicenseEdition,
+                .currentLicenseConfigurationLicenseModel,
+                .currentLicenseConfigurationLicenseName,
+                .currentLicenseConfigurationLicenseVersion,
+                .currentLicenseConfigurationMetricsSource,
+                .currentLicenseConfigurationNumberOfCores,
+                .currentLicenseConfigurationOperatingSystem,
+                .lastRefreshTimestamp,
+                .licenseFinding,
+                .licenseFindingReasonCodes,
+                .lookbackPeriodInDays,
+                .recommendationOptionsEstimatedMonthlySavingsCurrency,
+                .recommendationOptionsEstimatedMonthlySavingsValue,
+                .recommendationOptionsLicenseEdition,
+                .recommendationOptionsLicenseModel,
+                .recommendationOptionsOperatingSystem,
+                .recommendationOptionsSavingsOpportunityPercentage,
+                .resourceArn,
+                .tags,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountId: return "AccountId"
+            case .currentLicenseConfigurationInstanceType: return "CurrentLicenseConfigurationInstanceType"
+            case .currentLicenseConfigurationLicenseEdition: return "CurrentLicenseConfigurationLicenseEdition"
+            case .currentLicenseConfigurationLicenseModel: return "CurrentLicenseConfigurationLicenseModel"
+            case .currentLicenseConfigurationLicenseName: return "CurrentLicenseConfigurationLicenseName"
+            case .currentLicenseConfigurationLicenseVersion: return "CurrentLicenseConfigurationLicenseVersion"
+            case .currentLicenseConfigurationMetricsSource: return "CurrentLicenseConfigurationMetricsSource"
+            case .currentLicenseConfigurationNumberOfCores: return "CurrentLicenseConfigurationNumberOfCores"
+            case .currentLicenseConfigurationOperatingSystem: return "CurrentLicenseConfigurationOperatingSystem"
+            case .lastRefreshTimestamp: return "LastRefreshTimestamp"
+            case .licenseFinding: return "Finding"
+            case .licenseFindingReasonCodes: return "FindingReasonCodes"
+            case .lookbackPeriodInDays: return "LookbackPeriodInDays"
+            case .recommendationOptionsEstimatedMonthlySavingsCurrency: return "RecommendationOptionsEstimatedMonthlySavingsCurrency"
+            case .recommendationOptionsEstimatedMonthlySavingsValue: return "RecommendationOptionsEstimatedMonthlySavingsValue"
+            case .recommendationOptionsLicenseEdition: return "RecommendationOptionsLicenseEdition"
+            case .recommendationOptionsLicenseModel: return "RecommendationOptionsLicenseModel"
+            case .recommendationOptionsOperatingSystem: return "RecommendationOptionsOperatingSystem"
+            case .recommendationOptionsSavingsOpportunityPercentage: return "RecommendationOptionsSavingsOpportunityPercentage"
+            case .resourceArn: return "ResourceArn"
+            case .tags: return "Tags"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExportableLicenseField(rawValue: rawValue) ?? ExportableLicenseField.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
     public enum ExportableVolumeField: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case accountId
+        case currentConfigurationRootVolume
         case currentConfigurationVolumeBaselineIops
         case currentConfigurationVolumeBaselineThroughput
         case currentConfigurationVolumeBurstIops
@@ -4146,6 +5389,7 @@ extension ComputeOptimizerClientTypes {
         case currentConfigurationVolumeType
         case currentMonthlyPrice
         case currentPerformanceRisk
+        case effectiveRecommendationPreferencesSavingsEstimationMode
         case finding
         case lastRefreshTimestamp
         case lookbackPeriodInDays
@@ -4156,9 +5400,12 @@ extension ComputeOptimizerClientTypes {
         case recommendationOptionsConfigurationVolumeSize
         case recommendationOptionsConfigurationVolumeType
         case recommendationOptionsEstimatedMonthlySavingsCurrency
+        case recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts
         case recommendationOptionsEstimatedMonthlySavingsValue
+        case recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts
         case recommendationOptionsMonthlyPrice
         case recommendationOptionsPerformanceRisk
+        case recommendationOptionsSavingsOpportunityAfterDiscountsPercentage
         case recommendationOptionsSavingsOpportunityPercentage
         case rootVolume
         case tags
@@ -4172,6 +5419,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [ExportableVolumeField] {
             return [
                 .accountId,
+                .currentConfigurationRootVolume,
                 .currentConfigurationVolumeBaselineIops,
                 .currentConfigurationVolumeBaselineThroughput,
                 .currentConfigurationVolumeBurstIops,
@@ -4180,6 +5428,7 @@ extension ComputeOptimizerClientTypes {
                 .currentConfigurationVolumeType,
                 .currentMonthlyPrice,
                 .currentPerformanceRisk,
+                .effectiveRecommendationPreferencesSavingsEstimationMode,
                 .finding,
                 .lastRefreshTimestamp,
                 .lookbackPeriodInDays,
@@ -4190,9 +5439,12 @@ extension ComputeOptimizerClientTypes {
                 .recommendationOptionsConfigurationVolumeSize,
                 .recommendationOptionsConfigurationVolumeType,
                 .recommendationOptionsEstimatedMonthlySavingsCurrency,
+                .recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts,
                 .recommendationOptionsEstimatedMonthlySavingsValue,
+                .recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts,
                 .recommendationOptionsMonthlyPrice,
                 .recommendationOptionsPerformanceRisk,
+                .recommendationOptionsSavingsOpportunityAfterDiscountsPercentage,
                 .recommendationOptionsSavingsOpportunityPercentage,
                 .rootVolume,
                 .tags,
@@ -4211,6 +5463,7 @@ extension ComputeOptimizerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .accountId: return "AccountId"
+            case .currentConfigurationRootVolume: return "CurrentConfigurationRootVolume"
             case .currentConfigurationVolumeBaselineIops: return "CurrentConfigurationVolumeBaselineIOPS"
             case .currentConfigurationVolumeBaselineThroughput: return "CurrentConfigurationVolumeBaselineThroughput"
             case .currentConfigurationVolumeBurstIops: return "CurrentConfigurationVolumeBurstIOPS"
@@ -4219,6 +5472,7 @@ extension ComputeOptimizerClientTypes {
             case .currentConfigurationVolumeType: return "CurrentConfigurationVolumeType"
             case .currentMonthlyPrice: return "CurrentMonthlyPrice"
             case .currentPerformanceRisk: return "CurrentPerformanceRisk"
+            case .effectiveRecommendationPreferencesSavingsEstimationMode: return "EffectiveRecommendationPreferencesSavingsEstimationMode"
             case .finding: return "Finding"
             case .lastRefreshTimestamp: return "LastRefreshTimestamp"
             case .lookbackPeriodInDays: return "LookbackPeriodInDays"
@@ -4229,9 +5483,12 @@ extension ComputeOptimizerClientTypes {
             case .recommendationOptionsConfigurationVolumeSize: return "RecommendationOptionsConfigurationVolumeSize"
             case .recommendationOptionsConfigurationVolumeType: return "RecommendationOptionsConfigurationVolumeType"
             case .recommendationOptionsEstimatedMonthlySavingsCurrency: return "RecommendationOptionsEstimatedMonthlySavingsCurrency"
+            case .recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts: return "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
             case .recommendationOptionsEstimatedMonthlySavingsValue: return "RecommendationOptionsEstimatedMonthlySavingsValue"
+            case .recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts: return "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
             case .recommendationOptionsMonthlyPrice: return "RecommendationOptionsMonthlyPrice"
             case .recommendationOptionsPerformanceRisk: return "RecommendationOptionsPerformanceRisk"
+            case .recommendationOptionsSavingsOpportunityAfterDiscountsPercentage: return "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
             case .recommendationOptionsSavingsOpportunityPercentage: return "RecommendationOptionsSavingsOpportunityPercentage"
             case .rootVolume: return "RootVolume"
             case .tags: return "Tags"
@@ -4802,29 +6059,11 @@ extension GetAutoScalingGroupRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetAutoScalingGroupRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetAutoScalingGroupRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetAutoScalingGroupRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetAutoScalingGroupRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetAutoScalingGroupRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.autoScalingGroupRecommendations = output.autoScalingGroupRecommendations
             self.errors = output.errors
             self.nextToken = output.nextToken
@@ -4836,7 +6075,7 @@ extension GetAutoScalingGroupRecommendationsOutputResponse: ClientRuntime.HttpRe
     }
 }
 
-public struct GetAutoScalingGroupRecommendationsOutputResponse: Swift.Equatable {
+public struct GetAutoScalingGroupRecommendationsOutput: Swift.Equatable {
     /// An array of objects that describe Auto Scaling group recommendations.
     public var autoScalingGroupRecommendations: [ComputeOptimizerClientTypes.AutoScalingGroupRecommendation]?
     /// An array of objects that describe errors of the request. For example, an error is returned if you request recommendations for an unsupported Auto Scaling group.
@@ -4856,13 +6095,13 @@ public struct GetAutoScalingGroupRecommendationsOutputResponse: Swift.Equatable 
     }
 }
 
-struct GetAutoScalingGroupRecommendationsOutputResponseBody: Swift.Equatable {
+struct GetAutoScalingGroupRecommendationsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let autoScalingGroupRecommendations: [ComputeOptimizerClientTypes.AutoScalingGroupRecommendation]?
     let errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
 }
 
-extension GetAutoScalingGroupRecommendationsOutputResponseBody: Swift.Decodable {
+extension GetAutoScalingGroupRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoScalingGroupRecommendations
         case errors
@@ -4895,6 +6134,24 @@ extension GetAutoScalingGroupRecommendationsOutputResponseBody: Swift.Decodable 
             }
         }
         errors = errorsDecoded0
+    }
+}
+
+enum GetAutoScalingGroupRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5029,29 +6286,11 @@ extension GetEBSVolumeRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetEBSVolumeRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetEBSVolumeRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetEBSVolumeRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetEBSVolumeRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetEBSVolumeRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
             self.nextToken = output.nextToken
             self.volumeRecommendations = output.volumeRecommendations
@@ -5063,7 +6302,7 @@ extension GetEBSVolumeRecommendationsOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct GetEBSVolumeRecommendationsOutputResponse: Swift.Equatable {
+public struct GetEBSVolumeRecommendationsOutput: Swift.Equatable {
     /// An array of objects that describe errors of the request. For example, an error is returned if you request recommendations for an unsupported volume.
     public var errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
     /// The token to use to advance to the next page of volume recommendations. This value is null when there are no more pages of volume recommendations to return.
@@ -5083,13 +6322,13 @@ public struct GetEBSVolumeRecommendationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetEBSVolumeRecommendationsOutputResponseBody: Swift.Equatable {
+struct GetEBSVolumeRecommendationsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let volumeRecommendations: [ComputeOptimizerClientTypes.VolumeRecommendation]?
     let errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
 }
 
-extension GetEBSVolumeRecommendationsOutputResponseBody: Swift.Decodable {
+extension GetEBSVolumeRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errors
         case nextToken
@@ -5122,6 +6361,24 @@ extension GetEBSVolumeRecommendationsOutputResponseBody: Swift.Decodable {
             }
         }
         errors = errorsDecoded0
+    }
+}
+
+enum GetEBSVolumeRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5268,29 +6525,11 @@ extension GetEC2InstanceRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetEC2InstanceRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetEC2InstanceRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetEC2InstanceRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetEC2InstanceRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetEC2InstanceRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
             self.instanceRecommendations = output.instanceRecommendations
             self.nextToken = output.nextToken
@@ -5302,7 +6541,7 @@ extension GetEC2InstanceRecommendationsOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct GetEC2InstanceRecommendationsOutputResponse: Swift.Equatable {
+public struct GetEC2InstanceRecommendationsOutput: Swift.Equatable {
     /// An array of objects that describe errors of the request. For example, an error is returned if you request recommendations for an instance of an unsupported instance family.
     public var errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
     /// An array of objects that describe instance recommendations.
@@ -5322,13 +6561,13 @@ public struct GetEC2InstanceRecommendationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetEC2InstanceRecommendationsOutputResponseBody: Swift.Equatable {
+struct GetEC2InstanceRecommendationsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let instanceRecommendations: [ComputeOptimizerClientTypes.InstanceRecommendation]?
     let errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
 }
 
-extension GetEC2InstanceRecommendationsOutputResponseBody: Swift.Decodable {
+extension GetEC2InstanceRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errors
         case instanceRecommendations
@@ -5361,6 +6600,24 @@ extension GetEC2InstanceRecommendationsOutputResponseBody: Swift.Decodable {
             }
         }
         errors = errorsDecoded0
+    }
+}
+
+enum GetEC2InstanceRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5476,29 +6733,11 @@ extension GetEC2RecommendationProjectedMetricsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetEC2RecommendationProjectedMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetEC2RecommendationProjectedMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetEC2RecommendationProjectedMetricsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetEC2RecommendationProjectedMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetEC2RecommendationProjectedMetricsOutputBody = try responseDecoder.decode(responseBody: data)
             self.recommendedOptionProjectedMetrics = output.recommendedOptionProjectedMetrics
         } else {
             self.recommendedOptionProjectedMetrics = nil
@@ -5506,7 +6745,7 @@ extension GetEC2RecommendationProjectedMetricsOutputResponse: ClientRuntime.Http
     }
 }
 
-public struct GetEC2RecommendationProjectedMetricsOutputResponse: Swift.Equatable {
+public struct GetEC2RecommendationProjectedMetricsOutput: Swift.Equatable {
     /// An array of objects that describes projected metrics.
     public var recommendedOptionProjectedMetrics: [ComputeOptimizerClientTypes.RecommendedOptionProjectedMetric]?
 
@@ -5518,11 +6757,11 @@ public struct GetEC2RecommendationProjectedMetricsOutputResponse: Swift.Equatabl
     }
 }
 
-struct GetEC2RecommendationProjectedMetricsOutputResponseBody: Swift.Equatable {
+struct GetEC2RecommendationProjectedMetricsOutputBody: Swift.Equatable {
     let recommendedOptionProjectedMetrics: [ComputeOptimizerClientTypes.RecommendedOptionProjectedMetric]?
 }
 
-extension GetEC2RecommendationProjectedMetricsOutputResponseBody: Swift.Decodable {
+extension GetEC2RecommendationProjectedMetricsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case recommendedOptionProjectedMetrics
     }
@@ -5540,6 +6779,24 @@ extension GetEC2RecommendationProjectedMetricsOutputResponseBody: Swift.Decodabl
             }
         }
         recommendedOptionProjectedMetrics = recommendedOptionProjectedMetricsDecoded0
+    }
+}
+
+enum GetEC2RecommendationProjectedMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5643,29 +6900,11 @@ extension GetECSServiceRecommendationProjectedMetricsInputBody: Swift.Decodable 
     }
 }
 
-public enum GetECSServiceRecommendationProjectedMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetECSServiceRecommendationProjectedMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetECSServiceRecommendationProjectedMetricsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetECSServiceRecommendationProjectedMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetECSServiceRecommendationProjectedMetricsOutputBody = try responseDecoder.decode(responseBody: data)
             self.recommendedOptionProjectedMetrics = output.recommendedOptionProjectedMetrics
         } else {
             self.recommendedOptionProjectedMetrics = nil
@@ -5673,7 +6912,7 @@ extension GetECSServiceRecommendationProjectedMetricsOutputResponse: ClientRunti
     }
 }
 
-public struct GetECSServiceRecommendationProjectedMetricsOutputResponse: Swift.Equatable {
+public struct GetECSServiceRecommendationProjectedMetricsOutput: Swift.Equatable {
     /// An array of objects that describes the projected metrics.
     public var recommendedOptionProjectedMetrics: [ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric]?
 
@@ -5685,11 +6924,11 @@ public struct GetECSServiceRecommendationProjectedMetricsOutputResponse: Swift.E
     }
 }
 
-struct GetECSServiceRecommendationProjectedMetricsOutputResponseBody: Swift.Equatable {
+struct GetECSServiceRecommendationProjectedMetricsOutputBody: Swift.Equatable {
     let recommendedOptionProjectedMetrics: [ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric]?
 }
 
-extension GetECSServiceRecommendationProjectedMetricsOutputResponseBody: Swift.Decodable {
+extension GetECSServiceRecommendationProjectedMetricsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case recommendedOptionProjectedMetrics
     }
@@ -5707,6 +6946,24 @@ extension GetECSServiceRecommendationProjectedMetricsOutputResponseBody: Swift.D
             }
         }
         recommendedOptionProjectedMetrics = recommendedOptionProjectedMetricsDecoded0
+    }
+}
+
+enum GetECSServiceRecommendationProjectedMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5841,29 +7098,11 @@ extension GetECSServiceRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetECSServiceRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetECSServiceRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetECSServiceRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetECSServiceRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetECSServiceRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.ecsServiceRecommendations = output.ecsServiceRecommendations
             self.errors = output.errors
             self.nextToken = output.nextToken
@@ -5875,7 +7114,7 @@ extension GetECSServiceRecommendationsOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct GetECSServiceRecommendationsOutputResponse: Swift.Equatable {
+public struct GetECSServiceRecommendationsOutput: Swift.Equatable {
     /// An array of objects that describe the Amazon ECS service recommendations.
     public var ecsServiceRecommendations: [ComputeOptimizerClientTypes.ECSServiceRecommendation]?
     /// An array of objects that describe errors of the request.
@@ -5895,13 +7134,13 @@ public struct GetECSServiceRecommendationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetECSServiceRecommendationsOutputResponseBody: Swift.Equatable {
+struct GetECSServiceRecommendationsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let ecsServiceRecommendations: [ComputeOptimizerClientTypes.ECSServiceRecommendation]?
     let errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
 }
 
-extension GetECSServiceRecommendationsOutputResponseBody: Swift.Decodable {
+extension GetECSServiceRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ecsServiceRecommendations
         case errors
@@ -5934,6 +7173,24 @@ extension GetECSServiceRecommendationsOutputResponseBody: Swift.Decodable {
             }
         }
         errors = errorsDecoded0
+    }
+}
+
+enum GetECSServiceRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5985,8 +7242,106 @@ extension GetEffectiveRecommendationPreferencesInputBody: Swift.Decodable {
     }
 }
 
-public enum GetEffectiveRecommendationPreferencesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension GetEffectiveRecommendationPreferencesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetEffectiveRecommendationPreferencesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.enhancedInfrastructureMetrics = output.enhancedInfrastructureMetrics
+            self.externalMetricsPreference = output.externalMetricsPreference
+            self.lookBackPeriod = output.lookBackPeriod
+            self.preferredResources = output.preferredResources
+            self.utilizationPreferences = output.utilizationPreferences
+        } else {
+            self.enhancedInfrastructureMetrics = nil
+            self.externalMetricsPreference = nil
+            self.lookBackPeriod = nil
+            self.preferredResources = nil
+            self.utilizationPreferences = nil
+        }
+    }
+}
+
+public struct GetEffectiveRecommendationPreferencesOutput: Swift.Equatable {
+    /// The status of the enhanced infrastructure metrics recommendation preference. Considers all applicable preferences that you might have set at the resource, account, and organization level. A status of Active confirms that the preference is applied in the latest recommendation refresh, and a status of Inactive confirms that it's not yet applied to recommendations. To validate whether the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the [GetAutoScalingGroupRecommendations] and [GetEC2InstanceRecommendations] actions. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
+    public var enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
+    /// The provider of the external metrics recommendation preference. Considers all applicable preferences that you might have set at the account and organization level. If the preference is applied in the latest recommendation refresh, an object with a valid source value appears in the response. If the preference isn't applied to the recommendations already, then this object doesn't appear in the response. To validate whether the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the [GetEC2InstanceRecommendations] actions. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/external-metrics-ingestion.html) in the Compute Optimizer User Guide.
+    public var externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
+    /// The number of days the utilization metrics of the Amazon Web Services resource are analyzed. To validate that the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the GetAutoScalingGroupRecommendations or GetEC2InstanceRecommendations actions.
+    public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
+    /// The resource type values that are considered as candidates when generating rightsizing recommendations. This object resolves any wildcard expressions and returns the effective list of candidate resource type values. It also considers all applicable preferences that you set at the resource, account, and organization level. To validate that the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the GetAutoScalingGroupRecommendations or GetEC2InstanceRecommendations actions.
+    public var preferredResources: [ComputeOptimizerClientTypes.EffectivePreferredResource]?
+    /// The resource’s CPU utilization threshold preferences, such as threshold and headroom, that were used to generate rightsizing recommendations. It considers all applicable preferences that you set at the resource, account, and organization level. To validate that the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the GetAutoScalingGroupRecommendations or GetEC2InstanceRecommendations actions.
+    public var utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]?
+
+    public init(
+        enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics? = nil,
+        externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference? = nil,
+        lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference? = nil,
+        preferredResources: [ComputeOptimizerClientTypes.EffectivePreferredResource]? = nil,
+        utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]? = nil
+    )
+    {
+        self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
+        self.externalMetricsPreference = externalMetricsPreference
+        self.lookBackPeriod = lookBackPeriod
+        self.preferredResources = preferredResources
+        self.utilizationPreferences = utilizationPreferences
+    }
+}
+
+struct GetEffectiveRecommendationPreferencesOutputBody: Swift.Equatable {
+    let enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
+    let externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
+    let lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
+    let utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]?
+    let preferredResources: [ComputeOptimizerClientTypes.EffectivePreferredResource]?
+}
+
+extension GetEffectiveRecommendationPreferencesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enhancedInfrastructureMetrics
+        case externalMetricsPreference
+        case lookBackPeriod
+        case preferredResources
+        case utilizationPreferences
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enhancedInfrastructureMetricsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics.self, forKey: .enhancedInfrastructureMetrics)
+        enhancedInfrastructureMetrics = enhancedInfrastructureMetricsDecoded
+        let externalMetricsPreferenceDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ExternalMetricsPreference.self, forKey: .externalMetricsPreference)
+        externalMetricsPreference = externalMetricsPreferenceDecoded
+        let lookBackPeriodDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LookBackPeriodPreference.self, forKey: .lookBackPeriod)
+        lookBackPeriod = lookBackPeriodDecoded
+        let utilizationPreferencesContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.UtilizationPreference?].self, forKey: .utilizationPreferences)
+        var utilizationPreferencesDecoded0:[ComputeOptimizerClientTypes.UtilizationPreference]? = nil
+        if let utilizationPreferencesContainer = utilizationPreferencesContainer {
+            utilizationPreferencesDecoded0 = [ComputeOptimizerClientTypes.UtilizationPreference]()
+            for structure0 in utilizationPreferencesContainer {
+                if let structure0 = structure0 {
+                    utilizationPreferencesDecoded0?.append(structure0)
+                }
+            }
+        }
+        utilizationPreferences = utilizationPreferencesDecoded0
+        let preferredResourcesContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.EffectivePreferredResource?].self, forKey: .preferredResources)
+        var preferredResourcesDecoded0:[ComputeOptimizerClientTypes.EffectivePreferredResource]? = nil
+        if let preferredResourcesContainer = preferredResourcesContainer {
+            preferredResourcesDecoded0 = [ComputeOptimizerClientTypes.EffectivePreferredResource]()
+            for structure0 in preferredResourcesContainer {
+                if let structure0 = structure0 {
+                    preferredResourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        preferredResources = preferredResourcesDecoded0
+    }
+}
+
+enum GetEffectiveRecommendationPreferencesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6000,56 +7355,6 @@ public enum GetEffectiveRecommendationPreferencesOutputError: ClientRuntime.Http
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetEffectiveRecommendationPreferencesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetEffectiveRecommendationPreferencesOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.enhancedInfrastructureMetrics = output.enhancedInfrastructureMetrics
-            self.externalMetricsPreference = output.externalMetricsPreference
-        } else {
-            self.enhancedInfrastructureMetrics = nil
-            self.externalMetricsPreference = nil
-        }
-    }
-}
-
-public struct GetEffectiveRecommendationPreferencesOutputResponse: Swift.Equatable {
-    /// The status of the enhanced infrastructure metrics recommendation preference. Considers all applicable preferences that you might have set at the resource, account, and organization level. A status of Active confirms that the preference is applied in the latest recommendation refresh, and a status of Inactive confirms that it's not yet applied to recommendations. To validate whether the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the [GetAutoScalingGroupRecommendations] and [GetEC2InstanceRecommendations] actions. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
-    public var enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
-    /// The provider of the external metrics recommendation preference. Considers all applicable preferences that you might have set at the account and organization level. If the preference is applied in the latest recommendation refresh, an object with a valid source value appears in the response. If the preference isn't applied to the recommendations already, then this object doesn't appear in the response. To validate whether the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the [GetEC2InstanceRecommendations] actions. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/external-metrics-ingestion.html) in the Compute Optimizer User Guide.
-    public var externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
-
-    public init(
-        enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics? = nil,
-        externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference? = nil
-    )
-    {
-        self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
-        self.externalMetricsPreference = externalMetricsPreference
-    }
-}
-
-struct GetEffectiveRecommendationPreferencesOutputResponseBody: Swift.Equatable {
-    let enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
-    let externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
-}
-
-extension GetEffectiveRecommendationPreferencesOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case enhancedInfrastructureMetrics
-        case externalMetricsPreference
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enhancedInfrastructureMetricsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics.self, forKey: .enhancedInfrastructureMetrics)
-        enhancedInfrastructureMetrics = enhancedInfrastructureMetricsDecoded
-        let externalMetricsPreferenceDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ExternalMetricsPreference.self, forKey: .externalMetricsPreference)
-        externalMetricsPreference = externalMetricsPreferenceDecoded
     }
 }
 
@@ -6081,27 +7386,11 @@ extension GetEnrollmentStatusInputBody: Swift.Decodable {
     }
 }
 
-public enum GetEnrollmentStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetEnrollmentStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetEnrollmentStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetEnrollmentStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetEnrollmentStatusOutputBody = try responseDecoder.decode(responseBody: data)
             self.lastUpdatedTimestamp = output.lastUpdatedTimestamp
             self.memberAccountsEnrolled = output.memberAccountsEnrolled
             self.numberOfMemberAccountsOptedIn = output.numberOfMemberAccountsOptedIn
@@ -6117,7 +7406,7 @@ extension GetEnrollmentStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEnrollmentStatusOutputResponse: Swift.Equatable {
+public struct GetEnrollmentStatusOutput: Swift.Equatable {
     /// The Unix epoch timestamp, in seconds, of when the account enrollment status was last updated.
     public var lastUpdatedTimestamp: ClientRuntime.Date?
     /// Confirms the enrollment status of member accounts of the organization, if the account is a management account of an organization.
@@ -6145,7 +7434,7 @@ public struct GetEnrollmentStatusOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetEnrollmentStatusOutputResponseBody: Swift.Equatable {
+struct GetEnrollmentStatusOutputBody: Swift.Equatable {
     let status: ComputeOptimizerClientTypes.Status?
     let statusReason: Swift.String?
     let memberAccountsEnrolled: Swift.Bool
@@ -6153,7 +7442,7 @@ struct GetEnrollmentStatusOutputResponseBody: Swift.Equatable {
     let numberOfMemberAccountsOptedIn: Swift.Int?
 }
 
-extension GetEnrollmentStatusOutputResponseBody: Swift.Decodable {
+extension GetEnrollmentStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lastUpdatedTimestamp
         case memberAccountsEnrolled
@@ -6174,6 +7463,22 @@ extension GetEnrollmentStatusOutputResponseBody: Swift.Decodable {
         lastUpdatedTimestamp = lastUpdatedTimestampDecoded
         let numberOfMemberAccountsOptedInDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfMemberAccountsOptedIn)
         numberOfMemberAccountsOptedIn = numberOfMemberAccountsOptedInDecoded
+    }
+}
+
+enum GetEnrollmentStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6260,27 +7565,11 @@ extension GetEnrollmentStatusesForOrganizationInputBody: Swift.Decodable {
     }
 }
 
-public enum GetEnrollmentStatusesForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetEnrollmentStatusesForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetEnrollmentStatusesForOrganizationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetEnrollmentStatusesForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetEnrollmentStatusesForOrganizationOutputBody = try responseDecoder.decode(responseBody: data)
             self.accountEnrollmentStatuses = output.accountEnrollmentStatuses
             self.nextToken = output.nextToken
         } else {
@@ -6290,7 +7579,7 @@ extension GetEnrollmentStatusesForOrganizationOutputResponse: ClientRuntime.Http
     }
 }
 
-public struct GetEnrollmentStatusesForOrganizationOutputResponse: Swift.Equatable {
+public struct GetEnrollmentStatusesForOrganizationOutput: Swift.Equatable {
     /// An array of objects that describe the enrollment statuses of organization member accounts.
     public var accountEnrollmentStatuses: [ComputeOptimizerClientTypes.AccountEnrollmentStatus]?
     /// The token to use to advance to the next page of account enrollment statuses. This value is null when there are no more pages of account enrollment statuses to return.
@@ -6306,12 +7595,12 @@ public struct GetEnrollmentStatusesForOrganizationOutputResponse: Swift.Equatabl
     }
 }
 
-struct GetEnrollmentStatusesForOrganizationOutputResponseBody: Swift.Equatable {
+struct GetEnrollmentStatusesForOrganizationOutputBody: Swift.Equatable {
     let accountEnrollmentStatuses: [ComputeOptimizerClientTypes.AccountEnrollmentStatus]?
     let nextToken: Swift.String?
 }
 
-extension GetEnrollmentStatusesForOrganizationOutputResponseBody: Swift.Decodable {
+extension GetEnrollmentStatusesForOrganizationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountEnrollmentStatuses
         case nextToken
@@ -6332,6 +7621,22 @@ extension GetEnrollmentStatusesForOrganizationOutputResponseBody: Swift.Decodabl
         accountEnrollmentStatuses = accountEnrollmentStatusesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum GetEnrollmentStatusesForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6466,29 +7771,11 @@ extension GetLambdaFunctionRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetLambdaFunctionRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetLambdaFunctionRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetLambdaFunctionRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetLambdaFunctionRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetLambdaFunctionRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.lambdaFunctionRecommendations = output.lambdaFunctionRecommendations
             self.nextToken = output.nextToken
         } else {
@@ -6498,7 +7785,7 @@ extension GetLambdaFunctionRecommendationsOutputResponse: ClientRuntime.HttpResp
     }
 }
 
-public struct GetLambdaFunctionRecommendationsOutputResponse: Swift.Equatable {
+public struct GetLambdaFunctionRecommendationsOutput: Swift.Equatable {
     /// An array of objects that describe function recommendations.
     public var lambdaFunctionRecommendations: [ComputeOptimizerClientTypes.LambdaFunctionRecommendation]?
     /// The token to use to advance to the next page of function recommendations. This value is null when there are no more pages of function recommendations to return.
@@ -6514,12 +7801,12 @@ public struct GetLambdaFunctionRecommendationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetLambdaFunctionRecommendationsOutputResponseBody: Swift.Equatable {
+struct GetLambdaFunctionRecommendationsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let lambdaFunctionRecommendations: [ComputeOptimizerClientTypes.LambdaFunctionRecommendation]?
 }
 
-extension GetLambdaFunctionRecommendationsOutputResponseBody: Swift.Decodable {
+extension GetLambdaFunctionRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lambdaFunctionRecommendations
         case nextToken
@@ -6540,6 +7827,251 @@ extension GetLambdaFunctionRecommendationsOutputResponseBody: Swift.Decodable {
             }
         }
         lambdaFunctionRecommendations = lambdaFunctionRecommendationsDecoded0
+    }
+}
+
+enum GetLambdaFunctionRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetLicenseRecommendationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+        case filters
+        case maxResults
+        case nextToken
+        case resourceArns
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountIds = accountIds {
+            var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
+            }
+        }
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for licenserecommendationfilter0 in filters {
+                try filtersContainer.encode(licenserecommendationfilter0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let resourceArns = resourceArns {
+            var resourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceArns)
+            for resourcearn0 in resourceArns {
+                try resourceArnsContainer.encode(resourcearn0)
+            }
+        }
+    }
+}
+
+extension GetLicenseRecommendationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetLicenseRecommendationsInput: Swift.Equatable {
+    /// The ID of the Amazon Web Services account for which to return license recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return license recommendations. Only one account ID can be specified per request.
+    public var accountIds: [Swift.String]?
+    /// An array of objects to specify a filter that returns a more specific list of license recommendations.
+    public var filters: [ComputeOptimizerClientTypes.LicenseRecommendationFilter]?
+    /// The maximum number of license recommendations to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
+    public var maxResults: Swift.Int?
+    /// The token to advance to the next page of license recommendations.
+    public var nextToken: Swift.String?
+    /// The ARN that identifies the Amazon EC2 instance. The following is the format of the ARN: arn:aws:ec2:region:aws_account_id:instance/instance-id
+    public var resourceArns: [Swift.String]?
+
+    public init(
+        accountIds: [Swift.String]? = nil,
+        filters: [ComputeOptimizerClientTypes.LicenseRecommendationFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceArns: [Swift.String]? = nil
+    )
+    {
+        self.accountIds = accountIds
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceArns = resourceArns
+    }
+}
+
+struct GetLicenseRecommendationsInputBody: Swift.Equatable {
+    let resourceArns: [Swift.String]?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+    let filters: [ComputeOptimizerClientTypes.LicenseRecommendationFilter]?
+    let accountIds: [Swift.String]?
+}
+
+extension GetLicenseRecommendationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+        case filters
+        case maxResults
+        case nextToken
+        case resourceArns
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resourceArns)
+        var resourceArnsDecoded0:[Swift.String]? = nil
+        if let resourceArnsContainer = resourceArnsContainer {
+            resourceArnsDecoded0 = [Swift.String]()
+            for string0 in resourceArnsContainer {
+                if let string0 = string0 {
+                    resourceArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        resourceArns = resourceArnsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let filtersContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.LicenseRecommendationFilter?].self, forKey: .filters)
+        var filtersDecoded0:[ComputeOptimizerClientTypes.LicenseRecommendationFilter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [ComputeOptimizerClientTypes.LicenseRecommendationFilter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let accountIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accountIds)
+        var accountIdsDecoded0:[Swift.String]? = nil
+        if let accountIdsContainer = accountIdsContainer {
+            accountIdsDecoded0 = [Swift.String]()
+            for string0 in accountIdsContainer {
+                if let string0 = string0 {
+                    accountIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        accountIds = accountIdsDecoded0
+    }
+}
+
+extension GetLicenseRecommendationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetLicenseRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.errors = output.errors
+            self.licenseRecommendations = output.licenseRecommendations
+            self.nextToken = output.nextToken
+        } else {
+            self.errors = nil
+            self.licenseRecommendations = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct GetLicenseRecommendationsOutput: Swift.Equatable {
+    /// An array of objects that describe errors of the request.
+    public var errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
+    /// An array of objects that describe license recommendations.
+    public var licenseRecommendations: [ComputeOptimizerClientTypes.LicenseRecommendation]?
+    /// The token to use to advance to the next page of license recommendations.
+    public var nextToken: Swift.String?
+
+    public init(
+        errors: [ComputeOptimizerClientTypes.GetRecommendationError]? = nil,
+        licenseRecommendations: [ComputeOptimizerClientTypes.LicenseRecommendation]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.errors = errors
+        self.licenseRecommendations = licenseRecommendations
+        self.nextToken = nextToken
+    }
+}
+
+struct GetLicenseRecommendationsOutputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let licenseRecommendations: [ComputeOptimizerClientTypes.LicenseRecommendation]?
+    let errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
+}
+
+extension GetLicenseRecommendationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errors
+        case licenseRecommendations
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let licenseRecommendationsContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.LicenseRecommendation?].self, forKey: .licenseRecommendations)
+        var licenseRecommendationsDecoded0:[ComputeOptimizerClientTypes.LicenseRecommendation]? = nil
+        if let licenseRecommendationsContainer = licenseRecommendationsContainer {
+            licenseRecommendationsDecoded0 = [ComputeOptimizerClientTypes.LicenseRecommendation]()
+            for structure0 in licenseRecommendationsContainer {
+                if let structure0 = structure0 {
+                    licenseRecommendationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        licenseRecommendations = licenseRecommendationsDecoded0
+        let errorsContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.GetRecommendationError?].self, forKey: .errors)
+        var errorsDecoded0:[ComputeOptimizerClientTypes.GetRecommendationError]? = nil
+        if let errorsContainer = errorsContainer {
+            errorsDecoded0 = [ComputeOptimizerClientTypes.GetRecommendationError]()
+            for structure0 in errorsContainer {
+                if let structure0 = structure0 {
+                    errorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errors = errorsDecoded0
+    }
+}
+
+enum GetLicenseRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6682,29 +8214,11 @@ extension GetRecommendationPreferencesInputBody: Swift.Decodable {
     }
 }
 
-public enum GetRecommendationPreferencesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetRecommendationPreferencesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRecommendationPreferencesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRecommendationPreferencesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRecommendationPreferencesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.recommendationPreferencesDetails = output.recommendationPreferencesDetails
         } else {
@@ -6714,7 +8228,7 @@ extension GetRecommendationPreferencesOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct GetRecommendationPreferencesOutputResponse: Swift.Equatable {
+public struct GetRecommendationPreferencesOutput: Swift.Equatable {
     /// The token to use to advance to the next page of recommendation preferences. This value is null when there are no more pages of recommendation preferences to return.
     public var nextToken: Swift.String?
     /// An array of objects that describe recommendation preferences.
@@ -6730,12 +8244,12 @@ public struct GetRecommendationPreferencesOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRecommendationPreferencesOutputResponseBody: Swift.Equatable {
+struct GetRecommendationPreferencesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let recommendationPreferencesDetails: [ComputeOptimizerClientTypes.RecommendationPreferencesDetail]?
 }
 
-extension GetRecommendationPreferencesOutputResponseBody: Swift.Decodable {
+extension GetRecommendationPreferencesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case recommendationPreferencesDetails
@@ -6756,6 +8270,24 @@ extension GetRecommendationPreferencesOutputResponseBody: Swift.Decodable {
             }
         }
         recommendationPreferencesDetails = recommendationPreferencesDetailsDecoded0
+    }
+}
+
+enum GetRecommendationPreferencesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6842,28 +8374,11 @@ extension GetRecommendationSummariesInputBody: Swift.Decodable {
     }
 }
 
-public enum GetRecommendationSummariesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetRecommendationSummariesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRecommendationSummariesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRecommendationSummariesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRecommendationSummariesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.recommendationSummaries = output.recommendationSummaries
         } else {
@@ -6873,7 +8388,7 @@ extension GetRecommendationSummariesOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct GetRecommendationSummariesOutputResponse: Swift.Equatable {
+public struct GetRecommendationSummariesOutput: Swift.Equatable {
     /// The token to use to advance to the next page of recommendation summaries. This value is null when there are no more pages of recommendation summaries to return.
     public var nextToken: Swift.String?
     /// An array of objects that summarize a recommendation.
@@ -6889,12 +8404,12 @@ public struct GetRecommendationSummariesOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRecommendationSummariesOutputResponseBody: Swift.Equatable {
+struct GetRecommendationSummariesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let recommendationSummaries: [ComputeOptimizerClientTypes.RecommendationSummary]?
 }
 
-extension GetRecommendationSummariesOutputResponseBody: Swift.Decodable {
+extension GetRecommendationSummariesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case recommendationSummaries
@@ -6916,6 +8431,115 @@ extension GetRecommendationSummariesOutputResponseBody: Swift.Decodable {
         }
         recommendationSummaries = recommendationSummariesDecoded0
     }
+}
+
+enum GetRecommendationSummariesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes.Gpu: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case gpuCount
+        case gpuMemorySizeInMiB
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if gpuCount != 0 {
+            try encodeContainer.encode(gpuCount, forKey: .gpuCount)
+        }
+        if gpuMemorySizeInMiB != 0 {
+            try encodeContainer.encode(gpuMemorySizeInMiB, forKey: .gpuMemorySizeInMiB)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gpuCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .gpuCount) ?? 0
+        gpuCount = gpuCountDecoded
+        let gpuMemorySizeInMiBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .gpuMemorySizeInMiB) ?? 0
+        gpuMemorySizeInMiB = gpuMemorySizeInMiBDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the GPU accelerators for the instance type.
+    public struct Gpu: Swift.Equatable {
+        /// The number of GPUs for the instance type.
+        public var gpuCount: Swift.Int
+        /// The total size of the memory for the GPU accelerators for the instance type, in MiB.
+        public var gpuMemorySizeInMiB: Swift.Int
+
+        public init(
+            gpuCount: Swift.Int = 0,
+            gpuMemorySizeInMiB: Swift.Int = 0
+        )
+        {
+            self.gpuCount = gpuCount
+            self.gpuMemorySizeInMiB = gpuMemorySizeInMiB
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.GpuInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case gpus
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let gpus = gpus {
+            var gpusContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gpus)
+            for gpu0 in gpus {
+                try gpusContainer.encode(gpu0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gpusContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.Gpu?].self, forKey: .gpus)
+        var gpusDecoded0:[ComputeOptimizerClientTypes.Gpu]? = nil
+        if let gpusContainer = gpusContainer {
+            gpusDecoded0 = [ComputeOptimizerClientTypes.Gpu]()
+            for structure0 in gpusContainer {
+                if let structure0 = structure0 {
+                    gpusDecoded0?.append(structure0)
+                }
+            }
+        }
+        gpus = gpusDecoded0
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the GPU accelerator settings for the instance type.
+    public struct GpuInfo: Swift.Equatable {
+        /// Describes the GPU accelerators for the instance type.
+        public var gpus: [ComputeOptimizerClientTypes.Gpu]?
+
+        public init(
+            gpus: [ComputeOptimizerClientTypes.Gpu]? = nil
+        )
+        {
+            self.gpus = gpus
+        }
+    }
+
 }
 
 extension ComputeOptimizerClientTypes.InferredWorkloadSaving: Swift.Codable {
@@ -7078,15 +8702,94 @@ extension ComputeOptimizerClientTypes {
     }
 }
 
+extension ComputeOptimizerClientTypes.InstanceEstimatedMonthlySavings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currency
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let currency = self.currency {
+            try encodeContainer.encode(currency.rawValue, forKey: .currency)
+        }
+        if value != 0.0 {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let currencyDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.Currency.self, forKey: .currency)
+        currency = currencyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value) ?? 0.0
+        value = valueDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Amazon EC2 instance recommendations. This is based on the Savings Plans and Reserved Instances pricing discounts.
+    public struct InstanceEstimatedMonthlySavings: Swift.Equatable {
+        /// The currency of the estimated monthly savings.
+        public var currency: ComputeOptimizerClientTypes.Currency?
+        /// The value of the estimated monthly savings.
+        public var value: Swift.Double
+
+        public init(
+            currency: ComputeOptimizerClientTypes.Currency? = nil,
+            value: Swift.Double = 0.0
+        )
+        {
+            self.currency = currency
+            self.value = value
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum InstanceIdle: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `false`
+        case `true`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceIdle] {
+            return [
+                .false,
+                .true,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .false: return "False"
+            case .true: return "True"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InstanceIdle(rawValue: rawValue) ?? InstanceIdle.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ComputeOptimizerClientTypes.InstanceRecommendation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId
+        case currentInstanceGpuInfo
         case currentInstanceType
         case currentPerformanceRisk
         case effectiveRecommendationPreferences
         case externalMetricStatus
         case finding
         case findingReasonCodes
+        case idle
         case inferredWorkloadTypes
         case instanceArn
         case instanceName
@@ -7103,6 +8806,9 @@ extension ComputeOptimizerClientTypes.InstanceRecommendation: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountId = self.accountId {
             try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let currentInstanceGpuInfo = self.currentInstanceGpuInfo {
+            try encodeContainer.encode(currentInstanceGpuInfo, forKey: .currentInstanceGpuInfo)
         }
         if let currentInstanceType = self.currentInstanceType {
             try encodeContainer.encode(currentInstanceType, forKey: .currentInstanceType)
@@ -7124,6 +8830,9 @@ extension ComputeOptimizerClientTypes.InstanceRecommendation: Swift.Codable {
             for instancerecommendationfindingreasoncode0 in findingReasonCodes {
                 try findingReasonCodesContainer.encode(instancerecommendationfindingreasoncode0.rawValue)
             }
+        }
+        if let idle = self.idle {
+            try encodeContainer.encode(idle.rawValue, forKey: .idle)
         }
         if let inferredWorkloadTypes = inferredWorkloadTypes {
             var inferredWorkloadTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inferredWorkloadTypes)
@@ -7262,6 +8971,10 @@ extension ComputeOptimizerClientTypes.InstanceRecommendation: Swift.Codable {
         tags = tagsDecoded0
         let externalMetricStatusDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ExternalMetricStatus.self, forKey: .externalMetricStatus)
         externalMetricStatus = externalMetricStatusDecoded
+        let currentInstanceGpuInfoDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.GpuInfo.self, forKey: .currentInstanceGpuInfo)
+        currentInstanceGpuInfo = currentInstanceGpuInfoDecoded
+        let idleDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.InstanceIdle.self, forKey: .idle)
+        idle = idleDecoded
     }
 }
 
@@ -7270,6 +8983,8 @@ extension ComputeOptimizerClientTypes {
     public struct InstanceRecommendation: Swift.Equatable {
         /// The Amazon Web Services account ID of the instance.
         public var accountId: Swift.String?
+        /// Describes the GPU accelerator settings for the current instance type.
+        public var currentInstanceGpuInfo: ComputeOptimizerClientTypes.GpuInfo?
         /// The instance type of the current instance.
         public var currentInstanceType: Swift.String?
         /// The risk of the current instance not meeting the performance needs of its workloads. The higher the risk, the more likely the current instance cannot meet the performance requirements of its workload.
@@ -7323,6 +9038,8 @@ extension ComputeOptimizerClientTypes {
         ///
         /// For more information about instance metrics, see [List the available CloudWatch metrics for your instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/viewing_metrics_with_cloudwatch.html) in the Amazon Elastic Compute Cloud User Guide. For more information about EBS volume metrics, see [Amazon CloudWatch metrics for Amazon EBS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using_cloudwatch_ebs.html) in the Amazon Elastic Compute Cloud User Guide.
         public var findingReasonCodes: [ComputeOptimizerClientTypes.InstanceRecommendationFindingReasonCode]?
+        /// Describes if an Amazon EC2 instance is idle.
+        public var idle: ComputeOptimizerClientTypes.InstanceIdle?
         /// The applications that might be running on the instance as inferred by Compute Optimizer. Compute Optimizer can infer if one of the following applications might be running on the instance:
         ///
         /// * AmazonEmr - Infers that Amazon EMR might be running on the instance.
@@ -7364,12 +9081,14 @@ extension ComputeOptimizerClientTypes {
 
         public init(
             accountId: Swift.String? = nil,
+            currentInstanceGpuInfo: ComputeOptimizerClientTypes.GpuInfo? = nil,
             currentInstanceType: Swift.String? = nil,
             currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk? = nil,
             effectiveRecommendationPreferences: ComputeOptimizerClientTypes.EffectiveRecommendationPreferences? = nil,
             externalMetricStatus: ComputeOptimizerClientTypes.ExternalMetricStatus? = nil,
             finding: ComputeOptimizerClientTypes.Finding? = nil,
             findingReasonCodes: [ComputeOptimizerClientTypes.InstanceRecommendationFindingReasonCode]? = nil,
+            idle: ComputeOptimizerClientTypes.InstanceIdle? = nil,
             inferredWorkloadTypes: [ComputeOptimizerClientTypes.InferredWorkloadType]? = nil,
             instanceArn: Swift.String? = nil,
             instanceName: Swift.String? = nil,
@@ -7383,12 +9102,14 @@ extension ComputeOptimizerClientTypes {
         )
         {
             self.accountId = accountId
+            self.currentInstanceGpuInfo = currentInstanceGpuInfo
             self.currentInstanceType = currentInstanceType
             self.currentPerformanceRisk = currentPerformanceRisk
             self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
             self.externalMetricStatus = externalMetricStatus
             self.finding = finding
             self.findingReasonCodes = findingReasonCodes
+            self.idle = idle
             self.inferredWorkloadTypes = inferredWorkloadTypes
             self.instanceArn = instanceArn
             self.instanceName = instanceName
@@ -7416,6 +9137,10 @@ extension ComputeOptimizerClientTypes {
         case ebsIopsUnderProvisioned
         case ebsThroughputOverProvisioned
         case ebsThroughputUnderProvisioned
+        case gpuMemoryOverProvisioned
+        case gpuMemoryUnderProvisioned
+        case gpuOverProvisioned
+        case gpuUnderProvisioned
         case memoryOverProvisioned
         case memoryUnderProvisioned
         case networkBandwidthOverProvisioned
@@ -7436,6 +9161,10 @@ extension ComputeOptimizerClientTypes {
                 .ebsIopsUnderProvisioned,
                 .ebsThroughputOverProvisioned,
                 .ebsThroughputUnderProvisioned,
+                .gpuMemoryOverProvisioned,
+                .gpuMemoryUnderProvisioned,
+                .gpuOverProvisioned,
+                .gpuUnderProvisioned,
                 .memoryOverProvisioned,
                 .memoryUnderProvisioned,
                 .networkBandwidthOverProvisioned,
@@ -7461,6 +9190,10 @@ extension ComputeOptimizerClientTypes {
             case .ebsIopsUnderProvisioned: return "EBSIOPSUnderprovisioned"
             case .ebsThroughputOverProvisioned: return "EBSThroughputOverprovisioned"
             case .ebsThroughputUnderProvisioned: return "EBSThroughputUnderprovisioned"
+            case .gpuMemoryOverProvisioned: return "GPUMemoryOverprovisioned"
+            case .gpuMemoryUnderProvisioned: return "GPUMemoryUnderprovisioned"
+            case .gpuOverProvisioned: return "GPUOverprovisioned"
+            case .gpuUnderProvisioned: return "GPUUnderprovisioned"
             case .memoryOverProvisioned: return "MemoryOverprovisioned"
             case .memoryUnderProvisioned: return "MemoryUnderprovisioned"
             case .networkBandwidthOverProvisioned: return "NetworkBandwidthOverprovisioned"
@@ -7480,6 +9213,7 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes.InstanceRecommendationOption: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceGpuInfo
         case instanceType
         case migrationEffort
         case performanceRisk
@@ -7487,10 +9221,14 @@ extension ComputeOptimizerClientTypes.InstanceRecommendationOption: Swift.Codabl
         case projectedUtilizationMetrics
         case rank
         case savingsOpportunity
+        case savingsOpportunityAfterDiscounts
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceGpuInfo = self.instanceGpuInfo {
+            try encodeContainer.encode(instanceGpuInfo, forKey: .instanceGpuInfo)
+        }
         if let instanceType = self.instanceType {
             try encodeContainer.encode(instanceType, forKey: .instanceType)
         }
@@ -7517,6 +9255,9 @@ extension ComputeOptimizerClientTypes.InstanceRecommendationOption: Swift.Codabl
         }
         if let savingsOpportunity = self.savingsOpportunity {
             try encodeContainer.encode(savingsOpportunity, forKey: .savingsOpportunity)
+        }
+        if let savingsOpportunityAfterDiscounts = self.savingsOpportunityAfterDiscounts {
+            try encodeContainer.encode(savingsOpportunityAfterDiscounts, forKey: .savingsOpportunityAfterDiscounts)
         }
     }
 
@@ -7554,12 +9295,18 @@ extension ComputeOptimizerClientTypes.InstanceRecommendationOption: Swift.Codabl
         savingsOpportunity = savingsOpportunityDecoded
         let migrationEffortDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.MigrationEffort.self, forKey: .migrationEffort)
         migrationEffort = migrationEffortDecoded
+        let instanceGpuInfoDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.GpuInfo.self, forKey: .instanceGpuInfo)
+        instanceGpuInfo = instanceGpuInfoDecoded
+        let savingsOpportunityAfterDiscountsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.InstanceSavingsOpportunityAfterDiscounts.self, forKey: .savingsOpportunityAfterDiscounts)
+        savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscountsDecoded
     }
 }
 
 extension ComputeOptimizerClientTypes {
     /// Describes a recommendation option for an Amazon EC2 instance.
     public struct InstanceRecommendationOption: Swift.Equatable {
+        /// Describes the GPU accelerator settings for the recommended instance type.
+        public var instanceGpuInfo: ComputeOptimizerClientTypes.GpuInfo?
         /// The instance type of the instance recommendation.
         public var instanceType: Swift.String?
         /// The level of effort required to migrate from the current instance type to the recommended instance type. For example, the migration effort is Low if Amazon EMR is the inferred workload type and an Amazon Web Services Graviton instance type is recommended. The migration effort is Medium if a workload type couldn't be inferred but an Amazon Web Services Graviton instance type is recommended. The migration effort is VeryLow if both the current and recommended instance types are of the same CPU architecture.
@@ -7586,17 +9333,22 @@ extension ComputeOptimizerClientTypes {
         public var rank: Swift.Int
         /// An object that describes the savings opportunity for the instance recommendation option. Savings opportunity includes the estimated monthly savings amount and percentage.
         public var savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity?
+        /// An object that describes the savings opportunity for the instance recommendation option that includes Savings Plans and Reserved Instances discounts. Savings opportunity includes the estimated monthly savings and percentage.
+        public var savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.InstanceSavingsOpportunityAfterDiscounts?
 
         public init(
+            instanceGpuInfo: ComputeOptimizerClientTypes.GpuInfo? = nil,
             instanceType: Swift.String? = nil,
             migrationEffort: ComputeOptimizerClientTypes.MigrationEffort? = nil,
             performanceRisk: Swift.Double = 0.0,
             platformDifferences: [ComputeOptimizerClientTypes.PlatformDifference]? = nil,
             projectedUtilizationMetrics: [ComputeOptimizerClientTypes.UtilizationMetric]? = nil,
             rank: Swift.Int = 0,
-            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil
+            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil,
+            savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.InstanceSavingsOpportunityAfterDiscounts? = nil
         )
         {
+            self.instanceGpuInfo = instanceGpuInfo
             self.instanceType = instanceType
             self.migrationEffort = migrationEffort
             self.performanceRisk = performanceRisk
@@ -7604,6 +9356,122 @@ extension ComputeOptimizerClientTypes {
             self.projectedUtilizationMetrics = projectedUtilizationMetrics
             self.rank = rank
             self.savingsOpportunity = savingsOpportunity
+            self.savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscounts
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.InstanceSavingsEstimationMode: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case source
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let source = self.source {
+            try encodeContainer.encode(source.rawValue, forKey: .source)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.InstanceSavingsEstimationModeSource.self, forKey: .source)
+        source = sourceDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the savings estimation mode used for calculating savings opportunity for Amazon EC2 instances.
+    public struct InstanceSavingsEstimationMode: Swift.Equatable {
+        /// Describes the source for calculating the savings opportunity for Amazon EC2 instances.
+        public var source: ComputeOptimizerClientTypes.InstanceSavingsEstimationModeSource?
+
+        public init(
+            source: ComputeOptimizerClientTypes.InstanceSavingsEstimationModeSource? = nil
+        )
+        {
+            self.source = source
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum InstanceSavingsEstimationModeSource: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case costExplorerRightsizing
+        case costOptimizationHub
+        case publicPricing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceSavingsEstimationModeSource] {
+            return [
+                .costExplorerRightsizing,
+                .costOptimizationHub,
+                .publicPricing,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .costExplorerRightsizing: return "CostExplorerRightsizing"
+            case .costOptimizationHub: return "CostOptimizationHub"
+            case .publicPricing: return "PublicPricing"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InstanceSavingsEstimationModeSource(rawValue: rawValue) ?? InstanceSavingsEstimationModeSource.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes.InstanceSavingsOpportunityAfterDiscounts: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case estimatedMonthlySavings
+        case savingsOpportunityPercentage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let estimatedMonthlySavings = self.estimatedMonthlySavings {
+            try encodeContainer.encode(estimatedMonthlySavings, forKey: .estimatedMonthlySavings)
+        }
+        if savingsOpportunityPercentage != 0.0 {
+            try encodeContainer.encode(savingsOpportunityPercentage, forKey: .savingsOpportunityPercentage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let savingsOpportunityPercentageDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .savingsOpportunityPercentage) ?? 0.0
+        savingsOpportunityPercentage = savingsOpportunityPercentageDecoded
+        let estimatedMonthlySavingsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.InstanceEstimatedMonthlySavings.self, forKey: .estimatedMonthlySavings)
+        estimatedMonthlySavings = estimatedMonthlySavingsDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the savings opportunity for instance recommendations after applying the Savings Plans and Reserved Instances discounts. Savings opportunity after discounts represents the estimated monthly savings you can achieve by implementing Compute Optimizer recommendations.
+    public struct InstanceSavingsOpportunityAfterDiscounts: Swift.Equatable {
+        /// An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Amazon EC2 instance recommendations. This is based on pricing after applying the Savings Plans and Reserved Instances discounts.
+        public var estimatedMonthlySavings: ComputeOptimizerClientTypes.InstanceEstimatedMonthlySavings?
+        /// The estimated monthly savings possible as a percentage of monthly cost after applying the Savings Plans and Reserved Instances discounts. This saving can be achieved by adopting Compute Optimizer’s EC2 instance recommendations.
+        public var savingsOpportunityPercentage: Swift.Double
+
+        public init(
+            estimatedMonthlySavings: ComputeOptimizerClientTypes.InstanceEstimatedMonthlySavings? = nil,
+            savingsOpportunityPercentage: Swift.Double = 0.0
+        )
+        {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.savingsOpportunityPercentage = savingsOpportunityPercentage
         }
     }
 
@@ -7894,6 +9762,86 @@ extension ComputeOptimizerClientTypes {
     }
 }
 
+extension ComputeOptimizerClientTypes.LambdaEffectiveRecommendationPreferences: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case savingsEstimationMode
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let savingsEstimationMode = self.savingsEstimationMode {
+            try encodeContainer.encode(savingsEstimationMode, forKey: .savingsEstimationMode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let savingsEstimationModeDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LambdaSavingsEstimationMode.self, forKey: .savingsEstimationMode)
+        savingsEstimationMode = savingsEstimationModeDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the effective recommendation preferences for Lambda functions.
+    public struct LambdaEffectiveRecommendationPreferences: Swift.Equatable {
+        /// Describes the savings estimation mode applied for calculating savings opportunity for Lambda functions.
+        public var savingsEstimationMode: ComputeOptimizerClientTypes.LambdaSavingsEstimationMode?
+
+        public init(
+            savingsEstimationMode: ComputeOptimizerClientTypes.LambdaSavingsEstimationMode? = nil
+        )
+        {
+            self.savingsEstimationMode = savingsEstimationMode
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.LambdaEstimatedMonthlySavings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currency
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let currency = self.currency {
+            try encodeContainer.encode(currency.rawValue, forKey: .currency)
+        }
+        if value != 0.0 {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let currencyDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.Currency.self, forKey: .currency)
+        currency = currencyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value) ?? 0.0
+        value = valueDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the estimated monthly savings possible for Lambda functions by adopting Compute Optimizer recommendations. This is based on Lambda functions pricing after applying Savings Plans discounts.
+    public struct LambdaEstimatedMonthlySavings: Swift.Equatable {
+        /// The currency of the estimated monthly savings.
+        public var currency: ComputeOptimizerClientTypes.Currency?
+        /// The value of the estimated monthly savings.
+        public var value: Swift.Double
+
+        public init(
+            currency: ComputeOptimizerClientTypes.Currency? = nil,
+            value: Swift.Double = 0.0
+        )
+        {
+            self.currency = currency
+            self.value = value
+        }
+    }
+
+}
+
 extension ComputeOptimizerClientTypes {
     public enum LambdaFunctionMemoryMetricName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case duration
@@ -8019,6 +9967,7 @@ extension ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption: 
         case projectedUtilizationMetrics
         case rank
         case savingsOpportunity
+        case savingsOpportunityAfterDiscounts
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -8037,6 +9986,9 @@ extension ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption: 
         }
         if let savingsOpportunity = self.savingsOpportunity {
             try encodeContainer.encode(savingsOpportunity, forKey: .savingsOpportunity)
+        }
+        if let savingsOpportunityAfterDiscounts = self.savingsOpportunityAfterDiscounts {
+            try encodeContainer.encode(savingsOpportunityAfterDiscounts, forKey: .savingsOpportunityAfterDiscounts)
         }
     }
 
@@ -8059,6 +10011,8 @@ extension ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption: 
         projectedUtilizationMetrics = projectedUtilizationMetricsDecoded0
         let savingsOpportunityDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.SavingsOpportunity.self, forKey: .savingsOpportunity)
         savingsOpportunity = savingsOpportunityDecoded
+        let savingsOpportunityAfterDiscountsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LambdaSavingsOpportunityAfterDiscounts.self, forKey: .savingsOpportunityAfterDiscounts)
+        savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscountsDecoded
     }
 }
 
@@ -8073,18 +10027,22 @@ extension ComputeOptimizerClientTypes {
         public var rank: Swift.Int
         /// An object that describes the savings opportunity for the Lambda function recommendation option. Savings opportunity includes the estimated monthly savings amount and percentage.
         public var savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity?
+        /// An object that describes the savings opportunity for the Lambda recommendation option which includes Saving Plans discounts. Savings opportunity includes the estimated monthly savings and percentage.
+        public var savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.LambdaSavingsOpportunityAfterDiscounts?
 
         public init(
             memorySize: Swift.Int = 0,
             projectedUtilizationMetrics: [ComputeOptimizerClientTypes.LambdaFunctionMemoryProjectedMetric]? = nil,
             rank: Swift.Int = 0,
-            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil
+            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil,
+            savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.LambdaSavingsOpportunityAfterDiscounts? = nil
         )
         {
             self.memorySize = memorySize
             self.projectedUtilizationMetrics = projectedUtilizationMetrics
             self.rank = rank
             self.savingsOpportunity = savingsOpportunity
+            self.savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscounts
         }
     }
 
@@ -8159,6 +10117,7 @@ extension ComputeOptimizerClientTypes.LambdaFunctionRecommendation: Swift.Codabl
         case accountId
         case currentMemorySize
         case currentPerformanceRisk
+        case effectiveRecommendationPreferences
         case finding
         case findingReasonCodes
         case functionArn
@@ -8181,6 +10140,9 @@ extension ComputeOptimizerClientTypes.LambdaFunctionRecommendation: Swift.Codabl
         }
         if let currentPerformanceRisk = self.currentPerformanceRisk {
             try encodeContainer.encode(currentPerformanceRisk.rawValue, forKey: .currentPerformanceRisk)
+        }
+        if let effectiveRecommendationPreferences = self.effectiveRecommendationPreferences {
+            try encodeContainer.encode(effectiveRecommendationPreferences, forKey: .effectiveRecommendationPreferences)
         }
         if let finding = self.finding {
             try encodeContainer.encode(finding.rawValue, forKey: .finding)
@@ -8290,6 +10252,8 @@ extension ComputeOptimizerClientTypes.LambdaFunctionRecommendation: Swift.Codabl
             }
         }
         tags = tagsDecoded0
+        let effectiveRecommendationPreferencesDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LambdaEffectiveRecommendationPreferences.self, forKey: .effectiveRecommendationPreferences)
+        effectiveRecommendationPreferences = effectiveRecommendationPreferencesDecoded
     }
 }
 
@@ -8302,6 +10266,8 @@ extension ComputeOptimizerClientTypes {
         public var currentMemorySize: Swift.Int
         /// The risk of the current Lambda function not meeting the performance needs of its workloads. The higher the risk, the more likely the current Lambda function requires more memory.
         public var currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk?
+        /// Describes the effective recommendation preferences for Lambda functions.
+        public var effectiveRecommendationPreferences: ComputeOptimizerClientTypes.LambdaEffectiveRecommendationPreferences?
         /// The finding classification of the function. Findings for functions include:
         ///
         /// * Optimized — The function is correctly provisioned to run your workload based on its current configuration and its utilization history. This finding classification does not include finding reason codes.
@@ -8341,6 +10307,7 @@ extension ComputeOptimizerClientTypes {
             accountId: Swift.String? = nil,
             currentMemorySize: Swift.Int = 0,
             currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk? = nil,
+            effectiveRecommendationPreferences: ComputeOptimizerClientTypes.LambdaEffectiveRecommendationPreferences? = nil,
             finding: ComputeOptimizerClientTypes.LambdaFunctionRecommendationFinding? = nil,
             findingReasonCodes: [ComputeOptimizerClientTypes.LambdaFunctionRecommendationFindingReasonCode]? = nil,
             functionArn: Swift.String? = nil,
@@ -8356,6 +10323,7 @@ extension ComputeOptimizerClientTypes {
             self.accountId = accountId
             self.currentMemorySize = currentMemorySize
             self.currentPerformanceRisk = currentPerformanceRisk
+            self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
             self.finding = finding
             self.findingReasonCodes = findingReasonCodes
             self.functionArn = functionArn
@@ -8596,6 +10564,746 @@ extension ComputeOptimizerClientTypes {
 
 }
 
+extension ComputeOptimizerClientTypes.LambdaSavingsEstimationMode: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case source
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let source = self.source {
+            try encodeContainer.encode(source.rawValue, forKey: .source)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LambdaSavingsEstimationModeSource.self, forKey: .source)
+        source = sourceDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the savings estimation used for calculating savings opportunity for Lambda functions.
+    public struct LambdaSavingsEstimationMode: Swift.Equatable {
+        /// Describes the source for calculation of savings opportunity for Lambda functions.
+        public var source: ComputeOptimizerClientTypes.LambdaSavingsEstimationModeSource?
+
+        public init(
+            source: ComputeOptimizerClientTypes.LambdaSavingsEstimationModeSource? = nil
+        )
+        {
+            self.source = source
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum LambdaSavingsEstimationModeSource: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case costExplorerRightsizing
+        case costOptimizationHub
+        case publicPricing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LambdaSavingsEstimationModeSource] {
+            return [
+                .costExplorerRightsizing,
+                .costOptimizationHub,
+                .publicPricing,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .costExplorerRightsizing: return "CostExplorerRightsizing"
+            case .costOptimizationHub: return "CostOptimizationHub"
+            case .publicPricing: return "PublicPricing"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LambdaSavingsEstimationModeSource(rawValue: rawValue) ?? LambdaSavingsEstimationModeSource.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes.LambdaSavingsOpportunityAfterDiscounts: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case estimatedMonthlySavings
+        case savingsOpportunityPercentage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let estimatedMonthlySavings = self.estimatedMonthlySavings {
+            try encodeContainer.encode(estimatedMonthlySavings, forKey: .estimatedMonthlySavings)
+        }
+        if savingsOpportunityPercentage != 0.0 {
+            try encodeContainer.encode(savingsOpportunityPercentage, forKey: .savingsOpportunityPercentage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let savingsOpportunityPercentageDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .savingsOpportunityPercentage) ?? 0.0
+        savingsOpportunityPercentage = savingsOpportunityPercentageDecoded
+        let estimatedMonthlySavingsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LambdaEstimatedMonthlySavings.self, forKey: .estimatedMonthlySavings)
+        estimatedMonthlySavings = estimatedMonthlySavingsDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the savings opportunity for Lambda functions recommendations after applying Savings Plans discounts. Savings opportunity represents the estimated monthly savings after applying Savings Plans discounts. You can achieve this by implementing a given Compute Optimizer recommendation.
+    public struct LambdaSavingsOpportunityAfterDiscounts: Swift.Equatable {
+        /// The estimated monthly savings possible by adopting Compute Optimizer’s Lambda function recommendations. This includes any applicable Savings Plans discounts.
+        public var estimatedMonthlySavings: ComputeOptimizerClientTypes.LambdaEstimatedMonthlySavings?
+        /// The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer’s Lambda function recommendations. This includes any applicable Savings Plans discounts.
+        public var savingsOpportunityPercentage: Swift.Double
+
+        public init(
+            estimatedMonthlySavings: ComputeOptimizerClientTypes.LambdaEstimatedMonthlySavings? = nil,
+            savingsOpportunityPercentage: Swift.Double = 0.0
+        )
+        {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.savingsOpportunityPercentage = savingsOpportunityPercentage
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.LicenseConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceType
+        case licenseEdition
+        case licenseModel
+        case licenseName
+        case licenseVersion
+        case metricsSource
+        case numberOfCores
+        case operatingSystem
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceType = self.instanceType {
+            try encodeContainer.encode(instanceType, forKey: .instanceType)
+        }
+        if let licenseEdition = self.licenseEdition {
+            try encodeContainer.encode(licenseEdition.rawValue, forKey: .licenseEdition)
+        }
+        if let licenseModel = self.licenseModel {
+            try encodeContainer.encode(licenseModel.rawValue, forKey: .licenseModel)
+        }
+        if let licenseName = self.licenseName {
+            try encodeContainer.encode(licenseName.rawValue, forKey: .licenseName)
+        }
+        if let licenseVersion = self.licenseVersion {
+            try encodeContainer.encode(licenseVersion, forKey: .licenseVersion)
+        }
+        if let metricsSource = metricsSource {
+            var metricsSourceContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricsSource)
+            for metricsource0 in metricsSource {
+                try metricsSourceContainer.encode(metricsource0)
+            }
+        }
+        if numberOfCores != 0 {
+            try encodeContainer.encode(numberOfCores, forKey: .numberOfCores)
+        }
+        if let operatingSystem = self.operatingSystem {
+            try encodeContainer.encode(operatingSystem, forKey: .operatingSystem)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let numberOfCoresDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfCores) ?? 0
+        numberOfCores = numberOfCoresDecoded
+        let instanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceType)
+        instanceType = instanceTypeDecoded
+        let operatingSystemDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operatingSystem)
+        operatingSystem = operatingSystemDecoded
+        let licenseEditionDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LicenseEdition.self, forKey: .licenseEdition)
+        licenseEdition = licenseEditionDecoded
+        let licenseNameDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LicenseName.self, forKey: .licenseName)
+        licenseName = licenseNameDecoded
+        let licenseModelDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LicenseModel.self, forKey: .licenseModel)
+        licenseModel = licenseModelDecoded
+        let licenseVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseVersion)
+        licenseVersion = licenseVersionDecoded
+        let metricsSourceContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.MetricSource?].self, forKey: .metricsSource)
+        var metricsSourceDecoded0:[ComputeOptimizerClientTypes.MetricSource]? = nil
+        if let metricsSourceContainer = metricsSourceContainer {
+            metricsSourceDecoded0 = [ComputeOptimizerClientTypes.MetricSource]()
+            for structure0 in metricsSourceContainer {
+                if let structure0 = structure0 {
+                    metricsSourceDecoded0?.append(structure0)
+                }
+            }
+        }
+        metricsSource = metricsSourceDecoded0
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the configuration of a license for an Amazon EC2 instance.
+    public struct LicenseConfiguration: Swift.Equatable {
+        /// The instance type used in the license.
+        public var instanceType: Swift.String?
+        /// The edition of the license for the application that runs on the instance.
+        public var licenseEdition: ComputeOptimizerClientTypes.LicenseEdition?
+        /// The license type associated with the instance.
+        public var licenseModel: ComputeOptimizerClientTypes.LicenseModel?
+        /// The name of the license for the application that runs on the instance.
+        public var licenseName: ComputeOptimizerClientTypes.LicenseName?
+        /// The version of the license for the application that runs on the instance.
+        public var licenseVersion: Swift.String?
+        /// The list of metric sources required to generate recommendations for commercial software licenses.
+        public var metricsSource: [ComputeOptimizerClientTypes.MetricSource]?
+        /// The current number of cores associated with the instance.
+        public var numberOfCores: Swift.Int
+        /// The operating system of the instance.
+        public var operatingSystem: Swift.String?
+
+        public init(
+            instanceType: Swift.String? = nil,
+            licenseEdition: ComputeOptimizerClientTypes.LicenseEdition? = nil,
+            licenseModel: ComputeOptimizerClientTypes.LicenseModel? = nil,
+            licenseName: ComputeOptimizerClientTypes.LicenseName? = nil,
+            licenseVersion: Swift.String? = nil,
+            metricsSource: [ComputeOptimizerClientTypes.MetricSource]? = nil,
+            numberOfCores: Swift.Int = 0,
+            operatingSystem: Swift.String? = nil
+        )
+        {
+            self.instanceType = instanceType
+            self.licenseEdition = licenseEdition
+            self.licenseModel = licenseModel
+            self.licenseName = licenseName
+            self.licenseVersion = licenseVersion
+            self.metricsSource = metricsSource
+            self.numberOfCores = numberOfCores
+            self.operatingSystem = operatingSystem
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum LicenseEdition: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case enterprise
+        case free
+        case noLicenseEditionFound
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LicenseEdition] {
+            return [
+                .enterprise,
+                .free,
+                .noLicenseEditionFound,
+                .standard,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .enterprise: return "Enterprise"
+            case .free: return "Free"
+            case .noLicenseEditionFound: return "NoLicenseEditionFound"
+            case .standard: return "Standard"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LicenseEdition(rawValue: rawValue) ?? LicenseEdition.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum LicenseFinding: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case insufficientMetrics
+        case notOptimized
+        case optimized
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LicenseFinding] {
+            return [
+                .insufficientMetrics,
+                .notOptimized,
+                .optimized,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .insufficientMetrics: return "InsufficientMetrics"
+            case .notOptimized: return "NotOptimized"
+            case .optimized: return "Optimized"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LicenseFinding(rawValue: rawValue) ?? LicenseFinding.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum LicenseFindingReasonCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cwAppInsightsDisabled
+        case cwAppInsightsError
+        case licenseOverProvisioned
+        case optimized
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LicenseFindingReasonCode] {
+            return [
+                .cwAppInsightsDisabled,
+                .cwAppInsightsError,
+                .licenseOverProvisioned,
+                .optimized,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cwAppInsightsDisabled: return "InvalidCloudWatchApplicationInsightsSetup"
+            case .cwAppInsightsError: return "CloudWatchApplicationInsightsError"
+            case .licenseOverProvisioned: return "LicenseOverprovisioned"
+            case .optimized: return "Optimized"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LicenseFindingReasonCode(rawValue: rawValue) ?? LicenseFindingReasonCode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum LicenseModel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case bringYourOwnLicense
+        case licenseIncluded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LicenseModel] {
+            return [
+                .bringYourOwnLicense,
+                .licenseIncluded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .bringYourOwnLicense: return "BringYourOwnLicense"
+            case .licenseIncluded: return "LicenseIncluded"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LicenseModel(rawValue: rawValue) ?? LicenseModel.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum LicenseName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case sqlserver
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LicenseName] {
+            return [
+                .sqlserver,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .sqlserver: return "SQLServer"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LicenseName(rawValue: rawValue) ?? LicenseName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes.LicenseRecommendation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+        case currentLicenseConfiguration
+        case finding
+        case findingReasonCodes
+        case lastRefreshTimestamp
+        case licenseRecommendationOptions
+        case lookbackPeriodInDays
+        case resourceArn
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let currentLicenseConfiguration = self.currentLicenseConfiguration {
+            try encodeContainer.encode(currentLicenseConfiguration, forKey: .currentLicenseConfiguration)
+        }
+        if let finding = self.finding {
+            try encodeContainer.encode(finding.rawValue, forKey: .finding)
+        }
+        if let findingReasonCodes = findingReasonCodes {
+            var findingReasonCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingReasonCodes)
+            for licensefindingreasoncode0 in findingReasonCodes {
+                try findingReasonCodesContainer.encode(licensefindingreasoncode0.rawValue)
+            }
+        }
+        if let lastRefreshTimestamp = self.lastRefreshTimestamp {
+            try encodeContainer.encodeTimestamp(lastRefreshTimestamp, format: .epochSeconds, forKey: .lastRefreshTimestamp)
+        }
+        if let licenseRecommendationOptions = licenseRecommendationOptions {
+            var licenseRecommendationOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .licenseRecommendationOptions)
+            for licenserecommendationoption0 in licenseRecommendationOptions {
+                try licenseRecommendationOptionsContainer.encode(licenserecommendationoption0)
+            }
+        }
+        if lookbackPeriodInDays != 0.0 {
+            try encodeContainer.encode(lookbackPeriodInDays, forKey: .lookbackPeriodInDays)
+        }
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let currentLicenseConfigurationDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LicenseConfiguration.self, forKey: .currentLicenseConfiguration)
+        currentLicenseConfiguration = currentLicenseConfigurationDecoded
+        let lookbackPeriodInDaysDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lookbackPeriodInDays) ?? 0.0
+        lookbackPeriodInDays = lookbackPeriodInDaysDecoded
+        let lastRefreshTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastRefreshTimestamp)
+        lastRefreshTimestamp = lastRefreshTimestampDecoded
+        let findingDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LicenseFinding.self, forKey: .finding)
+        finding = findingDecoded
+        let findingReasonCodesContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.LicenseFindingReasonCode?].self, forKey: .findingReasonCodes)
+        var findingReasonCodesDecoded0:[ComputeOptimizerClientTypes.LicenseFindingReasonCode]? = nil
+        if let findingReasonCodesContainer = findingReasonCodesContainer {
+            findingReasonCodesDecoded0 = [ComputeOptimizerClientTypes.LicenseFindingReasonCode]()
+            for enum0 in findingReasonCodesContainer {
+                if let enum0 = enum0 {
+                    findingReasonCodesDecoded0?.append(enum0)
+                }
+            }
+        }
+        findingReasonCodes = findingReasonCodesDecoded0
+        let licenseRecommendationOptionsContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.LicenseRecommendationOption?].self, forKey: .licenseRecommendationOptions)
+        var licenseRecommendationOptionsDecoded0:[ComputeOptimizerClientTypes.LicenseRecommendationOption]? = nil
+        if let licenseRecommendationOptionsContainer = licenseRecommendationOptionsContainer {
+            licenseRecommendationOptionsDecoded0 = [ComputeOptimizerClientTypes.LicenseRecommendationOption]()
+            for structure0 in licenseRecommendationOptionsContainer {
+                if let structure0 = structure0 {
+                    licenseRecommendationOptionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        licenseRecommendationOptions = licenseRecommendationOptionsDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[ComputeOptimizerClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [ComputeOptimizerClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes a license recommendation for an EC2 instance.
+    public struct LicenseRecommendation: Swift.Equatable {
+        /// The Amazon Web Services account ID of the license.
+        public var accountId: Swift.String?
+        /// An object that describes the current configuration of an instance that runs on a license.
+        public var currentLicenseConfiguration: ComputeOptimizerClientTypes.LicenseConfiguration?
+        /// The finding classification for an instance that runs on a license. Findings include:
+        ///
+        /// * InsufficentMetrics — When Compute Optimizer detects that your CloudWatch Application Insights isn't enabled or is enabled with insufficient permissions.
+        ///
+        /// * NotOptimized — When Compute Optimizer detects that your EC2 infrastructure isn't using any of the SQL server license features you're paying for, a license is considered not optimized.
+        ///
+        /// * Optimized — When Compute Optimizer detects that all specifications of your license meet the performance requirements of your workload.
+        public var finding: ComputeOptimizerClientTypes.LicenseFinding?
+        /// The reason for the finding classification for an instance that runs on a license. Finding reason codes include:
+        ///
+        /// * Optimized — All specifications of your license meet the performance requirements of your workload.
+        ///
+        /// * LicenseOverprovisioned — A license is considered over-provisioned when your license can be downgraded while still meeting the performance requirements of your workload.
+        ///
+        /// * InvalidCloudwatchApplicationInsights — CloudWatch Application Insights isn't configured properly.
+        ///
+        /// * CloudwatchApplicationInsightsError — There is a CloudWatch Application Insights error.
+        public var findingReasonCodes: [ComputeOptimizerClientTypes.LicenseFindingReasonCode]?
+        /// The timestamp of when the license recommendation was last generated.
+        public var lastRefreshTimestamp: ClientRuntime.Date?
+        /// An array of objects that describe the license recommendation options.
+        public var licenseRecommendationOptions: [ComputeOptimizerClientTypes.LicenseRecommendationOption]?
+        /// The number of days for which utilization metrics were analyzed for an instance that runs on a license.
+        public var lookbackPeriodInDays: Swift.Double
+        /// The ARN that identifies the Amazon EC2 instance.
+        public var resourceArn: Swift.String?
+        /// A list of tags assigned to an EC2 instance.
+        public var tags: [ComputeOptimizerClientTypes.Tag]?
+
+        public init(
+            accountId: Swift.String? = nil,
+            currentLicenseConfiguration: ComputeOptimizerClientTypes.LicenseConfiguration? = nil,
+            finding: ComputeOptimizerClientTypes.LicenseFinding? = nil,
+            findingReasonCodes: [ComputeOptimizerClientTypes.LicenseFindingReasonCode]? = nil,
+            lastRefreshTimestamp: ClientRuntime.Date? = nil,
+            licenseRecommendationOptions: [ComputeOptimizerClientTypes.LicenseRecommendationOption]? = nil,
+            lookbackPeriodInDays: Swift.Double = 0.0,
+            resourceArn: Swift.String? = nil,
+            tags: [ComputeOptimizerClientTypes.Tag]? = nil
+        )
+        {
+            self.accountId = accountId
+            self.currentLicenseConfiguration = currentLicenseConfiguration
+            self.finding = finding
+            self.findingReasonCodes = findingReasonCodes
+            self.lastRefreshTimestamp = lastRefreshTimestamp
+            self.licenseRecommendationOptions = licenseRecommendationOptions
+            self.lookbackPeriodInDays = lookbackPeriodInDays
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.LicenseRecommendationFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case values
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LicenseRecommendationFilterName.self, forKey: .name)
+        name = nameDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes a filter that returns a more specific list of license recommendations. Use this filter with the GetLicenseRecommendation action.
+    public struct LicenseRecommendationFilter: Swift.Equatable {
+        /// The name of the filter. Specify Finding to return recommendations with a specific finding classification. Specify FindingReasonCode to return recommendations with a specific finding reason code. You can filter your license recommendations by tag:key and tag-key tags. A tag:key is a key and value combination of a tag assigned to your license recommendations. Use the tag key in the filter name and the tag value as the filter value. For example, to find all license recommendations that have a tag with the key of Owner and the value of TeamA, specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your license recommendations. Use this filter to find all of your license recommendations that have a tag with a specific key. This doesn’t consider the tag value. For example, you can find your license recommendations with a tag key value of Owner or without any tag keys assigned.
+        public var name: ComputeOptimizerClientTypes.LicenseRecommendationFilterName?
+        /// The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter:
+        ///
+        /// * If you specify the name parameter as Finding, then specify Optimized, NotOptimized, or InsufficentMetrics.
+        ///
+        /// * If you specify the name parameter as FindingReasonCode, then specify Optimized, LicenseOverprovisioned, InvalidCloudwatchApplicationInsights, or CloudwatchApplicationInsightsError.
+        public var values: [Swift.String]?
+
+        public init(
+            name: ComputeOptimizerClientTypes.LicenseRecommendationFilterName? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.name = name
+            self.values = values
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum LicenseRecommendationFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case licenseFinding
+        case licenseFindingReasonCode
+        case licenseName
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LicenseRecommendationFilterName] {
+            return [
+                .licenseFinding,
+                .licenseFindingReasonCode,
+                .licenseName,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .licenseFinding: return "Finding"
+            case .licenseFindingReasonCode: return "FindingReasonCode"
+            case .licenseName: return "LicenseName"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LicenseRecommendationFilterName(rawValue: rawValue) ?? LicenseRecommendationFilterName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes.LicenseRecommendationOption: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case licenseEdition
+        case licenseModel
+        case operatingSystem
+        case rank
+        case savingsOpportunity
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let licenseEdition = self.licenseEdition {
+            try encodeContainer.encode(licenseEdition.rawValue, forKey: .licenseEdition)
+        }
+        if let licenseModel = self.licenseModel {
+            try encodeContainer.encode(licenseModel.rawValue, forKey: .licenseModel)
+        }
+        if let operatingSystem = self.operatingSystem {
+            try encodeContainer.encode(operatingSystem, forKey: .operatingSystem)
+        }
+        if rank != 0 {
+            try encodeContainer.encode(rank, forKey: .rank)
+        }
+        if let savingsOpportunity = self.savingsOpportunity {
+            try encodeContainer.encode(savingsOpportunity, forKey: .savingsOpportunity)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rankDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rank) ?? 0
+        rank = rankDecoded
+        let operatingSystemDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operatingSystem)
+        operatingSystem = operatingSystemDecoded
+        let licenseEditionDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LicenseEdition.self, forKey: .licenseEdition)
+        licenseEdition = licenseEditionDecoded
+        let licenseModelDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LicenseModel.self, forKey: .licenseModel)
+        licenseModel = licenseModelDecoded
+        let savingsOpportunityDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.SavingsOpportunity.self, forKey: .savingsOpportunity)
+        savingsOpportunity = savingsOpportunityDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the recommendation options for licenses.
+    public struct LicenseRecommendationOption: Swift.Equatable {
+        /// The recommended edition of the license for the application that runs on the instance.
+        public var licenseEdition: ComputeOptimizerClientTypes.LicenseEdition?
+        /// The recommended license type associated with the instance.
+        public var licenseModel: ComputeOptimizerClientTypes.LicenseModel?
+        /// The operating system of a license recommendation option.
+        public var operatingSystem: Swift.String?
+        /// The rank of the license recommendation option. The top recommendation option is ranked as 1.
+        public var rank: Swift.Int
+        /// Describes the savings opportunity for recommendations of a given resource type or for the recommendation option of an individual resource. Savings opportunity represents the estimated monthly savings you can achieve by implementing a given Compute Optimizer recommendation. Savings opportunity data requires that you opt in to Cost Explorer, as well as activate Receive Amazon EC2 resource recommendations in the Cost Explorer preferences page. That creates a connection between Cost Explorer and Compute Optimizer. With this connection, Cost Explorer generates savings estimates considering the price of existing resources, the price of recommended resources, and historical usage data. Estimated monthly savings reflects the projected dollar savings associated with each of the recommendations generated. For more information, see [Enabling Cost Explorer](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-enable.html) and [Optimizing your cost with Rightsizing Recommendations](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-rightsizing.html) in the Cost Management User Guide.
+        public var savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity?
+
+        public init(
+            licenseEdition: ComputeOptimizerClientTypes.LicenseEdition? = nil,
+            licenseModel: ComputeOptimizerClientTypes.LicenseModel? = nil,
+            operatingSystem: Swift.String? = nil,
+            rank: Swift.Int = 0,
+            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil
+        )
+        {
+            self.licenseEdition = licenseEdition
+            self.licenseModel = licenseModel
+            self.operatingSystem = operatingSystem
+            self.rank = rank
+            self.savingsOpportunity = savingsOpportunity
+        }
+    }
+
+}
+
 extension LimitExceededException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -8648,6 +11356,41 @@ extension LimitExceededExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum LookBackPeriodPreference: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case days14
+        case days32
+        case days93
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LookBackPeriodPreference] {
+            return [
+                .days14,
+                .days32,
+                .days93,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .days14: return "DAYS_14"
+            case .days32: return "DAYS_32"
+            case .days93: return "DAYS_93"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LookBackPeriodPreference(rawValue: rawValue) ?? LookBackPeriodPreference.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -8707,6 +11450,8 @@ extension ComputeOptimizerClientTypes {
         case ebsReadOpsPerSecond
         case ebsWriteBytesPerSecond
         case ebsWriteOpsPerSecond
+        case gpuMemoryPercentage
+        case gpuPercentage
         case memory
         case networkInBytesPerSecond
         case networkOutBytesPerSecond
@@ -8725,6 +11470,8 @@ extension ComputeOptimizerClientTypes {
                 .ebsReadOpsPerSecond,
                 .ebsWriteBytesPerSecond,
                 .ebsWriteOpsPerSecond,
+                .gpuMemoryPercentage,
+                .gpuPercentage,
                 .memory,
                 .networkInBytesPerSecond,
                 .networkOutBytesPerSecond,
@@ -8748,6 +11495,8 @@ extension ComputeOptimizerClientTypes {
             case .ebsReadOpsPerSecond: return "EBS_READ_OPS_PER_SECOND"
             case .ebsWriteBytesPerSecond: return "EBS_WRITE_BYTES_PER_SECOND"
             case .ebsWriteOpsPerSecond: return "EBS_WRITE_OPS_PER_SECOND"
+            case .gpuMemoryPercentage: return "GPU_MEMORY_PERCENTAGE"
+            case .gpuPercentage: return "GPU_PERCENTAGE"
             case .memory: return "Memory"
             case .networkInBytesPerSecond: return "NETWORK_IN_BYTES_PER_SECOND"
             case .networkOutBytesPerSecond: return "NETWORK_OUT_BYTES_PER_SECOND"
@@ -8760,6 +11509,80 @@ extension ComputeOptimizerClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = MetricName(rawValue: rawValue) ?? MetricName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes.MetricSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case provider
+        case providerArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let provider = self.provider {
+            try encodeContainer.encode(provider.rawValue, forKey: .provider)
+        }
+        if let providerArn = self.providerArn {
+            try encodeContainer.encode(providerArn, forKey: .providerArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let providerDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.MetricSourceProvider.self, forKey: .provider)
+        provider = providerDecoded
+        let providerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .providerArn)
+        providerArn = providerArnDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// The list of metric sources required to generate recommendations for commercial software licenses.
+    public struct MetricSource: Swift.Equatable {
+        /// The name of the metric source provider.
+        public var provider: ComputeOptimizerClientTypes.MetricSourceProvider?
+        /// The ARN of the metric source provider.
+        public var providerArn: Swift.String?
+
+        public init(
+            provider: ComputeOptimizerClientTypes.MetricSourceProvider? = nil,
+            providerArn: Swift.String? = nil
+        )
+        {
+            self.provider = provider
+            self.providerArn = providerArn
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum MetricSourceProvider: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cloudwatchappinsights
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetricSourceProvider] {
+            return [
+                .cloudwatchappinsights,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cloudwatchappinsights: return "CloudWatchApplicationInsights"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MetricSourceProvider(rawValue: rawValue) ?? MetricSourceProvider.sdkUnknown(rawValue)
         }
     }
 }
@@ -8988,6 +11811,118 @@ extension ComputeOptimizerClientTypes {
     }
 }
 
+extension ComputeOptimizerClientTypes.PreferredResource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case excludeList
+        case includeList
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let excludeList = excludeList {
+            var excludeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludeList)
+            for preferredresourcevalue0 in excludeList {
+                try excludeListContainer.encode(preferredresourcevalue0)
+            }
+        }
+        if let includeList = includeList {
+            var includeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includeList)
+            for preferredresourcevalue0 in includeList {
+                try includeListContainer.encode(preferredresourcevalue0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.PreferredResourceName.self, forKey: .name)
+        name = nameDecoded
+        let includeListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .includeList)
+        var includeListDecoded0:[Swift.String]? = nil
+        if let includeListContainer = includeListContainer {
+            includeListDecoded0 = [Swift.String]()
+            for string0 in includeListContainer {
+                if let string0 = string0 {
+                    includeListDecoded0?.append(string0)
+                }
+            }
+        }
+        includeList = includeListDecoded0
+        let excludeListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .excludeList)
+        var excludeListDecoded0:[Swift.String]? = nil
+        if let excludeListContainer = excludeListContainer {
+            excludeListDecoded0 = [Swift.String]()
+            for string0 in excludeListContainer {
+                if let string0 = string0 {
+                    excludeListDecoded0?.append(string0)
+                }
+            }
+        }
+        excludeList = excludeListDecoded0
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// The preference to control which resource type values are considered when generating rightsizing recommendations. You can specify this preference as a combination of include and exclude lists. You must specify either an includeList or excludeList. If the preference is an empty set of resource type values, an error occurs. For more information, see [ Rightsizing recommendation preferences](https://docs.aws.amazon.com/compute-optimizer/latest/ug/rightsizing-preferences.html) in the Compute Optimizer User Guide.
+    ///
+    /// * This preference is only available for the Amazon EC2 instance and Auto Scaling group resource types.
+    ///
+    /// * Compute Optimizer only supports the customization of Ec2InstanceTypes.
+    public struct PreferredResource: Swift.Equatable {
+        /// The preferred resource type values to exclude from the recommendation candidates. If this isn’t specified, all supported resources are included by default. You can specify up to 1000 values in this list.
+        public var excludeList: [Swift.String]?
+        /// The preferred resource type values to include in the recommendation candidates. You can specify the exact resource type value, such as m5.large, or use wild card expressions, such as m5. If this isn’t specified, all supported resources are included by default. You can specify up to 1000 values in this list.
+        public var includeList: [Swift.String]?
+        /// The type of preferred resource to customize. Compute Optimizer only supports the customization of Ec2InstanceTypes.
+        public var name: ComputeOptimizerClientTypes.PreferredResourceName?
+
+        public init(
+            excludeList: [Swift.String]? = nil,
+            includeList: [Swift.String]? = nil,
+            name: ComputeOptimizerClientTypes.PreferredResourceName? = nil
+        )
+        {
+            self.excludeList = excludeList
+            self.includeList = includeList
+            self.name = name
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum PreferredResourceName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ec2InstanceTypes
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PreferredResourceName] {
+            return [
+                .ec2InstanceTypes,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .ec2InstanceTypes: return "Ec2InstanceTypes"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PreferredResourceName(rawValue: rawValue) ?? PreferredResourceName.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ComputeOptimizerClientTypes.ProjectedMetric: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name
@@ -9044,13 +11979,17 @@ extension ComputeOptimizerClientTypes.ProjectedMetric: Swift.Codable {
 }
 
 extension ComputeOptimizerClientTypes {
-    /// Describes a projected utilization metric of a recommendation option, such as an Amazon EC2 instance. This represents the projected utilization of a recommendation option had you used that resource during the analyzed period. Compare the utilization metric data of your resource against its projected utilization metric data to determine the performance difference between your current resource and the recommended option. The Cpu and Memory metrics are the only projected utilization metrics returned when you run the [GetEC2RecommendationProjectedMetrics] action. Additionally, the Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see [Enabling Memory Utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent).
+    /// Describes a projected utilization metric of a recommendation option, such as an Amazon EC2 instance. This represents the projected utilization of a recommendation option had you used that resource during the analyzed period. Compare the utilization metric data of your resource against its projected utilization metric data to determine the performance difference between your current resource and the recommended option. The Cpu, Memory, GPU, and GPU_MEMORY metrics are the only projected utilization metrics returned when you run the [GetEC2RecommendationProjectedMetrics] action. Additionally, these metrics are only returned for resources with the unified CloudWatch agent installed on them. For more information, see [Enabling Memory Utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent) and [Enabling NVIDIA GPU utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#nvidia-cw-agent).
     public struct ProjectedMetric: Swift.Equatable {
         /// The name of the projected utilization metric. The following projected utilization metrics are returned:
         ///
-        /// * Cpu - The projected percentage of allocated EC2 compute units that would be in use on the recommendation option had you used that resource during the analyzed period. This metric identifies the processing power required to run an application on the recommendation option. Depending on the instance type, tools in your operating system can show a lower percentage than CloudWatch when the instance is not allocated a full processor core. Units: Percent
+        /// * Cpu - The projected percentage of allocated EC2 compute units that would be in use on the recommendation option had you used that resource during the analyzed period. This metric identifies the processing power required to run an application on the recommendation option. Depending on the instance type, tools in your operating system can show a lower percentage than CloudWatch when the instance is not allocated a full processor core.
         ///
-        /// * Memory - The percentage of memory that would be in use on the recommendation option had you used that resource during the analyzed period. This metric identifies the amount of memory required to run an application on the recommendation option. Units: Percent The Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see [Enabling Memory Utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent).
+        /// * Memory - The percentage of memory that would be in use on the recommendation option had you used that resource during the analyzed period. This metric identifies the amount of memory required to run an application on the recommendation option. Units: Percent The Memory metric is only returned for resources with the unified CloudWatch agent installed on them. For more information, see [Enabling Memory Utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent).
+        ///
+        /// * GPU - The projected percentage of allocated GPUs if you adjust your configurations to Compute Optimizer's recommendation option.
+        ///
+        /// * GPU_MEMORY - The projected percentage of total GPU memory if you adjust your configurations to Compute Optimizer's recommendation option. The GPU and GPU_MEMORY metrics are only returned for resources with the unified CloudWatch Agent installed on them. For more information, see [Enabling NVIDIA GPU utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#nvidia-cw-agent).
         public var name: ComputeOptimizerClientTypes.MetricName?
         /// The timestamps of the projected utilization metric.
         public var timestamps: [ClientRuntime.Date]?
@@ -9076,8 +12015,12 @@ extension PutRecommendationPreferencesInput: Swift.Encodable {
         case enhancedInfrastructureMetrics
         case externalMetricsPreference
         case inferredWorkloadTypes
+        case lookBackPeriod
+        case preferredResources
         case resourceType
+        case savingsEstimationMode
         case scope
+        case utilizationPreferences
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -9091,11 +12034,29 @@ extension PutRecommendationPreferencesInput: Swift.Encodable {
         if let inferredWorkloadTypes = self.inferredWorkloadTypes {
             try encodeContainer.encode(inferredWorkloadTypes.rawValue, forKey: .inferredWorkloadTypes)
         }
+        if let lookBackPeriod = self.lookBackPeriod {
+            try encodeContainer.encode(lookBackPeriod.rawValue, forKey: .lookBackPeriod)
+        }
+        if let preferredResources = preferredResources {
+            var preferredResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .preferredResources)
+            for preferredresource0 in preferredResources {
+                try preferredResourcesContainer.encode(preferredresource0)
+            }
+        }
         if let resourceType = self.resourceType {
             try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
         }
+        if let savingsEstimationMode = self.savingsEstimationMode {
+            try encodeContainer.encode(savingsEstimationMode.rawValue, forKey: .savingsEstimationMode)
+        }
         if let scope = self.scope {
             try encodeContainer.encode(scope, forKey: .scope)
+        }
+        if let utilizationPreferences = utilizationPreferences {
+            var utilizationPreferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .utilizationPreferences)
+            for utilizationpreference0 in utilizationPreferences {
+                try utilizationPreferencesContainer.encode(utilizationpreference0)
+            }
         }
     }
 }
@@ -9113,25 +12074,48 @@ public struct PutRecommendationPreferencesInput: Swift.Equatable {
     public var externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
     /// The status of the inferred workload types recommendation preference to create or update. The inferred workload type feature is active by default. To deactivate it, create a recommendation preference. Specify the Inactive status to deactivate the feature, or specify Active to activate it. For more information, see [Inferred workload types](https://docs.aws.amazon.com/compute-optimizer/latest/ug/inferred-workload-types.html) in the Compute Optimizer User Guide.
     public var inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference?
+    /// The preference to control the number of days the utilization metrics of the Amazon Web Services resource are analyzed. When this preference isn't specified, we use the default value DAYS_14. You can only set this preference for the Amazon EC2 instance and Auto Scaling group resource types.
+    public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
+    /// The preference to control which resource type values are considered when generating rightsizing recommendations. You can specify this preference as a combination of include and exclude lists. You must specify either an includeList or excludeList. If the preference is an empty set of resource type values, an error occurs. You can only set this preference for the Amazon EC2 instance and Auto Scaling group resource types.
+    public var preferredResources: [ComputeOptimizerClientTypes.PreferredResource]?
     /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group. The valid values for this parameter are Ec2Instance and AutoScalingGroup.
     /// This member is required.
     public var resourceType: ComputeOptimizerClientTypes.ResourceType?
+    /// The status of the savings estimation mode preference to create or update. Specify the AfterDiscounts status to activate the preference, or specify BeforeDiscounts to deactivate the preference. Only the account manager or delegated administrator of your organization can activate this preference. For more information, see [ Savings estimation mode](https://docs.aws.amazon.com/compute-optimizer/latest/ug/savings-estimation-mode.html) in the Compute Optimizer User Guide.
+    public var savingsEstimationMode: ComputeOptimizerClientTypes.SavingsEstimationMode?
     /// An object that describes the scope of the recommendation preference to create. You can create recommendation preferences at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide. You cannot create recommendation preferences for Auto Scaling groups at the organization and account levels. You can create recommendation preferences for Auto Scaling groups only at the resource level by specifying a scope name of ResourceArn and a scope value of the Auto Scaling group Amazon Resource Name (ARN). This will configure the preference for all instances that are part of the specified Auto Scaling group. You also cannot create recommendation preferences at the resource level for instances that are part of an Auto Scaling group. You can create recommendation preferences at the resource level only for standalone instances.
     public var scope: ComputeOptimizerClientTypes.Scope?
+    /// The preference to control the resource’s CPU utilization thresholds - threshold and headroom. When this preference isn't specified, we use the following default values:
+    ///
+    /// * P99_5 for threshold
+    ///
+    /// * PERCENT_17 for headroom
+    ///
+    ///
+    /// You can only set this preference for the Amazon EC2 instance resource type.
+    public var utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]?
 
     public init(
         enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics? = nil,
         externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference? = nil,
         inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference? = nil,
+        lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference? = nil,
+        preferredResources: [ComputeOptimizerClientTypes.PreferredResource]? = nil,
         resourceType: ComputeOptimizerClientTypes.ResourceType? = nil,
-        scope: ComputeOptimizerClientTypes.Scope? = nil
+        savingsEstimationMode: ComputeOptimizerClientTypes.SavingsEstimationMode? = nil,
+        scope: ComputeOptimizerClientTypes.Scope? = nil,
+        utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]? = nil
     )
     {
         self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
         self.externalMetricsPreference = externalMetricsPreference
         self.inferredWorkloadTypes = inferredWorkloadTypes
+        self.lookBackPeriod = lookBackPeriod
+        self.preferredResources = preferredResources
         self.resourceType = resourceType
+        self.savingsEstimationMode = savingsEstimationMode
         self.scope = scope
+        self.utilizationPreferences = utilizationPreferences
     }
 }
 
@@ -9141,6 +12125,10 @@ struct PutRecommendationPreferencesInputBody: Swift.Equatable {
     let enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
     let inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference?
     let externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
+    let lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
+    let utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]?
+    let preferredResources: [ComputeOptimizerClientTypes.PreferredResource]?
+    let savingsEstimationMode: ComputeOptimizerClientTypes.SavingsEstimationMode?
 }
 
 extension PutRecommendationPreferencesInputBody: Swift.Decodable {
@@ -9148,8 +12136,12 @@ extension PutRecommendationPreferencesInputBody: Swift.Decodable {
         case enhancedInfrastructureMetrics
         case externalMetricsPreference
         case inferredWorkloadTypes
+        case lookBackPeriod
+        case preferredResources
         case resourceType
+        case savingsEstimationMode
         case scope
+        case utilizationPreferences
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -9164,11 +12156,47 @@ extension PutRecommendationPreferencesInputBody: Swift.Decodable {
         inferredWorkloadTypes = inferredWorkloadTypesDecoded
         let externalMetricsPreferenceDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ExternalMetricsPreference.self, forKey: .externalMetricsPreference)
         externalMetricsPreference = externalMetricsPreferenceDecoded
+        let lookBackPeriodDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LookBackPeriodPreference.self, forKey: .lookBackPeriod)
+        lookBackPeriod = lookBackPeriodDecoded
+        let utilizationPreferencesContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.UtilizationPreference?].self, forKey: .utilizationPreferences)
+        var utilizationPreferencesDecoded0:[ComputeOptimizerClientTypes.UtilizationPreference]? = nil
+        if let utilizationPreferencesContainer = utilizationPreferencesContainer {
+            utilizationPreferencesDecoded0 = [ComputeOptimizerClientTypes.UtilizationPreference]()
+            for structure0 in utilizationPreferencesContainer {
+                if let structure0 = structure0 {
+                    utilizationPreferencesDecoded0?.append(structure0)
+                }
+            }
+        }
+        utilizationPreferences = utilizationPreferencesDecoded0
+        let preferredResourcesContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.PreferredResource?].self, forKey: .preferredResources)
+        var preferredResourcesDecoded0:[ComputeOptimizerClientTypes.PreferredResource]? = nil
+        if let preferredResourcesContainer = preferredResourcesContainer {
+            preferredResourcesDecoded0 = [ComputeOptimizerClientTypes.PreferredResource]()
+            for structure0 in preferredResourcesContainer {
+                if let structure0 = structure0 {
+                    preferredResourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        preferredResources = preferredResourcesDecoded0
+        let savingsEstimationModeDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.SavingsEstimationMode.self, forKey: .savingsEstimationMode)
+        savingsEstimationMode = savingsEstimationModeDecoded
     }
 }
 
-public enum PutRecommendationPreferencesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+extension PutRecommendationPreferencesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutRecommendationPreferencesOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutRecommendationPreferencesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -9183,16 +12211,6 @@ public enum PutRecommendationPreferencesOutputError: ClientRuntime.HttpResponseE
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension PutRecommendationPreferencesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutRecommendationPreferencesOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ComputeOptimizerClientTypes.ReasonCodeSummary: Swift.Codable {
@@ -9340,6 +12358,9 @@ extension ComputeOptimizerClientTypes {
         case enhancedInfrastructureMetrics
         case externalMetricsPreference
         case inferredWorkloadTypes
+        case lookbackPeriodPreference
+        case preferredResources
+        case utilizationPreferences
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RecommendationPreferenceName] {
@@ -9347,6 +12368,9 @@ extension ComputeOptimizerClientTypes {
                 .enhancedInfrastructureMetrics,
                 .externalMetricsPreference,
                 .inferredWorkloadTypes,
+                .lookbackPeriodPreference,
+                .preferredResources,
+                .utilizationPreferences,
                 .sdkUnknown("")
             ]
         }
@@ -9359,6 +12383,9 @@ extension ComputeOptimizerClientTypes {
             case .enhancedInfrastructureMetrics: return "EnhancedInfrastructureMetrics"
             case .externalMetricsPreference: return "ExternalMetricsPreference"
             case .inferredWorkloadTypes: return "InferredWorkloadTypes"
+            case .lookbackPeriodPreference: return "LookBackPeriodPreference"
+            case .preferredResources: return "PreferredResources"
+            case .utilizationPreferences: return "UtilizationPreferences"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9428,8 +12455,12 @@ extension ComputeOptimizerClientTypes.RecommendationPreferencesDetail: Swift.Cod
         case enhancedInfrastructureMetrics
         case externalMetricsPreference
         case inferredWorkloadTypes
+        case lookBackPeriod
+        case preferredResources
         case resourceType
+        case savingsEstimationMode
         case scope
+        case utilizationPreferences
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -9443,11 +12474,29 @@ extension ComputeOptimizerClientTypes.RecommendationPreferencesDetail: Swift.Cod
         if let inferredWorkloadTypes = self.inferredWorkloadTypes {
             try encodeContainer.encode(inferredWorkloadTypes.rawValue, forKey: .inferredWorkloadTypes)
         }
+        if let lookBackPeriod = self.lookBackPeriod {
+            try encodeContainer.encode(lookBackPeriod.rawValue, forKey: .lookBackPeriod)
+        }
+        if let preferredResources = preferredResources {
+            var preferredResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .preferredResources)
+            for effectivepreferredresource0 in preferredResources {
+                try preferredResourcesContainer.encode(effectivepreferredresource0)
+            }
+        }
         if let resourceType = self.resourceType {
             try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
         }
+        if let savingsEstimationMode = self.savingsEstimationMode {
+            try encodeContainer.encode(savingsEstimationMode.rawValue, forKey: .savingsEstimationMode)
+        }
         if let scope = self.scope {
             try encodeContainer.encode(scope, forKey: .scope)
+        }
+        if let utilizationPreferences = utilizationPreferences {
+            var utilizationPreferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .utilizationPreferences)
+            for utilizationpreference0 in utilizationPreferences {
+                try utilizationPreferencesContainer.encode(utilizationpreference0)
+            }
         }
     }
 
@@ -9463,6 +12512,32 @@ extension ComputeOptimizerClientTypes.RecommendationPreferencesDetail: Swift.Cod
         inferredWorkloadTypes = inferredWorkloadTypesDecoded
         let externalMetricsPreferenceDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ExternalMetricsPreference.self, forKey: .externalMetricsPreference)
         externalMetricsPreference = externalMetricsPreferenceDecoded
+        let lookBackPeriodDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LookBackPeriodPreference.self, forKey: .lookBackPeriod)
+        lookBackPeriod = lookBackPeriodDecoded
+        let utilizationPreferencesContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.UtilizationPreference?].self, forKey: .utilizationPreferences)
+        var utilizationPreferencesDecoded0:[ComputeOptimizerClientTypes.UtilizationPreference]? = nil
+        if let utilizationPreferencesContainer = utilizationPreferencesContainer {
+            utilizationPreferencesDecoded0 = [ComputeOptimizerClientTypes.UtilizationPreference]()
+            for structure0 in utilizationPreferencesContainer {
+                if let structure0 = structure0 {
+                    utilizationPreferencesDecoded0?.append(structure0)
+                }
+            }
+        }
+        utilizationPreferences = utilizationPreferencesDecoded0
+        let preferredResourcesContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.EffectivePreferredResource?].self, forKey: .preferredResources)
+        var preferredResourcesDecoded0:[ComputeOptimizerClientTypes.EffectivePreferredResource]? = nil
+        if let preferredResourcesContainer = preferredResourcesContainer {
+            preferredResourcesDecoded0 = [ComputeOptimizerClientTypes.EffectivePreferredResource]()
+            for structure0 in preferredResourcesContainer {
+                if let structure0 = structure0 {
+                    preferredResourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        preferredResources = preferredResourcesDecoded0
+        let savingsEstimationModeDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.SavingsEstimationMode.self, forKey: .savingsEstimationMode)
+        savingsEstimationMode = savingsEstimationModeDecoded
     }
 }
 
@@ -9475,24 +12550,40 @@ extension ComputeOptimizerClientTypes {
         public var externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
         /// The status of the inferred workload types recommendation preference. When the recommendations page is refreshed, a status of Active confirms that the preference is applied to the recommendations, and a status of Inactive confirms that the preference isn't yet applied to recommendations.
         public var inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference?
+        /// The preference to control the number of days the utilization metrics of the Amazon Web Services resource are analyzed. If the preference isn’t set, this object is null.
+        public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
+        /// The preference to control which resource type values are considered when generating rightsizing recommendations. This object resolves any wildcard expressions and returns the effective list of candidate resource type values. If the preference isn’t set, this object is null.
+        public var preferredResources: [ComputeOptimizerClientTypes.EffectivePreferredResource]?
         /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
         public var resourceType: ComputeOptimizerClientTypes.ResourceType?
+        /// Describes the savings estimation mode used for calculating savings opportunity. Only the account manager or delegated administrator of your organization can activate this preference.
+        public var savingsEstimationMode: ComputeOptimizerClientTypes.SavingsEstimationMode?
         /// An object that describes the scope of the recommendation preference. Recommendation preferences can be created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
         public var scope: ComputeOptimizerClientTypes.Scope?
+        /// The preference to control the resource’s CPU utilization thresholds - threshold and headroom. If the preference isn’t set, this object is null. This preference is only available for the Amazon EC2 instance resource type.
+        public var utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]?
 
         public init(
             enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics? = nil,
             externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference? = nil,
             inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference? = nil,
+            lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference? = nil,
+            preferredResources: [ComputeOptimizerClientTypes.EffectivePreferredResource]? = nil,
             resourceType: ComputeOptimizerClientTypes.ResourceType? = nil,
-            scope: ComputeOptimizerClientTypes.Scope? = nil
+            savingsEstimationMode: ComputeOptimizerClientTypes.SavingsEstimationMode? = nil,
+            scope: ComputeOptimizerClientTypes.Scope? = nil,
+            utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]? = nil
         )
         {
             self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
             self.externalMetricsPreference = externalMetricsPreference
             self.inferredWorkloadTypes = inferredWorkloadTypes
+            self.lookBackPeriod = lookBackPeriod
+            self.preferredResources = preferredResources
             self.resourceType = resourceType
+            self.savingsEstimationMode = savingsEstimationMode
             self.scope = scope
+            self.utilizationPreferences = utilizationPreferences
         }
     }
 
@@ -9550,6 +12641,7 @@ extension ComputeOptimizerClientTypes {
         case ec2Instance
         case ecsService
         case lambdaFunction
+        case license
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RecommendationSourceType] {
@@ -9559,6 +12651,7 @@ extension ComputeOptimizerClientTypes {
                 .ec2Instance,
                 .ecsService,
                 .lambdaFunction,
+                .license,
                 .sdkUnknown("")
             ]
         }
@@ -9573,6 +12666,7 @@ extension ComputeOptimizerClientTypes {
             case .ec2Instance: return "Ec2Instance"
             case .ecsService: return "EcsService"
             case .lambdaFunction: return "LambdaFunction"
+            case .license: return "License"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9664,7 +12758,7 @@ extension ComputeOptimizerClientTypes {
         public var accountId: Swift.String?
         /// An object that describes the performance risk ratings for a given resource type.
         public var currentPerformanceRiskRatings: ComputeOptimizerClientTypes.CurrentPerformanceRiskRatings?
-        /// An array of objects that describes the estimated monthly saving amounts for the instances running on the specified inferredWorkloadTypes. The array contains the top three savings opportunites for the instances running inferred workload types.
+        /// An array of objects that describes the estimated monthly saving amounts for the instances running on the specified inferredWorkloadTypes. The array contains the top five savings opportunites for the instances that run inferred workload types.
         public var inferredWorkloadSavings: [ComputeOptimizerClientTypes.InferredWorkloadSaving]?
         /// The resource type that the recommendation summary applies to.
         public var recommendationResourceType: ComputeOptimizerClientTypes.RecommendationSourceType?
@@ -9822,6 +12916,7 @@ extension ComputeOptimizerClientTypes {
         case ec2Instance
         case ecsService
         case lambdaFunction
+        case license
         case notApplicable
         case sdkUnknown(Swift.String)
 
@@ -9832,6 +12927,7 @@ extension ComputeOptimizerClientTypes {
                 .ec2Instance,
                 .ecsService,
                 .lambdaFunction,
+                .license,
                 .notApplicable,
                 .sdkUnknown("")
             ]
@@ -9847,6 +12943,7 @@ extension ComputeOptimizerClientTypes {
             case .ec2Instance: return "Ec2Instance"
             case .ecsService: return "EcsService"
             case .lambdaFunction: return "LambdaFunction"
+            case .license: return "License"
             case .notApplicable: return "NotApplicable"
             case let .sdkUnknown(s): return s
             }
@@ -9957,6 +13054,38 @@ extension ComputeOptimizerClientTypes {
         }
     }
 
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum SavingsEstimationMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case afterDiscounts
+        case beforeDiscounts
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SavingsEstimationMode] {
+            return [
+                .afterDiscounts,
+                .beforeDiscounts,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .afterDiscounts: return "AfterDiscounts"
+            case .beforeDiscounts: return "BeforeDiscounts"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SavingsEstimationMode(rawValue: rawValue) ?? SavingsEstimationMode.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ComputeOptimizerClientTypes.SavingsOpportunity: Swift.Codable {
@@ -10521,27 +13650,11 @@ extension UpdateEnrollmentStatusInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateEnrollmentStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateEnrollmentStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateEnrollmentStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateEnrollmentStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateEnrollmentStatusOutputBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
             self.statusReason = output.statusReason
         } else {
@@ -10551,7 +13664,7 @@ extension UpdateEnrollmentStatusOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct UpdateEnrollmentStatusOutputResponse: Swift.Equatable {
+public struct UpdateEnrollmentStatusOutput: Swift.Equatable {
     /// The enrollment status of the account.
     public var status: ComputeOptimizerClientTypes.Status?
     /// The reason for the enrollment status of the account. For example, an account might show a status of Pending because member accounts of an organization require more time to be enrolled in the service.
@@ -10567,12 +13680,12 @@ public struct UpdateEnrollmentStatusOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateEnrollmentStatusOutputResponseBody: Swift.Equatable {
+struct UpdateEnrollmentStatusOutputBody: Swift.Equatable {
     let status: ComputeOptimizerClientTypes.Status?
     let statusReason: Swift.String?
 }
 
-extension UpdateEnrollmentStatusOutputResponseBody: Swift.Decodable {
+extension UpdateEnrollmentStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case status
         case statusReason
@@ -10584,6 +13697,22 @@ extension UpdateEnrollmentStatusOutputResponseBody: Swift.Decodable {
         status = statusDecoded
         let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
         statusReason = statusReasonDecoded
+    }
+}
+
+enum UpdateEnrollmentStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10627,6 +13756,10 @@ extension ComputeOptimizerClientTypes {
         ///
         /// * Memory - The percentage of memory that is currently in use on the instance. This metric identifies the amount of memory required to run an application on the instance. Units: Percent The Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see [Enabling Memory Utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent).
         ///
+        /// * GPU - The percentage of allocated GPUs that currently run on the instance.
+        ///
+        /// * GPU_MEMORY - The percentage of total GPU memory that currently runs on the instance. The GPU and GPU_MEMORY metrics are only returned for resources with the unified CloudWatch Agent installed on them. For more information, see [Enabling NVIDIA GPU utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#nvidia-cw-agent).
+        ///
         /// * EBS_READ_OPS_PER_SECOND - The completed read operations from all EBS volumes attached to the instance in a specified period of time. Unit: Count
         ///
         /// * EBS_WRITE_OPS_PER_SECOND - The completed write operations to all EBS volumes attached to the instance in a specified period of time. Unit: Count
@@ -10665,6 +13798,51 @@ extension ComputeOptimizerClientTypes {
             self.name = name
             self.statistic = statistic
             self.value = value
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.UtilizationPreference: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metricName
+        case metricParameters
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let metricName = self.metricName {
+            try encodeContainer.encode(metricName.rawValue, forKey: .metricName)
+        }
+        if let metricParameters = self.metricParameters {
+            try encodeContainer.encode(metricParameters, forKey: .metricParameters)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metricNameDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.CustomizableMetricName.self, forKey: .metricName)
+        metricName = metricNameDecoded
+        let metricParametersDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.CustomizableMetricParameters.self, forKey: .metricParameters)
+        metricParameters = metricParametersDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// The preference to control the resource’s CPU utilization thresholds - threshold and headroom. This preference is only available for the Amazon EC2 instance resource type.
+    public struct UtilizationPreference: Swift.Equatable {
+        /// The name of the resource utilization metric name to customize. Compute Optimizer only supports CpuUtilization.
+        public var metricName: ComputeOptimizerClientTypes.CustomizableMetricName?
+        /// The parameters to set when customizing the resource utilization thresholds.
+        public var metricParameters: ComputeOptimizerClientTypes.CustomizableMetricParameters?
+
+        public init(
+            metricName: ComputeOptimizerClientTypes.CustomizableMetricName? = nil,
+            metricParameters: ComputeOptimizerClientTypes.CustomizableMetricParameters? = nil
+        )
+        {
+            self.metricName = metricName
+            self.metricParameters = metricParameters
         }
     }
 
@@ -10770,6 +13948,7 @@ extension ComputeOptimizerClientTypes.VolumeRecommendation: Swift.Codable {
         case accountId
         case currentConfiguration
         case currentPerformanceRisk
+        case effectiveRecommendationPreferences
         case finding
         case lastRefreshTimestamp
         case lookBackPeriodInDays
@@ -10789,6 +13968,9 @@ extension ComputeOptimizerClientTypes.VolumeRecommendation: Swift.Codable {
         }
         if let currentPerformanceRisk = self.currentPerformanceRisk {
             try encodeContainer.encode(currentPerformanceRisk.rawValue, forKey: .currentPerformanceRisk)
+        }
+        if let effectiveRecommendationPreferences = self.effectiveRecommendationPreferences {
+            try encodeContainer.encode(effectiveRecommendationPreferences, forKey: .effectiveRecommendationPreferences)
         }
         if let finding = self.finding {
             try encodeContainer.encode(finding.rawValue, forKey: .finding)
@@ -10871,6 +14053,8 @@ extension ComputeOptimizerClientTypes.VolumeRecommendation: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let effectiveRecommendationPreferencesDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.EBSEffectiveRecommendationPreferences.self, forKey: .effectiveRecommendationPreferences)
+        effectiveRecommendationPreferences = effectiveRecommendationPreferencesDecoded
     }
 }
 
@@ -10883,6 +14067,8 @@ extension ComputeOptimizerClientTypes {
         public var currentConfiguration: ComputeOptimizerClientTypes.VolumeConfiguration?
         /// The risk of the current EBS volume not meeting the performance needs of its workloads. The higher the risk, the more likely the current EBS volume doesn't have sufficient capacity.
         public var currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk?
+        /// Describes the effective recommendation preferences for Amazon EBS volume.
+        public var effectiveRecommendationPreferences: ComputeOptimizerClientTypes.EBSEffectiveRecommendationPreferences?
         /// The finding classification of the volume. Findings for volumes include:
         ///
         /// * NotOptimized —A volume is considered not optimized when Compute Optimizer identifies a recommendation that can provide better performance for your workload.
@@ -10906,6 +14092,7 @@ extension ComputeOptimizerClientTypes {
             accountId: Swift.String? = nil,
             currentConfiguration: ComputeOptimizerClientTypes.VolumeConfiguration? = nil,
             currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk? = nil,
+            effectiveRecommendationPreferences: ComputeOptimizerClientTypes.EBSEffectiveRecommendationPreferences? = nil,
             finding: ComputeOptimizerClientTypes.EBSFinding? = nil,
             lastRefreshTimestamp: ClientRuntime.Date? = nil,
             lookBackPeriodInDays: Swift.Double = 0.0,
@@ -10918,6 +14105,7 @@ extension ComputeOptimizerClientTypes {
             self.accountId = accountId
             self.currentConfiguration = currentConfiguration
             self.currentPerformanceRisk = currentPerformanceRisk
+            self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
             self.finding = finding
             self.lastRefreshTimestamp = lastRefreshTimestamp
             self.lookBackPeriodInDays = lookBackPeriodInDays
@@ -10936,6 +14124,7 @@ extension ComputeOptimizerClientTypes.VolumeRecommendationOption: Swift.Codable 
         case performanceRisk
         case rank
         case savingsOpportunity
+        case savingsOpportunityAfterDiscounts
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -10952,6 +14141,9 @@ extension ComputeOptimizerClientTypes.VolumeRecommendationOption: Swift.Codable 
         if let savingsOpportunity = self.savingsOpportunity {
             try encodeContainer.encode(savingsOpportunity, forKey: .savingsOpportunity)
         }
+        if let savingsOpportunityAfterDiscounts = self.savingsOpportunityAfterDiscounts {
+            try encodeContainer.encode(savingsOpportunityAfterDiscounts, forKey: .savingsOpportunityAfterDiscounts)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -10964,6 +14156,8 @@ extension ComputeOptimizerClientTypes.VolumeRecommendationOption: Swift.Codable 
         rank = rankDecoded
         let savingsOpportunityDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.SavingsOpportunity.self, forKey: .savingsOpportunity)
         savingsOpportunity = savingsOpportunityDecoded
+        let savingsOpportunityAfterDiscountsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.EBSSavingsOpportunityAfterDiscounts.self, forKey: .savingsOpportunityAfterDiscounts)
+        savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscountsDecoded
     }
 }
 
@@ -10978,18 +14172,22 @@ extension ComputeOptimizerClientTypes {
         public var rank: Swift.Int
         /// An object that describes the savings opportunity for the EBS volume recommendation option. Savings opportunity includes the estimated monthly savings amount and percentage.
         public var savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity?
+        /// An object that describes the savings opportunity for the Amazon EBS volume recommendation option with specific discounts. Savings opportunity includes the estimated monthly savings and percentage.
+        public var savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.EBSSavingsOpportunityAfterDiscounts?
 
         public init(
             configuration: ComputeOptimizerClientTypes.VolumeConfiguration? = nil,
             performanceRisk: Swift.Double = 0.0,
             rank: Swift.Int = 0,
-            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil
+            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil,
+            savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.EBSSavingsOpportunityAfterDiscounts? = nil
         )
         {
             self.configuration = configuration
             self.performanceRisk = performanceRisk
             self.rank = rank
             self.savingsOpportunity = savingsOpportunity
+            self.savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscounts
         }
     }
 

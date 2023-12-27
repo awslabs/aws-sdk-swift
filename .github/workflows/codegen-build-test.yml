@@ -4,64 +4,64 @@ name: Codegen, Build, and Test
 
 on:
   workflow_dispatch:
+  pull_request:
 
 env:
-  BUILDER_VERSION: v0.8.19
-  BUILDER_SOURCE: releases
-  # host owned by CRT team to host aws-crt-builder releases. Contact their on-call with any issues
-  BUILDER_HOST: https://d19elf31gohf1l.cloudfront.net
-  PACKAGE_NAME: aws-sdk-swift
-  LINUX_BASE_IMAGE: ubuntu-16-x64
-  RUN: ${{ github.run_id }}-${{ github.run_number }}
-  AWS_SDK_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift
-  AWS_CRT_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/aws-crt-swift
-  SMITHY_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/smithy-swift
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
 
 jobs:
   codegen-build-test:
     runs-on: macos-13
+    environment: Codegen-Build-Test
     env:
-      DEVELOPER_DIR: /Applications/Xcode_14.3.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_15.0.app/Contents/Developer
     steps:
-      - name: Checkout sources
+      - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
-      - name: Restore Cache
+      - name: Select smithy-swift branch
+        run: |
+          ORIGINAL_REPO_HEAD_REF="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}" \
+          DEPENDENCY_REPO_URL="https://github.com/smithy-lang/smithy-swift.git" \
+          ./scripts/ci_steps/select_dependency_branch.sh
+      - name: Checkout smithy-swift
+        uses: actions/checkout@v3
+        with:
+          repository: smithy-lang/smithy-swift
+          ref: ${{ env.DEPENDENCY_REPO_SHA }}
+          path: smithy-swift
+      - name: Move smithy-swift into place
+        run: mv smithy-swift ..
+      - name: Cache Gradle
         uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          key: 1-${{ runner.os }}-gradle-${{ hashFiles('settings.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: |
-            ${{ runner.os }}-gradle-
-      - name: Set up Java (Corretto 17)
+            1-${{ runner.os }}-gradle-${{ hashFiles('settings.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
+            1-${{ runner.os }}-gradle-
+      - name: Cache Swift
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/Library/Caches/org.swift.swiftpm
+            ~/.cache/org.swift.swiftpm
+          key: 1-${{ runner.os }}-${{ matrix.xcode }}-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
+          restore-keys: |
+            1-${{ runner.os }}-${{ matrix.xcode }}-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
+            1-${{ runner.os }}-${{ matrix.xcode }}-
+      - name: Setup Java
         uses: actions/setup-java@v3
         with:
-          distribution: 'corretto'
-          java-version: '17'
+          distribution: corretto
+          java-version: 17
       - name: Tools Versions
+        run: ./scripts/ci_steps/log_tool_versions.sh
+      - name: Code-Generate SDK
+        run: ./scripts/ci_steps/codegen_sdk.sh
+      - name: Build and Run Unit Tests
         run: |
-          which swiftc
-          swiftc --version
-          echo
-          which xcodebuild
-          xcodebuild -version
-          echo
-          which java
-          java --version
-      - name: Build and Test ${{ env.PACKAGE_NAME }}
-        run: |
-          python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
-          chmod a+x builder.pyz
-          ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
-          ./gradlew -p codegen/sdk-codegen build
-          ./gradlew -p codegen/sdk-codegen stageSdks
-          ./gradlew --stop
-          ./scripts/mergeModels.sh Sources/Services
-          cd AWSSDKSwiftCLI
-          swift run AWSSDKSwiftCLI generate-package-manifest ../
-          cd ..
-          cat Package.swift
           swift build --build-tests
           swift test --skip-build
+

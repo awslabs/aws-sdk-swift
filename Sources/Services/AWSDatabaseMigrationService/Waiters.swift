@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension DatabaseMigrationClientProtocol {
 
-    static func testConnectionSucceedsWaiterConfig() throws -> WaiterConfiguration<DescribeConnectionsInput, DescribeConnectionsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeConnectionsInput, DescribeConnectionsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeConnectionsInput, result: Result<DescribeConnectionsOutputResponse, Error>) -> Bool in
+    static func testConnectionSucceedsWaiterConfig() throws -> WaiterConfiguration<DescribeConnectionsInput, DescribeConnectionsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeConnectionsInput, DescribeConnectionsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeConnectionsInput, result: Result<DescribeConnectionsOutput, Error>) -> Bool in
                 // JMESPath expression: "Connections[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "successful"
@@ -18,7 +18,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "successful") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeConnectionsInput, result: Result<DescribeConnectionsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeConnectionsInput, result: Result<DescribeConnectionsOutput, Error>) -> Bool in
                 // JMESPath expression: "Connections[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "failed"
@@ -31,7 +31,7 @@ extension DatabaseMigrationClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "failed") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeConnectionsInput, DescribeConnectionsOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeConnectionsInput, DescribeConnectionsOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the TestConnectionSucceeds event on the describeConnections operation.
@@ -45,18 +45,18 @@ extension DatabaseMigrationClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilTestConnectionSucceeds(options: WaiterOptions, input: DescribeConnectionsInput) async throws -> WaiterOutcome<DescribeConnectionsOutputResponse> {
+    public func waitUntilTestConnectionSucceeds(options: WaiterOptions, input: DescribeConnectionsInput) async throws -> WaiterOutcome<DescribeConnectionsOutput> {
         let waiter = Waiter(config: try Self.testConnectionSucceedsWaiterConfig(), operation: self.describeConnections(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func endpointDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeEndpointsInput, DescribeEndpointsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeEndpointsInput, DescribeEndpointsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeEndpointsInput, result: Result<DescribeEndpointsOutputResponse, Error>) -> Bool in
+    static func endpointDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeEndpointsInput, DescribeEndpointsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeEndpointsInput, DescribeEndpointsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeEndpointsInput, result: Result<DescribeEndpointsOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundFault"
             }),
-            .init(state: .failure, matcher: { (input: DescribeEndpointsInput, result: Result<DescribeEndpointsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeEndpointsInput, result: Result<DescribeEndpointsOutput, Error>) -> Bool in
                 // JMESPath expression: "Endpoints[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "active"
@@ -68,7 +68,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "active") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeEndpointsInput, result: Result<DescribeEndpointsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeEndpointsInput, result: Result<DescribeEndpointsOutput, Error>) -> Bool in
                 // JMESPath expression: "Endpoints[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "creating"
@@ -81,7 +81,7 @@ extension DatabaseMigrationClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "creating") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeEndpointsInput, DescribeEndpointsOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeEndpointsInput, DescribeEndpointsOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the EndpointDeleted event on the describeEndpoints operation.
@@ -95,14 +95,14 @@ extension DatabaseMigrationClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilEndpointDeleted(options: WaiterOptions, input: DescribeEndpointsInput) async throws -> WaiterOutcome<DescribeEndpointsOutputResponse> {
+    public func waitUntilEndpointDeleted(options: WaiterOptions, input: DescribeEndpointsInput) async throws -> WaiterOutcome<DescribeEndpointsOutput> {
         let waiter = Waiter(config: try Self.endpointDeletedWaiterConfig(), operation: self.describeEndpoints(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func replicationInstanceAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeReplicationInstancesInput, DescribeReplicationInstancesOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeReplicationInstancesInput, DescribeReplicationInstancesOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeReplicationInstancesInput, result: Result<DescribeReplicationInstancesOutputResponse, Error>) -> Bool in
+    static func replicationInstanceAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeReplicationInstancesInput, DescribeReplicationInstancesOutput> {
+        let acceptors: [WaiterConfiguration<DescribeReplicationInstancesInput, DescribeReplicationInstancesOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeReplicationInstancesInput, result: Result<DescribeReplicationInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationInstances[].ReplicationInstanceStatus"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "available"
@@ -114,7 +114,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "available") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationInstancesInput, result: Result<DescribeReplicationInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationInstancesInput, result: Result<DescribeReplicationInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationInstances[].ReplicationInstanceStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "deleting"
@@ -126,7 +126,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "deleting") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationInstancesInput, result: Result<DescribeReplicationInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationInstancesInput, result: Result<DescribeReplicationInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationInstances[].ReplicationInstanceStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "incompatible-credentials"
@@ -138,7 +138,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "incompatible-credentials") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationInstancesInput, result: Result<DescribeReplicationInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationInstancesInput, result: Result<DescribeReplicationInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationInstances[].ReplicationInstanceStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "incompatible-network"
@@ -150,7 +150,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "incompatible-network") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationInstancesInput, result: Result<DescribeReplicationInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationInstancesInput, result: Result<DescribeReplicationInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationInstances[].ReplicationInstanceStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "inaccessible-encryption-credentials"
@@ -163,7 +163,7 @@ extension DatabaseMigrationClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "inaccessible-encryption-credentials") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeReplicationInstancesInput, DescribeReplicationInstancesOutputResponse>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeReplicationInstancesInput, DescribeReplicationInstancesOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ReplicationInstanceAvailable event on the describeReplicationInstances operation.
@@ -177,14 +177,14 @@ extension DatabaseMigrationClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilReplicationInstanceAvailable(options: WaiterOptions, input: DescribeReplicationInstancesInput) async throws -> WaiterOutcome<DescribeReplicationInstancesOutputResponse> {
+    public func waitUntilReplicationInstanceAvailable(options: WaiterOptions, input: DescribeReplicationInstancesInput) async throws -> WaiterOutcome<DescribeReplicationInstancesOutput> {
         let waiter = Waiter(config: try Self.replicationInstanceAvailableWaiterConfig(), operation: self.describeReplicationInstances(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func replicationInstanceDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeReplicationInstancesInput, DescribeReplicationInstancesOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeReplicationInstancesInput, DescribeReplicationInstancesOutputResponse>.Acceptor] = [
-            .init(state: .failure, matcher: { (input: DescribeReplicationInstancesInput, result: Result<DescribeReplicationInstancesOutputResponse, Error>) -> Bool in
+    static func replicationInstanceDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeReplicationInstancesInput, DescribeReplicationInstancesOutput> {
+        let acceptors: [WaiterConfiguration<DescribeReplicationInstancesInput, DescribeReplicationInstancesOutput>.Acceptor] = [
+            .init(state: .failure, matcher: { (input: DescribeReplicationInstancesInput, result: Result<DescribeReplicationInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationInstances[].ReplicationInstanceStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "available"
@@ -196,12 +196,12 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "available") }) ?? false
             }),
-            .init(state: .success, matcher: { (input: DescribeReplicationInstancesInput, result: Result<DescribeReplicationInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeReplicationInstancesInput, result: Result<DescribeReplicationInstancesOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundFault"
             }),
         ]
-        return try WaiterConfiguration<DescribeReplicationInstancesInput, DescribeReplicationInstancesOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeReplicationInstancesInput, DescribeReplicationInstancesOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ReplicationInstanceDeleted event on the describeReplicationInstances operation.
@@ -215,14 +215,14 @@ extension DatabaseMigrationClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilReplicationInstanceDeleted(options: WaiterOptions, input: DescribeReplicationInstancesInput) async throws -> WaiterOutcome<DescribeReplicationInstancesOutputResponse> {
+    public func waitUntilReplicationInstanceDeleted(options: WaiterOptions, input: DescribeReplicationInstancesInput) async throws -> WaiterOutcome<DescribeReplicationInstancesOutput> {
         let waiter = Waiter(config: try Self.replicationInstanceDeletedWaiterConfig(), operation: self.describeReplicationInstances(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func replicationTaskDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutputResponse>.Acceptor] = [
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+    static func replicationTaskDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutput> {
+        let acceptors: [WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutput>.Acceptor] = [
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "ready"
@@ -234,7 +234,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "ready") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "creating"
@@ -246,7 +246,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "creating") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "stopped"
@@ -258,7 +258,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "stopped") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "running"
@@ -270,7 +270,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "running") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "failed"
@@ -282,12 +282,12 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "failed") }) ?? false
             }),
-            .init(state: .success, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundFault"
             }),
         ]
-        return try WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ReplicationTaskDeleted event on the describeReplicationTasks operation.
@@ -301,14 +301,14 @@ extension DatabaseMigrationClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilReplicationTaskDeleted(options: WaiterOptions, input: DescribeReplicationTasksInput) async throws -> WaiterOutcome<DescribeReplicationTasksOutputResponse> {
+    public func waitUntilReplicationTaskDeleted(options: WaiterOptions, input: DescribeReplicationTasksInput) async throws -> WaiterOutcome<DescribeReplicationTasksOutput> {
         let waiter = Waiter(config: try Self.replicationTaskDeletedWaiterConfig(), operation: self.describeReplicationTasks(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func replicationTaskReadyWaiterConfig() throws -> WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+    static func replicationTaskReadyWaiterConfig() throws -> WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutput> {
+        let acceptors: [WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "ready"
@@ -320,7 +320,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "ready") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "starting"
@@ -332,7 +332,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "starting") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "running"
@@ -344,7 +344,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "running") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "stopping"
@@ -356,7 +356,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "stopping") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "stopped"
@@ -368,7 +368,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "stopped") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "failed"
@@ -380,7 +380,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "failed") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "modifying"
@@ -392,7 +392,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "modifying") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "testing"
@@ -404,7 +404,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "testing") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "deleting"
@@ -417,7 +417,7 @@ extension DatabaseMigrationClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "deleting") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ReplicationTaskReady event on the describeReplicationTasks operation.
@@ -431,14 +431,14 @@ extension DatabaseMigrationClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilReplicationTaskReady(options: WaiterOptions, input: DescribeReplicationTasksInput) async throws -> WaiterOutcome<DescribeReplicationTasksOutputResponse> {
+    public func waitUntilReplicationTaskReady(options: WaiterOptions, input: DescribeReplicationTasksInput) async throws -> WaiterOutcome<DescribeReplicationTasksOutput> {
         let waiter = Waiter(config: try Self.replicationTaskReadyWaiterConfig(), operation: self.describeReplicationTasks(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func replicationTaskRunningWaiterConfig() throws -> WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+    static func replicationTaskRunningWaiterConfig() throws -> WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutput> {
+        let acceptors: [WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "running"
@@ -450,7 +450,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "running") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "ready"
@@ -462,7 +462,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "ready") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "creating"
@@ -474,7 +474,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "creating") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "stopping"
@@ -486,7 +486,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "stopping") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "stopped"
@@ -498,7 +498,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "stopped") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "failed"
@@ -510,7 +510,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "failed") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "modifying"
@@ -522,7 +522,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "modifying") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "testing"
@@ -534,7 +534,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "testing") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "deleting"
@@ -547,7 +547,7 @@ extension DatabaseMigrationClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "deleting") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ReplicationTaskRunning event on the describeReplicationTasks operation.
@@ -561,14 +561,14 @@ extension DatabaseMigrationClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilReplicationTaskRunning(options: WaiterOptions, input: DescribeReplicationTasksInput) async throws -> WaiterOutcome<DescribeReplicationTasksOutputResponse> {
+    public func waitUntilReplicationTaskRunning(options: WaiterOptions, input: DescribeReplicationTasksInput) async throws -> WaiterOutcome<DescribeReplicationTasksOutput> {
         let waiter = Waiter(config: try Self.replicationTaskRunningWaiterConfig(), operation: self.describeReplicationTasks(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func replicationTaskStoppedWaiterConfig() throws -> WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+    static func replicationTaskStoppedWaiterConfig() throws -> WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutput> {
+        let acceptors: [WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "stopped"
@@ -580,7 +580,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "stopped") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "ready"
@@ -592,7 +592,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "ready") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "creating"
@@ -604,7 +604,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "creating") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "starting"
@@ -616,7 +616,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "starting") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "failed"
@@ -628,7 +628,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "failed") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "modifying"
@@ -640,7 +640,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "modifying") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "testing"
@@ -652,7 +652,7 @@ extension DatabaseMigrationClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "testing") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutput, Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "deleting"
@@ -665,7 +665,7 @@ extension DatabaseMigrationClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "deleting") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ReplicationTaskStopped event on the describeReplicationTasks operation.
@@ -679,7 +679,7 @@ extension DatabaseMigrationClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilReplicationTaskStopped(options: WaiterOptions, input: DescribeReplicationTasksInput) async throws -> WaiterOutcome<DescribeReplicationTasksOutputResponse> {
+    public func waitUntilReplicationTaskStopped(options: WaiterOptions, input: DescribeReplicationTasksInput) async throws -> WaiterOutcome<DescribeReplicationTasksOutput> {
         let waiter = Waiter(config: try Self.replicationTaskStoppedWaiterConfig(), operation: self.describeReplicationTasks(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

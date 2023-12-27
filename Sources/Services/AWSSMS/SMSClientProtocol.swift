@@ -9,76 +9,598 @@ import ClientRuntime
 /// * [Server Migration Service User Guide](https://docs.aws.amazon.com/server-migration-service/latest/userguide/)
 @available(*, deprecated, message: "AWS Server Migration Service is Deprecated.")
 public protocol SMSClientProtocol {
+    /// Performs the `CreateApp` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Creates an application. An application consists of one or more server groups. Each server group contain one or more servers.
-    func createApp(input: CreateAppInput) async throws -> CreateAppOutputResponse
+    ///
+    /// - Parameter CreateAppInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAppOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func createApp(input: CreateAppInput) async throws -> CreateAppOutput
+    /// Performs the `CreateReplicationJob` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Creates a replication job. The replication job schedules periodic replication runs to replicate your server to Amazon Web Services. Each replication run creates an Amazon Machine Image (AMI).
-    func createReplicationJob(input: CreateReplicationJobInput) async throws -> CreateReplicationJobOutputResponse
+    ///
+    /// - Parameter CreateReplicationJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateReplicationJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `NoConnectorsAvailableException` : There are no connectors available.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `ReplicationJobAlreadyExistsException` : The specified replication job already exists.
+    /// - `ServerCannotBeReplicatedException` : The specified server cannot be replicated.
+    /// - `TemporarilyUnavailableException` : The service is temporarily unavailable.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func createReplicationJob(input: CreateReplicationJobInput) async throws -> CreateReplicationJobOutput
+    /// Performs the `DeleteApp` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Deletes the specified application. Optionally deletes the launched stack associated with the application and all Server Migration Service replication jobs for servers in the application.
-    func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutputResponse
+    ///
+    /// - Parameter DeleteAppInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAppOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutput
+    /// Performs the `DeleteAppLaunchConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Deletes the launch configuration for the specified application.
-    func deleteAppLaunchConfiguration(input: DeleteAppLaunchConfigurationInput) async throws -> DeleteAppLaunchConfigurationOutputResponse
+    ///
+    /// - Parameter DeleteAppLaunchConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAppLaunchConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func deleteAppLaunchConfiguration(input: DeleteAppLaunchConfigurationInput) async throws -> DeleteAppLaunchConfigurationOutput
+    /// Performs the `DeleteAppReplicationConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Deletes the replication configuration for the specified application.
-    func deleteAppReplicationConfiguration(input: DeleteAppReplicationConfigurationInput) async throws -> DeleteAppReplicationConfigurationOutputResponse
+    ///
+    /// - Parameter DeleteAppReplicationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAppReplicationConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func deleteAppReplicationConfiguration(input: DeleteAppReplicationConfigurationInput) async throws -> DeleteAppReplicationConfigurationOutput
+    /// Performs the `DeleteAppValidationConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Deletes the validation configuration for the specified application.
-    func deleteAppValidationConfiguration(input: DeleteAppValidationConfigurationInput) async throws -> DeleteAppValidationConfigurationOutputResponse
+    ///
+    /// - Parameter DeleteAppValidationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAppValidationConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func deleteAppValidationConfiguration(input: DeleteAppValidationConfigurationInput) async throws -> DeleteAppValidationConfigurationOutput
+    /// Performs the `DeleteReplicationJob` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Deletes the specified replication job. After you delete a replication job, there are no further replication runs. Amazon Web Services deletes the contents of the Amazon S3 bucket used to store Server Migration Service artifacts. The AMIs created by the replication runs are not deleted.
-    func deleteReplicationJob(input: DeleteReplicationJobInput) async throws -> DeleteReplicationJobOutputResponse
+    ///
+    /// - Parameter DeleteReplicationJobInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteReplicationJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `ReplicationJobNotFoundException` : The specified replication job does not exist.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func deleteReplicationJob(input: DeleteReplicationJobInput) async throws -> DeleteReplicationJobOutput
+    /// Performs the `DeleteServerCatalog` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Deletes all servers from your server catalog.
-    func deleteServerCatalog(input: DeleteServerCatalogInput) async throws -> DeleteServerCatalogOutputResponse
+    ///
+    /// - Parameter DeleteServerCatalogInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteServerCatalogOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func deleteServerCatalog(input: DeleteServerCatalogInput) async throws -> DeleteServerCatalogOutput
+    /// Performs the `DisassociateConnector` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Disassociates the specified connector from Server Migration Service. After you disassociate a connector, it is no longer available to support replication jobs.
-    func disassociateConnector(input: DisassociateConnectorInput) async throws -> DisassociateConnectorOutputResponse
+    ///
+    /// - Parameter DisassociateConnectorInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateConnectorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func disassociateConnector(input: DisassociateConnectorInput) async throws -> DisassociateConnectorOutput
+    /// Performs the `GenerateChangeSet` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Generates a target change set for a currently launched stack and writes it to an Amazon S3 object in the customer’s Amazon S3 bucket.
-    func generateChangeSet(input: GenerateChangeSetInput) async throws -> GenerateChangeSetOutputResponse
+    ///
+    /// - Parameter GenerateChangeSetInput : [no documentation found]
+    ///
+    /// - Returns: `GenerateChangeSetOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func generateChangeSet(input: GenerateChangeSetInput) async throws -> GenerateChangeSetOutput
+    /// Performs the `GenerateTemplate` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Generates an CloudFormation template based on the current launch configuration and writes it to an Amazon S3 object in the customer’s Amazon S3 bucket.
-    func generateTemplate(input: GenerateTemplateInput) async throws -> GenerateTemplateOutputResponse
+    ///
+    /// - Parameter GenerateTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GenerateTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func generateTemplate(input: GenerateTemplateInput) async throws -> GenerateTemplateOutput
+    /// Performs the `GetApp` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Retrieve information about the specified application.
-    func getApp(input: GetAppInput) async throws -> GetAppOutputResponse
+    ///
+    /// - Parameter GetAppInput : [no documentation found]
+    ///
+    /// - Returns: `GetAppOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func getApp(input: GetAppInput) async throws -> GetAppOutput
+    /// Performs the `GetAppLaunchConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Retrieves the application launch configuration associated with the specified application.
-    func getAppLaunchConfiguration(input: GetAppLaunchConfigurationInput) async throws -> GetAppLaunchConfigurationOutputResponse
+    ///
+    /// - Parameter GetAppLaunchConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetAppLaunchConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func getAppLaunchConfiguration(input: GetAppLaunchConfigurationInput) async throws -> GetAppLaunchConfigurationOutput
+    /// Performs the `GetAppReplicationConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Retrieves the application replication configuration associated with the specified application.
-    func getAppReplicationConfiguration(input: GetAppReplicationConfigurationInput) async throws -> GetAppReplicationConfigurationOutputResponse
+    ///
+    /// - Parameter GetAppReplicationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetAppReplicationConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func getAppReplicationConfiguration(input: GetAppReplicationConfigurationInput) async throws -> GetAppReplicationConfigurationOutput
+    /// Performs the `GetAppValidationConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Retrieves information about a configuration for validating an application.
-    func getAppValidationConfiguration(input: GetAppValidationConfigurationInput) async throws -> GetAppValidationConfigurationOutputResponse
+    ///
+    /// - Parameter GetAppValidationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetAppValidationConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func getAppValidationConfiguration(input: GetAppValidationConfigurationInput) async throws -> GetAppValidationConfigurationOutput
+    /// Performs the `GetAppValidationOutput` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Retrieves output from validating an application.
-    func getAppValidationOutput(input: GetAppValidationOutputInput) async throws -> GetAppValidationOutputOutputResponse
+    ///
+    /// - Parameter GetAppValidationOutputInput : [no documentation found]
+    ///
+    /// - Returns: `GetAppValidationOutputOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func getAppValidationOutput(input: GetAppValidationOutputInput) async throws -> GetAppValidationOutputOutput
+    /// Performs the `GetConnectors` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Describes the connectors registered with the Server Migration Service.
-    func getConnectors(input: GetConnectorsInput) async throws -> GetConnectorsOutputResponse
+    ///
+    /// - Parameter GetConnectorsInput : [no documentation found]
+    ///
+    /// - Returns: `GetConnectorsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func getConnectors(input: GetConnectorsInput) async throws -> GetConnectorsOutput
+    /// Performs the `GetReplicationJobs` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Describes the specified replication job or all of your replication jobs.
-    func getReplicationJobs(input: GetReplicationJobsInput) async throws -> GetReplicationJobsOutputResponse
+    ///
+    /// - Parameter GetReplicationJobsInput : [no documentation found]
+    ///
+    /// - Returns: `GetReplicationJobsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func getReplicationJobs(input: GetReplicationJobsInput) async throws -> GetReplicationJobsOutput
+    /// Performs the `GetReplicationRuns` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Describes the replication runs for the specified replication job.
-    func getReplicationRuns(input: GetReplicationRunsInput) async throws -> GetReplicationRunsOutputResponse
+    ///
+    /// - Parameter GetReplicationRunsInput : [no documentation found]
+    ///
+    /// - Returns: `GetReplicationRunsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func getReplicationRuns(input: GetReplicationRunsInput) async throws -> GetReplicationRunsOutput
+    /// Performs the `GetServers` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Describes the servers in your server catalog. Before you can describe your servers, you must import them using [ImportServerCatalog].
-    func getServers(input: GetServersInput) async throws -> GetServersOutputResponse
+    ///
+    /// - Parameter GetServersInput : [no documentation found]
+    ///
+    /// - Returns: `GetServersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func getServers(input: GetServersInput) async throws -> GetServersOutput
+    /// Performs the `ImportAppCatalog` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Allows application import from Migration Hub.
-    func importAppCatalog(input: ImportAppCatalogInput) async throws -> ImportAppCatalogOutputResponse
+    ///
+    /// - Parameter ImportAppCatalogInput : [no documentation found]
+    ///
+    /// - Returns: `ImportAppCatalogOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func importAppCatalog(input: ImportAppCatalogInput) async throws -> ImportAppCatalogOutput
+    /// Performs the `ImportServerCatalog` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Gathers a complete list of on-premises servers. Connectors must be installed and monitoring all servers to import. This call returns immediately, but might take additional time to retrieve all the servers.
-    func importServerCatalog(input: ImportServerCatalogInput) async throws -> ImportServerCatalogOutputResponse
+    ///
+    /// - Parameter ImportServerCatalogInput : [no documentation found]
+    ///
+    /// - Returns: `ImportServerCatalogOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `NoConnectorsAvailableException` : There are no connectors available.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func importServerCatalog(input: ImportServerCatalogInput) async throws -> ImportServerCatalogOutput
+    /// Performs the `LaunchApp` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Launches the specified application as a stack in CloudFormation.
-    func launchApp(input: LaunchAppInput) async throws -> LaunchAppOutputResponse
+    ///
+    /// - Parameter LaunchAppInput : [no documentation found]
+    ///
+    /// - Returns: `LaunchAppOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func launchApp(input: LaunchAppInput) async throws -> LaunchAppOutput
+    /// Performs the `ListApps` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Retrieves summaries for all applications.
-    func listApps(input: ListAppsInput) async throws -> ListAppsOutputResponse
+    ///
+    /// - Parameter ListAppsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAppsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func listApps(input: ListAppsInput) async throws -> ListAppsOutput
+    /// Performs the `NotifyAppValidationOutput` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Provides information to Server Migration Service about whether application validation is successful.
-    func notifyAppValidationOutput(input: NotifyAppValidationOutputInput) async throws -> NotifyAppValidationOutputOutputResponse
+    ///
+    /// - Parameter NotifyAppValidationOutputInput : [no documentation found]
+    ///
+    /// - Returns: `NotifyAppValidationOutputOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func notifyAppValidationOutput(input: NotifyAppValidationOutputInput) async throws -> NotifyAppValidationOutputOutput
+    /// Performs the `PutAppLaunchConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Creates or updates the launch configuration for the specified application.
-    func putAppLaunchConfiguration(input: PutAppLaunchConfigurationInput) async throws -> PutAppLaunchConfigurationOutputResponse
+    ///
+    /// - Parameter PutAppLaunchConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutAppLaunchConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func putAppLaunchConfiguration(input: PutAppLaunchConfigurationInput) async throws -> PutAppLaunchConfigurationOutput
+    /// Performs the `PutAppReplicationConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Creates or updates the replication configuration for the specified application.
-    func putAppReplicationConfiguration(input: PutAppReplicationConfigurationInput) async throws -> PutAppReplicationConfigurationOutputResponse
+    ///
+    /// - Parameter PutAppReplicationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutAppReplicationConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func putAppReplicationConfiguration(input: PutAppReplicationConfigurationInput) async throws -> PutAppReplicationConfigurationOutput
+    /// Performs the `PutAppValidationConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Creates or updates a validation configuration for the specified application.
-    func putAppValidationConfiguration(input: PutAppValidationConfigurationInput) async throws -> PutAppValidationConfigurationOutputResponse
+    ///
+    /// - Parameter PutAppValidationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutAppValidationConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func putAppValidationConfiguration(input: PutAppValidationConfigurationInput) async throws -> PutAppValidationConfigurationOutput
+    /// Performs the `StartAppReplication` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Starts replicating the specified application by creating replication jobs for each server in the application.
-    func startAppReplication(input: StartAppReplicationInput) async throws -> StartAppReplicationOutputResponse
+    ///
+    /// - Parameter StartAppReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `StartAppReplicationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func startAppReplication(input: StartAppReplicationInput) async throws -> StartAppReplicationOutput
+    /// Performs the `StartOnDemandAppReplication` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Starts an on-demand replication run for the specified application.
-    func startOnDemandAppReplication(input: StartOnDemandAppReplicationInput) async throws -> StartOnDemandAppReplicationOutputResponse
+    ///
+    /// - Parameter StartOnDemandAppReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `StartOnDemandAppReplicationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func startOnDemandAppReplication(input: StartOnDemandAppReplicationInput) async throws -> StartOnDemandAppReplicationOutput
+    /// Performs the `StartOnDemandReplicationRun` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Starts an on-demand replication run for the specified replication job. This replication run starts immediately. This replication run is in addition to the ones already scheduled. There is a limit on the number of on-demand replications runs that you can request in a 24-hour period.
-    func startOnDemandReplicationRun(input: StartOnDemandReplicationRunInput) async throws -> StartOnDemandReplicationRunOutputResponse
+    ///
+    /// - Parameter StartOnDemandReplicationRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartOnDemandReplicationRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DryRunOperationException` : The user has the required permissions, so the request would have succeeded, but a dry run was performed.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `ReplicationRunLimitExceededException` : You have exceeded the number of on-demand replication runs you can request in a 24-hour period.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func startOnDemandReplicationRun(input: StartOnDemandReplicationRunInput) async throws -> StartOnDemandReplicationRunOutput
+    /// Performs the `StopAppReplication` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Stops replicating the specified application by deleting the replication job for each server in the application.
-    func stopAppReplication(input: StopAppReplicationInput) async throws -> StopAppReplicationOutputResponse
+    ///
+    /// - Parameter StopAppReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `StopAppReplicationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func stopAppReplication(input: StopAppReplicationInput) async throws -> StopAppReplicationOutput
+    /// Performs the `TerminateApp` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Terminates the stack for the specified application.
-    func terminateApp(input: TerminateAppInput) async throws -> TerminateAppOutputResponse
+    ///
+    /// - Parameter TerminateAppInput : [no documentation found]
+    ///
+    /// - Returns: `TerminateAppOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func terminateApp(input: TerminateAppInput) async throws -> TerminateAppOutput
+    /// Performs the `UpdateApp` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Updates the specified application.
-    func updateApp(input: UpdateAppInput) async throws -> UpdateAppOutputResponse
+    ///
+    /// - Parameter UpdateAppInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAppOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func updateApp(input: UpdateAppInput) async throws -> UpdateAppOutput
+    /// Performs the `UpdateReplicationJob` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Updates the specified settings for the specified replication job.
-    func updateReplicationJob(input: UpdateReplicationJobInput) async throws -> UpdateReplicationJobOutputResponse
+    ///
+    /// - Parameter UpdateReplicationJobInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateReplicationJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `ReplicationJobNotFoundException` : The specified replication job does not exist.
+    /// - `ServerCannotBeReplicatedException` : The specified server cannot be replicated.
+    /// - `TemporarilyUnavailableException` : The service is temporarily unavailable.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
+    func updateReplicationJob(input: UpdateReplicationJobInput) async throws -> UpdateReplicationJobOutput
 }
 
 public enum SMSClientTypes {}

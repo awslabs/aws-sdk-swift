@@ -130,7 +130,7 @@ class SigV4ConfiguratorTests {
     }
 
     @Test
-    fun `useSignedBodyHeader is false when service is not S3 or Glacier and forceUnsignedBody is false`() {
+    fun `useSignedBodyHeader is false when service is not S3 or Glacier or S3 Control and forceUnsignedBody is false`() {
         val params = AWSSigningParams(
             service = otherService,
             operation = operation(),
@@ -189,6 +189,34 @@ class SigV4ConfiguratorTests {
     fun `useSignedBodyHeader is true when service is Glacier and forceUnsignedBody is false`() {
         val params = AWSSigningParams(
             service = glacierService,
+            operation = operation(),
+            useSignatureTypeQueryString = false,
+            forceUnsignedBody = false,
+            useExpiration = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
+        )
+        val subject = SigV4Configurator(params)
+        subject.useSignedBodyHeader.shouldBeTrue()
+    }
+
+    @Test
+    fun `useSignedBodyHeader is false when service is S3 Control and forceUnsignedBody is true`() {
+        val params = AWSSigningParams(
+            service = s3ControlService,
+            operation = operation(),
+            useSignatureTypeQueryString = false,
+            forceUnsignedBody = true,
+            useExpiration = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
+        )
+        val subject = SigV4Configurator(params)
+        subject.useSignedBodyHeader.shouldBeFalse()
+    }
+
+    @Test
+    fun `useSignedBodyHeader is true when service is S3 Control and forceUnsignedBody is false`() {
+        val params = AWSSigningParams(
+            service = s3ControlService,
             operation = operation(),
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
@@ -400,6 +428,13 @@ class SigV4ConfiguratorTests {
         ServiceShape.builder()
             .id("com.test#Example")
             .addTrait(serviceTraitWithId("Glacier"))
+            .version("1.0")
+            .build()
+
+    private val s3ControlService: ServiceShape =
+        ServiceShape.builder()
+            .id("com.test#Example")
+            .addTrait(serviceTraitWithId("S3 Control"))
             .version("1.0")
             .build()
 
