@@ -12,11 +12,20 @@ import AWSTranscribeStreaming
 final class TranscribeStreamingTests: XCTestCase {
 
     func testStartStreamTranscription() async throws {
+
+        // The heelo-swift.wav resource is an audio file that contains an automated voice
+        // saying the words "Hello transcribed streaming from Swift S. D. K.".
+        // It is 2.976 seconds in duration.
         let audioURL = Bundle.module.url(forResource: "hello-swift", withExtension: "wav")!
         let audioData = try Data(contentsOf: audioURL)
 
+        // A delay will be imposed between chunks to keep the audio streaming to the Teranscribe
+        // service at approximately real-time.
+        let duration = 2.976
         let chunkSize = 4096
         let audioDataSize = audioData.count
+        let dataRate = Double(audioDataSize) / duration
+        let delay = Double(chunkSize) / dataRate
 
         let client = try TranscribeStreamingClient(region: "us-west-2")
 
@@ -26,7 +35,7 @@ final class TranscribeStreamingTests: XCTestCase {
                 var currentEnd = min(chunkSize, audioDataSize - currentStart)
 
                 while currentStart < audioDataSize {
-                    try await Task.sleep(nanoseconds: 1_000_000_000)
+                    if currentStart != 0 { try await Task.sleep(for: .seconds(delay)) }
                     let dataChunk = audioData[currentStart ..< currentEnd]
 
                     let audioEvent =  TranscribeStreamingClientTypes.AudioStream.audioevent(.init(audioChunk: dataChunk))
